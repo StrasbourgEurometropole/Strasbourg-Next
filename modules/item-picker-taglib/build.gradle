@@ -17,17 +17,4 @@ dependencies {
 	implementation project(":modules:utils")
 	implementation project(":modules:agenda:agenda-api")
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
-
-	compile project(":modules:edition-web")
-	compile project(":modules:link-web")
-	compile project(":modules:video-web")
-	compile project(":modules:agenda-web")
-	compile project(":modules:place-web")
-	compile project(":modules:activity-web")
-	compile project(":modules:official-web")
-	compile project(":modules:project-web")
-	compile project(":modules:article-web")
-	compile project(":modules:gtfs-web")
-	compile project(":modules:help:help-web")
-	compile project(":modules:utils")
 }

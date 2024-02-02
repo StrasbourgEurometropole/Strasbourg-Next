@@ -5,8 +5,6 @@ dependencies {
     compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 	compileOnly group: "jstl", name: "jstl"
 
-	compile project (':modules:place:place-api')
-	compile project (':modules:utils')
 	implementation project (':modules:place:place-api')
 	implementation project (':modules:utils')
 }
