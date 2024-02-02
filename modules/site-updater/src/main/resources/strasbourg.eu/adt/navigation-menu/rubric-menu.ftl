@@ -66,7 +66,7 @@
                                 </div>
                             </div>
                         <#else>
-                            <a href="${homeURL}${nav_item.getLayout().friendlyURL?remove_beginning('/')}" class="st-btn st--btn-secondary-ghost st--btn-full-width-mobile">En savoir plus</a>
+                            <a href="${strasbourg.homeURL}${nav_item.getLayout().friendlyURL?remove_beginning('/')}" class="st-btn st--btn-secondary-ghost st--btn-full-width-mobile">En savoir plus</a>
                         </#if>
                     </div>
                 </div>

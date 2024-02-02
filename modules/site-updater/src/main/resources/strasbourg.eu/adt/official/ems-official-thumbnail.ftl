@@ -17,7 +17,7 @@ portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowStat
     <@liferay_portlet.param name="detailURL" value="${detailURL}" />
     <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
 </@liferay_portlet.actionURL>
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <li>
     <div class="st-card-container">
         <a href="#" class="st-card st-card-person" onclick="updateModalOfficial(this)"
@@ -43,7 +43,7 @@ portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowStat
                 </#if>
             </div>
             <div class="st-image">
-                <@addImage fileEntryId=entry.imageId showLegende=false showCopyright=false isFigure=true />
+                <@strasbourg.addImage fileEntryId=entry.imageId showLegende=false showCopyright=false isFigure=true />
             </div>
         </a>
         <div class="st-hide st-description">

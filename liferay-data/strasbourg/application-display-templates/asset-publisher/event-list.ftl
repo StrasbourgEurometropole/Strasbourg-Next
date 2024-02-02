@@ -1,4 +1,4 @@
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL="/web${layout.group.friendlyURL}/" />
@@ -38,7 +38,7 @@
                         </div>
                         <div class="st-image">
                             <#if event.getImageId() !=0>
-                                <@addImage fileEntryId=event.getImageId() showLegende=false showCopyright=false isFigure=true />
+                                <@strasbourg.addImage fileEntryId=event.getImageId() showLegende=false showCopyright=false isFigure=true />
                             <#else>
                                 <figure class="st-figure st-fit-cover" role="group">
                                     <img src="${event.getImageURL()}" />
@@ -46,7 +46,7 @@
                             </#if>
                         </div>
                     </a>
-                    <@isFavourite entryId=event.eventId entryType=2  entityGroupId=0 title=entry.getTitle(locale) url="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" />
+                    <@strasbourg.isFavourite entryId=event.eventId entryType=2  entityGroupId=0 title=entry.getTitle(locale) url="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" />
                 </div>
             </li>
         </#list>

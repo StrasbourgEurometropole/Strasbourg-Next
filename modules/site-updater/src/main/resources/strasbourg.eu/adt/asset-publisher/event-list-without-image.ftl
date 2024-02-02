@@ -1,4 +1,4 @@
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL="/web${layout.group.friendlyURL}/" />
@@ -12,7 +12,7 @@
             <#assign event=entry.getAssetRenderer().getEvent() />
             <li>
                 <div class="st-card-container">
-                    <a href="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" class="st-card st-card-agenda st--text-only st--card-horizontal st--with-gradient">
+                    <a href="${strasbourg.homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" class="st-card st-card-agenda st--text-only st--card-horizontal st--with-gradient">
                         <div class="st-caption">
                             <p class="st-title-card">
                                 ${event.getTitle(locale)}
@@ -37,12 +37,12 @@
                             </p>
                         </div>
                     </a>
-                    <@isFavourite entryId=event.eventId entryType=2  entityGroupId=0 title=entry.getTitle(locale) url="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" />
+                    <@strasbourg.isFavourite entryId=event.eventId entryType=2  entityGroupId=0 title=entry.getTitle(locale) url="${strasbourg.homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" />
                 </div>
             </li>
         </#list>
     </ul>
-    <a href="${homeURL}agenda" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta"  aria-hidden="true" tabindex="-1">
+    <a href="${strasbourg.homeURL}agenda" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta"  aria-hidden="true" tabindex="-1">
         <@liferay_ui.message key="eu.all-events" />
     </a>
 </div>

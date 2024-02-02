@@ -1,4 +1,4 @@
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <div class="st-bloc st-bloc-editions-dossiers st-wrapper ">
     <div class="st-col-right st-js-slider-dossiers splide" role="group">
         <div class="st-top-bar">

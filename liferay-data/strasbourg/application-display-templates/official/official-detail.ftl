@@ -1,6 +1,6 @@
 <!-- Détail élu -->
 <#setting locale=locale />
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 
 <#assign fonction = "" />
 <#if entry.fonctionCity?has_content>
@@ -52,7 +52,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <@liferay.breadcrumbs />
             </div>
             <div class="st-image">
-                <@addImage fileEntryId=entry.imageId isFigure=true />
+                <@strasbourg.addImage fileEntryId=entry.imageId isFigure=true />
             </div>
         </div>
     </div>

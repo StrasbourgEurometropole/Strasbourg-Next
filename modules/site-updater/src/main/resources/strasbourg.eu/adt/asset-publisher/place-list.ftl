@@ -8,7 +8,7 @@
     <#assign homeURL = "/" />
 </#if>
 
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 
 <div class="st-listing-cards st-wrapper st-wrapper-small">
     <#if entries?has_content>
@@ -18,7 +18,7 @@
                 <#assign place=curEntry.assetRenderer.place />
                 <li>
                     <div class="st-card-container">
-                        <a href="${homeURL}lieu/-/entity/sig/${place.getSIGid()}/${place.getNormalizedAlias(locale)}" class="st-card st--card-horizontal st--with-gradient <#if place.getImageId() == 0 || !place.getImageURL()?has_content>st--with-icon</#if>">
+                        <a href="${strasbourg.homeURL}lieu/-/entity/sig/${place.getSIGid()}/${place.getNormalizedAlias(locale)}" class="st-card st--card-horizontal st--with-gradient <#if place.getImageId() == 0 || !place.getImageURL()?has_content>st--with-icon</#if>">
                             <div class="st-caption">
                                 <p class="st-title-card">
                                     ${place.getAlias(locale)}
@@ -32,7 +32,7 @@
                             </div>
                             <div class="st-image">
                                 <#if place.getImageId() !=0>
-                                    <@addImage fileEntryId=place.getImageId() showLegende=false showCopyright=false isFigure=true />
+                                    <@strasbourg.addImage fileEntryId=place.getImageId() showLegende=false showCopyright=false isFigure=true />
                                 <#elseif place.getImageURL()?has_content>
                                     <figure class="st-figure st-fit-cover" role="group">
                                         <img src="${place.getImageURL()}" />

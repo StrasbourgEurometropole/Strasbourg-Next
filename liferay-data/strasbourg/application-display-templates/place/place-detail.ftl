@@ -1,7 +1,7 @@
 <!-- Detail lieu -->
 <#setting locale=locale />
 
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
@@ -24,7 +24,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
     <div class="st-barre-inner st-wrapper">
         <div class="st-container-left">
             <div class="st-image">
-                <@addImage fileEntryId=entry.imageId  />
+                <@strasbourg.addImage fileEntryId=entry.imageId  />
             </div>
             <div class="st-content">
                 <p class="st-title">${entry.getAlias(locale)}</p>
@@ -105,7 +105,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
             </ul>
 
-            <@isFavouriteSticky entryId=entry.getPlaceId() entryType=1 title=entry.getAlias(locale) url=themeDisplay.getPortalURL() />
+            <@strasbourg.isFavouriteSticky entryId=entry.getPlaceId() entryType=1 title=entry.getAlias(locale) url=themeDisplay.getPortalURL() />
 
 
             <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/social-share.ftl" />
@@ -174,7 +174,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
             <div class="st-cover-container">
                 <div class="st-image">
-                    <@addImage fileEntryId=entry.imageId showCopyright=true />
+                    <@strasbourg.addImage fileEntryId=entry.imageId showCopyright=true />
                 </div>
                 <div class="st-wrapper-maps">
                     <a href="#skip-map-cover" class="st-btn st--btn-xs st-skip-map st-sr-only st-sr-only-focusable">Passer
@@ -581,7 +581,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
             <div class="st-col-left">
                 <#if imageEntryId?has_content>
                     <div class="st-icon-picto" style="width: 145px;">
-                        <@addImage fileEntryId=imageEntryId.getFileEntryId()  />
+                        <@strasbourg.addImage fileEntryId=imageEntryId.getFileEntryId()  />
                     </div>
 
                 </#if>
@@ -616,7 +616,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
             <div class="st-limit-height ">
                 <p>${entry.getPresentation(locale)}</p>
             </div>
-            <@showMore />
+            <@strasbourg.showMore />
         </div>
     </div>
 </#if>
@@ -665,7 +665,7 @@ placeEvents=EventLocalService.getCurrentAndFuturePublishedEventsFromPlace(entry.
                             <div class="st-image">
 
                                 <#if event.getImageId() !=0>
-                                    <@addImage fileEntryId=event.getImageId() isFigure=true />
+                                    <@strasbourg.addImage fileEntryId=event.getImageId() isFigure=true />
                                 <#else>
                                     <figure class="st-figure st-fit-cover" role="group" aria-label=" © ${event.getExternalImageCopyright()}">
                                         <picture>
@@ -682,7 +682,7 @@ placeEvents=EventLocalService.getCurrentAndFuturePublishedEventsFromPlace(entry.
 
                             </div>
                         </a>
-                        <@isFavourite entryId=event.eventId entryType=2 />
+                        <@strasbourg.isFavourite entryId=event.eventId entryType=2 />
 
                     </div>
                 </li>
@@ -792,7 +792,7 @@ activityLocalService=serviceLocator.findService("eu.strasbourg.service.activity.
                     </#if>
                 </#list>
             </ul>
-            <@showMore />
+            <@strasbourg.showMore />
         </div>
     </div>
 </#if>
@@ -808,7 +808,7 @@ activityLocalService=serviceLocator.findService("eu.strasbourg.service.activity.
                 <div class="st-limit-height ">
                     ${entry.getAdditionalInformation(locale)}
                 </div>
-                <@showMore />
+                <@strasbourg.showMore />
             </div>
         </div>
     </#if>
@@ -824,7 +824,7 @@ activityLocalService=serviceLocator.findService("eu.strasbourg.service.activity.
                 <div class="st-limit-height">
                     ${entry.getAccess(locale)}
                 </div>
-                <@showMore />
+                <@strasbourg.showMore />
             </div>
         </div>
     </#if>
@@ -876,7 +876,7 @@ activityLocalService=serviceLocator.findService("eu.strasbourg.service.activity.
                     ${entry.getAccessForDisabled(locale)}
                 </div>
             </#if>
-            <@showMore />
+            <@strasbourg.showMore />
         </div>
     </div>
 </#if>
@@ -892,7 +892,7 @@ activityLocalService=serviceLocator.findService("eu.strasbourg.service.activity.
                 <div class="st-limit-height">
                     ${entry.getServiceAndActivities(locale)}
                 </div>
-                <@showMore />
+                <@strasbourg.showMore />
             </div>
         </div>
     </#if>
@@ -906,7 +906,7 @@ activityLocalService=serviceLocator.findService("eu.strasbourg.service.activity.
                 <div class="st-limit-height ">
                     ${entry.getCharacteristics(locale)}
                 </div>
-                <@showMore />
+                <@strasbourg.showMore />
             </div>
         </div>
     </#if>

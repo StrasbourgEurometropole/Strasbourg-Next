@@ -4,7 +4,7 @@
 <#else>
     <#assign homeURL="/" />
 </#if>
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <!-- Vignette événement -->
 <#if isFeatured>
     <#assign cssClass='coup-de-coeur' />
@@ -38,7 +38,7 @@
                             <@liferay_ui.message key="eu.event.from-date" /> ${entry.firstStartDate?date?string.short?replace('/', '.')} <@liferay_ui.message key="eu.event.to" /> ${entry.lastEndDate?date?string.short?replace('/', '.')}
                         </#if></#if>"
            data-address="${entry.getPlaceAddress(locale)}"
-           data-detailurl="${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}"
+           data-detailurl="${strasbourg.homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}"
         >
             <div class="st-caption">
                 <p class="st-title-card">
@@ -66,7 +66,7 @@
             </div>
             <div class="st-image">
                 <#if entry.getImageId() !=0>
-                    <@addImage fileEntryId=entry.getImageId() showLegende=false showCopyright=false isFigure=true />
+                    <@strasbourg.addImage fileEntryId=entry.getImageId() showLegende=false showCopyright=false isFigure=true />
                 <#else>
                     <figure class="st-figure st-fit-cover" role="group">
                         <img src="${entry.getImageURL()}" />
@@ -74,6 +74,6 @@
                 </#if>
             </div>
         </a>
-        <@isFavourite entryId=entry.assetEntry.classPK entryType=2  entityGroupId=0 title=entry.getTitle(locale) url=detailURLFilter />
+        <@strasbourg.isFavourite entryId=entry.assetEntry.classPK entryType=2  entityGroupId=0 title=entry.getTitle(locale) url=detailURLFilter />
     </div>
 </li>

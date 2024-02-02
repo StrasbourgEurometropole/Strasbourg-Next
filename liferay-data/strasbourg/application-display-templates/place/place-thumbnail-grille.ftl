@@ -5,7 +5,7 @@
 <#else>
     <#assign homeURL="/" />
 </#if>
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <li>
     <div class="st-card-container">
         <a href="${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}" class="st-card st--with-gradient">
@@ -22,7 +22,7 @@
             </div>
             <div class="st-image">
                 <#if entry.getImageId() !=0>
-                    <@addImage fileEntryId=entry.getImageId() showLegende=false showCopyright=false isFigure=true />
+                    <@strasbourg.addImage fileEntryId=entry.getImageId() showLegende=false showCopyright=false isFigure=true />
                 <#else>
                     <figure class="st-figure st-fit-cover" role="group">
                         <img src="${entry.getImageURL()}" />
@@ -39,6 +39,6 @@
                 </#if>
             </div>
         </a>
-        <@isFavourite entryId=entry.placeId entryType=1  entityGroupId=0 title=entry.getAlias(locale) url="${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}" />
+        <@strasbourg.isFavourite entryId=entry.placeId entryType=1  entityGroupId=0 title=entry.getAlias(locale) url="${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}" />
     </div>
 </li>

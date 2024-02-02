@@ -7,7 +7,7 @@
 <#else>
     <#assign homeURL="/" />
 </#if>
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <#assign serviceContext=staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
 <#assign request=serviceContext.getRequest() />
 <#assign currentUrl=themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
@@ -65,7 +65,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <@liferay.breadcrumbs />
         <#if (image.getData())?? && image.getData() !="">
             <div class="st-image">
-                <@getImage imageNode=image />
+                <@strasbourg.getImage imageNode=image />
             </div>
         </#if>
     </div>

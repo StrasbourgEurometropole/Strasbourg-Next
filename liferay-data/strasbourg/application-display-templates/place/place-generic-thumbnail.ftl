@@ -5,7 +5,7 @@
 <#else>
     <#assign homeURL="/" />
 </#if>
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <li>
     <div class="st-card-container">
         <a href="${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}" class="st-card st--card-horizontal st--with-gradient">
@@ -21,7 +21,7 @@
                 </p>
             </div>
             <div class="st-image">
-                <@addImage fileEntryId=entry.getImageId() showLegende=false showCopyright=false isFigure=true />
+                <@strasbourg.addImage fileEntryId=entry.getImageId() showLegende=false showCopyright=false isFigure=true />
                 <#if entry.isOpenNow()>
                     <p class="st-badge-ouverture">
                         <@liferay_ui.message key='open-period' />
@@ -33,6 +33,6 @@
                 </#if>
             </div>
         </a>
-        <@isFavourite entryId=entry.placeId entryType=1  entityGroupId=0 title=entry.getAlias(locale) url="${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}" />
+        <@strasbourg.isFavourite entryId=entry.placeId entryType=1  entityGroupId=0 title=entry.getAlias(locale) url="${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}" />
     </div>
 </li>

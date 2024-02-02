@@ -1,11 +1,11 @@
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <#if ((PushFieldset.PictoImage.getData())?? && PushFieldset.PictoImage.getData() !="") || ((PushFieldset.PictoIcon.getData())?? && PushFieldset.PictoIcon.getData() != "")>
     <div class="st-wrapper st-bloc st-bloc-focus st--with-image st--has-line">
         <div class="st-container">
             <div class="st-col-left">
                 <div class="st-visual-container">
                     <#if (PushFieldset.PictoImage.getData())?? && PushFieldset.PictoImage.getData() != "">
-                        <@getImage imageNode=PushFieldset.PictoImage />
+                        <@strasbourg.getImage imageNode=PushFieldset.PictoImage />
                     <#else>
                         <#if (PushFieldset.PictoIcon.getData())?? && PushFieldset.PictoIcon.getData() != "">
                             <span class="${PushFieldset.PictoIcon.getData()}" aria-hidden="true"></span>

@@ -1,4 +1,4 @@
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <div class="st-strate-footer">
     <div class="st-strate-partenaires st-js-slider-partenaires splide" role="group">
         <div class="st-wrapper st-wrapper-small">
@@ -16,7 +16,7 @@
                                     <a href="<#if (cur_GalaxiesFieldset.ExternalLinkText.getData())??>${cur_GalaxiesFieldset.ExternalLinkText.getData()}<#else>${cur_GalaxiesFieldset.InternalLink.getFriendlyUrl()}</#if>"
                                        class="st-container">
                                         <#if (cur_GalaxiesFieldset.ImagePicto.getData())?? && cur_GalaxiesFieldset.ImagePicto.getData() !="">
-                                            <@getImage imageNode=cur_GalaxiesFieldset.ImagePicto />
+                                            <@strasbourg.getImage imageNode=cur_GalaxiesFieldset.ImagePicto />
                                         </#if>
                                         <span class="st-tooltip-logo" aria-hidden="true">
                       <#if (cur_GalaxiesFieldset.NomText.getData())??>

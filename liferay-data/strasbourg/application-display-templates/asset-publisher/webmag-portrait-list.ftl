@@ -1,11 +1,11 @@
 <!-- Webmag - Liste portrait -->
 <#setting locale = locale />
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 
 <#setting locale = locale />
 <#-- Récupération de DateHelper pour le format date -->
 <#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <header class="st-small-header st-wrapper st-wrapper-small">
     <h1 class="st-h1"><@liferay.language key="eu.portrait" /></h1>
     <@liferay.breadcrumbs />

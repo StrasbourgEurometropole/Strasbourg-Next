@@ -23,11 +23,11 @@
                 <span class="st-surtitre-cat"><@liferay_ui.message key="eu.contact" /></span>
             </div>
             <div class="st-grid-fields st-grid-12">
-                <@alertError key="all-fields-required" message="eu.all-fields-required" />
-                <@alertError key="invalid-mail" message="eu.invalid-mail" />
-                <@alertError key="recaptcha-error" message="eu.recaptcha-error" />
-                <@alertInfo key="mail-success-with-copy" message="eu.form-success-with-copy" />
-                <@alertInfo key="mail-success" message="eu.form-success" />
+                <@strasbourg.alertError key="all-fields-required" message="eu.all-fields-required" />
+                <@strasbourg.alertError key="invalid-mail" message="eu.invalid-mail" />
+                <@strasbourg.alertError key="recaptcha-error" message="eu.recaptcha-error" />
+                <@strasbourg.alertInfo key="mail-success-with-copy" message="eu.form-success-with-copy" />
+                <@strasbourg.alertInfo key="mail-success" message="eu.form-success" />
 
 
                 <#if renderRequest.getAttribute("mailSent")?? == false>

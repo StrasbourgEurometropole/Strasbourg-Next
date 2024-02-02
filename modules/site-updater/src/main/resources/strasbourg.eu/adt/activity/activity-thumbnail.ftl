@@ -1,6 +1,6 @@
 <!-- Vignette activité -->
 <#setting locale = locale />
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
@@ -17,7 +17,7 @@
                 <p class="st-text">${entry.getDescription(locale)?replace(r'<[^>]*>', '', 'r')?truncate(170, "...")}</p>
             </div>
             <div class="st-image">
-                <@addImage fileEntryId=entry.imageId showLegende=false showCopyright=false isFigure=true />
+                <@strasbourg.addImage fileEntryId=entry.imageId showLegende=false showCopyright=false isFigure=true />
             </div>
 
         </a>
@@ -42,7 +42,7 @@
                     <div class="st-text st-text-styles">
                         ${course.getPresentation(locale)}
                     </div>
-                    <a href="${homeURL}${courseDetailPageFriendlyURL?remove_beginning('/')}/-/entity/id/${course.activityCourseId}" title="${course.getName(locale)}" class="st-btn st--btn-full-width-mobile">En savoir plus</a>
+                    <a href="${strasbourg.homeURL}${courseDetailPageFriendlyURL?remove_beginning('/')}/-/entity/id/${course.activityCourseId}" title="${course.getName(locale)}" class="st-btn st--btn-full-width-mobile">En savoir plus</a>
                 </div>
             </#list>
 

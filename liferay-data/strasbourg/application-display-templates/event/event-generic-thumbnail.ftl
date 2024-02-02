@@ -4,7 +4,7 @@
 <#else>
     <#assign homeURL="/" />
 </#if>
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <!-- Vignette événement -->
 <#if isFeatured>
     <#assign cssClass='coup-de-coeur' />
@@ -66,7 +66,7 @@
             </div>
             <div class="st-image">
                 <#if entry.getImageId() !=0>
-                    <@addImage fileEntryId=entry.getImageId() showLegende=false showCopyright=false isFigure=true />
+                    <@strasbourg.addImage fileEntryId=entry.getImageId() showLegende=false showCopyright=false isFigure=true />
                 <#else>
                     <figure class="st-figure st-fit-cover" role="group">
                         <img src="${entry.getImageURL()}" />
@@ -74,6 +74,6 @@
                 </#if>
             </div>
         </a>
-        <@isFavourite entryId=entry.assetEntry.classPK entryType=2  entityGroupId=0 title=entry.getTitle(locale) url=detailURLFilter />
+        <@strasbourg.isFavourite entryId=entry.assetEntry.classPK entryType=2  entityGroupId=0 title=entry.getTitle(locale) url=detailURLFilter />
     </div>
 </li>

@@ -1,5 +1,5 @@
 <!-- Adjoint de quartier -->
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <#setting locale = locale />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
@@ -21,7 +21,7 @@
 
             <div class="st-bloc-elu__inner">
                 <div class="st-image">
-                    <@addImage fileEntryId=official.imageId  showCopyright=false  />
+                    <@strasbourg.addImage fileEntryId=official.imageId  showCopyright=false  />
                 </div>
 
                 <div class="st-caption">
@@ -35,7 +35,7 @@
                     </p>
                 </div>
 
-                <a href="${homeURL}elu/-/entity/id/${official.officialId}" class="st-btn st--btn-secondary st--btn-secondary-ghost st--btn-small-padding st--btn-full-width-mobile"><@liferay_ui.message key="learn-more" /></a>
+                <a href="${strasbourg.homeURL}elu/-/entity/id/${official.officialId}" class="st-btn st--btn-secondary st--btn-secondary-ghost st--btn-small-padding st--btn-full-width-mobile"><@liferay_ui.message key="learn-more" /></a>
             </div>
         </#if>
 

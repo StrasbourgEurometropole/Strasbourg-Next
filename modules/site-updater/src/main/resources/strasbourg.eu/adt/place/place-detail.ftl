@@ -1,7 +1,7 @@
 <!-- Detail lieu -->
 <#setting locale=locale />
 
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
@@ -9,7 +9,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <#-- Liste des infos a partager -->
 <#assign openGraph={ "og:title" :"${entry.getAlias(locale)?html}", "og:description"
 :'${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html}',
-"og:image":"${homeURL}${entry.imageURL}"
+"og:image":"${strasbourg.homeURL}${entry.imageURL}"
 } />
 
 <@liferay_util["html-bottom"]>
@@ -25,7 +25,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
         <div class="st-container-left">
             <#if  fileEntryId?has_content && fileEntryId?number != 0>
                 <div class="st-image">
-                    <@addImage fileEntryId=entry.imageId  />
+                    <@strasbourg.addImage fileEntryId=entry.imageId  />
                 </div>
             </#if>
             <div class="st-content">
@@ -107,7 +107,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
             </ul>
 
-            <@isFavouriteSticky entryId=entry.getPlaceId() entryType=1 title=entry.getAlias(locale) url=themeDisplay.getPortalURL() />
+            <@strasbourg.isFavouriteSticky entryId=entry.getPlaceId() entryType=1 title=entry.getAlias(locale) url=themeDisplay.getPortalURL() />
 
 
             <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/social-share.ftl" />
@@ -177,7 +177,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
             <div class="st-cover-container">
                 <#if entry.imageId?has_content && entry.imageId?number != 0>
                     <div class="st-image">
-                        <@addImage fileEntryId=entry.imageId showCopyright=true />
+                        <@strasbourg.addImage fileEntryId=entry.imageId showCopyright=true />
                     </div>
                 </#if>
                 <div class="st-wrapper-maps">
@@ -492,7 +492,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                             </#if>
                         </#list>
                         <div>
-                            <a href="${homeURL}horaires-lieux/-/schedules/category/${category.categoryId}"
+                            <a href="${strasbourg.homeURL}horaires-lieux/-/schedules/category/${category.categoryId}"
                                class="st-btn st--btn-secondary st--btn-full-width">
                                 <@liferay_ui.message key="eu.see-all-schedule-of" />
                                 ${category.getTitle(locale)?lower_case}
@@ -585,7 +585,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                 <div class="st-col-left">
                     <#if imageEntryId?has_content>
                         <div class="st-icon-picto" style="width: 145px;">
-                            <@addImage fileEntryId=imageEntryId.getFileEntryId()  />
+                            <@strasbourg.addImage fileEntryId=imageEntryId.getFileEntryId()  />
                         </div>
 
                     </#if>
@@ -600,7 +600,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                 </div>
 
                 <div class="st-col-right">
-                    <a href="${homeURL}rechercher-lieu-public?p_p_id=eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_vocabulariesCount=2&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords=&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_vocabulary_0=${category.categoryId}&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_vocabulary_1="
+                    <a href="${strasbourg.homeURL}rechercher-lieu-public?p_p_id=eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_vocabulariesCount=2&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords=&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_vocabulary_0=${category.categoryId}&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_vocabulary_1="
                        class="st-btn st--btn-secondary">
                         <@liferay_ui.message key="eu.see-all-other-places" />
                     </a>
@@ -620,7 +620,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                 <div class="st-limit-height ">
                     <p>${entry.getPresentation(locale)}</p>
                 </div>
-                <@showMore />
+                <@strasbourg.showMore />
             </div>
         </div>
     </#if>
@@ -641,7 +641,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                     </#if>
                     <li>
                         <div class="st-card-container">
-                            <a href="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}"
+                            <a href="${strasbourg.homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}"
                                class="st-card st-card-agenda st--card-horizontal st--with-gradient"
                                title="${event.getTitle(locale)}">
                                 <div class="st-caption">
@@ -669,7 +669,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                 <div class="st-image">
 
                                     <#if event.getImageId() !=0>
-                                        <@addImage fileEntryId=event.getImageId() isFigure=true />
+                                        <@strasbourg.addImage fileEntryId=event.getImageId() isFigure=true />
                                     <#else>
                                         <figure class="st-figure st-fit-cover" role="group" aria-label=" © ${event.getExternalImageCopyright()}">
                                             <picture>
@@ -686,14 +686,14 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
                                 </div>
                             </a>
-                            <@isFavourite entryId=event.eventId entryType=2 />
+                            <@strasbourg.isFavourite entryId=event.eventId entryType=2 />
 
                         </div>
                     </li>
                     <#assign i++>
                 </#list>
             </ul>
-            <a href="${homeURL}agenda?idSIGPlace=${entry.getSIGid()}"
+            <a href="${strasbourg.homeURL}agenda?idSIGPlace=${entry.getSIGid()}"
                class="st-btn st--btn-secondary"> <@liferay_ui.message key="sae.all-events" /></a>
         </div>
     </#if>
@@ -734,7 +734,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                             <#list period.courses as course>
                                 <div class="st-detail-lien">
                                     <h3 class="st-title-medium">${course.courseName} </h3>
-                                    <a href="${homeURL}cours/-/entity/id/${course.courseId}"
+                                    <a href="${strasbourg.homeURL}cours/-/entity/id/${course.courseId}"
                                        class="st-btn st--btn-secondary-ghost st--btn-xs st--btn-small-padding">
                                         <@liferay_ui.message key="eu.see-detail" />
                                     </a>
@@ -796,7 +796,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                         </#if>
                     </#list>
                 </ul>
-                <@showMore />
+                <@strasbourg.showMore />
             </div>
         </div>
     </#if>
@@ -812,7 +812,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                     <div class="st-limit-height ">
                         ${entry.getAdditionalInformation(locale)}
                     </div>
-                    <@showMore />
+                    <@strasbourg.showMore />
                 </div>
             </div>
         </#if>
@@ -828,7 +828,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                     <div class="st-limit-height">
                         ${entry.getAccess(locale)}
                     </div>
-                    <@showMore />
+                    <@strasbourg.showMore />
                 </div>
             </div>
         </#if>
@@ -880,7 +880,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                         ${entry.getAccessForDisabled(locale)}
                     </div>
                 </#if>
-                <@showMore />
+                <@strasbourg.showMore />
             </div>
         </div>
     </#if>
@@ -896,7 +896,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                     <div class="st-limit-height">
                         ${entry.getServiceAndActivities(locale)}
                     </div>
-                    <@showMore />
+                    <@strasbourg.showMore />
                 </div>
             </div>
         </#if>
@@ -910,7 +910,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                     <div class="st-limit-height ">
                         ${entry.getCharacteristics(locale)}
                     </div>
-                    <@showMore />
+                    <@strasbourg.showMore />
                 </div>
             </div>
         </#if>

@@ -56,7 +56,7 @@
     </div>
     <div class="st-wrapper st-wrapper-small st-bloc-slider-focus__bottom">
         <ul class="splide__pagination st-nav-dots"></ul>
-        <a href="${homeURL}lactu-portraits" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta">Tous les portraits</a>
+        <a href="${strasbourg.homeURL}lactu-portraits" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta">Tous les portraits</a>
     </div>
 </div>
 

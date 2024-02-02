@@ -8,7 +8,7 @@
 <nav class="st-breadcrumbs" role="navigation" aria-label="<@liferay_ui.message key="you-are-here" />">
     <ul class="st-breadcrumbs__list">
         <li class="st-breadcrumbs__item">
-            <a href="${homeURL}" class="st-breadcrumbs__link"><@liferay_ui.message key="home" /></a>
+            <a href="${strasbourg.homeURL}" class="st-breadcrumbs__link"><@liferay_ui.message key="home" /></a>
         </li>
         <#if entries?has_content>
             <#list entries as curEntry>

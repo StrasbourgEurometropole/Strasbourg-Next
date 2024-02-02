@@ -1,7 +1,7 @@
 <!-- Détail organisateurs -->
 <#setting locale = locale />
 
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
@@ -23,7 +23,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <@liferay.breadcrumbs />
             </div>
             <div class="st-image">
-                <@addImage fileEntryId=entry.imageId isFigure=true />
+                <@strasbourg.addImage fileEntryId=entry.imageId isFigure=true />
             </div>
         </div>
     </div>

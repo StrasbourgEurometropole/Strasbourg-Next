@@ -1,4 +1,4 @@
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <div class="st-bloc st-bloc-editions-dossiers">
     <div class="st-col-left">
         <h2 class="st-h2">Nos éditions</h2>
@@ -7,7 +7,7 @@
                 <#assign entry=curEntry.getAssetRenderer().getEdition() />
                 <li class="st-edition">
                     <div class="st-image" style="width: 130px;">
-                        <@addImage fileEntryId=entry.getImageId() showLegende=false showCopyright=false isFigure=true />
+                        <@strasbourg.addImage fileEntryId=entry.getImageId() showLegende=false showCopyright=false isFigure=true />
                     </div>
                     <div class="st-content">
                         <h3 class="st-h3">
@@ -18,7 +18,7 @@
                         </a>
                         <#if entry.getEditionGalleries()?size != 0>
                             <#assign galery = entry.getEditionGalleries()[0] >
-                            <a href="${homeURL}/galerie-editions/-/entity/id/${galery.getGalleryId()}" class="st-btn st--btn-xs">
+                            <a href="${strasbourg.homeURL}/galerie-editions/-/entity/id/${galery.getGalleryId()}" class="st-btn st--btn-xs">
                                 Tous les ${galery.getTitle(locale)}
                             </a>
                         </#if>
@@ -27,7 +27,7 @@
                 </li>
             </#list>
         </ul>
-        <a href="${homeURL}/editions" class="st-btn st--btn-secondary">
+        <a href="${strasbourg.homeURL}/editions" class="st-btn st--btn-secondary">
             <@liferay_ui.message key="eu.all-editions" />
         </a>
 

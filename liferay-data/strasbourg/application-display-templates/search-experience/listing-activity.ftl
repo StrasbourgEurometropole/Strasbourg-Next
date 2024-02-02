@@ -1,4 +1,4 @@
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <div class="st-listing-cards st-wrapper st-wrapper-small">
     <h3>
         ${searchContainer.total} resultats
@@ -25,7 +25,7 @@
                                 </div>
 
                                 <div class="st-image">
-                                    <@addImage fileEntryId=resultMap["imageEntityId"]?number showLegende=false showCopyright=false isFigure=true />
+                                    <@strasbourg.addImage fileEntryId=resultMap["imageEntityId"]?number showLegende=false showCopyright=false isFigure=true />
 
                                 </div>
 

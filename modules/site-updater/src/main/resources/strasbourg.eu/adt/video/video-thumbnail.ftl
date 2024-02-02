@@ -1,6 +1,6 @@
 <!-- Vignette video -->
 
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <#setting locale = locale />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
@@ -36,10 +36,10 @@
                 <p class="st-text">${entry.getDescription(locale)?replace(r'<[^>]*>', '', 'r')[0..*150]}...</p>
             </div>
             <div class="st-image">
-                <@addImage fileEntryId=entry.imageId showLegende=false showCopyright=false isFigure=true />
+                <@strasbourg.addImage fileEntryId=entry.imageId showLegende=false showCopyright=false isFigure=true />
             </div>
 
         </a>
-        <@isFavourite entryId=entry.assetEntry.classPK entryType=3  entityGroupId=0 title=entry.getTitle(locale) url=detailURLFilter />
+        <@strasbourg.isFavourite entryId=entry.assetEntry.classPK entryType=3  entityGroupId=0 title=entry.getTitle(locale) url=detailURLFilter />
     </div>
 </li>

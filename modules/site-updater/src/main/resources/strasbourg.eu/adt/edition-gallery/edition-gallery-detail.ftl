@@ -1,5 +1,5 @@
 <!-- Détail galerie d'éditions -->
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <#setting locale=locale />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL="/web${layout.group.friendlyURL}/" />
@@ -24,7 +24,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         </h1>
         <@liferay.breadcrumbs />
         <div class="st-img-wrapper st-img-fit-content" tabindex="0">
-            <@addImage fileEntryId=entry.getImageId() />
+            <@strasbourg.addImage fileEntryId=entry.getImageId() />
         </div>
     </div>
 </header>
@@ -55,7 +55,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <#list entry.publishedEditions?reverse as edition>
                 <li class="st-edition">
                     <div class="st-image ">
-                        <#-- <@addImage fileEntryId=edition.getImageId() /> -->
+                        <#-- <@strasbourg.addImage fileEntryId=edition.getImageId() /> -->
                         <#-- Test d'image - a enelever et remettre le vrai image -->
                         <figure class="st-figure st-fit-cover" role="group">
                             <picture>

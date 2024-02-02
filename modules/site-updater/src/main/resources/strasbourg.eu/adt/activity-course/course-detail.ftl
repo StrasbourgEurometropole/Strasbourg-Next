@@ -22,7 +22,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         </h1>
         <@liferay.breadcrumbs />
         <p class="st-title-secondary st-h3">
-            <@liferay_ui.message key="eu.activity.part-of-activity" /> <a href="${homeURL}activite/-/entity/id/${entry.activityId}" title="${entry.activity.getTitle(locale)}">
+            <@liferay_ui.message key="eu.activity.part-of-activity" /> <a href="${strasbourg.homeURL}activite/-/entity/id/${entry.activityId}" title="${entry.activity.getTitle(locale)}">
                 ${entry.activity.getTitle(locale)}
             </a>
         </p>
@@ -123,7 +123,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <@liferay_ui.message key="eu.activity.manager" />
                 </h2>
                 <div class="st-limit-height st--is-overflowing">
-                    <a href="${homeURL}organisateur-activites/-/entity/id/${entry.organizerId}">
+                    <a href="${strasbourg.homeURL}organisateur-activites/-/entity/id/${entry.organizerId}">
                         ${entry.getOrganizerName(locale)}
                     </a>
                 </div>
@@ -203,7 +203,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                             ${periodPlace.placeName}
                                         </p>
                                         <#if periodPlace.placeSigId?has_content>
-                                            <a href="${homeURL}lieu/-/entity/sig/${periodPlace.placeSigId}/${uriHelper.normalizeToFriendlyUrl(periodPlace.placeName)}" class="st-btn st--btn-secondary-ghost st--btn-xs st--btn-small-padding">
+                                            <a href="${strasbourg.homeURL}lieu/-/entity/sig/${periodPlace.placeSigId}/${uriHelper.normalizeToFriendlyUrl(periodPlace.placeName)}" class="st-btn st--btn-secondary-ghost st--btn-xs st--btn-small-padding">
                                                 <@liferay_ui.message key="eu.activity.see-place-detail" />
                                             </a>
                                         </#if>
@@ -253,7 +253,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <p class="st-title-medium">
                             ${entry.getPlaceNames(locale)[sigId?index]}
                         </p>
-                        <a href="${homeURL}lieu/-/entity/sig/${sigId}/${uriHelper.normalizeToFriendlyUrl(entry.getPlaceNames(locale)[sigId?index])}" class="st-btn st--btn-secondary-ghost st--btn-xs st--btn-small-padding">
+                        <a href="${strasbourg.homeURL}lieu/-/entity/sig/${sigId}/${uriHelper.normalizeToFriendlyUrl(entry.getPlaceNames(locale)[sigId?index])}" class="st-btn st--btn-secondary-ghost st--btn-xs st--btn-small-padding">
                             <@liferay_ui.message key="eu.activity.see-place-detail" />
                         </a>
                     </li>

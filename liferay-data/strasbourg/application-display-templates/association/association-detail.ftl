@@ -21,7 +21,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <#assign uniqueDomaines=uniqueDomaines + [currentDomaine]>
     </#if>
 </#list>
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <div class="st-barre-single-sit st--association">
     <div class="st-barre-inner st-wrapper">
         <div class="st-container-left">
@@ -93,7 +93,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <div class="st-limit-height st--is-overflowing">
                     ${entry.getPresentation(locale)}
                 </div>
-                <@showMore />
+                <@strasbourg.showMore />
             </div>
         </div>
     </#if>

@@ -26,21 +26,21 @@
         <#local copyright = getCopyright(fileEntryId) />
         <#local legend = getLegend(fileEntryId) />
         <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group" aria-label="${copyright} ${legend}">
-         <@getImageByFileEntry fileEntryId=fileEntryId?number />
+            <@strasbourg.getImageByFileEntry fileEntryId=fileEntryId?number />
             <figcaption>
-                    <#if legend?has_content && showLegende>
-                        ${legend}
-                    </#if>
+                <#if legend?has_content && showLegende>
+                    ${legend}
+                </#if>
                 <#if copyright?has_content && showCopyright>
                     <button type="button" class="st-credits st-js-credits" aria-expanded="false" aria-label="© (copyright de l'image)">©</button>
                     <span class="st-credits-content">${copyright}</span>
                 </#if>
             </figcaption>
         </figure>
-        <#else>
-            <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group">
-                <img src="https://placehold.co/600x400/20272F/2AD783/png?text=!&font=roboto" />
-            </figure>
+    <#else>
+        <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group">
+            <img src="https://placehold.co/600x400/20272F/2AD783/png?text=!&font=roboto" />
+        </figure>
     </#if>
 </#macro>
 
@@ -98,7 +98,7 @@
 
 <#macro getImage imageNode>
     <#local fileEntryIdString = imageNode.getAttribute("fileEntryId")>
-    <@addImage fileEntryId=fileEntryIdString?number />
+    <@strasbourg.addImage fileEntryId=fileEntryIdString?number />
 </#macro>
 
 <#macro getImageByFileEntry fileEntryId>
@@ -127,9 +127,9 @@
     <#assign isFavouriteBool = favoriteLocalService.isFavorite(entryId, entryType, request.session.getAttribute("publik_internal_id"))>
     <button class="st-btn-favorite-card <#if isFavouriteBool>st-is-favorite</#if>" data-groupId="${entityGroupId}" data-title="${title}" data-url="${url}" data-id="${entryId}" data-type="${entryType}" aria-pressed="<#if isFavouriteBool>true<#else>false</#if>">
         <#if isFavouriteBool>
-                <@liferay_ui.message key='eu.remove-from-favorite' />
-            <#else>
-                <@liferay_ui.message key='eu.add-to-favorite' />
+            <@liferay_ui.message key='eu.remove-from-favorite' />
+        <#else>
+            <@liferay_ui.message key='eu.add-to-favorite' />
         </#if>
     </button>
 </#macro>

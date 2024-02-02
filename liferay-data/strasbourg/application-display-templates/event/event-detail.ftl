@@ -4,7 +4,7 @@
 <#else>
     <#assign homeURL="/" />
 </#if>
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <#assign uriHelper=serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService") />
 <#assign imageUrl="" />
 <!-- vignette -->
@@ -76,7 +76,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <#if entry.imageURL?has_content>
             <div class="st-image">
                 <#if entry.getImageId() !=0>
-                    <@addImage fileEntryId=entry.getImageId() isFigure=true />
+                    <@strasbourg.addImage fileEntryId=entry.getImageId() isFigure=true />
                 <#else>
                     <figure class="st-figure st-fit-cover" role="group" aria-label=" © ${entry.getExternalImageCopyright()}">
                         <picture>
@@ -384,7 +384,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         </li>
                     </#if>
                 </ul>
-                <@isFavouriteSticky entryId=entry.getEventId() entryType=2 title=entry.getTitle(locale) url=themeDisplay.getPortalURL() />
+                <@strasbourg.isFavouriteSticky entryId=entry.getEventId() entryType=2 title=entry.getTitle(locale) url=themeDisplay.getPortalURL() />
                     <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/social-share.ftl" />
             </div>
         </div>

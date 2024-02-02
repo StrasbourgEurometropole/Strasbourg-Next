@@ -4,7 +4,7 @@
 <#else>
     <#assign homeURL="/" />
 </#if>
-<#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" />
+
 <#assign uriHelper=serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService") />
 <#assign imageUrl="" />
 <!-- vignette -->
@@ -66,7 +66,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             </div>
             <#if (entry.placeId> 0)>
                 <div class="st-top-bar__right">
-                    <a href="${homeURL}lieu/-/entity/id/${entry.placeId}/${uriHelper.normalizeToFriendlyUrl(entry.getPlaceAlias(locale))}"
+                    <a href="${strasbourg.homeURL}lieu/-/entity/id/${entry.placeId}/${uriHelper.normalizeToFriendlyUrl(entry.getPlaceAlias(locale))}"
                        class="st-btn st--btn-full-width-mobile">
                         <@liferay_ui.message key="eu.event.see-place" />
                     </a>
@@ -76,7 +76,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <#if entry.imageURL?has_content>
             <div class="st-image">
                 <#if entry.getImageId() !=0>
-                    <@addImage fileEntryId=entry.getImageId() isFigure=true />
+                    <@strasbourg.addImage fileEntryId=entry.getImageId() isFigure=true />
                 <#else>
                     <figure class="st-figure st-fit-cover" role="group" aria-label=" © ${entry.getExternalImageCopyright()}">
                         <picture>
@@ -143,7 +143,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     -
                                 </#if>
                                 <a
-                                        href="${homeURL}manifestation/-/entity/id/${manifestation.manifestationId}">
+                                        href="${strasbourg.homeURL}manifestation/-/entity/id/${manifestation.manifestationId}">
                                     ${manifestation.getTitle(locale)}
                                 </a>
                             </#list>
@@ -384,7 +384,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         </li>
                     </#if>
                 </ul>
-                <@isFavouriteSticky entryId=entry.getEventId() entryType=2 title=entry.getTitle(locale) url=themeDisplay.getPortalURL() />
+                <@strasbourg.isFavouriteSticky entryId=entry.getEventId() entryType=2 title=entry.getTitle(locale) url=themeDisplay.getPortalURL() />
                     <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/social-share.ftl" />
             </div>
         </div>
