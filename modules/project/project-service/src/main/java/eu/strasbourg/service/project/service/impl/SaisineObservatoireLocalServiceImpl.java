@@ -340,6 +340,11 @@ public class SaisineObservatoireLocalServiceImpl
         }
     }
 
+    @Override
+    public List<SaisineObservatoire> getByPublikUserID(String publikId){
+        return saisineObservatoirePersistence.findByPublikId(publikId);
+    }
+
     @Reference
     private AssetLinkLocalService assetLinkLocalService;
 }

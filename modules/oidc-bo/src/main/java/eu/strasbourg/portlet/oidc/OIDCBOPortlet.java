@@ -4,6 +4,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -16,6 +17,8 @@ import eu.strasbourg.portlet.oidc.display.context.ManagementPublikUsersToolBarDi
 import eu.strasbourg.portlet.oidc.display.context.NavigationBarDisplayContext;
 import eu.strasbourg.portlet.oidc.display.context.ViewAnonymisationHistoricsDisplayContext;
 import eu.strasbourg.portlet.oidc.display.context.ViewPublikUsersDisplayContext;
+import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -77,12 +80,36 @@ public class OIDCBOPortlet extends MVCPortlet {
 					if (navigationDC.getSelectedCmd().equals(EDIT_PUBLIK_USER)) {
 						EditPublikUserDisplayContext dc = new EditPublikUserDisplayContext(renderRequest, renderResponse);
 						renderRequest.setAttribute("dc", dc);
-					} else {
+					} else{
+						if (navigationDC.getSelectedCmd().equals(ANONYMISE_PUBLIK_USER)) {
+							String retour = "";
+							long publikUserLiferayId = ParamUtil.getLong(renderRequest, "publikUserLiferayId");
+							if (Validator.isNotNull(publikUserLiferayId)) {
+								PublikUser publikUser = PublikUserLocalServiceUtil.fetchPublikUser(publikUserLiferayId);
+								if (publikUser != null) {
+									// récupération de l'utilisateur anonyme
+									long anonymUserId = Long.parseLong( themeDisplay.getSiteGroup().getExpandoBridge()
+											.getAttribute("publik_user_anonyme_id").toString());
+									if (Validator.isNotNull(anonymUserId)) {
+										PublikUser anonymUser = PublikUserLocalServiceUtil.fetchPublikUser(anonymUserId);
+										if (anonymUser != null) {
+											PublikUserLocalServiceUtil.anonymisedUserPlacit(anonymUser, publikUser);
+										} else
+											SessionMessages.add(renderRequest, "anonym-user-unfound");
+									} else
+										SessionMessages.add(renderRequest, "no-anonym-user-id");
+								} else
+									SessionMessages.add(renderRequest, "user-unfound");
+							} else
+								SessionMessages.add(renderRequest, "no-user-id");
+							SessionMessages.add(renderRequest, "anonymised");
+						}
 						ViewPublikUsersDisplayContext dc = new ViewPublikUsersDisplayContext(renderRequest, renderResponse);
 						ManagementPublikUsersToolBarDisplayContext managementDC = new ManagementPublikUsersToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
 								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
 						renderRequest.setAttribute("dc", dc);
 						renderRequest.setAttribute("managementDC", managementDC);
+
 					}
 					break;
 				case ANONYMISATION_HISTORICS:
