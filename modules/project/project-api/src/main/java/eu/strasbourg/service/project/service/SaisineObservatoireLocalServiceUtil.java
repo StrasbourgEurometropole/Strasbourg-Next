@@ -239,6 +239,10 @@ public class SaisineObservatoireLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
+	public static List<SaisineObservatoire> getByPublikUserID(String publikId) {
+		return getService().getByPublikUserID(publikId);
+	}
+
 	public static
 		com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 			getIndexableActionableDynamicQuery() {

@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import eu.strasbourg.service.project.model.SaisineObservatoire;
+import eu.strasbourg.service.project.service.SaisineObservatoireLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -150,6 +152,24 @@ public class HistoricPublikUserTextExporterImpl implements HistoricPublikUserTex
 							} else {
 								ligne = signataire.getCreateDate() + " - " + signataire.getPetitionId();
 							}
+							os.write(ligne.getBytes());
+							os.write(System.getProperty("line.separator").getBytes());
+						}
+						os.write(System.getProperty("line.separator").getBytes());
+					}
+
+					// Récupération des pétitions
+					List<SaisineObservatoire> saisines = SaisineObservatoireLocalServiceUtil.getByPublikUserID(publikUser.getPublikId())
+							.stream().sorted((c1, c2) -> c1.getCreateDate().compareTo(c2.getCreateDate()))
+							.collect(Collectors.toList());
+					if (!saisines.isEmpty()) {
+						ligne = LanguageUtil.get(bundle,"saisines") + " : ";
+						os.write(ligne.getBytes());
+						os.write(System.getProperty("line.separator").getBytes());
+						for (SaisineObservatoire saisine : saisines) {
+							ligne = saisine.getCreateDate() + " - " + saisine.getTitle();
+							if (saisine.isApproved())
+								ligne += " : " + LanguageUtil.get(bundle,"approuved");
 							os.write(ligne.getBytes());
 							os.write(System.getProperty("line.separator").getBytes());
 						}

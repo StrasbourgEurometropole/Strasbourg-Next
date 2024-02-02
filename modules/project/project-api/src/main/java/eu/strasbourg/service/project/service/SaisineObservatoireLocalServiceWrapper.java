@@ -276,6 +276,14 @@ public class SaisineObservatoireLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List
+		<eu.strasbourg.service.project.model.SaisineObservatoire>
+			getByPublikUserID(String publikId) {
+
+		return _saisineObservatoireLocalService.getByPublikUserID(publikId);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 		getIndexableActionableDynamicQuery() {
 

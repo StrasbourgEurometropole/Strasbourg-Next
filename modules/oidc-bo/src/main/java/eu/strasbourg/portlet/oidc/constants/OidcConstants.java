@@ -6,6 +6,7 @@ public class OidcConstants {
     public static final String PUBLIK_USERS_PATH = "/oidc-bo-view-publikusers.jsp";
     public static final String EDIT_PUBLIK_USER = "editPublikUser";
     public static final String SAVE_PUBLIK_USER = "savePublikUser";
+    public static final String ANONYMISE_PUBLIK_USER = "anonymisedUser";
 
     public static final String ANONYMISATION_HISTORICS = "anonymisationHistorics";
     public static final String ANONYMISATION_HISTORICS_PATH = "/oidc-bo-view-anonymisation-historics.jsp";
