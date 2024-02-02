@@ -298,9 +298,6 @@
                             <aui:option value="strasbourg-generic-grille" selected="${dc.configurationData.searchForm eq 'strasbourg-generic-grille'}">
                                 <liferay-ui:message key="eu.search.asset.web.configuration.template.strasbourg-generic" /> Grille
                             </aui:option>
-                            <aui:option value="strasbourg-offer" selected="${dc.configurationData.searchForm eq 'strasbourg-offer'}">
-                                <liferay-ui:message key="eu.search.asset.web.configuration.template.strasbourg-offer" />
-                            </aui:option>
                             <aui:option value="placit-projects" selected="${dc.configurationData.searchForm eq 'placit-projects'}">
                                 <liferay-ui:message key="eu.search.asset.web.configuration.template.placit-projects" />
                             </aui:option>

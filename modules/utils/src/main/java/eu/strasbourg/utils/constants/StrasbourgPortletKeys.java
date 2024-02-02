@@ -13,9 +13,6 @@ public class StrasbourgPortletKeys {
 	
 	public static final String EDITION_BO = "eu_strasbourg_portlet_edition_EditionBOPortlet";
 	public static final String EDITION_WEB = "eu_strasbourg_portlet_edition_EditionPortlet";
-
-	public static final String ARTWORK_BO = "eu_strasbourg_portlet_artwork_ArtworkBOPortlet";
-	public static final String ARTWORK_WEB = "eu_strasbourg_portlet_artwork_ArtworkPortlet";
 	
 	public static final String LINK_BO = "eu_strasbourg_portlet_link_LinkBOPortlet";
 	public static final String LINK_WEB = "eu_strasbourg_portlet_link_LinkPortlet";
@@ -87,8 +84,6 @@ public class StrasbourgPortletKeys {
 	public static final String MEDIATHEQUE_WEB = "eu_strasbourg_portlet_mediatheque_MediathequeWebPortlet";
 	public static final String VALIDATION_WEB = "eu_strasbourg_portlet_mediatheque_ValidationWebPortlet";
 
-	public static final String FAMILY_SPACE_WEB = "eu_strasbourg_portlet_familySpace_FamilySpaceWebPortlet";
-	
 	public static final String GRAVEYARD_WEB = "eu_strasbourg_portlet_graveyard_GraveyardWebPortlet";
 
 	public static final String RESID_WEB = "eu_strasbourg_portlet_resid_ResidWebPortlet";

@@ -1,7 +1,0 @@
-dependencies {
-	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
-	compileOnly group: "jstl", name: "jstl"
-	compileOnly group: "org.osgi", name: "org.osgi.core"
-	implementation project (':modules:utils')
-	implementation project (':modules:artwork:artwork-api')
-}

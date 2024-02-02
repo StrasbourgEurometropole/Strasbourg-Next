@@ -12,6 +12,12 @@ dependencies {
 	compileInclude group: 'com.jcraft', name: 'jsch', version: '0.1.54'
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 
+	compile project (':modules:place:place-api')
+	compile project (':modules:agenda:agenda-api')
+	compile project (':modules:oidc:oidc-api')
+	compile project (':modules:comment:comment-api')
+	compile project (':modules:project:project-api')
+	compile project (':modules:council:council-api')
 	implementation project (':modules:place:place-api')
 	implementation project (':modules:agenda:agenda-api')
 	implementation project (':modules:oidc:oidc-api')

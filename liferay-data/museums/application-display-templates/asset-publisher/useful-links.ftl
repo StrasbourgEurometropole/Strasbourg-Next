@@ -9,7 +9,7 @@
         <#list entries as curEntry>
             <li>
                 <#assign link = curEntry.getAssetRenderer().getLink() />
-                <a href="${link.getURL(locale)}" title="${link.getHoverText(locale)} (<@liferay_ui.message key="eu.new-window" />)" target="_blank" >
+                <a href="${link.getURL(locale)}" ${link.getHoverText(locale)?has_content?then(title="link.getHoverText(locale) ","")} target="_blank" >
                   ${link.getTitle(locale)}
                 </a>
             </li>

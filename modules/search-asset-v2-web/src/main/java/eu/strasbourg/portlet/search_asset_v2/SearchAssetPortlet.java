@@ -240,12 +240,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 				attributes.remove(td.getPpid());
 			});
 
-			// vérifie si on veut les entités échues (uniquement pour les offres)
 			boolean isDueEntity = false;
-			if(configurationData.getUtilsAssetTypeList().size() == 1
-					&& configurationData.getUtilsAssetTypeList().get(0).getClassName().equals("eu.strasbourg.service.ejob.model.Offer")
-					&& configurationData.getFilterField().equals("endDate_Number_sortable"))
-				isDueEntity = true;
 			renderRequest.setAttribute("isDueEntity", isDueEntity);
 
 			super.render(renderRequest, renderResponse);
