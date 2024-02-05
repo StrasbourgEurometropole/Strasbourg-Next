@@ -568,7 +568,7 @@
 	}
 }
 
-.st-page-wrapper .st-btn-menu {
+.st-page-wrapper button.st-btn-menu {
 	@include create-outline;
 	display: flex;
 	align-items: center;

@@ -18,7 +18,7 @@
                         </a>
                         <#if entry.getEditionGalleries()?size != 0>
                             <#assign galery = entry.getEditionGalleries()[0] >
-                            <a href="${strasbourg.homeURL}/galerie-editions/-/entity/id/${galery.getGalleryId()}" class="st-btn st--btn-xs">
+                            <a href="${strasbourg.homeURL()}/galerie-editions/-/entity/id/${galery.getGalleryId()}" class="st-btn st--btn-xs">
                                 Tous les ${galery.getTitle(locale)}
                             </a>
                         </#if>
@@ -27,7 +27,7 @@
                 </li>
             </#list>
         </ul>
-        <a href="${strasbourg.homeURL}/editions" class="st-btn st--btn-secondary">
+        <a href="${strasbourg.homeURL()}/editions" class="st-btn st--btn-secondary">
             <@liferay_ui.message key="eu.all-editions" />
         </a>
 

@@ -57,11 +57,12 @@
 		list-style-type: none;
 	}
 
-	input,
-	button,
-	select,
-	optgroup,
-	textarea {
+	input:not(.form-control),
+	button:not(.form-control),
+	button:not(.btn),
+	select:not(.form-control),
+	optgroup:not(.form-control),
+	textarea:not(.form-control) {
 		margin: 0; // Remove the margin in Firefox and Safari
 		font-family: inherit;
 		font-size: inherit;

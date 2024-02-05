@@ -66,7 +66,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             </div>
             <#if (entry.placeId> 0)>
                 <div class="st-top-bar__right">
-                    <a href="${strasbourg.homeURL}lieu/-/entity/id/${entry.placeId}/${uriHelper.normalizeToFriendlyUrl(entry.getPlaceAlias(locale))}"
+                    <a href="${strasbourg.homeURL()}lieu/-/entity/id/${entry.placeId}/${uriHelper.normalizeToFriendlyUrl(entry.getPlaceAlias(locale))}"
                        class="st-btn st--btn-full-width-mobile">
                         <@liferay_ui.message key="eu.event.see-place" />
                     </a>
@@ -143,7 +143,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     -
                                 </#if>
                                 <a
-                                        href="${strasbourg.homeURL}manifestation/-/entity/id/${manifestation.manifestationId}">
+                                        href="${strasbourg.homeURL()}manifestation/-/entity/id/${manifestation.manifestationId}">
                                     ${manifestation.getTitle(locale)}
                                 </a>
                             </#list>

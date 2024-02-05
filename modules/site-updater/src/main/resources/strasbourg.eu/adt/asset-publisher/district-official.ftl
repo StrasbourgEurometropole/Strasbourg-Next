@@ -35,7 +35,7 @@
                     </p>
                 </div>
 
-                <a href="${strasbourg.homeURL}elu/-/entity/id/${official.officialId}" class="st-btn st--btn-secondary st--btn-secondary-ghost st--btn-small-padding st--btn-full-width-mobile"><@liferay_ui.message key="learn-more" /></a>
+                <a href="${strasbourg.homeURL()}elu/-/entity/id/${official.officialId}" class="st-btn st--btn-secondary st--btn-secondary-ghost st--btn-small-padding st--btn-full-width-mobile"><@liferay_ui.message key="learn-more" /></a>
             </div>
         </#if>
 

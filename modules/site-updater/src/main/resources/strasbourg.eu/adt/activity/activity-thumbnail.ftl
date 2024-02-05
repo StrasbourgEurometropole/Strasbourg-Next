@@ -42,7 +42,7 @@
                     <div class="st-text st-text-styles">
                         ${course.getPresentation(locale)}
                     </div>
-                    <a href="${strasbourg.homeURL}${courseDetailPageFriendlyURL?remove_beginning('/')}/-/entity/id/${course.activityCourseId}" title="${course.getName(locale)}" class="st-btn st--btn-full-width-mobile">En savoir plus</a>
+                    <a href="${strasbourg.homeURL()}${courseDetailPageFriendlyURL?remove_beginning('/')}/-/entity/id/${course.activityCourseId}" title="${course.getName(locale)}" class="st-btn st--btn-full-width-mobile">En savoir plus</a>
                 </div>
             </#list>
 

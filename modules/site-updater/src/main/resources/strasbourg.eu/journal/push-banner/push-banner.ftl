@@ -38,7 +38,7 @@
                     <#if cur_PushFieldset.ActionFieldSet.getSiblings()?has_content>
                         <#list cur_PushFieldset.ActionFieldSet.getSiblings() as cur_PushFieldset_ActionFieldSet>
                             <a href="<#if (cur_PushFieldset_ActionFieldSet.ExternalLinkText.getData())??>${cur_PushFieldset_ActionFieldSet.ExternalLinkText.getData()}<#else>${cur_PushFieldset_ActionFieldSet.InternalLinkText.getFriendlyUrl()}</#if>"
-                               class="st-btn <#if !getterUtil.getBoolean(cur_PushFieldset_ActionFieldSet.GreenBackgroundCheckbox.getData())>st--btn-secondary</#if>">
+                               class="st-btn <#if !getterUtil.getBoolean(cur_PushFieldset_ActionFieldSet.GreenBackgroundCheckbox.getData())>st--btn-secondary</#if>" <#if getterUtil.getBoolean(cur_PushFieldset_ActionFieldSet.newTab.getData())>target="_blank"</#if>>
                                 <#if (cur_PushFieldset_ActionFieldSet.LinkLabelText.getData())??>
                                     ${cur_PushFieldset_ActionFieldSet.LinkLabelText.getData()}
                                 </#if>

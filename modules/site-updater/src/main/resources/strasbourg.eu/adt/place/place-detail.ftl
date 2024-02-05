@@ -9,7 +9,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <#-- Liste des infos a partager -->
 <#assign openGraph={ "og:title" :"${entry.getAlias(locale)?html}", "og:description"
 :'${entry.getPresentation(locale)?replace("<[^>]*>", "", "r")?html}',
-"og:image":"${strasbourg.homeURL}${entry.imageURL}"
+"og:image":"${strasbourg.homeURL()}${entry.imageURL}"
 } />
 
 <@liferay_util["html-bottom"]>
@@ -492,7 +492,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                             </#if>
                         </#list>
                         <div>
-                            <a href="${strasbourg.homeURL}horaires-lieux/-/schedules/category/${category.categoryId}"
+                            <a href="${strasbourg.homeURL()}horaires-lieux/-/schedules/category/${category.categoryId}"
                                class="st-btn st--btn-secondary st--btn-full-width">
                                 <@liferay_ui.message key="eu.see-all-schedule-of" />
                                 ${category.getTitle(locale)?lower_case}
@@ -600,7 +600,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                 </div>
 
                 <div class="st-col-right">
-                    <a href="${strasbourg.homeURL}rechercher-lieu-public?p_p_id=eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_vocabulariesCount=2&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords=&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_vocabulary_0=${category.categoryId}&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_vocabulary_1="
+                    <a href="${strasbourg.homeURL()}rechercher-lieu-public?p_p_id=eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_vocabulariesCount=2&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords=&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_vocabulary_0=${category.categoryId}&_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_vocabulary_1="
                        class="st-btn st--btn-secondary">
                         <@liferay_ui.message key="eu.see-all-other-places" />
                     </a>
@@ -641,7 +641,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                     </#if>
                     <li>
                         <div class="st-card-container">
-                            <a href="${strasbourg.homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}"
+                            <a href="${strasbourg.homeURL()}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}"
                                class="st-card st-card-agenda st--card-horizontal st--with-gradient"
                                title="${event.getTitle(locale)}">
                                 <div class="st-caption">
@@ -693,7 +693,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                     <#assign i++>
                 </#list>
             </ul>
-            <a href="${strasbourg.homeURL}agenda?idSIGPlace=${entry.getSIGid()}"
+            <a href="${strasbourg.homeURL()}agenda?idSIGPlace=${entry.getSIGid()}"
                class="st-btn st--btn-secondary"> <@liferay_ui.message key="sae.all-events" /></a>
         </div>
     </#if>
@@ -734,7 +734,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                             <#list period.courses as course>
                                 <div class="st-detail-lien">
                                     <h3 class="st-title-medium">${course.courseName} </h3>
-                                    <a href="${strasbourg.homeURL}cours/-/entity/id/${course.courseId}"
+                                    <a href="${strasbourg.homeURL()}cours/-/entity/id/${course.courseId}"
                                        class="st-btn st--btn-secondary-ghost st--btn-xs st--btn-small-padding">
                                         <@liferay_ui.message key="eu.see-detail" />
                                     </a>

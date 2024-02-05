@@ -13,7 +13,10 @@
                         <#list entries as curEntry>
                             <#assign link=curEntry.getAssetRenderer().getLink() />
                             <li class="st-lien-container">
-                                <a href="${link.getURL(locale)}" class="st-lien" target="_blank" title="${link.getHoverText(locale)} (<@liferay_ui.message key=" eu.new-window" />)" >
+                                <a href="${link.getURL(locale)}" class="st-lien" target="_blank"
+                                    <#if link.getHoverText(locale)?has_content>
+                                   title="${link.getHoverText(locale)}"
+                                    </#if> >
                                     <p class="st-title-lien">
                                         ${link.getTitle(locale)}
                                     </p>

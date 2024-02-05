@@ -26,8 +26,8 @@
                 </#if>
                 <#assign AssetVocabularyLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetVocabularyLocalService")>
                 <li class="st-lien-container">
-                    <a href="${fileEntryHelper.getFileEntryURL(file.getFileEntryId())}" class="st-lien" target="_blank" >
-                        <p class="st-title-lien"> ${fileTitle}</p>
+                    <a href="${fileEntryHelper.getFileEntryURL(file.getFileEntryId())}" class="st-lien" target="_blank" aria-labelledby="fileTitle-${curEntry?index}">
+                        <p class="st-title-lien" id="fileTitle-${curEntry?index}"> ${fileTitle}</p>
                         <div class="st-lien-content">
                             <p class="st-type">(${file.getExtension()} - ${fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale)})</p>
                             <p class="st-text"><@liferay_ui.message key="eu.download" /></p>

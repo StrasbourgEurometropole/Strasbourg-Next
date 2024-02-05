@@ -18,7 +18,7 @@
                 <#assign place=curEntry.assetRenderer.place />
                 <li>
                     <div class="st-card-container">
-                        <a href="${strasbourg.homeURL}lieu/-/entity/sig/${place.getSIGid()}/${place.getNormalizedAlias(locale)}" class="st-card st--card-horizontal st--with-gradient <#if place.getImageId() == 0 || !place.getImageURL()?has_content>st--with-icon</#if>">
+                        <a href="${strasbourg.homeURL()}lieu/-/entity/sig/${place.getSIGid()}/${place.getNormalizedAlias(locale)}" class="st-card st--card-horizontal st--with-gradient <#if place.getImageId() == 0 || !place.getImageURL()?has_content>st--with-icon</#if>">
                             <div class="st-caption">
                                 <p class="st-title-card">
                                     ${place.getAlias(locale)}

@@ -38,7 +38,7 @@
                             <@liferay_ui.message key="eu.event.from-date" /> ${entry.firstStartDate?date?string.short?replace('/', '.')} <@liferay_ui.message key="eu.event.to" /> ${entry.lastEndDate?date?string.short?replace('/', '.')}
                         </#if></#if>"
            data-address="${entry.getPlaceAddress(locale)}"
-           data-detailurl="${strasbourg.homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}"
+           data-detailurl="${strasbourg.homeURL()}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}"
         >
             <div class="st-caption">
                 <p class="st-title-card">

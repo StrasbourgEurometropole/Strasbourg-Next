@@ -31,7 +31,7 @@
 <div class="st-bloc st-bloc-actu st--in-home st-u-overflow-x-hidden" role="group">
     <div class="st-wrapper st-bloc-actu__inner st-js-slider-actu splide st-component-container">
         <h2 class="st-h2 st-titre"><liferay-ui:message key="eu.news.header" /></h2>
-        <div class="st-limit-height st-no-auto-rgaa">
+        <div class="d-flex flex-column st-no-auto-rgaa">
             <div class="splide__track">
                 <ul class="splide__list st-cards-wrapper">
                     <c:forEach items="${newsItemsHeadline}" var="newsItem">
@@ -95,13 +95,6 @@
 
             <a href="${dc.getLink()}" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta"  aria-hidden="true" tabindex="-1">
                 <liferay-ui:message key="eu.news.all-news" /></a>
-        </div>
-
-        <div class="st-show-more">
-            <button class="st-btn-show-more st-btn-arrow st--down"
-                    aria-expanded="false"
-                    data-open-label="<liferay-ui:message key="eu.news.more" />" data-close-label="<liferay-ui:message key="eu.strasbourg.show-less" />"><liferay-ui:message key="eu.news.more" />
-            </button>
         </div>
     </div>
 </div>

@@ -1,10 +1,15 @@
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
+
+
+<#function homeURL>
+    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+        <#return "/web${layout.group.friendlyURL}/" />
+    <#else>
+        <#return "/" />
+    </#if>
+</#function>
+
 <#function getRootElement curEntry>
 
     <#assign journalArticle = curEntry.getAssetRenderer().getArticle()>

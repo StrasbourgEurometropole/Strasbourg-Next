@@ -8,7 +8,7 @@
 
 <li>
     <div class="st-card-container">
-        <a href="${strasbourg.homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}" class="st-card st--card-horizontal st--with-gradient <#if entry.getImageId() == 0 || !entry.getImageURL()?has_content>st--with-icon</#if>">
+        <a href="${strasbourg.homeURL()}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}" class="st-card st--card-horizontal st--with-gradient <#if entry.getImageId() == 0 || !entry.getImageURL()?has_content>st--with-icon</#if>">
             <div class="st-caption">
                 <p class="st-title-card">
                     ${entry.getAlias(locale)}
@@ -41,6 +41,6 @@
                 </#if>
             </div>
         </a>
-        <@strasbourg.isFavourite entryId=entry.placeId entryType=1  entityGroupId=0 title=entry.getAlias(locale) url="${strasbourg.homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}" />
+        <@strasbourg.isFavourite entryId=entry.placeId entryType=1  entityGroupId=0 title=entry.getAlias(locale) url="${strasbourg.homeURL()}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}" />
     </div>
 </li>

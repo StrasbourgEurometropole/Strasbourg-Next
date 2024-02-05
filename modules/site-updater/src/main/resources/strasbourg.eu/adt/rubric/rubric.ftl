@@ -67,7 +67,7 @@
                                 <div class="st-component-container">
                                     <ul class="st-liste st-limit-height">
                                         <li class="st-lien-container">
-                                            <a href="${strasbourg.homeURL}${currentPage.friendlyURL?remove_beginning('/')}" class="st-lien">
+                                            <a href="${strasbourg.homeURL()}${currentPage.friendlyURL?remove_beginning('/')}" class="st-lien">
                                                 <p class="st-title-lien">
                                                     ${currentPage.getName(locale)}
                                                 </p>
@@ -77,7 +77,7 @@
                                         <#list currentPage.children as currentSubPage>
                                             <#if !currentSubPage.hidden>
                                                 <li class="st-lien-container">
-                                                    <a href="${strasbourg.homeURL}${currentSubPage.friendlyURL?remove_beginning('/')}" class="st-lien">
+                                                    <a href="${strasbourg.homeURL()}${currentSubPage.friendlyURL?remove_beginning('/')}" class="st-lien">
                                                         <p class="st-title-lien">
                                                             ${currentSubPage.getName(locale)}
                                                         </p>
@@ -123,7 +123,7 @@
                                 <div class="st-component-container">
                                     <ul class="st-liste st-limit-height">
                                         <li class="st-lien-container">
-                                            <a href="${strasbourg.homeURL}${currentPage.friendlyURL?remove_beginning('/')}" class="st-lien">
+                                            <a href="${strasbourg.homeURL()}${currentPage.friendlyURL?remove_beginning('/')}" class="st-lien">
                                                 <p class="st-title-lien">
                                                     ${currentPage.getName(locale)}
                                                 </p>
@@ -133,7 +133,7 @@
                                         <#list currentPage.children as currentSubPage>
                                             <#if !currentSubPage.hidden>
                                                 <li class="st-lien-container">
-                                                    <a href="${strasbourg.homeURL}${currentSubPage.friendlyURL?remove_beginning('/')}" class="st-lien">
+                                                    <a href="${strasbourg.homeURL()}${currentSubPage.friendlyURL?remove_beginning('/')}" class="st-lien">
                                                         <p class="st-title-lien">
                                                             ${currentSubPage.getName(locale)}
                                                         </p>
