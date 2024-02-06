@@ -42,10 +42,11 @@ aside.quick-links-medias {
     display: flex;
     justify-content: center;
     flex-flow: row wrap;
+    gap: 20px;
 }
 
 .menu-container > a {
-    width: 32%;
+    width: 31%;
     height: 280px;
     position: relative;
     margin-bottom: 20px;
