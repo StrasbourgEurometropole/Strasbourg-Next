@@ -67,8 +67,7 @@
 					<ul class="menu"> 
 						<li class="selected"> <a href="https://tipi.strasbourg.eu/fr/accueil"><span> Accueil</span></a> </li> 
 						<li> <a href="https://tipi.strasbourg.eu/fr/facturation-petite-enfance"><span> Facturation petite enfance</span></a> </li> 
-						<li> <a href="https://tipi.strasbourg.eu/fr/facturation-restauration-scolaire"><span> Facturation restauration scolaire</span></a> </li> 
-						<li> <a href="https://tipi.strasbourg.eu/fr/facturation-periscolaire"><span> Facturation services périscolaires (APM-ALM)</span></a> </li> 
+						<li> <a href="https://tipi.strasbourg.eu/fr/facturation-enfance"><span> Facturation Enfance (Cantine, ALM et APM)</span></a> </li>
 						<li> <a href="https://tipi.strasbourg.eu/fr/facture-d-eau-et-d-assainissement"><span> Facture d&amp;#039;eau et d&amp;#039;assainissement</span></a> </li> 
 					</ul> 
 				</div> 

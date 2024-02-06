@@ -4,32 +4,32 @@
     ],
     "defaultLanguageId": "fr_FR",
     "fields": [{
-            "label": {
-                "fr_FR": "Petite enfance"
-            },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "image",
-            "fieldNamespace": "ddm",
-            "indexType": "keyword",
-            "localizable": true,
-            "name": "childhood",
-            "readOnly": false,
-            "repeatable": false,
-            "required": true,
-            "showLabel": true,
-            "type": "ddm-image"
+        "label": {
+            "fr_FR": "Petite enfance"
         },
+        "predefinedValue": {
+            "fr_FR": ""
+        },
+        "style": {
+            "fr_FR": ""
+        },
+        "tip": {
+            "fr_FR": ""
+        },
+        "dataType": "image",
+        "fieldNamespace": "ddm",
+        "indexType": "keyword",
+        "localizable": true,
+        "name": "childhood",
+        "readOnly": false,
+        "repeatable": false,
+        "required": true,
+        "showLabel": true,
+        "type": "ddm-image"
+    },
         {
             "label": {
-                "fr_FR": "Restauration"
+                "fr_FR": "Enfance (Cantine, ALM et APM)"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -44,31 +44,7 @@
             "fieldNamespace": "ddm",
             "indexType": "keyword",
             "localizable": true,
-            "name": "schoolRestaurant",
-            "readOnly": false,
-            "repeatable": false,
-            "required": true,
-            "showLabel": true,
-            "type": "ddm-image"
-        },
-        {
-            "label": {
-                "fr_FR": "Periscolaire"
-            },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "image",
-            "fieldNamespace": "ddm",
-            "indexType": "keyword",
-            "localizable": true,
-            "name": "afterSchool",
+            "name": "schoolRestaurantAfterSchool",
             "readOnly": false,
             "repeatable": false,
             "required": true,
@@ -93,30 +69,6 @@
             "indexType": "keyword",
             "localizable": true,
             "name": "water",
-            "readOnly": false,
-            "repeatable": false,
-            "required": true,
-            "showLabel": true,
-            "type": "ddm-image"
-        },
-        {
-            "label": {
-                "fr_FR": "Ordure menagere"
-            },
-            "predefinedValue": {
-                "fr_FR": ""
-            },
-            "style": {
-                "fr_FR": ""
-            },
-            "tip": {
-                "fr_FR": ""
-            },
-            "dataType": "image",
-            "fieldNamespace": "ddm",
-            "indexType": "keyword",
-            "localizable": true,
-            "name": "reom",
             "readOnly": false,
             "repeatable": false,
             "required": true,

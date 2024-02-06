@@ -87,77 +87,57 @@
 #tipi .childhood .year-field
 {
     position: relative;
-    top: 132px;
-    left: 61px;
+    top: 211px;
+    left: -133px;
 }
 
 #tipi .childhood .ref-field
 {
     position: relative;
-    top: 186px;
+    top: 211px;
     left: 18px;
 }
 
 #tipi .childhood .price-field
 {
     position: relative;
-    top: 350px;
-    left: 400px;
+    top: 392px;
+    left: 381px;
+
 }
 
-/*PARTIE CONCERNANT LA RESTAURATION SCOLAIRE */
+/*PARTIE CONCERNANT LA FACTURATION ENFANCE */
 
-#tipi .schoolRestaurant .year-field
+#tipi .schoolRestaurantAfterSchool .year-field
 {
     position: relative;
-    top: 132px;
+    top: 212px;
     left: 61px;
 }
 
-#tipi .schoolRestaurant .ref-field
+#tipi .schoolRestaurantAfterSchool .ref-field
 {
     position: relative;
-    top: 186px;
-    left: 18px;
+    top: 231px;
+    left: 36px;
 }
 
-#tipi .schoolRestaurant .price-field
+#tipi .schoolRestaurantAfterSchool .price-field
 {
     position: relative;
-    top: 350px;
-    left: 400px;
+    top: 405px;
+    left: 368px;
 }
 
-/*PARTIE CONCERNANT LE PERISCOLAIRE */
 
-#tipi .afterSchool .year-field
-{
-    position: relative;
-    top: 132px;
-    left: 61px;
-}
-
-#tipi .afterSchool .ref-field
-{
-    position: relative;
-    top: 186px;
-    left: 18px;
-}
-
-#tipi .afterSchool .price-field
-{
-    position: relative;
-    top: 350px;
-    left: 400px;
-}
 
 /*PARTIE CONCERNANT L'EAU */
 
 #tipi .water .year-field
 {
     position: absolute;
-    top: 30px;
-    left: 283px;
+    top: 249px;
+    left: 128px;
 
     width: 180px;
     padding: 3px;
@@ -170,8 +150,8 @@
 #tipi .water .ref-field
 {
     position: absolute;
-    top: 100px;
-    left: 360px;
+    top: 225px;
+    left: 325px;
 
     width: 235px;
     padding: 3px;

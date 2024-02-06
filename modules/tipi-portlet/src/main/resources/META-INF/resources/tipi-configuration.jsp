@@ -1,4 +1,4 @@
-<%@ include file="/init.jsp"%>
+<%@ include file="/META-INF/resources/init.jsp"%>
 
 <liferay-portlet:actionURL portletConfiguration="true" var="actionURL" />
 
@@ -14,8 +14,7 @@
 			<aui:select name="form">
 				<aui:option value="0"/>
 				<aui:option value="childhood" label="Facturation petite enfance" selected="${form eq 'childhood'}"/>
-				<aui:option value="schoolRestaurant" label="Facturation restauration scolaire" selected="${form eq 'schoolRestaurant'}" />
-				<aui:option value="afterSchool" label="Facturation de l'accueil p&eacute;riscolaire" selected="${form eq 'afterSchool'}" />
+				<aui:option value="schoolRestaurantAfterSchool" label="Facturation Enfance (Cantine, ALM et APM)" selected="${form eq 'schoolRestaurantAfterSchool'}" />
 				<aui:option value="water" label="Facturation d'eau et d'assainissement" selected="${form eq 'water'}" />
 				<aui:option value="reom" label="Facturation D&eacute;chet REOM" selected="${form eq 'reom'}" />
 				<aui:option value="rs" label="Facturation D&eacute;chet Redevance Sp&eacute;ciale" selected="${form eq 'rs'}" />
