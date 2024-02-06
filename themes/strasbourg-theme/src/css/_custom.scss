@@ -105,6 +105,16 @@
   }
 }
 
+.st-page-wrapper {
+  .form-control {
+    margin: revert;
+    font-size: revert;
+    line-height: revert;
+    color: revert;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+}
+
 .transport-letters-icon {
   padding: 7px;
   font-weight: bold;

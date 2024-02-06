@@ -54,14 +54,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <#if entry.publishedEditions?has_content>
             <#list entry.publishedEditions?reverse as edition>
                 <li class="st-edition">
-                    <div class="st-image ">
-                        <#-- <@strasbourg.addImage fileEntryId=edition.getImageId() /> -->
-                        <#-- Test d'image - a enelever et remettre le vrai image -->
-                        <figure class="st-figure st-fit-cover" role="group">
-                            <picture>
-                                <img alt="" src="https://strasbourg-refonte.s3.dev-thuria.com/assets/images/medias/cover-brochure.jpg">
-                            </picture>
-                        </figure>
+                    <div class="st-image " style="width: 130px">
+                        <@strasbourg.addImage fileEntryId=edition.getImageId() showLegende=false showCopyright=false  />
                     </div>
                     <div class="st-content">
                         <h3 class="st-h3">
