@@ -6,5 +6,5 @@
     "ms-azuretools.vscode-docker"
   ],
   "name": "Ubuntu",
-  "remoteUser": "vscode"
+  "remoteUser": "root"
 }
