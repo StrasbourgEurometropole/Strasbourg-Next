@@ -330,28 +330,7 @@
                             <liferay-ui:message key="eu.see-less" />
                         </a>
                     </div>
-                    <script>
-                        /*<![CDATA[*/
-                            jQuery(".btn-more-schedules").on("click",function(a){
-                                a.preventDefault();
-                                jQuery(".more-schedules").show();
-                                jQuery(".btn-more-schedules").hide();
-                                jQuery(".btn-less-schedules").show();
-                            });
 
-                            jQuery(".btn-less-schedules").on("click",function(a){
-                                a.preventDefault();
-                                jQuery(document).scrollTop($("#exceptions").offset().top);
-                                jQuery(".more-schedules").hide();
-                                jQuery(".btn-more-schedules").show();
-                                jQuery(".btn-less-schedules").hide();
-                            });
-
-                            jQuery("#submit").on("click",function(a){
-                                $('.place-schedule-form form').submit();
-                            });
-                        /*]]>*/
-                    </script>
                 </c:if>
 
             </c:otherwise>
@@ -359,7 +338,31 @@
     </div>
 </main>
 
+<liferay-util:html-top>
+    <link href="/o/placescheduleweb/css/default.css" rel="stylesheet" />
+</liferay-util:html-top>
 
 <liferay-util:html-bottom>
-    <link href="/o/placescheduleweb/css/default.css" rel="stylesheet"></script>
+    <script>
+        $( document ).ready(function() {
+            $(".btn-more-schedules").on("click",function(a){
+                a.preventDefault();
+                $(".more-schedules").show();
+                $(".btn-more-schedules").hide();
+                $(".btn-less-schedules").show();
+            });
+
+            $(".btn-less-schedules").on("click",function(a){
+                a.preventDefault();
+                $(document).scrollTop($("#exceptions").offset().top);
+                $(".more-schedules").hide();
+                $(".btn-more-schedules").show();
+                $(".btn-less-schedules").hide();
+            });
+
+                $('.place-schedule-form form').submit();            $("#submit").on("click",function(a){
+
+                });
+        });
+    </script>
 </liferay-util:html-bottom>
