@@ -1,1 +1,1 @@
-FROM liferay/dxp:2023.q4.3
+FROM mcr.microsoft.com/devcontainers/base:ubuntu
