@@ -1,4 +1,6 @@
 {
   "name": "app",
-  "image": "dev_image:latest"
+  "build": {
+    "dockerfile": "Dockerfile"
+  }
 }
