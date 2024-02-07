@@ -1,20 +1,10 @@
-FROM ubuntu:latest
+ARG VARIANT="jammy"
 
-# Create the user
-ARG USERNAME=app
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
+FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 
-RUN  apt-get update -y && \
-     apt-get install -y sudo
+RUN export DEBIAN_FRONTEND=noninteractive && \
+	apt-get update && \
+	apt-get --yes install p7zip-full time
 
-# Create the user
-RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
-    #
-    # [Optional] Add sudo support. Omit if you don't need to install software after connecting.
-    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-    && chmod 0440 /etc/sudoers.d/$USERNAME
-
-USER $USERNAME
-CMD [ "sleep", "infinity"]
+RUN wget https://github.com/mikefarah/yq/releases/download/v4.25.1/yq_linux_amd64 -O /usr/bin/yq && \
+	chmod +x /usr/bin/yq
