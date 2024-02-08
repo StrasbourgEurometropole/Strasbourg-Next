@@ -42,7 +42,7 @@
 			<div class="st-group-field">
 				<label for="demande"><liferay-ui:message key="contact.request" /></label>
 				<textarea rows="8" id="demande" name="content"
-						  placeholder="Saisissez votre texte…">${param.content}</textarea>
+						  placeholder="Saisissez votre texte...">${param.content}</textarea>
 			</div>
 
 			<div class="st-group-field st-col-12@t-small">
