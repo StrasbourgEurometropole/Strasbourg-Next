@@ -40,12 +40,13 @@ aside.quick-links-medias {
 
 .menu-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     flex-flow: row wrap;
+    gap: 20px;
 }
 
 .menu-container > a {
-    width: 32%;
+    width: 31%;
     height: 280px;
     position: relative;
     margin-bottom: 20px;
@@ -90,12 +91,8 @@ aside.quick-links-medias {
     background-image: url('../images/childhood-menu.jpg');
 }
 
-.afterSchool-menu {
-    background-image: url('../images/afterSchool-menu.jpg');
-}
-
-.schoolRestaurant-menu {
-    background-image: url('../images/schoolRestaurant-menu.jpg');
+.schoolRestaurantAfterSchool-menu {
+    background-image: url('../images/schoolRestaurantAfterSchool-menu.jpg');
 }
 
 .water-menu {

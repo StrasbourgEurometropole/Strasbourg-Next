@@ -4195,7 +4195,7 @@ a {
   font-weight: 400; }
 
 /* line 7, custom/02-particules/01-shared/typos/_quark-typo-forms.scss */
-.view-filters .filter-line .title label, .view-filters label:not(.option), .generic-form label:not(.option), #rub_service label:not(.option), .mseu-main-form label:not(.option), #bills form label, #family-space label, #mediatheque label, #resid label {
+.view-filters .filter-line .title label, .view-filters label:not(.option), .generic-form label:not(.option), #rub_service label:not(.option), .mseu-main-form label:not(.option), #bills form label, #mediatheque label, #resid label {
   font-weight: 600;
   font-family: "OpenSans", arial;
   color: #505050;
@@ -4279,7 +4279,7 @@ a {
       font-size: 1.6rem; } }
 
 /* line 71, custom/02-particules/01-shared/typos/_quark-typo-headings.scss */
-#direction h1, #districts-configuration h1, #ecoles h1, #elu h1, #mairie h1, #sliders h1, #direction h3, #districts-configuration h3, #ecoles h3, #elu h3, #mairie h3, #sliders h3, .home-section h2, #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #family-space h2, #favoris h2, #mediatheque h2, #personnalisation h2, #placeit h2, #resid h2, #serial h2, #survey h2, #validation-address h2, #vote h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2, .page-offre .candidaturesList .candidatureInfo, .page-offre .candidaturesList .alerteInfo, .page-offre .alertesList .candidatureInfo, .page-offre .alertesList .alerteInfo, .page-offre .candidaturesList .candidatureDetail:before, .page-offre .candidaturesList .alerteDetail:before, .page-offre .alertesList .candidatureDetail:before, .page-offre .alertesList .alerteDetail:before {
+#direction h1, #districts-configuration h1, #ecoles h1, #elu h1, #mairie h1, #sliders h1, #direction h3, #districts-configuration h3, #ecoles h3, #elu h3, #mairie h3, #sliders h3, .home-section h2, #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #favoris h2, #mediatheque h2, #personnalisation h2, #placeit h2, #resid h2, #serial h2, #survey h2, #validation-address h2, #vote h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2 {
   font-family: "MontSerrat", arial;
   font-weight: 700;
   font-size: 3.5rem;
@@ -4288,7 +4288,7 @@ a {
   text-transform: uppercase; }
 
 /* line 1, custom/02-particules/01-shared/typos/_quark-typo-inlines.scss */
-.mseu #nav-side #nav-notifications .notif-list .notif-text, .not-front .hat, .not-front .rte, .page-offre, #rub_service,
+.mseu #nav-side #nav-notifications .notif-list .notif-text, .not-front .hat, .not-front .rte, #rub_service,
 .mseu-main-form, .mseu .not-front {
   font-family: "OpenSans", arial;
   font-size: 1.8rem;
@@ -4297,7 +4297,7 @@ a {
   font-weight: 400; }
   @media only screen and (max-width: 767px) {
     /* line 1, custom/02-particules/01-shared/typos/_quark-typo-inlines.scss */
-    .mseu #nav-side #nav-notifications .notif-list .notif-text, .not-front .hat, .not-front .rte, .page-offre, #rub_service,
+    .mseu #nav-side #nav-notifications .notif-list .notif-text, .not-front .hat, .not-front .rte, #rub_service,
     .mseu-main-form, .mseu .not-front {
       font-size: 1.4rem; } }
 
@@ -4755,16 +4755,16 @@ a {
     opacity: 1; }
 
 /* line 2, custom/02-particules/01-shared/form-elements/_atom-form-validation.scss */
-#bills form .error, #family-space .error, #mediatheque .error, #resid .error, #validation-address .error {
+#bills form .error, #mediatheque .error, #resid .error, #validation-address .error {
   border-color: #ff1818 !important; }
 
 /* line 5, custom/02-particules/01-shared/form-elements/_atom-form-validation.scss */
-#bills form span.error, #family-space span.error, #mediatheque span.error, #resid span.error, #validation-address span.error {
+#bills form span.error, #mediatheque span.error, #resid span.error, #validation-address span.error {
   color: #ff1818;
   margin-top: 5px; }
 
 /* line 9, custom/02-particules/01-shared/form-elements/_atom-form-validation.scss */
-#bills form .valid, #family-space .valid, #mediatheque .valid, #resid .valid, #validation-address .valid {
+#bills form .valid, #mediatheque .valid, #resid .valid, #validation-address .valid {
   border-color: #31455d !important; }
 
 /* line 1, custom/02-particules/01-shared/form-elements/_atom-select2--custom.scss */
@@ -4840,14 +4840,14 @@ a {
   text-align: center; }
 
 /* line 1, custom/02-particules/01-shared/texts/_atom-text-links.scss */
-.not-front .hat a, .not-front .rte a, .page-offre a, #rub_service a, .mseu-main-form a {
+.not-front .hat a, .not-front .rte a, #rub_service a, .mseu-main-form a {
   text-decoration: underline;
   -webkit-transition: color, 0.5s;
   transition: color, 0.5s;
   color: #31455d;
   font-weight: 600; }
   /* line 7, custom/02-particules/01-shared/texts/_atom-text-links.scss */
-  .not-front .hat a:hover, .not-front .rte a:hover, .page-offre a:hover, #rub_service a:hover, .mseu-main-form a:hover, .not-front .hat a:focus, .not-front .rte a:focus, .page-offre a:focus, #rub_service a:focus, .mseu-main-form a:focus {
+  .not-front .hat a:hover, .not-front .rte a:hover, #rub_service a:hover, .mseu-main-form a:hover, .not-front .hat a:focus, .not-front .rte a:focus, #rub_service a:focus, .mseu-main-form a:focus {
     color: #2da192;
     text-decoration: underline; }
 
@@ -8108,7 +8108,7 @@ a {
     min-width: 75px; }
 
 /* line 1, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-.home-section, #actu-agenda, #alert-slider, #bills, #demandes, #family-space, #favoris, #mediatheque, #personnalisation, #placeit, #resid, #serial, #survey, #validation-address, #vote, #actu-agenda-no-interest, #une, #wi-aroundme {
+.home-section, #actu-agenda, #alert-slider, #bills, #demandes, #favoris, #mediatheque, #personnalisation, #placeit, #resid, #serial, #survey, #validation-address, #vote, #actu-agenda-no-interest, #une, #wi-aroundme {
   padding: 45px 75px;
   border-radius: 5px;
   -webkit-box-shadow: 0 0 10px rgba(32, 49, 70, 0.15);
@@ -8119,29 +8119,29 @@ a {
   margin: 0 auto 40px; }
   @media only screen and (max-width: 1279px) {
     /* line 1, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-    .home-section, #actu-agenda, #alert-slider, #bills, #demandes, #family-space, #favoris, #mediatheque, #personnalisation, #placeit, #resid, #serial, #survey, #validation-address, #vote, #actu-agenda-no-interest, #une, #wi-aroundme {
+    .home-section, #actu-agenda, #alert-slider, #bills, #demandes, #favoris, #mediatheque, #personnalisation, #placeit, #resid, #serial, #survey, #validation-address, #vote, #actu-agenda-no-interest, #une, #wi-aroundme {
       padding: 45px;
       width: calc(100% - 80px); } }
   @media only screen and (max-width: 767px) {
     /* line 1, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-    .home-section, #actu-agenda, #alert-slider, #bills, #demandes, #family-space, #favoris, #mediatheque, #personnalisation, #placeit, #resid, #serial, #survey, #validation-address, #vote, #actu-agenda-no-interest, #une, #wi-aroundme {
+    .home-section, #actu-agenda, #alert-slider, #bills, #demandes, #favoris, #mediatheque, #personnalisation, #placeit, #resid, #serial, #survey, #validation-address, #vote, #actu-agenda-no-interest, #une, #wi-aroundme {
       padding: 45px 20px;
       width: calc(100% - 40px); } }
   /* line 19, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-  .home-section div.buttons, #actu-agenda div.buttons, #alert-slider div.buttons, #bills div.buttons, #demandes div.buttons, #family-space div.buttons, #favoris div.buttons, #mediatheque div.buttons, #personnalisation div.buttons, #placeit div.buttons, #resid div.buttons, #serial div.buttons, #survey div.buttons, #validation-address div.buttons, #vote div.buttons, #actu-agenda-no-interest div.buttons, #une div.buttons, #wi-aroundme div.buttons {
+  .home-section div.buttons, #actu-agenda div.buttons, #alert-slider div.buttons, #bills div.buttons, #demandes div.buttons, #favoris div.buttons, #mediatheque div.buttons, #personnalisation div.buttons, #placeit div.buttons, #resid div.buttons, #serial div.buttons, #survey div.buttons, #validation-address div.buttons, #vote div.buttons, #actu-agenda-no-interest div.buttons, #une div.buttons, #wi-aroundme div.buttons {
     text-align: right;
     margin-bottom: -30px;
     width: 100%; }
     @media only screen and (max-width: 767px) {
       /* line 19, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-      .home-section div.buttons, #actu-agenda div.buttons, #alert-slider div.buttons, #bills div.buttons, #demandes div.buttons, #family-space div.buttons, #favoris div.buttons, #mediatheque div.buttons, #personnalisation div.buttons, #placeit div.buttons, #resid div.buttons, #serial div.buttons, #survey div.buttons, #validation-address div.buttons, #vote div.buttons, #actu-agenda-no-interest div.buttons, #une div.buttons, #wi-aroundme div.buttons {
+      .home-section div.buttons, #actu-agenda div.buttons, #alert-slider div.buttons, #bills div.buttons, #demandes div.buttons, #favoris div.buttons, #mediatheque div.buttons, #personnalisation div.buttons, #placeit div.buttons, #resid div.buttons, #serial div.buttons, #survey div.buttons, #validation-address div.buttons, #vote div.buttons, #actu-agenda-no-interest div.buttons, #une div.buttons, #wi-aroundme div.buttons {
         margin-bottom: 0;
         margin-top: -20px; } }
     /* line 29, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-    .home-section div.buttons button + button, #actu-agenda div.buttons button + button, #alert-slider div.buttons button + button, #bills div.buttons button + button, #demandes div.buttons button + button, #family-space div.buttons button + button, #favoris div.buttons button + button, #mediatheque div.buttons button + button, #personnalisation div.buttons button + button, #placeit div.buttons button + button, #resid div.buttons button + button, #serial div.buttons button + button, #survey div.buttons button + button, #validation-address div.buttons button + button, #vote div.buttons button + button, #actu-agenda-no-interest div.buttons button + button, #une div.buttons button + button, #wi-aroundme div.buttons button + button {
+    .home-section div.buttons button + button, #actu-agenda div.buttons button + button, #alert-slider div.buttons button + button, #bills div.buttons button + button, #demandes div.buttons button + button, #favoris div.buttons button + button, #mediatheque div.buttons button + button, #personnalisation div.buttons button + button, #placeit div.buttons button + button, #resid div.buttons button + button, #serial div.buttons button + button, #survey div.buttons button + button, #validation-address div.buttons button + button, #vote div.buttons button + button, #actu-agenda-no-interest div.buttons button + button, #une div.buttons button + button, #wi-aroundme div.buttons button + button {
       margin-left: 15px; }
     /* line 33, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-    .home-section div.buttons .delete-wi, #actu-agenda div.buttons .delete-wi, #alert-slider div.buttons .delete-wi, #bills div.buttons .delete-wi, #demandes div.buttons .delete-wi, #family-space div.buttons .delete-wi, #favoris div.buttons .delete-wi, #mediatheque div.buttons .delete-wi, #personnalisation div.buttons .delete-wi, #placeit div.buttons .delete-wi, #resid div.buttons .delete-wi, #serial div.buttons .delete-wi, #survey div.buttons .delete-wi, #validation-address div.buttons .delete-wi, #vote div.buttons .delete-wi, #actu-agenda-no-interest div.buttons .delete-wi, #une div.buttons .delete-wi, #wi-aroundme div.buttons .delete-wi, .home-section div.buttons .retractable-folded-wi, #actu-agenda div.buttons .retractable-folded-wi, #alert-slider div.buttons .retractable-folded-wi, #bills div.buttons .retractable-folded-wi, #demandes div.buttons .retractable-folded-wi, #family-space div.buttons .retractable-folded-wi, #favoris div.buttons .retractable-folded-wi, #mediatheque div.buttons .retractable-folded-wi, #personnalisation div.buttons .retractable-folded-wi, #placeit div.buttons .retractable-folded-wi, #resid div.buttons .retractable-folded-wi, #serial div.buttons .retractable-folded-wi, #survey div.buttons .retractable-folded-wi, #validation-address div.buttons .retractable-folded-wi, #vote div.buttons .retractable-folded-wi, #actu-agenda-no-interest div.buttons .retractable-folded-wi, #une div.buttons .retractable-folded-wi, #wi-aroundme div.buttons .retractable-folded-wi, .home-section div.buttons .retractable-unfolded-wi, #actu-agenda div.buttons .retractable-unfolded-wi, #alert-slider div.buttons .retractable-unfolded-wi, #bills div.buttons .retractable-unfolded-wi, #demandes div.buttons .retractable-unfolded-wi, #family-space div.buttons .retractable-unfolded-wi, #favoris div.buttons .retractable-unfolded-wi, #mediatheque div.buttons .retractable-unfolded-wi, #personnalisation div.buttons .retractable-unfolded-wi, #placeit div.buttons .retractable-unfolded-wi, #resid div.buttons .retractable-unfolded-wi, #serial div.buttons .retractable-unfolded-wi, #survey div.buttons .retractable-unfolded-wi, #validation-address div.buttons .retractable-unfolded-wi, #vote div.buttons .retractable-unfolded-wi, #actu-agenda-no-interest div.buttons .retractable-unfolded-wi, #une div.buttons .retractable-unfolded-wi, #wi-aroundme div.buttons .retractable-unfolded-wi {
+    .home-section div.buttons .delete-wi, #actu-agenda div.buttons .delete-wi, #alert-slider div.buttons .delete-wi, #bills div.buttons .delete-wi, #demandes div.buttons .delete-wi, #favoris div.buttons .delete-wi, #mediatheque div.buttons .delete-wi, #personnalisation div.buttons .delete-wi, #placeit div.buttons .delete-wi, #resid div.buttons .delete-wi, #serial div.buttons .delete-wi, #survey div.buttons .delete-wi, #validation-address div.buttons .delete-wi, #vote div.buttons .delete-wi, #actu-agenda-no-interest div.buttons .delete-wi, #une div.buttons .delete-wi, #wi-aroundme div.buttons .delete-wi, .home-section div.buttons .retractable-folded-wi, #actu-agenda div.buttons .retractable-folded-wi, #alert-slider div.buttons .retractable-folded-wi, #bills div.buttons .retractable-folded-wi, #demandes div.buttons .retractable-folded-wi, #favoris div.buttons .retractable-folded-wi, #mediatheque div.buttons .retractable-folded-wi, #personnalisation div.buttons .retractable-folded-wi, #placeit div.buttons .retractable-folded-wi, #resid div.buttons .retractable-folded-wi, #serial div.buttons .retractable-folded-wi, #survey div.buttons .retractable-folded-wi, #validation-address div.buttons .retractable-folded-wi, #vote div.buttons .retractable-folded-wi, #actu-agenda-no-interest div.buttons .retractable-folded-wi, #une div.buttons .retractable-folded-wi, #wi-aroundme div.buttons .retractable-folded-wi, .home-section div.buttons .retractable-unfolded-wi, #actu-agenda div.buttons .retractable-unfolded-wi, #alert-slider div.buttons .retractable-unfolded-wi, #bills div.buttons .retractable-unfolded-wi, #demandes div.buttons .retractable-unfolded-wi, #favoris div.buttons .retractable-unfolded-wi, #mediatheque div.buttons .retractable-unfolded-wi, #personnalisation div.buttons .retractable-unfolded-wi, #placeit div.buttons .retractable-unfolded-wi, #resid div.buttons .retractable-unfolded-wi, #serial div.buttons .retractable-unfolded-wi, #survey div.buttons .retractable-unfolded-wi, #validation-address div.buttons .retractable-unfolded-wi, #vote div.buttons .retractable-unfolded-wi, #actu-agenda-no-interest div.buttons .retractable-unfolded-wi, #une div.buttons .retractable-unfolded-wi, #wi-aroundme div.buttons .retractable-unfolded-wi {
       content: '';
       display: inline-block;
       width: 30px;
@@ -8150,34 +8150,34 @@ a {
       background-position: center right;
       background-repeat: no-repeat; }
       /* line 42, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-      .home-section div.buttons .delete-wi:focus, #actu-agenda div.buttons .delete-wi:focus, #alert-slider div.buttons .delete-wi:focus, #bills div.buttons .delete-wi:focus, #demandes div.buttons .delete-wi:focus, #family-space div.buttons .delete-wi:focus, #favoris div.buttons .delete-wi:focus, #mediatheque div.buttons .delete-wi:focus, #personnalisation div.buttons .delete-wi:focus, #placeit div.buttons .delete-wi:focus, #resid div.buttons .delete-wi:focus, #serial div.buttons .delete-wi:focus, #survey div.buttons .delete-wi:focus, #validation-address div.buttons .delete-wi:focus, #vote div.buttons .delete-wi:focus, #actu-agenda-no-interest div.buttons .delete-wi:focus, #une div.buttons .delete-wi:focus, #wi-aroundme div.buttons .delete-wi:focus, .home-section div.buttons .retractable-folded-wi:focus, #actu-agenda div.buttons .retractable-folded-wi:focus, #alert-slider div.buttons .retractable-folded-wi:focus, #bills div.buttons .retractable-folded-wi:focus, #demandes div.buttons .retractable-folded-wi:focus, #family-space div.buttons .retractable-folded-wi:focus, #favoris div.buttons .retractable-folded-wi:focus, #mediatheque div.buttons .retractable-folded-wi:focus, #personnalisation div.buttons .retractable-folded-wi:focus, #placeit div.buttons .retractable-folded-wi:focus, #resid div.buttons .retractable-folded-wi:focus, #serial div.buttons .retractable-folded-wi:focus, #survey div.buttons .retractable-folded-wi:focus, #validation-address div.buttons .retractable-folded-wi:focus, #vote div.buttons .retractable-folded-wi:focus, #actu-agenda-no-interest div.buttons .retractable-folded-wi:focus, #une div.buttons .retractable-folded-wi:focus, #wi-aroundme div.buttons .retractable-folded-wi:focus, .home-section div.buttons .retractable-unfolded-wi:focus, #actu-agenda div.buttons .retractable-unfolded-wi:focus, #alert-slider div.buttons .retractable-unfolded-wi:focus, #bills div.buttons .retractable-unfolded-wi:focus, #demandes div.buttons .retractable-unfolded-wi:focus, #family-space div.buttons .retractable-unfolded-wi:focus, #favoris div.buttons .retractable-unfolded-wi:focus, #mediatheque div.buttons .retractable-unfolded-wi:focus, #personnalisation div.buttons .retractable-unfolded-wi:focus, #placeit div.buttons .retractable-unfolded-wi:focus, #resid div.buttons .retractable-unfolded-wi:focus, #serial div.buttons .retractable-unfolded-wi:focus, #survey div.buttons .retractable-unfolded-wi:focus, #validation-address div.buttons .retractable-unfolded-wi:focus, #vote div.buttons .retractable-unfolded-wi:focus, #actu-agenda-no-interest div.buttons .retractable-unfolded-wi:focus, #une div.buttons .retractable-unfolded-wi:focus, #wi-aroundme div.buttons .retractable-unfolded-wi:focus {
+      .home-section div.buttons .delete-wi:focus, #actu-agenda div.buttons .delete-wi:focus, #alert-slider div.buttons .delete-wi:focus, #bills div.buttons .delete-wi:focus, #demandes div.buttons .delete-wi:focus, #favoris div.buttons .delete-wi:focus, #mediatheque div.buttons .delete-wi:focus, #personnalisation div.buttons .delete-wi:focus, #placeit div.buttons .delete-wi:focus, #resid div.buttons .delete-wi:focus, #serial div.buttons .delete-wi:focus, #survey div.buttons .delete-wi:focus, #validation-address div.buttons .delete-wi:focus, #vote div.buttons .delete-wi:focus, #actu-agenda-no-interest div.buttons .delete-wi:focus, #une div.buttons .delete-wi:focus, #wi-aroundme div.buttons .delete-wi:focus, .home-section div.buttons .retractable-folded-wi:focus, #actu-agenda div.buttons .retractable-folded-wi:focus, #alert-slider div.buttons .retractable-folded-wi:focus, #bills div.buttons .retractable-folded-wi:focus, #demandes div.buttons .retractable-folded-wi:focus, #favoris div.buttons .retractable-folded-wi:focus, #mediatheque div.buttons .retractable-folded-wi:focus, #personnalisation div.buttons .retractable-folded-wi:focus, #placeit div.buttons .retractable-folded-wi:focus, #resid div.buttons .retractable-folded-wi:focus, #serial div.buttons .retractable-folded-wi:focus, #survey div.buttons .retractable-folded-wi:focus, #validation-address div.buttons .retractable-folded-wi:focus, #vote div.buttons .retractable-folded-wi:focus, #actu-agenda-no-interest div.buttons .retractable-folded-wi:focus, #une div.buttons .retractable-folded-wi:focus, #wi-aroundme div.buttons .retractable-folded-wi:focus, .home-section div.buttons .retractable-unfolded-wi:focus, #actu-agenda div.buttons .retractable-unfolded-wi:focus, #alert-slider div.buttons .retractable-unfolded-wi:focus, #bills div.buttons .retractable-unfolded-wi:focus, #demandes div.buttons .retractable-unfolded-wi:focus, #favoris div.buttons .retractable-unfolded-wi:focus, #mediatheque div.buttons .retractable-unfolded-wi:focus, #personnalisation div.buttons .retractable-unfolded-wi:focus, #placeit div.buttons .retractable-unfolded-wi:focus, #resid div.buttons .retractable-unfolded-wi:focus, #serial div.buttons .retractable-unfolded-wi:focus, #survey div.buttons .retractable-unfolded-wi:focus, #validation-address div.buttons .retractable-unfolded-wi:focus, #vote div.buttons .retractable-unfolded-wi:focus, #actu-agenda-no-interest div.buttons .retractable-unfolded-wi:focus, #une div.buttons .retractable-unfolded-wi:focus, #wi-aroundme div.buttons .retractable-unfolded-wi:focus {
         outline: none; }
     /* line 47, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-    .home-section div.buttons .delete-wi, #actu-agenda div.buttons .delete-wi, #alert-slider div.buttons .delete-wi, #bills div.buttons .delete-wi, #demandes div.buttons .delete-wi, #family-space div.buttons .delete-wi, #favoris div.buttons .delete-wi, #mediatheque div.buttons .delete-wi, #personnalisation div.buttons .delete-wi, #placeit div.buttons .delete-wi, #resid div.buttons .delete-wi, #serial div.buttons .delete-wi, #survey div.buttons .delete-wi, #validation-address div.buttons .delete-wi, #vote div.buttons .delete-wi, #actu-agenda-no-interest div.buttons .delete-wi, #une div.buttons .delete-wi, #wi-aroundme div.buttons .delete-wi {
+    .home-section div.buttons .delete-wi, #actu-agenda div.buttons .delete-wi, #alert-slider div.buttons .delete-wi, #bills div.buttons .delete-wi, #demandes div.buttons .delete-wi, #favoris div.buttons .delete-wi, #mediatheque div.buttons .delete-wi, #personnalisation div.buttons .delete-wi, #placeit div.buttons .delete-wi, #resid div.buttons .delete-wi, #serial div.buttons .delete-wi, #survey div.buttons .delete-wi, #validation-address div.buttons .delete-wi, #vote div.buttons .delete-wi, #actu-agenda-no-interest div.buttons .delete-wi, #une div.buttons .delete-wi, #wi-aroundme div.buttons .delete-wi {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='red' viewBox='0 0 511.8 511.8'%3E%3Cpath d='M436.9 74.9c-99.8-99.8-262.2-99.8-362 0 -99.8 99.8-99.8 262.2 0 362 49.9 49.9 115.5 74.8 181 74.8s131.1-24.9 181-74.8C536.7 337.1 536.7 174.7 436.9 74.9zM361.5 331.3c8.3 8.3 8.3 21.8 0 30.2 -4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3L255.9 286l-75.4 75.4c-4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3 -8.3-8.3-8.3-21.8 0-30.2l75.4-75.4 -75.4-75.4c-8.3-8.3-8.3-21.8 0-30.2 8.3-8.3 21.8-8.3 30.2 0l75.4 75.4 75.4-75.4c8.3-8.3 21.8-8.3 30.2 0 8.3 8.3 8.3 21.8 0 30.2L286 255.9 361.5 331.3z' id='path825' /%3E%3Cpath style='fill:white;' d='m 158.4228,366.81829 c -8.46662,-3.02163 -13.71558,-9.81138 -14.4613,-18.70627 -0.3905,-4.65788 0.78999,-9.69401 3.11365,-13.28322 0.77942,-1.20392 18.66252,-19.41002 39.74024,-40.45801 l 38.32311,-38.26906 -38.78802,-38.89278 c -44.44835,-44.56838 -42.22829,-41.84421 -42.25791,-51.85355 -0.0152,-5.12655 0.16751,-6.10255 1.74282,-9.31098 2.23728,-4.55664 5.77296,-8.09231 10.3296,-10.32959 3.1541,-1.54864 4.23506,-1.75978 9.00956,-1.75978 4.84238,0 5.85881,0.2053 9.45785,1.91035 3.72297,1.76376 7.00737,4.87387 42.80071,40.52946 l 38.7683,38.61911 39.48516,-39.42677 39.48515,-39.42677 4.44459,-1.33462 c 10.78921,-3.23978 21.45248,1.22469 26.22528,10.97993 3.06168,6.25785 2.66106,14.8506 -0.97925,21.00337 -0.68657,1.16044 -18.56355,19.47509 -39.72661,40.69921 l -38.47829,38.5893 38.84762,38.84412 c 44.40322,44.39922 42.23067,41.74497 42.20529,51.56313 -0.0118,4.56407 -0.26401,5.96332 -1.58855,8.81333 -2.12673,4.57608 -5.15958,7.78019 -9.68937,10.23654 -3.58071,1.94169 -4.09464,2.04907 -9.807,2.04907 -10.45623,0 -7.44395,2.43706 -51.98949,-42.0618 l -38.72731,-38.68672 -38.73594,38.62911 c -43.63211,43.51177 -41.65833,41.86793 -50.72723,42.24788 -3.6442,0.15268 -5.68548,-0.0799 -8.02266,-0.91399 z' id='path847' /%3E%3C/svg%3E"); }
       /* line 50, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-      .home-section div.buttons .delete-wi:hover, #actu-agenda div.buttons .delete-wi:hover, #alert-slider div.buttons .delete-wi:hover, #bills div.buttons .delete-wi:hover, #demandes div.buttons .delete-wi:hover, #family-space div.buttons .delete-wi:hover, #favoris div.buttons .delete-wi:hover, #mediatheque div.buttons .delete-wi:hover, #personnalisation div.buttons .delete-wi:hover, #placeit div.buttons .delete-wi:hover, #resid div.buttons .delete-wi:hover, #serial div.buttons .delete-wi:hover, #survey div.buttons .delete-wi:hover, #validation-address div.buttons .delete-wi:hover, #vote div.buttons .delete-wi:hover, #actu-agenda-no-interest div.buttons .delete-wi:hover, #une div.buttons .delete-wi:hover, #wi-aroundme div.buttons .delete-wi:hover, .home-section div.buttons .delete-wi:focus, #actu-agenda div.buttons .delete-wi:focus, #alert-slider div.buttons .delete-wi:focus, #bills div.buttons .delete-wi:focus, #demandes div.buttons .delete-wi:focus, #family-space div.buttons .delete-wi:focus, #favoris div.buttons .delete-wi:focus, #mediatheque div.buttons .delete-wi:focus, #personnalisation div.buttons .delete-wi:focus, #placeit div.buttons .delete-wi:focus, #resid div.buttons .delete-wi:focus, #serial div.buttons .delete-wi:focus, #survey div.buttons .delete-wi:focus, #validation-address div.buttons .delete-wi:focus, #vote div.buttons .delete-wi:focus, #actu-agenda-no-interest div.buttons .delete-wi:focus, #une div.buttons .delete-wi:focus, #wi-aroundme div.buttons .delete-wi:focus {
+      .home-section div.buttons .delete-wi:hover, #actu-agenda div.buttons .delete-wi:hover, #alert-slider div.buttons .delete-wi:hover, #bills div.buttons .delete-wi:hover, #demandes div.buttons .delete-wi:hover, #favoris div.buttons .delete-wi:hover, #mediatheque div.buttons .delete-wi:hover, #personnalisation div.buttons .delete-wi:hover, #placeit div.buttons .delete-wi:hover, #resid div.buttons .delete-wi:hover, #serial div.buttons .delete-wi:hover, #survey div.buttons .delete-wi:hover, #validation-address div.buttons .delete-wi:hover, #vote div.buttons .delete-wi:hover, #actu-agenda-no-interest div.buttons .delete-wi:hover, #une div.buttons .delete-wi:hover, #wi-aroundme div.buttons .delete-wi:hover, .home-section div.buttons .delete-wi:focus, #actu-agenda div.buttons .delete-wi:focus, #alert-slider div.buttons .delete-wi:focus, #bills div.buttons .delete-wi:focus, #demandes div.buttons .delete-wi:focus, #favoris div.buttons .delete-wi:focus, #mediatheque div.buttons .delete-wi:focus, #personnalisation div.buttons .delete-wi:focus, #placeit div.buttons .delete-wi:focus, #resid div.buttons .delete-wi:focus, #serial div.buttons .delete-wi:focus, #survey div.buttons .delete-wi:focus, #validation-address div.buttons .delete-wi:focus, #vote div.buttons .delete-wi:focus, #actu-agenda-no-interest div.buttons .delete-wi:focus, #une div.buttons .delete-wi:focus, #wi-aroundme div.buttons .delete-wi:focus {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 511.8 511.8'%3E%3Cpath d='M436.9 74.9c-99.8-99.8-262.2-99.8-362 0 -99.8 99.8-99.8 262.2 0 362 49.9 49.9 115.5 74.8 181 74.8s131.1-24.9 181-74.8C536.7 337.1 536.7 174.7 436.9 74.9zM361.5 331.3c8.3 8.3 8.3 21.8 0 30.2 -4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3L255.9 286l-75.4 75.4c-4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3 -8.3-8.3-8.3-21.8 0-30.2l75.4-75.4 -75.4-75.4c-8.3-8.3-8.3-21.8 0-30.2 8.3-8.3 21.8-8.3 30.2 0l75.4 75.4 75.4-75.4c8.3-8.3 21.8-8.3 30.2 0 8.3 8.3 8.3 21.8 0 30.2L286 255.9 361.5 331.3z' id='path825' /%3E%3Cpath style='fill:white;' d='m 158.4228,366.81829 c -8.46662,-3.02163 -13.71558,-9.81138 -14.4613,-18.70627 -0.3905,-4.65788 0.78999,-9.69401 3.11365,-13.28322 0.77942,-1.20392 18.66252,-19.41002 39.74024,-40.45801 l 38.32311,-38.26906 -38.78802,-38.89278 c -44.44835,-44.56838 -42.22829,-41.84421 -42.25791,-51.85355 -0.0152,-5.12655 0.16751,-6.10255 1.74282,-9.31098 2.23728,-4.55664 5.77296,-8.09231 10.3296,-10.32959 3.1541,-1.54864 4.23506,-1.75978 9.00956,-1.75978 4.84238,0 5.85881,0.2053 9.45785,1.91035 3.72297,1.76376 7.00737,4.87387 42.80071,40.52946 l 38.7683,38.61911 39.48516,-39.42677 39.48515,-39.42677 4.44459,-1.33462 c 10.78921,-3.23978 21.45248,1.22469 26.22528,10.97993 3.06168,6.25785 2.66106,14.8506 -0.97925,21.00337 -0.68657,1.16044 -18.56355,19.47509 -39.72661,40.69921 l -38.47829,38.5893 38.84762,38.84412 c 44.40322,44.39922 42.23067,41.74497 42.20529,51.56313 -0.0118,4.56407 -0.26401,5.96332 -1.58855,8.81333 -2.12673,4.57608 -5.15958,7.78019 -9.68937,10.23654 -3.58071,1.94169 -4.09464,2.04907 -9.807,2.04907 -10.45623,0 -7.44395,2.43706 -51.98949,-42.0618 l -38.72731,-38.68672 -38.73594,38.62911 c -43.63211,43.51177 -41.65833,41.86793 -50.72723,42.24788 -3.6442,0.15268 -5.68548,-0.0799 -8.02266,-0.91399 z' id='path847' /%3E%3C/svg%3E"); }
     /* line 55, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-    .home-section div.buttons .retractable-folded-wi, #actu-agenda div.buttons .retractable-folded-wi, #alert-slider div.buttons .retractable-folded-wi, #bills div.buttons .retractable-folded-wi, #demandes div.buttons .retractable-folded-wi, #family-space div.buttons .retractable-folded-wi, #favoris div.buttons .retractable-folded-wi, #mediatheque div.buttons .retractable-folded-wi, #personnalisation div.buttons .retractable-folded-wi, #placeit div.buttons .retractable-folded-wi, #resid div.buttons .retractable-folded-wi, #serial div.buttons .retractable-folded-wi, #survey div.buttons .retractable-folded-wi, #validation-address div.buttons .retractable-folded-wi, #vote div.buttons .retractable-folded-wi, #actu-agenda-no-interest div.buttons .retractable-folded-wi, #une div.buttons .retractable-folded-wi, #wi-aroundme div.buttons .retractable-folded-wi {
+    .home-section div.buttons .retractable-folded-wi, #actu-agenda div.buttons .retractable-folded-wi, #alert-slider div.buttons .retractable-folded-wi, #bills div.buttons .retractable-folded-wi, #demandes div.buttons .retractable-folded-wi, #favoris div.buttons .retractable-folded-wi, #mediatheque div.buttons .retractable-folded-wi, #personnalisation div.buttons .retractable-folded-wi, #placeit div.buttons .retractable-folded-wi, #resid div.buttons .retractable-folded-wi, #serial div.buttons .retractable-folded-wi, #survey div.buttons .retractable-folded-wi, #validation-address div.buttons .retractable-folded-wi, #vote div.buttons .retractable-folded-wi, #actu-agenda-no-interest div.buttons .retractable-folded-wi, #une div.buttons .retractable-folded-wi, #wi-aroundme div.buttons .retractable-folded-wi {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%235c5c5c' viewBox='0 0 320 320'%3E%3Cpath d='M160 0C71.8 0 0 71.8 0 160s71.8 160 160 160C248.2 320 320 248.2 320 160S248.2 0 160 0L160 0zM160 299c-76.7 0-139-62.4-139-139S83.3 21 160 21c76.7 0 139 62.4 139 139S236.7 299 160 299L160 299zM160 299'/%3E%3Cpath d='M223.6 149.5h-53.1V96.4c0-5.8-4.7-10.5-10.5-10.5 -5.8 0-10.5 4.7-10.5 10.5v53.1h-53.1c-5.8 0-10.5 4.7-10.5 10.5 0 5.8 4.7 10.5 10.5 10.5h53.1v53.1c0 5.8 4.7 10.5 10.5 10.5 5.8 0 10.5-4.7 10.5-10.5v-53.1h53.1c5.8 0 10.5-4.7 10.5-10.5S229.4 149.5 223.6 149.5L223.6 149.5zM223.6 149.5'/%3E%3C/svg%3E"); }
       /* line 58, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-      .home-section div.buttons .retractable-folded-wi:hover, #actu-agenda div.buttons .retractable-folded-wi:hover, #alert-slider div.buttons .retractable-folded-wi:hover, #bills div.buttons .retractable-folded-wi:hover, #demandes div.buttons .retractable-folded-wi:hover, #family-space div.buttons .retractable-folded-wi:hover, #favoris div.buttons .retractable-folded-wi:hover, #mediatheque div.buttons .retractable-folded-wi:hover, #personnalisation div.buttons .retractable-folded-wi:hover, #placeit div.buttons .retractable-folded-wi:hover, #resid div.buttons .retractable-folded-wi:hover, #serial div.buttons .retractable-folded-wi:hover, #survey div.buttons .retractable-folded-wi:hover, #validation-address div.buttons .retractable-folded-wi:hover, #vote div.buttons .retractable-folded-wi:hover, #actu-agenda-no-interest div.buttons .retractable-folded-wi:hover, #une div.buttons .retractable-folded-wi:hover, #wi-aroundme div.buttons .retractable-folded-wi:hover, .home-section div.buttons .retractable-folded-wi:focus, #actu-agenda div.buttons .retractable-folded-wi:focus, #alert-slider div.buttons .retractable-folded-wi:focus, #bills div.buttons .retractable-folded-wi:focus, #demandes div.buttons .retractable-folded-wi:focus, #family-space div.buttons .retractable-folded-wi:focus, #favoris div.buttons .retractable-folded-wi:focus, #mediatheque div.buttons .retractable-folded-wi:focus, #personnalisation div.buttons .retractable-folded-wi:focus, #placeit div.buttons .retractable-folded-wi:focus, #resid div.buttons .retractable-folded-wi:focus, #serial div.buttons .retractable-folded-wi:focus, #survey div.buttons .retractable-folded-wi:focus, #validation-address div.buttons .retractable-folded-wi:focus, #vote div.buttons .retractable-folded-wi:focus, #actu-agenda-no-interest div.buttons .retractable-folded-wi:focus, #une div.buttons .retractable-folded-wi:focus, #wi-aroundme div.buttons .retractable-folded-wi:focus {
+      .home-section div.buttons .retractable-folded-wi:hover, #actu-agenda div.buttons .retractable-folded-wi:hover, #alert-slider div.buttons .retractable-folded-wi:hover, #bills div.buttons .retractable-folded-wi:hover, #demandes div.buttons .retractable-folded-wi:hover, #favoris div.buttons .retractable-folded-wi:hover, #mediatheque div.buttons .retractable-folded-wi:hover, #personnalisation div.buttons .retractable-folded-wi:hover, #placeit div.buttons .retractable-folded-wi:hover, #resid div.buttons .retractable-folded-wi:hover, #serial div.buttons .retractable-folded-wi:hover, #survey div.buttons .retractable-folded-wi:hover, #validation-address div.buttons .retractable-folded-wi:hover, #vote div.buttons .retractable-folded-wi:hover, #actu-agenda-no-interest div.buttons .retractable-folded-wi:hover, #une div.buttons .retractable-folded-wi:hover, #wi-aroundme div.buttons .retractable-folded-wi:hover, .home-section div.buttons .retractable-folded-wi:focus, #actu-agenda div.buttons .retractable-folded-wi:focus, #alert-slider div.buttons .retractable-folded-wi:focus, #bills div.buttons .retractable-folded-wi:focus, #demandes div.buttons .retractable-folded-wi:focus, #favoris div.buttons .retractable-folded-wi:focus, #mediatheque div.buttons .retractable-folded-wi:focus, #personnalisation div.buttons .retractable-folded-wi:focus, #placeit div.buttons .retractable-folded-wi:focus, #resid div.buttons .retractable-folded-wi:focus, #serial div.buttons .retractable-folded-wi:focus, #survey div.buttons .retractable-folded-wi:focus, #validation-address div.buttons .retractable-folded-wi:focus, #vote div.buttons .retractable-folded-wi:focus, #actu-agenda-no-interest div.buttons .retractable-folded-wi:focus, #une div.buttons .retractable-folded-wi:focus, #wi-aroundme div.buttons .retractable-folded-wi:focus {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 320 320'%3E%3Cpath d='M160 0C71.8 0 0 71.8 0 160s71.8 160 160 160C248.2 320 320 248.2 320 160S248.2 0 160 0L160 0zM160 299c-76.7 0-139-62.4-139-139S83.3 21 160 21c76.7 0 139 62.4 139 139S236.7 299 160 299L160 299zM160 299'/%3E%3Cpath d='M223.6 149.5h-53.1V96.4c0-5.8-4.7-10.5-10.5-10.5 -5.8 0-10.5 4.7-10.5 10.5v53.1h-53.1c-5.8 0-10.5 4.7-10.5 10.5 0 5.8 4.7 10.5 10.5 10.5h53.1v53.1c0 5.8 4.7 10.5 10.5 10.5 5.8 0 10.5-4.7 10.5-10.5v-53.1h53.1c5.8 0 10.5-4.7 10.5-10.5S229.4 149.5 223.6 149.5L223.6 149.5zM223.6 149.5'/%3E%3C/svg%3E"); }
     /* line 63, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-    .home-section div.buttons .retractable-unfolded-wi, #actu-agenda div.buttons .retractable-unfolded-wi, #alert-slider div.buttons .retractable-unfolded-wi, #bills div.buttons .retractable-unfolded-wi, #demandes div.buttons .retractable-unfolded-wi, #family-space div.buttons .retractable-unfolded-wi, #favoris div.buttons .retractable-unfolded-wi, #mediatheque div.buttons .retractable-unfolded-wi, #personnalisation div.buttons .retractable-unfolded-wi, #placeit div.buttons .retractable-unfolded-wi, #resid div.buttons .retractable-unfolded-wi, #serial div.buttons .retractable-unfolded-wi, #survey div.buttons .retractable-unfolded-wi, #validation-address div.buttons .retractable-unfolded-wi, #vote div.buttons .retractable-unfolded-wi, #actu-agenda-no-interest div.buttons .retractable-unfolded-wi, #une div.buttons .retractable-unfolded-wi, #wi-aroundme div.buttons .retractable-unfolded-wi {
+    .home-section div.buttons .retractable-unfolded-wi, #actu-agenda div.buttons .retractable-unfolded-wi, #alert-slider div.buttons .retractable-unfolded-wi, #bills div.buttons .retractable-unfolded-wi, #demandes div.buttons .retractable-unfolded-wi, #favoris div.buttons .retractable-unfolded-wi, #mediatheque div.buttons .retractable-unfolded-wi, #personnalisation div.buttons .retractable-unfolded-wi, #placeit div.buttons .retractable-unfolded-wi, #resid div.buttons .retractable-unfolded-wi, #serial div.buttons .retractable-unfolded-wi, #survey div.buttons .retractable-unfolded-wi, #validation-address div.buttons .retractable-unfolded-wi, #vote div.buttons .retractable-unfolded-wi, #actu-agenda-no-interest div.buttons .retractable-unfolded-wi, #une div.buttons .retractable-unfolded-wi, #wi-aroundme div.buttons .retractable-unfolded-wi {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%235c5c5c' width='320' height='320'%3E%3Ctitle%3E  background%3C/title%3E%3Crect height='402' width='582' y='-1' x='-1' fill='none'/%3E%3Ctitle%3E  Layer 1%3C/title%3E%3Cpath d='m160 0c-88.2 0-160 71.8-160 160s71.8 160 160 160c88.2 0 160-71.8 160-160s-71.8-160-160-160l0 0zm0 299c-76.7 0-139-62.4-139-139s62.3-139 139-139c76.7 0 139 62.4 139 139s-62.3 139-139 139l0 0zm0 0'/%3E%3Cpath d='m170.5 149.5l-21 0 -53.1 0c-5.8 0-10.5 4.7-10.5 10.5 0 5.8 4.7 10.5 10.5 10.5l53.1 0 21 0 53.1 0c5.8 0 10.5-4.7 10.5-10.5s-4.7-10.5-10.5-10.5l-53.1 0z'/%3E%3C/svg%3E"); }
       /* line 66, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-      .home-section div.buttons .retractable-unfolded-wi:hover, #actu-agenda div.buttons .retractable-unfolded-wi:hover, #alert-slider div.buttons .retractable-unfolded-wi:hover, #bills div.buttons .retractable-unfolded-wi:hover, #demandes div.buttons .retractable-unfolded-wi:hover, #family-space div.buttons .retractable-unfolded-wi:hover, #favoris div.buttons .retractable-unfolded-wi:hover, #mediatheque div.buttons .retractable-unfolded-wi:hover, #personnalisation div.buttons .retractable-unfolded-wi:hover, #placeit div.buttons .retractable-unfolded-wi:hover, #resid div.buttons .retractable-unfolded-wi:hover, #serial div.buttons .retractable-unfolded-wi:hover, #survey div.buttons .retractable-unfolded-wi:hover, #validation-address div.buttons .retractable-unfolded-wi:hover, #vote div.buttons .retractable-unfolded-wi:hover, #actu-agenda-no-interest div.buttons .retractable-unfolded-wi:hover, #une div.buttons .retractable-unfolded-wi:hover, #wi-aroundme div.buttons .retractable-unfolded-wi:hover, .home-section div.buttons .retractable-unfolded-wi:focus, #actu-agenda div.buttons .retractable-unfolded-wi:focus, #alert-slider div.buttons .retractable-unfolded-wi:focus, #bills div.buttons .retractable-unfolded-wi:focus, #demandes div.buttons .retractable-unfolded-wi:focus, #family-space div.buttons .retractable-unfolded-wi:focus, #favoris div.buttons .retractable-unfolded-wi:focus, #mediatheque div.buttons .retractable-unfolded-wi:focus, #personnalisation div.buttons .retractable-unfolded-wi:focus, #placeit div.buttons .retractable-unfolded-wi:focus, #resid div.buttons .retractable-unfolded-wi:focus, #serial div.buttons .retractable-unfolded-wi:focus, #survey div.buttons .retractable-unfolded-wi:focus, #validation-address div.buttons .retractable-unfolded-wi:focus, #vote div.buttons .retractable-unfolded-wi:focus, #actu-agenda-no-interest div.buttons .retractable-unfolded-wi:focus, #une div.buttons .retractable-unfolded-wi:focus, #wi-aroundme div.buttons .retractable-unfolded-wi:focus {
+      .home-section div.buttons .retractable-unfolded-wi:hover, #actu-agenda div.buttons .retractable-unfolded-wi:hover, #alert-slider div.buttons .retractable-unfolded-wi:hover, #bills div.buttons .retractable-unfolded-wi:hover, #demandes div.buttons .retractable-unfolded-wi:hover, #favoris div.buttons .retractable-unfolded-wi:hover, #mediatheque div.buttons .retractable-unfolded-wi:hover, #personnalisation div.buttons .retractable-unfolded-wi:hover, #placeit div.buttons .retractable-unfolded-wi:hover, #resid div.buttons .retractable-unfolded-wi:hover, #serial div.buttons .retractable-unfolded-wi:hover, #survey div.buttons .retractable-unfolded-wi:hover, #validation-address div.buttons .retractable-unfolded-wi:hover, #vote div.buttons .retractable-unfolded-wi:hover, #actu-agenda-no-interest div.buttons .retractable-unfolded-wi:hover, #une div.buttons .retractable-unfolded-wi:hover, #wi-aroundme div.buttons .retractable-unfolded-wi:hover, .home-section div.buttons .retractable-unfolded-wi:focus, #actu-agenda div.buttons .retractable-unfolded-wi:focus, #alert-slider div.buttons .retractable-unfolded-wi:focus, #bills div.buttons .retractable-unfolded-wi:focus, #demandes div.buttons .retractable-unfolded-wi:focus, #favoris div.buttons .retractable-unfolded-wi:focus, #mediatheque div.buttons .retractable-unfolded-wi:focus, #personnalisation div.buttons .retractable-unfolded-wi:focus, #placeit div.buttons .retractable-unfolded-wi:focus, #resid div.buttons .retractable-unfolded-wi:focus, #serial div.buttons .retractable-unfolded-wi:focus, #survey div.buttons .retractable-unfolded-wi:focus, #validation-address div.buttons .retractable-unfolded-wi:focus, #vote div.buttons .retractable-unfolded-wi:focus, #actu-agenda-no-interest div.buttons .retractable-unfolded-wi:focus, #une div.buttons .retractable-unfolded-wi:focus, #wi-aroundme div.buttons .retractable-unfolded-wi:focus {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' width='320' height='320'%3E%3Ctitle%3E  background%3C/title%3E%3Crect height='402' width='582' y='-1' x='-1' fill='none'/%3E%3Ctitle%3E  Layer 1%3C/title%3E%3Cpath d='m160 0c-88.2 0-160 71.8-160 160s71.8 160 160 160c88.2 0 160-71.8 160-160s-71.8-160-160-160l0 0zm0 299c-76.7 0-139-62.4-139-139s62.3-139 139-139c76.7 0 139 62.4 139 139s-62.3 139-139 139l0 0zm0 0'/%3E%3Cpath d='m170.5 149.5l-21 0 -53.1 0c-5.8 0-10.5 4.7-10.5 10.5 0 5.8 4.7 10.5 10.5 10.5l53.1 0 21 0 53.1 0c5.8 0 10.5-4.7 10.5-10.5s-4.7-10.5-10.5-10.5l-53.1 0z'/%3E%3C/svg%3E"); }
   /* line 72, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-  .home-section h2, #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #family-space h2, #favoris h2, #mediatheque h2, #personnalisation h2, #placeit h2, #resid h2, #serial h2, #survey h2, #validation-address h2, #vote h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2 {
+  .home-section h2, #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #favoris h2, #mediatheque h2, #personnalisation h2, #placeit h2, #resid h2, #serial h2, #survey h2, #validation-address h2, #vote h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2 {
     color: #31455d;
     width: 100%;
     text-align: center;
     margin-bottom: 25px; }
     /* line 79, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-    .home-section h2:before, #actu-agenda h2:before, #alert-slider h2:before, #bills h2:before, #demandes h2:before, #family-space h2:before, #favoris h2:before, #mediatheque h2:before, #personnalisation h2:before, #placeit h2:before, #resid h2:before, #serial h2:before, #survey h2:before, #validation-address h2:before, #vote h2:before, #actu-agenda-no-interest h2:before, #une h2:before, #wi-aroundme h2:before {
+    .home-section h2:before, #actu-agenda h2:before, #alert-slider h2:before, #bills h2:before, #demandes h2:before, #favoris h2:before, #mediatheque h2:before, #personnalisation h2:before, #placeit h2:before, #resid h2:before, #serial h2:before, #survey h2:before, #validation-address h2:before, #vote h2:before, #actu-agenda-no-interest h2:before, #une h2:before, #wi-aroundme h2:before {
       display: block;
       content: '';
       width: 53px;
@@ -8190,15 +8190,15 @@ a {
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23dddddd' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E"); }
       @media only screen and (max-width: 767px) {
         /* line 79, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-        .home-section h2:before, #actu-agenda h2:before, #alert-slider h2:before, #bills h2:before, #demandes h2:before, #family-space h2:before, #favoris h2:before, #mediatheque h2:before, #personnalisation h2:before, #placeit h2:before, #resid h2:before, #serial h2:before, #survey h2:before, #validation-address h2:before, #vote h2:before, #actu-agenda-no-interest h2:before, #une h2:before, #wi-aroundme h2:before {
+        .home-section h2:before, #actu-agenda h2:before, #alert-slider h2:before, #bills h2:before, #demandes h2:before, #favoris h2:before, #mediatheque h2:before, #personnalisation h2:before, #placeit h2:before, #resid h2:before, #serial h2:before, #survey h2:before, #validation-address h2:before, #vote h2:before, #actu-agenda-no-interest h2:before, #une h2:before, #wi-aroundme h2:before {
           width: 43px;
           height: 15px; } }
     @media only screen and (max-width: 767px) {
       /* line 72, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-      .home-section h2, #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #family-space h2, #favoris h2, #mediatheque h2, #personnalisation h2, #placeit h2, #resid h2, #serial h2, #survey h2, #validation-address h2, #vote h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2 {
+      .home-section h2, #actu-agenda h2, #alert-slider h2, #bills h2, #demandes h2, #favoris h2, #mediatheque h2, #personnalisation h2, #placeit h2, #resid h2, #serial h2, #survey h2, #validation-address h2, #vote h2, #actu-agenda-no-interest h2, #une h2, #wi-aroundme h2 {
         font-size: 2.5rem; }
         /* line 98, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
-        .home-section h2:before, #actu-agenda h2:before, #alert-slider h2:before, #bills h2:before, #demandes h2:before, #family-space h2:before, #favoris h2:before, #mediatheque h2:before, #personnalisation h2:before, #placeit h2:before, #resid h2:before, #serial h2:before, #survey h2:before, #validation-address h2:before, #vote h2:before, #actu-agenda-no-interest h2:before, #une h2:before, #wi-aroundme h2:before {
+        .home-section h2:before, #actu-agenda h2:before, #alert-slider h2:before, #bills h2:before, #demandes h2:before, #favoris h2:before, #mediatheque h2:before, #personnalisation h2:before, #placeit h2:before, #resid h2:before, #serial h2:before, #survey h2:before, #validation-address h2:before, #vote h2:before, #actu-agenda-no-interest h2:before, #une h2:before, #wi-aroundme h2:before {
           margin-bottom: 5px; } }
 
 /* line 105, custom/02-particules/02-modules/home/0-shared/_molecule-home-section.scss */
@@ -9534,32 +9534,32 @@ a {
   margin-left: 40px; }
 
 /* line 4, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
-.not-front .hat strong, .not-front .rte strong, .page-offre strong, #rub_service strong, .mseu-main-form strong, .not-front .hat b, .not-front .rte b, .page-offre b, #rub_service b, .mseu-main-form b {
+.not-front .hat strong, .not-front .rte strong, #rub_service strong, .mseu-main-form strong, .not-front .hat b, .not-front .rte b, #rub_service b, .mseu-main-form b {
   font-weight: 600;
   color: #505050; }
 
 /* line 8, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
-.not-front .hat em, .not-front .rte em, .page-offre em, #rub_service em, .mseu-main-form em {
+.not-front .hat em, .not-front .rte em, #rub_service em, .mseu-main-form em {
   font-style: italic;
   color: #505050; }
 
 /* line 12, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
-.not-front .hat sup, .not-front .rte sup, .page-offre sup, #rub_service sup, .mseu-main-form sup {
+.not-front .hat sup, .not-front .rte sup, #rub_service sup, .mseu-main-form sup {
   font-size: smaller;
   line-height: normal; }
 
 /* line 17, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
-.not-front .hat sub, .not-front .rte sub, .page-offre sub, #rub_service sub, .mseu-main-form sub {
+.not-front .hat sub, .not-front .rte sub, #rub_service sub, .mseu-main-form sub {
   vertical-align: sub;
   font-size: smaller;
   line-height: normal; }
 
 /* line 25, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
-.not-front .hat a.btn-square--filled--second, .not-front .rte a.btn-square--filled--second, .page-offre a.btn-square--filled--second, #rub_service a.btn-square--filled--second, .mseu-main-form a.btn-square--filled--second {
+.not-front .hat a.btn-square--filled--second, .not-front .rte a.btn-square--filled--second, #rub_service a.btn-square--filled--second, .mseu-main-form a.btn-square--filled--second {
   text-decoration: none; }
 
 /* line 29, custom/02-particules/02-modules/rte/_molecule-rte-inlines.scss */
-.not-front .hat a.external:not(.wi-link-group):after, .not-front .rte a.external:not(.wi-link-group):after, .page-offre a.external:not(.wi-link-group):after, #rub_service a.external:not(.wi-link-group):after, .mseu-main-form a.external:not(.wi-link-group):after {
+.not-front .hat a.external:not(.wi-link-group):after, .not-front .rte a.external:not(.wi-link-group):after, #rub_service a.external:not(.wi-link-group):after, .mseu-main-form a.external:not(.wi-link-group):after {
   content: '';
   display: inline-block;
   width: 10px;
@@ -10593,114 +10593,6 @@ a {
     color: #505050;
     font-size: 18px;
     margin-bottom: 15px; }
-
-/* line 4, custom/02-particules/02-modules/home/family-space/_organism-family-space.scss */
-#family-space h2:before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'  fill='%23dddddd' width='371.9' height='82.2'%3E%3Cpath fill='none' d='M-1-1h582v402H-1z'/%3E%3Cg%3E%3Cpath d='M351.926 42.6c-13.2 0-20.6-5.8-31.8-16.2-11.3-10.3-26.4-26.4-50.9-26.4h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.7 8.8-16.6 14.8-27.4 16.2-1.4 0-3 .5-4.9.5-13.2 0-20.6-5.8-31.8-16.2-3-2.5-5.8-5.4-9.3-8.8-10.3-8.8-23-18.1-41.6-18.1h-4.4c-22 1.9-35.8 16.6-46.5 26.4-9.8 8.8-16.6 14.7-27.4 16.2-1.4 0-3 .5-4.9.5-2.5 0-5.4.5-7.4 1.4-1 .5-2.5 1-3.4 1.9-5.4 3.4-9.3 9.8-9.3 16.2 0 2.5.5 5.4 1.4 7.4 1 2.5 2.5 4.4 4.4 6.4 1 1 1.9 1.9 3 2.5 1 .5 1.9 1.4 3.4 1.9 1.4.5 2.5 1 3.9 1 1.5.4 2.5.4 4 .4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 3 1.4 6.9 3.9 11.3 8.3 2.5 1.9 5.4 4.4 8.3 7.4 12.3 11.3 31.4 26.4 58.7 26.4h4.9c24.5-1.9 42.1-15.7 53.8-26.4 10.8-9.8 16.6-15.2 22-16.2 1 0 1.4-.5 1.9-.5 1.4 0 3 .5 4.4 1 1.4.5 3.4 1.9 5.4 3 3.9 2.5 8.3 6.9 14.7 12.2 12.3 11.3 31.4 26.4 58.8 26.4h1.9c10.3-.5 19.6-10.3 18.6-20.5.7-10.3-9.6-19.1-19.9-18.6z'/%3E%3C/g%3E%3C/svg%3E"); }
-
-/* line 8, custom/02-particules/02-modules/home/family-space/_organism-family-space.scss */
-#family-space .error {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%235c5c5c'   viewBox='0 0 438.533 438.533'%3E%3Cpath d='M409.133,109.203c-19.608-33.592-46.205-60.189-79.798-79.796C295.736,9.801,259.058,0,219.273,0c-39.781,0-76.466,9.801-110.063,29.407c-33.595,19.604-60.192,46.201-79.8,79.796C9.801,142.8,0,179.489,0,219.267s9.804,76.463,29.407,110.062c19.607,33.585,46.204,60.189,79.799,79.798c33.597,19.605,70.283,29.407,110.063,29.407s76.47-9.802,110.065-29.407c33.593-19.602,60.189-46.206,79.795-79.798c19.603-33.599,29.403-70.287,29.403-110.062C438.533,179.489,428.732,142.795,409.133,109.203z M255.82,356.021c0,2.669-0.862,4.9-2.573,6.707s-3.806,2.711-6.283,2.711h-54.818c-2.472,0-4.663-0.952-6.565-2.854c-1.904-1.903-2.854-4.093-2.854-6.563V301.78c0-2.478,0.95-4.668,2.854-6.571c1.903-1.902,4.093-2.851,6.565-2.851h54.818c2.478,0,4.579,0.907,6.283,2.707c1.711,1.817,2.573,4.045,2.573,6.715V356.021zM255.246,257.812c-0.192,1.902-1.188,3.568-2.991,4.996c-1.813,1.424-4.045,2.135-6.708,2.135h-52.822c-2.666,0-4.95-0.711-6.853-2.135c-1.904-1.428-2.857-3.094-2.857-4.996L178.162,80.51c0-2.288,0.95-3.997,2.852-5.14c1.906-1.521,4.19-2.284,6.854-2.284h62.819c2.666,0,4.948,0.76,6.851,2.284c1.903,1.143,2.848,2.856,2.848,5.14L255.246,257.812z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-size: 20px;
-  background-position: 15px 15px;
-  background-color: #FFDDDE;
-  padding: 15px 20px;
-  padding-left: 60px;
-  color: #505050;
-  font-size: 18px;
-  margin-bottom: 20px; }
-
-/* line 21, custom/02-particules/02-modules/home/family-space/_organism-family-space.scss */
-#family-space .warning {
-  background-image: url(../images/picto-message-alerte.png);
-  background-repeat: no-repeat;
-  background-size: 20px;
-  background-position: 15px 15px;
-  background-color: #FFDDDE;
-  padding: 15px 20px;
-  padding-left: 60px;
-  color: #505050;
-  font-size: 18px;
-  margin-bottom: 25px;
-  margin-top: -20px; }
-
-/* line 35, custom/02-particules/02-modules/home/family-space/_organism-family-space.scss */
-#family-space .content {
-  font-size: 1.8rem;
-  color: #7e7e7e;
-  margin-bottom: 10px; }
-
-/* line 41, custom/02-particules/02-modules/home/family-space/_organism-family-space.scss */
-#family-space div.family {
-  font-family: "MontSerrat", arial;
-  font-weight: 700;
-  font-size: 2.1rem;
-  text-transform: uppercase;
-  border-bottom: 1px solid;
-  color: #31455d;
-  margin-bottom: 25px;
-  min-height: 35px;
-  width: 100%;
-  cursor: pointer; }
-  /* line 53, custom/02-particules/02-modules/home/family-space/_organism-family-space.scss */
-  #family-space div.family .btn-more {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 320 320'%3E%3Cpath d='M160 0C71.8 0 0 71.8 0 160s71.8 160 160 160C248.2 320 320 248.2 320 160S248.2 0 160 0L160 0zM160 299c-76.7 0-139-62.4-139-139S83.3 21 160 21c76.7 0 139 62.4 139 139S236.7 299 160 299L160 299zM160 299'/%3E%3Cpath d='M223.6 149.5h-53.1V96.4c0-5.8-4.7-10.5-10.5-10.5 -5.8 0-10.5 4.7-10.5 10.5v53.1h-53.1c-5.8 0-10.5 4.7-10.5 10.5 0 5.8 4.7 10.5 10.5 10.5h53.1v53.1c0 5.8 4.7 10.5 10.5 10.5 5.8 0 10.5-4.7 10.5-10.5v-53.1h53.1c5.8 0 10.5-4.7 10.5-10.5S229.4 149.5 223.6 149.5L223.6 149.5zM223.6 149.5'/%3E%3C/svg%3E");
-    content: '';
-    display: inline-block;
-    background-size: 25px;
-    background-position: top right;
-    background-repeat: no-repeat;
-    -ms-flex-negative: 0;
-        flex-shrink: 0;
-    width: 100%;
-    padding-right: 30px; }
-  /* line 65, custom/02-particules/02-modules/home/family-space/_organism-family-space.scss */
-  #family-space div.family .btn-minus {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' width='320' height='320'%3E%3Ctitle%3E  background%3C/title%3E%3Crect height='402' width='582' y='-1' x='-1' fill='none'/%3E%3Ctitle%3E  Layer 1%3C/title%3E%3Cpath d='m160 0c-88.2 0-160 71.8-160 160s71.8 160 160 160c88.2 0 160-71.8 160-160s-71.8-160-160-160l0 0zm0 299c-76.7 0-139-62.4-139-139s62.3-139 139-139c76.7 0 139 62.4 139 139s-62.3 139-139 139l0 0zm0 0'/%3E%3Cpath d='m170.5 149.5l-21 0 -53.1 0c-5.8 0-10.5 4.7-10.5 10.5 0 5.8 4.7 10.5 10.5 10.5l53.1 0 21 0 53.1 0c5.8 0 10.5-4.7 10.5-10.5s-4.7-10.5-10.5-10.5l-53.1 0z'/%3E%3C/svg%3E");
-    content: '';
-    display: inline-block;
-    background-size: 25px;
-    background-position: top right;
-    background-repeat: no-repeat;
-    -ms-flex-negative: 0;
-        flex-shrink: 0;
-    width: 100%;
-    padding-right: 30px; }
-
-/* line 79, custom/02-particules/02-modules/home/family-space/_organism-family-space.scss */
-#family-space .webform-layout-box {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between; }
-  @media only screen and (max-width: 767px) {
-    /* line 79, custom/02-particules/02-modules/home/family-space/_organism-family-space.scss */
-    #family-space .webform-layout-box {
-      display: block; } }
-
-/* line 87, custom/02-particules/02-modules/home/family-space/_organism-family-space.scss */
-#family-space .form-group {
-  margin-bottom: 15px;
-  width: 100%; }
-  @media only screen and (min-width: 767px) and (max-width: 1279px) {
-    /* line 87, custom/02-particules/02-modules/home/family-space/_organism-family-space.scss */
-    #family-space .form-group {
-      -webkit-box-flex: 1;
-          -ms-flex: 1;
-              flex: 1; }
-      /* line 93, custom/02-particules/02-modules/home/family-space/_organism-family-space.scss */
-      #family-space .form-group + .form-group {
-        margin-left: 30px; } }
-
-/* line 98, custom/02-particules/02-modules/home/family-space/_organism-family-space.scss */
-#family-space label {
-  margin-bottom: 5px; }
-  /* line 100, custom/02-particules/02-modules/home/family-space/_organism-family-space.scss */
-  #family-space label .required {
-    color: #ff1818; }
 
 /* line 1, custom/02-particules/02-modules/home/favoris/_organism-favoris.scss */
 #favoris {
@@ -13654,120 +13546,6 @@ footer .footer .portlet {
   color: #31455d;
   font-size: 12px;
   font-size: 1.2rem; }
-
-/* line 4, custom/02-particules/03-pages/_page-offres.scss */
-.page-offre h2 {
-  margin-top: 50px;
-  margin-bottom: 30px; }
-
-/* line 9, custom/02-particules/03-pages/_page-offres.scss */
-.page-offre .candidaturePagination {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex; }
-  /* line 12, custom/02-particules/03-pages/_page-offres.scss */
-  .page-offre .candidaturePagination ul {
-    width: auto;
-    margin-top: 0;
-    -webkit-box-flex: 1;
-        -ms-flex-positive: 1;
-            flex-grow: 1;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center; }
-    @media only screen and (max-width: 1279px) {
-      /* line 12, custom/02-particules/03-pages/_page-offres.scss */
-      .page-offre .candidaturePagination ul {
-        -webkit-box-ordinal-group: 0;
-            -ms-flex-order: -1;
-                order: -1;
-        margin-left: -15px; }
-        /* line 22, custom/02-particules/03-pages/_page-offres.scss */
-        .page-offre .candidaturePagination ul .pagin-item {
-          display: inline-block !important; } }
-  @media only screen and (max-width: 1279px) {
-    /* line 9, custom/02-particules/03-pages/_page-offres.scss */
-    .page-offre .candidaturePagination {
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-          -ms-flex-direction: column;
-              flex-direction: column; } }
-
-/* line 33, custom/02-particules/03-pages/_page-offres.scss */
-.page-offre .candidatures, .page-offre .alertes {
-  margin-bottom: 40px; }
-
-/* line 37, custom/02-particules/03-pages/_page-offres.scss */
-.page-offre .candidaturesList, .page-offre .alertesList {
-  margin-bottom: 30px;
-  display: grid;
-  gap: 10px;
-  word-break: break-word; }
-  /* line 43, custom/02-particules/03-pages/_page-offres.scss */
-  .page-offre .candidaturesList .candidatureInfo, .page-offre .candidaturesList .alerteInfo, .page-offre .alertesList .candidatureInfo, .page-offre .alertesList .alerteInfo {
-    grid-row: 1 / auto;
-    font-size: 2rem;
-    font-weight: 600;
-    color: #31455d;
-    letter-spacing: 0.03em; }
-    @media only screen and (max-width: 1279px) {
-      /* line 43, custom/02-particules/03-pages/_page-offres.scss */
-      .page-offre .candidaturesList .candidatureInfo, .page-offre .candidaturesList .alerteInfo, .page-offre .alertesList .candidatureInfo, .page-offre .alertesList .alerteInfo {
-        display: none; } }
-  /* line 56, custom/02-particules/03-pages/_page-offres.scss */
-  .page-offre .candidaturesList .candidatureDetail, .page-offre .candidaturesList .alerteDetail, .page-offre .alertesList .candidatureDetail, .page-offre .alertesList .alerteDetail {
-    line-height: normal; }
-    @media only screen and (max-width: 1279px) {
-      /* line 56, custom/02-particules/03-pages/_page-offres.scss */
-      .page-offre .candidaturesList .candidatureDetail, .page-offre .candidaturesList .alerteDetail, .page-offre .alertesList .candidatureDetail, .page-offre .alertesList .alerteDetail {
-        margin-top: 10px;
-        padding-left: 45%;
-        position: relative;
-        min-height: 25px; } }
-    /* line 66, custom/02-particules/03-pages/_page-offres.scss */
-    .page-offre .candidaturesList .candidatureDetail .button-holder, .page-offre .candidaturesList .alerteDetail .button-holder, .page-offre .alertesList .candidatureDetail .button-holder, .page-offre .alertesList .alerteDetail .button-holder {
-      margin: 0; }
-    /* line 70, custom/02-particules/03-pages/_page-offres.scss */
-    .page-offre .candidaturesList .candidatureDetail:before, .page-offre .candidaturesList .alerteDetail:before, .page-offre .alertesList .candidatureDetail:before, .page-offre .alertesList .alerteDetail:before {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #31455d;
-      letter-spacing: 0.03em;
-      width: 40%;
-      position: absolute;
-      left: 0; }
-      @media only screen and (min-width: 1280px) {
-        /* line 70, custom/02-particules/03-pages/_page-offres.scss */
-        .page-offre .candidaturesList .candidatureDetail:before, .page-offre .candidaturesList .alerteDetail:before, .page-offre .alertesList .candidatureDetail:before, .page-offre .alertesList .alerteDetail:before {
-          content: none; } }
-    /* line 85, custom/02-particules/03-pages/_page-offres.scss */
-    .page-offre .candidaturesList .candidatureDetail .delete-alert, .page-offre .candidaturesList .alerteDetail .delete-alert, .page-offre .alertesList .candidatureDetail .delete-alert, .page-offre .alertesList .alerteDetail .delete-alert {
-      line-height: 30px; }
-      /* line 88, custom/02-particules/03-pages/_page-offres.scss */
-      .page-offre .candidaturesList .candidatureDetail .delete-alert:after, .page-offre .candidaturesList .alerteDetail .delete-alert:after, .page-offre .alertesList .candidatureDetail .delete-alert:after, .page-offre .alertesList .alerteDetail .delete-alert:after {
-        content: '';
-        display: inline-block;
-        width: 30px;
-        height: 30px;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2331455d' viewBox='0 0 511.8 511.8'%3E%3Cpath d='M436.9 74.9c-99.8-99.8-262.2-99.8-362 0 -99.8 99.8-99.8 262.2 0 362 49.9 49.9 115.5 74.8 181 74.8s131.1-24.9 181-74.8C536.7 337.1 536.7 174.7 436.9 74.9zM361.5 331.3c8.3 8.3 8.3 21.8 0 30.2 -4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3L255.9 286l-75.4 75.4c-4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3 -8.3-8.3-8.3-21.8 0-30.2l75.4-75.4 -75.4-75.4c-8.3-8.3-8.3-21.8 0-30.2 8.3-8.3 21.8-8.3 30.2 0l75.4 75.4 75.4-75.4c8.3-8.3 21.8-8.3 30.2 0 8.3 8.3 8.3 21.8 0 30.2L286 255.9 361.5 331.3z' id='path825' /%3E%3Cpath style='fill:white;' d='m 158.4228,366.81829 c -8.46662,-3.02163 -13.71558,-9.81138 -14.4613,-18.70627 -0.3905,-4.65788 0.78999,-9.69401 3.11365,-13.28322 0.77942,-1.20392 18.66252,-19.41002 39.74024,-40.45801 l 38.32311,-38.26906 -38.78802,-38.89278 c -44.44835,-44.56838 -42.22829,-41.84421 -42.25791,-51.85355 -0.0152,-5.12655 0.16751,-6.10255 1.74282,-9.31098 2.23728,-4.55664 5.77296,-8.09231 10.3296,-10.32959 3.1541,-1.54864 4.23506,-1.75978 9.00956,-1.75978 4.84238,0 5.85881,0.2053 9.45785,1.91035 3.72297,1.76376 7.00737,4.87387 42.80071,40.52946 l 38.7683,38.61911 39.48516,-39.42677 39.48515,-39.42677 4.44459,-1.33462 c 10.78921,-3.23978 21.45248,1.22469 26.22528,10.97993 3.06168,6.25785 2.66106,14.8506 -0.97925,21.00337 -0.68657,1.16044 -18.56355,19.47509 -39.72661,40.69921 l -38.47829,38.5893 38.84762,38.84412 c 44.40322,44.39922 42.23067,41.74497 42.20529,51.56313 -0.0118,4.56407 -0.26401,5.96332 -1.58855,8.81333 -2.12673,4.57608 -5.15958,7.78019 -9.68937,10.23654 -3.58071,1.94169 -4.09464,2.04907 -9.807,2.04907 -10.45623,0 -7.44395,2.43706 -51.98949,-42.0618 l -38.72731,-38.68672 -38.73594,38.62911 c -43.63211,43.51177 -41.65833,41.86793 -50.72723,42.24788 -3.6442,0.15268 -5.68548,-0.0799 -8.02266,-0.91399 z' id='path847' /%3E%3C/svg%3E");
-        background-size: 20px;
-        background-position: center;
-        background-repeat: no-repeat;
-        position: absolute; }
-      /* line 100, custom/02-particules/03-pages/_page-offres.scss */
-      .page-offre .candidaturesList .candidatureDetail .delete-alert:focus, .page-offre .candidaturesList .alerteDetail .delete-alert:focus, .page-offre .alertesList .candidatureDetail .delete-alert:focus, .page-offre .alertesList .alerteDetail .delete-alert:focus {
-        outline: none; }
-      /* line 105, custom/02-particules/03-pages/_page-offres.scss */
-      .page-offre .candidaturesList .candidatureDetail .delete-alert:hover:after, .page-offre .candidaturesList .candidatureDetail .delete-alert:focus:after, .page-offre .candidaturesList .alerteDetail .delete-alert:hover:after, .page-offre .candidaturesList .alerteDetail .delete-alert:focus:after, .page-offre .alertesList .candidatureDetail .delete-alert:hover:after, .page-offre .alertesList .candidatureDetail .delete-alert:focus:after, .page-offre .alertesList .alerteDetail .delete-alert:hover:after, .page-offre .alertesList .alerteDetail .delete-alert:focus:after {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2346cfc0' viewBox='0 0 511.8 511.8'%3E%3Cpath d='M436.9 74.9c-99.8-99.8-262.2-99.8-362 0 -99.8 99.8-99.8 262.2 0 362 49.9 49.9 115.5 74.8 181 74.8s131.1-24.9 181-74.8C536.7 337.1 536.7 174.7 436.9 74.9zM361.5 331.3c8.3 8.3 8.3 21.8 0 30.2 -4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3L255.9 286l-75.4 75.4c-4.2 4.2-9.6 6.3-15.1 6.3 -5.5 0-10.9-2.1-15.1-6.3 -8.3-8.3-8.3-21.8 0-30.2l75.4-75.4 -75.4-75.4c-8.3-8.3-8.3-21.8 0-30.2 8.3-8.3 21.8-8.3 30.2 0l75.4 75.4 75.4-75.4c8.3-8.3 21.8-8.3 30.2 0 8.3 8.3 8.3 21.8 0 30.2L286 255.9 361.5 331.3z' id='path825' /%3E%3Cpath style='fill:white;' d='m 158.4228,366.81829 c -8.46662,-3.02163 -13.71558,-9.81138 -14.4613,-18.70627 -0.3905,-4.65788 0.78999,-9.69401 3.11365,-13.28322 0.77942,-1.20392 18.66252,-19.41002 39.74024,-40.45801 l 38.32311,-38.26906 -38.78802,-38.89278 c -44.44835,-44.56838 -42.22829,-41.84421 -42.25791,-51.85355 -0.0152,-5.12655 0.16751,-6.10255 1.74282,-9.31098 2.23728,-4.55664 5.77296,-8.09231 10.3296,-10.32959 3.1541,-1.54864 4.23506,-1.75978 9.00956,-1.75978 4.84238,0 5.85881,0.2053 9.45785,1.91035 3.72297,1.76376 7.00737,4.87387 42.80071,40.52946 l 38.7683,38.61911 39.48516,-39.42677 39.48515,-39.42677 4.44459,-1.33462 c 10.78921,-3.23978 21.45248,1.22469 26.22528,10.97993 3.06168,6.25785 2.66106,14.8506 -0.97925,21.00337 -0.68657,1.16044 -18.56355,19.47509 -39.72661,40.69921 l -38.47829,38.5893 38.84762,38.84412 c 44.40322,44.39922 42.23067,41.74497 42.20529,51.56313 -0.0118,4.56407 -0.26401,5.96332 -1.58855,8.81333 -2.12673,4.57608 -5.15958,7.78019 -9.68937,10.23654 -3.58071,1.94169 -4.09464,2.04907 -9.807,2.04907 -10.45623,0 -7.44395,2.43706 -51.98949,-42.0618 l -38.72731,-38.68672 -38.73594,38.62911 c -43.63211,43.51177 -41.65833,41.86793 -50.72723,42.24788 -3.6442,0.15268 -5.68548,-0.0799 -8.02266,-0.91399 z' id='path847' /%3E%3C/svg%3E"); }
-  @media only screen and (max-width: 1279px) {
-    /* line 111, custom/02-particules/03-pages/_page-offres.scss */
-    .page-offre .candidaturesList .candidatureDetail:nth-child(5n):not(:last-child), .page-offre .alertesList .candidatureDetail:nth-child(5n):not(:last-child) {
-      border-bottom: solid black 1px; } }
-  @media only screen and (max-width: 1279px) {
-    /* line 117, custom/02-particules/03-pages/_page-offres.scss */
-    .page-offre .candidaturesList .alerteDetail:nth-child(3n):not(:last-child), .page-offre .alertesList .alerteDetail:nth-child(3n):not(:last-child) {
-      border-bottom: solid black 1px; } }
 
 /* line 1, custom/02-particules/02-modules/aroundme/aroundme.scss */
 #wi-aroundme.no-widget {
