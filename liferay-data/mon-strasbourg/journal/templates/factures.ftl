@@ -33,8 +33,7 @@
                         <select id="type_facture" class="toCustomSelect silencedSelect" required="" aria-required="true" name="bill_type">
                             <option value=""></option>
                             <option value="childhood"><@liferay.language key="childhood" /></option>
-                            <option value="schoolRestaurant"><@liferay.language key="school-restaurant" /></option>
-                            <option value="afterSchool"><@liferay.language key="after-school" /></option>
+                            <option value="schoolRestaurantAfterSchool"><@liferay.language key="enfance-alm-apm" /></option>
                             <option value="water"><@liferay.language key="water" /></option>
                             <option value="reom"><@liferay.language key="reom" /></option>
                             <option value="rs"><@liferay.language key="rs" /></option>
