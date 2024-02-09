@@ -89,115 +89,89 @@ public class ProjectBOPortlet extends MVCPortlet {
 			NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("navigationDC", navigationDC);
 			HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(renderRequest);
-			switch (navigationDC.getSelectedTab()) {
-				case PROJECTS:
-					if (navigationDC.getSelectedCmd().equals(EDIT_PROJECT) || navigationDC.getSelectedCmd().equals(SAVE_PROJECT) || fromAjaxProject) {
-						EditProjectDisplayContext dc = new EditProjectDisplayContext(renderRequest, renderResponse);
-						renderRequest.setAttribute("dc", dc);
-					} else {
-						ViewProjectsDisplayContext dc = new ViewProjectsDisplayContext(renderRequest, renderResponse);
-						ManagementProjectsToolBarDisplayContext managementDC = new ManagementProjectsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
-						renderRequest.setAttribute("dc", dc);
-						renderRequest.setAttribute("managementDC", managementDC);
-					}
-					break;
-				case PARTICIPATIONS:
-					if (navigationDC.getSelectedCmd().equals(EDIT_PARTICIPATION) || navigationDC.getSelectedCmd().equals(SAVE_PARTICIPATION) || fromAjaxParticipation) {
-						EditParticipationDisplayContext dc = new EditParticipationDisplayContext(renderRequest, renderResponse);
-						renderRequest.setAttribute("dc", dc);
-					} else {
-						ViewParticipationsDisplayContext dc = new ViewParticipationsDisplayContext(renderRequest, renderResponse);
-						ManagementParticipationsToolBarDisplayContext managementDC = new ManagementParticipationsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
-						renderRequest.setAttribute("dc", dc);
-						renderRequest.setAttribute("managementDC", managementDC);
-					}
-					break;
-				case PETITIONS:
-					if (navigationDC.getSelectedCmd().equals(EDIT_PETITION) || navigationDC.getSelectedCmd().equals(SAVE_PETITION) || fromAjaxPetition) {
-						EditPetitionDisplayContext dc = new EditPetitionDisplayContext(renderRequest, renderResponse);
-						String signatureNumber = Integer.toString((int) themeDisplay.getSiteGroup().getExpandoBridge().getAttribute("number_of_signatures_required_per_petition"));
-						renderRequest.setAttribute("signatureNumber", signatureNumber);
-						renderRequest.setAttribute("dc", dc);
-
-					} else {
-						ViewPetitionsDisplayContext dc = new ViewPetitionsDisplayContext(renderRequest, renderResponse);
-						ManagementPetitionsToolBarDisplayContext managementDC = new ManagementPetitionsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
-						renderRequest.setAttribute("dc", dc);
-						renderRequest.setAttribute("managementDC", managementDC);
-					}
-					break;
-				case INITIATIVES:
-					if (navigationDC.getSelectedCmd().equals(EDIT_INITIATIVE) || navigationDC.getSelectedCmd().equals(SAVE_INITIATIVE) || fromAjaxInitiative) {
-						EditInitiativeDisplayContext dc = new EditInitiativeDisplayContext(renderRequest, renderResponse);
-						renderRequest.setAttribute("dc", dc);
-					} else {
-						ViewInitiativesDisplayContext dc = new ViewInitiativesDisplayContext(renderRequest, renderResponse);
-						ManagementInitiativesToolBarDisplayContext managementDC = new ManagementInitiativesToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
-						renderRequest.setAttribute("dc", dc);
-						renderRequest.setAttribute("managementDC", managementDC);
-					}
-					break;
-				case BUDGET_PARICIPATIFS:
-					if (navigationDC.getSelectedCmd().equals(EDIT_BUDGET_PARICIPATIF)
-							|| navigationDC.getSelectedCmd().equals(SAVE_BUDGET_PARICIPATIF)
-							|| fromAjaxBudgetParticipatif) {
-
-						EditBudgetParticipatifDisplayContext dc = new EditBudgetParticipatifDisplayContext(renderRequest, renderResponse);
-
-						//On initialise le BP avec la catégorie de la phase en cours, la catégorie et la phase en cours et la catégorie statut depose
-						if (navigationDC.getSelectedCmd().equals(SAVE_BUDGET_PARICIPATIF)) {
-							AssetCategory category = AssetVocabularyHelper.getCategory(ParticiperCategories.BP_SUBMITTED.getName(), themeDisplay.getScopeGroupId());
-							String assetCategoryIds = Long.toString(category.getCategoryId());
-
-							BudgetPhase budgetPhaseActive = BudgetPhaseLocalServiceUtil.getActivePhase(themeDisplay.getSiteGroupId());
-							if (budgetPhaseActive != null) {
-								renderRequest.setAttribute("budgetPhaseId", budgetPhaseActive.getBudgetPhaseId());
-								AssetCategory phaseCat = budgetPhaseActive.getPhaseCategory();
-								assetCategoryIds = assetCategoryIds + "," + phaseCat.getCategoryId();
-							}
-							renderRequest.setAttribute("defaultAssetCategoryIds", assetCategoryIds);
-						}
-
-						renderRequest.setAttribute("dc", dc);
-					} else {
-						ViewBudgetParticipatifDisplayContext dc = new ViewBudgetParticipatifDisplayContext(renderRequest, renderResponse);
-						ManagementBudgetParticipatifsToolBarDisplayContext managementDC = new ManagementBudgetParticipatifsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
-						renderRequest.setAttribute("dc", dc);
-						renderRequest.setAttribute("managementDC", managementDC);
-					}
-					break;
-				case BUDGET_PHASES:
-					if (navigationDC.getSelectedCmd().equals(EDIT_BUDGET_PHASE) || navigationDC.getSelectedCmd().equals(SAVE_BUDGET_PHASE)) {
-						EditBudgetPhaseDisplayContext dc = new EditBudgetPhaseDisplayContext(renderRequest, renderResponse);
-						renderRequest.setAttribute("dc", dc);
-					} else {
-						ViewBudgetPhasesDisplayContext dc = new ViewBudgetPhasesDisplayContext(renderRequest, renderResponse);
-						ManagementBudgetPhasesToolBarDisplayContext managementDC = new ManagementBudgetPhasesToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
-						renderRequest.setAttribute("dc", dc);
-						renderRequest.setAttribute("managementDC", managementDC);
-					}
-					break;
-				case SAISINE_OBSERVATOIRE:
-					if (navigationDC.getSelectedCmd().equals(EDIT_SAISINE_OBSERVATOIRE) || navigationDC.getSelectedCmd().equals(SAVE_SAISINE_OBSERVATOIRE) || fromAjaxSaisineObservatoire) {
-						EditSaisineObservatoireDisplayContext dc = new EditSaisineObservatoireDisplayContext(renderRequest, renderResponse);
-						String signatureNumber = Integer.toString((int) themeDisplay.getSiteGroup().getExpandoBridge().getAttribute("number_of_signatures_required_per_petition"));
-						renderRequest.setAttribute("signatureNumber", signatureNumber);
-						renderRequest.setAttribute("dc", dc);
-					} else {
-						ViewSaisineObservatoireDisplayContext dc = new ViewSaisineObservatoireDisplayContext(renderRequest, renderResponse);
-						ManagementSaisineObservatoireToolBarDisplayContext managementDC = new ManagementSaisineObservatoireToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
-								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
-						renderRequest.setAttribute("dc", dc);
-						renderRequest.setAttribute("managementDC", managementDC);
-					}
-					break;
+			Boolean fromAjax = fromAjaxProject || fromAjaxParticipation || fromAjaxPetition || fromAjaxSaisineObservatoire || fromAjaxBudgetParticipatif || fromAjaxInitiative;
+			if(fromAjax){
+				switch (navigationDC.getSelectedCmd()) {
+					case EDIT_PROJECT:
+						setEditProjectDisplayContext(renderRequest, renderResponse);
+						break;
+					case EDIT_PARTICIPATION:
+						setEditParticipationDisplayContext(renderRequest, renderResponse);
+						break;
+					case EDIT_PETITION:
+						setEditPetitionDisplayContext(renderRequest, renderResponse, themeDisplay);
+						break;
+					case EDIT_INITIATIVE:
+						setEditInitiativeDisplayContext(renderRequest, renderResponse);
+						break;
+					case EDIT_BUDGET_PARICIPATIF:
+						setEditBudgetParticipatifDisplayContext(renderRequest, renderResponse, navigationDC, themeDisplay);
+						break;
+					case EDIT_BUDGET_PHASE:
+						setEditBudgetPhaseDisplayContext(renderRequest, renderResponse);
+						break;
+					case EDIT_SAISINE_OBSERVATOIRE:
+						setEditSaisineObservatoireDisplayContext(renderRequest, renderResponse, themeDisplay);
+						break;
+				}
 			}
+			else {
+				switch (navigationDC.getSelectedTab()) {
+					case PROJECTS:
+						if (navigationDC.getSelectedCmd().equals(EDIT_PROJECT) || navigationDC.getSelectedCmd().equals(SAVE_PROJECT) ) {
+							setEditProjectDisplayContext(renderRequest, renderResponse);
+						} else {
+							setViewProjectsDisplayContext(renderRequest, renderResponse, servletRequest);
+						}
+						break;
+					case PARTICIPATIONS:
+						if (navigationDC.getSelectedCmd().equals(EDIT_PARTICIPATION) || navigationDC.getSelectedCmd().equals(SAVE_PARTICIPATION) ) {
+							setEditParticipationDisplayContext(renderRequest, renderResponse);
+						} else {
+							setViewParticipationsDisplayContext(renderRequest, renderResponse, servletRequest);
+						}
+						break;
+					case PETITIONS:
+						if (navigationDC.getSelectedCmd().equals(EDIT_PETITION) || navigationDC.getSelectedCmd().equals(SAVE_PETITION) ) {
+							setEditPetitionDisplayContext(renderRequest, renderResponse, themeDisplay);
+
+						} else {
+							setViewPetitionsDisplayContext(renderRequest, renderResponse, servletRequest);
+						}
+						break;
+					case INITIATIVES:
+						if (navigationDC.getSelectedCmd().equals(EDIT_INITIATIVE) || navigationDC.getSelectedCmd().equals(SAVE_INITIATIVE) ) {
+							setEditInitiativeDisplayContext(renderRequest, renderResponse);
+						} else {
+							setViewInitiativesDisplayContext(renderRequest, renderResponse, servletRequest);
+						}
+						break;
+					case BUDGET_PARICIPATIFS:
+						if (navigationDC.getSelectedCmd().equals(EDIT_BUDGET_PARICIPATIF)
+								|| navigationDC.getSelectedCmd().equals(SAVE_BUDGET_PARICIPATIF)) {
+							setEditBudgetParticipatifDisplayContext(renderRequest, renderResponse, navigationDC, themeDisplay);
+						} else {
+							setViewBudgetParticipatifDisplayContext(renderRequest, renderResponse, servletRequest);
+						}
+						break;
+					case BUDGET_PHASES:
+						if (navigationDC.getSelectedCmd().equals(EDIT_BUDGET_PHASE) || navigationDC.getSelectedCmd().equals(SAVE_BUDGET_PHASE)) {
+							setEditBudgetPhaseDisplayContext(renderRequest, renderResponse);
+						} else {
+							setViewBudgetPhasesDisplayContext(renderRequest, renderResponse, servletRequest);
+						}
+						break;
+					case SAISINE_OBSERVATOIRE:
+						if (navigationDC.getSelectedCmd().equals(EDIT_SAISINE_OBSERVATOIRE) || navigationDC.getSelectedCmd().equals(SAVE_SAISINE_OBSERVATOIRE)) {
+							setEditSaisineObservatoireDisplayContext(renderRequest, renderResponse, themeDisplay);
+						} else {
+							setViewSaisineObservatoireDisplayContext(renderRequest, renderResponse, servletRequest);
+						}
+						break;
+
+				}
+			}
+
 
 		} catch (PortalException e) {
 			e.printStackTrace();
@@ -226,4 +200,116 @@ public class ProjectBOPortlet extends MVCPortlet {
 		//renderResponse.setTitle(title);
 
 	}
+
+	public void setEditProjectDisplayContext(RenderRequest renderRequest, RenderResponse renderResponse) {
+		EditProjectDisplayContext dc = new EditProjectDisplayContext(renderRequest, renderResponse);
+		renderRequest.setAttribute("dc", dc);
+	}
+
+	public void setViewProjectsDisplayContext(RenderRequest renderRequest, RenderResponse renderResponse, HttpServletRequest servletRequest) throws PortalException {
+		ViewProjectsDisplayContext dc = new ViewProjectsDisplayContext(renderRequest, renderResponse);
+		ManagementProjectsToolBarDisplayContext managementDC = new ManagementProjectsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
+				(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
+		renderRequest.setAttribute("dc", dc);
+		renderRequest.setAttribute("managementDC", managementDC);
+	}
+
+	public void setEditParticipationDisplayContext(RenderRequest renderRequest, RenderResponse renderResponse) {
+		EditParticipationDisplayContext dc = new EditParticipationDisplayContext(renderRequest, renderResponse);
+		renderRequest.setAttribute("dc", dc);
+	}
+
+	public void setViewParticipationsDisplayContext(RenderRequest renderRequest, RenderResponse renderResponse, HttpServletRequest servletRequest) throws PortalException {
+		ViewParticipationsDisplayContext dc = new ViewParticipationsDisplayContext(renderRequest, renderResponse);
+		ManagementParticipationsToolBarDisplayContext managementDC = new ManagementParticipationsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
+				(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
+		renderRequest.setAttribute("dc", dc);
+		renderRequest.setAttribute("managementDC", managementDC);
+	}
+
+	public void setEditPetitionDisplayContext(RenderRequest renderRequest, RenderResponse renderResponse, ThemeDisplay themeDisplay) {
+		EditPetitionDisplayContext dc = new EditPetitionDisplayContext(renderRequest, renderResponse);
+		String signatureNumber = Integer.toString((int) themeDisplay.getSiteGroup().getExpandoBridge().getAttribute("number_of_signatures_required_per_petition"));
+		renderRequest.setAttribute("signatureNumber", signatureNumber);
+		renderRequest.setAttribute("dc", dc);
+	}
+
+	public void setViewPetitionsDisplayContext(RenderRequest renderRequest, RenderResponse renderResponse, HttpServletRequest servletRequest) throws PortalException {
+		ViewPetitionsDisplayContext dc = new ViewPetitionsDisplayContext(renderRequest, renderResponse);
+		ManagementPetitionsToolBarDisplayContext managementDC = new ManagementPetitionsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
+				(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
+		renderRequest.setAttribute("dc", dc);
+		renderRequest.setAttribute("managementDC", managementDC);
+	}
+
+	public void setEditInitiativeDisplayContext(RenderRequest renderRequest, RenderResponse renderResponse) {
+		EditInitiativeDisplayContext dc = new EditInitiativeDisplayContext(renderRequest, renderResponse);
+		renderRequest.setAttribute("dc", dc);
+	}
+
+	public void setViewInitiativesDisplayContext(RenderRequest renderRequest, RenderResponse renderResponse, HttpServletRequest servletRequest) throws PortalException {
+		ViewInitiativesDisplayContext dc = new ViewInitiativesDisplayContext(renderRequest, renderResponse);
+		ManagementInitiativesToolBarDisplayContext managementDC = new ManagementInitiativesToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
+				(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
+		renderRequest.setAttribute("dc", dc);
+		renderRequest.setAttribute("managementDC", managementDC);
+	}
+
+	public void setEditBudgetParticipatifDisplayContext(RenderRequest renderRequest, RenderResponse renderResponse, NavigationBarDisplayContext navigationDC, ThemeDisplay themeDisplay) {
+		EditBudgetParticipatifDisplayContext dc = new EditBudgetParticipatifDisplayContext(renderRequest, renderResponse);
+
+		//On initialise le BP avec la catégorie de la phase en cours, la catégorie et la phase en cours et la catégorie statut depose
+		if (navigationDC.getSelectedCmd().equals(SAVE_BUDGET_PARICIPATIF)) {
+			AssetCategory category = AssetVocabularyHelper.getCategory(ParticiperCategories.BP_SUBMITTED.getName(), themeDisplay.getScopeGroupId());
+			String assetCategoryIds = Long.toString(category.getCategoryId());
+
+			BudgetPhase budgetPhaseActive = BudgetPhaseLocalServiceUtil.getActivePhase(themeDisplay.getSiteGroupId());
+			if (budgetPhaseActive != null) {
+				renderRequest.setAttribute("budgetPhaseId", budgetPhaseActive.getBudgetPhaseId());
+				AssetCategory phaseCat = budgetPhaseActive.getPhaseCategory();
+				assetCategoryIds = assetCategoryIds + "," + phaseCat.getCategoryId();
+			}
+			renderRequest.setAttribute("defaultAssetCategoryIds", assetCategoryIds);
+		}
+
+		renderRequest.setAttribute("dc", dc);
+	}
+
+	public void setViewBudgetParticipatifDisplayContext(RenderRequest renderRequest, RenderResponse renderResponse, HttpServletRequest servletRequest) throws PortalException {
+		ViewBudgetParticipatifDisplayContext dc = new ViewBudgetParticipatifDisplayContext(renderRequest, renderResponse);
+		ManagementBudgetParticipatifsToolBarDisplayContext managementDC = new ManagementBudgetParticipatifsToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
+				(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
+		renderRequest.setAttribute("dc", dc);
+		renderRequest.setAttribute("managementDC", managementDC);
+	}
+
+	public void setEditBudgetPhaseDisplayContext(RenderRequest renderRequest, RenderResponse renderResponse) {
+		EditBudgetPhaseDisplayContext dc = new EditBudgetPhaseDisplayContext(renderRequest, renderResponse);
+		renderRequest.setAttribute("dc", dc);
+	}
+
+	public void setViewBudgetPhasesDisplayContext(RenderRequest renderRequest, RenderResponse renderResponse, HttpServletRequest servletRequest) throws PortalException {
+		ViewBudgetPhasesDisplayContext dc = new ViewBudgetPhasesDisplayContext(renderRequest, renderResponse);
+		ManagementBudgetPhasesToolBarDisplayContext managementDC = new ManagementBudgetPhasesToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
+				(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
+		renderRequest.setAttribute("dc", dc);
+		renderRequest.setAttribute("managementDC", managementDC);
+	}
+
+	public void setEditSaisineObservatoireDisplayContext(RenderRequest renderRequest, RenderResponse renderResponse, ThemeDisplay themeDisplay) {
+		EditSaisineObservatoireDisplayContext dc = new EditSaisineObservatoireDisplayContext(renderRequest, renderResponse);
+		String signatureNumber = Integer.toString((int) themeDisplay.getSiteGroup().getExpandoBridge().getAttribute("number_of_signatures_required_per_petition"));
+		renderRequest.setAttribute("signatureNumber", signatureNumber);
+		renderRequest.setAttribute("dc", dc);
+	}
+
+	public void setViewSaisineObservatoireDisplayContext(RenderRequest renderRequest, RenderResponse renderResponse, HttpServletRequest servletRequest) throws PortalException {
+		ViewSaisineObservatoireDisplayContext dc = new ViewSaisineObservatoireDisplayContext(renderRequest, renderResponse);
+		ManagementSaisineObservatoireToolBarDisplayContext managementDC = new ManagementSaisineObservatoireToolBarDisplayContext(servletRequest, (LiferayPortletRequest) renderRequest,
+				(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
+		renderRequest.setAttribute("dc", dc);
+		renderRequest.setAttribute("managementDC", managementDC);
+	}
+
+
 }

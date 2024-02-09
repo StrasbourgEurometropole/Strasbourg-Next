@@ -43,31 +43,31 @@ public class DailymotionDLVideoExternalShortcutProvider implements DLVideoExtern
 			return new JSONFactoryImpl().createJSONObject();
 		}
 	}
-
-	private String getVideoTranscript(String subtitleUrl) {
-		if(subtitleUrl == null || subtitleUrl.isEmpty()){
-			return "";
-		}
-		try {
-			// httpClient
-			HttpClient client = HttpClient.newBuilder().build();
-			// request
-			HttpRequest request = HttpRequest.newBuilder()
-					.uri(URI.create(subtitleUrl))
-					.build();
-			// send request and parse as text
-			String response = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
-			// String is in srt format, keep only the subtitle without timestamp
-			response = response.replaceAll("\\d+\\n\\d+:\\d+:\\d+,\\d+ --> \\d+:\\d+:\\d+,\\d+\\n", "");
-			// remove double line break
-			response = response.replaceAll("\\n\\n", "");
-			return response;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "";
-		}
-
-	}
+	// Get the transcript (not used for now)
+//	private String getVideoTranscript(String subtitleUrl) {
+//		if(subtitleUrl == null || subtitleUrl.isEmpty()){
+//			return "";
+//		}
+//		try {
+//			// httpClient
+//			HttpClient client = HttpClient.newBuilder().build();
+//			// request
+//			HttpRequest request = HttpRequest.newBuilder()
+//					.uri(URI.create(subtitleUrl))
+//					.build();
+//			// send request and parse as text
+//			String response = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
+//			// String is in srt format, keep only the subtitle without timestamp
+//			response = response.replaceAll("\\d+\\n\\d+:\\d+:\\d+,\\d+ --> \\d+:\\d+:\\d+,\\d+\\n", "");
+//			// remove double line break
+//			response = response.replaceAll("\\n\\n", "");
+//			return response;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return "";
+//		}
+//
+//	}
 
 	@Override
 	public DLVideoExternalShortcut getDLVideoExternalShortcut(String url) {
@@ -80,18 +80,19 @@ public class DailymotionDLVideoExternalShortcutProvider implements DLVideoExtern
 		JSONObject videoMetadata = getVideoMetadata(matcher.group(1));
 		String title = videoMetadata.getString("title");
 		String thumbnailURL = videoMetadata.getJSONObject("posters").getString("1080");
-		String subtitleUrl = "";
-		try {
-			if(videoMetadata.getJSONObject("subtitles").getJSONObject("data") != null){
-				subtitleUrl = videoMetadata.getJSONObject("subtitles").getJSONObject("data").getJSONObject("fr-auto").getJSONArray("urls").getString(0);
-			}
-		}
-		catch (Exception e){
-			_log.warn("No subtitle found for video " + matcher.group(1));
-		}
+		// Get the transcript (not used for now)
+//		String subtitleUrl = "";
+//		try {
+//			if(videoMetadata.getJSONObject("subtitles").getJSONObject("data") != null){
+//				subtitleUrl = videoMetadata.getJSONObject("subtitles").getJSONObject("data").getJSONObject("fr-auto").getJSONArray("urls").getString(0);
+//			}
+//		}
+//		catch (Exception e){
+//			_log.warn("No subtitle found for video " + matcher.group(1));
+//		}
 
 
-		String transcript = getVideoTranscript(subtitleUrl);
+//		String transcript = getVideoTranscript(subtitleUrl);
 
 
 
@@ -128,7 +129,7 @@ public class DailymotionDLVideoExternalShortcutProvider implements DLVideoExtern
 				return StringBundler.concat(
 								"<iframe data-thumbnail=\"", this.getThumbnailURL() , "\" allow=\"autoplay; encrypted-media\" ",
 						"allowfullscreen frameborder=\"0\" ",
-						"src=\"", iframeSrc, "\"></iframe>"+"<div class='video-subtitle' style='display:none'>"+ transcript +"</div>" );
+						"src=\"", iframeSrc, "\"></iframe>");
 			}
 
 		};

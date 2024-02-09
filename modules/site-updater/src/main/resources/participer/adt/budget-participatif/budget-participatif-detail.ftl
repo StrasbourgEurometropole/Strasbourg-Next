@@ -269,7 +269,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <div class="download-file-wrapper">
 
 
-                                        <#list entry.filesURLs as fileURL>
+                                    <#list entry.filesIds?split(",") as fileId>
 
                                             <#assign url = fileEntryHelper.getFileEntryURL(fileId?number) />
                                             <#assign title = fileEntryHelper.getFileTitle(fileId?number, locale) />
