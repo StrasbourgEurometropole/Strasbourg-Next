@@ -1,22 +1,21 @@
 dependencies {
 
-	compileOnly group: 'javax.mail', name: 'mail', version: '1.4.7'
-	compileInclude group: "org.apache.commons", name: "commons-csv", version: "1.7"
-	compileInclude group: "org.apache.commons", name: "commons-lang3", version: "3.9"
+//	compileOnly group: 'javax.mail', name: 'mail', version: '1.4.7'
+	compileInclude group: 'org.apache.commons', name: 'commons-csv', version: '1.10.0'
+	compileInclude group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
 
-	compileOnly group: 'com.itextpdf', name: 'itext7-core', version: '7.1.3', ext: 'pom'
-	compileOnly group: 'com.itextpdf', name: 'kernel', version: '7.1.3'
-	compileOnly group: 'com.itextpdf', name: 'layout', version: '7.1.3'
+//	compileOnly group: 'com.itextpdf', name: 'itext7-core', version: '7.1.3', ext: 'pom'
+//	compileOnly group: 'com.itextpdf', name: 'kernel', version: '8.0.2'
+	compileInclude group: 'com.itextpdf', name: 'layout', version: '8.0.2'
+//	compileOnly group: 'com.itextpdf', name: 'io', version: '8.0.2'
+//	compileOnly group: 'com.itextpdf', name: 'forms', version: '7.1.3'
+//	compileOnly group: 'com.itextpdf', name: 'pdfa', version: '7.1.3'
+//	compileOnly group: 'com.itextpdf', name: 'html2pdf', version: '2.1.0'
+//	compileOnly group: 'com.itextpdf', name: 'styled-xml-parser', version: '7.1.3'
+//	compileOnly group: 'com.itextpdf', name: 'svg', version: '7.1.3'// https://mvnrepository.com/artifact/com.itextpdf/bouncy-castle-connector
 
-	compileOnly group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.49'
-	compileOnly group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.49'
-
-	compileOnly group: 'com.itextpdf', name: 'io', version: '7.1.3'
-	compileOnly group: 'com.itextpdf', name: 'forms', version: '7.1.3'
-	compileOnly group: 'com.itextpdf', name: 'pdfa', version: '7.1.3'
-	compileOnly group: 'com.itextpdf', name: 'html2pdf', version: '2.1.0'
-	compileOnly group: 'com.itextpdf', name: 'styled-xml-parser', version: '7.1.3'
-	compileOnly group: 'com.itextpdf', name: 'svg', version: '7.1.3'
+//	compileOnly group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.49'// https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk18on
+//	compileOnly group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.49'// https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk18on
 
 	compileOnly group: "jstl", name: "jstl"
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"

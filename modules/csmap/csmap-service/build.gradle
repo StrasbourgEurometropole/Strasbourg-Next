@@ -4,7 +4,7 @@ dependencies {
 	compileOnly group: "org.osgi", name: "org.osgi.core"
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 
-	compileInclude group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.12.6"
+	//compileInclude group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.12.6"
 
 	implementation project(":modules:csmap:csmap-api")
 	implementation project(":modules:agenda:agenda-api")

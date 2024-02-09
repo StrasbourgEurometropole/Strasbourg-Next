@@ -1,12 +1,15 @@
 dependencies {
-	compileInclude group: "com.auth0", name: "java-jwt", version: "3.3.0"
+	compileInclude group: 'com.auth0', name: 'java-jwt', version: '3.4.1'
 
-	compileOnly group: "com.sun.xml.ws", name: "jaxws-ri", version: "2.3.2"
+	//compileOnly group: "com.sun.xml.ws", name: "jaxws-ri", version: "2.3.2"
 
-	compileOnly group: 'javax.mail', name: 'mail', version: '1.4.7'
+//	compileOnly group: 'javax.mail', name: 'mail', version: '1.5.0-b01'
+	compileOnly group: 'javax.mail', name: 'javax.mail-api', version: '1.6.2'
 
-	compileInclude group: "org.apache.commons", name: "commons-csv", version: "1.7"
-	compileInclude group: "org.apache.commons", name: "commons-lang3", version: "3.9"
+	compileInclude group: 'org.apache.commons', name: 'commons-csv', version: '1.10.0'
+
+
+	//compileInclude group: "org.apache.commons", name: "commons-lang3", version: "3.9"
 
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 

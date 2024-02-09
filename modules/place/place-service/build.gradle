@@ -1,8 +1,9 @@
 dependencies {
-	compileOnly group: "com.sun.xml.ws", name: "jaxws-ri", version: "2.3.2"
+	compileOnly group: 'com.sun.xml.ws', name: 'jaxws-ri', version: '2.3.7'
+
 	compileOnly group: "javax.servlet", name: "javax.servlet-api"
 	compileOnly group: 'org.json', name: 'org.json', version: '2.0'
-	compileOnly group: 'javax.mail', name: 'mail', version: '1.4.7'
+//	compileOnly group: 'javax.mail', name: 'mail', version: '1.4.7'
 	compileInclude group: "org.apache.commons", name: "commons-lang3", version: "3.12.0"
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 
