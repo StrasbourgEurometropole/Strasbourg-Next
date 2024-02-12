@@ -64,36 +64,36 @@
                     </#if>
                 </ul>
             </div>
-                <ul class="st-menu-footer">
-                    <li>
-                        <a href="${mediaLinkLabel.getChild('mediaLinkURL').getFriendlyUrl()}"
-                           title="${mediaLinkLabel.getData()} (<@liferay_ui.message key=" eu.new-window" />)"
-                           target="_blank">
-                            ${mediaLinkLabel.getData()}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="${newsletterLinkLabel.getChild('newsletterLinkURL').getFriendlyUrl()}"
-                           title="${newsletterLinkLabel.getData()} (<@liferay_ui.message key=" eu.new-window" />)"
-                           target="_blank">
-                            ${newsletterLinkLabel.getData()}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="${offerLinkLabel.getChild('offerLinkURL').getFriendlyUrl()}"
-                           title="${offerLinkLabel.getData()} (<@liferay_ui.message key=" eu.new-window" />)"
-                           target="_blank">
-                            ${offerLinkLabel.getData()}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="${strasAppLinkLabel.getChild('strasAppLinkURL').getData()}"
-                           title="${strasAppLinkLabel.getData()} (<@liferay_ui.message key=" eu.new-window" />)"
-                           target="_blank">
-                            ${strasAppLinkLabel.getData()}
-                        </a>
-                    </li>
-                </ul>
+            <ul class="st-menu-footer">
+                <li>
+                    <a href="${mediaLinkLabel.getChild('mediaLinkURL').getFriendlyUrl()}"
+                       title="${mediaLinkLabel.getData()} (<@liferay_ui.message key=" eu.new-window" />)"
+                       target="_blank">
+                        ${mediaLinkLabel.getData()}
+                    </a>
+                </li>
+                <li>
+                    <a href="${newsletterLinkLabel.getChild('newsletterLinkURL').getFriendlyUrl()}"
+                       title="${newsletterLinkLabel.getData()} (<@liferay_ui.message key=" eu.new-window" />)"
+                       target="_blank">
+                        ${newsletterLinkLabel.getData()}
+                    </a>
+                </li>
+                <li>
+                    <a href="${offerLinkLabel.getChild('offerLinkURL').getFriendlyUrl()}"
+                       title="${offerLinkLabel.getData()} (<@liferay_ui.message key=" eu.new-window" />)"
+                       target="_blank">
+                        ${offerLinkLabel.getData()}
+                    </a>
+                </li>
+                <li>
+                    <a href="${strasAppLinkLabel.getChild('strasAppLinkURL').getData()}"
+                       title="${strasAppLinkLabel.getData()} (<@liferay_ui.message key=" eu.new-window" />)"
+                       target="_blank">
+                        ${strasAppLinkLabel.getData()}
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
     <div  class="st-container-mentions" role="navigation">
@@ -109,17 +109,15 @@
                         <#else>
                             <#if cur_subfooterLinkLabel.activeTab?? && cur_subfooterLinkLabel.activeTab.getData()??
                             && cur_subfooterLinkLabel.activeTab.getData()=="true">
-                                <a href="${cur_subfooterLinkLabel.ExtLink.getData()}"
-                                   title="${cur_subfooterLinkLabel.getData()}">
+                                <a href="${cur_subfooterLinkLabel.ExtLink.getData()}">
                                     ${cur_subfooterLinkLabel.getData()}
                                 </a>
                             <#else>
-                                <a href="${cur_subfooterLinkLabel.ExtLink.getData()}" target="_blank"
-                                   title="${cur_subfooterLinkLabel.getData()} (<@liferay_ui.message key="
-                      eu.new-window" />)">
+                                <a href="${cur_subfooterLinkLabel.ExtLink.getData()}" target="_blank">
                                     ${cur_subfooterLinkLabel.getData()}
                                 </a>
                             </#if>
+
                         </#if>
                     </li>
                 </#list>

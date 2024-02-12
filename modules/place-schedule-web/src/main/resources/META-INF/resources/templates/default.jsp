@@ -360,9 +360,9 @@
                 $(".btn-less-schedules").hide();
             });
 
-                $('.place-schedule-form form').submit();            $("#submit").on("click",function(a){
-
-                });
+            $("#submit").on("click",function(a){
+                $('.place-schedule-form form').submit();
+            });
         });
     </script>
 </liferay-util:html-bottom>
