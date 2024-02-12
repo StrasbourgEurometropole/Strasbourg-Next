@@ -12,6 +12,8 @@ Export-Package: \
     eu.strasbourg.service.social,\
     eu.strasbourg.service.social.instagram,\
     eu.strasbourg.service.social.twitter
+-fixupmessages "Classes found in the wrong directory"; restrict:=error; is:=warning
 
 Import-Package: !android.os,\
     !com.google.appengine.api.urlfetch,*
+
