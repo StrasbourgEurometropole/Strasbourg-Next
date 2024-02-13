@@ -21,7 +21,7 @@
     <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
 
     <#assign asset = assetEntryLocalService.getEntry('com.liferay.journal.model.JournalArticle', entry.resourcePrimKey) >
-    <#assign newsTypes = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "type d'actualite") />
+    <#assign newsTypes = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "type d-'actualite") />
 
     <#-- Création de l'URL de détail -->
     <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
@@ -38,46 +38,23 @@
       <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
     </@liferay_portlet.actionURL>
 
-    <#-- Template -->
-    <div class="wi-search-result wi-edition-thumbnail">
-        <div class="seu-result-left seu-result-thumbnail">
-            <a href="${detailURLFilter}" title="${title}">
-                <div style="background-image: url(${imageURL});" class="thumbnail-background" >
-                    <#if asset.tagNames?seq_contains("euromag") || asset.tagNames?seq_contains("villemag") || asset.tagNames?seq_contains("webmag")>
-                        <div class="mag">MAG'</div>
-                        <div class="bg-mag"></div>
-                    </#if>
-                </div>
-            </a>
-        </div>
-        <div class="seu-result-right">
-            <a class="seu-result-content" href="${detailURLFilter}" title="${title}">
-                <h2 class="seu-result-title">${title}</h2>
-                <div class="seu-result-catcher">
-                    ${chapo?replace("<[^>]*>", "", "r")[0..*100]}...
-                </div>
-                <div class="seu-result-category">
-                    <#list newsTypes as type>
-                        ${type.getTitle(locale)}<#sep>, </#sep>
-                    </#list>
-                </div>
-            </a>
-            <div class="seu-result-infos">
-                <div class="seu-result-infos-top">
-                    ${dateHelperService.displayShortDate(entry.getModifiedDate()?date, locale)}
-                </div>
-                <div class="seu-result-infos-bottom">
-                     <a href="#" class="seu-add-favorites"
-                        data-type="6" 
-                        data-title="${title}" 
-                        data-url="${detailURL}"
-                        data-group-id=${themeDisplay.scopeGroupId}
-                        data-id="${entry.getArticleId()}">
-                        <span><@liferay_ui.message key='eu.add-to-favorite' /></span>
-                    </a>
-                </div>
+    <li>
+    <div class="st-card-container">
+        <a  href="${detailURL}" class="st-card st-card-actu">
+            <div class="st-caption">
+                <p class="st-title-card">${title}</p>
+                <p class="st-surtitre-cat">${newsTypes?map(news -> news.getTitle(locale))?join(', ')}</p>
+                <p class="st-date">Publié le ${dateHelperService.displayShortDate(entry.getModifiedDate()?date, locale)}</p>
             </div>
-        </div>
-
+            <div class="st-image">
+                <figure class="st-figure st-fit-cover" role="group">
+                    <picture>
+                        <img alt="" src="${imageURL}" />
+                    </picture>
+                </figure>
+            </div>
+        </a>
     </div>
+</li>
+
 </#if>
