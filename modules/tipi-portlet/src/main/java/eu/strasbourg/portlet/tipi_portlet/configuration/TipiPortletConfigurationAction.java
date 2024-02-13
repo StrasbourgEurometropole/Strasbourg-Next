@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Component(
-	configurationPid = "eu.strasbourg.portlet.tipi_portlet.configuration.PlaceScheduleConfiguration",
+	configurationPid = "eu.strasbourg.portlet.tipi_portlet.configuration.TipiPortletConfiguration",
 	configurationPolicy = ConfigurationPolicy.OPTIONAL,
 	immediate = true,
 	property = {

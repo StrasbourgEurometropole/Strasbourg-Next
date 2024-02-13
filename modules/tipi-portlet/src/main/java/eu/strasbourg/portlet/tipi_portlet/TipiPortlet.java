@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.tipi_portlet;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
@@ -14,18 +15,21 @@ import java.io.IOException;
 /**
  * @author 01i454
  */
-@Component(immediate = true, property = {
+@Component(immediate = true,
+		configurationPid = "eu.strasbourg.portlet.tipi_portlet.configuration.TipiPortletConfiguration",
+		property = {
 		"com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=false",
 		"javax.portlet.display-name=Tipi Portlet",
 		"javax.portlet.init-param.template-path=/",
+		"javax.portlet.version=3.0",
 		"javax.portlet.init-param.view-template=/view.jsp",
-		"javax.portlet.init-param.config-template=/config/config.jsp",
+		"javax.portlet.init-param.config-template=/tipi-configuration.jsp",
 		"com.liferay.portlet.footer-portlet-javascript=/js/main.js",
 		"com.liferay.portlet.header-portlet-css=/css/main.css",
 		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user",
-		"javax.portlet.version=3.0"}, service = Portlet.class)
+		"javax.portlet.name=" + StrasbourgPortletKeys.TIPI_PORTLET_WEB,
+		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class TipiPortlet extends MVCPortlet {
 
 	@Override
@@ -50,14 +54,10 @@ public class TipiPortlet extends MVCPortlet {
 				appCode = "PF";
 				clientNumber = "000696";
 				formTitle = "Facturation petite enfance";
-			} else if (form.equals("schoolRestaurant")) {
-				appCode = "RS";
+			} else if (form.equals("schoolRestaurantAfterSchool")) {
+				appCode = "SP";
 				clientNumber = "000696";
-				formTitle = "Facturation restauration scolaire";
-			} else if (form.equals("afterSchool")) {
-				appCode = "GA";
-				clientNumber = "000696";
-				formTitle = "Facturation services p&eacute;riscolaires (APM-ALM)";
+				formTitle = "Facturation Enfance (Cantine, ALM et APM)";
 			} else if (form.equals("water")) {
 				appCode = "EA";
 				clientNumber = "007964";
@@ -70,9 +70,12 @@ public class TipiPortlet extends MVCPortlet {
 				appCode = "RC";
 				clientNumber = "021529";
 				formTitle = "Facturation D&eacute;chet REOM";
+		} else {
+			formTitle = "Facturation inconnue";
+
 			}
 			
-		}
+	}
 		request.setAttribute("appCode", appCode);
 		request.setAttribute("clientNumber", clientNumber);
 		request.setAttribute("formTitle", formTitle);

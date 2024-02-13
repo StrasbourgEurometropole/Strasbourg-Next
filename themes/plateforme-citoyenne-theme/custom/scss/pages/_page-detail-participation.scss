@@ -237,7 +237,7 @@
 			position: sticky;
 			top: 162px;
 			@include addDynamicBackground();
-			height: 100vh;
+			height: fit-content;
 			margin-top: -35px;
 			padding: 0;
 			.pro-wrapper-links {
