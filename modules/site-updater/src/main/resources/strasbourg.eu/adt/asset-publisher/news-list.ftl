@@ -6,12 +6,10 @@
     <#assign homeURL = "/" />
 </#if>
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
-<header class="st-small-header st-wrapper st-wrapper-small">
-    <h1 class="st-h1">${portletHelper.getPortletTitle('eu.news', renderRequest)}</h1>
-    <@liferay.breadcrumbs />
-</header>
+
 <div class="st-bloc st-bloc-actu st--with-anchors st-wrapper st-u-overflow-x-hidden st--has-margin" role="group">
     <div class="st-wrapper st-bloc-actu__inner st-js-slider-actu splide st-component-container" id="splide02" role="region">
+        <h2 class="st-h2 st-titre">${portletHelper.getPortletTitle('eu.news', renderRequest)}</h2>
         <div class="splide__track st-u-overflow-visible" id="splide02-track">
             <ul class="splide__list st-cards-wrapper" id="splide02-list">
                 <#list entries as curEntry>
@@ -44,7 +42,6 @@
                                     <div class="st-caption">
                                         <p class="st-title-card">${title}</p>
                                         <p class="st-surtitre-cat">${newsTypes?map(news -> news.getTitle(locale))?join(', ')}</p>
-                                        <p class="st-date">Publié le ${dateHelperService.displayShortDate(entry.getModifiedDate()?date, locale)}</p>
                                     </div>
                                     <div class="st-image">
                                         <figure class="st-figure st-fit-cover" role="group">
@@ -63,6 +60,8 @@
 
             </ul>
         </div>
-        <ul class="splide__pagination st-nav-dots" role="tablist" aria-label="Select a slide to show"></ul>
+        <ul class="splide__pagination st-nav-dots"></ul>
+
+        <a href="/actualite" class="st-btn st--btn-secondary st--btn-full-width st-btn-cta"><@liferay.language key="eu.news.all-news" /></a>
     </div>
 </div>

@@ -42,7 +42,7 @@
                                     <div class="st-caption">
                                         <p class="st-title-card">${newsItem.title}</p>
                                         <p class="st-surtitre-cat">${newsItem.category}</p>
-                                        <p class="st-date"><liferay-ui:message key="eu.published-on" /> ${newsItem.publicationDate}</p>
+                                        <p class="st-text">${newsItem.descriptionCourt}</p>
                                     </div>
 
                                     <div class="st-image">
@@ -70,7 +70,7 @@
                                     <div class="st-caption">
                                         <p class="st-title-card">${newsItem.title}</p>
                                         <p class="st-surtitre-cat">${newsItem.category}</p>
-                                        <p class="st-date"><liferay-ui:message key="eu.published-on" /> ${newsItem.publicationDate}</p>
+                                        <p class="st-text">${newsItem.descriptionCourt}</p>
                                     </div>
 
                                     <div class="st-image">

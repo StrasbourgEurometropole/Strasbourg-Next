@@ -35,6 +35,7 @@ public class NewsHomeItem {
     String category;
     String title;
     String description;
+    String descriptionCourt;
     String imageURL;
     String detailURL;
     String titleCourt;
@@ -60,6 +61,13 @@ public class NewsHomeItem {
         this.title = JournalArticleHelper.getJournalArticleFieldValue(article, "title", locale);
         this.titleCourt = JournalArticleHelper.getJournalArticleFieldValue(article, "TitleShort", locale, true);
         this.description = JournalArticleHelper.getJournalArticleFieldValue(article, "chapo", locale);
+        // truncate description to 80 character and add "..."
+        if (this.description.length() > 80) {
+            this.descriptionCourt = this.description.substring(0, 80) + "...";
+        }
+        else {
+            this.descriptionCourt = this.description;
+        }
 
         // Récupère la structure du document de la vignette et obtient l'URL de l'image
         String documentStructure = JournalArticleHelper.getJournalArticleFieldValue(article, "thumbnail", locale);
@@ -101,5 +109,9 @@ public class NewsHomeItem {
 
     public String getTitleCourt() {
         return titleCourt;
+    }
+
+    public String getDescriptionCourt() {
+        return descriptionCourt;
     }
 }
