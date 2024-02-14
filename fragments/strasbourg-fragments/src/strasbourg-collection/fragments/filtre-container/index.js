@@ -25,8 +25,6 @@ overlay.className = "";
 			var name = inputElement.getAttribute('name');
         var destinationElement = document.querySelector('.st-barre-listing-sit .st-barre-inner.st-wrapper.form-styles [data-name="' + name + '"]');
         inputElement.addEventListener('change', function () {
-            
-
             destinationElement.value = inputElement.value;
            
         });

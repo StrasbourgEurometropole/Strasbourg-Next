@@ -1,6 +1,3 @@
-[#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/macros.ftl" /]
-[#assign sessionUtil = staticUtil["com.liferay.portal.kernel.util.SessionParamUtil"] /]
-<!-- ${request.session.getAttribute("publik_logged_in")!"Nexiste"} -->
 <div class="st-btn-search-mobile-wrapper st-hide-from@mobile">
     <button class="st-btn-search-mobile" data-overlay-open="st-overlay-search"
             aria-label="Rechercher - Ouvrir le moteur de recherche"  aria-haspopup="dialog">
@@ -11,10 +8,12 @@
     <div class="st-barre-liens">
         <div class="st-wrapper st-barre-inner-container">
 					<div>
-                <a href="${homeURL}" class="st-logo">
-                    <figure class="st-figure st-fit-cover" role="group">
+                <a href="${strasbourg.homeURL()}" class="st-logo">
+									<figure class="st-figure st-fit-cover">
                         <picture>
-                            <img src="/o/strasbourg-theme/images/medias/logo.png">
+                            <img width="154" height="30" alt="Strasbourg.eu eurométropole"
+                                src="/o/strasbourg-theme/images/medias/logo.png"
+                                srcset="/o/strasbourg-theme/images/medias/logo.png 1x, /o/strasbourg-theme/images/medias/logo@2x.png 2x">
                         </picture>
                     </figure>
                 </a>
@@ -34,7 +33,7 @@ ${journalArticleLocalService.getArticleContent(jesuisObject, jesuisObject.getDDM
                         </a>
                     </li>
                     <li class="st-nav-primary__item">
-                        <a href="#" class="st-nav-primary__link">[@liferay_ui.message key="eu.ops.contact" /]</a>
+                        <a href="/contact" class="st-nav-primary__link">[@liferay_ui.message key="eu.ops.contact" /]</a>
                     </li>
                     <li class="st-has-lang-dropdown">
                         <select onchange="document.location.href = this.value;" class="select-lang" title="Fr - changer la langue du site">
@@ -48,13 +47,13 @@ ${journalArticleLocalService.getArticleContent(jesuisObject, jesuisObject.getDDM
                         </select>
                     </li>
                     <li class="st-has-btn-compte">
-                        [#if request.session.getAttribute("publik_logged_in")!false]
+                        [#if themeDisplay.getRequest().session.getAttribute("publik_logged_in")!false]
                         <a href="https://services.strasbourg.eu/" class="st-btn-compte">
                             <span class="st-icon-demarche" aria-hidden="true"></span>[@liferay_ui.message key="eu.my-procedures" /]
                         </a>
                         [#else]
                             
-                            <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="st-btn-compte">
+                            <a href="${strasbourg.layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="st-btn-compte">
                                 <span class="st-icon-person" aria-hidden="true"></span>
                                 <strong>[@liferay_ui.message key="eu.mystrasbourg" /]</strong>.eu
                             </a>
@@ -93,7 +92,7 @@ ${journalArticleLocalService.getArticleContent(jesuisObject, jesuisObject.getDDM
     <div class="st-wrapper">
         <ul class="st-toolbar-inner">
             <li class="st-has-logo">
-                <a href="${homeURL}" class="st-logo">
+                <a href="${strasbourg.homeURL()}" class="st-logo">
 
                     <figure class="st-figure st-fit-cover" role="group">
                         <picture>
@@ -118,12 +117,12 @@ ${journalArticleLocalService.getArticleContent(jesuisObject, jesuisObject.getDDM
                 </select>
             </li>
             <li>
-                [#if request.session.getAttribute("publik_logged_in")!false]
+                [#if themeDisplay.getRequest().session.getAttribute("publik_logged_in")!false]
                     <a href="https://services.strasbourg.eu/" class="st-lien-libre">
                         <span class="st-icon-demarche" aria-hidden="true"></span>
                     </a>
                 [#else]
-                    <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="st-lien-libre">
+                    <a href="${strasbourg.layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="st-lien-libre">
                         <span class="st-icon-person" aria-hidden="true"></span>
                     </a>
                 [/#if]

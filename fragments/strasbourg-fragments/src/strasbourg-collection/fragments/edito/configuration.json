@@ -4,7 +4,7 @@
       "fields": [
         {
           "name": "numberOfSections",
-          "label": "Zones Supplémentaire",
+          "label": "Ancres Supplémentaire",
           "type": "text",
           "dataType": "int",
           "defaultValue": "3"

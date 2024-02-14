@@ -8,11 +8,7 @@
         },
         "fragmentConfig" : {
           "jesuis" : {
-            "statusDate" : 1702379226641,
-            "template" : {
-              "infoItemRendererKey" : "com.liferay.journal.web.internal.info.item.renderer.JournalArticleDDMTemplateInfoItemTemplatedRenderer",
-              "templateKey" : "435912457"
-            },
+            "statusDate" : 1707727911364,
             "descriptionCurrentValue" : "",
             "smallImageId" : "0",
             "smallImage" : false,
@@ -21,36 +17,36 @@
             "description" : "",
             "className" : "com.liferay.journal.model.JournalArticle",
             "classNameId" : "28829",
-            "title" : "Je suis header",
+            "title" : "Mon profil",
             "smallImageSource" : 1,
-            "uuid" : "60de8b5d-ac89-fa6f-ec35-34d844b323f8",
-            "content" : "<?xml version=\"1.0\"?>\n\n<root available-locales=\"fr_FR\" default-locale=\"fr_FR\" version=\"1.0\">\n\t<dynamic-element field-reference=\"FieldsetIam\" index-type=\"\" instance-id=\"435302592\" name=\"Fieldset42219664\" type=\"fieldset\">\n\t\t<dynamic-element field-reference=\"nameJesuis\" index-type=\"keyword\" instance-id=\"8NpLAyuZ\" name=\"Text50873106\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[un élu]]></dynamic-content>\n\t\t</dynamic-element>\n\t\t<dynamic-element field-reference=\"linkJesuis\" index-type=\"keyword\" instance-id=\"DOgfJOCM\" name=\"Text38716634\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[https://google.com]]></dynamic-content>\n\t\t</dynamic-element>\n\t</dynamic-element>\n\t<dynamic-element field-reference=\"FieldsetIam\" index-type=\"\" instance-id=\"2fyk8qaf\" name=\"Fieldset42219664\" type=\"fieldset\">\n\t\t<dynamic-element field-reference=\"nameJesuis\" index-type=\"keyword\" instance-id=\"iif1ntib\" name=\"Text50873106\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[un enseignant]]></dynamic-content>\n\t\t</dynamic-element>\n\t\t<dynamic-element field-reference=\"linkJesuis\" index-type=\"keyword\" instance-id=\"43f2sr3u\" name=\"Text38716634\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[https://google.com]]></dynamic-content>\n\t\t</dynamic-element>\n\t</dynamic-element>\n\t<dynamic-element field-reference=\"FieldsetIam\" index-type=\"\" instance-id=\"4eyz2ope\" name=\"Fieldset42219664\" type=\"fieldset\">\n\t\t<dynamic-element field-reference=\"nameJesuis\" index-type=\"keyword\" instance-id=\"1cipbxwn\" name=\"Text50873106\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[un étudiant]]></dynamic-content>\n\t\t</dynamic-element>\n\t\t<dynamic-element field-reference=\"linkJesuis\" index-type=\"keyword\" instance-id=\"v1cp82qj\" name=\"Text38716634\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[https://google.com]]></dynamic-content>\n\t\t</dynamic-element>\n\t</dynamic-element>\n\t<dynamic-element field-reference=\"FieldsetIam\" index-type=\"\" instance-id=\"eo7310m0\" name=\"Fieldset42219664\" type=\"fieldset\">\n\t\t<dynamic-element field-reference=\"nameJesuis\" index-type=\"keyword\" instance-id=\"9vwdtg83\" name=\"Text50873106\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[demandeur d'emploi]]></dynamic-content>\n\t\t</dynamic-element>\n\t\t<dynamic-element field-reference=\"linkJesuis\" index-type=\"keyword\" instance-id=\"9vg7nimk\" name=\"Text38716634\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[https://google.com]]></dynamic-content>\n\t\t</dynamic-element>\n\t</dynamic-element>\n</root>",
+            "uuid" : "8f668daa-1de6-f530-c6bb-6fc2d510b0a7",
+            "content" : "<?xml version=\"1.0\"?>\n\n<root available-locales=\"fr_FR\" default-locale=\"fr_FR\" version=\"1.0\">\n\t<dynamic-element field-reference=\"FieldsetIam\" index-type=\"\" instance-id=\"TdiKFbup\" name=\"Fieldset47242162\" type=\"fieldset\">\n\t\t<dynamic-element field-reference=\"nameJesuis\" index-type=\"keyword\" instance-id=\"wNC9SqdO\" name=\"Text74324387\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[Association]]></dynamic-content>\n\t\t</dynamic-element>\n\t\t<dynamic-element field-reference=\"linkJesuis\" index-type=\"keyword\" instance-id=\"NtdC6Koe\" name=\"Text72393740\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[https://www.strasbourg.eu/associations]]></dynamic-content>\n\t\t</dynamic-element>\n\t</dynamic-element>\n\t<dynamic-element field-reference=\"FieldsetIam\" index-type=\"\" instance-id=\"uts3vaub\" name=\"Fieldset47242162\" type=\"fieldset\">\n\t\t<dynamic-element field-reference=\"nameJesuis\" index-type=\"keyword\" instance-id=\"vidfq4nz\" name=\"Text74324387\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[Entreprise]]></dynamic-content>\n\t\t</dynamic-element>\n\t\t<dynamic-element field-reference=\"linkJesuis\" index-type=\"keyword\" instance-id=\"v5osbbbg\" name=\"Text72393740\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[https://www.strasbourg.eu/entreprises]]></dynamic-content>\n\t\t</dynamic-element>\n\t</dynamic-element>\n\t<dynamic-element field-reference=\"FieldsetIam\" index-type=\"\" instance-id=\"mg0r6ogw\" name=\"Fieldset47242162\" type=\"fieldset\">\n\t\t<dynamic-element field-reference=\"nameJesuis\" index-type=\"keyword\" instance-id=\"0wtvi16n\" name=\"Text74324387\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[Étudiante et étudiant]]></dynamic-content>\n\t\t</dynamic-element>\n\t\t<dynamic-element field-reference=\"linkJesuis\" index-type=\"keyword\" instance-id=\"1ebghnsu\" name=\"Text72393740\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[https://www.strasbourgaimesesetudiants.eu/]]></dynamic-content>\n\t\t</dynamic-element>\n\t</dynamic-element>\n\t<dynamic-element field-reference=\"FieldsetIam\" index-type=\"\" instance-id=\"055zcl0s\" name=\"Fieldset47242162\" type=\"fieldset\">\n\t\t<dynamic-element field-reference=\"nameJesuis\" index-type=\"keyword\" instance-id=\"3lud8ke9\" name=\"Text74324387\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[Journaliste]]></dynamic-content>\n\t\t</dynamic-element>\n\t\t<dynamic-element field-reference=\"linkJesuis\" index-type=\"keyword\" instance-id=\"6c8lnwf9\" name=\"Text72393740\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[https://www.visitstrasbourg.fr/]]></dynamic-content>\n\t\t</dynamic-element>\n\t</dynamic-element>\n\t<dynamic-element field-reference=\"FieldsetIam\" index-type=\"\" instance-id=\"4q9iv68r\" name=\"Fieldset47242162\" type=\"fieldset\">\n\t\t<dynamic-element field-reference=\"nameJesuis\" index-type=\"keyword\" instance-id=\"8h9grws8\" name=\"Text74324387\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[Parent]]></dynamic-content>\n\t\t</dynamic-element>\n\t\t<dynamic-element field-reference=\"linkJesuis\" index-type=\"keyword\" instance-id=\"sq78taxi\" name=\"Text72393740\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[https://www.strasbourg.eu/enfance-education]]></dynamic-content>\n\t\t</dynamic-element>\n\t</dynamic-element>\n\t<dynamic-element field-reference=\"FieldsetIam\" index-type=\"\" instance-id=\"p41iycwm\" name=\"Fieldset47242162\" type=\"fieldset\">\n\t\t<dynamic-element field-reference=\"nameJesuis\" index-type=\"keyword\" instance-id=\"780r01x6\" name=\"Text74324387\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[Personne nouvellement arrivée]]></dynamic-content>\n\t\t</dynamic-element>\n\t\t<dynamic-element field-reference=\"linkJesuis\" index-type=\"keyword\" instance-id=\"3q2la1lh\" name=\"Text72393740\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[https://www.strasbourg.eu/nouvel-arrivant]]></dynamic-content>\n\t\t</dynamic-element>\n\t</dynamic-element>\n\t<dynamic-element field-reference=\"FieldsetIam\" index-type=\"\" instance-id=\"6a94a6iv\" name=\"Fieldset47242162\" type=\"fieldset\">\n\t\t<dynamic-element field-reference=\"nameJesuis\" index-type=\"keyword\" instance-id=\"ockja3wk\" name=\"Text74324387\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[Touriste]]></dynamic-content>\n\t\t</dynamic-element>\n\t\t<dynamic-element field-reference=\"linkJesuis\" index-type=\"keyword\" instance-id=\"d21c5dyd\" name=\"Text72393740\" type=\"text\">\n\t\t\t<dynamic-content language-id=\"fr_FR\"><![CDATA[https://www.visitstrasbourg.fr/]]></dynamic-content>\n\t\t</dynamic-element>\n\t</dynamic-element>\n</root>",
             "externalReferenceCode" : "",
-            "classPK" : "435302652",
+            "classPK" : "477664594",
             "layoutUuid" : "",
             "ctCollectionId" : "0",
             "descriptionMapAsXML" : "",
-            "id" : "436238199",
-            "createDate" : 1690550682298,
-            "statusByUserId" : "591872",
+            "id" : "477664603",
+            "createDate" : 1707225462379,
+            "statusByUserId" : "477664398",
             "smallImageURL" : "",
-            "urlTitle" : "je-suis-header",
-            "articleId" : "435302650",
+            "urlTitle" : "mon-profil",
+            "articleId" : "476537346",
             "defaultLanguageId" : "fr_FR",
-            "userName" : "Thomas Tse",
-            "userId" : "591872",
-            "version" : 1.9,
+            "userName" : "Thomas TSE",
+            "userId" : "477664398",
+            "version" : 1.7,
             "folderId" : "1087185",
-            "DDMTemplateKey" : "435302600",
+            "DDMTemplateKey" : "JE-SUIS",
             "companyId" : "20116",
-            "DDMStructureId" : "435302592",
-            "titleMapAsXML" : "<?xml version='1.0' encoding='UTF-8'?><root available-locales=\"fr_FR\" default-locale=\"fr_FR\"><Title language-id=\"fr_FR\">Je suis header</Title></root>",
-            "displayDate" : 1690550640000,
-            "modifiedDate" : 1702379226641,
-            "statusByUserName" : "Thomas Tse",
+            "DDMStructureId" : "477664429",
+            "titleMapAsXML" : "<?xml version='1.0' encoding='UTF-8'?><root available-locales=\"fr_FR\" default-locale=\"fr_FR\"><Title language-id=\"fr_FR\">Mon profil</Title></root>",
+            "displayDate" : 1707225420000,
+            "modifiedDate" : 1707727911364,
+            "statusByUserName" : "Thomas TSE",
             "mvccVersion" : "1",
-            "titleCurrentValue" : "Je suis header",
-            "resourcePrimKey" : "435302652",
+            "titleCurrentValue" : "Mon profil",
+            "resourcePrimKey" : "477664594",
             "treePath" : "/1087185/",
             "status" : 0
           }
@@ -71,11 +67,11 @@
         "widgetInstance" : {
           "widgetConfig" : {
             "ddmTemplateKey" : "",
-            "assetEntryId" : "1087276",
+            "assetEntryId" : "1087264",
             "userToolAssetAddonEntryKeys" : "false",
             "groupId" : "976405",
             "enableViewCountIncrement" : "false",
-            "articleId" : "1087272",
+            "articleId" : "1087260",
             "contentMetadataAssetAddonEntryKeys" : "false"
           },
           "widgetName" : "com_liferay_journal_content_web_portlet_JournalContentPortlet"
@@ -86,8 +82,8 @@
       "definition" : {
         "widgetInstance" : {
           "widgetConfig" : {
-            "siteNavigationMenuId" : "435401109",
-            "displayStyle" : "ddmTemplate_435401114",
+            "siteNavigationMenuId" : "471677191",
+            "displayStyle" : "ddmTemplate_OVERLAY-MENU",
             "displayDepth" : "0",
             "siteNavigationMenuType" : "-1",
             "rootMenuItemType" : "absolute",
@@ -102,22 +98,7 @@
     }, {
       "definition" : {
         "widgetInstance" : {
-          "widgetConfig" : {
-            "prefilterCategoriesIds" : "",
-            "dynamicSearch" : "false",
-            "assetClassNames" : "eu.strasbourg.service.edition.model.Edition,eu.strasbourg.service.edition.model.EditionGallery,eu.strasbourg.service.place.model.Place",
-            "searchDocument" : "false",
-            "delta" : "0",
-            "dateField" : "false",
-            "searchForm" : "strasbourg",
-            "dateRangeTo" : "60",
-            "dateRangeFrom" : "0",
-            "prefilterTagsNames" : "",
-            "assetClassNamesIds" : "30707,30708,555029",
-            "boostTagsNames" : "",
-            "globalScope" : "true",
-            "searchNews" : "false"
-          },
+          "widgetConfig" : { },
           "widgetName" : "eu_strasbourg_portlet_dynamic_search_asset_DynamicSearchAssetPortlet"
         }
       },
@@ -125,15 +106,16 @@
     }, {
       "definition" : {
         "widgetInstance" : {
-          "widgetConfig" : { },
-          "widgetName" : "com_liferay_journal_content_web_portlet_JournalContentPortlet",
-          "widgetPermissions" : [ {
-            "actionKeys" : [ "PERMISSIONS", "PREFERENCES", "CONFIGURATION", "VIEW", "ADD_TO_PAGE" ],
-            "roleKey" : "Owner"
-          }, {
-            "actionKeys" : [ "VIEW" ],
-            "roleKey" : "Site Member"
-          } ]
+          "widgetConfig" : {
+            "ddmTemplateKey" : "",
+            "assetEntryId" : "1087276",
+            "userToolAssetAddonEntryKeys" : "false",
+            "groupId" : "976405",
+            "enableViewCountIncrement" : "false",
+            "articleId" : "1087272",
+            "contentMetadataAssetAddonEntryKeys" : "false"
+          },
+          "widgetName" : "com_liferay_journal_content_web_portlet_JournalContentPortlet"
         }
       },
       "type" : "Widget"
