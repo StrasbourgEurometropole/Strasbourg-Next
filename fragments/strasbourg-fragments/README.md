@@ -26,6 +26,11 @@ To compile the fragments, fragment composition and master page, run the followin
 npm run compress
 ```
 
+When you run the command, say Y to add descriptor
+
+then for the company id, keep `liferay.com`
+for the group id, type `Strasbourg.eu`
+
 This will create .zip files in the `build` folder. You can then upload the .zip to /deploy folder of your Liferay instance. It will automatically deploy the fragments, fragment composition and master page.
 
 
