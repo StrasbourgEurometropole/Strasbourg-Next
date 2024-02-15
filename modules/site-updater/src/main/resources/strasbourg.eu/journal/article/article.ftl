@@ -17,7 +17,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <div class="st-img-wrapper" tabindex="0">
                 <figure class="st-figure st-fit-cover figcaption-only-credits" role="group" aria-label="">
                     <picture>
-                        <img alt="Photo" src="${layout.expandoBridge.getAttribute('image')}">
+                        <img alt="" src="${layout.expandoBridge.getAttribute('image')}">
                     </picture>
                 </figure>
             </div>
