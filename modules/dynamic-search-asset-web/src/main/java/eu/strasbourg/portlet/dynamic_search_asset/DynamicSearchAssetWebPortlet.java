@@ -235,31 +235,32 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 								GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
 								GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
 
-						//On elimine tous les BP qui ne font pas parti de la phase active. Si pas de phase active, pas d'affichage des BP
-						//C'est dommage de faire le filtrage après la recherche mais la configuration actuelle de la recherche ne permet pas
-						//de préfiltrer sur la catégorie pour une seule entité en particuler
-						if(document.get(Field.ENTRY_CLASS_NAME).equals("eu.strasbourg.service.project.model.BudgetParticipatif") &&
-								(activePhaseCategory == null ||
-										!AssetVocabularyHelper.hasAssetCategoryAssetEntry(entry.getEntryId(), activePhaseCategory.getCategoryId()))) {
-							entry = null;
-						}
-
-						//On elimine tous les CW qui n'ont pas de layout
-						if(document.get(Field.ENTRY_CLASS_NAME).equals(JournalArticle.class.getName())){
-							// on vérifie si le jourrnalArticle est utilisé
-							try {
-								JournalArticle journalArticle = JournalArticleServiceUtil.getLatestArticle(entry.getClassPK());
-								String url = LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay);
-								if (Validator.isNull(url)) {
-									entry = null;
-								}
-							}catch (PortalException e){
+						if (entry != null) {
+							//On elimine tous les BP qui ne font pas parti de la phase active. Si pas de phase active, pas d'affichage des BP
+							//C'est dommage de faire le filtrage après la recherche mais la configuration actuelle de la recherche ne permet pas
+							//de préfiltrer sur la catégorie pour une seule entité en particuler
+							if (document.get(Field.ENTRY_CLASS_NAME).equals("eu.strasbourg.service.project.model.BudgetParticipatif") &&
+									(activePhaseCategory == null ||
+											!AssetVocabularyHelper.hasAssetCategoryAssetEntry(entry.getEntryId(), activePhaseCategory.getCategoryId()))) {
 								entry = null;
 							}
-						}
-						
-						if (entry != null) {
-							results.add(entry);
+
+							//On elimine tous les CW qui n'ont pas de layout
+							if (document.get(Field.ENTRY_CLASS_NAME).equals(JournalArticle.class.getName())) {
+								// on vérifie si le jourrnalArticle est utilisé
+								try {
+									JournalArticle journalArticle = JournalArticleServiceUtil.getLatestArticle(entry.getClassPK());
+									String url = LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay);
+									if (Validator.isNull(url)) {
+										entry = null;
+									}
+								} catch (PortalException e) {
+									entry = null;
+								}
+							}
+							if (entry != null) {
+								results.add(entry);
+							}
 						}
 					}
 					totalResult = SearchHelper.getGlobalSearchCount(searchContext, classNames, groupId, globalGroupId,
