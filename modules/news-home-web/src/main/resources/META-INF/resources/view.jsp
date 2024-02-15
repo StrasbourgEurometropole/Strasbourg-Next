@@ -18,7 +18,7 @@
         <div class="st-img-wrapper">
             <figure class="st-figure st-fit-cover" role="group">
                 <picture>
-                    <img src="${newsItemAlaUne.imageURL}" />
+                    <img alt="" src="${newsItemAlaUne.imageURL}" />
                 </picture>
             </figure>
 
@@ -37,56 +37,56 @@
                     <c:forEach items="${newsItemsHeadline}" var="newsItem">
                         <li class="splide__slide">
                             <c:if test="${newsItem != null}">
-                            <div class="st-card-container">
-                                <a href="${newsItem.detailURL}" class="st-card st-card-actu st--is-featured">
-                                    <div class="st-caption">
-                                        <p class="st-title-card">${newsItem.title}</p>
-                                        <p class="st-surtitre-cat">${newsItem.category}</p>
-                                        <p class="st-text">${newsItem.descriptionCourt}</p>
-                                    </div>
+                                <div class="st-card-container">
+                                    <a href="${newsItem.detailURL}" class="st-card st-card-actu st--is-featured">
+                                        <div class="st-caption">
+                                            <p class="st-title-card">${newsItem.title}</p>
+                                            <p class="st-surtitre-cat">${newsItem.category}</p>
+                                            <p class="st-text">${newsItem.descriptionCourt}</p>
+                                        </div>
 
-                                    <div class="st-image">
+                                        <div class="st-image">
 
-                                        <figure class="st-figure st-fit-cover" role="group">
-                                            <picture>
-                                                <img alt="" src="${newsItem.imageURL}">
-                                            </picture>
-                                        </figure>
-                                    </div>
+                                            <figure class="st-figure st-fit-cover" role="group">
+                                                <picture>
+                                                    <img alt="" src="${newsItem.imageURL}">
+                                                </picture>
+                                            </figure>
+                                        </div>
 
-                                </a>
+                                    </a>
 
 
-                            </div>
+                                </div>
                             </c:if>
                         </li>
 
                     </c:forEach>
-                <c:forEach items="${newsItemsOthers}" var="newsItem">
-                    <li class="splide__slide">
-                        <c:if test="${newsItem != null}">
-                            <div class="st-card-container">
-                                <a href="${newsItem.detailURL}" class="st-card st-card-actu">
-                                    <div class="st-caption">
-                                        <p class="st-title-card">${newsItem.title}</p>
-                                        <p class="st-surtitre-cat">${newsItem.category}</p>
-                                        <p class="st-text">${newsItem.descriptionCourt}</p>
-                                    </div>
+                    <c:forEach items="${newsItemsOthers}" var="newsItem">
+                        <li class="splide__slide">
+                            <c:if test="${newsItem != null}">
+                                <div class="st-card-container">
+                                    <a href="${newsItem.detailURL}" class="st-card st-card-actu">
+                                        <div class="st-caption">
+                                            <p class="st-title-card">${newsItem.title}</p>
+                                            <p class="st-surtitre-cat">${newsItem.category}</p>
+                                            <p class="st-text">${newsItem.descriptionCourt}</p>
+                                        </div>
 
-                                    <div class="st-image">
+                                        <div class="st-image">
 
-                                        <figure class="st-figure st-fit-cover" role="group">
-                                            <picture>
-                                                <img alt="" src="${newsItem.imageURL}" />
-                                            </picture>
-                                        </figure>
-                                    </div>
-                                </a>
-                            </div>
-                        </c:if>
+                                            <figure class="st-figure st-fit-cover" role="group">
+                                                <picture>
+                                                    <img alt="" src="${newsItem.imageURL}" />
+                                                </picture>
+                                            </figure>
+                                        </div>
+                                    </a>
+                                </div>
+                            </c:if>
 
-                    </li>
-                </c:forEach>
+                        </li>
+                    </c:forEach>
 
                 </ul>
             </div>
