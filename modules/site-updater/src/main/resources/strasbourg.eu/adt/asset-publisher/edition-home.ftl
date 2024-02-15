@@ -1,7 +1,7 @@
 
 <div class="st-bloc st-bloc-editions-dossiers">
     <div class="st-col-left">
-        <h2 class="st-h2">Nos éditions</h2>
+        <h2 class="st-h2"><@liferay_ui.message key="eu.our.edition" /></h2>
         <ul class="st-editions-container">
             <#list entries as curEntry>
                 <#assign entry=curEntry.getAssetRenderer().getEdition() />
@@ -19,7 +19,7 @@
                         <#if entry.getEditionGalleries()?size != 0>
                             <#assign galery = entry.getEditionGalleries()[0] >
                             <a href="${strasbourg.homeURL()}/galerie-editions/-/entity/id/${galery.getGalleryId()}" class="st-btn st--btn-xs">
-                                Tous les ${galery.getTitle(locale)}
+                                <@liferay_ui.message key="eu.all.of-x" arguments="${galery.getTitle(locale)}" />
                             </a>
                         </#if>
 
