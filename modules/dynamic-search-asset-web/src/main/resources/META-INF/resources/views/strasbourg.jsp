@@ -54,11 +54,11 @@ title="Overlay" />
         <div class="st-overlay__body st-custom-scrollbar">
 
             <div class="st-wrapper">
-                <ul id="resultList" class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small" aria-live="polite" aria-busy="false">
+                <div id="resultList" class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small" aria-live="polite" aria-busy="false">
                     <div class="loading-animation st-hide" aria-hidden="true">
                         <div></div>
                     </div>
-                </ul>
+                </div>
             </div>
         </div>
 
