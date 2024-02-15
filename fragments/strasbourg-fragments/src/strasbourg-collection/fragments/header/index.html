@@ -1,3 +1,4 @@
+[#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") /]
 <div class="st-btn-search-mobile-wrapper st-hide-from@mobile">
     <button class="st-btn-search-mobile" data-overlay-open="st-overlay-search"
             aria-label="Rechercher - Ouvrir le moteur de recherche"  aria-haspopup="dialog">
@@ -22,9 +23,9 @@
             <nav class="st-nav-primary" role="navigation">
 							[#assign journalArticleLocalService = serviceLocator.findService("com.liferay.journal.service.JournalArticleLocalService")]
 									[#if configuration.jesuis.content??]
-							
+
 ${journalArticleLocalService.getArticleContent(jesuisObject, jesuisObject.getDDMTemplateKey(), "VIEW", themeDisplay.getLocale().toString(), null, themeDisplay)}
-							
+
   [/#if]
                 <ul class="st-nav-primary__menu">
                     <li class="st-nav-primary__item">
@@ -52,8 +53,8 @@ ${journalArticleLocalService.getArticleContent(jesuisObject, jesuisObject.getDDM
                             <span class="st-icon-demarche" aria-hidden="true"></span>[@liferay_ui.message key="eu.my-procedures" /]
                         </a>
                         [#else]
-                            
-                            <a href="${strasbourg.layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="st-btn-compte">
+
+                            <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="st-btn-compte">
                                 <span class="st-icon-person" aria-hidden="true"></span>
                                 <strong>[@liferay_ui.message key="eu.mystrasbourg" /]</strong>.eu
                             </a>
@@ -122,7 +123,7 @@ ${journalArticleLocalService.getArticleContent(jesuisObject, jesuisObject.getDDM
                         <span class="st-icon-demarche" aria-hidden="true"></span>
                     </a>
                 [#else]
-                    <a href="${strasbourg.layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="st-lien-libre">
+                    <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="st-lien-libre">
                         <span class="st-icon-person" aria-hidden="true"></span>
                     </a>
                 [/#if]

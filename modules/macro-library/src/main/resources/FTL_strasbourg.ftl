@@ -1,7 +1,3 @@
-<#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
-<#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
-
-
 <#function homeURL>
     <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
         <#return "/web${layout.group.friendlyURL}/" />
@@ -11,7 +7,6 @@
 </#function>
 
 <#function getRootElement curEntry>
-
     <#assign journalArticle = curEntry.getAssetRenderer().getArticle()>
     <#assign document = saxReaderUtil.read(journalArticle.getContent()) />
     <#assign rootElement = document.getRootElement() />
@@ -22,7 +17,6 @@
 <#function getFieldValue rootElement name>
     <#assign xPathSelector = saxReaderUtil.createXPath("dynamic-element[@name='${name}']")/>
     <#assign value = xPathSelector.selectSingleNode(rootElement).getStringValue()/>
-
     <#return value>
 </#function>
 
@@ -49,7 +43,6 @@
     </#if>
 </#macro>
 
-
 <#macro showMore>
     <div class="st-show-more">
         <button class="st-btn-show-more st-btn-arrow st--down"
@@ -66,7 +59,6 @@
         <#return "©  ${copyright}">
     </#if>
     <#return copyright>
-
 </#function>
 
 <#function getLegend fileEntryId >
@@ -97,9 +89,7 @@
         <#assign file=dlFileEntry.getFileEntryByUuidAndGroupId(uuId,groupId)>
         <#return file>
     </#if>
-
 </#function>
-
 
 <#macro getImage imageNode>
     <#local fileEntryIdString = imageNode.getAttribute("fileEntryId")>
@@ -116,9 +106,7 @@
     <#if multiSessionErrors.contains(renderRequest, key)>
         <p class="st-alert-form st--has-error"><@liferay_ui.message key=message /></p>
     </#if>
-
 </#macro>
-
 
 <#macro alertInfo key message>
     <#assign sessionMessage = staticUtil["com.liferay.portal.kernel.servlet.SessionMessages"]>
@@ -152,13 +140,13 @@
 </#macro>
 
 <#macro overlayContact entry entryType>
-<@liferay_portlet.actionURL varImpl="contactURL" name="contact">
-    <@liferay_portlet.param name="classPK" value="${entry.getPlaceId()}" />
-    <@liferay_portlet.param name="to" value="${entry.mail}" />
-    <@liferay_portlet.param name="title" value="${entry.getAlias(locale)}" />
-    <@liferay_portlet.param name="type" value="${entryType}" />
-</@liferay_portlet.actionURL>
-<#assign overlayContactTitle=entry.getAlias(locale) />
+    <@liferay_portlet.actionURL varImpl="contactURL" name="contact">
+        <@liferay_portlet.param name="classPK" value="${entry.getPlaceId()}" />
+        <@liferay_portlet.param name="to" value="${entry.mail}" />
+        <@liferay_portlet.param name="title" value="${entry.getAlias(locale)}" />
+        <@liferay_portlet.param name="type" value="${entryType}" />
+    </@liferay_portlet.actionURL>
+    <#assign overlayContactTitle=entry.getAlias(locale) />
     <#if themeDisplay.isSignedIn() >
         <@clay["alert"] message="Overlay de contact est present sur cette page"
         displayType="secondary"
@@ -181,7 +169,6 @@
                     <@strasbourg.alertError key="recaptcha-error" message="eu.recaptcha-error" />
                     <@strasbourg.alertInfo key="mail-success-with-copy" message="eu.form-success-with-copy" />
                     <@strasbourg.alertInfo key="mail-success" message="eu.form-success" />
-
 
                     <#if renderRequest.getAttribute("mailSent")?? == false>
                         <p class="st-text-mandatory"><@liferay_ui.message key="eu.required-field-star" /></p>
@@ -219,16 +206,12 @@
                             <div id="recaptcha-contact" class="g-recaptcha" data-sitekey="${propsUtil.get('eu.strasbourg.recaptcha.public')}"></div>
                         </div>
 
-
                         <div class="st-text-mentions">
                             <h3 class="st-title-mentions"> <@liferay_ui.message key="contact.mention" /></h3>
 
                             <@liferay_ui.message key="contact.default-privacy" />
                         </div>
                     </#if>
-
-
-
                 </div>
             </div>
 
@@ -237,8 +220,6 @@
                     <button class="st-btn st--btn-full-width" name="submit" value="<@liferay_ui.message key="send" />"><@liferay_ui.message key="send" /></button>
                 </#if>
             </div>
-
         </form>
-
     </div>
 </#macro>
