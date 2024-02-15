@@ -36,8 +36,8 @@
                 </div>
                 <span class="st-h3" style="text-align: center;">OU</span>
 
-                <div class="st-group-field">
-                    <label for="field2">${districtSublabel.getData()} ${districtLabel.getData()}</label>
+            <div class="st-group-field">
+                <label for="districtFieldSet">${districtSublabel.getData()} ${districtLabel.getData()}</label>
 
                     <div class="st-field-select">
                         <select id="districtFieldSet" onchange="document.location.href = this.value;" name="districtFieldSet">
