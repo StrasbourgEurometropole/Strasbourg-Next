@@ -6,20 +6,19 @@
 
 <div id="st-overlay-location" class="st-overlay st-overlay-location st--from-bottom st-custom-scrollbar" role="dialog" aria-modal="true" tabindex="0" aria-label="${title.getData()}">
 
-    <form action="" class="st-overlay__inner form-styles">
-        <button class="st-btn-close st-parsed-overlay" data-overlay-close="st-overlay-location" aria-label="Fermer"></button>
+    <button class="st-btn-close st-parsed-overlay" data-overlay-close="st-overlay-location" aria-label="Fermer"></button>
 
-        <div class="st-overlay__body">
+    <div class="st-overlay__body">
 
-            <div class="st-overlay__heading">
-                <h2 class="st-title-overlay st-h2">${title.getData()}</h2>
-                <p>
-                    ${chapo.getData()}
-                </p>
-            </div>
+        <div class="st-overlay__heading">
+            <h2 class="st-title-overlay st-h2">${title.getData()}</h2>
+            <p>
+                ${chapo.getData()}
+            </p>
+        </div>
 
 
-            <div class="st-grid-fields st-grid-12">
+        <div class="st-grid-fields st-grid-12">
 
                 <div class="st-group-field">
                     <label for="field1">${citySublabel.getData()} ${cityLabel.getData()}</label>
@@ -54,6 +53,5 @@
             </div>
         </div>
 
-    </form>
 
 </div>
