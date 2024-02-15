@@ -20,12 +20,12 @@
     <#return value>
 </#function>
 
-<#macro addImage fileEntryId showLegende=true showCopyright=true isFigure=true>
+<#macro addImage fileEntryId maxWidth=2000 showLegende=true showCopyright=true isFigure=true>
     <#if  fileEntryId?has_content && fileEntryId?number != 0>
         <#local copyright = getCopyright(fileEntryId) />
         <#local legend = getLegend(fileEntryId) />
         <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group" aria-label="${copyright} ${legend}">
-            <@strasbourg.getImageByFileEntry fileEntryId=fileEntryId?number />
+            <@strasbourg.getImageByFileEntry fileEntryId=fileEntryId?number maxWidth=maxWidth />
             <figcaption>
                 <#if legend?has_content && showLegende>
                     ${legend}
@@ -38,7 +38,7 @@
         </figure>
     <#else>
         <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group">
-            <img src="https://placehold.co/600x400/20272F/2AD783/png?text=!&font=roboto" />
+            <img alt="" src="https://placehold.co/600x400/20272F/2AD783/png?text=!&font=roboto" />
         </figure>
     </#if>
 </#macro>
@@ -96,9 +96,15 @@
     <@strasbourg.addImage fileEntryId=fileEntryIdString?number />
 </#macro>
 
-<#macro getImageByFileEntry fileEntryId>
+<#macro getImageByFileEntry fileEntryId maxWidth>
     <#assign dlAppServiceUtil = serviceLocator.findService("com.liferay.document.library.kernel.service.DLAppService")>
-    <@adaptive_media_image["img"] fileVersion=dlAppServiceUtil.getFileEntry(fileEntryId?number).getFileVersion() />
+    <#assign file = dlAppServiceUtil.getFileEntry(fileEntryId?number)>
+    <#if  maxWidth != 2000>
+        <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
+        <img alt="${file.getDescription()}" src="${fileEntryHelper.getClosestSizeImageURL(fileEntryId, maxWidth)}"" />
+    <#else>
+        <@adaptive_media_image["img"] fileVersion=file.getFileVersion() />
+    </#if>
 </#macro>
 
 <#macro alertError key message>

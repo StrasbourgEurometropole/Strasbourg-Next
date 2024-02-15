@@ -7,7 +7,7 @@
                 <#assign entry=curEntry.getAssetRenderer().getEdition() />
                 <li class="st-edition">
                     <div class="st-image" style="width: 130px;">
-                        <@strasbourg.addImage fileEntryId=entry.getImageId() showLegende=false showCopyright=false isFigure=true />
+                        <@strasbourg.addImage fileEntryId=entry.getImageId() maxWidth=130 showLegende=false showCopyright=false isFigure=true />
                     </div>
                     <div class="st-content">
                         <h3 class="st-h3">
