@@ -25,7 +25,7 @@
                             <a href="${navigationEntry.getRegularFullURL()}" class="st-card ">
                                 <div class="st-caption">
                                     <p class="st-title-card">
-                                        ${navigationEntry.getLayout().getName()}
+                                        ${navigationEntry.getLayout().getName(locale)}
                                     </p>
                                     <p class="st-surtitre-cat">
                                         ${newsTypes?map(news -> news.getTitle(locale))?join(', ')}
