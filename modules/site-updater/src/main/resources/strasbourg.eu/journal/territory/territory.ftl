@@ -21,7 +21,7 @@
         <div class="st-grid-fields st-grid-12">
 
             <div class="st-group-field">
-                <label for="field1">${citySublabel.getData()} ${cityLabel.getData()}</label>
+                <label for="cityFieldSet">${citySublabel.getData()} ${cityLabel.getData()}</label>
                 <div class="st-field-select">
                     <select id="cityFieldSet" onchange="document.location.href = this.value;" name="cityFieldSet">
                         <option value="" selected disabled >
