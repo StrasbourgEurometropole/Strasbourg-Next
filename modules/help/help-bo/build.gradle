@@ -1,6 +1,5 @@
 dependencies {
 
-	compileOnly group: 'javax.mail', name: 'mail', version: '1.4.7'
 	compileOnly group: "jstl", name: "jstl"
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 

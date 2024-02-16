@@ -2,7 +2,7 @@ dependencies {
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 	compileOnly group: "jstl", name: "jstl"
 
-	compileInclude group: 'org.apache.commons', name: 'commons-text', version: '1.10.0'
+	compileInclude group: 'org.apache.commons', name: 'commons-text', version: '1.11.0'
 
 	implementation project (':modules:utils')
 	implementation project (':modules:comment:comment-api')

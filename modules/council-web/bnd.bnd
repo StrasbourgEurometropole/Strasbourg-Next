@@ -1,3 +1,5 @@
 Bundle-SymbolicName: council.web
 Bundle-Version: 1.0.0
 Web-ContextPath: /councilweb
+-fixupmessages "Classes found in the wrong directory"; restrict:=error; is:=warning
+Import-Package: *;resolution:=optional
