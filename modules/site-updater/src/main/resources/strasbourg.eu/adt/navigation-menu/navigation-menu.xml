@@ -15,7 +15,7 @@
     <template>
         <script>page-politique-menu.ftl</script>
         <name>Menu de navigation page politique</name>
-        <key>page-politique-menu</key>
+        <key>477730465</key>
     </template>
     <template>
         <script>rubric-menu.ftl</script>

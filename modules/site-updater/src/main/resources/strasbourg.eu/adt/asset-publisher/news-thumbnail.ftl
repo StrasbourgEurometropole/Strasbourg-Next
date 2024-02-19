@@ -44,7 +44,6 @@
             <div class="st-caption">
                 <p class="st-title-card">${title}</p>
                 <p class="st-surtitre-cat">${newsTypes?map(news -> news.getTitle(locale))?join(', ')}</p>
-                <p class="st-date">Publié le ${dateHelperService.displayShortDate(entry.getModifiedDate()?date, locale)}</p>
             </div>
             <div class="st-image">
                 <figure class="st-figure st-fit-cover" role="group">

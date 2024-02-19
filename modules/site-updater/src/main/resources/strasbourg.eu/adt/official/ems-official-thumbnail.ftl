@@ -5,24 +5,12 @@
     <#assign homeURL="/" />
 </#if>
 <#assign plId=renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
-<@liferay_portlet.renderURL plid=plId var="detailURL"
-portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
-    <@liferay_portlet.param name="classPK" value="${entry.officialId}" />
-    <@liferay_portlet.param name="returnURL" value="${currentURL}" />
-</@liferay_portlet.renderURL>
-<@liferay_portlet.actionURL var="detailURLFilter">
-    <@liferay_portlet.param name="userTargetClassId" value="${entry.assetEntry.classNameId}" />
-    <@liferay_portlet.param name="userTargetClassPK" value="${entry.assetEntry.classPK}" />
-    <@liferay_portlet.param name="userTargetTitle" value="${entry.firstName} ${entry.lastName}" />
-    <@liferay_portlet.param name="detailURL" value="${detailURL}" />
-    <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
-</@liferay_portlet.actionURL>
 
 <li>
     <div class="st-card-container">
         <a href="#" class="st-card st-card-person" onclick="updateModalOfficial(this)"
-           data-detailurl="${detailURLFilter}"
-           data-mailaddress="<#if entry.listeContact?has_content>${detailURLFilter}#st-overlay-contact</#if>"
+           data-detailurl="${homeURL}elu/-/entity/id/${entry.getOfficialId()}"
+           data-mailaddress="<#if entry.listeContact?has_content>${homeURL}elu/-/entity/id/${entry.getOfficialId()}#st-overlay-contact</#if>"
            data-overlay-open="st-overlay-preview-person">
 
             <div class="st-caption">

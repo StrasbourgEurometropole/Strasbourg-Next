@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            <div class="st-overlay__content st-text-styles">
+            <div class="st-overlay__content">
 
             </div>
 
