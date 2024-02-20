@@ -58,3 +58,4 @@ switch (window.tarteaucitronForceLanguage) {
 (tarteaucitron.job = tarteaucitron.job || []).push('soundcloud');
 (tarteaucitron.job = tarteaucitron.job || []).push('calameo');
 (tarteaucitron.job = tarteaucitron.job || []).push('vimeo');
+(tarteaucitron.job = tarteaucitron.job || []).push('timelinejs');
