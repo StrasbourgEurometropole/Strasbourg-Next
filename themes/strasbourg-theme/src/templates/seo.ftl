@@ -1,5 +1,3 @@
-
-
 <#assign currentUrlOG = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 
 <#assign descriptionOG = '${layout.getDescription(locale)?replace("<[^>]*>", "", "r")?html?js_string}' />
