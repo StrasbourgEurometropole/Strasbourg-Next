@@ -265,6 +265,3 @@
         </ul>
     </div>
 </#macro>
-
-<#macro isFavouriteSticky >
-</#macro>
