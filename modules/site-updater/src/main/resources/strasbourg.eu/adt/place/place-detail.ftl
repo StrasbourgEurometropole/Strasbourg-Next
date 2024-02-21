@@ -108,10 +108,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
             </ul>
 
             <@strasbourg.isFavouriteSticky entryId=entry.getPlaceId() entryType=1 title=entry.getAlias(locale) url=themeDisplay.getPortalURL() />
-
-
-            <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/social-share.ftl" />
-
+            <@strasbourg.socialShare />
 
         </div>
     </div>

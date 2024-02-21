@@ -385,7 +385,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </#if>
                 </ul>
                 <@strasbourg.isFavouriteSticky entryId=entry.getEventId() entryType=2 title=entry.getTitle(locale) url=themeDisplay.getPortalURL() />
-                    <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/social-share.ftl" />
+                <@strasbourg.socialShare />
             </div>
         </div>
     </div>
