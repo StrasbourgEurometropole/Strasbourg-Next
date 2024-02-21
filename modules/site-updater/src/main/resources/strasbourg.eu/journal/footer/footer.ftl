@@ -101,7 +101,7 @@
             <#if subfooterLinkLabel.getSiblings()?has_content>
                 <#list subfooterLinkLabel.getSiblings() as cur_subfooterLinkLabel>
                     <li>
-                        <#if cur_subfooterLinkLabel.Lien2ga2.getData()?has_content>
+                        <#if cur_subfooterLinkLabel.Lien2ga2.getFriendlyUrl()?has_content>
                             <a href="${cur_subfooterLinkLabel.Lien2ga2.getFriendlyUrl()}"
                                title="${cur_subfooterLinkLabel.getData()}">
                                 ${cur_subfooterLinkLabel.getData()}
