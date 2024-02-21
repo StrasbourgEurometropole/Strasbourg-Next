@@ -54,10 +54,10 @@
                         <#list socialNetwork.getSiblings() as cur_socialNetwork>
                             <li>
                                 <a href="${cur_socialNetwork.getChild('socialNetworkURL').getData()}" rel="noopener" target="_blank" class="st-btn-icon"
-                                   title="${cur_socialNetwork.getData()}">
+                                   title="${cur_socialNetwork.getChild('classePicto').getData()}">
                 <span class="st-icon-${cur_socialNetwork.getChild('classePicto').getData()}"
                       aria-hidden="true"></span>
-                                    <span class="st-sr-only">${cur_socialNetwork.getData()}</span>
+                                    <span class="st-sr-only">${cur_socialNetwork.getChild('classePicto').getData()}</span>
                                 </a>
                             </li>
                         </#list>
