@@ -152,5 +152,5 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <@liferay_portlet.param name="type" value="Official" />
     </@liferay_portlet.actionURL>
     <#assign overlayContactTitle="${entry.getFirstName()} ${entry.getLastName()}" />
-    <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/overlay-contact.ftl" />
+    <@strasbourg.overlayContact entry=entry entryType="Official" />
 </#if>
