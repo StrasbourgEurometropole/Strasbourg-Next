@@ -6,7 +6,7 @@
 
 <div id="st-overlay-location" class="st-overlay st-overlay-location st--from-bottom st-custom-scrollbar" role="dialog" aria-modal="true" tabindex="0" aria-label="${title.getData()}">
     <div class="st-overlay__inner form-styles">
-        <button class="st-btn-close st-parsed-overlay" data-overlay-close="st-overlay-location" aria-label="Fermer"></button>
+        <button class="st-btn-close" data-overlay-close="st-overlay-location" aria-label="Fermer"></button>
 
         <div class="st-overlay__body">
 
