@@ -7,6 +7,8 @@
                     <a href="tel:${phone.getData()}" class="st-btn st--btn-secondary st--btn-small-padding">
                         ${phone.getData()}
                     </a>
+                </li>
+                <li class="st-lien-container">
                     <a href="${detailLink.getData()}" class="st-btn st--btn-secondary st--btn-small-padding">
                         <@liferay_ui.message key="contact.contact-us" />
                     </a>
