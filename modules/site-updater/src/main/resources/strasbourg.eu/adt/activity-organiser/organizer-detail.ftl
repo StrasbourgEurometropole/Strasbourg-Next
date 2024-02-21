@@ -23,7 +23,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <@liferay.breadcrumbs />
             </div>
             <div class="st-image">
-                <@strasbourg.addImage fileEntryId=entry.imageId isFigure=true />
+                <@strasbourg.addImage fileEntryId=entry.imageId maxWidth=270 isFigure=true />
             </div>
         </div>
     </div>

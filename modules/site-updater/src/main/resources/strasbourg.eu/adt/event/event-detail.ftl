@@ -76,7 +76,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <#if entry.imageURL?has_content>
             <div class="st-image">
                 <#if entry.getImageId() !=0>
-                    <@strasbourg.addImage fileEntryId=entry.getImageId() isFigure=true />
+                    <@strasbourg.addImage fileEntryId=entry.getImageId() maxWidth=307 isFigure=true />
                 <#else>
                     <figure class="st-figure st-fit-cover" role="group" aria-label=" © ${entry.getExternalImageCopyright()}">
                         <picture>

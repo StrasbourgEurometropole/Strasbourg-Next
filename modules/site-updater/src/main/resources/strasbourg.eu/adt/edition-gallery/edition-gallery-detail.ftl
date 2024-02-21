@@ -24,7 +24,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         </h1>
         <@liferay.breadcrumbs />
         <div class="st-img-wrapper st-img-fit-content" tabindex="0">
-            <@strasbourg.addImage fileEntryId=entry.getImageId() />
+            <@strasbourg.addImage fileEntryId=entry.getImageId() maxWidth=1120 />
         </div>
     </div>
 </header>
@@ -55,7 +55,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <#list entry.publishedEditions?reverse as edition>
                 <li class="st-edition">
                     <div class="st-image " style="width: 130px">
-                        <@strasbourg.addImage fileEntryId=edition.getImageId() showLegende=false showCopyright=false  />
+                        <@strasbourg.addImage fileEntryId=edition.getImageId() maxWidth=130 showLegende=false showCopyright=false  />
                     </div>
                     <div class="st-content">
                         <h3 class="st-h3">

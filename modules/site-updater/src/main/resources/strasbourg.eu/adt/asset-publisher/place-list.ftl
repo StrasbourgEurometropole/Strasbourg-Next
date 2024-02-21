@@ -32,10 +32,10 @@
                             </div>
                             <div class="st-image">
                                 <#if place.getImageId() !=0>
-                                    <@strasbourg.addImage fileEntryId=place.getImageId() showLegende=false showCopyright=false isFigure=true />
+                                    <@strasbourg.addImage fileEntryId=place.getImageId() maxWidth=100 showLegende=false showCopyright=false isFigure=true />
                                 <#elseif place.getImageURL()?has_content>
                                     <figure class="st-figure st-fit-cover" role="group">
-                                        <img src="${place.getImageURL()}" />
+                                        <img alt="" src="${place.getImageURL()}" />
                                     </figure>
                                 <#else>
                                     <span class="st-icon st-icon-pin"></span>

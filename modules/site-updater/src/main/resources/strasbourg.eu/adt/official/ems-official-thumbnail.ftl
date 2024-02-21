@@ -31,7 +31,7 @@
                 </#if>
             </div>
             <div class="st-image">
-                <@strasbourg.addImage fileEntryId=entry.imageId showLegende=false showCopyright=false isFigure=true />
+                <@strasbourg.addImage fileEntryId=entry.imageId maxWidth=195 showLegende=false showCopyright=false isFigure=true />
             </div>
         </a>
         <div class="st-hide st-description">

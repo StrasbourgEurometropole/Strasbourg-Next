@@ -17,7 +17,7 @@
                 <p class="st-text">${entry.getDescription(locale)?replace(r'<[^>]*>', '', 'r')?truncate(170, "...")}</p>
             </div>
             <div class="st-image">
-                <@strasbourg.addImage fileEntryId=entry.imageId showLegende=false showCopyright=false isFigure=true />
+                <@strasbourg.addImage fileEntryId=entry.imageId maxWidth=210 showLegende=false showCopyright=false isFigure=true />
             </div>
 
         </a>

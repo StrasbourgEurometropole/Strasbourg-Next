@@ -22,7 +22,7 @@
             </div>
             <div class="st-image">
                 <#if entry.getImageId() !=0>
-                    <@strasbourg.addImage fileEntryId=entry.getImageId() showLegende=false showCopyright=false isFigure=true />
+                    <@strasbourg.addImage fileEntryId=entry.getImageId() maxWidth=195 showLegende=false showCopyright=false isFigure=true />
                 <#elseif entry.getImageURL()?has_content>
                     <figure class="st-figure st-fit-cover" role="group">
                         <img src="${entry.getImageURL()}" />

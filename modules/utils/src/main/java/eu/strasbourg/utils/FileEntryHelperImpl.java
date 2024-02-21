@@ -61,7 +61,7 @@ public class FileEntryHelperImpl implements FileEntryHelperService {
 				}
 			}
 			if(closestQuery == null) {
-				return "error";
+				return this.getFileEntryURL(fileEntryId);
 			}
 
 			return closestQuery.getSrc().split(",")[0];

@@ -38,10 +38,10 @@
                         </div>
                         <div class="st-image">
                             <#if event.getImageId() !=0>
-                                <@strasbourg.addImage fileEntryId=event.getImageId() showLegende=false showCopyright=false isFigure=true />
+                                <@strasbourg.addImage fileEntryId=event.getImageId() maxWidth=100 showLegende=false showCopyright=false isFigure=true />
                             <#else>
                                 <figure class="st-figure st-fit-cover" role="group">
-                                    <img src="${event.getImageURL()}" />
+                                    <img alt="" src="${event.getImageURL()}" />
                                 </figure>
                             </#if>
                         </div>

@@ -23,9 +23,9 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 <div class="st-barre-single-sit">
     <div class="st-barre-inner st-wrapper">
         <div class="st-container-left">
-            <#if  fileEntryId?has_content && fileEntryId?number != 0>
+            <#if  entry.imageId?has_content && entry.imageId?number != 0>
                 <div class="st-image">
-                    <@strasbourg.addImage fileEntryId=entry.imageId  />
+                    <@strasbourg.addImage fileEntryId=entry.imageId maxWidth=80  />
                 </div>
             </#if>
             <div class="st-content">
@@ -177,7 +177,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
             <div class="st-cover-container">
                 <#if entry.imageId?has_content && entry.imageId?number != 0>
                     <div class="st-image">
-                        <@strasbourg.addImage fileEntryId=entry.imageId showCopyright=true />
+                        <@strasbourg.addImage fileEntryId=entry.imageId maxWidth=560 showCopyright=true />
                     </div>
                 </#if>
                 <div class="st-wrapper-maps">
@@ -192,9 +192,8 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
             </div>
         </div>
-
+    </header>
 </div>
-</header>
 
 <div class="st-content">
 
@@ -585,7 +584,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                 <div class="st-col-left">
                     <#if imageEntryId?has_content>
                         <div class="st-icon-picto" style="width: 145px;">
-                            <@strasbourg.addImage fileEntryId=imageEntryId.getFileEntryId()  />
+                            <@strasbourg.addImage fileEntryId=imageEntryId.getFileEntryId() maxWidth=91  />
                         </div>
 
                     </#if>
@@ -669,7 +668,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                 <div class="st-image">
 
                                     <#if event.getImageId() !=0>
-                                        <@strasbourg.addImage fileEntryId=event.getImageId() isFigure=true />
+                                        <@strasbourg.addImage fileEntryId=event.getImageId() maxWidth=100 isFigure=true />
                                     <#else>
                                         <figure class="st-figure st-fit-cover" role="group" aria-label=" © ${event.getExternalImageCopyright()}">
                                             <picture>

@@ -21,7 +21,7 @@
 
             <div class="st-bloc-elu__inner">
                 <div class="st-image">
-                    <@strasbourg.addImage fileEntryId=official.imageId  showCopyright=false  />
+                    <@strasbourg.addImage fileEntryId=official.imageId maxWidth=160 showCopyright=false  />
                 </div>
 
                 <div class="st-caption">
