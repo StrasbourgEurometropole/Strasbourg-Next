@@ -16,16 +16,16 @@
                     <a href="${locationLinkLabelFieldSet.locationLinkURL.getFriendlyUrl()}" class="st-lien">
                         <span class="st-icon-itineraire" aria-hidden="true"></span>
                         <span class="st-text">
-              ${locationLinkLabelFieldSet.locationLinkLabel.getData()}
-            </span>
+                          ${locationLinkLabelFieldSet.locationLinkLabel.getData()}
+                        </span>
                     </a>
                 </li>
                 <li>
                     <a href="${cityHallLinkLabelFieldSet.cityHallLinkURL.getFriendlyUrl()}" class="st-lien">
                         <span class="st-icon-maison" aria-hidden="true"></span>
                         <span class="st-text">
-              ${cityHallLinkLabel.getData()}
-            </span>
+                          ${cityHallLinkLabel.getData()}
+                        </span>
                     </a>
                 </li>
             </ul>
@@ -37,7 +37,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="st-btn st--btn-secondary st--btn-footer">
+                    <a href="/contact" class="st-btn st--btn-secondary st--btn-footer">
                         <@liferay.language key="eu.contact-mail" />
                     </a>
                 </li>
