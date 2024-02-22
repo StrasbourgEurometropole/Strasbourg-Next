@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="st-container-right">
-            <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/social-share.ftl" />
+            <@strasbourg.socialShare />
         </div>
     </div>
 </div>

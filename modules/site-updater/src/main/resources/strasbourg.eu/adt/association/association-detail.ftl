@@ -77,7 +77,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </li>
                 </#if>
             </ul>
-            <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/social-share.ftl" />
+            <@strasbourg.socialShare />
         </div>
     </div>
 </div>

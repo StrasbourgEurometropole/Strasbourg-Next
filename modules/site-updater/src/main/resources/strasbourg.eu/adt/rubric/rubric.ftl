@@ -38,7 +38,7 @@
             <button class="splide__arrow splide__arrow--next st-btn-arrow st--next" aria-label="Défiler vers la droite"></button>
         </div>
 
-        <#include "/strasbourg-theme_SERVLET_CONTEXT_/templates/social-share.ftl" />
+        <@strasbourg.socialShare />
 
     </nav>
 </div>
