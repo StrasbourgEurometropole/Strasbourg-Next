@@ -81,9 +81,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <p class="st-surtitre-cat">
                     <@liferay_ui.message key="eu.official.in-charge-of" /> :
                 </p>
-                <p class="st-intro">
-                    ${entry.getThematicDelegation(locale)}
-                </p>
+                ${entry.getThematicDelegation(locale)}
             </#if>
             <#if entry.getPoliticalGroupCity()?has_content>
                 <p class="st-surtitre-cat">
@@ -112,8 +110,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <p class="st-surtitre-cat">
                     <@liferay_ui.message key="eu.official.in-charge-of" />
                 </p>
-                <p class="st-intro"> ${entry.getMissions(locale)}
-                </p>
+                ${entry.getMissions(locale)}
             </#if>
             <#if entry.getPoliticalGroupEurometropole()?has_content>
                 <p class="st-surtitre-cat">
