@@ -31,7 +31,11 @@
                                         ${newsTypes?map(news -> news.getTitle(locale))?join(', ')}
                                     </p>
                                     <p class="st-text">
-                                        ${navigationEntry.getLayout().getDescription()}
+                                        <#if navigationEntry.getLayout().getDescription(locale)?length gt 60>
+                                            ${navigationEntry.getLayout().getDescription(locale)[0..60]}...
+                                        <#else>
+                                            ${navigationEntry.getLayout().getDescription(locale)}
+                                        </#if>
                                     </p>
                                 </div>
                                 <div class="st-image">
