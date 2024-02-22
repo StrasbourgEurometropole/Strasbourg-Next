@@ -102,12 +102,7 @@
 		<c:if test="${dc.displayExport}">
 			<div class="btn-line">
 				<a href="${dc.exportResourceURL}" title="<liferay-ui:message key="print" />" target="_blank">
-					<button type="button" class="seu-btn-square--filled--second">
-								<span class="seu-flexbox">
-									<span class="seu-btn-text"><liferay-ui:message key="print" /></span>
-									<span class="seu-btn-arrow"></span>
-								</span>
-					</button>
+					<button type="button" class="st-btn"><liferay-ui:message key="print" /></button>
 				</a>
 			</div>
 		</c:if>
