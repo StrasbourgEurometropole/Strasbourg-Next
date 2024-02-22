@@ -9,8 +9,6 @@
 		flex-shrink: 0;
 		width: 400px;
 		padding: 40px 40px 40px 0;
-		border-bottom: 1px solid $c_border;
-		border-right: 1px solid $c_border;
 
 		@include tablet-portrait {
 			width: 100%;
@@ -76,7 +74,6 @@
 		flex: 1;
 		padding: 40px 0 40px 40px;
 		overflow: hidden;
-		border-bottom: 1px solid $c_border;
 
 		@include tablet-portrait {
 			//padding: 40px 0;
