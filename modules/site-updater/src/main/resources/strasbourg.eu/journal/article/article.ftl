@@ -25,7 +25,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     </div>
 </header>
 
-<div class="st-bloc st-bloc-sit-presentation st-wrapper st-wrapper-small st--has-margin">
+<div class="st-bloc st-bloc-sit-presentation st-wrapper st-wrapper-small st--has-margin st-text-styles">
     <p class="st-surtitre">
         <strong>
             ${chapo.getData()}
