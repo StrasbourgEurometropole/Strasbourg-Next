@@ -23,7 +23,7 @@
 
 
 
-		<aui:form method="post" name="fm">
+		<aui:form method="post" name="fm" cssClass="st-bloc st--has-margin">
 			<!-- RÃ©sultats -->
 			<liferay-ui:search-container id="entriesSearchContainer"
 						searchContainer="${dc.searchContainer}">
