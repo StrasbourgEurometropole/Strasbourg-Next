@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.contact.configuration.ContactFormConfiguration;
+import eu.strasbourg.portlet.contact.context.ContactFormDisplayContext;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -74,6 +75,10 @@ public class ContactFormPortlet extends MVCPortlet {
 				privacyText = LanguageUtil.get(PortalUtil.getHttpServletRequest(renderRequest), "contact.default-privacy");
 			}
 			renderRequest.setAttribute("privacyText", privacyText);
+
+			// Création du display context
+			ContactFormDisplayContext dc = new ContactFormDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("dc", dc);
 			
 			// Clé recaptcha
 			String recaptchaKey = StrasbourgPropsUtil.getRecaptchaPublicKey();

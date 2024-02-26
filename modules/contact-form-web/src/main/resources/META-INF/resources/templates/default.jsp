@@ -13,13 +13,15 @@
 <c:if test="${not param.mailSent}">
 	<liferay-portlet:actionURL name="contact" var="contactURL" />
 	<form action="${contactURL}" method="post" class="form-styles">
-		<liferay-ui:error key="unknown-error" message="eu.unknown-error" targetNode=".form-styles" />
-		<liferay-ui:error key="recaptcha-error" message="eu.recaptcha-error" targetNode=".form-styles" />
-		<liferay-ui:error key="email-error" message="email-error" targetNode=".form-styles" />
-		<liferay-ui:error key="lastname-error" message="lastname-error" targetNode=".form-styles" />
-		<liferay-ui:error key="firstname-error" message="firstname-error" targetNode=".form-styles" />
-		<liferay-ui:error key="content-error" message="content-error" targetNode=".form-styles" />
-		<liferay-ui:error key="invalid-mail-error" message="eu.invalid-mail-error" targetNode=".form-styles" />
+		${dc.getAlertError("lastname-error", "lastname-error", "lastName")}
+		${dc.getAlertError("firstname-error", "firstname-error", "firstName")}
+		${dc.getAlertError("email-error", "email-error", "emailFrom")}
+		${dc.getAlertError("invalid-mail-error", "eu.invalid-mail-error", "emailFrom")}
+		${dc.getAlertError("content-error", "content-error", "demande")}
+		${dc.getAlertError("recaptcha-error", "eu.recaptcha-error", "recaptcha-contact-form")}
+
+		${dc.getAlertError("unknown-error", "eu.unknown-error", "")}
+
 		<div class="st-grid-fields st-grid-12">
 			<p class="st-text-mandatory"><liferay-ui:message key="eu.required-field-star" /></p>
 
@@ -42,7 +44,7 @@
 			<div class="st-group-field">
 				<label for="demande"><liferay-ui:message key="contact.request" /></label>
 				<textarea rows="8" id="demande" name="content"
-						  placeholder="Saisissez votre texte...">${param.content}</textarea>
+						  placeholder="<liferay-ui:message key="enter-your-text" />">${param.content}</textarea>
 			</div>
 
 			<div class="st-group-field st-col-12@t-small">
@@ -77,7 +79,7 @@
 			</div>
 
 			<div class="st-text-mentions">
-				<h3 class="st-title-mentions">Mentions d’information</h3>
+				<h3 class="st-title-mentions"><liferay-ui:message key="notice-information" /></h3>
 
 				${privacyText}
 			</div>
