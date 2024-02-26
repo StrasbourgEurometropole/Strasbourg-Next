@@ -100,7 +100,7 @@
 		</div>
 		<!-- Export -->
 		<c:if test="${dc.displayExport}">
-			<div class="btn-line">
+			<div class="btn-line st--has-margin-top">
 				<a href="${dc.exportResourceURL}" title="<liferay-ui:message key="print" />" target="_blank">
 					<button type="button" class="st-btn"><liferay-ui:message key="print" /></button>
 				</a>
