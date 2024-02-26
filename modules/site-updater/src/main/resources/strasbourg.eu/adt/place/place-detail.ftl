@@ -143,35 +143,37 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                             </#if>
                         </#if>
                     </h2>
-                    <div class="st-top-bar__content">
-                        <p class="st-frequentation">
-                            <#if isSwimmingPool || isIceRink>
-                                ${occupationState.occupation} <@liferay_ui.message key="eu.place.occupation" />
-                            <#elseif isMairie>
-                                ${occupationState.occupation}
-                            <#elseif isParking>
-                                ${occupationState.available} <@liferay_ui.message key="eu.place.spots-available" />
-                            <#elseif isVelhopStation>
-                                ${occupationState.available} <@liferay_ui.message key="eu.place.velhop-available" />
-                            </#if>
-                        </p>
-                        <p class="st-surtitre-cat">
-                            <#if isSwimmingPool >
-                                <@liferay_ui.message key="eu.place.total-capacity-long" /> ${occupationState.capacity} <@liferay_ui.message key="eu.place.person-capacity" />
-                            <#elseif isParking>
-                                <@liferay_ui.message key="eu.place.total-capacity-long" /> ${occupationState.capacity} <@liferay_ui.message key="eu.place.place-capacity" />
-                            </#if>
-                        </p>
-                        <p class="st-small-text">
-                            <#if isSwimmingPool>
-                                <@liferay_ui.message key="live-occupation-explanation" />
-                            <#elseif isMairie>
-                                <@liferay_ui.message key="estimated-time-explanation" />
-                            <#elseif isIceRink>
-                                <@liferay_ui.message key="live-ice-rink-occupation-explanation" />
-                            </#if>
-                        </p>
-                    </div>
+                    <#if !entry.isOpenNow() && occupationState != "NOT_AVAILABLE" && occupationState != "CLOSED" >
+                        <div class="st-top-bar__content">
+                            <p class="st-frequentation">
+                                <#if isSwimmingPool || isIceRink>
+                                    ${occupationState.occupation} <@liferay_ui.message key="eu.place.occupation" />
+                                <#elseif isMairie>
+                                    ${occupationState.occupation} <@liferay_ui.message key="eu.place.min" />
+                                <#elseif isParking>
+                                    ${occupationState.available} <@liferay_ui.message key="eu.place.spots-available" />
+                                <#elseif isVelhopStation>
+                                    ${occupationState.available} <@liferay_ui.message key="eu.place.velhop-available" />
+                                </#if>
+                            </p>
+                            <p class="st-surtitre-cat">
+                                <#if isSwimmingPool >
+                                    <@liferay_ui.message key="eu.place.total-capacity-long" /> ${occupationState.capacity} <@liferay_ui.message key="eu.place.person-capacity" />
+                                <#elseif isParking>
+                                    <@liferay_ui.message key="eu.place.total-capacity-long" /> ${occupationState.capacity} <@liferay_ui.message key="eu.place.place-capacity" />
+                                </#if>
+                            </p>
+                            <p class="st-small-text">
+                                <#if isSwimmingPool>
+                                    <@liferay_ui.message key="live-occupation-explanation" />
+                                <#elseif isMairie>
+                                    <@liferay_ui.message key="estimated-time-explanation" />
+                                <#elseif isIceRink>
+                                    <@liferay_ui.message key="live-ice-rink-occupation-explanation" />
+                                </#if>
+                            </p>
+                        </div>
+                    </#if>
                 </div>
             </#if>
 
