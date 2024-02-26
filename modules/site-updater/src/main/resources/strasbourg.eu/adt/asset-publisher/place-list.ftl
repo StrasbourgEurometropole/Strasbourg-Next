@@ -10,7 +10,7 @@
 
 
 
-<div class="st-listing-cards st-wrapper st-wrapper-small">
+<div class="st-listing-cards st-wrapper st-wrapper-small st-margin-bottom">
     <#if entries?has_content>
         <ul class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small">
 
