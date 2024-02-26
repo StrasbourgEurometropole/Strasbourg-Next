@@ -425,3 +425,7 @@
 .st--has-margin-top {
   margin-top: var(--bloc-spacing);
 }
+
+.st-overlay :focus{
+  outline: $c_sub auto 1px;
+}

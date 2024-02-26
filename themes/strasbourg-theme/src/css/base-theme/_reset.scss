@@ -111,7 +111,7 @@
 		top: -0.5em;
 	}
 
-	:focus {
+	:focus-visible {
 		outline: $c_sub auto 1px;
 	}
 }
