@@ -21,7 +21,7 @@ title="Overlay" />
 
             <div class="st-overlay__header-row2 st-wrapper">
                 <fieldset>
-                    <legend>Afficher <span class="st-sr-only">les résultats de recherche par</span> :</legend>
+                    <legend><liferay-ui:message key="eu.strasbourg.dynamic-search.legend" /></legend>
 
                     <ul class="st-filters-list">
                         <li>
