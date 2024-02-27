@@ -31,7 +31,11 @@
                 </#if>
             </div>
             <div class="st-image">
-                <@strasbourg.addImage fileEntryId=entry.imageId maxWidth=195 showLegende=false showCopyright=false isFigure=true />
+                <#assign defaultFile = "silhouette_homme.jpg" />
+                <#if entry.gender == 2>
+                    <#assign defaultFile = "silhouette_femme.jpg" />
+                </#if>
+                <@strasbourg.addImage fileEntryId=entry.imageId defaultFile=defaultFile maxWidth=195 showLegende=false showCopyright=false isFigure=true />
             </div>
         </a>
         <div class="st-hide st-description">

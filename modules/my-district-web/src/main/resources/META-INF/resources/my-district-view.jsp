@@ -273,7 +273,7 @@
 						<div class="wi-wrapper">
 							<section id="elu">
 								<h2><c:if test="${official.gender == 1}"><liferay-ui:message key="neighborhood-assistant" /></c:if><c:if test="${official.gender == 2}"><liferay-ui:message key="neighborhood-assistante" /></c:if></h2>
-								<img title="${official.firstName} ${official.lastName}" src="${official.imageURL}">
+								<img alt="" title="${official.firstName} ${official.lastName}" src="${official.imageURL}">
 								<div class="seu-text">
 									<div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${official.firstName} ${official.lastName}</div>
 									<div class="seu-lead dotme" data-dot="3" style="word-wrap: break-word;">${official.getName(official.fonctionCity,locale)}</div>
