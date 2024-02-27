@@ -52,7 +52,11 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <@liferay.breadcrumbs />
             </div>
             <div class="st-image">
-                <@strasbourg.addImage fileEntryId=entry.imageId maxWidth=270 isFigure=true />
+                <#assign defaultFile = "silhouette_homme.jpg" />
+                <#if entry.gender == 2>
+                    <#assign defaultFile = "silhouette_femme.jpg" />
+                </#if>
+                <@strasbourg.addImage fileEntryId=entry.imageId defaultFile=defaultFile maxWidth=270 isFigure=true />
             </div>
         </div>
     </div>

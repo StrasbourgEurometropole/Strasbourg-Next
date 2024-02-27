@@ -14,6 +14,12 @@
 
 package eu.strasbourg.service.official.model.impl;
 
+import com.liferay.adaptive.media.image.media.query.MediaQuery;
+import com.liferay.adaptive.media.image.media.query.MediaQueryProvider;
+import com.liferay.document.library.kernel.service.DLAppServiceUtil;
+import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portlet.documentlibrary.lar.FileEntryUtil;
+import eu.strasbourg.utils.api.FileEntryHelperService;
 import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -30,6 +36,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Reference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,8 +89,16 @@ public class OfficialImpl extends OfficialBaseImpl {
 	 */
 	@Override
 	public String getImageURL() {
-		return FileEntryHelper.getFileEntryURL(this.getImageId());
-	}
+        try {
+			DLAppServiceUtil.getFileEntry(this.getImageId());
+			return FileEntryHelper.getFileEntryURL(this.getImageId());
+		}catch (PortalException e){
+			if(this.getGender() == 2)
+        		return "/o/strasbourg-theme/images/default/silhouette_femme.jpg";
+			else
+        		return "/o/strasbourg-theme/images/default/silhouette_homme.jpg";
+        }
+    }
 
 	/**
 	 * Retourne l'AssetEntry rattaché cet item
@@ -331,5 +346,8 @@ public class OfficialImpl extends OfficialBaseImpl {
 
 		return json;
 	}
+
+	@Reference
+	private FileEntryHelperService _fileEntryHelperService;
 
 }

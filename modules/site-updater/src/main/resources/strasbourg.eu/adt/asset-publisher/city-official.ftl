@@ -15,7 +15,11 @@
 
             <div class="st-bloc-elu__inner">
                 <div class="st-image">
-                    <@strasbourg.addImage fileEntryId=official.imageId  maxWidth=900 showCopyright=false  />
+                    <#assign defaultFile = "silhouette_homme.jpg" />
+                    <#if official.gender == 2>
+                        <#assign defaultFile = "silhouette_femme.jpg" />
+                    </#if>
+                    <@strasbourg.addImage fileEntryId=official.imageId defaultFile=defaultFile maxWidth=900 showCopyright=false />
                 </div>
 
                 <div class="st-caption">

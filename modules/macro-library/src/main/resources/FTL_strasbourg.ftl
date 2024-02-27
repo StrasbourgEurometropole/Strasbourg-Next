@@ -13,19 +13,18 @@
     <#return rootElement>
 </#function>
 
-
 <#function getFieldValue rootElement name>
     <#assign xPathSelector = saxReaderUtil.createXPath("dynamic-element[@name='${name}']")/>
     <#assign value = xPathSelector.selectSingleNode(rootElement).getStringValue()/>
     <#return value>
 </#function>
 
-<#macro addImage fileEntryId maxWidth=2000 showLegende=true showCopyright=true isFigure=true>
+<#macro addImage fileEntryId defaultFile="default.jpg" maxWidth=2000 showLegende=true showCopyright=true isFigure=true>
     <#if  fileEntryId?has_content && fileEntryId?number != 0>
         <#local copyright = getCopyright(fileEntryId) />
         <#local legend = getLegend(fileEntryId) />
         <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group" aria-label="${copyright} ${legend}">
-            <@strasbourg.getImageByFileEntry fileEntryId=fileEntryId?number maxWidth=maxWidth />
+            <@strasbourg.getImageByFileEntry fileEntryId=fileEntryId?number maxWidth=maxWidth defaultFile=defaultFile />
             <figcaption>
                 <#if legend?has_content && showLegende>
                     ${legend}
@@ -96,15 +95,19 @@
     <@strasbourg.addImage fileEntryId=fileEntryIdString?number />
 </#macro>
 
-<#macro getImageByFileEntry fileEntryId maxWidth>
+<#macro getImageByFileEntry fileEntryId maxWidth defaultFile>
     <#assign dlAppServiceUtil = serviceLocator.findService("com.liferay.document.library.kernel.service.DLAppService")>
-    <#assign file = dlAppServiceUtil.getFileEntry(fileEntryId?number)>
-    <#if  maxWidth != 2000>
-        <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
-        <img alt="${file.getDescription()}" src="${fileEntryHelper.getClosestSizeImageURL(fileEntryId, maxWidth)}" />
-    <#else>
-        <@adaptive_media_image["img"] fileVersion=file.getFileVersion() />
-    </#if>
+    <#attempt>
+        <#assign file = dlAppServiceUtil.getFileEntry(fileEntryId?number)>
+        <#if  maxWidth != 2000>
+            <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
+            <img alt="${file.getDescription()}" src="${fileEntryHelper.getClosestSizeImageURL(file, maxWidth)}" />
+        <#else>
+            <@adaptive_media_image["img"] fileVersion=file.getFileVersion() />
+        </#if>
+    <#recover>
+        <img alt="" src="/o/strasbourg-theme/images/default/${defaultFile}" />
+    </#attempt>
 </#macro>
 
 <#macro alertError key message>

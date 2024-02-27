@@ -3,6 +3,7 @@ package eu.strasbourg.utils.api;
 import aQute.bnd.annotation.ProviderType;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 import java.io.File;
@@ -19,7 +20,7 @@ import java.util.Map;
 @ProviderType
 public interface FileEntryHelperService {
 
-	public  String getClosestSizeImageURL(long fileEntryId, int size);
+	public  String getClosestSizeImageURL(FileEntry fileEntry, int size);
 
 	public String getFileTitle(long fileEntryId, Locale locale);
 

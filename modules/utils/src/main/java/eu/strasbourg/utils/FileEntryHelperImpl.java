@@ -35,8 +35,7 @@ public class FileEntryHelperImpl implements FileEntryHelperService {
 	}
 
 	@Override
-	public  String getClosestSizeImageURL(long fileEntryId, int size) {
-		FileEntry fileEntry = FileEntryUtil.fetchByPrimaryKey(fileEntryId);
+	public  String getClosestSizeImageURL(FileEntry fileEntry, int size) {
 		try {
 			List<MediaQuery> queries = _mediaQueryProvider.getMediaQueries(fileEntry);
 			MediaQuery closestQuery = null;
@@ -61,7 +60,7 @@ public class FileEntryHelperImpl implements FileEntryHelperService {
 				}
 			}
 			if(closestQuery == null) {
-				return this.getFileEntryURL(fileEntryId);
+				return this.getFileEntryURL(fileEntry.getFileEntryId());
 			}
 
 			return closestQuery.getSrc().split(",")[0];
