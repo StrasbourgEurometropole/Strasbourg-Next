@@ -7,7 +7,7 @@
 	var="configurationRenderURL" />
 <div class="container" id="configuration-news-home">
 
-	<aui:form action="${configurationActionURL}" method="post" name="fm">
+	<aui:form action="${configurationActionURL}" method="post" name="fm" cssClass="pb-10">
 
 		<aui:input name="cmd" type="hidden"
 			value="update" />
@@ -20,7 +20,7 @@
             label="Lien vers toutes les actus"
             inlineField="false" />
 
-		<h3>A la une</h3>
+		<h3><liferay-ui:message key="news-level-1" /></h3>
 		<div id="vignettes-a-la-une" class="vignettes">
 			<c:forEach begin="1" end="1" step="1" var="i">
 				<div id="vignette_${i}" class="vignette" >
@@ -32,7 +32,7 @@
 			</c:forEach>
 
 		</div>
-		<h3>2 premier</h3>
+		<h3><liferay-ui:message key="news-level-2" /></h3>
 		<div id="vignettes-headline" class="vignettes">
 			<c:forEach begin="2" end="3" step="1" var="i">
 				<div id="vignette_${i}" class="vignette" >
@@ -44,7 +44,7 @@
 			</c:forEach>
 
 		</div>
-		<h3>Les autres</h3>
+		<h3><liferay-ui:message key="news-level-3" /></h3>
 		<div id="vignettes-items" class="vignettes">
 			<c:forEach begin="4" end="11" step="1" var="i">
 				<div id="vignette_${i}" class="vignette" >

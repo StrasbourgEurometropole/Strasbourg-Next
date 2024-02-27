@@ -101,6 +101,10 @@ public class EntityDetailPortlet extends MVCPortlet {
 				// Ajout du fil d'ariane
 				PortletHelper.addBreadcrumbEntry(request, entry.getTitle(themeDisplay.getLocale()), PortletURLFactoryUtil.create(PortalUtil.getHttpServletRequest(request), StrasbourgPortletKeys.ENTITY_DETAIL_WEB, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE));
 			}
+
+			themeDisplay.getRequest().setAttribute("javax.portlet.request",request.getAttribute("javax.portlet.request"));
+			themeDisplay.getRequest().setAttribute("javax.portlet.response",request.getAttribute("javax.portlet.response"));
+			themeDisplay.getRequest().setAttribute("javax.portlet.config",request.getAttribute("javax.portlet.config"));
 			
 			super.render(request, response);
 		} catch (Exception e) {

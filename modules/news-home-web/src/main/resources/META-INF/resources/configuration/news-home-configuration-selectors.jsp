@@ -6,7 +6,7 @@
 
     </clay:button>
 
-    <clay:button icon="trash" cssClass="vignette-delete" small="true">
+    <clay:button icon="trash" cssClass="vignette-delete" small="true" data-index="${param.index}">
 
     </clay:button>
 </div>
