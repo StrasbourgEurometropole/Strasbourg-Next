@@ -21,23 +21,23 @@ title="Overlay" />
 
             <div class="st-overlay__header-row2 st-wrapper">
                 <fieldset>
-                    <legend>Afficher <span class="st-sr-only">les résultats de recherche par</span> :</legend>
+                    <legend><liferay-ui:message key="eu.strasbourg.dynamic-search.legend" /></legend>
 
                     <ul class="st-filters-list">
                         <li>
-                            <button id="dynamic_search_type_pages" data-entity-classname="com.liferay.journal.model.JournalArticle" class="st-btn-filter-search st-is-active" aria-pressed="true">Pages</button>
+                            <button type="button" id="dynamic_search_type_pages" data-entity-classname="com.liferay.journal.model.JournalArticle" class="st-btn-filter-search st-is-active" aria-pressed="true">Pages</button>
                         </li>
                         <li>
-                            <button id="dynamic_search_type_events" data-entity-classname="eu.strasbourg.service.agenda.model.Event" class="st-btn-filter-search st-is-active" aria-pressed="true"><liferay-ui:message key="search.event" /></button>
+                            <button type="button" id="dynamic_search_type_events" data-entity-classname="eu.strasbourg.service.agenda.model.Event" class="st-btn-filter-search st-is-active" aria-pressed="true"><liferay-ui:message key="search.event" /></button>
                         </li>
                         <li>
-                            <button id="dynamic_search_type_places" data-entity-classname="eu.strasbourg.service.place.model.Place" class="st-btn-filter-search st-is-active" aria-pressed="true"><liferay-ui:message key="search.place" /></button>
+                            <button type="button" id="dynamic_search_type_places" data-entity-classname="eu.strasbourg.service.place.model.Place" class="st-btn-filter-search st-is-active" aria-pressed="true"><liferay-ui:message key="search.place" /></button>
                         </li>
                         <li>
-                            <button id="dynamic_search_type_editions" data-entity-classname="eu.strasbourg.service.edition.model.Edition" class="st-btn-filter-search st-is-active" aria-pressed="true"><liferay-ui:message key="search.editions" /></button>
+                            <button type="button" id="dynamic_search_type_editions" data-entity-classname="eu.strasbourg.service.edition.model.Edition" class="st-btn-filter-search st-is-active" aria-pressed="true"><liferay-ui:message key="search.editions" /></button>
                         </li>
                         <li>
-                            <button id="dynamic_search_type_officals" data-entity-classname="eu.strasbourg.service.official.model.Official" class="st-btn-filter-search st-is-active" aria-pressed="true"><liferay-ui:message key="search.officals" /></button>
+                            <button type="button" id="dynamic_search_type_officals" data-entity-classname="eu.strasbourg.service.official.model.Official" class="st-btn-filter-search st-is-active" aria-pressed="true"><liferay-ui:message key="search.officals" /></button>
                         </li>
                     </ul>
                 </fieldset>
@@ -54,7 +54,7 @@ title="Overlay" />
         <div class="st-overlay__body st-custom-scrollbar">
 
             <div class="st-wrapper">
-                <div id="resultList" class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small" aria-live="polite" aria-busy="false">
+                <div id="resultList" class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small" aria-busy="false">
                     <div class="loading-animation st-hide" aria-hidden="true">
                         <div></div>
                     </div>
