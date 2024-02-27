@@ -148,7 +148,7 @@
     </button>
 </#macro>
 
-<#macro overlayContact entry entryType>
+<#macro overlayContact entry entryType overlayContactTitle>
     <#if themeDisplay.isSignedIn() >
         <@clay["alert"] message="Overlay de contact est present sur cette page"
         displayType="secondary"

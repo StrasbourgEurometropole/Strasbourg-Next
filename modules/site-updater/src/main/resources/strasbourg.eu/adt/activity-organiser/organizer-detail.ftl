@@ -102,7 +102,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <@liferay_portlet.param name="type" value="ActivityOrganizer" />
     </@liferay_portlet.actionURL>
     <#assign overlayContactTitle="${entry.getName(locale)}" />
-    <@strasbourg.overlayContact entry=entry entryType="ActivityOrganizer" />
+    <@strasbourg.overlayContact entry=entry entryType="ActivityOrganizer" overlayContactTitle=overlayContactTitle />
 </#if>
 <style>
     .mail-success {

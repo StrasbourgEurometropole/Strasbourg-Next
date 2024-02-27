@@ -953,7 +953,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 </@liferay_portlet.actionURL>
 <#assign overlayContactTitle=entry.getAlias(locale) />
 
-<@strasbourg.overlayContact entry=entry entryType="Place" />
+<@strasbourg.overlayContact entry=entry entryType="Place" overlayContactTitle=overlayContactTitle />
 
 
 <#macro showTime day schedule hasException>

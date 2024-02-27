@@ -319,7 +319,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <@liferay_portlet.param name="type" value="Event" />
     </@liferay_portlet.actionURL>
     <#assign overlayContactTitle=entry.getTitle(locale) />
-    <@strasbourg.overlayContact entry=entry entryType="Event" />
+    <@strasbourg.overlayContact entry=entry entryType="Event" overlayContactTitle=overlayContactTitle />
 </#if>
 <#macro barreAgenda>
     <div class="st-barre-single-sit st--agenda">
