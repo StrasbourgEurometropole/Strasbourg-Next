@@ -29,9 +29,9 @@ ${journalArticleLocalService.getArticleContent(jesuisObject, jesuisObject.getDDM
   [/#if]
                 <ul class="st-nav-primary__menu">
                     <li class="st-nav-primary__item">
-                        <a href="#" class="st-nav-primary__link" data-overlay-open="st-overlay-location">
+                        <button class="st-nav-primary__link" data-overlay-open="st-overlay-location" aria-haspopup="dialog">
                             [@liferay_ui.message key="eu.mycity" /]
-                        </a>
+                        </button>
                     </li>
                     <li class="st-nav-primary__item">
                         <a href="/contact" class="st-nav-primary__link">[@liferay_ui.message key="eu.ops.contact" /]</a>
@@ -49,9 +49,9 @@ ${journalArticleLocalService.getArticleContent(jesuisObject, jesuisObject.getDDM
                     </li>
                     <li class="st-has-btn-compte">
                         [#if themeDisplay.getRequest().session.getAttribute("publik_logged_in")!false]
-                        <a href="https://services.strasbourg.eu/" class="st-btn-compte">
-                            <span class="st-icon-demarche" aria-hidden="true"></span>[@liferay_ui.message key="eu.my-procedures" /]
-                        </a>
+                          <a href="https://services.strasbourg.eu/" class="st-btn-compte">
+                              <span class="st-icon-demarche" aria-hidden="true"></span>[@liferay_ui.message key="eu.my-procedures" /]
+                          </a>
                         [#else]
 
                             <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="st-btn-compte">
@@ -73,7 +73,7 @@ ${journalArticleLocalService.getArticleContent(jesuisObject, jesuisObject.getDDM
                     <button class="st-btn-search" data-overlay-open="st-overlay-search" aria-haspopup="dialog">
                         [@liferay_ui.message key="eu.need-info" /]
                     </button>
-                </div>
+              </div>
 							 <nav class="st-btn-menu__wrapper" role="navigation" aria-label="Menu principal">
                     <button class="st-btn-menu" aria-haspopup="dialog" data-overlay-open="st-overlay-menu">
                        <span class="st-btn-menu__icon" aria-hidden="true">
