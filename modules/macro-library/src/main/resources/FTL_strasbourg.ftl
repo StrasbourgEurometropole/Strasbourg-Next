@@ -149,13 +149,6 @@
 </#macro>
 
 <#macro overlayContact entry entryType>
-    <@liferay_portlet.actionURL varImpl="contactURL" name="contact">
-        <@liferay_portlet.param name="classPK" value="${entry.getPlaceId()}" />
-        <@liferay_portlet.param name="to" value="${entry.mail}" />
-        <@liferay_portlet.param name="title" value="${entry.getAlias(locale)}" />
-        <@liferay_portlet.param name="type" value="${entryType}" />
-    </@liferay_portlet.actionURL>
-    <#assign overlayContactTitle=entry.getAlias(locale) />
     <#if themeDisplay.isSignedIn() >
         <@clay["alert"] message="Overlay de contact est present sur cette page"
         displayType="secondary"
