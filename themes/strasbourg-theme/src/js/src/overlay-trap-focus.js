@@ -1,5 +1,5 @@
 // Gestion de la tabulation dans les modales
-(function () {
+
     // éléments focalisables contenus dans la fenêtre modale
     const focusableElementsArray = [
         '[href]',
@@ -73,4 +73,3 @@
     }
 
     th_overlay.addCallbackOpen(onOverlayOpen);
-})();

@@ -315,6 +315,9 @@ function populateList(data) {
         var vignette = getVignette(item.className, item);
         resultList.insertAdjacentHTML('beforeend', vignette);
     });
+
+    // permet de donner le focus aux résultats
+    onOverlayOpen('st-overlay-search');
     addClickEventToFavoriteButtons();
 }
 
