@@ -26,6 +26,8 @@ function toggleFavorite(element, isLegacy = false) {
         };
     }
 
+    th_overlay.focusElOnClose["st-overlay-alert"] = element;
+
     // check if it is already in the favorites by checking if st-is-favorite class is present
     if (element.classList.contains('st-is-favorite')) {
         // remove from favorites
