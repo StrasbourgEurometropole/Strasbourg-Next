@@ -155,7 +155,7 @@ var th_overlay = {
         if (!$('#' + overlayId).attr("data-disable-hash")) {
             window.location.hash = overlayId;
         }
-        if (openShadow == true && overlayId != 'st-overlay-search') {
+        if (openShadow == true && overlayId != 'st-overlay-search' && (overlayId != 'st-overlay-menu' || !isTabletPortraitOrSmalller())) {
             $(th_overlay.selector_overlay_shadow).addClass('st-is-open');
         }
 
@@ -188,7 +188,8 @@ var th_overlay = {
             $('#' + overlayId).removeClass('st-is-open');
 
             if (($(th_overlay.selector_overlay + '.st-is-open').length == 0 ||
-                $($(th_overlay.selector_overlay + ".st-is-open")[0]).attr("id") == 'st-overlay-search')
+                    $($(th_overlay.selector_overlay + ".st-is-open")[0]).attr("id") == 'st-overlay-search' ||
+                    ($($(th_overlay.selector_overlay + ".st-is-open")[0]).attr("id") == 'st-overlay-menu' && isTabletPortraitOrSmalller()))
                 && closeShadow) {
                 $(th_overlay.selector_overlay_shadow).removeClass('st-is-open');
             }

@@ -14,7 +14,6 @@
 	transform: translateX(calc(100% + 30px));		// espace pour le bouton close
 	transition: transform 400ms $transition-overlay-easing, visibility 400ms $transition-overlay-easing;
 
-
 	&.st-overlay-search {
 		z-index: z-index('overlay-shadow');
 	}
@@ -23,6 +22,10 @@
 		max-width: 100%;
 		--padding-horizontal: 20px;
 		background-color: $c_main;
+
+		&.st-overlay-menu {
+			z-index: z-index('overlay-shadow');
+		}
 	}
 
 	.st-overlay-load & {
