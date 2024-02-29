@@ -61,9 +61,9 @@ title="Overlay" />
         </div>
 
         <div class="st-overlay__footer st-hide-from@t-portrait">
-            <a href="#" class="st-btn-compte">
+            <button class="st-btn-compte">
                 <span class="st-icon-demarche" aria-hidden="true"></span>Mes démarches
-            </a>
+            </button>
             <select onchange="document.location.href = this.value;" class="select-lang">
                 <option value="https://strasbourg-refonte.s3.dev-thuria.com/" selected="selected">
                     Fr
