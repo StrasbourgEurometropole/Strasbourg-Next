@@ -3,7 +3,7 @@
     displayType="secondary"
     title="Overlay" />
 </#if>
-<div id="st-overlay-menu" class="st-overlay st-overlay-menu">
+<div id="st-overlay-menu" class="st-overlay st-overlay-menu" role="dialog" aria-modal="true" aria-label="Menu principal">
     <button class="st-btn-close" data-overlay-close="st-overlay-menu" aria-label="Fermer"></button>
     <div class="st-overlay__inner">
         <div class="st-overlay__body st-custom-scrollbar">
