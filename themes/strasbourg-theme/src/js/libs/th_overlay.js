@@ -1,7 +1,6 @@
 var th_overlay = {
     selector_overlay: '.st-overlay',
     selector_overlay_shadow: '.st-shadow-overlay',
-    old_overlay_open: " ",
 
     callbackOpen: [],
     callbackClose: [],
@@ -149,9 +148,6 @@ var th_overlay = {
             $(th_overlay.selector_overlay + ".st-is-open").each(function (e) {
                 th_overlay.close($(this).attr('id'), false, true)
             });
-            th_overlay.old_overlay_open = " ";
-        } else {
-            th_overlay.old_overlay_open = window.location.hash;
         }
 
         $('#' + overlayId).addClass('st-is-open');
@@ -179,7 +175,7 @@ var th_overlay = {
             doCallback = true;
         }
 
-        window.location.hash = th_overlay.old_overlay_open;
+        window.location.hash = " ";
         history.replaceState(null, null, ' ');
 
 
@@ -205,11 +201,11 @@ var th_overlay = {
 
         if (doCallback) {
             $.each(th_overlay.callbackClose, function (k, callback) {
-                callback(overlayId);
+                callback();
             });
-            if (th_overlay.old_overlay_open != " ") {
+            if (th_overlay.lastOpenedId.length > 0) {
                 $.each(th_overlay.callbackOpen, function (k, callback) {
-                    callback(th_overlay.old_overlay_open.substring(1));
+                    callback(th_overlay.lastOpenedId[th_overlay.lastOpenedId.length - 1]);
                 });
             }
         }
