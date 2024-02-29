@@ -1,9 +1,9 @@
 <footer id="st-footer" class="st-footer" role="contentinfo">
     <div class="st-container st-wrapper st-wrapper-small">
         <div class="st-col-left">
-            <p class="st-title">
+            <h2 class="st-title">
                 ${addressLine1.getData()}
-            </p>
+            </h2>
             <div class="st-adresse">
                 <p>
                     ${addressLine2.getData()}
