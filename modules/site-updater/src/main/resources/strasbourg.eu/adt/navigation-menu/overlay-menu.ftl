@@ -14,8 +14,10 @@
                 portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
                 instanceId="je-suis-header-mobile"
                 settingsScope="group" />
-                <a href="#" class="st-nav-menu-mobile__link" data-overlay-open="st-overlay-location">Mon quartier / Ma commune</a>
-                <a href="#" class="st-nav-menu-mobile__link">Contact</a>
+                <button href="#" aria-haspopup="dialog" class="st-nav-menu-mobile__link" data-overlay-open="st-overlay-location">
+                    <@liferay_ui.message key='eu.mycity' />
+                </button>
+                <a href="/contact" class="st-nav-menu-mobile__link"><@liferay_ui.message key='eu.ops.contact' /></a>
             </div>
             <#list entries as nav_item>
                 <#assign
