@@ -1074,12 +1074,13 @@
 
 		.st-btn {
 			margin-top: 15px;
-
-			@include mobile {
-				margin-top: 5px;
-				margin-left: calc(42px + 10px);
-			}
 		}
+	}
+}
+.st-overlay-location .form-styles .st-grid-fields .st-btn {
+	@include mobile {
+		margin-top: 5px;
+		margin-left: calc(42px + 10px);
 	}
 }
 
