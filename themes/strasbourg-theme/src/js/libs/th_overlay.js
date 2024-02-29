@@ -144,7 +144,7 @@ var th_overlay = {
             }
         }, 250);
 
-        if (overlayId != 'st-overlay-alert') {
+        if (!(overlayId == 'st-overlay-alert' || (overlayId == 'st-overlay-location' && isTabletPortraitOrSmalller()))) {
             $(th_overlay.selector_overlay + ".st-is-open").each(function (e) {
                 th_overlay.close($(this).attr('id'), false, true)
             });
