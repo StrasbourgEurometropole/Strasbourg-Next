@@ -13,10 +13,11 @@
                         <#list linkLabelFieldSet.getSiblings() as cur_linkLabelFieldSet>
                             <li class="splide__slide">
                                 <#if cur_linkLabelFieldSet.linkURL.getFriendlyUrl()?has_content>
-                                <a href="${cur_linkLabelFieldSet.linkURL.getFriendlyUrl()}" class="st-container">
+                                <a href="${cur_linkLabelFieldSet.linkURL.getFriendlyUrl()}" <#if getterUtil.getBoolean(cur_linkLabelFieldSet.externalLinkFieldSet.activeTab.getData())>target="_blank"</#if> class="st-container">
                                     <#else>
                                     <#if (cur_linkLabelFieldSet.externalLinkFieldSet.externalLink.getData())??>
                                     <a href="${cur_linkLabelFieldSet.externalLinkFieldSet.externalLink.getData()}"
+                                       <#if getterUtil.getBoolean(cur_linkLabelFieldSet.externalLinkFieldSet.activeTab.getData())>target="_blank"</#if>
                                        class="st-container">
                                         <#else>
                                         <a href="#" class="st-container">

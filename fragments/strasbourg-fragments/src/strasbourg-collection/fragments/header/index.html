@@ -49,8 +49,9 @@ ${journalArticleLocalService.getArticleContent(jesuisObject, jesuisObject.getDDM
                     </li>
                     <li class="st-has-btn-compte">
                         [#if themeDisplay.getRequest().session.getAttribute("publik_logged_in")!false]
-                          <a href="https://services.strasbourg.eu/" class="st-btn-compte">
-                              <span class="st-icon-demarche" aria-hidden="true"></span>[@liferay_ui.message key="eu.my-procedures" /]
+                          <a href="${layoutHelper.getDashboardURL()}" class="st-btn-compte">
+                              <span class="st-icon-demarche" aria-hidden="true"></span>
+                            ${request.session.getAttribute("publik_given_name")?html}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]?html}.
                           </a>
                         [#else]
 
@@ -119,7 +120,7 @@ ${journalArticleLocalService.getArticleContent(jesuisObject, jesuisObject.getDDM
             </li>
             <li>
                 [#if themeDisplay.getRequest().session.getAttribute("publik_logged_in")!false]
-                    <a href="https://services.strasbourg.eu/" class="st-lien-libre">
+                    <a href="${layoutHelper.getDashboardURL()}" class="st-lien-libre">
                         <span class="st-icon-demarche" aria-hidden="true"></span>
                     </a>
                 [#else]
