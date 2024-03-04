@@ -24,9 +24,9 @@
                         <div class="st-card-container">
                             <a href="${navigationEntry.getRegularFullURL()}" class="st-card ">
                                 <div class="st-caption">
-                                    <p class="st-title-card">
+                                    <h3 class="st-title-card">
                                         ${navigationEntry.getLayout().getName(locale)}
-                                    </p>
+                                    </h3>
                                     <p class="st-surtitre-cat">
                                         ${newsTypes?map(news -> news.getTitle(locale))?join(', ')}
                                     </p>

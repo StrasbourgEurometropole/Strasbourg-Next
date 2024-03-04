@@ -40,7 +40,7 @@
                                 <div class="st-card-container">
                                     <a href="${newsItem.detailURL}" class="st-card st-card-actu st--is-featured">
                                         <div class="st-caption">
-                                            <p class="st-title-card">${newsItem.title}</p>
+                                            <h3 class="st-title-card">${newsItem.title}</h3>
                                             <p class="st-surtitre-cat">${newsItem.category}</p>
                                             <p class="st-text">${newsItem.descriptionCourt}</p>
                                         </div>
@@ -68,7 +68,7 @@
                                 <div class="st-card-container">
                                     <a href="${newsItem.detailURL}" class="st-card st-card-actu">
                                         <div class="st-caption">
-                                            <p class="st-title-card">${newsItem.title}</p>
+                                            <h3 class="st-title-card">${newsItem.title}</h3>
                                             <p class="st-surtitre-cat">${newsItem.category}</p>
                                             <p class="st-text">${newsItem.descriptionCourt}</p>
                                         </div>

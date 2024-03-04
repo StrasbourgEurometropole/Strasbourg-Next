@@ -1,7 +1,7 @@
 [#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") /]
 <div class="st-btn-search-mobile-wrapper st-hide-from@mobile">
     <button class="st-btn-search-mobile" data-overlay-open="st-overlay-search"
-            aria-label="Rechercher - Ouvrir le moteur de recherche"  aria-haspopup="dialog">
+            aria-haspopup="dialog">
         [@liferay_ui.message key="eu.need-info" /]
     </button>
 </div>
@@ -37,13 +37,15 @@ ${journalArticleLocalService.getArticleContent(jesuisObject, jesuisObject.getDDM
                         <a href="/contact" class="st-nav-primary__link">[@liferay_ui.message key="eu.ops.contact" /]</a>
                     </li>
                     <li class="st-has-lang-dropdown">
-                        <select onchange="document.location.href = this.value;" class="select-lang" title="Fr - changer la langue du site">
-                            <option value="https://strasbourg.eu"  aria-label="Fr (Version française)"
-                                    selected="selected">[@liferay_ui.message key="eu.fr" /]
+                        <select onchange="document.location.href = this.value;" class="select-lang" title="[@liferay_ui.message key='eu.fr' /] - [@liferay_ui.message key='eu.change-language' /]">
+                            <option value="https://strasbourg.eu"  aria-label="[@liferay_ui.message key='eu.fr-label' /]" selected="selected">
+                              [@liferay_ui.message key="eu.fr" /]
                             </option>
-                            <option value="https://int.strasbourg.eu/en" aria-label="En (English Version)" lang="en">[@liferay_ui.message key="eu.en" /]
+                            <option value="https://int.strasbourg.eu/en" aria-label="[@liferay_ui.message key='eu.en-label' /]" lang="en">
+                              [@liferay_ui.message key="eu.en" /]
                             </option>
-                            <option value="https://int.strasbourg.eu/de" aria-label="De (Deutsche  Version)" lang="de">[@liferay_ui.message key="eu.de" /]
+                            <option value="https://int.strasbourg.eu/de" aria-label="[@liferay_ui.message key='eu.de-label' /]" lang="de">
+                              [@liferay_ui.message key="eu.de" /]
                             </option>
                         </select>
                     </li>
@@ -90,7 +92,7 @@ ${journalArticleLocalService.getArticleContent(jesuisObject, jesuisObject.getDDM
     </div>
 </header>
 
-<div class="st-toolbar-navigation">
+<header class="st-toolbar-navigation" role="banner">
     <div class="st-wrapper">
         <ul class="st-toolbar-inner">
             <li class="st-has-logo">
@@ -152,4 +154,4 @@ ${journalArticleLocalService.getArticleContent(jesuisObject, jesuisObject.getDDM
             </li>
         </ul>
     </div>
-</div>
+</header>

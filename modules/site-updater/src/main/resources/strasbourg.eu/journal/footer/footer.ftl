@@ -88,7 +88,7 @@
                 </li>
                 <li>
                     <a href="${strasAppLinkLabel.getChild('strasAppLinkURL').getData()}"
-                       title="${strasAppLinkLabel.getData()} (<@liferay_ui.message key=" eu.new-window" />)"
+                       title="${strasAppLinkLabel.getData()} (<@liferay_ui.message key="eu.new-window" />)"
                        target="_blank">
                         ${strasAppLinkLabel.getData()}
                     </a>
