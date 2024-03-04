@@ -52,7 +52,7 @@ function generateImage(imageURL, icon = "info") {
         return `
                 <figure class="st-figure st-fit-cover" role="group">
                     <picture>
-                        <img src="${imageURL}" alt="">
+                        <img src="${imageURL}" alt="" loading="lazy">
                     </picture>
                 </figure>
     `
@@ -299,6 +299,12 @@ function populateList(data) {
     var totalResult = data.find(item => item.totalResult).totalResult
     var resultTotal = document.getElementById('results-total');
     resultTotal.innerHTML = totalResult;
+    var resultDisplay = document.getElementById('results-display');
+    var delta = data.find(item => item.displayResult).displayResult
+    if(totalResult > delta)
+        resultDisplay.style.display = "block";
+    else
+        resultDisplay.style.display = "none";
     data = data.filter(item => !item.totalResult);
     // Remove all click event from favorite buttons
     var favoriteButtons = document.querySelectorAll('.st-btn-favorite-card');

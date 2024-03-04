@@ -49,7 +49,7 @@
 
                                             <figure class="st-figure st-fit-cover" role="group">
                                                 <picture>
-                                                    <img alt="" src="${newsItem.imageURL}">
+                                                    <img alt="" loading="lazy" src="${newsItem.imageURL}">
                                                 </picture>
                                             </figure>
                                         </div>
@@ -77,7 +77,7 @@
 
                                             <figure class="st-figure st-fit-cover" role="group">
                                                 <picture>
-                                                    <img alt="" src="${newsItem.imageURL}" />
+                                                    <img alt="" loading="lazy" src="${newsItem.imageURL}" />
                                                 </picture>
                                             </figure>
                                         </div>
@@ -93,7 +93,7 @@
 
             <ul class="splide__pagination st-nav-dots"></ul>
 
-            <a href="${dc.getLink()}" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta"  aria-hidden="true" tabindex="-1">
+            <a href="${dc.getLink()}" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta">
                 <liferay-ui:message key="eu.news.all-news" /></a>
         </div>
     </div>

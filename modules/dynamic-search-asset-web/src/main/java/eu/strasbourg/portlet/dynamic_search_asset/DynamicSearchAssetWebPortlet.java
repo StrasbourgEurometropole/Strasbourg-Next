@@ -159,6 +159,9 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			// Recuperation des classes demandees
 			List<String> classNames = this.getConfiguredClassNamesList(configuration);
 			request.setAttribute("classNames", classNames);
+
+			// Retourne le delta
+			request.setAttribute("delta", configuration.delta());
 			
 		} catch (ConfigurationException e) {
 			_log.error(e.getMessage(), e);
@@ -294,7 +297,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				List<AssetEntry> assetEntries = results;
 				
 				this.applyTemplateBehaviors(configuration,assetEntries);
-				
+
 				JSONArray jsonResponse = this.constructJSONSelection(request, configuration,assetEntries,totalResult);
 				
 				// Recuperation de l'élément d'écriture de la réponse
@@ -376,6 +379,10 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		JSONObject jsonTotalResult = JSONFactoryUtil.createJSONObject();
 		jsonTotalResult.put("totalResult", totalResult);
 		jsonResponse.put(jsonTotalResult);
+
+		JSONObject jsonDisplayResult = JSONFactoryUtil.createJSONObject();
+		jsonDisplayResult.put("displayResult", configuration.delta());
+		jsonResponse.put(jsonDisplayResult);
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		Locale locale = themeDisplay.getLocale();

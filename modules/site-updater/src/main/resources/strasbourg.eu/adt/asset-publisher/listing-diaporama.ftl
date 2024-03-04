@@ -34,7 +34,7 @@
                                     <figure class="st-figure st-fit-cover figcaption-only-credits" role="group"
                                             aria-label="">
                                         <picture>
-                                            <img alt="" src="${imageURL}">
+                                            <img alt="" loading="lazy"  src="${imageURL}">
                                         </picture>
                                         <figcaption>
                                         </figcaption>

@@ -41,7 +41,7 @@
                             <figure class="st-figure st-fit-cover" role="group"
                                     aria-label="Photo">
                                 <picture>
-                                    <img alt="" src="${imageURL}">
+                                    <img alt="" loading="lazy" src="${imageURL}">
                                 </picture>
                             </figure>
                         </div>

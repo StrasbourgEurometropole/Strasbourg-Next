@@ -101,7 +101,7 @@
                                     <div class="st-image">
                                         <figure class="st-figure st-fit-cover" role="group">
                                             <picture>
-                                                <img alt="" src="${backgroundImage}">
+                                                <img alt="" loading="lazy" src="${backgroundImage}">
                                             </picture>
                                         </figure>
                                     </div>

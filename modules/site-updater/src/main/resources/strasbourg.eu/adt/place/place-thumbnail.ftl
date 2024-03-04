@@ -25,7 +25,7 @@
                     <@strasbourg.addImage fileEntryId=entry.getImageId() maxWidth=100 showLegende=false showCopyright=false isFigure=true />
                 <#elseif entry.getImageURL()?has_content>
                     <figure class="st-figure st-fit-cover" role="group">
-                        <img src="${entry.getImageURL()}" />
+                        <img loading="lazy" src="${entry.getImageURL()}" />
                     </figure>
                 <#else>
                     <span class="st-icon st-icon-pin"></span>

@@ -23,21 +23,24 @@
     <#if  fileEntryId?has_content && fileEntryId?number != 0>
         <#local copyright = getCopyright(fileEntryId) />
         <#local legend = getLegend(fileEntryId) />
-        <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group" aria-label="${copyright} ${legend}">
+        <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group"
+            <#if (legend?has_content && showLegende) || (copyright?has_content && showCopyright)>aria-label="${copyright} ${legend}"</#if>>
             <@strasbourg.getImageByFileEntry fileEntryId=fileEntryId?number maxWidth=maxWidth defaultFile=defaultFile />
-            <figcaption>
-                <#if legend?has_content && showLegende>
-                    ${legend}
-                </#if>
-                <#if copyright?has_content && showCopyright>
-                    <button type="button" class="st-credits st-js-credits" aria-expanded="false" aria-label="© (copyright de l'image)">©</button>
-                    <span class="st-credits-content">${copyright}</span>
-                </#if>
-            </figcaption>
+            <#if (legend?has_content && showLegende) || (copyright?has_content && showCopyright)>
+                <figcaption>
+                    <#if legend?has_content && showLegende>
+                        ${legend}
+                    </#if>
+                    <#if copyright?has_content && showCopyright>
+                        <button type="button" class="st-credits st-js-credits" aria-expanded="false" aria-label="© (<@liferay_ui.message key='eu.copyright' />)">©</button>
+                        <span class="st-credits-content">${copyright}</span>
+                    </#if>
+                </figcaption>
+            </#if>
         </figure>
     <#else>
         <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group">
-            <img alt="" src="https://placehold.co/600x400/20272F/2AD783/png?text=!&font=roboto" />
+            <img alt="" loading="lazy" src="https://placehold.co/600x400/20272F/2AD783/png?text=!&font=roboto" />
         </figure>
     </#if>
 </#macro>
@@ -101,12 +104,12 @@
         <#assign file = dlAppServiceUtil.getFileEntry(fileEntryId?number)>
         <#if  maxWidth != 2000>
             <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
-            <img alt="${file.getDescription()}" src="${fileEntryHelper.getClosestSizeImageURL(file, maxWidth)}" />
+            <img alt="${file.getDescription()}" loading="lazy" src="${fileEntryHelper.getClosestSizeImageURL(file, maxWidth)}" />
         <#else>
             <@adaptive_media_image["img"] fileVersion=file.getFileVersion() />
         </#if>
     <#recover>
-        <img alt="" src="/o/strasbourg-theme/images/default/${defaultFile}" />
+        <img alt="" loading="lazy" src="/o/strasbourg-theme/images/default/${defaultFile}" />
     </#attempt>
 </#macro>
 

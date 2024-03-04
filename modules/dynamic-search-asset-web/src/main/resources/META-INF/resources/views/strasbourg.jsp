@@ -18,7 +18,7 @@ title="Overlay" />
                     </div>
                 </div>
 
-                <div class="st-overlay__header-row2 st-wrapper">
+                <div class="st-overlay__header-row2 st-wrapper flex-wrap">
                     <fieldset>
                         <legend><liferay-ui:message key="eu.strasbourg.dynamic-search.legend" /></legend>
 
@@ -46,6 +46,8 @@ title="Overlay" />
                         <span class="loading-small-animation st-hide" aria-hidden="true"></span>
                         <liferay-ui:message key="eu.strasbourg.dynamic-search-strasbourg-result-search" /> <span class="st-results__total" id="results-total">0</span>
                     </div>
+
+                    <p id="results-display" class="st-text" style="width:100%; font-size: 12px; display: none;"><liferay-ui:message key="eu.strasbourg.dynamic-search-strasbourg-result-display-x" arguments="${delta}" /></p>
                 </div>
         </form>
 

@@ -17,6 +17,10 @@
         }).mount();
 
 
+        /*
+        Suppression du bouton "plus d'actualité"
+        -> plus besoin de gérer l'accessibilité
+
         // Accessibilité sur les slides masqués par le view-more
         const slides = slider.querySelectorAll('.splide__slide:nth-child(n+3)');
         const btnCta = slider.querySelector('.st-btn-cta');
@@ -68,7 +72,7 @@
             slider.addEventListener('hideViewMore', function (e) {
                 removeSlidesAccessibility();
             });
-        }
+        }*/
     });
 
 })();
