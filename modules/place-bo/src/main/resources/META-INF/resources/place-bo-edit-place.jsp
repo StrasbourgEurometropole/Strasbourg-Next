@@ -289,29 +289,31 @@
 
                         <aui:input name="periodsIndexes" type="hidden" />
 
-                        <div class="nav-tabs">
+                        <div>
                             <ul class="nav nav-tabs" role="tablist">
                                 <c:set var="nbPeriod" value="0"/>
                                 <c:forEach items="${dc.place.periods}" var="period" varStatus="status">
-                                    <li role="presentation"
-                                        <c:if test="${status.count == 1}">
-                                            class="active"
-                                        </c:if>
+                                    <li role="presentation" class="nav-item <c:if test="${status.count == 1}">
+									active
+								</c:if>"
+
                                      id="onglet${nbPeriod}" >
-                                        <a aria-controls="period${nbPeriod}" href="#period${nbPeriod}" data-toggle="tab" role="tab">
+                                        <a aria-controls="period${nbPeriod}" href="#period${nbPeriod}" class="nav-link" data-toggle="tab" role="tab">
                                             <liferay-ui:message key="period" /> ${status.count}
-                                            <span class="btn-icon icon icon-trash" onClick="deletePeriod(${nbPeriod}); return false;"></span>
+                                            <span class="btn-icon icon icon-trash  ml-2" onClick="deletePeriod(${nbPeriod}); return false;"></span>
                                         </a>
                                     </li>
                                     <c:set var="nbPeriod" value="${nbPeriod + 1}"/>
                                 </c:forEach>
-                                <li role="presentation"
-                                    <c:if test="${empty dc.place.periods}">
-                                        class="active"
-                                    </c:if>
-                                 id="addPeriod" >
-                                    <a aria-controls="add" onClick="addPeriod(); return false;" data-toggle="tab" role="tab" aria-expanded="true"><span class="btn-icon icon icon-plus"></span></a>
-                                </li>
+								<button
+										title="Ajouter"
+										class="btn btn-monospaced btn-sm"
+										type="button"
+										aria-controls="add"
+										id="addPeriod"
+										onClick="window.addPeriod(); return false;">
+									<span class="btn-icon icon icon-plus"></span>
+								</button>
                             </ul>
                         </div>
 

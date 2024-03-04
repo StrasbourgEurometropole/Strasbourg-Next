@@ -53,7 +53,7 @@
                             <div class="wrapper-card-help">
                                 <#if entry.imageURL?has_content>
                                     <figure role="group" class="fit-cover">
-                                        <img src="${entry.imageURL}?imagePreview=1" loading="lazy" width="240" height="250" alt="Photo d’illustration de ${entry.getTitle(locale)?html}"/>
+                                        <img src="${entry.imageURL}&imagePreview=1" loading="lazy" width="240" height="250" alt="Photo d’illustration de ${entry.getTitle(locale)?html}"/>
                                     </figure>
                                 </#if>
                                 <div>

@@ -61,7 +61,7 @@
                         <a href="${homeURL + entry.detailURL}" title="détail du projet">
                             <div class="img">
                                 <figure role="group">
-                                    <img src='${entry.imageURL}?imagePreview=1' loading="lazy" alt="Image projet" width="360" height="242" class="fit-cover"/>
+                                    <img src='${entry.imageURL}&imagePreview=1' loading="lazy" alt="Image projet" width="360" height="242" class="fit-cover"/>
                                 </figure>
                                 
                             </div>
@@ -111,7 +111,7 @@
                                     <a href="${homeURL + entry.detailURL}" title="détail du projet">
                                         <div class="img">
                                             <figure role="group">
-                                                <img src='${entry.imageURL}?imagePreview=1' loading="lazy" alt="Image projet" width="360" height="242" class="fit-cover"/>
+                                                <img src='${entry.imageURL}&imagePreview=1' loading="lazy" alt="Image projet" width="360" height="242" class="fit-cover"/>
                                             </figure>
                                             <span>Voir le projet</span>
                                         </div>

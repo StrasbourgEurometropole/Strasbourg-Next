@@ -59,11 +59,11 @@ function addPeriod() {
 				.split(namespace + 'numPeriod')[1]) + 1;
 	}
 	var htmlOnglet = "<li role='presentation' id='onglet" + lastPeriod
-			+ "' class='active' >" + "<a aria-controls='period" + lastPeriod
+			+ "' class='active nav-item' >" + "<a aria-controls='period" + lastPeriod
 			+ "' href='#period" + lastPeriod
-			+ "' data-toggle='tab' role='tab'>"
+			+ "' data-toggle='tab' class='nav-link' role='tab'>"
 			+ Liferay.Language.get('period') + " " + (parseInt(lastPeriod) + 1)
-			+ " <span class='btn-icon icon icon-trash' onClick='deletePeriod("
+			+ " <span class='btn-icon icon icon-trash ml-2' onClick='deletePeriod("
 			+ lastPeriod + "); return false;'></span>" + "</a>" + "</li>";
 
 	$.ajax({
@@ -95,6 +95,10 @@ function addPeriod() {
 }
 
 function deletePeriod(idPeriod) {
+	var result = confirm(Liferay.Language.get('confirm-delete-period') + " " + (idPeriod + 1) + " ?");
+	if (!result) {
+		return
+	}
 	var namespace = "_eu_strasbourg_portlet_place_PlaceBOPortlet_";
 	var namespaceAUI = "#" + namespace;
 	var nbPeriod = $(namespaceAUI + 'nbPeriod').val();
