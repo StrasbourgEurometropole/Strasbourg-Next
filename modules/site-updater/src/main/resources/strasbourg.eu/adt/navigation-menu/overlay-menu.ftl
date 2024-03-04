@@ -64,14 +64,14 @@
                 <span class="st-icon-demarche" aria-hidden="true"></span>
                 <@liferay_ui.message key='eu.my-procedures' />
             </a>
-            <select onchange="document.location.href = this.value;" class="select-lang">
-                <option value="https://strasbourg.eu/" selected="selected">
+            <select onchange="document.location.href = this.value;" class="select-lang" title="<@liferay_ui.message key='eu.fr' /> - <@liferay_ui.message key='eu.change-language' />">
+                <option value="https://strasbourg.eu/"  aria-label="<@liferay_ui.message key='eu.fr-label' />" selected="selected">
                     <@liferay_ui.message key='eu.fr' />
                 </option>
-                <option value="https://int.strasbourg.eu/en">
+                <option value="https://int.strasbourg.eu/en" aria-label="<@liferay_ui.message key='eu.en-label' />" lang="en">
                     <@liferay_ui.message key='eu.en' />
                 </option>
-                <option value="https://int.strasbourg.eu/de">
+                <option value="https://int.strasbourg.eu/de" aria-label="<@liferay_ui.message key='eu.de-label' />" lang="de">
                     <@liferay_ui.message key='eu.de' />
                 </option>
             </select>

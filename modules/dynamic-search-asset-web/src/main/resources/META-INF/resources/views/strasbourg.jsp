@@ -64,11 +64,16 @@ title="Overlay" />
             <button class="st-btn-compte">
                 <span class="st-icon-demarche" aria-hidden="true"></span>Mes démarches
             </button>
-            <select onchange="document.location.href = this.value;" class="select-lang">
-                <option value="https://strasbourg-refonte.s3.dev-thuria.com/" selected="selected">
-                    Fr
+            <select onchange="document.location.href = this.value;" class="select-lang" title="<liferay-ui:message key='eu.fr' /> - <liferay-ui:message key='eu.change-language' />">
+                <option value="https://strasbourg.eu"  aria-label="<liferay-ui:message key='eu.fr-label' />" selected="selected">
+                    <liferay-ui:message key="eu.fr" />
                 </option>
-                <option value="https://strasbourg-refonte.s3.dev-thuria.com//en">En</option>
+                <option value="https://int.strasbourg.eu/en" aria-label="<liferay-ui:message key='eu.en-label' />" lang="en">
+                    <liferay-ui:message key="eu.en" />
+                </option>
+                <option value="https://int.strasbourg.eu/de" aria-label="<liferay-ui:message key='eu.de-label' />" lang="de">
+                    <liferay-ui:message key="eu.de" />
+                </option>
             </select>
         </div>
     </div>
