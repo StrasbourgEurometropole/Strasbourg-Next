@@ -8,7 +8,7 @@ displayType="secondary"
 title="Overlay" />
 </c:if>
 <div id="st-overlay-search" class="st-overlay st-overlay-search st--from-top" role="dialog" aria-modal="true" tabindex="0" aria-label="Moteur de recherche">
-    <button class="st-btn-close" data-overlay-close="st-overlay-search" aria-label="Fermer"></button>
+    <button class="st-btn-close" data-overlay-close="st-overlay-search" aria-label="<liferay-ui:message key='eu.closed' />"></button>
 
     <div class="st-overlay__inner">
         <form action="#" class="st-overlay__header">
