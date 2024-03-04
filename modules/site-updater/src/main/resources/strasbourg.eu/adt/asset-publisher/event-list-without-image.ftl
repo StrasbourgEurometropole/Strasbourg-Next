@@ -14,9 +14,9 @@
                 <div class="st-card-container">
                     <a href="${strasbourg.homeURL()}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" class="st-card st-card-agenda st--text-only st--card-horizontal st--with-gradient">
                         <div class="st-caption">
-                            <p class="st-title-card">
+                            <h3 class="st-title-card">
                                 ${event.getTitle(locale)}
-                            </p>
+                            </h3>
                             <p class="st-surtitre-cat">
                                 ${event.getTypeLabel(locale)}
                             </p>
