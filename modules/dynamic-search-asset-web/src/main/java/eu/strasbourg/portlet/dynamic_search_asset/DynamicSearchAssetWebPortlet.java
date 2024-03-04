@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.spring.extender.service.ServiceReference;
 import eu.strasbourg.portlet.dynamic_search_asset.configuration.DynamicSearchAssetConfiguration;
 import eu.strasbourg.portlet.dynamic_search_asset.constants.Constants;
 import eu.strasbourg.service.activity.model.Activity;
@@ -65,8 +66,10 @@ import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.LayoutHelper;
 import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.api.LayoutHelperService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -124,6 +127,26 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			// Recuperation et attribution de l'URL de base du site
 			String homeUrl = Utils.getHomeURL(themeDisplay);
 			request.setAttribute("homeURL", homeUrl);
+
+
+			Boolean isPublikLoggedin = (Boolean) themeDisplay.getRequest().getSession().getAttribute("publik_logged_in");
+			request.setAttribute("isPublikLoggedin", isPublikLoggedin != null && isPublikLoggedin);
+
+			String currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent();
+			String dashboardURL = _layoutHelperService.getDashboardURL();
+			request.setAttribute("dashboardURL", dashboardURL);
+
+			String publikLoginURL = _layoutHelperService.getPublikLoginURL(currentUrl);
+			request.setAttribute("publikLoginURL", publikLoginURL);
+
+			String publikLogoutURL = _layoutHelperService.getPublikLogoutURL(currentUrl);
+			request.setAttribute("publikLogoutURL", publikLogoutURL);
+
+			if(isPublikLoggedin != null && isPublikLoggedin) {
+				String publikName = themeDisplay.getRequest().getSession().getAttribute("publik_given_name") + " " + themeDisplay.getRequest().getSession().getAttribute("publik_family_name").toString().charAt(0);
+				request.setAttribute("publikName", publikName);
+			}
+
 			
 			// Recuperation du formulaire configuré
 			String searchForm = configuration.searchForm();
@@ -537,6 +560,9 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		
 		return SessionParamUtil.getString(originalRequest, "publik_internal_id");
 	}
+
+	@Reference
+	private LayoutHelperService _layoutHelperService;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	

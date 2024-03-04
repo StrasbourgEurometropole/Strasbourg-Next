@@ -521,4 +521,20 @@ body:not(.no-hover) .st-page-wrapper .login-container button{
     background-color: #fff;
   }
 }
+
 /* Formulaire de connexion */
+
+//Login/logout button
+.st-page-wrapper .st-btn-icon.st-btn-logout {
+  margin-left: -1px;
+  border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.st-has-btn-compte {
+  .st-btn-compte {
+    margin-right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}

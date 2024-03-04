@@ -61,9 +61,24 @@ title="Overlay" />
         </div>
 
         <div class="st-overlay__footer st-hide-from@t-portrait">
-            <button class="st-btn-compte">
-                <span class="st-icon-demarche" aria-hidden="true"></span>Mes démarches
-            </button>
+            <c:choose>
+                <c:when test="${isPublikLoggedin}">
+                    <a href="${dashboardURL}" class="st-btn-compte">
+                        <span class="st-icon-person" aria-hidden="true"></span>
+                        ${publikName}.
+                    </a>
+                    <a href="${publikLogoutURL}" class="st-btn-icon st-btn-logout  mr-2" title="<liferay-ui:message key='eu.logout' />">
+                        <span class="st-icon-close" aria-hidden="true"></span>
+                        <span class="st-sr-only"><liferay-ui:message key='eu.logout' /></span>
+                    </a>
+                </c:when>
+                <c:otherwise>
+                    <a href="${publikLoginURL}" class="st-btn-compte  mr-2">
+                        <span class="st-icon-person" aria-hidden="true"></span>
+                        <strong><liferay-ui:message key="eu.mystrasbourg" /></strong>.eu
+                    </a>
+                </c:otherwise>
+            </c:choose>
             <select onchange="document.location.href = this.value;" class="select-lang" title="<liferay-ui:message key='eu.fr' /> - <liferay-ui:message key='eu.change-language' />">
                 <option value="https://strasbourg.eu"  aria-label="<liferay-ui:message key='eu.fr-label' />" selected="selected">
                     <liferay-ui:message key="eu.fr" />

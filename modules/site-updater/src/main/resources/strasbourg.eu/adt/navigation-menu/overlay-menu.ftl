@@ -3,6 +3,7 @@
     displayType="secondary"
     title="Overlay" />
 </#if>
+<#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
 <div id="st-overlay-menu" class="st-overlay st-overlay-menu" role="dialog" aria-modal="true" aria-label="Menu principal">
     <button class="st-btn-close" data-overlay-close="st-overlay-menu" aria-label="Fermer"></button>
     <div class="st-overlay__inner">
@@ -59,11 +60,20 @@
                 </li>
             </#list>
         </div>
-        <div class="st-overlay__footer st-hide-from@t-small">
-            <a href="#" class="st-btn-compte">
-                <span class="st-icon-demarche" aria-hidden="true"></span>
-                <@liferay_ui.message key='eu.my-procedures' />
+        <div class="st-overlay__footer  st-has-btn-compte st-hide-from@t-small">
+            <#if themeDisplay.getRequest().session.getAttribute("publik_logged_in")!false>
+            <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
+            <a href="${layoutHelper.getDashboardURL()}" class="st-btn-compte">
+                <span class="st-icon-person" aria-hidden="true"></span>
+                ${request.session.getAttribute("publik_given_name")?html}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]?html}.
             </a>
+            <a href="${layoutHelper.getPublikLogoutURL(currentUrl)?html}" class="st-btn-icon st-btn-logout  mr-2" title="<@liferay_ui.message key='eu.logout' />"> <span class="st-icon-close" aria-hidden="true"></span> <span class="st-sr-only"><@liferay_ui.message key='eu.logout' /></span> </a>
+            <#else>
+            <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="st-btn-compte  mr-2">
+                <span class="st-icon-person" aria-hidden="true"></span>
+                <strong><@liferay_ui.message key="eu.mystrasbourg" /></strong>.eu
+            </a>
+            </#if>
             <select onchange="document.location.href = this.value;" class="select-lang" title="<@liferay_ui.message key='eu.fr' /> - <@liferay_ui.message key='eu.change-language' />">
                 <option value="https://strasbourg.eu/"  aria-label="<@liferay_ui.message key='eu.fr-label' />" selected="selected">
                     <@liferay_ui.message key='eu.fr' />
