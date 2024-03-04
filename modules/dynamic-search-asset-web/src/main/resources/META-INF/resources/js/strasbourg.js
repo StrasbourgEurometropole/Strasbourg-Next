@@ -69,7 +69,7 @@ function createOfficialVignette(data) {
     <div class="st-card-container">
         <a href="${data.link}" class="st-card st--card-horizontal st-card-person ${!data.imageURL ? 'st--with-icon' : ''}">
             <div class="st-caption">
-                <p class="st-title-card">${data.firstName} ${data.lastName}</p>
+                <h3 class="st-title-card">${data.firstName} ${data.lastName}</h3>
                 ${data.fonctionEuro ? `<p class="st-surtitre-cat">${data.fonctionEuro}</p>` : ''}
                 ${data.fonctionCity ? `<p class="st-role">${data.fonctionCity}</p>` : ''}
                 ${data.description ? `<p class="st-text">${data.description}</p>`: ''}
@@ -88,7 +88,7 @@ function createEditionVignette(data) {
     <li>
      <div class="st-card st--card-horizontal st-card-magazine  ${!data.imageURL ? 'st--with-icon': ''}">
         <div class="st-caption">
-            ${data.title ? `<p class="st-title-card">${data.title}</p>` : ''}
+            ${data.title ? `<h3 class="st-title-card">${data.title}</h3>` : ''}
                ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
             <div class="st-btns-wrapper">
                 <a href="${data.link}" target="_blank"
@@ -113,7 +113,7 @@ function createEventVignette(data) {
     <div class="st-card-container">
         <a href="${data.linkStras}" class="st-card st--card-horizontal st-card-agenda st--with-gradient  ${!data.imageURL ? 'st--with-icon': ''}">
             <div class="st-caption">
-              ${data.title ? `<p class="st-title-card">${data.title}</p>` : ''}
+              ${data.title ? `<h3 class="st-title-card">${data.title}</h3>` : ''}
                ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
                 ${data.schedule ? `<p class="st-date">${data.schedule}</p>` : ''}
                 ${!!data.city ? `<p class="st-location">${data.city}</p>` : ''}
@@ -134,7 +134,7 @@ function createManifestationVignette(data) {
     <div class="st-card-container">
         <a href="${data.link}" class="st-card st--card-horizontal st-card-agenda st--with-gradient  ${!data.imageURL ? 'st--with-icon': ''}">
             <div class="st-caption">
-              ${data.title ? `<p class="st-title-card">${data.title}</p>` : ''}
+              ${data.title ? `<h3 class="st-title-card">${data.title}</h3>` : ''}
                ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
                 ${data.schedule ? `<p class="st-date">${data.schedule}</p>` : ''}
             </div>
@@ -147,14 +147,13 @@ function createManifestationVignette(data) {
     `;
 }
 
-
 function createEditionGalleryVignette(data) {
     return `
 <li>
     <div class="st-card-container">
         <a href="${data.link}" class="st-card st--card-horizontal  ${!data.imageURL ? 'st--with-icon': ''}">
             <div class="st-caption">
-               ${data.title ? `<p class="st-title-card">${data.title}</p>` : ''}
+               ${data.title ? `<h3 class="st-title-card">${data.title}</h3>` : ''}
                ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
                ${data.description ?`<p class="st-text">${data.description}</p>` : ''}
             </div>
@@ -173,7 +172,7 @@ function createPlaceVignette(data) {
     <div class="st-card-container">
         <a href="${data.link}" class="st-card st--card-horizontal st--with-gradient  ${!data.imageURL ? 'st--with-icon': ''}">
             <div class="st-caption">
-                 ${data.title ? `<p class="st-title-card">${data.title}</p>` : ''}
+                 ${data.title ? `<h3 class="st-title-card">${data.title}</h3>` : ''}
                ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
                ${data.city ?`<p class="st-location">${data.city}</p>` : ''}
             </div>
@@ -195,7 +194,7 @@ function createCourseVignette(data) {
     <div class="st-card-container">
         <a href="${data.link}" class="st-card st--card-horizontal  ${!data.imageURL ? 'st--with-icon': ''}">
             <div class="st-caption">
-            ${data.title ? `<p class="st-title-card">${data.title}</p>` : ''}
+            ${data.title ? `<h3 class="st-title-card">${data.title}</h3>` : ''}
                ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
             </div>
            <div class="st-image">
@@ -213,7 +212,7 @@ function createActivityVignette(data) {
     <div class="st-card-container">
         <a href="${data.link}" class="st-card st--card-horizontal  ${!data.imageURL ? 'st--with-icon': ''}">
             <div class="st-caption">
-               ${data.title ? `<p class="st-title-card">${data.title}</p>` : ''}
+               ${data.title ? `<h3 class="st-title-card">${data.title}</h3>` : ''}
                ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
                ${data.description ?`<p class="st-text">${data.description}</p>` : ''}
             </div>
@@ -232,7 +231,7 @@ function createArticleVignette(data) {
     <div class="st-card-container">
         <a href="${data.link}" class="st-card st--card-horizontal  ${!data.imageURL ? 'st--with-icon': ''}">
             <div class="st-caption">
-               ${data.title ? `<p class="st-title-card">${data.title}</p>` : ''}
+               ${data.title ? `<h3 class="st-title-card">${data.title}</h3>` : ''}
                 ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
                 ${data.chapo ? `<p class="st-text">${data.chapo}</p>` : ''}
                 ${data.modifiedDate ? `<p class="st-date">Publié le ${data.modifiedDate}</p>` : ''}
@@ -247,7 +246,6 @@ function createArticleVignette(data) {
     `;
 }
 
-
 function getVignette(entityType, object) {
     const callback = callbacks[entityType];
     if (callback) {
@@ -258,7 +256,6 @@ function getVignette(entityType, object) {
 }
 
 var activeRequest = null;
-
 
 function callSearchUrl(url, data, callback) {
     if (activeRequest) {
@@ -315,6 +312,9 @@ function populateList(data) {
         var vignette = getVignette(item.className, item);
         resultList.insertAdjacentHTML('beforeend', vignette);
     });
+
+    // permet de donner le focus aux résultats
+    onOverlayOpen('st-overlay-search');
     addClickEventToFavoriteButtons();
 }
 
@@ -337,7 +337,6 @@ sendSearch = function () {
     callSearchUrl(searchSubmitURL, postData, populateList);
 }
 
-
 function getSelectedClassNames() {
 	var results = "";
     const elements = document.querySelectorAll('[id^="dynamic_search_type"].st-is-active');
@@ -348,6 +347,7 @@ function getSelectedClassNames() {
 
 	return results;
 }
+
 function toggleStIsActive() {
     // Get a reference to the current element
     const currentElement = this;

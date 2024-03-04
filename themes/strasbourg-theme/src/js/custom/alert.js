@@ -8,8 +8,12 @@ function createDialog(title, description = "", buttonLabel = "OK") {
 function createActionButton(id, label = "", isSecondary = false, closeOnClick = true) {
     return `
     <div class="st-col-6">
-                    <button class="st-btn st--btn-full-width ${isSecondary ? "st--btn-secondary" : ""}" id="${id}" ${closeOnClick ? `onclick='th_overlay.close("st-overlay-alert")'` : ""}>${label}</button>
-                </div>
+        <button class="st-btn st--btn-full-width ${isSecondary ? "st--btn-secondary" : ""}" 
+                ${closeOnClick ? "data-overlay-close='st-overlay-alert'" : ""}
+                id="${id}" ${closeOnClick ? `onclick='th_overlay.close("st-overlay-alert")'` : ""}>
+            ${label}
+        </button>
+    </div>
 `;
 }
 

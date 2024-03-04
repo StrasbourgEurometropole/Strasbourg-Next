@@ -1,9 +1,9 @@
 <footer id="st-footer" class="st-footer" role="contentinfo">
     <div class="st-container st-wrapper st-wrapper-small">
         <div class="st-col-left">
-            <p class="st-title">
+            <h2 class="st-title">
                 ${addressLine1.getData()}
-            </p>
+            </h2>
             <div class="st-adresse">
                 <p>
                     ${addressLine2.getData()}
@@ -67,21 +67,21 @@
             <ul class="st-menu-footer">
                 <li>
                     <a href="${mediaLinkLabel.getChild('mediaLinkURL').getFriendlyUrl()}"
-                       title="${mediaLinkLabel.getData()} (<@liferay_ui.message key=" eu.new-window" />)"
+                       title="${mediaLinkLabel.getData()} (<@liferay_ui.message key="eu.new-window" />)"
                        target="_blank">
                         ${mediaLinkLabel.getData()}
                     </a>
                 </li>
                 <li>
                     <a href="${newsletterLinkLabel.getChild('newsletterLinkURL').getFriendlyUrl()}"
-                       title="${newsletterLinkLabel.getData()} (<@liferay_ui.message key=" eu.new-window" />)"
+                       title="${newsletterLinkLabel.getData()} (<@liferay_ui.message key="eu.new-window" />)"
                        target="_blank">
                         ${newsletterLinkLabel.getData()}
                     </a>
                 </li>
                 <li>
                     <a href="${offerLinkLabel.getChild('offerLinkURL').getFriendlyUrl()}"
-                       title="${offerLinkLabel.getData()} (<@liferay_ui.message key=" eu.new-window" />)"
+                       title="${offerLinkLabel.getData()} (<@liferay_ui.message key="eu.new-window" />)"
                        target="_blank">
                         ${offerLinkLabel.getData()}
                     </a>

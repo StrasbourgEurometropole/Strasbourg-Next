@@ -47,6 +47,7 @@ var th_overlay = {
     addCallbackOpen: function (callback) {
         th_overlay.callbackOpen.push(callback);
     },
+
     addCallbackClose: function (callback) {
         th_overlay.callbackClose.push(callback);
     },
@@ -54,7 +55,7 @@ var th_overlay = {
     parseOverlayShadow: function () {
         $(th_overlay.selector_overlay_shadow).on('click', function (e) {
             e.preventDefault();
-            th_overlay.close();
+            th_overlay.close(window.location.hash.substring(1));
         });
     },
 
@@ -143,16 +144,18 @@ var th_overlay = {
             }
         }, 250);
 
-        $(th_overlay.selector_overlay + ".st-is-open").each(function (e) {
-            th_overlay.close($(this).attr('id'), false, true)
-        });
+        if (!(overlayId == 'st-overlay-alert' || (overlayId == 'st-overlay-location' && isTabletPortraitOrSmalller()))) {
+            $(th_overlay.selector_overlay + ".st-is-open").each(function (e) {
+                th_overlay.close($(this).attr('id'), false, true)
+            });
+        }
 
         $('#' + overlayId).addClass('st-is-open');
 
         if (!$('#' + overlayId).attr("data-disable-hash")) {
             window.location.hash = overlayId;
         }
-        if (openShadow == true && overlayId != 'st-overlay-search') {
+        if (openShadow == true && overlayId != 'st-overlay-search' && (overlayId != 'st-overlay-menu' || !isTabletPortraitOrSmalller())) {
             $(th_overlay.selector_overlay_shadow).addClass('st-is-open');
         }
 
@@ -184,7 +187,10 @@ var th_overlay = {
 
             $('#' + overlayId).removeClass('st-is-open');
 
-            if ($(th_overlay.selector_overlay + '.st-is-open').length == 0 && closeShadow) {
+            if (($(th_overlay.selector_overlay + '.st-is-open').length == 0 ||
+                    $($(th_overlay.selector_overlay + ".st-is-open")[0]).attr("id") == 'st-overlay-search' ||
+                    ($($(th_overlay.selector_overlay + ".st-is-open")[0]).attr("id") == 'st-overlay-menu' && isTabletPortraitOrSmalller()))
+                && closeShadow) {
                 $(th_overlay.selector_overlay_shadow).removeClass('st-is-open');
             }
         } else {
@@ -196,8 +202,13 @@ var th_overlay = {
 
         if (doCallback) {
             $.each(th_overlay.callbackClose, function (k, callback) {
-                callback(overlayId);
+                callback();
             });
+            if (th_overlay.lastOpenedId.length > 0) {
+                $.each(th_overlay.callbackOpen, function (k, callback) {
+                    callback(th_overlay.lastOpenedId[th_overlay.lastOpenedId.length - 1]);
+                });
+            }
         }
 
         // RGAA : focus a nouveau sur l'element qui a ouvert l'overlay

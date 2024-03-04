@@ -26,6 +26,8 @@ function toggleFavorite(element, isLegacy = false) {
         };
     }
 
+    th_overlay.focusElOnClose["st-overlay-alert"] = element;
+
     // check if it is already in the favorites by checking if st-is-favorite class is present
     if (element.classList.contains('st-is-favorite')) {
         // remove from favorites
@@ -88,12 +90,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function addClickEventToFavoriteButtons() {
     document.querySelectorAll("button.st-btn-favorite-card, button.st-btn-favorite-sticky").forEach(function(element) {
-        element.addEventListener("click", function(e) {
-            // prevent default behavior
-            e.preventDefault();
-            e.stopPropagation();
-            toggleFavorite(element);
-        });
+        element.removeEventListener("click", addClickEventToFavoriteButtonsNoLegacy);
+        element.addEventListener("click", addClickEventToFavoriteButtonsNoLegacy);
     });
 
 
@@ -105,4 +103,11 @@ function addClickEventToFavoriteButtons() {
         e.stopPropagation();
         toggleFavorite(this, true);
     })
+}
+
+function addClickEventToFavoriteButtonsNoLegacy(e) {
+    // prevent default behavior
+    e.preventDefault();
+    e.stopPropagation();
+    toggleFavorite(this);
 }

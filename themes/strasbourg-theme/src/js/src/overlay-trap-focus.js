@@ -1,5 +1,5 @@
 // Gestion de la tabulation dans les modales
-(function () {
+
     // éléments focalisables contenus dans la fenêtre modale
     const focusableElementsArray = [
         '[href]',
@@ -10,10 +10,10 @@
         '[tabindex]:not([tabindex="-1"])',
     ];
 
-    // dans l'overlay de recherche, exclusion des éléments interactifs du footer masqué en desktop
-    const focusableElementsArrayInOverlaySearch = [
+    // éléments focalisables contenus dans la fenêtre modale, exclusion des éléments interactifs masqués en desktop
+    const focusableElementsArrayInDesktop = [
         '[href]:not(.st-btn-compte)',
-        'button:not([disabled])',
+        'button:not([disabled]):not(.st-btn-compte)',
         'input:not([disabled])',
         'select:not([disabled]):not(.select-lang)',
         'textarea:not([disabled])',
@@ -49,9 +49,9 @@
         const overlay = document.getElementById(overlayId);
 
         if(overlay) {
-            // exclusion de sélecteurs spécifiquement sur l'overlay de recherche
-            if (overlayId === 'st-overlay-search') {
-                focusableElements = overlay.querySelectorAll(focusableElementsArrayInOverlaySearch);
+            // exclusion de sélecteurs spécifiquement en mobile
+            if (!isTabletPortraitOrSmalller()) {
+                focusableElements = overlay.querySelectorAll(focusableElementsArrayInDesktop);
             } else {
                 focusableElements = overlay.querySelectorAll(focusableElementsArray);
             }
@@ -73,4 +73,3 @@
     }
 
     th_overlay.addCallbackOpen(onOverlayOpen);
-})();

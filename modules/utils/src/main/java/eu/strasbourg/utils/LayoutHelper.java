@@ -102,7 +102,7 @@ public class LayoutHelper {
 		// depuis le champ prévu à cet effet sur le contenu web
 		JournalArticle article = JournalArticleLocalServiceUtil
 			.fetchArticle(groupId, articleId);
-		if (article != null && article.getUrlTitle() != null) {
+		if (article != null && article.getLayout() != null) {
 			return "/web" + themeDisplay.getScopeGroup().getFriendlyURL()
 				+ "/-/" + article.getUrlTitle();
 		}

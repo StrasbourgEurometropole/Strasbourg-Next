@@ -14,10 +14,18 @@
 	transform: translateX(calc(100% + 30px));		// espace pour le bouton close
 	transition: transform 400ms $transition-overlay-easing, visibility 400ms $transition-overlay-easing;
 
+	&.st-overlay-search {
+		z-index: z-index('overlay-shadow');
+	}
+
 	@include mobile {
 		max-width: 100%;
 		--padding-horizontal: 20px;
 		background-color: $c_main;
+
+		&.st-overlay-menu {
+			z-index: z-index('overlay-shadow');
+		}
 	}
 
 	.st-overlay-load & {
@@ -987,9 +995,9 @@
 
 
 
-// Overlay - Mon quartier / Ma commune sous forme de modale
+// Overlay - Mon quartier / Ma commune et Alerte sous forme de modale
 // ==========================================================================
-.st-overlay-location {
+.st-overlay-location, .st-overlay-alert {
 	--padding-horizontal: 40px;
 	left: 0;
 	max-width: initial;
@@ -1066,12 +1074,13 @@
 
 		.st-btn {
 			margin-top: 15px;
-
-			@include mobile {
-				margin-top: 5px;
-				margin-left: calc(42px + 10px);
-			}
 		}
+	}
+}
+.st-overlay-location .form-styles .st-grid-fields .st-btn {
+	@include mobile {
+		margin-top: 5px;
+		margin-left: calc(42px + 10px);
 	}
 }
 
