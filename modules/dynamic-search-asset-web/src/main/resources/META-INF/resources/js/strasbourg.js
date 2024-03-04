@@ -52,7 +52,7 @@ function generateImage(imageURL, icon = "info") {
         return `
                 <figure class="st-figure st-fit-cover" role="group">
                     <picture>
-                        <img src="${imageURL}" alt="">
+                        <img src="${imageURL}" alt="" loading="lazy">
                     </picture>
                 </figure>
     `

@@ -40,7 +40,7 @@
         </figure>
     <#else>
         <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group">
-            <img alt="" src="https://placehold.co/600x400/20272F/2AD783/png?text=!&font=roboto" />
+            <img alt="" loading="lazy" src="https://placehold.co/600x400/20272F/2AD783/png?text=!&font=roboto" />
         </figure>
     </#if>
 </#macro>
@@ -104,12 +104,12 @@
         <#assign file = dlAppServiceUtil.getFileEntry(fileEntryId?number)>
         <#if  maxWidth != 2000>
             <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
-            <img alt="${file.getDescription()}" src="${fileEntryHelper.getClosestSizeImageURL(file, maxWidth)}" />
+            <img alt="${file.getDescription()}" loading="lazy" src="${fileEntryHelper.getClosestSizeImageURL(file, maxWidth)}" />
         <#else>
             <@adaptive_media_image["img"] fileVersion=file.getFileVersion() />
         </#if>
     <#recover>
-        <img alt="" src="/o/strasbourg-theme/images/default/${defaultFile}" />
+        <img alt="" loading="lazy" src="/o/strasbourg-theme/images/default/${defaultFile}" />
     </#attempt>
 </#macro>
 

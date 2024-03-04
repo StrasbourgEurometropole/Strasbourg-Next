@@ -49,7 +49,7 @@
 
                                             <figure class="st-figure st-fit-cover" role="group">
                                                 <picture>
-                                                    <img alt="" src="${newsItem.imageURL}">
+                                                    <img alt="" loading="lazy" src="${newsItem.imageURL}">
                                                 </picture>
                                             </figure>
                                         </div>
@@ -77,7 +77,7 @@
 
                                             <figure class="st-figure st-fit-cover" role="group">
                                                 <picture>
-                                                    <img alt="" src="${newsItem.imageURL}" />
+                                                    <img alt="" loading="lazy" src="${newsItem.imageURL}" />
                                                 </picture>
                                             </figure>
                                         </div>

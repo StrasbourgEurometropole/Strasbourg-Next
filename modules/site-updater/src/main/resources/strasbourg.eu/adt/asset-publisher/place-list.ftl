@@ -35,7 +35,7 @@
                                     <@strasbourg.addImage fileEntryId=place.getImageId() maxWidth=100 showLegende=false showCopyright=false isFigure=true />
                                 <#elseif place.getImageURL()?has_content>
                                     <figure class="st-figure st-fit-cover" role="group">
-                                        <img alt="" src="${place.getImageURL()}" />
+                                        <img alt="" loading="lazy" src="${place.getImageURL()}" />
                                     </figure>
                                 <#else>
                                     <span class="st-icon st-icon-pin"></span>
