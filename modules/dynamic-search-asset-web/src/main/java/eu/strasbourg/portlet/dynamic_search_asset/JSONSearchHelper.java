@@ -3,7 +3,6 @@ package eu.strasbourg.portlet.dynamic_search_asset;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.journal.model.JournalArticle;
-import com.liferay.journal.service.JournalArticleServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -30,7 +29,6 @@ import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.Project;
 import eu.strasbourg.service.video.model.Video;
-import eu.strasbourg.utils.AssetPublisherTemplateHelper;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.LayoutHelper;
@@ -49,7 +47,7 @@ public class JSONSearchHelper {
 
     private static final Log _log = LogFactoryUtil.getLog("JSONSearchHelper");
 
-    public static JSONObject createEventSearchJson(Event event, Locale locale, ThemeDisplay themeDisplay, String publikUserId, String configAffichage, int tailleMax) {
+    public static JSONObject createEventSearchJson(Event event, String imageURL, Locale locale, ThemeDisplay themeDisplay, String publikUserId, String configAffichage, int tailleMax) {
         JSONObject jsonEvent = JSONFactoryUtil.createJSONObject();
         jsonEvent.put(
                 Constants.ATTRIBUTE_CLASSNAME,
@@ -79,7 +77,7 @@ public class JSONSearchHelper {
 
                 jsonEvent.put(
                         Constants.ATTRIBUTE_IS_USER_PARTICIPATE,
-                        !publikUserId.equals("") && event.isUserParticipates(publikUserId)
+                        !publikUserId.isEmpty() && event.isUserParticipates(publikUserId)
                 );
 
                 jsonEvent.put(
@@ -126,7 +124,7 @@ public class JSONSearchHelper {
 
                 jsonEvent.put(
                         Constants.ATTRIBUTE_IMAGE_URL,
-                        event.getImageURL()
+                        imageURL
                 );
 
 
@@ -151,7 +149,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour Projet
      */
-    public static JSONObject createProjectSearchJson(Project project, ThemeDisplay themeDisplay, String configAffichage, int tailleMax) {
+    public static JSONObject createProjectSearchJson(Project project, String imageURL, ThemeDisplay themeDisplay, String configAffichage, int tailleMax) {
         JSONObject jsonProject = JSONFactoryUtil.createJSONObject();
 
         jsonProject.put(
@@ -181,7 +179,7 @@ public class JSONSearchHelper {
 
                 jsonProject.put(
                         Constants.ATTRIBUTE_IMAGE_URL,
-                        project.getImageURL()
+                        imageURL
                 );
                 break;
             case Constants.SEARCH_FORM_STRASBOURG_INT:
@@ -274,7 +272,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour Vidéo
      */
-    public static JSONObject createVideoSearchJson(Video video, Locale locale, ThemeDisplay themeDisplay, String configAffichage) {
+    public static JSONObject createVideoSearchJson(Video video, String imageURL, Locale locale, ThemeDisplay themeDisplay, String configAffichage) {
         JSONObject jsonVideo = JSONFactoryUtil.createJSONObject();
 
         jsonVideo.put(
@@ -297,7 +295,7 @@ public class JSONSearchHelper {
 
                 jsonVideo.put(
                         Constants.ATTRIBUTE_IMAGE_URL,
-                        video.getImageURL()
+                        imageURL
                 );
 
                 jsonVideo.put(
@@ -329,7 +327,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour Pétition
      */
-    public static JSONObject createPetitionSearchJson(Petition petition, ThemeDisplay themeDisplay, String configAffichage) {
+    public static JSONObject createPetitionSearchJson(Petition petition, String imageURL, ThemeDisplay themeDisplay, String configAffichage) {
         JSONObject jsonPetition = JSONFactoryUtil.createJSONObject();
 
         jsonPetition.put(
@@ -351,7 +349,7 @@ public class JSONSearchHelper {
 
                 jsonPetition.put(
                         Constants.ATTRIBUTE_IMAGE_URL,
-                        petition.getImageURL()
+                        imageURL
                 );
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -457,7 +455,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour Initiative
      */
-    public static JSONObject createInitiativeSearchJson(Initiative initiative, ThemeDisplay themeDisplay, String configAffichage) {
+    public static JSONObject createInitiativeSearchJson(Initiative initiative, String imageURL, ThemeDisplay themeDisplay, String configAffichage) {
         JSONObject jsonInitiative = JSONFactoryUtil.createJSONObject();
 
         jsonInitiative.put(
@@ -480,7 +478,7 @@ public class JSONSearchHelper {
 
                 jsonInitiative.put(
                         Constants.ATTRIBUTE_IMAGE_URL,
-                        initiative.getImageURL()
+                        imageURL
                 );
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -515,10 +513,9 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour JournalArticle
      */
-    public static JSONObject createJournalArticleSearchJson(AssetEntry assetEntry, Locale locale, ThemeDisplay themeDisplay, String configAffichage, int tailleMax, String publikUserId) throws PortalException {
+    public static JSONObject createJournalArticleSearchJson(AssetEntry assetEntry, JournalArticle journalArticle, String imageURL, Locale locale, ThemeDisplay themeDisplay, String configAffichage, int tailleMax, String publikUserId) throws PortalException {
         JSONObject jsonArticle = JSONFactoryUtil.createJSONObject();
 
-        JournalArticle journalArticle = JournalArticleServiceUtil.getLatestArticle(assetEntry.getClassPK());
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", locale);
 
         jsonArticle.put(
@@ -564,7 +561,7 @@ public class JSONSearchHelper {
 
         jsonArticle.put(
                 Constants.ATTRIBUTE_IMAGE_URL,
-                AssetPublisherTemplateHelper.getDocumentUrl(JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "thumbnail", locale))
+                imageURL
         );
 
         switch (configAffichage) {
@@ -614,7 +611,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour Official
      */
-    public static JSONObject createOfficialSearchJson(Official official, Locale locale, ThemeDisplay themeDisplay, String configAffichage) {
+    public static JSONObject createOfficialSearchJson(Official official, String imageURL, Locale locale, ThemeDisplay themeDisplay, String configAffichage) {
         JSONObject jsonOfficial = JSONFactoryUtil.createJSONObject();
 
         jsonOfficial.put(
@@ -687,7 +684,7 @@ public class JSONSearchHelper {
 
         jsonOfficial.put(
                 Constants.ATTRIBUTE_IMAGE_URL,
-                official.getImageURL()
+                imageURL
         );
 
         return jsonOfficial;
@@ -696,7 +693,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour Edition
      */
-    public static JSONObject createEditionSearchJson(Edition edition, Locale locale, ThemeDisplay themeDisplay, String configAffichage, int tailleMax, String publikUserId) {
+    public static JSONObject createEditionSearchJson(Edition edition, String imageURL, Locale locale, ThemeDisplay themeDisplay, String configAffichage, int tailleMax, String publikUserId) {
         JSONObject jsonEdition = JSONFactoryUtil.createJSONObject();
 
         jsonEdition.put(
@@ -750,7 +747,7 @@ public class JSONSearchHelper {
                         edition.getEditionId()
                 );
 
-                if (edition.getEditionGalleries().size() != 0) {
+                if (!edition.getEditionGalleries().isEmpty()) {
                     var gallery = edition.getEditionGalleries().get(0);
                     jsonEdition.put(
                             "galeryEditionName",
@@ -775,7 +772,7 @@ public class JSONSearchHelper {
 
         jsonEdition.put(
                 Constants.ATTRIBUTE_IMAGE_URL,
-                edition.getImageURL()
+                imageURL
         );
 
         return jsonEdition;
@@ -843,7 +840,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour EditionGallery
      */
-    public static JSONObject createEditionGallerySearchJson(EditionGallery editionGallery, Locale locale, ThemeDisplay themeDisplay, String configAffichage, int tailleMax) {
+    public static JSONObject createEditionGallerySearchJson(EditionGallery editionGallery, String imageURL, Locale locale, ThemeDisplay themeDisplay, String configAffichage, int tailleMax) {
         JSONObject jsonEditionGallery = JSONFactoryUtil.createJSONObject();
 
         jsonEditionGallery.put(
@@ -883,7 +880,7 @@ public class JSONSearchHelper {
 
                 jsonEditionGallery.put(
                         Constants.ATTRIBUTE_IMAGE_URL,
-                        editionGallery.getImageURL()
+                        imageURL
                 );
 
                 String description = HtmlUtil.stripHtml(editionGallery.getDescription(locale));
@@ -902,7 +899,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour Place
      */
-    public static JSONObject createPlaceSearchJson(Place place, Locale locale, ThemeDisplay themeDisplay, String configAffichage, String publikUserId) {
+    public static JSONObject createPlaceSearchJson(Place place, String imageURL, Locale locale, ThemeDisplay themeDisplay, String configAffichage, String publikUserId) {
         JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
 
         jsonPlace.put(
@@ -937,7 +934,7 @@ public class JSONSearchHelper {
 
                 jsonPlace.put(
                         Constants.ATTRIBUTE_IMAGE_URL,
-                        place.getImageURL()
+                        imageURL
                 );
 
                 jsonPlace.put(
@@ -974,7 +971,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour ActivityCourse
      */
-    public static JSONObject createActivityCourseSearchJson(ActivityCourse activityCourse, Locale locale, ThemeDisplay themeDisplay, String configAffichage) {
+    public static JSONObject createActivityCourseSearchJson(ActivityCourse activityCourse, String imageURL, Locale locale, ThemeDisplay themeDisplay, String configAffichage) {
         JSONObject jsonActivityCourse = JSONFactoryUtil.createJSONObject();
 
         jsonActivityCourse.put(
@@ -999,7 +996,7 @@ public class JSONSearchHelper {
 
                 jsonActivityCourse.put(
                         Constants.ATTRIBUTE_IMAGE_URL,
-                        activityCourse.getImageURL()
+                        imageURL
                 );
 
                 jsonActivityCourse.put(
@@ -1025,7 +1022,7 @@ public class JSONSearchHelper {
     /**
      * création de JSON pour Activity
      */
-    public static JSONObject createActivitySearchJson(Activity activity, Locale locale, ThemeDisplay themeDisplay, String configAffichage, int tailleMax) {
+    public static JSONObject createActivitySearchJson(Activity activity, String imageURL, Locale locale, ThemeDisplay themeDisplay, String configAffichage, int tailleMax) {
         JSONObject jsonActivity = JSONFactoryUtil.createJSONObject();
 
         jsonActivity.put(
@@ -1060,7 +1057,7 @@ public class JSONSearchHelper {
 
                 jsonActivity.put(
                         Constants.ATTRIBUTE_IMAGE_URL,
-                        activity.getImageURL()
+                        imageURL
                 );
 
                 jsonActivity.put(

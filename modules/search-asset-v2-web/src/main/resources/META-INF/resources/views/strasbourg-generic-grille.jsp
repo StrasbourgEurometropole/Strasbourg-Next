@@ -101,8 +101,8 @@
 		<!-- Export -->
 		<c:if test="${dc.displayExport}">
 			<div class="btn-line">
-				<a href="${dc.exportResourceURL}" title="<liferay-ui:message key="print" />" target="_blank">
-					<button type="button" class="st-btn"><liferay-ui:message key="print" /></button>
+				<a href="${dc.exportResourceURL}" title="<liferay-ui:message key="print" />" target="_blank" class="st-btn" role="button">
+					<liferay-ui:message key="print" />
 				</a>
 			</div>
 		</c:if>
