@@ -1,15 +1,7 @@
 (function () {
 
+
     class ViewMoreLess {
-        // éléments focalisables
-        static focusableElementsArray = [
-            '[href]',
-            'button:not([disabled])',
-            'input:not([disabled])',
-            'select:not([disabled])',
-            'textarea:not([disabled])',
-            '[tabindex]:not([tabindex="-1"])',
-        ];
 
         constructor(container) {
             this.container = container;
@@ -24,6 +16,15 @@
 
             this.showEvent = new Event('showViewMore', { bubbles: true });
             this.hideEvent = new Event('hideViewMore', { bubbles: true });
+
+            focusableElementsArray = [
+                '[href]',
+                'button:not([disabled])',
+                'input:not([disabled])',
+                'select:not([disabled])',
+                'textarea:not([disabled])',
+                '[tabindex]:not([tabindex="-1"])',
+            ];
 
             // éléments qui dépassent du container
             this.childrenHidden = [];
@@ -71,11 +72,11 @@
         // Rend inaccessible au clavier les enfants qui sont masqués ou partiellement masqués dans le container
         hideChildrenForSR(el) {
             el.setAttribute("aria-hidden", 'true');
-            if (el.matches(ViewMoreLess.focusableElementsArray)) {
+            if (el.matches(this.focusableElementsArray)) {
                 el.setAttribute("tabindex", "-1");
             }
 
-            const focusableElements = el.querySelectorAll(ViewMoreLess.focusableElementsArray);
+            const focusableElements = el.querySelectorAll(this.focusableElementsArray);
             focusableElements.forEach(focusableElement => {
                 focusableElement.setAttribute("tabindex", "-1");
             });
@@ -94,7 +95,7 @@
                 el.focus();
             }
 
-            const focusableElements = el.querySelectorAll(ViewMoreLess.focusableElementsArray);
+            const focusableElements = el.querySelectorAll(this.focusableElementsArray);
             focusableElements.forEach(focusableElement => {
                 focusableElement.removeAttribute("tabindex");
 
@@ -178,6 +179,7 @@
     limitedContainers.forEach(container => {
         new ViewMoreLess(container);
     });
+
 
 
 })();

@@ -49,7 +49,7 @@
 </div>
 <aui:script>
     // JS gérant l'ouverture du popup de selection de l'évènement
-    $('#<portlet:namespace />choose-event-${name}').on('click',
+    $(document).on('click','#<portlet:namespace />choose-event-${name}',
         function(event) {
             var itemPicker = $(event.target).closest(".strasbourg-slider-picker");
             Liferay.Util.openSelectionModal(
@@ -82,7 +82,7 @@
     );
 
     // JS gérant l'ouverture du popup de selection du contenu web
-     $('#<portlet:namespace />choose-article-${name}').on('click',
+    $(document).on('click','#<portlet:namespace />choose-article-${name}',
         function(event) {
             var itemPicker = $(event.target).closest(".strasbourg-slider-picker");
             Liferay.Util.openSelectionModal(
