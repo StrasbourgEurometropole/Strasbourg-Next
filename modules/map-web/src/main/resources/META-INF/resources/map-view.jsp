@@ -92,7 +92,7 @@
                                                     (${dc.getPoisCategoryCount(category.categoryId, prefilters, prefilterTags, groupId, typesContenu, dateField, fromDate, toDate, locale, globalGroupId)}) --%>
 
                                                     <c:if test="${showPictos && !category.getDescription(locale).equals(\"\")}">
-                                                        <img src="${category.getDescription(locale)}">
+                                                        <img src="${category.getDescription(locale)}" alt="">
                                                     </c:if>
                                                 </label>
                                             </div>
