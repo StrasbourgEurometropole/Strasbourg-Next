@@ -15,7 +15,6 @@ const sassGlob = require('gulp-sass-glob');
 var runSequence = require('gulp4-run-sequence').use(gulp);
 var postcss = require('gulp-postcss');
 var cleancss = require('gulp-clean-css');
-const babel = require('gulp-babel');
 
 /** Gestion de erreurs */
 function onError(err) {
