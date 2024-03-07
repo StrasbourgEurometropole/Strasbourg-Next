@@ -73,7 +73,7 @@
 			</div>
 			<div class="st-col-3@t-small">
 				<button type="reset" class="st-btn st--btn-full-width-mobile" name="cancel" value="Annuler"
-						formnovalidate="formnovalidate">
+						formnovalidate>
 					<liferay-ui:message key="cancel" />
 				</button>
 			</div>
@@ -100,7 +100,7 @@
 				<div class="st-col-4@t-small">
 					<liferay-portlet:renderURL var="formURL" />
 					<a href="${formURL}" title="<liferay-ui:message key="contact.new-request" />">
-						<button class="st-btn st--btn-full-width-mobile"name="previous" value="<liferay-ui:message key='new-request' />" formnovalidate="formnovalidate">
+						<button class="st-btn st--btn-full-width-mobile"name="previous" value="<liferay-ui:message key='new-request' />" formnovalidate>
 							<liferay-ui:message key="contact.new-request" />
 						</button>
 					</a>

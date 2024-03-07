@@ -271,7 +271,7 @@ function callSearchUrl(url, data, callback) {
             }
             // Remove the "loading" class when the request is complete
             document.querySelector('.st-results .loading-small-animation').classList.add('st-hide');
-            document.querySelector('#resultList .loading-animation')?.classList.remove('st-hide');
+            document.querySelector('#resultList .loading-animation')?.classList.add('st-hide');
 
             // update aria-busy to false
             document.querySelector('.st-results').setAttribute("aria-busy", "false");
@@ -294,7 +294,7 @@ function callSearchUrl(url, data, callback) {
 }
 
 function populateList(data) {
-    var resultList = document.getElementById('resultList');
+    var resultList = document.getElementById('results');
     resultList.innerHTML = ''; // Clear existing list items
     var totalResult = data.find(item => item.totalResult).totalResult
     var resultTotal = document.getElementById('results-total');

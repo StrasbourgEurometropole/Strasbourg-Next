@@ -15,9 +15,9 @@
                 portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
                 instanceId="je-suis-header-mobile"
                 settingsScope="group" />
-                <button href="#" aria-haspopup="dialog" class="st-nav-menu-mobile__link" data-overlay-open="st-overlay-location">
+                <a role="button" href="#" aria-haspopup="dialog" class="st-nav-menu-mobile__link" data-overlay-open="st-overlay-location">
                     <@liferay_ui.message key='eu.mycity' />
-                </button>
+                </a>
                 <a href="/contact" class="st-nav-menu-mobile__link"><@liferay_ui.message key='eu.ops.contact' /></a>
             </div>
             <#list entries as nav_item>

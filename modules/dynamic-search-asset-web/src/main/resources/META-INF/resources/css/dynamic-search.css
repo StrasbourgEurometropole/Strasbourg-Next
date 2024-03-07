@@ -2,6 +2,7 @@
     width: 100%;
     height: 10em;
     position: absolute;
+    z-index: 6;
 }
 
 #resultList .loading-animation:after, #resultList .loading-animation:before{
