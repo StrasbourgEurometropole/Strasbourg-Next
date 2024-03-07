@@ -15,7 +15,7 @@
 
                         <figure class="st-figure st-fit-cover" role="group">
                             <picture>
-                                <img class="st-img"
+                                <img alt="" class="st-img"
                                         />
                             </picture>
                         </figure>
@@ -40,3 +40,4 @@
         </div>
 
     </div>
+</div>

@@ -7,7 +7,7 @@
         <div class="st-filtre st-group-field st--is-date">
             <label for="<portlet:namespace />fromDate"><liferay-ui:message key="eu.event.from-date" /></label>
             <div class="st-field-date">
-                <input data-name="from" data-type="date" type="date" id="<portlet:namespace />fromDate" placeholder="JJ/MM/AAAA"
+                <input data-name="from" data-type="date" type="date" id="<portlet:namespace />fromDate"
                        value="${dc.fromYear}-${dc.fromMonthValue lt 10 ? '0' :''}${dc.fromMonthValue}-${dc.fromDay lt 10 ? '0' :''}${dc.fromDay}" />
             </div>
         </div>
@@ -15,7 +15,7 @@
         <div class="st-filtre st-group-field st--is-date">
             <label for="<portlet:namespace />toDate"><liferay-ui:message key="eu.event.to" /></label>
             <div class="st-field-date">
-                <input data-name="to" data-type="date" type="date" id="<portlet:namespace />toDate" placeholder="JJ/MM/AAAA"
+                <input data-name="to" data-type="date" type="date" id="<portlet:namespace />toDate"
                        value="${dc.toYear}-${dc.toMonthValue lt 10 ? '0' :''}${dc.toMonthValue}-${dc.toDay lt 10 ? '0' :''}${dc.toDay}" />
             </div>
         </div>
@@ -55,9 +55,9 @@
         <div class="col-right">
             <div class="st-listing-results st--in-barre-sticky st-hide-from@t-portrait" role="status">
                 <div class="st-results-filter">
-                    <label for="results-per-page"><liferay-ui:message key="results-per-page" /></label>
+                    <label for="small-results-per-page"><liferay-ui:message key="results-per-page" /></label>
                     <div class="st-results-select">
-                        <select id="results-per-page"  onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                        <select id="small-results-per-page"  onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
                             <c:forEach var="delta" items="${[5, 10, 20, 50, 100]}">
                                 <c:set var="selected" value="${delta eq dc.delta ? 'selected' : ''}" />
                                 <option value="${dc.getURLForDelta(delta)}" ${selected} >${delta}</option>
@@ -112,7 +112,7 @@
                     <div class="st-group-field st-col-6@t-small">
                         <label for="date-start"><liferay-ui:message key="eu.event.from-date" /></label>
                         <div class="st-field-date">
-                            <input name="from" data-type="date" type="date" id="date-start" placeholder="JJ/MM/AAAA"
+                            <input name="from" data-type="date" type="date" id="date-start"
                                    value="${dc.fromYear}-${dc.fromMonthValue lt 10 ? '0' :''}${dc.fromMonthValue}-${dc.fromDay lt 10 ? '0' :''}${dc.fromDay}" />
                         </div>
                         <input type="hidden" name="<portlet:namespace />fromDay" data-name="fromDay" value="${dc.fromDay}" />
@@ -124,7 +124,7 @@
                     <div class="st-group-field st-col-6@t-small">
                         <label for="date-end"><liferay-ui:message key="eu.event.to" /></label>
                         <div class="st-field-date">
-                            <input name="to" data-type="date" type="date" id="date-end" placeholder="JJ/MM/AAAA"
+                            <input name="to" data-type="date" type="date" id="date-end"
                                    value="${dc.toYear}-${dc.toMonthValue lt 10 ? '0' :''}${dc.toMonthValue}-${dc.toDay lt 10 ? '0' :''}${dc.toDay}">
                         </div>
                         <input type="hidden" name="<portlet:namespace />toDay" data-name="toDay" value="${dc.toDay}" />
