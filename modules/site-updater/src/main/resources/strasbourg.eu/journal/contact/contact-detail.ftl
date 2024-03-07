@@ -257,7 +257,7 @@ sundayAfternoon.data?has_content>
             <@liferay_ui.message key="contact.contact-us" />
         </h2>
         <#if phone.data?has_content>
-            <a href="tel: ${phone.data}" class="st-btn st--btn-full-width-mobile">
+            <a href="tel:${phone.data}" class="st-btn st--btn-full-width-mobile">
                 ${phone.data}
             </a>
         </#if>
