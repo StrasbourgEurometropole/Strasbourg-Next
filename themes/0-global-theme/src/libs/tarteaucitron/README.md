@@ -3,6 +3,17 @@
 [![npm](https://img.shields.io/npm/v/tarteaucitronjs.svg)](https://www.npmjs.com/package/tarteaucitronjs) [![GitHub contributors](https://img.shields.io/github/contributors/AmauriC/tarteaucitron.js.svg)](https://github.com/AmauriC/tarteaucitron.js/graphs/contributors) [![Sponsor](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub)](https://github.com/sponsors/AmauriC) [![Rate this package](https://badges.openbase.com/js/rating/tarteaucitronjs.svg?token=jS4mC7aXh9xcs1pAcB0roiEUU+mrW0GjxVICITIltSw=)](https://openbase.com/js/tarteaucitronjs?utm_source=embedded&amp;utm_medium=badge&amp;utm_campaign=rate-badge)
 
 
+# <span style="color: red">Modifications apportés aux fichiers par SULLY</span>
+## tarteaucitron.js
+- **ligne 1921 :**
+Ajout de la condition sur id!=='' pour afficher l'id des scripts, car il renvoi un id='' qui n'est pas accessible sans ça.
+- **lignes 434 et 455 :**
+  Suppression du role, car il n'existe pas.
+## tarteaucitron.css
+- **ligne 106 :**
+Suppression du css qui masque les infos du cookie.
+##
+
 ![alt text](https://tarteaucitron.io/tarteaucitron.png "tarteaucitron.io")
 
 👋 Hey, I'm Amauri, a french dev that build a GDPR friendly cookie manager.
@@ -39,13 +50,14 @@ tarteaucitron.init({
     "orientation": "middle", /* Banner position (top - bottom - middle - popup) */
 
     "groupServices": false, /* Group services by category */
+    "showDetailsOnClick": true, /* Click to expand the description */
     "serviceDefaultState": "wait", /* Default state (true - wait - false) */
 
     "showAlertSmall": false, /* Show the small banner on bottom right */
     "cookieslist": false, /* Show the cookie list */
     
     "showIcon": true, /* Show cookie icon to manage cookies */
-    // "iconSrc": "", /* Optionnal: URL or base64 encoded image */
+    // "iconSrc": "", /* Optional: URL or base64 encoded image */
     "iconPosition": "BottomRight", /* Position of the icon between BottomRight, BottomLeft, TopRight and TopLeft */
 
     "adblocker": false, /* Show a Warning if an adblocker is detected */
@@ -61,12 +73,14 @@ tarteaucitron.init({
     "useExternalCss": false, /* If false, the tarteaucitron.css file will be loaded */
     "useExternalJs": false, /* If false, the tarteaucitron.services.js file will be loaded */
 
-    //"cookieDomain": ".my-multisite-domaine.fr", /* Shared cookie for subdomain website */
+    // "cookieDomain": ".my-multisite-domaine.fr", /* Shared cookie for subdomain website */
 
     "readmoreLink": "", /* Change the default readmore link pointing to tarteaucitron.io */
     
     "mandatory": true, /* Show a message about mandatory cookies */
-    "mandatoryCta": true /* Show the disabled accept button when mandatory on */
+    "mandatoryCta": true, /* Show the disabled accept button when mandatory on */
+    
+    // "customCloserId": "" /* Optional a11y: Custom element ID used to open the panel */
 });
 </script>
 ```
