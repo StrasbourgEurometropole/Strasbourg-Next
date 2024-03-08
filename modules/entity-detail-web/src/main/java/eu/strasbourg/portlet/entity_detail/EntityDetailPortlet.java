@@ -91,9 +91,12 @@ public class EntityDetailPortlet extends MVCPortlet {
 			//Partage l'asset entry configurée dans la config. D'autres portlets peuvent ainsi la récupérer.
 			//Pour partager une variable en session il faut préfixer le nom de la variable par LIFERAY_SHARED_
 			PortletSession portletSession = request.getPortletSession();
-			portletSession.setAttribute("LIFERAY_SHARED_assetEntryID"
-					, entry != null ? entry.getEntryId() : null
-					, PortletSession.APPLICATION_SCOPE);
+			if (entry != null) {
+				portletSession.setAttribute("LIFERAY_SHARED_assetEntryID"
+						, entry != null ? entry.getEntryId() : null
+						, PortletSession.APPLICATION_SCOPE);
+			}
+
 			
 			if (entry != null) {
 				PortalUtil.setPageTitle(entry.getTitle(themeDisplay.getLocale()),

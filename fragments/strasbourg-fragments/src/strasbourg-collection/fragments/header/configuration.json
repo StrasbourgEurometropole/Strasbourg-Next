@@ -3,11 +3,10 @@
 		{
             "fields": [
                 {
-                    "label": "select-content",
+                    "label": "Contenu de Mon profil",
                     "name": "jesuis",
                     "type": "itemSelector",
                     "typeOptions": {
-											  "enableSelectTemplate": true,
                         "itemType": "com.liferay.journal.model.JournalArticle"
                     }
                 }
