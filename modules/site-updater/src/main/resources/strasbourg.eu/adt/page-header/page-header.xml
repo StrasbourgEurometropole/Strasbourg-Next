@@ -7,4 +7,9 @@
         <name>Titre et description</name>
         <key>1320903</key>
     </template>
+    <template>
+        <script>title-actes-reglementaires.ftl</script>
+        <name>Entête liste des actes réglementaires et normatifs</name>
+        <key>17447846</key>
+    </template>
 </root>

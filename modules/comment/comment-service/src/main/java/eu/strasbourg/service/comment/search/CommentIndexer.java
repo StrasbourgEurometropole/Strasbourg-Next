@@ -94,10 +94,11 @@ public class CommentIndexer extends BaseIndexer<Comment> {
 	@Override
 	protected Document doGetDocument(Comment comment) {
 		Document document = getBaseModelDocument(CLASS_NAME, comment);
-		long[] assetCategorIds = AssetVocabularyHelper.getFullHierarchyCategoriesIds(comment.getCategories());
-		List<AssetCategory> assetCategories = AssetVocabularyHelper.getFullHierarchyCategories(comment.getCategories());
-		document.addKeyword(Field.ASSET_CATEGORY_IDS,assetCategorIds);
-		IndexHelper.addAssetCategoryTitles(document,Field.ASSET_CATEGORY_TITLES,assetCategories);
+		// TODO Remettre les catégories quand le problème de l'indexation des commentaires sera résolu
+//		long[] assetCategorIds = AssetVocabularyHelper.getFullHierarchyCategoriesIds(comment.getCategories());
+//		List<AssetCategory> assetCategories = AssetVocabularyHelper.getFullHierarchyCategories(comment.getCategories());
+//		document.addKeyword(Field.ASSET_CATEGORY_IDS,assetCategorIds);
+//		IndexHelper.addAssetCategoryTitles(document,Field.ASSET_CATEGORY_TITLES,assetCategories);
 		document.addNumber(Field.STATUS, comment.getStatus());
 		document.addNumber("reportings", comment.getCountSignalements());
 		document.addTextSortable("entityType",comment.getTypeAssetEntry());
