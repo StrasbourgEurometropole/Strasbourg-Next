@@ -17,7 +17,7 @@
             this.showEvent = new Event('showViewMore', { bubbles: true });
             this.hideEvent = new Event('hideViewMore', { bubbles: true });
 
-            focusableElementsArray = [
+            this.focusableElementsArray = [
                 '[href]',
                 'button:not([disabled])',
                 'input:not([disabled])',

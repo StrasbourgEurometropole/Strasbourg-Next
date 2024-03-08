@@ -63,19 +63,8 @@ public class CommentImpl extends CommentBaseImpl {
 	 */
 	@Override
 	public AssetEntry getAssetEntry() {
-		//FIXME vérifier pourquoi la méthode fetchEntry renvoie null lors de l'enregistrement d'un commentaire.
 		AssetEntry result = AssetEntryLocalServiceUtil.fetchEntry(Comment.class.getName(),
 				this.getCommentId());
-		if (result==null){
-			try {
-				result = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
-				if (result == null){
-					_log.error("Erreur lors de l'enregistrement d'un commentaire : l'asset est null");
-				}
-			} catch (PortalException e) {
-				_log.error("Erreur lors de l'enregistrement d'un commentaire : ",e);
-			}
-		}
 		return result;
 	}
 

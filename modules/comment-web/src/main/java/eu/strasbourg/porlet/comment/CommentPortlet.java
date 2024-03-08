@@ -222,7 +222,8 @@ public class CommentPortlet extends MVCPortlet {
 						comment.setLevel(1);
 					}
 
-					_commentLocalService.addComment(comment);
+					_commentLocalService.updateComment(comment, sc);
+
 
 				} else { // Modification d'un commentaire
 					comment = _commentLocalService.getComment(editCommentId);

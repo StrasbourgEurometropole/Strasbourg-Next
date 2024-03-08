@@ -53,6 +53,7 @@ function main() {
 
 	try {
 		if (configuration.video) {
+      console.log(configuration)
 			const videoConfiguration = JSON.parse(configuration.video);
 			if (videoConfiguration.html) {
 				videoContainerHtml = videoConfiguration.html;
