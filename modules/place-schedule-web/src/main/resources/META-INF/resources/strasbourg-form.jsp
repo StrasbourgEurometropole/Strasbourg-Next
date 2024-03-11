@@ -29,8 +29,8 @@
         <div class="st-filtre st-group-field">
             <label for="date">Date</label>
             <div class="st-field-date">
-                <input name="date" data-type="date" type="date" id="date" placeholder="JJ/MM/AAAA"
-                       value="${selectedDay}/${selectedMonth + 1}/${selectedYear}">
+                <input name="date" data-type="date" type="date" id="date"
+                       value="${selectedYear}-${selectedMonth<9?'0':''}${selectedMonth + 1}-${selectedDay}">
                 <input type="hidden" name="<portlet:namespace />day" data-name="dateDay" value="${selectedDay}" />
                 <input type="hidden" name="<portlet:namespace />month" data-name="dateMonth" value="${selectedMonth}" />
                 <input type="hidden" name="<portlet:namespace />year" data-name="dateYear" value="${selectedYear}" />
