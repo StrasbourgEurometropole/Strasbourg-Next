@@ -13,7 +13,6 @@
 				instanceId="breadcrumb-generic" />
 
 	</header>
-			<aui:form method="post" name="fm">
 				<!-- Résultats -->
 	<div class="st-listing st--listing-cards-horizontales listing st-wrapper st-wrapper-small">
 		<div class="st-listing-results st-hide-until@t-portrait">
@@ -112,7 +111,7 @@
 			<nav class="st-wrapper st-wrapper-small st-pagination" role="navigation" aria-label="Pagination">
 				<ul class="st-pagination__list">
 					<li class="st-pagination__item st--prev">
-						<a rel="prev" class="st-btn-arrow st--prev" aria-disabled="${dc.pager.currentPage == 0 ? 'true' : 'false'}">
+						<a href="${dc.getURLForPage(dc.pager.currentPage - 1)}" rel="prev" class="st-btn-arrow st--prev" aria-disabled="${dc.pager.currentPage == 1 ? 'true' : 'false'}">
 							<span class="st-sr-only"><liferay-ui:message key="eu.previous" /></span>
 						</a>
 					</li>
@@ -153,6 +152,5 @@
 			</nav>
 		</c:if>
 	</div>
-			</aui:form>
 
 <liferay-util:include page="/includes/overlay-official.jsp" servletContext="<%=application %>" />
