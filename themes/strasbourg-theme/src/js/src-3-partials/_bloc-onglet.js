@@ -22,7 +22,13 @@
                     next: 'Onglet suivant',
                 }
 
-            }).mount();
+            });
+            this.splide.on('mounted', function () {
+                for (const list of this.splide.Components.Elements.slides) {
+                    list.setAttribute('role', 'presentation');
+                }
+            });
+            this.splide = this.splide.mount();
 
             // RGAA : suppression du aria-roledescription injecté par défaut par splide
             groupNode.removeAttribute('aria-roledescription');

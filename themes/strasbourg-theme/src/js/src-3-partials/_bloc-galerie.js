@@ -8,7 +8,13 @@
             const splide = new Splide(slider, {
                 pagination: true,
 
-            }).mount();
+            });
+            splide.on('mounted', function () {
+                for (const list of splide.Components.Elements.slides) {
+                    list.setAttribute('role', 'presentation');
+                }
+            });
+            splide.mount();
         });
     }, 250);
 

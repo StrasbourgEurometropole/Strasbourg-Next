@@ -14,7 +14,13 @@
                     destroy: true,
                 }
             }
-        }).mount();
+        });
+        splide.on('mounted', function () {
+            for (const list of splide.Components.Elements.slides) {
+                list.setAttribute('role', 'presentation');
+            }
+        });
+        splide.mount();
 
 
         // Accessibilité sur les slides masqués par le view-more
@@ -77,7 +83,13 @@
                     destroy: true,
                 }
             }
-        }).mount();
+        });
+        splide.on('mounted', function () {
+            for (const list of splide.Components.Elements.slides) {
+                list.setAttribute('role', 'presentation');
+            }
+        });
+        splide.mount();
     });
 
 })();
