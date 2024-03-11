@@ -20,6 +20,7 @@
 	<liferay-ui:error key="nom-error" message="nom-error" />
 	<liferay-ui:error key="prenom-error" message="prenom-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
+	<liferay-ui:error key="email-error" message="email-error" />
 
 	<aui:form action="${saveOfficialURL}" method="post" name="fm">
 
@@ -124,6 +125,8 @@
 
 				<aui:input name="missions" />
 
+				<aui:input name="resumeFonction" helpMessage="resumeFonction-help" />
+
 				<c:if test="${not empty dc.fonctionsTown}">
 					<div class="form-group input-String-wrapper">
 						<label><liferay-ui:message key="fonctions-town" /></label>
@@ -194,6 +197,8 @@
 				label="contact-official">
 
 				<aui:input name="contact"/>
+
+                <aui:input name="listeContact" helpMessage="liste-contact-help"   />
 
 			</aui:fieldset>
 

@@ -28,6 +28,8 @@
 		<property name="contact" type="com.liferay.portal.dao.orm.hibernate.StringClobType" />
 		<property name="orderDeputyMayor" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="orderVicePresident" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="listeContact" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="resumeFonction" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="imageId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 </hibernate-mapping>
