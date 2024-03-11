@@ -4,8 +4,7 @@
             "fields": [
                 {
                     "name": "numberOfBlock",
-                    "label": "Button Text",
-                    "description": "button-text",
+                    "label": "Nombre de blocs",
                     "type": "text",
                     "dataType": "int",
                     "defaultValue": "4"

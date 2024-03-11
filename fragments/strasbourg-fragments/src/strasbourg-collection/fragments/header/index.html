@@ -126,10 +126,12 @@ ${journalArticleLocalService.getArticleContent(jesuisObject, jesuisObject.getDDM
                 [#if themeDisplay.getRequest().session.getAttribute("publik_logged_in")!false]
                     <a href="${layoutHelper.getDashboardURL()}" class="st-lien-libre">
                         <span class="st-icon-person" aria-hidden="true"></span>
+                      <span class="sr-only">${themeDisplay.getRequest().session.getAttribute("publik_given_name")?html}&nbsp;${themeDisplay.getRequest().session.getAttribute("publik_family_name")?html}</span>
                     </a>
                 [#else]
                     <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="st-lien-libre">
                         <span class="st-icon-person" aria-hidden="true"></span>
+                      <span class="sr-only">[@liferay_ui.message key="eu.mystrasbourg" /].eu</span>
                     </a>
                 [/#if]
             </li>

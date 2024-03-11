@@ -16,7 +16,12 @@
                 slider.classList.remove('has-ended');
             }
         } );
-
+        ;
+        splide.on('mounted', function () {
+            for (const list of splide.Components.Elements.slides) {
+                list.setAttribute('role', 'presentation');
+            }
+        });
          splide.mount();
 
 
