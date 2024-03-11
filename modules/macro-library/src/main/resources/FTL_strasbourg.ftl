@@ -200,7 +200,7 @@
 
                         <div class="st-group-field">
                             <div class="st-group-radio">
-                                <label for="checkbox-_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail"  class="st-field-checkbox">
+                                <label for="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail"  class="st-field-checkbox">
                                     <input checked type="checkbox" name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" />
                                     <@liferay_ui.message key="eu.do-you-want-a-notification" />
                                 </label>
