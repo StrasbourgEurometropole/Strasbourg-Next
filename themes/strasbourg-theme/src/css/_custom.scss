@@ -532,9 +532,17 @@ body:not(.no-hover) .st-page-wrapper .login-container button{
 }
 
 .st-has-btn-compte {
-  .st-btn-compte {
+  .st-btn-compte:not(:only-child) {
     margin-right: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
+}
+
+.st-liste {
+    .st-lien-container {
+        > div:not([style]) {
+            flex-grow: 1;
+        }
+    }
 }
