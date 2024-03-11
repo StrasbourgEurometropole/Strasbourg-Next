@@ -34,6 +34,12 @@
 		<field name="orderVicePresident" type="int">
 			<hint name="max-length">2</hint>
 		</field>
+		<field name="listeContact" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
+		<field localized="true" name="resumeFonction" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
 		<field name="imageId" type="Long" />
 	</model>
 </model-hints>
