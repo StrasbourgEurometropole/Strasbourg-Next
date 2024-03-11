@@ -39,7 +39,7 @@
 
             <div class="st-group-field st-col-6@t-small">
                 <label for="birthplace"><liferay-ui:message key="felec.birthplace" /></label>
-                <input id="birthplace" type="text" name="<portlet:namespace />birthplace"  placeholder="<liferay-ui:message key="felec.birthplace" />"  value="${param.birthplace}" autocomplete="">
+                <input id="birthplace" type="text" name="<portlet:namespace />birthplace"  placeholder="<liferay-ui:message key="felec.birthplace" />"  value="${param.birthplace}" autocomplete="address-level2">
             </div>
 
             <div class="st-col-6@t-small">

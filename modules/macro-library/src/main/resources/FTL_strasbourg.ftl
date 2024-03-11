@@ -23,7 +23,8 @@
     <#if  fileEntryId?has_content && fileEntryId?number != 0>
         <#local copyright = getCopyright(fileEntryId) />
         <#local legend = getLegend(fileEntryId) />
-        <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group"
+        <figure class="<#if isFigure>st-figure</#if> st-fit-cover"
+                <#if !(legend?has_content && showLegende) && !(copyright?has_content && showCopyright)> role="group"</#if>
             <#if (legend?has_content && showLegende) || (copyright?has_content && showCopyright)>aria-label="${copyright} ${legend}"</#if>>
             <@strasbourg.getImageByFileEntry fileEntryId=fileEntryId?number maxWidth=maxWidth defaultFile=defaultFile />
             <#if (legend?has_content && showLegende) || (copyright?has_content && showCopyright)>

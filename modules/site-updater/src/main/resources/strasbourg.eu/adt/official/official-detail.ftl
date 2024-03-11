@@ -56,7 +56,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <#if entry.gender == 2>
                     <#assign defaultFile = "silhouette_femme.jpg" />
                 </#if>
-                <@strasbourg.addImage fileEntryId=entry.imageId defaultFile=defaultFile maxWidth=270 isFigure=true />
+                <@strasbourg.addImage fileEntryId=entry.imageId defaultFile=defaultFile maxWidth=270 isFigure=true showCopyright=false />
             </div>
         </div>
     </div>
