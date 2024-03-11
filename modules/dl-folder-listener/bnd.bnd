@@ -1,0 +1,4 @@
+Bundle-Name: dl-folder-listener
+Bundle-SymbolicName: eu.strasbourg.listener.dlFolder
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.listener.dlFolder.constants
