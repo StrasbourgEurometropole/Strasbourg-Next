@@ -6,13 +6,7 @@
 
         const splide = new Splide(slider, {
             padding: { left: 0, right: 40 }
-        });
-        splide.on('mounted', function () {
-            for (const list of splide.Components.Elements.slides) {
-                list.setAttribute('role', 'presentation');
-            }
-        });
-        splide.mount();
+        }).mount();
     });
 
     // Select sur la version mobile
