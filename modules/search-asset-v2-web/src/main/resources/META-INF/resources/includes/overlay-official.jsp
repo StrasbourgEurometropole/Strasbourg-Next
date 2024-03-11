@@ -13,7 +13,7 @@
                 <div class="st-image">
                     <figure class="st-figure st-fit-cover" role="group">
                         <picture>
-                            <img alt=""  />
+                            <img alt="" src="/o/strasbourg-theme/images/default/default.jpg" />
                         </picture>
                     </figure>
                 </div>

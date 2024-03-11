@@ -15,7 +15,7 @@
 
                         <figure class="st-figure st-fit-cover" role="group">
                             <picture>
-                                <img alt="" class="st-img"
+                                <img alt="" src="/o/strasbourg-theme/images/default/default.jpg" class="st-img"
                                         />
                             </picture>
                         </figure>
