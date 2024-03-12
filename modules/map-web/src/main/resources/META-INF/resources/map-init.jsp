@@ -55,14 +55,14 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
     </aui:script>
 </liferay-util:body-top>
 
-<link rel="stylesheet" href="/o/mapweb/css/leaflet.css" />
+<link rel="stylesheet" href="/o/0-global-theme/libs/leaflet/leaflet.css" />
 <link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.css" />
 <link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.Default.css" />
 <link rel="stylesheet" href="/o/mapweb/css/leaflet-gesture-handling.css" />
 <link rel="stylesheet" href="/o/mapweb/css/map.css" />
 
 <liferay-util:html-bottom>
-    <script src="/o/mapweb/js/leaflet.js"></script>
+    <script src="/o/0-global-theme/libs/leaflet/leaflet.js"></script>
     <script src="/o/mapweb/js/leaflet.markercluster-src.js"></script>
     <script src="/o/mapweb/js/leaflet-list-markers.src.js"></script>
     <script src="/o/mapweb/js/leaflet.snogylop.js"></script>
