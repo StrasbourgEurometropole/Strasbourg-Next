@@ -13,7 +13,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 } />
 
 <@liferay_util["html-bottom"]>
-    <script src="/o/strasbourg-theme/js/libs/leaflet.js"></script>
+    <script src="/o/0-global-theme/libs/leaflet/leaflet.js"></script>
+    <link rel="stylesheet" href="/o/0-global-theme/libs/leaflet/leaflet.css" />
 </@>
 
 <#assign fileEntryHelper=serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
