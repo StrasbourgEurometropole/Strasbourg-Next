@@ -48,13 +48,11 @@ liferayThemeTasks.registerTasks({
                     'build/js/libs/*.js',
                     'build/js/libs/**/*.js',
                     'build/js/*.js',
-                    'build/js/**/*.js',
-                    '!build/js/libs/leaflet.js',
-                '!build/js/libs/leaflet/leaflet-mapbox-gl.js'
+                    'build/js/**/*.js'
                 ]
             )
                 .pipe(concat("main.js")).on('error', onError)
-                .pipe(uglify())
+                //.pipe(uglify())
                 .pipe(gulp.dest('./build/js'))
                 .on('end', done);
         });
