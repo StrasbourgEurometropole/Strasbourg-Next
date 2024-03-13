@@ -109,7 +109,7 @@ var th_overlay = {
 
         if (current_hash) {
             $.each(current_hash, function (index, overlay_id) {
-                if (overlay_id && overlay_id.length && overlay_id != "st-overlay-preview-person") {
+                if (overlay_id && overlay_id.length && overlay_id != "st-overlay-preview-person"  && overlay_id != "st-overlay-preview-agenda") {
                     try {
 
                         var corresponding_overlay = $("#" + overlay_id);

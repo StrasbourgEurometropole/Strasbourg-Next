@@ -14,16 +14,20 @@ import java.util.TreeMap;
 public class PortalHelper {
     private static final Log log = LogFactoryUtil.getLog(PortalHelper.class.getName());
 
-    public static String getHomeURL(ThemeDisplay themeDisplay) {
+    public static String getHomeURL(ThemeDisplay themeDisplay, String suffix) {
         String home = "";
         String virtualHostName = getVirtualHostname(themeDisplay.getScopeGroup(), themeDisplay.getLanguageId());
         boolean stagingGroup = themeDisplay.getScopeGroup().isStagingGroup();
         if(Validator.isNotNull(virtualHostName) && ! stagingGroup)
-            home = "";
+            home = suffix;
         else {
-            home = "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL();
+            home = "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL() + suffix;
         }
         return home;
+    }
+
+    public static String getHomeURL(ThemeDisplay themeDisplay) {
+        return getHomeURL(themeDisplay, "");
     }
 
     public static String getPortalURL(ThemeDisplay themeDisplay)  {

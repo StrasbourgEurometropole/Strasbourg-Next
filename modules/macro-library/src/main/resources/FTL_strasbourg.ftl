@@ -1,6 +1,6 @@
 <#function homeURL>
     <#assign portalHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortalHelperService") />
-    <#assign url = portalHelper.getHomeURL(themeDisplay) />
+    <#assign url = portalHelper.getHomeURL(themeDisplay, "/") />
     <#if url?has_content>
         <#return url />
     <#else>

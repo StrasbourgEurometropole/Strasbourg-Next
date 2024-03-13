@@ -17,6 +17,11 @@ public class PortalHelperImpl implements PortalHelperService {
     }
 
     @Override
+    public String getHomeURL(ThemeDisplay themeDisplay, String suffix) {
+        return PortalHelper.getHomeURL(themeDisplay, suffix);
+    }
+
+    @Override
     public String getPortalURL(ThemeDisplay themeDisplay) {
         return PortalHelper.getPortalURL(themeDisplay);
     }
