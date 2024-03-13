@@ -1,9 +1,12 @@
 <#function homeURL>
-    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-        <#return "/web${layout.group.friendlyURL}/" />
+    <#assign portalHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortalHelperService") />
+    <#assign url = portalHelper.getHomeURL(themeDisplay) />
+    <#if url?has_content>
+        <#return url />
     <#else>
         <#return "/" />
     </#if>
+
 </#function>
 
 <#function getRootElement curEntry>

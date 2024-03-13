@@ -47,9 +47,12 @@ public class SearchActivityPortlet extends MVCPortlet {
 		request.setAttribute("displayStyleGroupId", displayStyleGroupId);
 		request.setAttribute("templateEntries", new ArrayList<Object>());
 
+
 		try {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 			SearchActivityConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchActivityConfiguration.class, themeDisplay);
+			String title = themeDisplay.getLayout().getName(themeDisplay.getLocale());
+			request.setAttribute("title", title);
 			String template = configuration.template();
 			if (Validator.isNull(template)) {
 				template = "default";

@@ -17,6 +17,7 @@ var th_overlay = {
     init: function (settings) {
         th_overlay.parseOverlayShadow($('body'));
         th_overlay.parse($('body'));
+        th_overlay.openOnLoad();
 
         if (settings) {
             $.each(settings, function (key, setting) {
@@ -108,7 +109,7 @@ var th_overlay = {
 
         if (current_hash) {
             $.each(current_hash, function (index, overlay_id) {
-                if (overlay_id && overlay_id.length) {
+                if (overlay_id && overlay_id.length && overlay_id != "st-overlay-preview-person") {
                     try {
 
                         var corresponding_overlay = $("#" + overlay_id);

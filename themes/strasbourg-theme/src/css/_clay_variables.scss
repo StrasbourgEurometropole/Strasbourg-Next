@@ -61,6 +61,15 @@ $btn-primary: (
 
 $multi-step-icon-active-bg: $active-bg;
 
+$table-color: #fff;
+$table-accent-bg: transparent;
+$table-bg: transparent;
+$table-border-color: rgba(255,255,255,.25);
+$table-head-bg: #2ad783;
+
+.table {
+  border-radius: 5px;
+}
 
 .portlet-forms {
   .lfr-ddm__default-page-header-title {

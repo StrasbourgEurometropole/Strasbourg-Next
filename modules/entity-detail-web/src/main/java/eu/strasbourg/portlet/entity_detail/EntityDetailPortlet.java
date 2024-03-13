@@ -2,6 +2,8 @@ package eu.strasbourg.portlet.entity_detail;
 
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
@@ -22,6 +24,7 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.*;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,6 +106,17 @@ public class EntityDetailPortlet extends MVCPortlet {
 						PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request)));
 				// Ajout du fil d'ariane
 				PortletHelper.addBreadcrumbEntry(request, entry.getTitle(themeDisplay.getLocale()), PortletURLFactoryUtil.create(PortalUtil.getHttpServletRequest(request), StrasbourgPortletKeys.ENTITY_DETAIL_WEB, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE));
+			}
+
+			if (entry == null) {
+				HttpServletResponse httpServletResponse = PortalUtil.getHttpServletResponse(response);
+				httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				String journalArticleContent = "<header class=\"st-header-edito st-wrapper st-wrapper-small\" role=\"banner\">\n" +
+						"    <div>\n" +
+						"            <h1 class=\"st-h1\">Page introuvable</h1>\n" +
+						"    </div>\n" +
+						"</header>";
+				request.setAttribute("notFoundHTML", journalArticleContent);
 			}
 
 			if(request.getAttribute("javax.portlet.request") instanceof RenderRequest) {

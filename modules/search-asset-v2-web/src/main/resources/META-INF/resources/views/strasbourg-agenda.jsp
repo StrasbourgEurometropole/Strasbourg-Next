@@ -106,7 +106,7 @@
 				<nav class="st-wrapper st-wrapper-small st-pagination" role="navigation" aria-label="Pagination">
 					<ul class="st-pagination__list">
 						<li class="st-pagination__item st--prev">
-							<a href="${dc.getURLForPage(dc.pager.currentPage - 1)}" rel="prev" class="st-btn-arrow st--prev" aria-disabled="${dc.pager.currentPage == 1 ? 'true' : 'false'}">
+							<a rel="prev" href="${dc.getURLForPage(dc.pager.currentPage - 1)}" class="st-btn-arrow st--prev" aria-disabled="${dc.pager.currentPage == 1 ? 'true' : 'false'}">
 								<span class="st-sr-only"><liferay-ui:message key="eu.previous" /></span>
 							</a>
 						</li>

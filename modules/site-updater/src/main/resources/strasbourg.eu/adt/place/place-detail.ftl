@@ -652,12 +652,12 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                     <p class="st-date">
                                         <#if event.firstStartDate?date==event.lastEndDate?date>
                                             <@liferay_ui.message key="eu.event.the" />
-                                            ${event.firstStartDate?date?string['dd/MM']}
+                                            ${event.firstStartDate?date?string['dd.MM.yy']}
                                         <#else>
                                             <@liferay_ui.message key="eu.event.from-date" />
-                                            ${event.firstStartDate?date?string['dd/MM']}
+                                            ${event.firstStartDate?date?string['dd.MM.yy']}
                                             <@liferay_ui.message key="eu.event.to" />
-                                            ${event.lastEndDate?date?string['dd/MM']}
+                                            ${event.lastEndDate?date?string['dd.MM.yy']}
                                         </#if>
                                     </p>
                                     <p class="st-location">

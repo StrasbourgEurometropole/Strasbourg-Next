@@ -6,7 +6,7 @@
 
 <%--  form--%>
 <header class="st-small-header st-wrapper st-wrapper-small">
-	<h1 class="st-h1">${dc.getPortletTitle('eu.strasbourg.search-aquatique')}</h1>
+	<h1 class="st-h1">${title}</h1>
 	<liferay-portlet:runtime
 			portletName="com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
 			instanceId="breadcrumb-generic" />
@@ -55,7 +55,7 @@
 			<nav class="st-wrapper st-wrapper-small st-pagination" role="navigation" aria-label="Pagination">
 				<ul class="st-pagination__list">
 					<li class="st-pagination__item st--prev">
-						<a rel="prev" class="st-btn-arrow st--prev" aria-disabled="${dc.pager.currentPage == 0 ? 'true' : 'false'}">
+						<a rel="prev" href="${dc.getURLForPage(dc.pager.currentPage - 1)}" class="st-btn-arrow st--prev" aria-disabled="${dc.pager.currentPage == 1 ? 'true' : 'false'}">
 							<span class="st-sr-only"><liferay-ui:message key="eu.previous" /></span>
 						</a>
 					</li>

@@ -12,6 +12,7 @@ import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
 import com.liferay.dynamic.data.mapping.kernel.Value;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
@@ -107,7 +108,7 @@ public class FileEntryHelper {
 	}
 
 	public static String getReadableFileEntrySize(DLFileEntry fileEntry, Locale locale) {
-		return TextFormatter.formatStorageSize(fileEntry.getSize(), locale);
+		return LanguageUtil.formatStorageSize(fileEntry.getSize(), locale);
 	}
 
 	/**
