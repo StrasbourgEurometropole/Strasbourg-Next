@@ -1,49 +1,21 @@
-<div class="st-bloc st-bloc-video st-wrapper st--has-margin">
-    <div class="st-container">
-			<div class="alert alert-info error-message" hidden role="alert">
-			<p>Please enter a valid video URL.</p>
-			<p>The URL can point to any Dailymotion, Facebook, Twitch, Vimeo or Youtube video.</p>
-		</div>
-
-		<div aria-hidden="true" class="loading-animation"></div>
-
-		<div aria-hidden="true" class="video-mask"></div>
-        <div class="st-mask-video st-hide">
-            <figure class="st-figure st-fit-cover figcaption-only-credits" role="group">
-                <picture>
-                    <img alt="" src="https://placehold.co/1280x720">
-                </picture>
-            </figure>
-
-
-            <div class="st-caption st-text-styles">
-                <button class="st-btn-play"
-                    title="Lecture de la vidéo 'Orci varius natoque penatibus et magnis dis parturient montes'">
-                    <span class="st-icon-arrow-right" aria-hidden="true"></span>
-                </button>
-                <p class="st-surtitre">Orci varius natoque penatibus et magnis dis parturient montes</p>
-            </div>
-        </div>
-
-        <div class="st-embed-container st-hide">
-
-        </div>
-
+<div class="st-bloc st-bloc-video st-wrapper st--has-margin st-iframe-loaded">
+  <div class="st-container">
+    <div class="alert alert-info error-message" hidden role="alert">
+      <p>Please select the video player and enter a valid video ID.</p>
     </div>
-	[#if configuration.showTranscript]
-    <div class="st-video-transcription">
-        <button class="st-video-transcription__btn-trigger st-btn st--btn-secondary st-js-btn-disclosure-transcription"
-            aria-expanded="false" aria-controls="transcription-video-1"
-            data-open-label="Lire la transcription de la vidéo"
-            data-close-label="Masquer la transcription de la vidéo">Lire la transcription de la vidéo</button>
 
-        <div class="st-video-transcription__content st-text-styles st-is-hidden" id="transcription-video-1">
-          [#if configuration.showAutoTranscript]
-          [#else]
-            <lfr-drop-zone></lfr-drop-zone>
-          [/#if]
-        </div>
-    </div>
-	[/#if]
-
+    [#switch configuration.type]
+      [#case "youtube"]
+        <div class="youtube_player" videoID="${configuration.id}" width="${configuration.videoWidth}" height="${configuration.videoHeight}" tabindex="-1"></div>
+        [#break]
+      [#case "dailymotion"]
+        <div class="dailymotion_player" videoID="${configuration.id}" width="${configuration.videoWidth}" height="${configuration.videoHeight}" tabindex="-1"></div>
+        [#break]
+      [#case "vimeo"]
+        <div class="vimeo_player" videoID="${configuration.id}" width="${configuration.videoWidth}" height="${configuration.videoHeight}" tabindex="-1"></div>
+        [#break]
+      [#default]
+        <div class="calameo-canvas" data-id="${configuration.id}" width="${configuration.videoWidth}" height="${configuration.videoHeight}" tabindex="-1"></div>
+    [/#switch]
+  </div>
 </div>

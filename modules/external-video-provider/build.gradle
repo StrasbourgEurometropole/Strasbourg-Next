@@ -1,5 +1,0 @@
-dependencies {
-	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
-
-	implementation project (':modules:utils')
-}

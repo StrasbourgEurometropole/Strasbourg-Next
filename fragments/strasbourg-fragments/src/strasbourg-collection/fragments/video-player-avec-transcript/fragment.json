@@ -4,6 +4,6 @@
   "htmlPath": "index.html",
   "cssPath": "index.css",
   "icon": "code",
-  "name": "Video Player avec Transcript",
+  "name": "Video Player",
   "type": "component"
 }

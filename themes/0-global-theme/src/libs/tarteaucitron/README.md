@@ -9,6 +9,15 @@
 Ajout de la condition sur id!=='' pour afficher l'id des scripts, car il renvoi un id='' qui n'est pas accessible sans ça.
 - **lignes 434 et 455 :**
   Suppression du role, car il n'existe pas.
+## tarteaucitron.service.js
+- **ligne 1894 :**
+Suppression de webkitallowfullscreen mozallowfullscreen dans l'iFrame de calameo.
+- **ligne 2186 :**
+Suppression de webkitallowfullscreen mozallowfullscreen dans l'iFrame de dailymotion.
+- **ligne 4401 :**
+Suppression de webkitallowfullscreen mozallowfullscreen dans l'iFrame de vimeo.
+- **ligne 4705 :**
+Suppression de webkitallowfullscreen mozallowfullscreen dans l'iFrame de youtube.
 ## tarteaucitron.css
 - **ligne 106 :**
 Suppression du css qui masque les infos du cookie.

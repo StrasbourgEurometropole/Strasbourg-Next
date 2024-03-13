@@ -7,7 +7,7 @@
             <label for="place"><liferay-ui:message key="eu.place" /></label>
             <div class="st-field-select">
                 <select class="toCustomSelect" id="place" name="<portlet:namespace />placeId">
-                    <aui:option value=""></aui:option>
+                    <aui:option value="" label="select-place"/>
                     <c:forEach var="place" items="${places}">
                         <c:choose>
                             <c:when test="${place.placeId == placeId}">

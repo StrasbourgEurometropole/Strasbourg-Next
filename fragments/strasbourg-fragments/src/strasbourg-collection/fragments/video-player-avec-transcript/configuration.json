@@ -1,61 +1,54 @@
 {
-	"fieldSets": [
-		{
-			"fields": [
-				{
-					"label": "video",
-					"name": "video",
-					"type": "videoSelector"
-				},
-				{
-					"label": "Afficher la transcription",
-					"name": "showTranscript",
-					"type": "checkbox"
-				},
+  "fieldSets": [
+    {
+      "fields": [
         {
-          "label": "Utiliser la transcription automatique",
-          "name": "showAutoTranscript",
-          "type": "checkbox",
-          "description": "Si la transcription automatique est disponible, elle sera affichée à la place de la transcription.",
-          "defaultValue": true
+          "dataType": "string",
+          "defaultValue": "youtube",
+          "label": "Fournisseur vidéo",
+          "name": "type",
+          "type": "select",
+          "typeOptions": {
+            "validValues": [
+              {
+                "label": "Youtube",
+                "value": "youtube"
+              },
+              {
+                "label": "Dailymotion",
+                "value": "dailymotion"
+              },
+              {
+                "label": "Vimeo",
+                "value": "vimeo"
+              },
+              {
+                "label": "Calameo",
+                "value": "calameo"
+              }
+            ]
+          }
         },
-				{
-					"defaultValue": "",
-					"label": "width",
-					"name": "videoWidth",
-					"type": "text"
-				},
-				{
-					"defaultValue": "",
-					"label": "height",
-					"name": "videoHeight",
-					"type": "text"
-				},
-				{
-					"dataType": "string",
-					"defaultValue": "flex-start",
-					"label": "align",
-					"name": "align",
-					"type": "select",
-					"typeOptions": {
-						"validValues": [
-							{
-								"label": "left",
-								"value": "flex-start"
-							},
-							{
-								"label": "center",
-								"value": "center"
-							},
-							{
-								"label": "right",
-								"value": "flex-end"
-							}
-						]
-					}
-				}
-			],
-			"label": "external-video-options"
-		}
-	]
+        {
+          "defaultValue": "",
+          "label": "ID vidéo",
+          "name": "id",
+          "type": "text"
+        },
+        {
+          "defaultValue": "",
+          "label": "width",
+          "name": "videoWidth",
+          "type": "text"
+        },
+        {
+          "defaultValue": "",
+          "label": "height",
+          "name": "videoHeight",
+          "type": "text"
+        }
+      ],
+      "label": "external-video-options"
+    }
+  ]
 }
