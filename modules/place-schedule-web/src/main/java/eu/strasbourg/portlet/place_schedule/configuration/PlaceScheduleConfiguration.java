@@ -10,9 +10,6 @@ public interface PlaceScheduleConfiguration {
 	@Meta.AD(name = "categoryId", required = false)
 	public long categoryId();
 
-	@Meta.AD(name = "categoryTitle", deflt = "", required = false)
-	public String categoryTitle();
-
 	@Meta.AD(name = "textScheduleXML", deflt = "", required = false)
 	public String textScheduleXML();
 

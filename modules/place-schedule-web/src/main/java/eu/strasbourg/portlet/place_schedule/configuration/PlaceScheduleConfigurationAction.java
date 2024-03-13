@@ -59,17 +59,6 @@ public class PlaceScheduleConfigurationAction
 			String categoryId = ParamUtil.getString(request, "categoryId");
 			setPreference(request, "categoryId", categoryId);
 
-			// récupère le nom de la catégorie
-			String categoryTitle = "";
-			if (Validator.isNotNull(categoryId)) {
-				AssetCategory category = AssetCategoryLocalServiceUtil
-					.fetchAssetCategory(Long.parseLong(categoryId));
-				if (Validator.isNotNull(category)) {
-					categoryTitle = category.getTitle(locale);
-				}
-			}
-			setPreference(request, "categoryTitle", categoryTitle);
-
 			// Text
 			Map<Locale, String> textMap = LocalizationUtil
 				.getLocalizationMap(request, "textMap");
@@ -109,17 +98,15 @@ public class PlaceScheduleConfigurationAction
 			AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
 				.getVocabulary(VocabularyNames.PLACE_TYPE,
 					themeDisplay.getCompanyGroupId());
-			request.setAttribute("placeTypeVocabularyId",
-				placeTypeVocabulary.getVocabularyId());
+			request.setAttribute("categories",
+				placeTypeVocabulary.getCategories());
 
 			PlaceScheduleConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(PlaceScheduleConfiguration.class, themeDisplay);
 			// Catégorie
 			request.setAttribute("categoryId", configuration.categoryId() > 0
 				? configuration.categoryId() : "");
 
-			// Nom de la catégorie
-			request.setAttribute("categoryTitle",
-				configuration.categoryTitle());
+
 
 			// Text
 			request.setAttribute("textSchedule",
