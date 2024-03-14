@@ -1,5 +1,6 @@
 <%@ include file="/place-schedule-init.jsp" %>
 <jsp:useBean id="now" class="java.util.Date" />
+<fmt:formatDate value="${now}" type="date" var="fullNow" dateStyle="FULL"/>
 <fmt:setLocale value="${locale}" />
 <c:choose>
     <c:when test="${empty themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames or themeDisplay.scopeGroup.isStagingGroup()}">
@@ -46,7 +47,7 @@
         <%@ include file="/strasbourg-form.jsp"%>
 
 
-        <div class="st-wrapper st-grid st-grid-12 mb-3">
+        <div class="st-wrapper st-grid st-grid-12 mb-6">
             <a href="${previousURL}" class="st-btn st--btn-secondary st-col-3">
                 <liferay-ui:message key="previous" />
             </a>
@@ -170,9 +171,6 @@
                             </c:if>
 
                             <c:if test="${!place.hasURLSchedule}">
-                                <c:if test="${isToday}">
-                                    <p class="st-badge-today"><liferay-ui:message key="today" /></p>
-                                </c:if>
                                 <ul class="st-list-rows st-basic-grid st-col-2@t-small">
                                     <c:forEach var="horaires" items="${place.getPlaceSchedule(jourChoisi, 5, locale)}"
                                                varStatus="status">
@@ -190,7 +188,6 @@
                                  aria-labelledby="tab-button-${place.getSIGid()}-${loop.index}">
 
                                 <c:if test="${!place.hasURLSchedule}">
-                                    <c:set var="isToday" value="${DateUtils.isToday(jourChoisi)}" />
                                     <c:if test="${isToday}">
                                         <p class="st-badge-today"><liferay-ui:message key="today" /></p>
                                     </c:if>
@@ -212,7 +209,7 @@
                     </div>
 
                     <div class="st-bottom-part st-text-styles st-u-text-right">
-                        <a href="${homeURL}lieu/-/entity/sig/${place.getSIGid()}/${place.getNormalizedAlias(locale)}" class="st-btn st--btn-secondary-ghost st--btn-full-width-mobile"><liferay-ui:message key="eu.see-more" /></a>
+                        <a href="${homeURL}lieu/-/entity/sig/${place.getSIGid()}/${place.getNormalizedAlias(locale)}" class="st-btn st--btn-secondary-ghost st--btn-full-width-mobile"><liferay-ui:message key="eu.see-place" /></a>
                     </div>
                 </div>
 
@@ -232,39 +229,45 @@
         </div>
 
         <div class="st-wrapper text-styles mt-4">
+            <c:if test="${hasException}">
+                <div class="st-title-medium st-u-color-pink">
+                    <liferay-ui:message key="eu.place.look-at-exceptionnal-schedule" />
+                </div>
+            </c:if>
             <c:if test="${!empty exceptions}">
-                <div class="calendar-schedule-exceptions rte">
+                <div class="st-component-container calendar-schedule-exceptions rte">
                     <h3 id="exceptions"><liferay-ui:message key="eu.exceptional-closings-openings" /></h3>
                     <c:set var="nbExceptions" value="0" />
-                    <ul>
+                    <ul class="st-limit-height" style="--max-height-desktop: 9rem;">
                         <c:forEach var="exception" items="${exceptions}">
                             <c:set var="nbExceptions" value="${nbExceptions + 1}" />
-                            <c:if test="${nbExceptions <= 4}">
-                                <li>
-                            </c:if>
-                            <c:if test="${nbExceptions > 4}">
-                                <li class="more-schedules" style="display: none;">
-                            </c:if>
-                            <strong>
-                                    ${exception.key[0]}
-                                <c:if test="${fn:length(exception.key) > 1}">
-                                    - ${exception.key[1]}
+                            <li>
+                                <strong>
+                                        ${exception.key[0]}
+                                    <c:if test="${fn:length(exception.key) > 1}">
+                                        - ${exception.key[1]}
+                                    </c:if>
+                                    -
+                                        ${exception.value.period} :
+                                </strong>
+                                <c:if test="${exception.value.isClosed()}">
+                                    <liferay-ui:message key="eu.closed" />
                                 </c:if>
-                                -
-                                    ${exception.value.period} :
-                            </strong>
-                            <c:if test="${exception.value.isClosed()}">
-                                <liferay-ui:message key="eu.closed" />
-                            </c:if>
-                            <c:if test="${!exception.value.isClosed()}">
-                                <c:forEach var="openingTime" items="${exception.value.openingTimes}">
-                                    ${openingTime.first} - ${openingTime.second}
-                                </c:forEach>
-                            </c:if>
-                            - ${exception.value.getDescription()}
+                                <c:if test="${!exception.value.isClosed()}">
+                                    <c:forEach var="openingTime" items="${exception.value.openingTimes}">
+                                        ${openingTime.first} - ${openingTime.second}
+                                    </c:forEach>
+                                </c:if>
+                                - ${exception.value.getDescription()}
                             </li>
                         </c:forEach>
                     </ul>
+                    <div class="st-show-more">
+                        <button class="st-btn-show-more st-btn-arrow st--down"
+                                aria-expanded="false"
+                                data-open-label="<@liferay_ui.message key='eu.view-more' />" data-close-label="<@liferay_ui.message key='eu.view-less' />"><@liferay_ui.message key='eu.view-more' />
+                        </button>
+                    </div>
                 </div>
             </c:if>
         </div>

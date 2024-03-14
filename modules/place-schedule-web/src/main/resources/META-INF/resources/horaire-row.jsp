@@ -1,4 +1,8 @@
 <li class="st-item-row">
+    <c:set var="isToday" value="${fullNow eq horaires.key}" />
+    <c:if test="${isToday}">
+        <p class="st-badge-today"><liferay-ui:message key="today" /></p>
+    </c:if>
     <p class="st-title">${horaires.key}</p>
     <div class="st-info st-u-color-secondary">
         <c:forEach var="placeSchedule" items="${horaires.value}" varStatus="status">

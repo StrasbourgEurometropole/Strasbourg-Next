@@ -113,8 +113,6 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			GregorianCalendar lastDay = new GregorianCalendar();
 			lastDay.setTime(jourChoisi.getTime());
 			lastDay.add(Calendar.DAY_OF_MONTH, 4);
-			boolean isToday = DateHelper.isToday(jourChoisi.getTime());
-			request.setAttribute("isToday", isToday);
 			request.setAttribute("jourChoisi", jourChoisi.getTime());
 			request.setAttribute("lastDay", lastDay.getTime());
 			request.setAttribute("lastDayFormate", DateHelper.displayLongDate(lastDay.getTime(), locale));

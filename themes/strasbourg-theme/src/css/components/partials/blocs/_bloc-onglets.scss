@@ -563,7 +563,7 @@
 		.st-badge-today {
 			display: inline-block;
 			padding: 6px 8px;
-			margin-top: 26px;
+			margin-bottom: 16px;
 			@include ft('', 12px, 500, $c_main, 1);
 			@include letter-spacing(150);
 			text-transform: uppercase;
