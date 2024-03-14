@@ -15,6 +15,7 @@
                 <p class="st-title-card">${entry.getTitle(locale)}</p>
                 <p class="st-surtitre-cat">${entry.getTypesLabel(locale)}</p>
                 <p class="st-text">${entry.getDescription(locale)?replace(r'<[^>]*>', '', 'r')?truncate(170, "...")}</p>
+                <p class="st-all-text hidden">${entry.getDescription(locale)?replace(r'<[^>]*>', '', 'r')}</p>
             </div>
             <div class="st-image">
                 <@strasbourg.addImage fileEntryId=entry.imageId maxWidth=210 showLegende=false showCopyright=false isFigure=true />

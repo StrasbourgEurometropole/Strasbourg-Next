@@ -2,7 +2,7 @@ function updateModalActivity(clickedElement) {
     var parentElement = clickedElement.parentElement
     var title = clickedElement.querySelector('.st-title-card')?.textContent;
     var categories = clickedElement.querySelector('.st-surtitre-cat')?.textContent;
-    var description = clickedElement.querySelector('.st-text')?.textContent;
+    var description = clickedElement.querySelector('.st-all-text')?.textContent;
     var courseDiv = parentElement.querySelector('.cours-list')?.innerHTML
 
 
