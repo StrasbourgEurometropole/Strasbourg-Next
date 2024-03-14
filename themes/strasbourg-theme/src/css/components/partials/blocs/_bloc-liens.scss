@@ -106,7 +106,6 @@
 	.st-type {
 		@include ft('', $s_p, 300, $c_txt, 1);
 		@include letter-spacing(25);
-		text-transform: uppercase;
 		margin-right: 10px;
 
 		@include mobile {
