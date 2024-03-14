@@ -44,7 +44,8 @@ title="Overlay" />
 
                     <div class="st-results" role="status" aria-live="polite" aria-busy="false">
                         <span class="loading-small-animation st-hide" aria-hidden="true"></span>
-                        <liferay-ui:message key="eu.strasbourg.dynamic-search-strasbourg-result-search" /> <span class="st-results__total" id="results-total">0</span>
+                        <liferay-ui:message key="eu.strasbourg.dynamic-search-strasbourg-result-search" />
+                        <span class="st-results__total" id="results-total">0</span>
                     </div>
 
                     <p id="results-display" class="st-text" style="width:100%; font-size: 12px; display: none;"><liferay-ui:message key="eu.strasbourg.dynamic-search-strasbourg-result-display-x" arguments="${delta}" /></p>

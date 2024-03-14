@@ -49,6 +49,7 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.models.Pair;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -804,6 +805,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
 
         long occupation = 0;
+        NumberFormat nf = NumberFormat.getInstance();
         switch (type) {
             case "1":
             case "4":
@@ -842,9 +844,9 @@ public class PlaceImpl extends PlaceBaseImpl {
                     state = OccupationState.ORANGE;
                 } else
                     state = OccupationState.GREEN;
-                state.setOccupationLabel("" + occupation);
-                state.setOccupation("" + occupation);
-                state.setCapacity("" + periodEnCours.getRTMaxThreshold());
+                state.setOccupationLabel("" + nf.format(occupation));
+                state.setOccupation("" + nf.format(occupation));
+                state.setCapacity("" + nf.format(periodEnCours.getRTMaxThreshold()));
                 break;
             case "2":
                 state = OccupationState.NOT_AVAILABLE;
@@ -854,8 +856,8 @@ public class PlaceImpl extends PlaceBaseImpl {
                         break;
                     case "1":
                         state = OccupationState.OPEN;
-                        state.setAvailable("" + this.getRTAvailable());
-                        state.setCapacity("" + this.getRTCapacity());
+                        state.setAvailable("" + nf.format(this.getRTAvailable()));
+                        state.setCapacity("" + nf.format(this.getRTCapacity()));
                         break;
                     case "2":
                         state = OccupationState.CLOSED;
@@ -912,15 +914,15 @@ public class PlaceImpl extends PlaceBaseImpl {
                     newOccupation += (min < 10 ? "0" + min : min);
                 }
                 state.setOccupationLabel(newOccupation);
-                state.setOccupation("" + occupation);
+                state.setOccupation("" + nf.format(occupation));
                 break;
             case "5":
                 occupation = this.getRTOccupation();
                 state = OccupationState.NOT_AVAILABLE;
                 if ( occupation!=-1 ) {
                     state = OccupationState.OPEN;
-                    state.setAvailable("" + this.getRTAvailable());
-                    state.setCapacity("" + this.getRTCapacity());
+                    state.setAvailable("" + nf.format(this.getRTAvailable()));
+                    state.setCapacity("" + nf.format(this.getRTCapacity()));
                 }
                 break;
         }

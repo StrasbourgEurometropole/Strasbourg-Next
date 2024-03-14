@@ -1,4 +1,6 @@
 // 'Enum' de tous les classNames des entité pouvant être rencontrées
+var numberFormat=new Intl.NumberFormat();
+
 var EntityEnum = {
     OFFICIAL: 'eu.strasbourg.service.official.model.Official',
     EDITION: 'eu.strasbourg.service.edition.model.Edition',
@@ -298,7 +300,7 @@ function populateList(data) {
     resultList.innerHTML = ''; // Clear existing list items
     var totalResult = data.find(item => item.totalResult).totalResult
     var resultTotal = document.getElementById('results-total');
-    resultTotal.innerHTML = totalResult;
+    resultTotal.innerHTML = numberFormat.format(totalResult);
     var resultDisplay = document.getElementById('results-display');
     var delta = data.find(item => item.displayResult).displayResult
     if(totalResult > delta)
