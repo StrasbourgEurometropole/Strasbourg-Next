@@ -29,6 +29,19 @@ les fichiers type.xml ressemblent à
     </template>
 </root>
 - className est obigatoire
+ il peut valloir entre autre :
+    - Modèle Menu Affichage : com.liferay.portal.kernel.theme.NavItem
+    - Modèle Agrégateur de contenus : com.liferay.asset.kernel.model.AssetEntry
+    - Modèle Fil d'Ariane : com.liferay.portal.kernel.servlet.taglib.ui.BreadcrumbEntry
+    - Modèle Categories : long assetCategoryClassNameId = PortalUtil.getClassNameId(AssetCategory.class);
+    - Modèle Sélecteur de Langue : com.liferay.portal.kernel.servlet.taglib.ui.LanguageEntry
+    - Modèle Résultats de recherche : com.liferay.portal.search.web.internal.result.display.context.SearchResultSummaryDisplayContext
+    - Modèle Trier : com.liferay.portal.search.web.internal.sort.display.context.SortDisplayContext
+    - Modèle Facette de catégorie : com.liferay.portal.search.web.internal.category.facet.portlet.CategoryFacetPortlet
+    - Modèle Facette personnalisée : com.liferay.portal.search.web.internal.custom.facet.portlet.CustomFacetPortlet
+    - Template Entete de page : com.liferay.portal.kernel.model.LayoutSet
+    - Template Rubrique : com.liferay.portal.kernel.model.Layout
+
 - skipKey, override et template sont facultatifs
 - override contient obligatoirement parentKey. Script, name et key sont facultatifs
     si key n'est pas renseigné, il vaudra [parent-key]-[suf]
