@@ -29,20 +29,20 @@
             <div class="st-group-field st-col-6@t-small">
                 <label for="name"><liferay-ui:message key="graveyard.name" /><strong style="color:red">*</strong></label>
                 <input type="text" id="name" name="<portlet:namespace />name"
-                       value="${name}">
+                       value="${name}" placeholder="<liferay-ui:message key="graveyard.enter.name" />">
             </div>
 
             <div class="st-group-field st-col-6@t-small">
                 <label for="firstname"><liferay-ui:message key="graveyard.firstname" /></label>
                 <input type="text" id="firstname" name="<portlet:namespace />firstname"
-                       value="${firstname}">
+                       value="${firstname}" placeholder="<liferay-ui:message key="graveyard.enter.firstname" />">
             </div>
 
 
             <div class="st-group-field st-col-6@t-small">
                 <label for="birthdate"><liferay-ui:message key="graveyard.birthdate" /></label>
                 <div class="st-field-date">
-                    <input name="<portlet:namespace />birthdate" data-type="date" type="date" id="birthDate" placeholder="JJ/MM/AAAA" min="01/01/1998"
+                    <input name="<portlet:namespace />birthdate" data-type="date" type="date" id="birthdate" min="1998-01-01"
                            value="${birthdate}" <c:if test="${birthdateunknown}">disabled="disabled"</c:if>>
                 </div>
 
@@ -51,17 +51,17 @@
                     <span><span><liferay-ui:message key="graveyard.birthdateunknown" /></span></span>
                 </label>
                 <div id="birthRange" class="mt-3" <c:if test="${!birthdateunknown }">style="display: none;"</c:if>>
-                <label for="birthdatestart"><liferay-ui:message key="graveyard.birthrange" /></label>
-                <div class="st-grid-fields st-grid-12">
-                <div class="st-field-date st-col-6">
-                    <input name="<portlet:namespace />birthdatestart" data-type="date" type="date" id="birthdatestart" placeholder="JJ/MM/AAAA" min="01/01/1998"
-                           value="${birthdatestart}">
-                </div>
-                <div class="st-field-date st-col-6">
-                    <input name="<portlet:namespace />birthdateend" data-type="date" type="date" id="birthdateend" placeholder="JJ/MM/AAAA" min="01/01/1998"
-                           value="${birthdateend}">
-                </div>
-                </div>
+                    <label for="birthdatestart"><liferay-ui:message key="graveyard.birthrange" /></label>
+                    <div class="st-grid-fields st-grid-12">
+                        <div class="st-field-date st-col-6">
+                            <input name="<portlet:namespace />birthdatestart" data-type="date" type="date" id="birthdatestart" min="1998-01-01"
+                                   value="${birthdatestart}">
+                        </div>
+                        <div class="st-field-date st-col-6">
+                            <input name="<portlet:namespace />birthdateend" data-type="date" type="date" id="birthdateend" min="1998-01-01"
+                                   value="${birthdateend}">
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -69,7 +69,7 @@
             <div class="st-group-field st-col-6@t-small">
                 <label for="deathDate"><liferay-ui:message key="graveyard.deathdate" /></label>
                 <div class="st-field-date">
-                    <input name="<portlet:namespace />deathdate" data-type="date" type="date" id="deathDate" placeholder="JJ/MM/AAAA" min="01/01/1998"
+                    <input name="<portlet:namespace />deathdate" data-type="date" type="date" id="deathDate" min="1998-01-01"
                            value="${deathdate}" <c:if test="${deathdateunknown}">disabled="disabled"</c:if>>
                 </div>
 
@@ -78,18 +78,17 @@
                     <span><span><liferay-ui:message key="graveyard.deathdateunknown" /></span></span>
                 </label>
                 <div id="deathRange" class="mt-3" <c:if test="${!deathdateunknown }">style="display: none;"</c:if>>
-
-                <label for="deathdatestart"><liferay-ui:message key="graveyard.deathrange" /></label>
-                <div class="st-grid-fields st-grid-12">
-                    <div class="st-field-date st-col-6">
-                        <input name="<portlet:namespace />deathdatestart" data-type="date" type="date" id="deathdatestart" placeholder="JJ/MM/AAAA" min="01/01/1998"
-                               value="${deathdatestart}">
+                    <label for="deathdatestart"><liferay-ui:message key="graveyard.deathrange" /></label>
+                    <div class="st-grid-fields st-grid-12">
+                        <div class="st-field-date st-col-6">
+                            <input name="<portlet:namespace />deathdatestart" data-type="date" type="date" id="deathdatestart" min="1998-01-01"
+                                   value="${deathdatestart}">
+                        </div>
+                        <div class="st-field-date st-col-6">
+                            <input name="<portlet:namespace />deathdateend" data-type="date" type="date" id="deathdateend" min="1998-01-01"
+                                   value="${deathdateend}">
+                        </div>
                     </div>
-                    <div class="st-field-date st-col-6">
-                        <input name="<portlet:namespace />deathdateend" data-type="date" type="date" id="deathdateend" placeholder="JJ/MM/AAAA" min="01/01/1998"
-                               value="${deathdateend}">
-                    </div>
-                </div>
                 </div>
             </div>
 
@@ -98,14 +97,14 @@
             <div class="st-group-field st-col-6@t-small">
                 <label for="deathplace"><liferay-ui:message key="graveyard.deathplace" /></label>
                 <input type="text" id="deathplace" name="<portlet:namespace />deathplace"
-                       value="${deathplace}">
+                       value="${deathplace}" placeholder="<liferay-ui:message key="graveyard.enter.deathplace" />">
             </div>
 
             <div class="st-group-field st-col-6@t-small">
                 <label for="concession"><liferay-ui:message key="graveyard.concession" /></label>
                 <div class="st-field-select">
                     <select id="concession" class="toCustomSelect silencedSelect" name="<portlet:namespace />concession">
-                        <option value=""></option>
+                        <option value=""><liferay-ui:message key="graveyard.select.concession" /></option>
                         <c:forEach var="cimetiere" items="${dc.concessions}">
                             <option value="${cimetiere.id}" <c:if test="${concession eq cimetiere.id}">selected</c:if>>${cimetiere.name}</option>
                         </c:forEach>
