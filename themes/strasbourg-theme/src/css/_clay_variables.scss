@@ -67,6 +67,15 @@ $table-bg: transparent;
 $table-border-color: rgba(255,255,255,.25);
 $table-head-bg: #2ad783;
 
+$c-table-thead: () !default;
+$c-table-thead: map-merge(
+                (
+                        color: black,
+                        font-weight: 500
+                ),
+                $c-table-thead
+);
+
 .table {
   border-radius: 5px;
 }
