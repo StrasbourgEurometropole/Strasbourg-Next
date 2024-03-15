@@ -18,7 +18,7 @@
 	<div class="st-listing st--listing-cards-horizontales listing st-wrapper st-wrapper-small">
 		<div class="st-listing-results st-hide-until@t-portrait">
     <span class="st-results" role="status">
-         ${dc.searchContainer.total} <liferay-ui:message key="results" />
+         <fmt:formatNumber type = "number" value = "${dc.searchContainer.total}"/> <liferay-ui:message key="results" />
     </span>
 
 			<div class="st-results-filter">

@@ -87,11 +87,11 @@
                                 <p class="st-frequentation">
                                     <c:choose>
                                         <c:when test="${isSwimmingPool || isIceRink || isMairie}">
-                                            ${occupationState.occupationLabel} personnes
+                                            ${occupationState.occupationLabel} <liferay-ui:message key="eu.place.person-capacity" />
                                             (<liferay-ui:message key="${occupationState.label}-short" />)
                                         </c:when>
                                         <c:when test="${isParking || isVelhopStation}">
-                                            ${occupationState.available} places
+                                            ${occupationState.available} <liferay-ui:message key="eu.place.place-capacity" />
                                         </c:when>
                                         <c:otherwise>
                                             <liferay-ui:message key="eu.currently-open" />
@@ -102,11 +102,12 @@
                                 <p class="st-surtitre-cat">
                                     <c:choose>
                                         <c:when test="${isSwimmingPool}">
-                                            <liferay-ui:message key="eu.place.total-capacity-long" /> ${occupationState.capacity}
-                                            personnes
+                                            <liferay-ui:message key="eu.place.total-capacity-long" />
+                                            ${occupationState.capacity} <liferay-ui:message key="eu.place.person-capacity" />
                                         </c:when>
                                         <c:when test="${isParking}">
-                                            <liferay-ui:message key="eu.place.total-capacity-long" /> ${occupationState.capacity} places
+                                            <liferay-ui:message key="eu.place.total-capacity-long" />
+                                            ${occupationState.capacity} <liferay-ui:message key="eu.place.place-capacity" />
                                         </c:when>
                                     </c:choose>
                                 </p>

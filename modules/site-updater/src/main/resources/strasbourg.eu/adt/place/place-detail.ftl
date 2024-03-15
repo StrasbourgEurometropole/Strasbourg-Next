@@ -144,13 +144,13 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                             </#if>
                         </#if>
                     </h2>
-                    <#if !entry.isOpenNow() && occupationState != "NOT_AVAILABLE" && occupationState != "CLOSED" >
+                    <#if entry.isOpenNow() && occupationState != "NOT_AVAILABLE" && occupationState != "CLOSED" >
                         <div class="st-top-bar__content">
                             <p class="st-frequentation">
                                 <#if isSwimmingPool || isIceRink>
                                     ${occupationState.occupation} <@liferay_ui.message key="eu.place.occupation" />
                                 <#elseif isMairie>
-                                    ${occupationState.occupation} <@liferay_ui.message key="eu.place.min" />
+                                    ${occupationState.occupationLabel}
                                 <#elseif isParking>
                                     ${occupationState.available} <@liferay_ui.message key="eu.place.spots-available" />
                                 <#elseif isVelhopStation>

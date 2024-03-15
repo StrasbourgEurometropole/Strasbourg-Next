@@ -1,5 +1,3 @@
-<%@ taglib prefix="aui" uri="http://liferay.com/tld/aui" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.liferay.asset.kernel.model.AssetEntry" %>
 <%@ page import="eu.strasbourg.service.agenda.service.EventLocalServiceUtil" %>
 <%@ page import="eu.strasbourg.service.agenda.model.EventPeriod" %>
@@ -7,7 +5,6 @@
 <%@ page import="java.util.*" %>
 <%@ page import="eu.strasbourg.portlet.search_asset_v2.context.SearchAssetDisplayContext" %>
 <%@ page import="java.time.LocalDate" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="/search-asset-init.jsp" %>
 <%@ page isELIgnored="false" %>
 
@@ -50,7 +47,7 @@
 <div class="st-listing-cards st--listing-agenda st-wrapper st-wrapper-small">
 	<div class="st-listing-results st-hide-until@t-portrait">
     <span class="st-results" role="status">
-         ${dc.searchContainer.total} <liferay-ui:message key="results" />
+         <fmt:formatNumber type = "number" value = "${dc.searchContainer.total}"/> <liferay-ui:message key="results" />
     </span>
 
 		<div class="st-results-filter">
