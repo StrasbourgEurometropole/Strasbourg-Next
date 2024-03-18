@@ -27,7 +27,7 @@
 			<!-- RÃ©sultats -->
 			<liferay-ui:search-container id="entriesSearchContainer"
 						searchContainer="${dc.searchContainer}">
-				<c:if test="${dc.searchContainer.total > 0}">
+				<c:if test="${dc.searchContainer.total > 0 || param.domain != ''}">
 					<div class="st-listing-cards st-wrapper st-wrapper-small">
 						<!-- Nombre de rÃ©sultats et items par page -->
 						<div class="st-listing-results st-hide-until@t-portrait">
@@ -125,7 +125,7 @@
 					</nav>
 				</c:if>
 				</c:if>
-				<c:if test="${dc.searchContainer.total == 0}">
+				<c:if test="${dc.searchContainer.total == 0 && param.domain == ''}">
 					<div class="st-listing-cards st-wrapper st-wrapper-small">
 						<div class="st-listing-results st-hide-until@t-portrait">
 							<span class="st-results" role="status">
