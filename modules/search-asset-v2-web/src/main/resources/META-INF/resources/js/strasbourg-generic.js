@@ -54,6 +54,13 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
+document.querySelectorAll("button[type='reset']").forEach(function(elt){
+	elt.addEventListener("click", function() {
+		window.location = window.location.origin + window.location.pathname;
+	});
+});
+
+
 selectA11yOnChange = function(selectClass, optionIndex) {
 	var select = selectClass
 	var id = select.id
