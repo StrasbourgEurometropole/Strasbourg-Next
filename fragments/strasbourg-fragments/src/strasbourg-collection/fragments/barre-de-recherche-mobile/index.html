@@ -1,0 +1,11 @@
+[#if themeDisplay.isSignedIn() ]
+[@clay["alert"] message="Barre de recherche est present sur cette page"
+displayType="secondary"
+title="Overlay" /]
+[/#if]
+<div class="st-btn-search-mobile-wrapper st-hide-from@mobile">
+  <button class="st-btn-search-mobile" data-overlay-open="st-overlay-search"
+          aria-haspopup="dialog">
+    [@liferay_ui.message key="eu.need-info" /]
+  </button>
+</div>

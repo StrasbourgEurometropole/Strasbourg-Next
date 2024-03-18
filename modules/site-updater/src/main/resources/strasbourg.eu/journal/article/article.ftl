@@ -26,11 +26,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 </header>
 
 <div class="st-bloc st-bloc-sit-presentation st-wrapper st-wrapper-small st--has-margin st-text-styles">
-    <p class="st-surtitre">
-        <strong>
-            ${chapo.getData()}
-        </strong>
-    </p>
+    <#if chapo?has_content>
+        <p class="st-surtitre st-surtitre mb-4">
+            <strong>
+                ${chapo.getData()}
+            </strong>
+        </p>
+    </#if>
     <div class="st-component-container st-text-styles">
         ${content.getData()}
     </div>
