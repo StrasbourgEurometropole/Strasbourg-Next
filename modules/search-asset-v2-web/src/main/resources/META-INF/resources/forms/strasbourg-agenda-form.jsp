@@ -7,7 +7,7 @@
         <div class="st-filtre st-group-field st--is-date">
             <label for="<portlet:namespace />fromDate"><liferay-ui:message key="eu.event.from-date" /></label>
             <div class="st-field-date">
-                <input data-name="from" data-type="date" type="date" id="<portlet:namespace />fromDate"
+                <input data-name="from" name="from" data-type="date" type="date" id="<portlet:namespace />fromDate"
                        value="${dc.fromYear}-${dc.fromMonthValue lt 10 ? '0' :''}${dc.fromMonthValue}-${dc.fromDay lt 10 ? '0' :''}${dc.fromDay}" />
             </div>
         </div>
@@ -15,7 +15,7 @@
         <div class="st-filtre st-group-field st--is-date">
             <label for="<portlet:namespace />toDate"><liferay-ui:message key="eu.event.to" /></label>
             <div class="st-field-date">
-                <input data-name="to" data-type="date" type="date" id="<portlet:namespace />toDate"
+                <input data-name="to" name="to" data-type="date" type="date" id="<portlet:namespace />toDate"
                        value="${dc.toYear}-${dc.toMonthValue lt 10 ? '0' :''}${dc.toMonthValue}-${dc.toDay lt 10 ? '0' :''}${dc.toDay}" />
             </div>
         </div>
@@ -25,7 +25,7 @@
             <label for="place-select" >
                 <liferay-ui:message key="eu.place" />
             </label>
-            <select class="" id="place-select" data-hide-tag=""  name="idSIGPlace">
+            <select class="select-place" id="place-select" data-hide-tag=""  data-name="idSIGPlace">
             </select>
         </div>
 
@@ -103,7 +103,7 @@
                 <div class="st-group-field ">
                     <label for="place"><liferay-ui:message key="eu.place" /></label>
                     <div class="st-field-select">
-                    <select id="place" name="idSIGPlace">
+                    <select class="select-place" id="place" name="idSIGPlace">
                     </select>
                     </div>
                 </div>

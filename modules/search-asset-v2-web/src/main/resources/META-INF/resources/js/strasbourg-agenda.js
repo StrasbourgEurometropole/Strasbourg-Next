@@ -125,7 +125,7 @@ $(document).ready(function(){
 		initPlaceSelect();
 	}
 	function initPlaceSelect() {
-		const selectAutocomplete = document.querySelectorAll('select#place-select');
+		const selectAutocomplete = document.querySelectorAll('select.select-place');
 		var selectAutocompleteClass = null;
 		selectAutocomplete.forEach(select => {
 			selectAutocompleteClass = new Select(select, {
