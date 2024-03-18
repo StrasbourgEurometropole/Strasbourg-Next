@@ -105,3 +105,10 @@ if (document.querySelector(autocompleteElement)) {
     });
 }
 
+// réinitialisation des formulaires au click sur les button type reset
+document.querySelectorAll("button[type='reset']").forEach(function(elt){
+    elt.addEventListener("click", function() {
+        window.location = window.location.origin + window.location.pathname;
+    });
+});
+
