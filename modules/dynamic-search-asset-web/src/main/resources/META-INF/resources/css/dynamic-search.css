@@ -41,6 +41,12 @@ span.loading-small-animation  {
     animation: chargement 1s linear infinite;
 }
 
+@media screen and (max-width: 980px){
+    span.loading-small-animation  {
+        left: calc(100% + 20px);
+    }
+}
+
 .st-overlay-search .st-results {
     position: relative
 }
