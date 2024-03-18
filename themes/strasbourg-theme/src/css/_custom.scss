@@ -21,9 +21,9 @@
   }
 
   @include mobile {
-    padding: 15px 30px;
+    padding: 5px 20px;
     min-height: 40px;
-    font-size: $s_link_small;
+    font-size: 14px;
   }
   @include mobile-small {
     padding: 12px 10px;
@@ -342,6 +342,11 @@
             content: ")";
           }
         }
+        @include mobile() {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
       }
       p, span {
         margin: 0;
@@ -545,4 +550,11 @@ body:not(.no-hover) .st-page-wrapper .login-container button{
             flex-grow: 1;
         }
     }
+}
+
+.st-page-wrapper {
+  [class*="col-"] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
 }

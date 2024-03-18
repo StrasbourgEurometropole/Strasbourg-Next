@@ -48,13 +48,13 @@
 
 
         <div class="st-wrapper st-grid st-grid-12 mb-6">
-            <a href="${previousURL}" class="st-btn st--btn-secondary st-col-3">
+            <a href="${previousURL}" class="st-btn st--btn-secondary st-col-3@mobile">
                 <liferay-ui:message key="previous" />
             </a>
             <c:if test="${!empty selectedPlaces}">
-                <span class="st-title-medium st-col-6 text-center my-auto">${jourChoisiFormate} - ${lastDayFormate}</span>
+                <span class="st-title-medium st-col-6@mobile text-center my-auto">${jourChoisiFormate} - ${lastDayFormate}</span>
             </c:if>
-            <a href="${nextURL}" class="st-btn st--btn-secondary st-col-3">
+            <a href="${nextURL}" class="st-btn st--btn-secondary st-col-3@mobile">
                 <liferay-ui:message key="next" />
             </a>
         </div>
