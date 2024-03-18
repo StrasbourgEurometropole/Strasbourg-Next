@@ -102,10 +102,8 @@
                 </div>
                 <div class="st-group-field ">
                     <label for="place"><liferay-ui:message key="eu.place" /></label>
-                    <div class="st-field-select">
                     <select class="select-place" id="place" name="idSIGPlace">
                     </select>
-                    </div>
                 </div>
 
                 <c:if test="${dc.dateField}">
