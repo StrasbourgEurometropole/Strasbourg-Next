@@ -76,6 +76,40 @@ $c-table-thead: map-merge(
                 $c-table-thead
 );
 
+$table-list-accent-bg: transparent;
+$table-list-head-bg: #2ad783;
+$table-list-border-radius: 0;
+$table-list-border-y-width: 0;
+$c-table-list-thead: () !default;
+$c-table-list_thead: map-merge(
+  (
+    table-cell: (
+      color: black,
+      font-weight: 500
+    ),
+  ),
+  $c-table-list-thead
+);
+
+$c-table-list-cell: () !default;
+$c-table-list-cell: map-merge(
+  (
+    border-color: rgba(255,255,255,.25),
+    border-style: solid,
+    border-width: 1px,
+  ),
+  $c-table-list-cell
+);
+
+$c-table-list-tbody: () !default;
+$c-table-list-tbody: map-merge(
+  (
+    background-color: transparent,
+  ),
+  $c-table-list-tbody
+);
+$table-list-hover-bg: transparent;
+
 .table {
   border-radius: 5px;
 }
