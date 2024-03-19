@@ -33,6 +33,8 @@ function updateDescription(clickedElement) {
 
 }
 
+window.selects = new Array();
+
 $(document).ready(function(){
 
 
@@ -107,6 +109,7 @@ $(document).ready(function(){
 
 	if(idSIGPlace != null && idSIGPlace != "") {
 		 var placeSelect = $('select[name=idSIGPlace]');
+		var placeSelectBarre = $('select#place-selectBarre');
 		 
 		 Liferay.Service(
 		  '/place.place/get-place-by-id-sig',
@@ -116,6 +119,7 @@ $(document).ready(function(){
 				 // create the option and append to Select2
 				 var option = new Option(data.name.fr_FR, data.idSurfs, true, true);
 				 placeSelect.append(option);
+				 placeSelectBarre.append(option);
 				 initPlaceSelect();
 			 }
 
@@ -124,14 +128,15 @@ $(document).ready(function(){
 	else {
 		initPlaceSelect();
 	}
+
 	function initPlaceSelect() {
 		const selectAutocomplete = document.querySelectorAll('select.select-place');
-		var selectAutocompleteClass = null;
+
 		selectAutocomplete.forEach(select => {
-			selectAutocompleteClass = new Select(select, {
+			var selectAutocompleteClass = new Select(select, {
 				onChange: function (selectClass, optionIndex) {
-					if(typeof selectA11yOnChange !== 'undefined'){
-						selectA11yOnChange(selectClass, optionIndex);
+					if(typeof selectPlaceA11yOnChange !== 'undefined'){
+						selectPlaceA11yOnChange(selectClass, optionIndex);
 					}
 				},
 
@@ -149,6 +154,50 @@ $(document).ready(function(){
 					return results;
 				}
 			});
+
+			window.selects.push(selectAutocompleteClass);
 		});
+	}
+
+
+	function selectPlaceA11yOnChange (selectClass, optionIndex) {
+		var select = selectClass
+		var id = select.id
+		// check if the id the Barre at the end of the id
+		if(id.indexOf("Barre") > -1) {
+			// get the id of the filter`
+			var filterId = id.replace("Barre", "");
+			// get the filter
+			window.selects.forEach(function (selectA11y) {
+				if(selectA11y.id == filterId) {
+					removeOptions(selectA11y.el);
+					selectA11y.suggestions = [];
+					selectA11y.el.options.add(new Option(select.el.options[optionIndex].text, select.el.options[optionIndex].value, true, true));
+					selectA11y._toggleSelection(0, true, false);
+				}
+			});
+
+		}
+		else {
+			// get the id of the filter
+			var filterId = id + "Barre";
+			// get the filter
+			window.selects.forEach(function (selectA11y) {
+				if(selectA11y.id == filterId) {
+					removeOptions(selectA11y.el);
+					selectA11y.suggestions = [];
+					selectA11y.el.options.add(new Option(select.el.options[optionIndex].text, select.el.options[optionIndex].value, true, true));
+					selectA11y._toggleSelection(0, true, false);
+				}
+			});
+		}
+	}
+
+
+	function removeOptions(selectElement) {
+		var i, L = selectElement.options.length - 1;
+		for(i = L; i >= 0; i--) {
+			selectElement.remove(i);
+		}
 	}
  });

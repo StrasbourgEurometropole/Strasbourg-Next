@@ -22,10 +22,10 @@
 </c:if>
         <div class="st-filtre st-group-field">
             <span class="label-fake"> <liferay-ui:message key="eu.place" /></span>
-            <label for="place-select" >
+            <label for="place-selectBarre" >
                 <liferay-ui:message key="eu.place" />
             </label>
-            <select class="select-place" id="place-select" data-hide-tag=""  data-name="idSIGPlace">
+            <select class="select-place" id="place-selectBarre" data-hide-tag=""  data-name="idSIGPlace">
             </select>
         </div>
 
@@ -101,8 +101,8 @@
                            placeholder="<liferay-ui:message key="please-enter-keyword" />" value="${dc.keywords}" >
                 </div>
                 <div class="st-group-field ">
-                    <label for="place"><liferay-ui:message key="eu.place" /></label>
-                    <select class="select-place" id="place" name="idSIGPlace">
+                    <label for="place-select"><liferay-ui:message key="eu.place" /></label>
+                    <select class="select-place" id="place-select" name="idSIGPlace">
                     </select>
                 </div>
 
