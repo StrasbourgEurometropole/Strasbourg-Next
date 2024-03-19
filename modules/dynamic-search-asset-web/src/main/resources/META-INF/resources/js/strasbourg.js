@@ -324,6 +324,9 @@ function populateList(data) {
     // permet de donner le focus aux résultats
     onOverlayOpen('st-overlay-search');
     addClickEventToFavoriteButtons();
+
+    // remonte le scroll en haut
+    resultList.querySelector("li").scrollIntoView(false);
 }
 
 var searchInput = document.getElementById('recherche-input');

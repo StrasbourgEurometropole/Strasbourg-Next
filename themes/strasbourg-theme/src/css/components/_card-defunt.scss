@@ -49,6 +49,11 @@
 			}
 		}
 
+		a.st-title-small{
+			text-decoration: underline;
+			color: $c_sub;
+		}
+
 		.st-surtitre-cat {
 			& +  .st-title-small {
 				margin-top: 10px;

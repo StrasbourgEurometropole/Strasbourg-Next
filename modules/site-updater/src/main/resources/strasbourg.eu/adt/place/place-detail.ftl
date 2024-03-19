@@ -281,7 +281,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                                     <#assign hasException=false />
                                                 </#if>
                                                 <#if schedule.isClosed()>
-                                                    <p class="st-ouverture st--closed">
+                                                    <p class="st-ouverture st--closed st-u-color-pink">
                                                         <@liferay_ui.message
                                                         key="eu.closed" />
                                                     </p>
@@ -343,7 +343,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                                         <#assign hasException=false />
                                                     </#if>
                                                     <#if schedule.isClosed()>
-                                                        <p class="st-ouverture st--closed">
+                                                        <p class="st-ouverture st--closed st-u-color-pink">
                                                             <@liferay_ui.message
                                                             key="eu.closed" />
                                                         </p>
@@ -964,7 +964,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
         </p>
         <div class="st-info st-u-color-secondary">
             <#if schedule.isClosed()>
-                <p class="st-ouverture st--closed">
+                <p class="st-ouverture st--closed st-u-color-pink">
                     <@liferay_ui.message key="eu.closed" />
                 </p>
             <#elseif schedule.isAlwaysOpen()>
