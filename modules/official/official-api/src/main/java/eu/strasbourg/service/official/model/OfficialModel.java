@@ -707,6 +707,122 @@ public interface OfficialModel
 	public void setOrderVicePresident(int orderVicePresident);
 
 	/**
+	 * Returns the liste contact of this official.
+	 *
+	 * @return the liste contact of this official
+	 */
+	@AutoEscape
+	public String getListeContact();
+
+	/**
+	 * Sets the liste contact of this official.
+	 *
+	 * @param listeContact the liste contact of this official
+	 */
+	public void setListeContact(String listeContact);
+
+	/**
+	 * Returns the resume fonction of this official.
+	 *
+	 * @return the resume fonction of this official
+	 */
+	public String getResumeFonction();
+
+	/**
+	 * Returns the localized resume fonction of this official in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized resume fonction of this official
+	 */
+	@AutoEscape
+	public String getResumeFonction(Locale locale);
+
+	/**
+	 * Returns the localized resume fonction of this official in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized resume fonction of this official. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getResumeFonction(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized resume fonction of this official in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized resume fonction of this official
+	 */
+	@AutoEscape
+	public String getResumeFonction(String languageId);
+
+	/**
+	 * Returns the localized resume fonction of this official in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized resume fonction of this official
+	 */
+	@AutoEscape
+	public String getResumeFonction(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getResumeFonctionCurrentLanguageId();
+
+	@AutoEscape
+	public String getResumeFonctionCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized resume fonctions of this official.
+	 *
+	 * @return the locales and localized resume fonctions of this official
+	 */
+	public Map<Locale, String> getResumeFonctionMap();
+
+	/**
+	 * Sets the resume fonction of this official.
+	 *
+	 * @param resumeFonction the resume fonction of this official
+	 */
+	public void setResumeFonction(String resumeFonction);
+
+	/**
+	 * Sets the localized resume fonction of this official in the language.
+	 *
+	 * @param resumeFonction the localized resume fonction of this official
+	 * @param locale the locale of the language
+	 */
+	public void setResumeFonction(String resumeFonction, Locale locale);
+
+	/**
+	 * Sets the localized resume fonction of this official in the language, and sets the default locale.
+	 *
+	 * @param resumeFonction the localized resume fonction of this official
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setResumeFonction(
+		String resumeFonction, Locale locale, Locale defaultLocale);
+
+	public void setResumeFonctionCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized resume fonctions of this official from the map of locales and localized resume fonctions.
+	 *
+	 * @param resumeFonctionMap the locales and localized resume fonctions of this official
+	 */
+	public void setResumeFonctionMap(Map<Locale, String> resumeFonctionMap);
+
+	/**
+	 * Sets the localized resume fonctions of this official from the map of locales and localized resume fonctions, and sets the default locale.
+	 *
+	 * @param resumeFonctionMap the locales and localized resume fonctions of this official
+	 * @param defaultLocale the default locale
+	 */
+	public void setResumeFonctionMap(
+		Map<Locale, String> resumeFonctionMap, Locale defaultLocale);
+
+	/**
 	 * Returns the image ID of this official.
 	 *
 	 * @return the image ID of this official
