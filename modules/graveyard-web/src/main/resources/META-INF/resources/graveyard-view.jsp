@@ -341,7 +341,6 @@
 
 <script>
     $(document).ready(function () {
-        debugger;
 
         $('#birthdateunknown').on('change', function () {
 

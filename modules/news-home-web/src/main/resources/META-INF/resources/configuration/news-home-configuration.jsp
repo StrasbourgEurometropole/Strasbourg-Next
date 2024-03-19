@@ -118,7 +118,6 @@
 	});
 
 	$(document).on('click','.vignette-delete', function(event){
-		debugger;
         var index = $(this).attr('data-index');
         $('#vignette_' + index).replaceWith($('#vignette_12').clone())
         reindex();

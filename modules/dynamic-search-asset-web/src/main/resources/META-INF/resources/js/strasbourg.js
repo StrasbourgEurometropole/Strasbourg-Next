@@ -298,11 +298,11 @@ function callSearchUrl(url, data, callback) {
 function populateList(data) {
     var resultList = document.getElementById('results');
     resultList.innerHTML = ''; // Clear existing list items
-    var totalResult = data.find(item => item.totalResult).totalResult
+    var totalResult = parseInt(data.find(item => item.totalResult).totalResult, 10)
     var resultTotal = document.getElementById('results-total');
     resultTotal.innerHTML = numberFormat.format(totalResult);
     var resultDisplay = document.getElementById('results-display');
-    var delta = data.find(item => item.displayResult).displayResult
+    var delta = parseInt(data.find(item => item.displayResult).displayResult, 10)
     if(totalResult > delta)
         resultDisplay.style.display = "block";
     else

@@ -9,6 +9,9 @@ body {
 }
 
 .st-page-wrapper {
+
+	min-height: 100vh; // Pour eviter une partie blanche si la page est trop court
+
 	font-family: $f_txt;
 	font-size: 16px;
 	line-height: 1.5;
