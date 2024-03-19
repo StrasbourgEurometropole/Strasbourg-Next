@@ -53,7 +53,6 @@ document.addEventListener("DOMContentLoaded", function() {
 	synchroniseFilter();
 });
 
-
 selectA11yOnChange = function(selectClass, optionIndex) {
 	var select = selectClass
 	var id = select.id

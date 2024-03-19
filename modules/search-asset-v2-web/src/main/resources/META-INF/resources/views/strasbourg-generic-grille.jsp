@@ -33,7 +33,7 @@
 			</div>
 		</div>
 		<div class="st-listing-cards st-wrapper st-wrapper-small">
-			<ul class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-3@mobile st-col-4@t-small">
+			<ul class="st-cards-wrapper st--has-cards-vertical st-basic-grid st-col-3@mobile st-col-4@t-small">
 
 				<liferay-ui:search-container id="entriesSearchContainer"
 											 searchContainer="${dc.searchContainer}">
