@@ -248,7 +248,7 @@
 
                                         <div class="st-col st-text-styles">
                                             <a href="${homeURL}lieu/-/entity/sig/${tot.graveyardMapping.sigId}/${dc.getNormalizedForURL(tot.graveyardMapping.name)}"
-                                               class="st-title-small">${tot.graveyardMapping.name}</a>
+                                               class="st-title-small" target="_blank">${tot.graveyardMapping.name}</a>
                                             <p><liferay-ui:message key="graveyard.gravesector"/>
                                                 : ${tot.graveSector}<br><liferay-ui:message key="graveyard.graverow"/>
                                                 : ${tot.graveRow}<br><liferay-ui:message key="graveyard.gravenumber"/>
