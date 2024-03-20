@@ -24,9 +24,9 @@
                         <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
                         <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
                         <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
-                        <#assign imageURL ="" />
+                        <#assign imageId ="" />
                         <#if image?has_content>
-                            <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+                            <#assign imageId = assetPublisherTemplateHelperService.getDocumentId(image) />
                         </#if>
                         <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
                         <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
@@ -39,11 +39,7 @@
                                         <p class="st-text">${chapo}</p>
                                     </div>
                                     <div class="st-image">
-                                        <figure class="st-figure st-fit-cover" role="group" aria-label="">
-                                            <picture>
-                                                <img alt="" loading="lazy" src="${imageURL}">
-                                            </picture>
-                                        </figure>
+                                        <@strasbourg.addImage fileEntryId=imageId maxWidth=265 showLegende=false showCopyright=false isFigure=true />
                                     </div>
                                 </a>
                             </div>
