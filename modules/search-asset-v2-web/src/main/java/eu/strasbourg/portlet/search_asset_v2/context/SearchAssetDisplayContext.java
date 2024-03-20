@@ -527,6 +527,12 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 						procedureEntry.setDescription(String.valueOf(fields.get("description").getValue()));
 						procedureEntry.setClassName("Procedure");
 						results.add(procedureEntry);
+					}else{
+						String entryNotFound = "assetEntry introuvable = ";
+						for (Map.Entry mapentry : fields.entrySet()) {
+							entryNotFound += mapentry.getKey() + " : " + mapentry.getValue();
+						}
+						_log.info(entryNotFound);
 					}
 				}
 			}
