@@ -54,6 +54,29 @@
         },
         {
             "label": {
+                "fr_FR": "Cacher la section Edito"
+            },
+            "predefinedValue": {
+                "fr_FR": false
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "boolean",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "hideEdito",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "checkbox"
+        },
+        {
+            "label": {
                 "fr_FR": "Titre « Edito »"
             },
             "predefinedValue": {
@@ -193,6 +216,29 @@
             "required": false,
             "showLabel": true,
             "type": "ddm-separator"
+        },
+        {
+            "label": {
+                "fr_FR": "Cacher la section s'engager"
+            },
+            "predefinedValue": {
+                "fr_FR": false
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "boolean",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "hideCommit",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "checkbox"
         },
         {
             "label": {
@@ -336,6 +382,29 @@
             "required": false,
             "showLabel": true,
             "type": "ddm-separator"
+        },
+        {
+            "label": {
+                "fr_FR": "Cache la section actualité"
+            },
+            "predefinedValue": {
+                "fr_FR": false
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "boolean",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "hideLatestNews",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "checkbox"
         },
         {
             "label": {

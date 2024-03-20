@@ -29,6 +29,53 @@
         },
         {
             "label": {
+                "fr_FR": "Lien vers le PASS"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "string",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "linkPass",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "text"
+        },
+        {
+            "label": {
+                "fr_FR": "Kit média"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "document-library",
+            "fieldNamespace": "ddm",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "mediaKit",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-documentlibrary"
+        },
+        {
+            "label": {
                 "fr_FR": "Semaine du numérique"
             },
             "predefinedValue": {
@@ -146,7 +193,7 @@
         },
         {
             "label": {
-                "fr_FR": "Description du programme"
+                "fr_FR": "Description du programmation"
             },
             "predefinedValue": {
                 "fr_FR": ""
@@ -162,6 +209,30 @@
             "indexType": "keyword",
             "localizable": true,
             "name": "program",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-text-html"
+        },
+        {
+            "label": {
+                "fr_FR": "Description du programme"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "html",
+            "fieldNamespace": "ddm",
+            "indexType": "text",
+            "localizable": true,
+            "name": "programDescription",
             "readOnly": false,
             "repeatable": false,
             "required": false,

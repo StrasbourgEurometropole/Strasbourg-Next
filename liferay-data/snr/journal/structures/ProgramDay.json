@@ -1,0 +1,115 @@
+{
+  "availableLanguageIds": [
+    "fr_FR"
+  ],
+  "defaultLanguageId": "fr_FR",
+  "fields": [
+    {
+      "label": {
+        "fr_FR": "Date"
+      },
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "style": {
+        "fr_FR": ""
+      },
+      "tip": {
+        "fr_FR": ""
+      },
+      "dataType": "date",
+      "fieldNamespace": "ddm",
+      "indexType": "keyword",
+      "localizable": true,
+      "name": "dateOfDay",
+      "readOnly": false,
+      "repeatable": false,
+      "required": false,
+      "showLabel": true,
+      "type": "ddm-date"
+    },
+    {
+      "label": {
+        "fr_FR": "Titre de la journée"
+      },
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "style": {
+        "fr_FR": ""
+      },
+      "tip": {
+        "fr_FR": ""
+      },
+      "dataType": "string",
+      "indexType": "keyword",
+      "localizable": true,
+      "name": "titleDay",
+      "readOnly": false,
+      "repeatable": false,
+      "required": false,
+      "showLabel": true,
+      "type": "text"
+    },
+    {
+      "label": {
+        "fr_FR": "Description de la journée"
+      },
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "style": {
+        "fr_FR": ""
+      },
+      "tip": {
+        "fr_FR": ""
+      },
+      "dataType": "string",
+      "indexType": "keyword",
+      "localizable": true,
+      "name": "descriptionDay",
+      "readOnly": false,
+      "repeatable": false,
+      "required": false,
+      "showLabel": true,
+      "type": "text"
+    },
+    {
+      "label": {
+        "fr_FR": "Interne/Externe"
+      },
+      "options": [
+        {
+          "value": "interne",
+          "label": {
+            "fr_FR": "Interne"
+          }
+        },
+        {
+          "value": "externe",
+          "label": {
+            "fr_FR": "Externe"
+          }
+        }
+      ],
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "style": {
+        "fr_FR": ""
+      },
+      "tip": {
+        "fr_FR": ""
+      },
+      "dataType": "radio",
+      "indexType": "keyword",
+      "localizable": true,
+      "name": "typeDay",
+      "readOnly": false,
+      "repeatable": false,
+      "required": false,
+      "showLabel": true,
+      "type": "radio"
+    }
+  ]
+}

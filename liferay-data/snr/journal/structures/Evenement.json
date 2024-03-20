@@ -29,6 +29,43 @@
         },
         {
             "label": {
+                "fr_FR": "Interne/Externe"
+            },
+            "options": [
+                {
+                    "value": "interne",
+                    "label": {
+                        "fr_FR": "Interne"
+                    }
+                },
+                {
+                    "value": "externe",
+                    "label": {
+                        "fr_FR": "Externe"
+                    }
+                }
+            ],
+            "predefinedValue": {
+                "fr_FR": "interne"
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "radio",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "interneExterne",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "radio"
+        },
+        {
+            "label": {
                 "fr_FR": "Date de l'évènement (début si plusieurs jours)"
             },
             "predefinedValue": {
@@ -73,6 +110,30 @@
             "required": false,
             "showLabel": true,
             "type": "checkbox"
+        },
+        {
+            "label": {
+                "fr_FR": "Date"
+            },
+            "predefinedValue": {
+                "fr_FR": ""
+            },
+            "style": {
+                "fr_FR": ""
+            },
+            "tip": {
+                "fr_FR": ""
+            },
+            "dataType": "date",
+            "fieldNamespace": "ddm",
+            "indexType": "keyword",
+            "localizable": true,
+            "name": "Datecupl",
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "type": "ddm-date"
         },
         {
             "label": {
