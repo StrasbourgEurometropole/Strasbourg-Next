@@ -65,7 +65,7 @@ title="Overlay" />
             </div>
         </div>
 
-        <div class="st-overlay__footer st-hide-from@t-portrait">
+        <div class="st-overlay__footer st-hide-from@t-portrait st-has-btn-compte">
             <c:choose>
                 <c:when test="${isPublikLoggedin}">
                     <a href="${dashboardURL}" class="st-btn-compte">
