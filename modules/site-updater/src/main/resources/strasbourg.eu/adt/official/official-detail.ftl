@@ -126,6 +126,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             </#if>
         </div>
     </#if>
+    <#if entry.listeContact?has_content>
     <div class="st-bloc st-bloc-sit-focus st-wrapper ">
         <div class="st-container">
             <div class="st-col-left">
@@ -134,15 +135,14 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     ${entry.firstName} ${entry.lastName}
                 </p>
             </div>
-            <#if entry.listeContact?has_content>
                 <div class="st-col-right">
                     <a href="#st-overlay-contact" class="st-btn st--btn-secondary-ghost">
                         <@liferay_ui.message key="eu.contact-mail" />
                     </a>
                 </div>
-            </#if>
         </div>
     </div>
+    </#if>
 </div>
 
 <#if entry.listeContact?has_content>
