@@ -949,7 +949,7 @@ public class JSONSearchHelper {
 
                 jsonPlace.put(
                         Constants.ATTRIBUTE_IS_OPEN,
-                        place.isOpenNow()
+                         place.hasScheduleTable()? null : place.isOpenNow()
                 );
 
                 if (Validator.isNotNull(place.getCityCategory()))

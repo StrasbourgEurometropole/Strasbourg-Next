@@ -42,10 +42,12 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                     </#if>
                     ${entry.addressZipCode} ${entry.getCity(locale)}
                 </address>
+                <#if entry.hasScheduleTable()>
                 <#if entry.isOpenNow()>
                     <p class="st-ouverture st--open"> <@liferay_ui.message key="eu.currently-open" /></p>
                 <#else>
                     <p class="st-ouverture st--closed"> <@liferay_ui.message key="eu.currently-closed" /></p>
+                </#if>
                 </#if>
             </div>
         </div>
@@ -137,10 +139,12 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                         <#if isSwimmingPool || isIceRink || isMairie>
                             <@liferay_ui.message key="${occupationState.label}-short" />
                         <#else>
+                            <#if entry.hasScheduleTable()>
                             <#if entry.isOpenNow()>
                                 <p class="st-ouverture st--open"> <@liferay_ui.message key="eu.currently-open" /></p>
                             <#else>
                                 <p class="st-ouverture st--closed"> <@liferay_ui.message key="eu.currently-closed" /></p>
+                            </#if>
                             </#if>
                         </#if>
                     </h2>

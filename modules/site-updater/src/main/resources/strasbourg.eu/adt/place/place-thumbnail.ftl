@@ -30,6 +30,7 @@
                 <#else>
                     <span class="st-icon st-icon-pin"></span>
                 </#if>
+                <#if entry.hasScheduleTable()>
                 <#if entry.isOpenNow()>
                     <p class="st-badge-ouverture">
                         <@liferay_ui.message key='open-period' />
@@ -38,6 +39,7 @@
                     <p class="st-badge-ouverture st--closed">
                         <@liferay_ui.message key='closed-period' />
                     </p>
+                </#if>
                 </#if>
             </div>
         </a>
