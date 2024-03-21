@@ -118,16 +118,16 @@
                                     <c:set var="occupationState" value="${favorite.place.getRealTime()}" />
                                     <div class="favoris-teaser__crowding-amount favoris-teaser__crowding-amount--${occupationState.cssClass}">
                                         <c:if test="${favorite.place.isSwimmingPool()}">
-                                                ${occupationState.occupation}
+                                            <fmt:formatNumber type = "number" value = "${occupationState.occupation}"/>
                                         </c:if>
                                         <c:if test="${favorite.place.isIceRink()}">
-                                                ${occupationState.occupation}
+                                            <fmt:formatNumber type = "number" value = "${occupationState.occupation}"/>
                                         </c:if>
                                         <c:if test="${favorite.place.isParking()}">
-                                                ${occupationState.available}
+                                            <fmt:formatNumber type = "number" value = "${occupationState.available}"/>
                                         </c:if>
                                         <c:if test="${favorite.place.isMairie()}">
-                                                ${occupationState.occupation}
+                                                ${occupationState.occupationLabel}
                                         </c:if>
                                     </div>
                                     <div class="favoris-teaser__crowding-label">
@@ -135,11 +135,11 @@
                                     	<!-- ajout post covid : affichage capacit� totale -->
                                     	<c:if test="${favorite.place.isSwimmingPool()}">
                                     		<br>
-                                            <liferay-ui:message key="eu.place.total-capacity" /> ${occupationState.capacity}
+                                            <liferay-ui:message key="eu.place.total-capacity" /> <fmt:formatNumber type = "number" value = "${occupationState.capacity}"/>
                                         </c:if>
                                     	<c:if test="${favorite.place.isIceRink()}">
                                     		<br>
-                                            <liferay-ui:message key="eu.place.total-capacity" /> ${occupationState.capacity}
+                                            <liferay-ui:message key="eu.place.total-capacity" /> <fmt:formatNumber type = "number" value = "${occupationState.capacity}"/>
                                         </c:if>
                                    	</div>
                                 </div>

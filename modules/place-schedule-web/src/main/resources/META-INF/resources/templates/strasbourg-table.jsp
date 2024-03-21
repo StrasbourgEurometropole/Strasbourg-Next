@@ -86,12 +86,16 @@
                             <c:when test="${place.isOpenNow()}">
                                 <p class="st-frequentation">
                                     <c:choose>
-                                        <c:when test="${isSwimmingPool || isIceRink || isMairie}">
-                                            ${occupationState.occupationLabel} <liferay-ui:message key="eu.place.person-capacity" />
+                                        <c:when test="${isSwimmingPool || isIceRink}">
+                                            <fmt:formatNumber type = "number" value = "${occupationState.occupation}"/> <liferay-ui:message key="eu.place.person-capacity" />
+                                            (<liferay-ui:message key="${occupationState.label}-short" />)
+                                        </c:when>
+                                        <c:when test="${isMairie}">
+                                            ${occupationState.occupationLabel}
                                             (<liferay-ui:message key="${occupationState.label}-short" />)
                                         </c:when>
                                         <c:when test="${isParking || isVelhopStation}">
-                                            ${occupationState.available} <liferay-ui:message key="eu.place.place-capacity" />
+                                            <fmt:formatNumber type = "number" value = "${occupationState.available}"/> <liferay-ui:message key="eu.place.place-capacity" />
                                         </c:when>
                                         <c:otherwise>
                                             <liferay-ui:message key="eu.currently-open" />
@@ -100,14 +104,14 @@
 
                                 </p>
                                 <p class="st-surtitre-cat">
+                                    <liferay-ui:message key="eu.place.total-capacity-long" />
+                                    <fmt:formatNumber type = "number" value = "${occupationState.capacity}"/>
                                     <c:choose>
                                         <c:when test="${isSwimmingPool}">
-                                            <liferay-ui:message key="eu.place.total-capacity-long" />
-                                            ${occupationState.capacity} <liferay-ui:message key="eu.place.person-capacity" />
+                                            <liferay-ui:message key="eu.place.person-capacity" />
                                         </c:when>
                                         <c:when test="${isParking}">
-                                            <liferay-ui:message key="eu.place.total-capacity-long" />
-                                            ${occupationState.capacity} <liferay-ui:message key="eu.place.place-capacity" />
+                                            <liferay-ui:message key="eu.place.place-capacity" />
                                         </c:when>
                                     </c:choose>
                                 </p>

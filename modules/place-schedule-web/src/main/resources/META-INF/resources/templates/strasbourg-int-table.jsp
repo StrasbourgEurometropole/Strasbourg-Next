@@ -178,13 +178,13 @@
 										<c:set var="occupationState" value="${place.getRealTime('1')}" />
 										<td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
 											<div class="crowded-amount ${occupationState.cssClass}">
-													${occupationState.occupationLabel}
+												<fmt:formatNumber type = "number" value = "${occupationState.occupationLabel}"/>
 											</div>
 											<div class="crowded-label">
 												<liferay-ui:message key="${occupationState.label}" />
 											</div>
 											<div class="crowded-label">
-												<liferay-ui:message key="eu.place.total-capacity" /> ${occupationState.capacity}
+												<liferay-ui:message key="eu.place.total-capacity" /> <fmt:formatNumber type = "number" value = "${occupationState.capacity}"/>
 											</div>
 										</td>
 									</c:if>
@@ -192,7 +192,7 @@
 										<c:set var="occupationState" value="${place.getRealTime('2')}" />
 										<td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
 											<div class="crowded-amount ${occupationState.cssClass}">
-													${occupationState.available}
+												<fmt:formatNumber type = "number" value = "${occupationState.available}"/>
 											</div>
 											<div class="crowded-label">
 												<liferay-ui:message key="${occupationState.label}" />
@@ -212,7 +212,6 @@
 									</c:if>
 								</c:if>
 								<c:if test="${place.hasURLSchedule}">
-									<c:set var="occupationState" value="${place.getRealTime('3')}" />
 									<td rowspan="${place.getSubPlaces().size() + 2}" colspan="5" >
 										<div class="rte">
 											<a href="${place.getScheduleLinkURL(locale)}" target="_blank" title="${place.getScheduleLinkName(locale)} (<liferay-ui:message key="eu.new-window" />)">

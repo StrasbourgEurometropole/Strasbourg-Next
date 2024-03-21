@@ -77,11 +77,14 @@
 							<c:set var="isParking" value="${place.isParking()}" />
 							<div class="crowded-amount ${occupationState.cssClass}" <c:if test="${isMairie}">style="font-size: 1.5rem"</c:if>>
 								<c:choose>
-									<c:when test="${isSwimmingPool or isIceRink or isMairie}">
+									<c:when test="${isSwimmingPool or isIceRink}">
+										<fmt:formatNumber type = "number" value = "${occupationState.occupation}"/>
+									</c:when>
+									<c:when test="${isMairie}">
 										${occupationState.occupationLabel}
 									</c:when>
 									<c:when test="${isParking}">
-											${occupationState.available}
+										<fmt:formatNumber type = "number" value = "${occupationState.available}"/>
 									</c:when>
 								</c:choose>
 							</div>
@@ -105,7 +108,8 @@
 											<liferay-ui:message key="${occupationState.label}" />
 										</c:when>
 									    <c:when test="${isParking}">
-											<liferay-ui:message key="eu.place.available-spots" /> ${occupationState.available} - <liferay-ui:message key="parking-total-capacity" /> ${occupationState.capacity}
+											<liferay-ui:message key="eu.place.available-spots" /> <fmt:formatNumber type = "number" value = "${occupationState.available}"/>
+											- <liferay-ui:message key="parking-total-capacity" /> <fmt:formatNumber type = "number" value = "${occupationState.capacity}"/>
 										</c:when>
 									</c:choose>
 								</span>

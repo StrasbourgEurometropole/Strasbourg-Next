@@ -388,7 +388,7 @@
 									<div class="container-left" style="display: inline-table; width: auto;">
 										<!-- green orange red black -->
 										<div class="crowded-amount ${occupationState.cssClass}" style="font-size: 1.5rem">
-												${occupationState.occupation}<c:if test="${!occupationState.occupation.equals('-')}"> min</c:if>
+											${occupationState.occupationLabel}
 										</div>
 									</div>
 									<div class="container-right" style="width: auto;">
