@@ -327,6 +327,12 @@ function populateList(data) {
 
     // permet de donner le focus aux résultats
     onOverlayOpen('st-overlay-search');
+
+    setTimeout(() => {
+        // Focus sur le champ de recherche
+        document.querySelector("#recherche-input").focus();
+    }, 150);
+
     addClickEventToFavoriteButtons();
 
     // remonte le scroll en haut
