@@ -18,9 +18,9 @@
                         <#assign content = docXml.valueOf("//dynamic-element[@name='content']/dynamic-content/text()") />
                         <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
                         <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
-                        <#assign imageURL ="" />
+                        <#assign imageId ="" />
                         <#if image?has_content>
-                            <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+                            <#assign imageId = assetPublisherTemplateHelperService.getDocumentId(image) />
                         </#if>
                         <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
                         <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
@@ -30,17 +30,7 @@
                         <li class="splide__slide">
                             <a href="${viewURL}" class="st-slide-diaporama">
                                 <div class="st-image">
-
-                                    <figure class="st-figure st-fit-cover figcaption-only-credits" role="group"
-                                            aria-label="">
-                                        <picture>
-                                            <img alt="" loading="lazy"  src="${imageURL}">
-                                        </picture>
-                                        <figcaption>
-                                        </figcaption>
-                                    </figure>
-
-
+                                    <@strasbourg.addImage fileEntryId=imageId maxWidth=800 showLegende=false showCopyright=false isFigure=true />
                                 </div>
 
                                 <p class="st-caption st-surtitre">

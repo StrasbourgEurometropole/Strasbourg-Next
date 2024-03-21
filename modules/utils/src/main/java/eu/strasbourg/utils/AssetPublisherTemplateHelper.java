@@ -89,6 +89,25 @@ public class AssetPublisherTemplateHelper {
     }
 
     /**
+     * Récupère l'URL d'une image à partir des données fournies par la Structure d'un WebContent
+     */
+    public static long getDocumentId(String documentStructure){
+
+        long documentId = -1;
+
+        try {
+            // Parse les données JSON
+            JSONObject documentJSONObject = JSONFactoryUtil.createJSONObject(documentStructure);
+
+            documentId = documentJSONObject.getLong("fileEntryId");
+        } catch (PortalException e) {
+            // _log.error("Une erreur est survenue lors de la récupération de l'URL d'un document : ", e);
+        }
+
+        return documentId;
+    }
+
+    /**
      * Enleve les acccents, lowercase, remplace l'espace par un '-' pour utiliser le string dans un URL
      */
     public static String slugify(String s){

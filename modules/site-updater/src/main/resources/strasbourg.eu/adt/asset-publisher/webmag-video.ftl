@@ -35,11 +35,7 @@
                                     <p class="st-surtitre">${entry.getTitle(locale)}</p>
                                 </div>
                                 <div class="st-image">
-                                    <figure class="st-figure st-fit-cover" role="group" aria-label="">
-                                        <picture>
-                                            <img alt="" loading="lazy" src="${entry.getImageURL()}" >
-                                        </picture>
-                                    </figure>
+                                    <@strasbourg.addImage fileEntryId=entry.getImageId() maxWidth=550 showLegende=false showCopyright=false isFigure=true />
                                 </div>
                             </a>
                         </li>

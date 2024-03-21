@@ -143,11 +143,11 @@
                                                 <c:choose>
                                                     <c:when test="${piscine or patinoire}">
                                                         <c:set var="occupationState" value="${place.getRealTime('1')}" />
-                                                        ${occupationState.occupationLabel}
+                                                        <fmt:formatNumber type = "number" value = "${occupationState.occupationLabel}"/>
                                                     </c:when>
                                                     <c:when test="${parking}">
                                                         <c:set var="occupationState" value="${place.getRealTime('2')}" />
-                                                        ${occupationState.available}
+                                                        <fmt:formatNumber type = "number" value = "${occupationState.available}"/>
                                                     </c:when>
                                                     <c:when test="${mairie}">
                                                         <c:set var="occupationState" value="${place.getRealTime('3')}" />

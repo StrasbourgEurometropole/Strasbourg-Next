@@ -88,12 +88,16 @@
                             <c:when test="${place.isOpenNow()}">
                                 <p class="st-frequentation">
                                     <c:choose>
-                                        <c:when test="${isSwimmingPool || isIceRink || isMairie}">
-                                            ${occupationState.occupationLabel} <liferay-ui:message key="eu.place.person-capacity" />
+                                        <c:when test="${isSwimmingPool || isIceRink}">
+                                            <fmt:formatNumber type = "number" value = "${occupationState.occupation}"/> <liferay-ui:message key="eu.place.person-capacity" />
+                                            (<liferay-ui:message key="${occupationState.label}-short" />)
+                                        </c:when>
+                                        <c:when test="${isMairie}">
+                                            ${occupationState.occupationLabel}
                                             (<liferay-ui:message key="${occupationState.label}-short" />)
                                         </c:when>
                                         <c:when test="${isParking || isVelhopStation}">
-                                            ${occupationState.available} <liferay-ui:message key="eu.place.place-capacity" />
+                                            <fmt:formatNumber type = "number" value = "${occupationState.available}"/> <liferay-ui:message key="eu.place.place-capacity" />
                                         </c:when>
                                         <c:otherwise>
                                             <liferay-ui:message key="eu.currently-open" />
@@ -102,14 +106,14 @@
 
                                 </p>
                                 <p class="st-surtitre-cat">
+                                    <liferay-ui:message key="eu.place.total-capacity-long" />
+                                    <fmt:formatNumber type = "number" value = "${occupationState.capacity}"/>
                                     <c:choose>
                                         <c:when test="${isSwimmingPool}">
-                                            <liferay-ui:message key="eu.place.total-capacity-long" />
-                                            ${occupationState.capacity} <liferay-ui:message key="eu.place.person-capacity" />
+                                            <liferay-ui:message key="eu.place.person-capacity" />
                                         </c:when>
                                         <c:when test="${isParking}">
-                                            <liferay-ui:message key="eu.place.total-capacity-long" />
-                                            ${occupationState.capacity} <liferay-ui:message key="eu.place.place-capacity" />
+                                            <liferay-ui:message key="eu.place.place-capacity" />
                                         </c:when>
                                     </c:choose>
                                 </p>
@@ -231,17 +235,17 @@
             </a>
         </div>
 
-        <div class="st-wrapper text-styles mt-4">
+        <div class="st-wrapper text-styles mt-6 st-component-container ">
             <c:if test="${hasException}">
                 <div class="st-title-medium st-u-color-pink">
                     <liferay-ui:message key="eu.place.look-at-exceptionnal-schedule" />
                 </div>
             </c:if>
             <c:if test="${!empty exceptions}">
-                <div class="st-component-container calendar-schedule-exceptions rte">
+                <div class="calendar-schedule-exceptions rte st-limit-height st-text-styles" style="--max-height-desktop: 13rem;">
                     <h3 id="exceptions"><liferay-ui:message key="eu.exceptional-closings-openings" /></h3>
                     <c:set var="nbExceptions" value="0" />
-                    <ul class="st-limit-height" style="--max-height-desktop: 9rem;">
+                    <ul>
                         <c:forEach var="exception" items="${exceptions}">
                             <c:set var="nbExceptions" value="${nbExceptions + 1}" />
                             <li>
@@ -265,12 +269,12 @@
                             </li>
                         </c:forEach>
                     </ul>
-                    <div class="st-show-more">
-                        <button class="st-btn-show-more st-btn-arrow st--down"
-                                aria-expanded="false"
-                                data-open-label="<@liferay_ui.message key='eu.view-more' />" data-close-label="<@liferay_ui.message key='eu.view-less' />"><@liferay_ui.message key='eu.view-more' />
-                        </button>
-                    </div>
+                </div>
+                <div class="st-show-more">
+                    <button class="st-btn-show-more st-btn-arrow st--down"
+                            aria-expanded="false"
+                            data-open-label="<@liferay_ui.message key='eu.view-more' />" data-close-label="<@liferay_ui.message key='eu.view-less' />"><@liferay_ui.message key='eu.view-more' />
+                    </button>
                 </div>
             </c:if>
         </div>

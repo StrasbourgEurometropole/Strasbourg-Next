@@ -381,6 +381,7 @@
         color: #2ad783;
         line-height: 1;
         letter-spacing: .025em;
+        margin-bottom: 15px;
       }
     }
   }
@@ -551,7 +552,7 @@ body:not(.no-hover) .st-page-wrapper .login-container button{
 }
 
 .st-has-btn-compte {
-  .st-btn-compte:not(:only-child) {
+  .st-btn-compte:not(:only-of-type) {
     margin-right: 0;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;

@@ -29,14 +29,9 @@
                         <#assign title = docXml.valueOf("//dynamic-element[@name='title']/dynamic-content/text()")/>
                         <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
                         <#assign thumbnail = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
-                        <#assign thumbnailURL ="" />
+                        <#assign thumbnailId ="" />
                         <#if thumbnail?has_content>
-                            <#assign thumbnailURL = assetPublisherTemplateHelperService.getDocumentUrl(thumbnail) />
-                        </#if>
-                        <#assign image = docXml.valueOf("//dynamic-element[@name='image']/dynamic-content/text()") />
-                        <#assign imageURL ="" />
-                        <#if image?has_content>
-                            <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(image) />
+                            <#assign thumbnailId = assetPublisherTemplateHelperService.getDocumentId(thumbnail) />
                         </#if>
                         <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
                         <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
@@ -50,11 +45,7 @@
                                         <p class="st-text">${chapo}</p>
                                     </div>
                                     <div class="st-image">
-                                        <figure class="st-figure st-fit-cover" role="group" aria-label="">
-                                            <picture>
-                                                <img alt="" loading="lazy" src="${thumbnailURL}" >
-                                            </picture>
-                                        </figure>
+                                        <@strasbourg.addImage fileEntryId=thumbnailId maxWidth=265 showLegende=false showCopyright=false isFigure=true />
                                     </div>
                                 </a>
                             </div>

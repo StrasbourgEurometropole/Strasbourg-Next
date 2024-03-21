@@ -152,20 +152,20 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                         <div class="st-top-bar__content">
                             <p class="st-frequentation">
                                 <#if isSwimmingPool || isIceRink>
-                                    ${occupationState.occupation} <@liferay_ui.message key="eu.place.occupation" />
+                                    ${occupationState.occupation?number?round?string.number} <@liferay_ui.message key="eu.place.occupation" />
                                 <#elseif isMairie>
                                     ${occupationState.occupationLabel}
                                 <#elseif isParking>
-                                    ${occupationState.available} <@liferay_ui.message key="eu.place.spots-available" />
+                                    ${occupationState.available?number?round?string.number} <@liferay_ui.message key="eu.place.spots-available" />
                                 <#elseif isVelhopStation>
-                                    ${occupationState.available} <@liferay_ui.message key="eu.place.velhop-available" />
+                                    ${occupationState.available?number?round?string.number} <@liferay_ui.message key="eu.place.velhop-available" />
                                 </#if>
                             </p>
                             <p class="st-surtitre-cat">
                                 <#if isSwimmingPool >
-                                    <@liferay_ui.message key="eu.place.total-capacity-long" /> ${occupationState.capacity} <@liferay_ui.message key="eu.place.person-capacity" />
+                                    <@liferay_ui.message key="eu.place.total-capacity-long" /> ${occupationState.capacity?number?round?string.number} <@liferay_ui.message key="eu.place.person-capacity" />
                                 <#elseif isParking>
-                                    <@liferay_ui.message key="eu.place.total-capacity-long" /> ${occupationState.capacity} <@liferay_ui.message key="eu.place.place-capacity" />
+                                    <@liferay_ui.message key="eu.place.total-capacity-long" /> ${occupationState.capacity?number?round?string.number} <@liferay_ui.message key="eu.place.place-capacity" />
                                 </#if>
                             </p>
                             <p class="st-small-text">

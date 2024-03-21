@@ -805,7 +805,6 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
 
         long occupation = 0;
-        NumberFormat nf = NumberFormat.getInstance();
         switch (type) {
             case "1":
             case "4":
@@ -844,9 +843,9 @@ public class PlaceImpl extends PlaceBaseImpl {
                     state = OccupationState.ORANGE;
                 } else
                     state = OccupationState.GREEN;
-                state.setOccupationLabel("" + nf.format(occupation));
-                state.setOccupation("" + nf.format(occupation));
-                state.setCapacity("" + nf.format(periodEnCours.getRTMaxThreshold()));
+                state.setOccupationLabel("" + occupation);
+                state.setOccupation("" + occupation);
+                state.setCapacity("" + periodEnCours.getRTMaxThreshold());
                 break;
             case "2":
                 state = OccupationState.NOT_AVAILABLE;
@@ -856,8 +855,8 @@ public class PlaceImpl extends PlaceBaseImpl {
                         break;
                     case "1":
                         state = OccupationState.OPEN;
-                        state.setAvailable("" + nf.format(this.getRTAvailable()));
-                        state.setCapacity("" + nf.format(this.getRTCapacity()));
+                        state.setAvailable("" + this.getRTAvailable());
+                        state.setCapacity("" + this.getRTCapacity());
                         break;
                     case "2":
                         state = OccupationState.CLOSED;
@@ -914,15 +913,15 @@ public class PlaceImpl extends PlaceBaseImpl {
                     newOccupation += (min < 10 ? "0" + min : min);
                 }
                 state.setOccupationLabel(newOccupation);
-                state.setOccupation("" + nf.format(occupation));
+                state.setOccupation("" + occupation);
                 break;
             case "5":
                 occupation = this.getRTOccupation();
                 state = OccupationState.NOT_AVAILABLE;
                 if ( occupation!=-1 ) {
                     state = OccupationState.OPEN;
-                    state.setAvailable("" + nf.format(this.getRTAvailable()));
-                    state.setCapacity("" + nf.format(this.getRTCapacity()));
+                    state.setAvailable("" + this.getRTAvailable());
+                    state.setCapacity("" + this.getRTCapacity());
                 }
                 break;
         }
@@ -1465,6 +1464,7 @@ public class PlaceImpl extends PlaceBaseImpl {
      */
     @Override
     public JSONObject getGeoJSON(long groupId, Locale locale) {
+        NumberFormat nf = NumberFormat.getInstance(locale);
 
         JSONObject feature = JSONFactoryUtil.createJSONObject();
         feature.put("type", "Feature");
@@ -1599,7 +1599,10 @@ public class PlaceImpl extends PlaceBaseImpl {
             String color = occupation.getCssClass();
             if (this.isSwimmingPool() ||this.isIceRink()) {
                 title = LanguageUtil.get(locale, "frequentation-real");
-                frequentation = occupation.getOccupationLabel();
+                if(Validator.isNumber(occupation.getOccupation()))
+                    frequentation = nf.format(Long.parseLong(occupation.getOccupation()));
+                else
+                    frequentation = occupation.getOccupation();
                 label = LanguageUtil.get(locale, occupation.getLabel());
             } else if (this.isMairie()) {
                 title = LanguageUtil.get(locale, "time-real");
@@ -1607,11 +1610,17 @@ public class PlaceImpl extends PlaceBaseImpl {
                 label = LanguageUtil.get(locale, occupation.getLabel());
             } else if(this.isParking()){
                 title = LanguageUtil.get(locale, "occupation-real");
-                frequentation = occupation.getAvailable();
+                if(Validator.isNumber(occupation.getAvailable()))
+                    frequentation = nf.format(Long.parseLong(occupation.getAvailable()));
+                else
+                    frequentation = occupation.getAvailable();
                 label = LanguageUtil.get(locale, "available-spots");
             } else if(this.isVelhopStation()){
                 title = LanguageUtil.get(locale, "live-disponibility");
-                frequentation = occupation.getAvailable();
+                if(Validator.isNumber(occupation.getAvailable()))
+                    frequentation = nf.format(Long.parseLong(occupation.getAvailable()));
+                else
+                    frequentation = occupation.getAvailable();
                 label = LanguageUtil.get(locale, "eu.place.available-velhop");
             }
             JSONObject amountProperty = JSONFactoryUtil.createJSONObject();

@@ -15,6 +15,11 @@ public interface AssetPublisherTemplateHelperService {
     String getDocumentUrl(String documentStructure);
 
     /**
+     * Récupère l'Id d'une image à partir des données fournies par la Structure d'un WebContent
+     */
+    long getDocumentId(String documentStructure);
+
+    /**
      * Enleve les acccents, lowercase, remplace l'espace par un '-' pour utiliser le string dans un URL
      */
     String slugify(String s);
