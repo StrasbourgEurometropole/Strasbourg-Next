@@ -777,10 +777,10 @@
 
 	.st-overlay__inner {
 		@include min-tablet-portrait {
-			margin-top: 88px;
+			padding-top: 88px;
 
 			.st-is-scrolled & {
-				margin-top: 58px;
+				padding-top: 58px;
 			}
 		}
 	}
