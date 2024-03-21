@@ -181,7 +181,11 @@ function createPlaceVignette(data) {
 
             <div class="st-image">
                 ${generateImage(data.imageURL, "pin")}
-                <p class="st-badge-ouverture ${!data.isOpen ? "st--closed": ""}">${data.isOpen ? "Ouvert": "Fermé"}</p>
+                ${
+        data.isOpen == null ? "" :
+            `<p class="st-badge-ouverture ${!data.isOpen ? "st--closed": ""}">${data.isOpen ? "Ouvert": "Fermé"}</p>`
+    }
+               
             </div>
         </a>
         ${createButtonFavorite(data.title, data.link, data.id, 1, data.isFavorite)}

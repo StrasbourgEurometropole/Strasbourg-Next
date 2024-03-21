@@ -72,9 +72,6 @@
                     <h2 class="st-h2 st-top-bar__title">${place.getAlias(locale)}</h2>
                     <div class="st-top-bar__content">
                         <c:choose>
-                            <c:when test="${!place.hasScheduleTable()}">
-
-                            </c:when>
                             <c:when test="${!place.isOpenNow()}">
                                 <p class="st-title-medium st-u-color-pink"> <liferay-ui:message key="eu.currently-closed" /> </p>
                             </c:when>

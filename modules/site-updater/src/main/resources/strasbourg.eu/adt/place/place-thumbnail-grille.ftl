@@ -30,7 +30,7 @@
                 <#else>
                     <span class="st-icon st-icon-pin"></span>
                 </#if>
-                <#if entry.hasScheduleTable()>
+                <#if entry.periods?has_content>
                 <#if entry.isOpenNow()>
                     <p class="st-badge-ouverture">
                         <@liferay_ui.message key='open-period' />
