@@ -780,7 +780,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
     <!-- Documents Utiles/Medias -->
     <#if entry.documentURLs?has_content || entry.videos?has_content>
         <div class="st-bloc st-bloc-liens st-wrapper st-wrapper-small st--has-margin">
-            <h2 class="st-h2 st-bloc-sit-title"><@liferay_ui.message key="eu.place.medias" /></h2>
+            <h2 class="st-h2 st-bloc-sit-title"><@liferay_ui.message key="eu.useful-documents" /></h2>
             <div class="st-component-container">
                 <ul class="st-liste st-limit-height">
 

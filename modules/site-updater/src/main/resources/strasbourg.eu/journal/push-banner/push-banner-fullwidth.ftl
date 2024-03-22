@@ -5,7 +5,7 @@
             <div class="st-col-left">
                 <div class="st-visual-container">
                     <#if (PushFieldset.PictoImage.getData())?? && PushFieldset.PictoImage.getData() != "">
-                        <@strasbourg.getImage imageNode=PushFieldset.PictoImage />
+                        <@strasbourg.getImage imageNode=PushFieldset.PictoImage showLegende=false showCopyright=false />
                     <#else>
                         <#if (PushFieldset.PictoIcon.getData())?? && PushFieldset.PictoIcon.getData() != "">
                             <span class="${PushFieldset.PictoIcon.getData()}" aria-hidden="true"></span>
