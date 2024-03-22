@@ -54,7 +54,7 @@
         </div>
         <div class="st-bottom-bar">
             <ul class="splide__pagination st-nav-dots"></ul>
-            <a href="${strasbourg.homeURL}dossiers" class="st-btn st--btn-secondary">
+            <a href="${strasbourg.homeURL()}dossiers" class="st-btn st--btn-secondary">
                 <@liferay_ui.message key='all-dossiers' />
             </a>
         </div>
