@@ -18,7 +18,7 @@
         <div class="st-img-wrapper">
             <figure class="st-figure st-fit-cover" role="group">
                 <picture>
-                    <img alt="" src="${newsItemAlaUne.imageURL}" />
+                    <img alt="" src="${(newsItemAlaUne.topLevelImageURL != '' && newsItemAlaUne.topLevelImageURL != null) ? newsItemAlaUne.topLevelImageURL : newsItemAlaUne.imageURL}" />
                 </picture>
             </figure>
 
@@ -49,7 +49,7 @@
 
                                             <figure class="st-figure st-fit-cover" role="group">
                                                 <picture>
-                                                    <img alt="" loading="lazy" src="${newsItem.imageURL}">
+                                                    <img alt="" loading="lazy" src="${(newsItemAlaUne.topLevelImageURL != '' && newsItemAlaUne.topLevelImageURL != null) ? newsItemAlaUne.topLevelImageURL : newsItemAlaUne.imageURL}">
                                                 </picture>
                                             </figure>
                                         </div>

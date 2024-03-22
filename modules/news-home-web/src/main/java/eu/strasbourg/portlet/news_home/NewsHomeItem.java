@@ -37,6 +37,7 @@ public class NewsHomeItem {
     String description;
     String descriptionCourt;
     String imageURL;
+    String topLevelImageURL;
     String detailURL;
     String titleCourt;
 
@@ -72,6 +73,10 @@ public class NewsHomeItem {
         // Récupère la structure du document de la vignette et obtient l'URL de l'image
         String documentStructure = JournalArticleHelper.getJournalArticleFieldValue(article, "thumbnail", locale);
         this.imageURL = AssetPublisherTemplateHelper.getDocumentUrl(documentStructure);
+
+        // Récupère la structure du document de l'image principale et obtient l'URL de l'image
+        String documentStructureTopLevel = JournalArticleHelper.getJournalArticleFieldValue(article, "image", locale);
+        this.topLevelImageURL = AssetPublisherTemplateHelper.getDocumentUrl(documentStructureTopLevel);
 
         // Obtient l'URL pour afficher les détails de l'entrée de la news
         this.detailURL = entry.getAssetRenderer().getURLViewInContext((LiferayPortletRequest) request, (LiferayPortletResponse) response, null);
@@ -113,5 +118,9 @@ public class NewsHomeItem {
 
     public String getDescriptionCourt() {
         return descriptionCourt;
+    }
+
+    public String getTopLevelImageURL() {
+        return topLevelImageURL;
     }
 }

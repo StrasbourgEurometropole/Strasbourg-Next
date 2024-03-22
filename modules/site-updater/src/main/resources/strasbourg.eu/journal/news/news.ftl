@@ -63,11 +63,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             </h1>
         </div>
         <@liferay.breadcrumbs />
-        <#if (image.getData())?? && image.getData() !="">
-            <div class="st-image">
-                <@strasbourg.getImage imageNode=image />
-            </div>
-        </#if>
     </div>
 </header>
 <div class="st-content">

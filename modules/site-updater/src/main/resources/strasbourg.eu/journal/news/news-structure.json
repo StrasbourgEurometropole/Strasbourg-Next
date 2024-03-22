@@ -189,7 +189,7 @@
       "dataType": "image",
       "readOnly": false,
       "label": {
-        "fr_FR": "Image panoramique"
+        "fr_FR": "Vignette de niveau 1 & 2"
       },
       "type": "image",
       "required": false,
