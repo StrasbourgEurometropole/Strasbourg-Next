@@ -271,3 +271,10 @@ input#_com_liferay_login_web_portlet_LoginPortlet_captchaText,input#_com_liferay
 .radio input[type='radio'], .radio-inline input[type='radio'], .checkbox input[type='checkbox'], .checkbox-inline input[type='checkbox'] {
     margin-left: -20px !important;
 }
+
+h2.portlet-title-text {
+	display: none;
+}
+.portlet-layout .portlet-header {
+	margin-bottom: 0rem;
+}
