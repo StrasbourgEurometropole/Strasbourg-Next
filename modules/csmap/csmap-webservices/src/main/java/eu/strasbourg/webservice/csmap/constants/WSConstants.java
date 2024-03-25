@@ -153,7 +153,7 @@ public class WSConstants {
 
     // Place
     public static final String FOLDER_POI_SIMPLE = "POI simple";
-    public static final String STRUCTURE_POI_SIMPLE = "POI simple";
+    public static final String STRUCTURE_KEY_POI_SIMPLE = "281820269";
 
     // Various-Data
     public static final String GROUP_KEY_STRAS = "Strasbourg.eu";

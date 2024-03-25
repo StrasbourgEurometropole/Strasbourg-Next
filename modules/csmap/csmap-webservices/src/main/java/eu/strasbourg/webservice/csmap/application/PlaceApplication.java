@@ -1,6 +1,8 @@
 package eu.strasbourg.webservice.csmap.application;
 
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
+import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.service.DDMStructureServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalFolder;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
@@ -12,6 +14,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -24,6 +27,7 @@ import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalService;
 import eu.strasbourg.service.csmap.utils.ApiCsmapUtil;
 import eu.strasbourg.service.place.model.CsmapCacheJson;
 import eu.strasbourg.service.place.model.Historic;
+import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.CsmapCacheJsonLocalService;
 import eu.strasbourg.service.place.service.HistoricLocalService;
 import eu.strasbourg.service.place.service.PlaceLocalService;
@@ -276,9 +280,10 @@ public class PlaceApplication extends Application {
             long csmapGroupId = csmapGroup.getGroupId();
             JournalFolder placesFolder = WSCSMapUtil.getJournalFolderByGroupAndName(csmapGroupId, WSConstants.FOLDER_POI_SIMPLE);
             long placesFolderId = placesFolder.getFolderId();
-            DDMStructure structure = WSCSMapUtil.getStructureByGroupAndName(group.getGroupId(), WSConstants.STRUCTURE_POI_SIMPLE);
+            long classNameId = ClassNameLocalServiceUtil.getClassName(JournalArticle.class.getName()).getClassNameId();
+            DDMStructure structure = DDMStructureLocalServiceUtil.getStructure(group.getGroupId(),classNameId,  WSConstants.STRUCTURE_KEY_POI_SIMPLE);
 
-            // Recuperation des JournalArticle dans le dossier Numeros urgence
+            // Recuperation des JournalArticle dans le dossier POIs Simple
             List<JournalArticle> poiSimples = new ArrayList<>(JournalArticleLocalServiceUtil.getArticles(csmapGroupId, placesFolderId));
             // Recuperation des Numeros urgence a ADD et UPDATE
             List<JournalArticle> poiSimplesAdd = new ArrayList<>();
