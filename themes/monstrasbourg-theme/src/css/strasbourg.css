@@ -13085,7 +13085,7 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
   }
 }
 body:not(.has-control-menu) header.portlet-topper {
-  display: none;
+  display: none !important;
 }
 body:not(.has-control-menu) .portlet > .portlet-content-editable {
   border-color: transparent;
@@ -13411,7 +13411,7 @@ _:-ms-fullscreen #nav-side, :root #nav-side {
   }
 }
 body:not(.has-control-menu) header.portlet-topper {
-  display: none;
+  display: none !important;
 }
 body:not(.has-control-menu) .portlet > .portlet-content-editable {
   border-color: transparent;

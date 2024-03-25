@@ -62,7 +62,7 @@
 
 body:not(.has-control-menu)  {
 	header.portlet-topper {
-		display: none;
+		display: none !important;
 	}
 	.portlet > .portlet-content-editable {
 		border-color: transparent;
