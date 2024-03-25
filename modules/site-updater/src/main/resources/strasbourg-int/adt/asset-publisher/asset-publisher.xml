@@ -10,7 +10,7 @@
     <template>
         <script>news-thumbnail.ftl</script>
         <name>Vignette actualité</name>
-        <key>E4906347</key>
+        <key>4906347</key>
     </template>
     <template>
         <script>place-list.ftl</script>
