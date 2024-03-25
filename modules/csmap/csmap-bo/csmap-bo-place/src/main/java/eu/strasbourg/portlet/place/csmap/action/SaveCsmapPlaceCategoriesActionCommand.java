@@ -61,7 +61,7 @@ public class SaveCsmapPlaceCategoriesActionCommand extends BaseMVCActionCommand 
                 AssetCategory parentCategory = placeTypeCategory.getParentCategory();
                 if (Validator.isNotNull(parentCategory)) {
                     long parentId = parentCategory.getCategoryId();
-                    if (!placeTypesIdsList.contains(parentId)) {
+                    if (!placeTypesIdsList.contains(parentId) && placeTypes.indexOf(""+parentId) == -1) {
                         placeTypes.append(",").append(parentId);
                     }
                 }
