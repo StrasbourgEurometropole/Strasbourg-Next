@@ -30,10 +30,18 @@
 <#-- Récupération de DateHelper pour le format date -->
     <#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
 
+    <@liferay_portlet.actionURL var="detailURLFilter">
+        <@liferay_portlet.param name="userTargetClassId" value="${entry.getClassNameId()}" />
+        <@liferay_portlet.param name="userTargetClassPK" value="${entry.getArticleId()}" />
+        <@liferay_portlet.param name="userTargetTitle" value="${title}" />
+        <@liferay_portlet.param name="detailURL" value="${detailURL}" />
+        <@liferay_portlet.param name="searchLogId" value="${renderRequest.getAttribute('searchLogId')!0}" />
+    </@liferay_portlet.actionURL>
+
 <#-- Template -->
     <div class="wi-search-result wi-edition-thumbnail">
         <div class="seu-result-left seu-result-thumbnail">
-            <a href="${strasbourg.homeURL()}-/${entry.getUrlTitle()}" title="${title}">
+            <a href="${detailURLFilter}" title="${title}">
                 <div style="background-image: url(${imageURL});" class="thumbnail-background" >
                     <#if asset.tagNames?seq_contains("euromag") || asset.tagNames?seq_contains("villemag") || asset.tagNames?seq_contains("webmag")>
                         <div class="mag">MAG'</div>
@@ -43,7 +51,7 @@
             </a>
         </div>
         <div class="seu-result-right">
-            <a class="seu-result-content" href="${strasbourg.homeURL()}-/${entry.getUrlTitle()}" title="${title}">
+            <a class="seu-result-content" href="${detailURLFilter}" title="${title}">
                 <h2 class="seu-result-title">${title}</h2>
                 <div class="seu-result-catcher">
                     ${chapo?replace("<[^>]*>", "", "r")[0..*100]}...
