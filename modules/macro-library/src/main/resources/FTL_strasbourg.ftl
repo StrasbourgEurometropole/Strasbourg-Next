@@ -97,9 +97,9 @@
     </#if>
 </#function>
 
-<#macro getImage imageNode showLegende=true showCopyright=true isFigure=true>
+<#macro getImage imageNode showLegende=true showCopyright=true isFigure=true maxWidth=2000 >
     <#local fileEntryIdString = imageNode.getAttribute("fileEntryId")>
-    <@strasbourg.addImage fileEntryId=fileEntryIdString?number showLegende=showLegende showCopyright=showCopyright isFigure=isFigure />
+    <@strasbourg.addImage fileEntryId=fileEntryIdString?number showLegende=showLegende showCopyright=showCopyright isFigure=isFigure maxWidth=maxWidth />
 </#macro>
 
 <#macro getImageByFileEntry fileEntryId maxWidth defaultFile>
