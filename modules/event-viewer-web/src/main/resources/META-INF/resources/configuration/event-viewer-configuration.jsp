@@ -82,10 +82,13 @@
 		<p>
 			<div class="display-template">
 				<liferay-ddm:template-selector className="${className}"
-					displayStyle="${displayStyle}"
-					displayStyleGroupId="${displayStyleGroupId}"
-					refreshURL="${refreshURL}" showEmptyOption="true" />
+											   displayStyle="${displayStyle}"
+											   displayStyleGroupId="${displayStyleGroupId}"
+											   refreshURL="${refreshURL}" showEmptyOption="true" />
 			</div>
+		</p>
+		<p>
+			<aui:input type="text" name="delta" value="${delta}" label="delta" />
 		</p>
 		<p>
 			<p>

@@ -180,6 +180,11 @@ public class EventViewerConfigurationAction extends DefaultConfigurationAction {
 				setPreference(request, "agendaURL", agendaURL);
 			}
 
+			// Delta
+			String delta = ParamUtil.getString(request,
+					"delta");
+			setPreference(request, "delta", delta);
+
 		}
 		super.processAction(portletConfig, request, response);
 	}
@@ -238,6 +243,10 @@ public class EventViewerConfigurationAction extends DefaultConfigurationAction {
 
 			// Tags
 			request.setAttribute("tagsNames", configuration.tagsNames());
+
+			// Delta
+			request.setAttribute("delta",
+					configuration.delta());
 
 		} catch (ConfigurationException e) {
 			_log.error(e);

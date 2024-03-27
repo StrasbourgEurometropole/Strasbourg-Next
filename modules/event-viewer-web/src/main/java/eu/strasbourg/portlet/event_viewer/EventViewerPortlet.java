@@ -48,6 +48,7 @@ import java.util.stream.Collectors;
 
 @Component(
 	immediate = true,
+		configurationPid = "eu.strasbourg.portlet.event_viewer.configuration.EventViewerConfiguration",
 	property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=true",
 		"com.liferay.portlet.css-class-wrapper=event-viewer-portlet",
@@ -175,8 +176,8 @@ public class EventViewerPortlet extends MVCPortlet {
 		Locale locale = this.themeDisplay.getLocale();
 
 		// Pagination et ordre
-		int start = -1;
-		int end = -1;
+		int start = 0;
+		int end = (int) this.configuration.delta();
 		String sortField = dateFieldName;
 		boolean isSortDesc = false;
 
