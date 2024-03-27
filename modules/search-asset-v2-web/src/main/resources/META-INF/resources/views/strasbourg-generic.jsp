@@ -6,7 +6,7 @@
 		<liferay-portlet:renderURLParams varImpl="searchActionURL" />
 		<liferay-util:include page="/forms/strasbourg-generic-form.jsp" servletContext="<%=application %>" />
 	</aui:form>
-	<header class="st-small-header st-wrapper st-wrapper-small">
+	<header class="st-header-with-sticky st-wrapper st-wrapper-small">
 		<h1 class="st-h1">${dc.getLayoutTitle()}</h1>
 		<liferay-portlet:runtime
 				portletName="com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
