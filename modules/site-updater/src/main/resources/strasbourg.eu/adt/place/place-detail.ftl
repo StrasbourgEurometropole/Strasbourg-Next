@@ -193,7 +193,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                         la carte interactive</a>
                     <div class="st-maps" role="region" aria-label="Carte interactive"
                          data-lat="${ entry.getMercatorY() }" data-lng="${ entry.getMercatorX() }" data-zoom="17"
-                         data-callback="initMap">
+                         data-callback="initMap" data-marker="true" data-markericon="default">
                     </div>
                     <div id="skip-map-cover"></div>
                 </div>

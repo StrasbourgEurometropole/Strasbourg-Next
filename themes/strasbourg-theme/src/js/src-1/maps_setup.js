@@ -1,17 +1,17 @@
 th_maps.onLoad(function () {
 
     th_maps.addMarkerIcon('default', {
-        iconUrl: '' + document.location.origin + '/wp-content/themes/starter/assets/images/markers/ico-marker-map-2x.png',
+        iconUrl: '' + document.location.origin + '/o/strasbourg-theme/images/markers/default.png',
         shadowUrl: null,
-        iconSize: [12, 12],
-        iconAnchor: [6, 6]
+        iconSize: [35,49],
+        iconAnchor: [17, 49]
     });
 
     th_maps.addMarkerIcon('hover', {
-        iconUrl: '' + document.location.origin + '/wp-content/themes/starter/assets/images/markers/ico-marker-map-hover-2x.png',
+        iconUrl: '' + document.location.origin + '/o/strasbourg-theme/images/markers/default-hover.png',
         shadowUrl: null,
-        iconSize: [30, 30],
-        iconAnchor: [15, 15]
+        iconSize: [35,49],
+        iconAnchor: [17, 49]
     });
 
 });
