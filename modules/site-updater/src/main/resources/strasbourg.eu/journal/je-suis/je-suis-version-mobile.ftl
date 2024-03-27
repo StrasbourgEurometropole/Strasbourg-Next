@@ -1,13 +1,24 @@
-<div class="st-select-visitor">
-    <label for="select-public">
+<div class="st-barre-dropdown">
+    <button id="my-profil-mobile" type="button" class="st-js-btn-disclosure" aria-expanded="false" aria-controls="menu-public-mobile">
         <@liferay_ui.message key='my-profil' />
-        <span class="st-sr-only">Sélectionner une option entraînera une redirection</span>
-    </label>
-    <select class="st-js-select-autoresize" id="select-public" style="width: 80px;">
+    </button>
+
+    <ul id="menu-public-mobile" class="st-barre-dropdown__list">
         <#if FieldsetIam.getSiblings()?has_content>
             <#list FieldsetIam.getSiblings() as cur_FieldsetIam>
-                <option value="${cur_FieldsetIam.linkJesuis.getData()}">${cur_FieldsetIam.nameJesuis.getData()}</option>
+                <li>
+                    <a href="<#if (cur_FieldsetIam.linkJesuis.getData())??>
+          ${cur_FieldsetIam.linkJesuis.getData()}
+        </#if>">
+                        <strong>
+                            <#if (cur_FieldsetIam.nameJesuis.getData())??>
+                                ${cur_FieldsetIam.nameJesuis.getData()}
+                            </#if>
+                        </strong>
+                    </a>
+                </li>
             </#list>
         </#if>
-    </select>
+    </ul>
+
 </div>

@@ -225,6 +225,69 @@
 		margin-bottom: 24px;
 		padding-bottom: 12px;
 		border-bottom: 1px solid rgba($c_white, 0.25);
+
+
+		// Styles pour le dropdown RGAA
+		.st-barre-dropdown button {
+			position: relative;
+			height: 100%;
+			padding-bottom: 8px;
+			@include ft($f_txt, $s_p, 300, $c_white, 1);
+			@include letter-spacing(25);
+			@include transition(color);
+
+			strong {
+				font-weight: 600;
+			}
+
+			&:after {
+				@include icomoon($st-icon-arrow-down);
+				font-size: 10px;
+				color: rgba($c_white, 0.75);
+				display: inline-block;
+				margin-left: 4px;
+				@include transition(transform);
+			}
+
+			@include can-hover {
+				color: $c_sub;
+			}
+
+			&[aria-expanded="true"] {
+				color: $c_sub;
+
+				&:after {
+					transform: rotate(180deg);
+				}
+			}
+		}
+
+		.st-barre-dropdown__list {
+			display: none;
+			position: absolute;
+			background-color: $c_greydark;
+			margin-top: 5px;
+			z-index: 1;
+		}
+
+		.st-barre-dropdown__list a {
+			display: block;
+			width: auto;
+			padding: 10px;
+			@include ft($f_txt, $s_p, 300, $c_white, 1);
+			@include letter-spacing(25);
+			outline: 1px solid transparent;
+			white-space: nowrap;
+
+			strong {
+				font-weight: 600;
+			}
+
+			@include can-hover {
+				background-color: $c_white;
+				color: $c_main;
+			}
+		}
 	}
 
 	.st-select-visitor {
