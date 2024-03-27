@@ -26,7 +26,7 @@
                 <#if currentPage.getName(locale) !='Raccourcis' && !currentPage.hidden>
                 <li class="st-ancres__item">
                     <a href="#ancre-${currentPage.friendlyURL?remove_beginning('/')}" class="st-ancres__link">
-                        <span>${currentPage.getName(locale)}</span>
+                        <span>${currentPage?counter}. ${currentPage.getName(locale)}</span>
                     </a>
                 </li>
                 </#if>
