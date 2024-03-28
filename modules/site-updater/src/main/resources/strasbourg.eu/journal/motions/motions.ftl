@@ -9,7 +9,7 @@
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
-<header class="st-header-edito st-wrapper st-wrapper-small" role="banner">
+<header class="st-header-without-sticky st-wrapper st-wrapper-small" role="banner">
     <div>
         <h1 class="st-h1">${title.getData()}</h1>
         <@liferay.breadcrumbs />

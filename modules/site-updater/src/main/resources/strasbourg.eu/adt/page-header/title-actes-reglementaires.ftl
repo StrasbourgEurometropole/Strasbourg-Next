@@ -7,7 +7,7 @@
     <#assign homeURL = "/" />
 </#if>
 
-<header class="st-header-edito">
+<header class="st-header-without-sticky">
     <div class="st-wrapper">
         <h1 class="st-h1">${layout.getName(locale)}</h1>
         <@liferay.breadcrumbs />

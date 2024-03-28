@@ -1,6 +1,6 @@
 <!-- Formulaire de recherche -->
 <aui:form action="${changeDataURL}" method="post" name="fm" id="search-asset-form" cssClass="seu-view-filters">
-<div class="st-barre-listing-sit st--horaires" role="region" aria-label="Horaire des lieux, filtre des horaires">
+<div class="st-barre-listing-sit st--horaires st-hide-until@mobile" role="region" aria-label="Horaire des lieux, filtre des horaires">
     <div class="st-barre-inner st-wrapper form-styles">
 
         <div class="st-filtre st-group-field">

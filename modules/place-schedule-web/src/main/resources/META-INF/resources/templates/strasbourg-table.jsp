@@ -37,7 +37,7 @@
     </c:when>
     <c:otherwise>
 
-        <header class="st-small-header st-header-horaires st-wrapper st-wrapper-small">
+        <header class="st-small-header st-header-without-sticky st-wrapper st-wrapper-small">
             <h1 class="st-h1">${category.getTitle(locale)}</h1>
             <liferay-portlet:runtime
                     portletName="com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"

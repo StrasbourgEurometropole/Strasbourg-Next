@@ -18,6 +18,14 @@ class BarreDesAncres {
         this.btnNext.addEventListener('click', (e) => {
             this.list.scrollBy({ left: 200, behavior: "smooth" });
         });
+
+        // find .st-small-header and add class .st-header-with-sticky and remove class .st-small-header
+        const smallHeader = document.querySelector('.st-small-header');
+        if (smallHeader) {
+            smallHeader.classList.remove('st-small-header');
+            smallHeader.classList.add('st-header-with-sticky');
+        }
+
     }
 
     fadeOnSocialShareClick(slider) {

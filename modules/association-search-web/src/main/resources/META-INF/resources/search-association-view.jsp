@@ -5,7 +5,7 @@
 <!-- Filtres -->
 <%@ include file="/search-association-search-form.jsp"  %>
 
-<header class="st-small-header st-wrapper st-wrapper-small" >
+<header class="st-header-with-sticky st-wrapper st-wrapper-small" >
 	<h1 class="st-h1">	<c:if test="${not empty dc.getPortletTitle('')}">
 		<h1 class="st-h1">${dc.getPortletTitle('')}</h1>
 	</c:if></h1>

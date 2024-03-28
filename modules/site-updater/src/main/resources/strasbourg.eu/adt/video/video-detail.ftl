@@ -7,7 +7,7 @@
 </#if>
 
 
-<header class="st-header-edito">
+<header class="st-header-without-sticky">
     <div class="st-wrapper">
         <div class="st-wrapper-modifier">
             <h1 class="st-h1">${entry.getTitle(locale)}</h1>

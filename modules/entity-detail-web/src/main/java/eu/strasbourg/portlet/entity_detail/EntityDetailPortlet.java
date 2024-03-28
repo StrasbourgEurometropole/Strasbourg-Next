@@ -111,7 +111,7 @@ public class EntityDetailPortlet extends MVCPortlet {
 			if (entry == null) {
 				HttpServletResponse httpServletResponse = PortalUtil.getHttpServletResponse(response);
 				httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
-				String journalArticleContent = "<header class=\"st-header-edito st-wrapper st-wrapper-small\" role=\"banner\">\n" +
+				String journalArticleContent = "<header class=\"st-header-without-sticky st-wrapper st-wrapper-small\" role=\"banner\">\n" +
 						"    <div>\n" +
 						"            <h1 class=\"st-h1\">Page introuvable</h1>\n" +
 						"    </div>\n" +
