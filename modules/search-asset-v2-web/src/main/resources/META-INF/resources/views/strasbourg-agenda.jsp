@@ -16,7 +16,7 @@
 	<liferay-util:include page="/forms/strasbourg-agenda-form.jsp" servletContext="<%=application %>" />
 </aui:form>
 
-<header class="st-small-header st--two-columns st-basic-grid st-col-2@t-landscape st-wrapper st-wrapper-small">
+<header class="st-header-with-sticky st--two-columns st-basic-grid st-col-2@t-landscape st-wrapper st-wrapper-small">
 	<div class="col-left">
 		<h1 class="st-h1"><liferay-ui:message key="eu.agenda" /></h1>
 		<liferay-portlet:runtime

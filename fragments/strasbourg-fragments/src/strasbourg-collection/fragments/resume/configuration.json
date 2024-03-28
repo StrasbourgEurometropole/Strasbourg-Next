@@ -1,4 +1,14 @@
 {
     "fieldSets": [
+      {
+        "fields": [
+          {
+            "defaultValue": "true",
+            "label": "Afficher le bouton 'En savoir plus'",
+            "name": "showButton",
+            "type": "checkbox"
+          }
+        ]
+      }
     ]
 }

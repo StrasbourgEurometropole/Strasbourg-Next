@@ -8,7 +8,7 @@
                         <#list entries as navigationEntry>
                             <li class="st-ancres__item">
                                 <a href="#ancre-${navigationEntry.hashCode()}" class="st-ancres__link">
-                                    <span>${navigationEntry.getName()}</span>
+                                    <span>${navigationEntry?counter}. ${navigationEntry.getName()}</span>
                                 </a>
                             </li>
                         </#list>

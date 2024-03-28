@@ -7,7 +7,7 @@
 </#if>
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 
-<div class="st-bloc st-bloc-actu st--with-anchors st-wrapper st-u-overflow-x-hidden st--has-margin" role="group">
+<div class="st-bloc st-bloc-actu st--with-anchors st-wrapper st-u-overflow-x-hidden st--has-margin st--has-margin-top" role="group">
     <div class="st-wrapper st-bloc-actu__inner st-js-slider-actu splide st-component-container" id="splide02" role="region">
         <h2 class="st-h2 st-titre">${portletHelper.getPortletTitle('eu.news', renderRequest)}</h2>
         <div class="splide__track st-u-overflow-visible" id="splide02-track">
