@@ -27,7 +27,7 @@
 
 
 
-<div class="st-page-wrapper" id="wrapper">
+<div class="st-page-wrapper" id="content">
     <a href="#main-content" class="st-skip-link st-btn">Aller au contenu</a>
     <#if selectable>
         <@liferay_util["include"] page=content_include />
