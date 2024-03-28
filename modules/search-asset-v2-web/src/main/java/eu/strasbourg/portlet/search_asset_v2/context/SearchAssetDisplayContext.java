@@ -532,7 +532,7 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 						for (Map.Entry mapentry : fields.entrySet()) {
 							entryNotFound += mapentry.getKey() + " : " + mapentry.getValue();
 						}
-						_log.info(entryNotFound);
+						_log.debug(entryNotFound);
 					}
 				}
 			}
