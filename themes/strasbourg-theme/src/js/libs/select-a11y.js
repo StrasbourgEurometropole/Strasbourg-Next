@@ -63,6 +63,7 @@ class Select{
     this._handleKeyboard = this._handleKeyboard.bind(this);
     this._handleOpener = this._handleOpener.bind(this);
     this._handleReset = this._handleReset.bind(this);
+    this._handleShowAll = this._handleShowAll.bind(this);
     this._handleSuggestionClick = this._handleSuggestionClick.bind(this);
     this._positionCursor = this._positionCursor.bind(this);
     this._removeOption = this._removeOption.bind(this);
@@ -82,6 +83,7 @@ class Select{
     }
 
     this.button.addEventListener('click', this._handleOpener);
+    this.showAllButton.addEventListener('click', this._handleShowAll);
     this.input.addEventListener('input', this._handleInput);
     this.input.addEventListener('focus', this._positionCursor, true);
     this.list.addEventListener('click', this._handleSuggestionClick);
@@ -142,12 +144,15 @@ class Select{
       <p id="a11y-usage-${this.id}-js" class="sr-only">${this._options.text.help}</p>
       <label for="a11y-${this.id}-js" class="sr-only">${this._options.text.placeholder}</label>
       <input type="text" id="a11y-${this.id}-js" class="${this.el.className}" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${this._options.text.placeholder}" aria-describedby="a11y-usage-${this.id}-js">
+      <button id="a11y-show-all-${this.id}-js"  tabindex="0" data-index="0" class="a11y-suggestion mt-2 w-100">Tout afficher</button>
     `;
 
     container.appendChild(suggestions);
 
     this.list = suggestions;
+    this.showAllButton = container.querySelector(`button#a11y-show-all-${this.id}-js`);
     this.input = container.querySelector('input');
+
 
     return container;
   }
@@ -250,6 +255,20 @@ class Select{
 
   _handleOpener(event){
     this._toggleOverlay();
+  }
+
+  _handleShowAll() {
+    // get all  selected options
+    let selectedOptions = Array.prototype.filter.call(this.el.options, function(option, index){
+      if(option.selected){
+            return true;
+        }
+    }.bind(this));
+
+    // for each selected option , call _toggleSelection
+    selectedOptions.forEach((option) => {
+      this._toggleSelection(option.index, true, true);
+    });
   }
 
   _handleFocus(){
