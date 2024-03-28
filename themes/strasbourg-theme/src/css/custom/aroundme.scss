@@ -32,6 +32,14 @@
     }
     #aroundme {
 
+        #aroundme__center {
+            .aroundme__map {
+                @media only screen and (max-width: 767px) {
+                    height: 400px;
+                }
+            }
+        }
+
         .top__overflow
         {
             form {
@@ -156,6 +164,26 @@
                         padding: 8px;
                     }
                 }
+
+                .infowindow__right {
+                    .infowindow__opened {
+                        display: inline-block;
+                        padding: 8px;
+                        @include ft('', 12px, 70, $c_white, 1.2);
+                        @include letter-spacing(100);
+                        text-transform: uppercase;
+                    }
+                    .infowindow__frequentation {
+                        font-size:1.5rem;
+                    }
+                    .crowded-label {
+                        display: inline-block;
+                        padding: 8px;
+                        @include ft($f_txt, $s_link_small, 400, $c_white);
+                        @include letter-spacing(100);
+                    }
+                }
+
                 border-top: none;
                 .tram-destination {
                     .tram-destination-name {
