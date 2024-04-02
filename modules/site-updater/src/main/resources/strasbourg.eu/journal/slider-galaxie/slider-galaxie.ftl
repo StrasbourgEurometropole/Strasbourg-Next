@@ -18,6 +18,13 @@
                                         <#if (cur_GalaxiesFieldset.ImagePicto.getData())?? && cur_GalaxiesFieldset.ImagePicto.getData() !="">
                                             <@strasbourg.getImage imageNode=cur_GalaxiesFieldset.ImagePicto showLegende=false showCopyright=false maxWidth=100  />
                                         </#if>
+                                        <span class="st-sr-only">
+                                            <#if (cur_GalaxiesFieldset.ExternalLinkText.getData())??>
+                                                ${cur_GalaxiesFieldset.ExternalLinkText.getData()}
+                                            <#else>
+                                                ${cur_GalaxiesFieldset.InternalLink.getFriendlyUrl()}
+                                            </#if>
+                                        </span>
                                         <span class="st-tooltip-logo" aria-hidden="true">
                       <#if (cur_GalaxiesFieldset.NomText.getData())??>
                           ${cur_GalaxiesFieldset.NomText.getData()}
