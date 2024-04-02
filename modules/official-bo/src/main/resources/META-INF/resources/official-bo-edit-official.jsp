@@ -17,6 +17,7 @@
 	<liferay-ui:error key="prenom-error" message="prenom-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
 	<liferay-ui:error key="email-error" message="email-error" />
+
 	<aui:form action="${saveOfficialURL}" method="post" name="fm">
 
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
@@ -193,8 +194,7 @@
 
 				<aui:input name="contact"/>
 
-				<aui:input name="listeContact" helpMessage="liste-contact-help"   />
-
+                <aui:input name="listeContact" helpMessage="liste-contact-help"   />
 
 			</aui:fieldset>
 

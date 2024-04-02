@@ -250,6 +250,19 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 			isValid = false;
 		}
 
+		// listeContact, verif si separateur est bien un , et que chaque element est un mail
+		String listeContact = ParamUtil.getString(request, "listeContact");
+		if (Validator.isNotNull(listeContact)) {
+			String[] listeContactSplit = listeContact.split(",");
+			for (String contact : listeContactSplit) {
+				if (!Validator.isEmailAddress(contact)) {
+					SessionErrors.add(request, "email-error");
+					isValid = false;
+					break;
+				}
+			}
+		}
+
 		// Photo
 		Long imageId = ParamUtil.getLong(request, "imageId");
 		if (imageId == 0) {

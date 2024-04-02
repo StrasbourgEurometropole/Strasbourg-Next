@@ -2,7 +2,7 @@
 switch (window.tarteaucitronForceLanguage) {
     case 'fr':
         var tarteaucitronCustomText = {
-            "alertBigPrivacy": "Nous utilisons des cookies sur ce site pour notamment améliorer votre expérience d’utilisation, fournir des services via des contenus animés et interactifs de réseaux sociaux et vidéos, des messages de communication personnalisés ou encore effectuer des analyses de performance. Vous pouvez à tout moment faire part de vos choix :",
+            "alertBigPrivacy": "<p>Nous utilisons des cookies sur ce site pour améliorer votre expérience d’utilisation, fournir des services via des contenus animés et interactifs de réseaux sociaux et vidéos, des messages de communication personnalisés, ou encore effectuer des analyses de performance.</p><p>Vous pouvez à tout moment faire part de vos choix :</p>",
             "acceptAll" : "ACCEPTER TOUS LES COOKIES",
             "allowAll" : "ACCEPTER TOUS LES COOKIES",
             "denyAll" : "REFUSER TOUS LES COOKIES",
