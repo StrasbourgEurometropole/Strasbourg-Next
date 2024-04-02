@@ -47,7 +47,13 @@
 <div class="st-listing-cards st--listing-agenda st-wrapper st-wrapper-small">
 	<div class="st-listing-results st-hide-until@t-portrait">
     <span class="st-results" role="status">
-         <fmt:formatNumber type = "number" value = "${dc.searchContainer.total}"/> <liferay-ui:message key="results" />
+         <fmt:formatNumber type = "number" value = "${dc.searchContainer.total}"/>
+		<c:if test="${dc.searchContainer.total gt 1}">
+			<liferay-ui:message key="results" />
+		</c:if>
+		<c:if test="${dc.searchContainer.total lt 2}">
+			<liferay-ui:message key="result" />
+		</c:if>
     </span>
 
 		<div class="st-results-filter">
