@@ -70,12 +70,6 @@
 		// On affiche la tooltip au hover seulement sur les slides visibles
 		&.is-visible {
 			.st-container {
-				@include can-hover {
-					img {
-						opacity: 1;
-						filter: none;
-					}
-				}
 
 				&.st-has-tooltip-show {
 					.st-tooltip-logo {
@@ -97,9 +91,6 @@
 			width: 100px;
 			height: 100px;
 			border-radius: $border-radius-small;
-			opacity: 0.5;
-			filter: grayscale(100%);
-			@include transition(opacity, fiter);
 
 			@include mobile {
 				width: 80px;
