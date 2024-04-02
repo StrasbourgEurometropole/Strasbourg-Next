@@ -4,6 +4,6 @@
   "htmlPath": "index.html",
   "cssPath": "index.css",
   "icon": "code",
-  "name": "Header",
+  "name": "Header du Site",
   "type": "component"
 }
