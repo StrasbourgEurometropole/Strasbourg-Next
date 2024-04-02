@@ -71,11 +71,5 @@
 				font-size: 11px;
 			}
 		}
-
-		.st-breadcrumbs {
-			@include mobile {
-				display: none;
-			}
-		}
 	}
 }
