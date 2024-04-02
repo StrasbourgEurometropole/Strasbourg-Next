@@ -56,6 +56,11 @@ figcaption {
 	display: block;
 }
 
+.st-img-center {
+	display: flex;
+	justify-content: center;
+}
+
 
 // Règle RGAA : Au focus d'un élément avec un tabindex 0 ou d'un lien, si à son interne on a un crédit, on l'affiche
 *[tabindex="0"], a {

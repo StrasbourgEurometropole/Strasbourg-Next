@@ -119,6 +119,8 @@ public class EntityDetailPortlet extends MVCPortlet {
 				request.setAttribute("notFoundHTML", journalArticleContent);
 			}
 
+			// Temp fix for actionURL
+			// FIXME: remove when LPS-200157 is fixed
 			if(request.getAttribute("javax.portlet.request") instanceof RenderRequest) {
 				themeDisplay.getRequest().setAttribute("javax.portlet.request",request.getAttribute("javax.portlet.request"));
 				themeDisplay.getRequest().setAttribute("javax.portlet.response",request.getAttribute("javax.portlet.response"));

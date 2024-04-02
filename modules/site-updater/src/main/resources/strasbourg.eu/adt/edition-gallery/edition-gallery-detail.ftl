@@ -23,7 +23,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             ${entry.getTitle(locale)}
         </h1>
         <@liferay.breadcrumbs />
-        <div class="st-img-wrapper st-img-fit-content" tabindex="0">
+        <div class="st-img-wrapper st-img-fit-content st-img-center" tabindex="0">
             <@strasbourg.addImage fileEntryId=entry.getImageId() maxWidth=1120 showCopyright=false />
         </div>
     </div>

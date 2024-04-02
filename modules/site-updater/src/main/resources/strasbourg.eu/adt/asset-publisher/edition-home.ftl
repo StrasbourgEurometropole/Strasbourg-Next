@@ -27,9 +27,6 @@
                 </li>
             </#list>
         </ul>
-        <a href="${strasbourg.homeURL()}editions" class="st-btn st--btn-secondary">
-            <@liferay_ui.message key="eu.all-editions" />
-        </a>
 
     </div>
 
