@@ -38,10 +38,11 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         ${entry.getName(entry.fonctionCity, locale)}
                     </p>
                 </#if>
-
-                <p class="st-surtitre-cat">
-                    ${entry.getName(entry.fonctionEurometropole, locale)}
-                </p>
+                <#if entry.fonctionEurometropole?has_content>
+                    <p class="st-surtitre-cat">
+                        ${entry.getName(entry.fonctionEurometropole, locale)}
+                    </p>
+                </#if>
                 <#if entry.fonctionTown?has_content>
                     <p class="st-surtitre-cat">
                         ${entry.getName(entry.fonctionTown, locale)}
