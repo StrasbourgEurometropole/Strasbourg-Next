@@ -4,6 +4,6 @@
   "htmlPath": "index.html",
   "cssPath": "index.css",
   "icon": "code",
-  "name": "Rechercher Filtre Base",
+  "name": "Overlay Filtre",
   "type": "component"
 }

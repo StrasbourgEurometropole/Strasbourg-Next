@@ -4,6 +4,6 @@
   "htmlPath": "index.html",
   "cssPath": "index.css",
   "icon": "code",
-  "name": "Filtre Container",
+  "name": "Barre de recherche",
   "type": "component"
 }
