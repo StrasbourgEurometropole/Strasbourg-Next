@@ -1,5 +1,5 @@
 
-<div class="st-bloc st-bloc-editions-dossiers">
+<div class="st-bloc st-bloc-editions-dossiers st-wrapper">
     <div class="st-col-left">
         <h2 class="st-h2"><@liferay_ui.message key="eu.our.edition" /></h2>
         <ul class="st-editions-container">
