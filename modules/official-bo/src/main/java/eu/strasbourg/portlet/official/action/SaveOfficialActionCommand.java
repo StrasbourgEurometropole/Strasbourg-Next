@@ -251,7 +251,6 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 		}
 
 		// listeContact, verif si separateur est bien un , et que chaque element est un mail
-		String listeContact = ParamUtil.getString(request, "listeContact");
 		if (Validator.isNotNull(listeContact)) {
 			String[] listeContactSplit = listeContact.split(",");
 			for (String contact : listeContactSplit) {
