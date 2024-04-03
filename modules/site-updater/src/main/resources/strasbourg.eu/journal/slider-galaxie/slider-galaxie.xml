@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Slider Galaxie</name>
+        <key>slider-galaxie</key>
+        <definition>slider-galaxie-structure.json</definition>
+        <layout>slider-galaxie-layout.json</layout>
+    </structure>
+    <template>
+        <name>Slider Galaxie</name>
+        <key>slider-galaxie</key>
+        <script>slider-galaxie.ftl</script>
+    </template>
+</root>

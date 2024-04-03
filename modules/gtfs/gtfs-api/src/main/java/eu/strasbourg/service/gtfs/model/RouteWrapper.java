@@ -1,28 +1,15 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -33,20 +20,11 @@ import java.util.Objects;
  * @see Route
  * @generated
  */
-public class RouteWrapper implements ModelWrapper<Route>, Route {
+public class RouteWrapper
+	extends BaseModelWrapper<Route> implements ModelWrapper<Route>, Route {
 
 	public RouteWrapper(Route route) {
-		_route = route;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Route.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Route.class.getName();
+		super(route);
 	}
 
 	@Override
@@ -124,18 +102,8 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	}
 
 	@Override
-	public Object clone() {
-		return new RouteWrapper((Route)_route.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.gtfs.model.Route route) {
-		return _route.compareTo(route);
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _route.getExpandoBridge();
+	public Route cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -145,7 +113,7 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public long getId() {
-		return _route.getId();
+		return model.getId();
 	}
 
 	/**
@@ -155,12 +123,7 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _route.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _route.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -170,7 +133,7 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public String getRoute_color() {
-		return _route.getRoute_color();
+		return model.getRoute_color();
 	}
 
 	/**
@@ -180,7 +143,7 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public String getRoute_desc() {
-		return _route.getRoute_desc();
+		return model.getRoute_desc();
 	}
 
 	/**
@@ -190,7 +153,7 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public String getRoute_id() {
-		return _route.getRoute_id();
+		return model.getRoute_id();
 	}
 
 	/**
@@ -200,7 +163,7 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public String getRoute_long_name() {
-		return _route.getRoute_long_name();
+		return model.getRoute_long_name();
 	}
 
 	/**
@@ -210,7 +173,7 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public String getRoute_short_name() {
-		return _route.getRoute_short_name();
+		return model.getRoute_short_name();
 	}
 
 	/**
@@ -220,7 +183,7 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public String getRoute_text_color() {
-		return _route.getRoute_text_color();
+		return model.getRoute_text_color();
 	}
 
 	/**
@@ -230,7 +193,7 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public int getRoute_type() {
-		return _route.getRoute_type();
+		return model.getRoute_type();
 	}
 
 	/**
@@ -240,54 +203,12 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public String getUuid() {
-		return _route.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _route.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _route.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _route.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _route.isNew();
+		return model.getUuid();
 	}
 
 	@Override
 	public void persist() {
-		_route.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_route.setCachedModel(cachedModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_route.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_route.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_route.setExpandoBridgeAttributes(serviceContext);
+		model.persist();
 	}
 
 	/**
@@ -297,12 +218,7 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public void setId(long id) {
-		_route.setId(id);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_route.setNew(n);
+		model.setId(id);
 	}
 
 	/**
@@ -312,12 +228,7 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_route.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_route.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -327,7 +238,7 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public void setRoute_color(String route_color) {
-		_route.setRoute_color(route_color);
+		model.setRoute_color(route_color);
 	}
 
 	/**
@@ -337,7 +248,7 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public void setRoute_desc(String route_desc) {
-		_route.setRoute_desc(route_desc);
+		model.setRoute_desc(route_desc);
 	}
 
 	/**
@@ -347,7 +258,7 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public void setRoute_id(String route_id) {
-		_route.setRoute_id(route_id);
+		model.setRoute_id(route_id);
 	}
 
 	/**
@@ -357,7 +268,7 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public void setRoute_long_name(String route_long_name) {
-		_route.setRoute_long_name(route_long_name);
+		model.setRoute_long_name(route_long_name);
 	}
 
 	/**
@@ -367,7 +278,7 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public void setRoute_short_name(String route_short_name) {
-		_route.setRoute_short_name(route_short_name);
+		model.setRoute_short_name(route_short_name);
 	}
 
 	/**
@@ -377,7 +288,7 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public void setRoute_text_color(String route_text_color) {
-		_route.setRoute_text_color(route_text_color);
+		model.setRoute_text_color(route_text_color);
 	}
 
 	/**
@@ -387,7 +298,7 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public void setRoute_type(int route_type) {
-		_route.setRoute_type(route_type);
+		model.setRoute_type(route_type);
 	}
 
 	/**
@@ -397,75 +308,17 @@ public class RouteWrapper implements ModelWrapper<Route>, Route {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_route.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.gtfs.model.Route> toCacheModel() {
-
-		return _route.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Route toEscapedModel() {
-		return new RouteWrapper(_route.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _route.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Route toUnescapedModel() {
-		return new RouteWrapper(_route.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _route.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof RouteWrapper)) {
-			return false;
-		}
-
-		RouteWrapper routeWrapper = (RouteWrapper)object;
-
-		if (Objects.equals(_route, routeWrapper._route)) {
-			return true;
-		}
-
-		return false;
+	protected RouteWrapper wrap(Route route) {
+		return new RouteWrapper(route);
 	}
-
-	@Override
-	public Route getWrappedModel() {
-		return _route;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _route.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _route.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_route.resetOriginalValues();
-	}
-
-	private final Route _route;
 
 }

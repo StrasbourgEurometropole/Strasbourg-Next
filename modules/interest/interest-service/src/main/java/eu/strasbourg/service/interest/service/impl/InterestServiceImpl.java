@@ -14,10 +14,6 @@
 
 package eu.strasbourg.service.interest.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -27,11 +23,14 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.model.UserInterest;
 import eu.strasbourg.service.interest.service.base.InterestServiceBaseImpl;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * The implementation of the interest remote service.

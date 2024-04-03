@@ -108,43 +108,11 @@ public class SearchHelperV2{
 		searchRequestBuilder.withSearchContext(
 			sc -> {
 				sc.setCompanyId(searchContext.getCompanyId());
-				sc.setStart(start);
-				sc.setEnd(end);
-				/*if(Validator.isNotNull(groupBy) && groupBy > 0) {
-					// Regroupement
-					GroupBy groupBy1 = new GroupBy(Field.ENTRY_CLASS_NAME);
-					sc.setGroupBy(groupBy1);
-				}else {
-					// Tri
-					com.liferay.portal.kernel.search.Sort[] sortArray = new com.liferay.portal.kernel.search.Sort[sortingFieldsAndTypes.size()];
-					Iterator iterator = sortingFieldsAndTypes.entrySet().iterator();
-					int i = 0;
-					while (iterator.hasNext()) {
-						Map.Entry entry = (Map.Entry) iterator.next();
-						com.liferay.portal.kernel.search.Sort fieldSort = new com.liferay.portal.kernel.search.Sort((String) entry.getKey(), entry.getValue().equals("DESC"));
-						sortArray[i] = fieldSort;
-						i++;
-					}
-					sc.setSorts(sortArray);
-				}*/
 			}
 		);
 
 		searchRequestBuilder.from(start);
 		searchRequestBuilder.size(end - start);
-
-		// Regroupement
-//		if(categoriesIdsForGroupBy[0] != 0){
-//			GroupByRequest groupByRequest;
-//			if(categoriesIdsForGroupBy[0] > 0){
-//				// regroupement sur les catégories
-//				groupByRequest = groupByRequestFactory.getGroupByRequest(Field.ASSET_CATEGORY_IDS);
-//			}else{
-//				// regroupement par type d'asset
-//				groupByRequest = groupByRequestFactory.getGroupByRequest(Field.ENTRY_CLASS_NAME);
-//			}
-//			searchRequestBuilder = searchRequestBuilder.groupByRequests(groupByRequest);
-//		}
 
 		// Tri
 		if (Validator.isNotNull(seed) && seed > 0) {
@@ -170,31 +138,6 @@ public class SearchHelperV2{
 
 		SearchRequest searchRequest = searchRequestBuilder.query(query).build();
 		SearchResponse searchResponse = searcher.search(searchRequest);
-
-		/*
-		Tentative d'exploitation du GroupBy
-
-		List<GroupByResponse> buckets = searchResponse.getGroupByResponses();
-		Le problème c'est que le groupByRequests prend harbitrairement 10 catégories pour former des "bucket" de 3 documents
-		en dehors de la query principale.
-		Inexploitable en l'état.
-
-		if(buckets.size() >= 1){
-			GroupByResponse gbr = buckets.get(0);
-			Map<String, Hits> hits = gbr.getHitsMap();
-
-			for (String key : hits.keySet()) {
-				if(key.equals("11043552") || key.equals("11043559")) {
-					Hits groupHits = hits.get(key);
-					Document[] docs = groupHits.getDocs();
-
-					_log.info(key + " " + groupHits.getLength());
-				}
-			}
-		}
-
-		//To debug query
-		String queryString = searchResponse.getRequestString();*/
 
 		// Recherche
 		SearchHits searchHits = searchResponse.getSearchHits();
@@ -586,8 +529,6 @@ public class SearchHelperV2{
 		searchRequestBuilder.withSearchContext(
 				sc -> {
 					sc.setCompanyId(searchContext.getCompanyId());
-					sc.setStart(start);
-					sc.setEnd(end);
 
 				}
 		);

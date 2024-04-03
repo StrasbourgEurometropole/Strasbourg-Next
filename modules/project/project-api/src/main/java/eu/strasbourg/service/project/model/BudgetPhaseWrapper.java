@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +23,11 @@ import java.util.Objects;
  * @generated
  */
 public class BudgetPhaseWrapper
+	extends BaseModelWrapper<BudgetPhase>
 	implements BudgetPhase, ModelWrapper<BudgetPhase> {
 
 	public BudgetPhaseWrapper(BudgetPhase budgetPhase) {
-		_budgetPhase = budgetPhase;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return BudgetPhase.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return BudgetPhase.class.getName();
+		super(budgetPhase);
 	}
 
 	@Override
@@ -204,15 +182,8 @@ public class BudgetPhaseWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new BudgetPhaseWrapper((BudgetPhase)_budgetPhase.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.project.model.BudgetPhase budgetPhase) {
-
-		return _budgetPhase.compareTo(budgetPhase);
+	public BudgetPhase cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -220,7 +191,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _budgetPhase.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -230,7 +201,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public Date getBeginDate() {
-		return _budgetPhase.getBeginDate();
+		return model.getBeginDate();
 	}
 
 	/**
@@ -240,7 +211,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public Date getBeginVoteDate() {
-		return _budgetPhase.getBeginVoteDate();
+		return model.getBeginVoteDate();
 	}
 
 	/**
@@ -250,7 +221,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public long getBudgetPhaseId() {
-		return _budgetPhase.getBudgetPhaseId();
+		return model.getBudgetPhaseId();
 	}
 
 	/**
@@ -261,7 +232,7 @@ public class BudgetPhaseWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _budgetPhase.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -271,7 +242,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _budgetPhase.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -281,7 +252,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _budgetPhase.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -291,7 +262,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public String getDescription() {
-		return _budgetPhase.getDescription();
+		return model.getDescription();
 	}
 
 	/**
@@ -301,7 +272,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public Date getEndDate() {
-		return _budgetPhase.getEndDate();
+		return model.getEndDate();
 	}
 
 	/**
@@ -311,12 +282,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public Date getEndVoteDate() {
-		return _budgetPhase.getEndVoteDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _budgetPhase.getExpandoBridge();
+		return model.getEndVoteDate();
 	}
 
 	/**
@@ -326,7 +292,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _budgetPhase.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -336,7 +302,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public boolean getIsActive() {
-		return _budgetPhase.getIsActive();
+		return model.getIsActive();
 	}
 
 	/**
@@ -345,7 +311,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public String getLivePeriodLabel() {
-		return _budgetPhase.getLivePeriodLabel();
+		return model.getLivePeriodLabel();
 	}
 
 	/**
@@ -355,7 +321,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _budgetPhase.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -365,7 +331,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public long getNumberOfVote() {
-		return _budgetPhase.getNumberOfVote();
+		return model.getNumberOfVote();
 	}
 
 	/**
@@ -373,7 +339,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getPhaseCategory() {
-		return _budgetPhase.getPhaseCategory();
+		return model.getPhaseCategory();
 	}
 
 	/**
@@ -383,7 +349,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public eu.strasbourg.service.project.constants.PhaseState getPhaseState() {
-		return _budgetPhase.getPhaseState();
+		return model.getPhaseState();
 	}
 
 	/**
@@ -393,12 +359,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _budgetPhase.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _budgetPhase.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -408,7 +369,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _budgetPhase.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -418,7 +379,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _budgetPhase.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -428,7 +389,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _budgetPhase.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -438,7 +399,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _budgetPhase.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -448,7 +409,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _budgetPhase.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -458,7 +419,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public String getTitle() {
-		return _budgetPhase.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -468,7 +429,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _budgetPhase.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -478,7 +439,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _budgetPhase.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -488,7 +449,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _budgetPhase.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -498,12 +459,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _budgetPhase.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _budgetPhase.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -513,12 +469,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _budgetPhase.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _budgetPhase.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -528,7 +479,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _budgetPhase.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -538,12 +489,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _budgetPhase.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _budgetPhase.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -553,7 +499,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _budgetPhase.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -563,7 +509,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _budgetPhase.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -573,7 +519,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _budgetPhase.isIncomplete();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -581,7 +527,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public boolean isInDepositPeriod() {
-		return _budgetPhase.isInDepositPeriod();
+		return model.isInDepositPeriod();
 	}
 
 	/**
@@ -589,7 +535,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public boolean isInVotingPeriod() {
-		return _budgetPhase.isInVotingPeriod();
+		return model.isInVotingPeriod();
 	}
 
 	/**
@@ -599,12 +545,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public boolean isIsActive() {
-		return _budgetPhase.isIsActive();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _budgetPhase.isNew();
+		return model.isIsActive();
 	}
 
 	/**
@@ -614,7 +555,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _budgetPhase.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -624,12 +565,12 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _budgetPhase.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_budgetPhase.persist();
+		model.persist();
 	}
 
 	/**
@@ -639,7 +580,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setBeginDate(Date beginDate) {
-		_budgetPhase.setBeginDate(beginDate);
+		model.setBeginDate(beginDate);
 	}
 
 	/**
@@ -649,7 +590,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setBeginVoteDate(Date beginVoteDate) {
-		_budgetPhase.setBeginVoteDate(beginVoteDate);
+		model.setBeginVoteDate(beginVoteDate);
 	}
 
 	/**
@@ -659,12 +600,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setBudgetPhaseId(long budgetPhaseId) {
-		_budgetPhase.setBudgetPhaseId(budgetPhaseId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_budgetPhase.setCachedModel(cachedModel);
+		model.setBudgetPhaseId(budgetPhaseId);
 	}
 
 	/**
@@ -674,7 +610,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_budgetPhase.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -684,7 +620,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_budgetPhase.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -694,7 +630,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setDescription(String description) {
-		_budgetPhase.setDescription(description);
+		model.setDescription(description);
 	}
 
 	/**
@@ -704,7 +640,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setEndDate(Date endDate) {
-		_budgetPhase.setEndDate(endDate);
+		model.setEndDate(endDate);
 	}
 
 	/**
@@ -714,24 +650,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setEndVoteDate(Date endVoteDate) {
-		_budgetPhase.setEndVoteDate(endVoteDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_budgetPhase.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_budgetPhase.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_budgetPhase.setExpandoBridgeAttributes(serviceContext);
+		model.setEndVoteDate(endVoteDate);
 	}
 
 	/**
@@ -741,7 +660,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_budgetPhase.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -751,7 +670,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setIsActive(boolean isActive) {
-		_budgetPhase.setIsActive(isActive);
+		model.setIsActive(isActive);
 	}
 
 	/**
@@ -761,12 +680,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_budgetPhase.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_budgetPhase.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -776,7 +690,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setNumberOfVote(long numberOfVote) {
-		_budgetPhase.setNumberOfVote(numberOfVote);
+		model.setNumberOfVote(numberOfVote);
 	}
 
 	/**
@@ -786,12 +700,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_budgetPhase.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_budgetPhase.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -801,7 +710,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_budgetPhase.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -811,7 +720,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_budgetPhase.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -821,7 +730,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_budgetPhase.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -831,7 +740,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_budgetPhase.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -841,7 +750,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_budgetPhase.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -851,7 +760,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setTitle(String title) {
-		_budgetPhase.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -861,7 +770,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_budgetPhase.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -871,7 +780,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_budgetPhase.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -881,7 +790,7 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_budgetPhase.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -891,80 +800,22 @@ public class BudgetPhaseWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_budgetPhase.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.project.model.BudgetPhase> toCacheModel() {
-
-		return _budgetPhase.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.BudgetPhase toEscapedModel() {
-		return new BudgetPhaseWrapper(_budgetPhase.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _budgetPhase.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.BudgetPhase toUnescapedModel() {
-		return new BudgetPhaseWrapper(_budgetPhase.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _budgetPhase.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof BudgetPhaseWrapper)) {
-			return false;
-		}
-
-		BudgetPhaseWrapper budgetPhaseWrapper = (BudgetPhaseWrapper)object;
-
-		if (Objects.equals(_budgetPhase, budgetPhaseWrapper._budgetPhase)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _budgetPhase.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public BudgetPhase getWrappedModel() {
-		return _budgetPhase;
+	protected BudgetPhaseWrapper wrap(BudgetPhase budgetPhase) {
+		return new BudgetPhaseWrapper(budgetPhase);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _budgetPhase.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _budgetPhase.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_budgetPhase.resetOriginalValues();
-	}
-
-	private final BudgetPhase _budgetPhase;
 
 }

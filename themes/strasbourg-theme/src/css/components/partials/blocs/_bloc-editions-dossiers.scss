@@ -1,0 +1,141 @@
+.st-bloc-editions-dossiers {
+	display: flex;
+
+	@include tablet-portrait {
+		flex-direction: column;
+	}
+
+	.st-col-left {
+		flex-shrink: 0;
+		width: 400px;
+		padding: 40px 40px 40px 0;
+
+		@include tablet-portrait {
+			width: 100%;
+			padding: 40px 0;
+			border-right: none;
+		}
+
+		.st-h2 {
+			margin-bottom: 25px;
+		}
+	}
+
+	.st-editions-container {
+		& + .st-btn {
+			width: 100%;
+			margin-top: 40px;
+
+			@include mobile {
+				margin-top: 20px;
+			}
+		}
+	}
+
+	.st-edition {
+		display: flex;
+		align-items: center;
+
+		& + .st-edition {
+			margin-top: 20px;
+		}
+
+		.st-image {
+			margin-right: 20px;
+			flex-shrink: 0;
+
+			img {
+				border-radius: $border-radius-small;
+			}
+		}
+
+		.st-content {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			max-width: 440px;
+		}
+
+		.st-h3 {
+			margin-bottom: 20px;
+			line-height: 1;
+
+			@include mobile {
+				font-size: 14px;
+			}
+		}
+
+		.st-btn + .st-btn {
+			margin-top: 10px;
+		}
+	}
+
+	.st-col-right {
+		flex: 1;
+		padding: 40px 0 40px 40px;
+		overflow: hidden;
+
+		@include tablet-portrait {
+			//padding: 40px 0;
+			margin-left: -40px;
+		}
+
+		.splide__slide {
+			width: 193px;
+			margin-right: var(--slide-gap);
+		}
+
+		.splide__track {
+			&:before,
+			&:after {
+				content: "";
+				position: absolute;
+				top: 0;
+				height: 100%;
+				pointer-events: none;
+				z-index: 10;
+			}
+
+			&:before {
+				left: -40px;
+				width: 40px;
+				background: linear-gradient(to right, rgba($c_main, 1), rgba($c_main, 0));
+			}
+
+			&:after {
+				right: 0;
+				width: 60px;
+				background: linear-gradient(to left, rgba($c_main, 1), rgba($c_main, 0));
+			}
+		}
+	}
+
+	.st-top-bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 20px;
+	}
+
+	.st-bottom-bar {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 40px;
+
+		@include mobile {
+			flex-direction: column;
+		}
+
+		.st-btn {
+			@include mobile {
+				margin-top: 15px;
+			}
+		}
+	}
+
+	.st-nav-dots {
+		@include mobile {
+			justify-content: flex-end;
+		}
+	}
+}

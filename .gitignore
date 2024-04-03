@@ -6,7 +6,6 @@ out
 .idea
 .gradle
 .settings
-gradle.properties
 
 **/.settings
 modules/*/bin
@@ -429,4 +428,5 @@ modules/test3.xml
 modules/test2.xml
 modules/bidon.html
 
-*/liferay-theme.json
+
+node_modules

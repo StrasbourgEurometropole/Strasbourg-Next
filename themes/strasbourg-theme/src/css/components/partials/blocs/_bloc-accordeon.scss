@@ -1,0 +1,118 @@
+.st-bloc-accordeon {
+	
+	.st-accordion {
+		&.st-is-open {
+			.st-accordion__panel {
+				height: var(--height-open);
+				opacity: 1;
+				visibility: visible;
+			}
+		}
+	}
+
+	.st-accordion__trigger {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		padding: 20px 0;
+		font: inherit;
+		text-align: left;
+
+		@include tablet-portrait {
+			padding: 15px 0;
+		}
+
+		@include mobile {
+			padding: 10px 0;
+		}
+
+		@include can-hover {
+			.st-accordion__icon {
+				background-color: $c_sub;
+			}
+		}
+
+		&[aria-expanded="true"] {
+			.st-accordion__icon {
+				&:before {
+					transform: scaleY(-1) translateY(-1px);
+				}
+			}
+		}
+
+		&:after {
+			content: "";
+			display: block;
+			height: 1px;
+			background-image: url(../images/deco/dotted-line.svg);
+			flex-grow: 1;
+			margin-left: 20px;
+		}
+	}
+
+	.st-accordion__icon {
+		flex-shrink: 0;
+		@include inline-flex-center;
+		width: 30px;
+		height: 30px;
+		font-size: 10px;
+		color: rgba($c_black, 0.75);
+		background-color: $c_white;
+		border: 1px solid transparent;
+		border-radius: $border-radius-small;
+		order: 3;
+		@include transition(background-color);
+
+		&:before {
+			@include transition(transform);
+		}
+	}
+
+	.st-accordion__panel {
+		--height-open: auto;        // height value set to auto when open, will be replaced with real value calculated by JS for transition
+		height: 0;                  // height value when close (default state)
+		overflow: hidden;
+		opacity: 0;
+		visibility: hidden;
+		@include transition(height 0.3s, opacity 0.3s, visibility 0.3s);
+	}
+
+	.st-accordion__content {
+		padding: 20px 0;
+
+		@include mobile {
+			padding: 10px 0;
+		}
+	}
+
+	.st-accordion__image-text {
+		display: grid;
+		grid-template-areas: "image text";
+		grid-template-columns: minmax(10px, 3fr) minmax(10px, 5fr);
+		gap: var(--grid-gap);
+		align-items: start;
+
+		@include tablet-landscape {
+			grid-gap: 20px;
+		}
+
+		@include mobile {
+			grid-template-areas: "image"
+								  "text";
+			grid-template-columns: minmax(10px, 1fr);
+		}
+
+		.st-col-image {
+			grid-area: image;
+			position: relative;
+
+			img {
+				border-radius: $border-radius;
+			}
+		}
+
+		.st-col-text {
+			grid-area: text;
+		}
+	}
+}

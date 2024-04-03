@@ -11,17 +11,13 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-
 package eu.strasbourg.service.place.exception;
-
-import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Angelique Zunino Champougny
  */
-@ProviderType
 public class NoSuchSubPlaceException extends NoSuchModelException {
 
 	public NoSuchSubPlaceException() {
@@ -31,12 +27,12 @@ public class NoSuchSubPlaceException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchSubPlaceException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchSubPlaceException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchSubPlaceException(Throwable cause) {
-		super(cause);
+	public NoSuchSubPlaceException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

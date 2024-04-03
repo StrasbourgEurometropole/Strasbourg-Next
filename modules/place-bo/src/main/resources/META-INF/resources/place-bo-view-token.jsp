@@ -1,10 +1,10 @@
 <%@ include file="/place-bo-init.jsp"%>
-
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <liferay-portlet:renderURL var="saveRefreshTokenURL">
 	<portlet:param name="tab" value="token" />
     <portlet:param name="cmd" value="saveRefreshToken" />
 </liferay-portlet:renderURL>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
     <h1><liferay-ui:message key="gmb-config-title" /></h1>
     <br>
 	<c:choose>

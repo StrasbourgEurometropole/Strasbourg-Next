@@ -1,22 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.portal.kernel.exception.PortalException;
+
+import java.util.List;
 
 /**
  * Provides the remote service utility for Place. This utility wraps
@@ -38,7 +29,7 @@ public class PlaceServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.place.service.impl.PlaceServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static com.liferay.portal.kernel.json.JSONArray getEquipments()
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getEquipments();
 	}
@@ -76,28 +67,28 @@ public class PlaceServiceUtil {
 
 	public static com.liferay.portal.kernel.json.JSONArray getPlacesByTerritory(
 			String territoryId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getPlacesByTerritory(territoryId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
 			getPlacesByTerritoryAndType(String territoryId, String typeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getPlacesByTerritoryAndType(territoryId, typeId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getPlacesByType(
 			String typeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getPlacesByType(typeId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getPlacesByTypes(
-			java.util.List<String> typesId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			List<String> typesId)
+		throws PortalException {
 
 		return getService().getPlacesByTypes(typesId);
 	}
@@ -114,27 +105,19 @@ public class PlaceServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getTypes()
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getTypes();
 	}
 
 	public static PlaceService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<PlaceService, PlaceService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(PlaceService.class);
-
-		ServiceTracker<PlaceService, PlaceService> serviceTracker =
-			new ServiceTracker<PlaceService, PlaceService>(
-				bundle.getBundleContext(), PlaceService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(PlaceService service) {
+		_service = service;
 	}
+
+	private static volatile PlaceService _service;
 
 }

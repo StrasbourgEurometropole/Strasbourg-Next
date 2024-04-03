@@ -14,15 +14,14 @@
 
 package eu.strasbourg.service.search.log.service.impl;
 
-import java.util.Date;
-
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.search.log.model.SearchLog;
 import eu.strasbourg.service.search.log.service.base.SearchLogLocalServiceBaseImpl;
+
+import java.util.Date;
 
 /**
  * The implementation of the search log local service.

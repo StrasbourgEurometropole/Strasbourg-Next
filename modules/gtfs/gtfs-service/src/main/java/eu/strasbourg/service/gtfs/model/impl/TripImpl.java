@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The extended model implementation for the Trip service. Represents a row in the &quot;gtfs_Trip&quot; database table, with each column mapped to a property of this class.

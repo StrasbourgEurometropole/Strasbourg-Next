@@ -14,19 +14,18 @@
 
 package eu.strasbourg.service.activity.model.impl;
 
-import java.util.List;
-
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.activity.model.ActivityOrganizer;
 import eu.strasbourg.service.activity.service.ActivityOrganizerLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+
+import java.util.List;
 
 /**
  * The extended model implementation for the ActivityOrganizer service.

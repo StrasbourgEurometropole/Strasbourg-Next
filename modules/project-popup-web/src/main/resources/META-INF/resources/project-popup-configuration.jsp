@@ -17,11 +17,11 @@
 
 		<aui:input name="redirect" type="hidden"
 			value="${configurationRenderURL}" />
-		
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet">
+			<div class="panel-group panel-group-flush">
 			<!-- Affichage -->
-			<aui:fieldset collapsed="true" collapsible="true"
-				label="display">
+				<aui:fieldset collapsed="true" collapsible="true"
+					label="display">
 
 				<!-- Formulaire de recherche -->
 				<aui:select name="popupTemplateId">
@@ -55,24 +55,24 @@
 				</aui:select>
 			</aui:fieldset>
 
-			<!-- Desactivation de la popup -->
-			<aui:fieldset collapsed="true" collapsible="true"
-				label="disabling">
+				<!-- Desactivation de la popup -->
+				<aui:fieldset collapsed="true" collapsible="true"
+					label="disabling">
 
-                <aui:input type="checkbox" name="disable" value="${disable}" label="disable" />
-			</aui:fieldset>
+					<aui:input type="checkbox" name="disable" value="${disable}" label="disable" />
+				</aui:fieldset>
 
-			<!-- Upload de fichiers -->
-			<aui:fieldset collapsed="true" collapsible="true"
-				label="upload-file">
+				<!-- Upload de fichiers -->
+				<aui:fieldset collapsed="true" collapsible="true"
+					label="upload-file">
 
-                <aui:input type="number" name="nbFiles" value="${hasConfig?nbFiles:3}" label="nbFiles" max="10" min="0"/>
-                <aui:input type="number" name="sizeFile" value="${hasConfig?sizeFile:3}" label="sizeFile" max="10" min="0"/>
-                <aui:input type="text" name="typesFiles" value="${typesFiles}" label="typesFiles" />
+					<aui:input type="number" name="nbFiles" value="${hasConfig?nbFiles:3}" label="nbFiles" max="10" min="0"/>
+					<aui:input type="number" name="sizeFile" value="${hasConfig?sizeFile:3}" label="sizeFile" max="10" min="0"/>
+					<aui:input type="text" name="typesFiles" value="${typesFiles}" label="typesFiles" />
 
-			</aui:fieldset>
-
-		</aui:fieldset-group>
+				</aui:fieldset>
+			</div>
+		</div>
 
 		<aui:button-row>
 			<aui:button type="submit"></aui:button>

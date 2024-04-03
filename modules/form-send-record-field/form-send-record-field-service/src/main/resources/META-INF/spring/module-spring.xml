@@ -8,7 +8,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 >
 	<bean class="eu.strasbourg.service.formSendRecordField.service.impl.FormSendRecordFieldLocalServiceImpl" id="eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldLocalService" />
-	<bean class="eu.strasbourg.service.formSendRecordField.service.persistence.impl.FormSendRecordFieldPersistenceImpl" id="eu.strasbourg.service.formSendRecordField.service.persistence.FormSendRecordFieldPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.formSendRecordField.service.persistence.impl.FormSendRecordFieldModelArgumentsResolver" id="eu.strasbourg.service.formSendRecordField.service.persistence.impl.FormSendRecordFieldModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.formSendRecordField.service.persistence.impl.FormSendRecordFieldPersistenceImpl" id="eu.strasbourg.service.formSendRecordField.service.persistence.FormSendRecordFieldPersistence" />
 	<bean class="eu.strasbourg.service.formSendRecordField.service.impl.FormSendRecordFieldSignalementLocalServiceImpl" id="eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldSignalementLocalService" />
-	<bean class="eu.strasbourg.service.formSendRecordField.service.persistence.impl.FormSendRecordFieldSignalementPersistenceImpl" id="eu.strasbourg.service.formSendRecordField.service.persistence.FormSendRecordFieldSignalementPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.formSendRecordField.service.persistence.impl.FormSendRecordFieldSignalementModelArgumentsResolver" id="eu.strasbourg.service.formSendRecordField.service.persistence.impl.FormSendRecordFieldSignalementModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.formSendRecordField.service.persistence.impl.FormSendRecordFieldSignalementPersistenceImpl" id="eu.strasbourg.service.formSendRecordField.service.persistence.FormSendRecordFieldSignalementPersistence" />
 </beans>

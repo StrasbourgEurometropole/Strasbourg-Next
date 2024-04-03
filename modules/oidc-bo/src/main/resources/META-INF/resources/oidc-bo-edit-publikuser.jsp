@@ -1,11 +1,6 @@
 <%@ include file="/oidc-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.oidc.model.PublikUser"%>
 
-<%-- URL : definit le lien menant vers la page de listage de l'entite --%>
-<liferay-portlet:renderURL varImpl="publikUsersURL">
-	<portlet:param name="tab" value="publikUsers" />
-</liferay-portlet:renderURL>
-
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="savePublikUser" varImpl="savePublikUserURL">
 	<portlet:param name="cmd" value="savePublikUser" />
@@ -13,7 +8,7 @@
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${savePublikUserURL}" method="post" name="fm">
@@ -21,7 +16,7 @@
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.publikUser}" model="<%=PublikUser.class %>" />
 
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 		
 			<%-- Champ : (cache) PK de l'entite --%>
 			<aui:input name="publikUserLiferayId" type="hidden" />
@@ -68,7 +63,7 @@
 				
 			</aui:fieldset>
 			
-		</aui:fieldset-group>
+		</div></div>
 		
 		<%-- Composant : Menu de gestion de l'entite --%>
 		<aui:button-row>
@@ -81,7 +76,7 @@
 			</c:if>
 
 			<%-- Composant : bouton de retour a la liste des entites --%>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 			
 		</aui:button-row>
 

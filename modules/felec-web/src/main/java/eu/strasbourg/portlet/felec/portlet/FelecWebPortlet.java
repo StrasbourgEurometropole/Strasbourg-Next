@@ -35,7 +35,7 @@ public class FelecWebPortlet extends MVCPortlet {
 
 		String firstName = ParamUtil.getString(actionRequest, "firstname");
 		Date birthDate = ParamUtil.getDate(actionRequest, "birthdate",
-			new SimpleDateFormat("dd/MM/yyyy"));
+			new SimpleDateFormat("yyyy-MM-dd"));
 		String birthPlace = ParamUtil.getString(actionRequest, "birthplace");
 		if (Validator.isNull(name) || Validator.isNull(firstName) || Validator.isNull(birthPlace)
 			|| Validator.isNull(ParamUtil.getString(actionRequest, "birthdate"))) {
@@ -44,7 +44,7 @@ public class FelecWebPortlet extends MVCPortlet {
 			|| birthPlace.contains("<")) {
 			SessionErrors.add(actionRequest, "invalid-characters");
 		} else if (!ParamUtil.getString(actionRequest, "birthdate")
-			.matches("^[0-3]?[0-9]/[0-1]?[0-9]/[1-2][0-9]{3}$")) {
+			.matches("^[1-2][0-9]{3}-[0-1]?[0-9]-[0-3]?[0-9]$")) {
 			SessionErrors.add(actionRequest, "date-not-valid");
 		} else {
 			FelecResponse felecResponse = FelecWebServiceClient

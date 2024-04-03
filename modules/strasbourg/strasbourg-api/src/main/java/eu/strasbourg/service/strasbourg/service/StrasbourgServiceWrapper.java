@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.strasbourg.service;
@@ -25,6 +16,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  */
 public class StrasbourgServiceWrapper
 	implements ServiceWrapper<StrasbourgService>, StrasbourgService {
+
+	public StrasbourgServiceWrapper() {
+		this(null);
+	}
 
 	public StrasbourgServiceWrapper(StrasbourgService strasbourgService) {
 		_strasbourgService = strasbourgService;
@@ -103,6 +98,13 @@ public class StrasbourgServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONArray getCategoriesByGroupIds(
+		long[] groupIds) {
+
+		return _strasbourgService.getCategoriesByGroupIds(groupIds);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getCategoriesPois(
 		String categories, String vocabulariesEmptyIds, String prefilters,
 		String tags, long groupId, String typeContenu, boolean dateField,
@@ -136,11 +138,18 @@ public class StrasbourgServiceWrapper
 			groupId, typeContenu, localeId);
 	}
 
+	/**
+	 * Retourne les information d'un fichier de la doc lib à partir de sa friendly url
+	 *
+	 * @param friendlyUrl
+	 * @param language
+	 * @return
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getFileDetails(
-		long groupId, String uuid, String language) {
+		String friendlyUrl, String language) {
 
-		return _strasbourgService.getFileDetails(groupId, uuid, language);
+		return _strasbourgService.getFileDetails(friendlyUrl, language);
 	}
 
 	@Override

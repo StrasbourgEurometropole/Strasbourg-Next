@@ -2,7 +2,7 @@
 
 <#include init />
 
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
@@ -52,10 +52,19 @@
                     </a>
                 </div>
                 <@liferay_portlet["runtime"]
-                portletProviderAction=portletProviderAction.VIEW
-                portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-                instanceId="menu-preheader"
-                settingsScope="group" />
+                    portletProviderAction=portletProviderAction.VIEW
+                    portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+                    instanceId="menu-preheader"
+                    settingsScope="group" />
+	            <div class="access-item language">
+                    <div class="language-menu">
+                        <@liferay_portlet["runtime"]
+                            portletProviderAction=portletProviderAction.VIEW
+                            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+                            instanceId="langues"
+                            settingsScope="group" />
+                    </div>
+    	        </div>
             </div>
         </header>
 
@@ -86,7 +95,7 @@
             </div>
         </section>
 
-        <section id="menu-desktop">
+        <section id="menu-desktop" role="navigation">
             <#if themeDisplay.scopeGroup.friendlyURL == "/musees" || themeDisplay.scopeGroup.friendlyURL == "/musees-en" >
                 <div class="container">
                     <div id="burger">

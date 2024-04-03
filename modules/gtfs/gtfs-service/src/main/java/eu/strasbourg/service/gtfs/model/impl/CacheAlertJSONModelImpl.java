@@ -1,21 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -23,16 +15,16 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.gtfs.model.CacheAlertJSON;
 import eu.strasbourg.service.gtfs.model.CacheAlertJSONModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -40,6 +32,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -99,23 +92,34 @@ public class CacheAlertJSONModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.gtfs.model.CacheAlertJSON"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.gtfs.model.CacheAlertJSON"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.CacheAlertJSON"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long CACHEID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 2L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -174,9 +178,6 @@ public class CacheAlertJSONModelImpl
 				attributeGetterFunction.apply((CacheAlertJSON)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -201,169 +202,74 @@ public class CacheAlertJSONModelImpl
 	public Map<String, Function<CacheAlertJSON, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<CacheAlertJSON, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, CacheAlertJSON>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			CacheAlertJSON.class.getClassLoader(), CacheAlertJSON.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<CacheAlertJSON, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<CacheAlertJSON> constructor =
-				(Constructor<CacheAlertJSON>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<CacheAlertJSON, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<CacheAlertJSON, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", CacheAlertJSON::getUuid);
+			attributeGetterFunctions.put("cacheId", CacheAlertJSON::getCacheId);
+			attributeGetterFunctions.put(
+				"jsonAlert", CacheAlertJSON::getJsonAlert);
+			attributeGetterFunctions.put(
+				"creationDate", CacheAlertJSON::getCreationDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", CacheAlertJSON::getModifiedDate);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<CacheAlertJSON, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CacheAlertJSON, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<CacheAlertJSON, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<CacheAlertJSON, Object>>();
-		Map<String, BiConsumer<CacheAlertJSON, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CacheAlertJSON, ?>>();
+		private static final Map<String, BiConsumer<CacheAlertJSON, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<CacheAlertJSON, Object>() {
+		static {
+			Map<String, BiConsumer<CacheAlertJSON, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<CacheAlertJSON, ?>>();
 
-				@Override
-				public Object apply(CacheAlertJSON cacheAlertJSON) {
-					return cacheAlertJSON.getUuid();
-				}
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<CacheAlertJSON, String>)CacheAlertJSON::setUuid);
+			attributeSetterBiConsumers.put(
+				"cacheId",
+				(BiConsumer<CacheAlertJSON, Long>)CacheAlertJSON::setCacheId);
+			attributeSetterBiConsumers.put(
+				"jsonAlert",
+				(BiConsumer<CacheAlertJSON, String>)
+					CacheAlertJSON::setJsonAlert);
+			attributeSetterBiConsumers.put(
+				"creationDate",
+				(BiConsumer<CacheAlertJSON, Date>)
+					CacheAlertJSON::setCreationDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<CacheAlertJSON, Date>)
+					CacheAlertJSON::setModifiedDate);
 
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<CacheAlertJSON, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(
-					CacheAlertJSON cacheAlertJSON, Object uuidObject) {
-
-					cacheAlertJSON.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"cacheId",
-			new Function<CacheAlertJSON, Object>() {
-
-				@Override
-				public Object apply(CacheAlertJSON cacheAlertJSON) {
-					return cacheAlertJSON.getCacheId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"cacheId",
-			new BiConsumer<CacheAlertJSON, Object>() {
-
-				@Override
-				public void accept(
-					CacheAlertJSON cacheAlertJSON, Object cacheIdObject) {
-
-					cacheAlertJSON.setCacheId((Long)cacheIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"jsonAlert",
-			new Function<CacheAlertJSON, Object>() {
-
-				@Override
-				public Object apply(CacheAlertJSON cacheAlertJSON) {
-					return cacheAlertJSON.getJsonAlert();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"jsonAlert",
-			new BiConsumer<CacheAlertJSON, Object>() {
-
-				@Override
-				public void accept(
-					CacheAlertJSON cacheAlertJSON, Object jsonAlertObject) {
-
-					cacheAlertJSON.setJsonAlert((String)jsonAlertObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"creationDate",
-			new Function<CacheAlertJSON, Object>() {
-
-				@Override
-				public Object apply(CacheAlertJSON cacheAlertJSON) {
-					return cacheAlertJSON.getCreationDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"creationDate",
-			new BiConsumer<CacheAlertJSON, Object>() {
-
-				@Override
-				public void accept(
-					CacheAlertJSON cacheAlertJSON, Object creationDateObject) {
-
-					cacheAlertJSON.setCreationDate((Date)creationDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CacheAlertJSON, Object>() {
-
-				@Override
-				public Object apply(CacheAlertJSON cacheAlertJSON) {
-					return cacheAlertJSON.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<CacheAlertJSON, Object>() {
-
-				@Override
-				public void accept(
-					CacheAlertJSON cacheAlertJSON, Object modifiedDateObject) {
-
-					cacheAlertJSON.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -378,17 +284,20 @@ public class CacheAlertJSONModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -398,19 +307,20 @@ public class CacheAlertJSONModelImpl
 
 	@Override
 	public void setCacheId(long cacheId) {
-		_columnBitmask |= CACHEID_COLUMN_BITMASK;
-
-		if (!_setOriginalCacheId) {
-			_setOriginalCacheId = true;
-
-			_originalCacheId = _cacheId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_cacheId = cacheId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCacheId() {
-		return _originalCacheId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("cacheId"));
 	}
 
 	@Override
@@ -425,6 +335,10 @@ public class CacheAlertJSONModelImpl
 
 	@Override
 	public void setJsonAlert(String jsonAlert) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_jsonAlert = jsonAlert;
 	}
 
@@ -435,6 +349,10 @@ public class CacheAlertJSONModelImpl
 
 	@Override
 	public void setCreationDate(Date creationDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_creationDate = creationDate;
 	}
 
@@ -443,12 +361,42 @@ public class CacheAlertJSONModelImpl
 		return _modifiedDate;
 	}
 
+	public boolean hasSetModifiedDate() {
+		return _setModifiedDate;
+	}
+
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
+		_setModifiedDate = true;
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -496,6 +444,24 @@ public class CacheAlertJSONModelImpl
 	}
 
 	@Override
+	public CacheAlertJSON cloneWithOriginalValues() {
+		CacheAlertJSONImpl cacheAlertJSONImpl = new CacheAlertJSONImpl();
+
+		cacheAlertJSONImpl.setUuid(
+			this.<String>getColumnOriginalValue("uuid_"));
+		cacheAlertJSONImpl.setCacheId(
+			this.<Long>getColumnOriginalValue("cacheId"));
+		cacheAlertJSONImpl.setJsonAlert(
+			this.<String>getColumnOriginalValue("jsonAlert"));
+		cacheAlertJSONImpl.setCreationDate(
+			this.<Date>getColumnOriginalValue("creationDate"));
+		cacheAlertJSONImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+
+		return cacheAlertJSONImpl;
+	}
+
+	@Override
 	public int compareTo(CacheAlertJSON cacheAlertJSON) {
 		long primaryKey = cacheAlertJSON.getPrimaryKey();
 
@@ -537,11 +503,19 @@ public class CacheAlertJSONModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -549,16 +523,11 @@ public class CacheAlertJSONModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CacheAlertJSONModelImpl cacheAlertJSONModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		cacheAlertJSONModelImpl._originalUuid = cacheAlertJSONModelImpl._uuid;
+		_setModifiedDate = false;
 
-		cacheAlertJSONModelImpl._originalCacheId =
-			cacheAlertJSONModelImpl._cacheId;
-
-		cacheAlertJSONModelImpl._setOriginalCacheId = false;
-
-		cacheAlertJSONModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -611,7 +580,7 @@ public class CacheAlertJSONModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -622,9 +591,26 @@ public class CacheAlertJSONModelImpl
 			Function<CacheAlertJSON, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((CacheAlertJSON)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((CacheAlertJSON)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -637,52 +623,93 @@ public class CacheAlertJSONModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<CacheAlertJSON, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<CacheAlertJSON, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<CacheAlertJSON, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((CacheAlertJSON)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, CacheAlertJSON>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					CacheAlertJSON.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _cacheId;
-	private long _originalCacheId;
-	private boolean _setOriginalCacheId;
 	private String _jsonAlert;
 	private Date _creationDate;
 	private Date _modifiedDate;
+	private boolean _setModifiedDate;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<CacheAlertJSON, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((CacheAlertJSON)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("cacheId", _cacheId);
+		_columnOriginalValues.put("jsonAlert", _jsonAlert);
+		_columnOriginalValues.put("creationDate", _creationDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("cacheId", 2L);
+
+		columnBitmasks.put("jsonAlert", 4L);
+
+		columnBitmasks.put("creationDate", 8L);
+
+		columnBitmasks.put("modifiedDate", 16L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private CacheAlertJSON _escapedModel;
 

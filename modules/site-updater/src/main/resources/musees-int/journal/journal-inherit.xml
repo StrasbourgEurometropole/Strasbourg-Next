@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<root>
+    <parent>musees</parent>
+    <suf>int</suf>
+    <skipStructure>exhibition,expos,en-bref,exposition,news,quicklink</skipStructure>
+</root>

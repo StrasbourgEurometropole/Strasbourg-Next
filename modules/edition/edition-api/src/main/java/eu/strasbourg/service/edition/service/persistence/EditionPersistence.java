@@ -1,31 +1,18 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.edition.service.persistence;
-
-import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.edition.exception.NoSuchEditionException;
 import eu.strasbourg.service.edition.model.Edition;
 
-import java.io.Serializable;
-
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the edition service.
@@ -46,9 +33,6 @@ public interface EditionPersistence extends BasePersistence<Edition> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link EditionUtil} to access the edition persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Edition> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the editions where uuid = &#63;.
@@ -1195,16 +1179,18 @@ public interface EditionPersistence extends BasePersistence<Edition> {
 	 *
 	 * @param pk the primary key of the edition
 	 * @param editionGalleryPK the primary key of the edition gallery
+	 * @return <code>true</code> if an association between the edition and the edition gallery was added; <code>false</code> if they were already associated
 	 */
-	public void addEditionGallery(long pk, long editionGalleryPK);
+	public boolean addEditionGallery(long pk, long editionGalleryPK);
 
 	/**
 	 * Adds an association between the edition and the edition gallery. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	 *
 	 * @param pk the primary key of the edition
 	 * @param editionGallery the edition gallery
+	 * @return <code>true</code> if an association between the edition and the edition gallery was added; <code>false</code> if they were already associated
 	 */
-	public void addEditionGallery(
+	public boolean addEditionGallery(
 		long pk,
 		eu.strasbourg.service.edition.model.EditionGallery editionGallery);
 
@@ -1213,16 +1199,18 @@ public interface EditionPersistence extends BasePersistence<Edition> {
 	 *
 	 * @param pk the primary key of the edition
 	 * @param editionGalleryPKs the primary keys of the edition galleries
+	 * @return <code>true</code> if at least one association between the edition and the edition galleries was added; <code>false</code> if they were all already associated
 	 */
-	public void addEditionGalleries(long pk, long[] editionGalleryPKs);
+	public boolean addEditionGalleries(long pk, long[] editionGalleryPKs);
 
 	/**
 	 * Adds an association between the edition and the edition galleries. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	 *
 	 * @param pk the primary key of the edition
 	 * @param editionGalleries the edition galleries
+	 * @return <code>true</code> if at least one association between the edition and the edition galleries was added; <code>false</code> if they were all already associated
 	 */
-	public void addEditionGalleries(
+	public boolean addEditionGalleries(
 		long pk,
 		java.util.List<eu.strasbourg.service.edition.model.EditionGallery>
 			editionGalleries);
@@ -1289,8 +1277,5 @@ public interface EditionPersistence extends BasePersistence<Edition> {
 		long pk,
 		java.util.List<eu.strasbourg.service.edition.model.EditionGallery>
 			editionGalleries);
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

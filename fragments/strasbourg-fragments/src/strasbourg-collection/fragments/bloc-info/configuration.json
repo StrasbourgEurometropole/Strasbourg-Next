@@ -1,0 +1,13 @@
+{
+    "fieldSets": [
+        {
+            "fields": [
+                {
+                    "label": "URL",
+                    "name": "urlLink",
+                    "type": "url"
+                }
+            ]
+        }
+    ]
+}

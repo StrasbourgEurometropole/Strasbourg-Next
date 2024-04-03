@@ -9,19 +9,22 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Ticket;
 import com.liferay.portal.kernel.service.TicketLocalServiceUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.utils.PasserelleHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ViewTokenDisplayContext {
@@ -30,26 +33,17 @@ public class ViewTokenDisplayContext {
     private final RenderResponse _response;
     private String refreshToken;
     private Ticket lastAccesToken;
-    private List<String> _locationIds;
 
     public ViewTokenDisplayContext(RenderRequest request,
                                    RenderResponse response) {
-        this._request = request;
-        this._response = response;
+        _request = request;
+        _response = response;
+        _themeDisplay = (ThemeDisplay) _request
+                .getAttribute(WebKeys.THEME_DISPLAY);
+        _httpServletRequest = PortalUtil.getHttpServletRequest(request);
     }
 
-    public String getOrderByCol() {
-        return null;
-    }
-
-    public String getOrderByType() {
-        return null;
-    }
-
-    public String getFilterCategoriesIds() throws PortalException {
-        return null;
-    }
-
+    @SuppressWarnings("unused")
     public String getRefeshToken() throws PortalException {
         if (this.refreshToken == null) {
             // récupération du ticket de type 98 (refresh-token)
@@ -71,6 +65,7 @@ public class ViewTokenDisplayContext {
         return this.lastAccesToken;
     }
 
+    @SuppressWarnings("unused")
     public Map<String, String> getLocationIds(){
         Map<String, String> locationIds = new HashMap<String, String>();
         //récupère les infos des lieux
@@ -162,4 +157,7 @@ public class ViewTokenDisplayContext {
     }
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+
+    protected ThemeDisplay _themeDisplay;
+    private final HttpServletRequest _httpServletRequest;
 }

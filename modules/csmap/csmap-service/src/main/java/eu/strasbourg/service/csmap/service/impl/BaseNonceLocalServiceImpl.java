@@ -17,7 +17,6 @@ package eu.strasbourg.service.csmap.service.impl;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import eu.strasbourg.service.csmap.model.BaseNonce;
-import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.service.csmap.service.base.BaseNonceLocalServiceBaseImpl;
 import org.osgi.service.component.annotations.Component;
 

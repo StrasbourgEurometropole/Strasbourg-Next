@@ -1,0 +1,255 @@
+.st-barre-navigation {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	margin-bottom: 46px;
+	z-index: z-index('barre-navigation');
+	
+	@include tablet-portrait {
+		display: none;
+	}
+
+	.st-barre-liens {
+		position: relative;
+
+		&:after {
+			content: "";
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: -1;
+			width: 100%;
+			height: 130px;
+			background-color: $c_greydark;
+			pointer-events: none;
+			@include transition(height 0.2s easeInOutQuad);
+
+			// Réduction de la barre de nav
+			.st-is-scrolled & {
+				height: 100px;
+			}
+		}
+	}
+
+	.st-barre-inner-container {
+		display: flex;
+		height: 88px;
+		transition: height 0.2s easeInOutQuad;
+
+		// Réduction de la barre de nav
+		.st-is-scrolled & {
+			height: 58px;
+		}
+	}
+
+	.st-logo {
+		@include create-outline;
+		display: flex;
+		align-items: center;
+		margin-right: auto;
+		height: 100%;
+
+		@media screen and (max-width: 1200px) {
+			width: 120px;
+		}
+	}
+
+	.st-nav-primary {
+		display: flex;
+		align-items: center;
+		margin-left: auto;
+
+		.st-nav-primary__menu {
+			display: flex;
+			align-items: center;
+			height: 100%;
+		}
+
+		.st-nav-primary__item {
+			display: block;
+			height: 100%;
+		}
+
+		.st-nav-primary__link {
+			@include create-outline;
+			display: flex;
+			align-items: center;
+			height: 100%;
+			padding: 0 20px;
+			@include ft($f_txt, $s_p, 300, $c_white, 1);
+			@include letter-spacing(25);
+			@include transition(color);
+
+			@include can-hover {
+				color: $c_sub;
+			}
+			@media screen and (max-width: 1200px) {
+				padding: 0 10px;
+			}
+		}
+
+		.st-has-lang-dropdown {
+			position: relative;
+			display: block;
+			height: 100%;
+
+			&:after {
+				position: absolute;
+				right: 30px;
+				top: 51%;
+				display: block;
+				@include icomoon($st-icon-arrow-down);
+				font-size: 10px;
+				color: rgba($c_white, 0.75);
+				transform: translateY(-50%);
+				pointer-events: none;
+
+				@media screen and (max-width: 1200px) {
+					right: 16px;
+				}
+			}
+		}
+
+		.select-lang {
+			width: auto;
+			height: 100%;
+			padding: 0 40px 0 20px;
+			border: initial;
+			border-radius: initial;
+
+			@media screen and (max-width: 1200px) {
+				padding-right: 30px;
+			}
+		}
+
+		.st-has-btn-compte {
+			display: flex;
+			align-items: center;
+			height: 100%;
+
+			.st-btn-compte {
+				padding-top: 13px;
+				padding-bottom: 13px;
+				@include transition(color, background-color, border-color, padding-top 0.2s easeInOutQuad, padding-top 0.2s easeInOutQuad);
+			}
+
+			// Réduction de la barre de nav
+			.st-is-scrolled & .st-btn-compte {
+				padding-top: 11px;
+				padding-bottom: 11px;
+			}
+		}
+	}
+
+	.st-barre-dropdown {
+		margin-right: 20px;
+		height: 100%;
+	}
+
+	// Styles pour le dropdown RGAA
+	.st-barre-dropdown button {
+		position: relative;
+		height: 100%;
+		@include ft($f_txt, $s_p, 300, $c_white, 1);
+		@include letter-spacing(25);
+		@include transition(color);
+
+		strong {
+			font-weight: 600;
+		}
+
+		&:after {
+			@include icomoon($st-icon-arrow-down);
+			font-size: 10px;
+			color: rgba($c_white, 0.75);
+			display: inline-block;
+			margin-left: 4px;
+			@include transition(transform);
+		}
+
+		@include can-hover {
+			color: $c_sub;
+		}
+
+		&[aria-expanded="true"] {
+			color: $c_sub;
+
+			&:after {
+				transform: rotate(180deg);
+			}
+		}
+	}
+
+	.st-barre-dropdown__list {
+		display: none;
+		position: absolute;
+		background-color: $c_greydark;
+		margin-top: -10px;
+		z-index: 1;
+	}
+
+	.st-barre-dropdown__list a {
+		display: block;
+		width: auto;
+		padding: 10px;
+		@include ft($f_txt, $s_p, 300, $c_white, 1);
+		@include letter-spacing(25);
+		outline: 1px solid transparent;
+		white-space: nowrap;
+
+		strong {
+			font-weight: 600;
+		}
+
+		@include can-hover {
+			background-color: $c_white;
+			color: $c_main;
+		}
+	}
+
+	// Styles pour la barre du menu
+	.st-barre-menu {
+		position: relative;
+		display: flex;
+		align-items: center;
+	}
+
+	.st-barre-menu-inner {
+		display: flex;
+		align-items: center;
+		width: 100%;
+	}
+
+	.st-btn-search__wrapper {
+		flex: 1;
+		margin-right: 10px;
+	}
+
+	.st-btn-search {
+		position: relative;
+		height: 80px;
+		width: 100%;
+		padding-left: 78px;
+		@include ft($f_txt, 20px, 400, rgba($c_greydark, 0.75), 1);
+		@include letter-spacing(25);
+		text-align: left;
+		background-color: $c_white;
+		border-radius: $border-radius-small;
+
+		&:before {
+			@include icomoon($st-icon-search);
+			position: absolute;
+			left: 30px;
+			top: 50%;
+			font-size: 18px;
+			color: $c_main;
+			transform: translateY(-50%);
+		}
+
+		@include can-hover {
+			color: $c_main;
+		}
+	}
+}

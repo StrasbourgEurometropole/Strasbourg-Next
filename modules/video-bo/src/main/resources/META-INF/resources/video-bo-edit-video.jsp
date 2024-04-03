@@ -1,9 +1,6 @@
 <%@ include file="/video-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.video.model.Video"%>
-
-<liferay-portlet:renderURL varImpl="videosURL">
-	<portlet:param name="tab" value="videos" />
-</liferay-portlet:renderURL>
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 
 <liferay-portlet:actionURL name="deleteVideo" var="deleteVideoURL">
 	<portlet:param name="cmd" value="deleteVideo" />
@@ -13,10 +10,10 @@
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveVideo" varImpl="saveVideoURL">
-	<portlet:param name="cmd" value="saveVideo" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="url-error" message="url-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
@@ -28,7 +25,7 @@
 			id="translationManager" />
 
 		<aui:model-context bean="${dc.video}" model="<%=Video.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="videoId" type="hidden" />
 
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>"
@@ -74,20 +71,21 @@
 					value="${dc.video.videoGalleriesIds}"
 					type="eu.strasbourg.service.video.model.VideoGallery"
 					multiple="true" />
-					
-				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
-				
+
+				<liferay-asset:asset-categories-selector
+						className="<%= Video.class.getName() %>"
+						classPK="${dc.video.videoId}"/>
 				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
 				<div class="has-error">
 					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
 							function (val, fieldNode, ruleValue) {
 								var validated = true;
-								var fields = document.querySelectorAll('.categories-selectors > .field-content');
+								var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
 								for (var i = 0; i < fields.length; i++) {
 									fieldContent = fields[i];
-								    if ($(fieldContent).find('.icon-asterisk').length > 0
-								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+								    if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
+								    	&& $(fieldContent).find('input[type="hidden"]').length == 0) {
 								    	validated = false;
 								    	event.preventDefault();
 								    	break;
@@ -98,8 +96,10 @@
 						</aui:validator>
 					</aui:input>
 				</div>
-				
-				<aui:input name="tags" type="assetTags" />
+
+				<liferay-asset:asset-tags-selector
+						className="<%= Video.class.getName() %>"
+						classPK="${dc.video.videoId}"/>
 
 			</aui:fieldset>
 			
@@ -108,7 +108,7 @@
 				<aui:input name="publicationDate" />
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<aui:button-row>
 			<c:if test="${(dc.hasPermission('ADD_VIDEO') and empty dc.video or dc.hasPermission('EDIT_VIDEO') and not empty dc.video) and empty themeDisplay.scopeGroup.getStagingGroup()}">
@@ -127,7 +127,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>

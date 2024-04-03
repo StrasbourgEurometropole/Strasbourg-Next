@@ -1,0 +1,20 @@
+{
+    "fieldSets": [
+        {
+            "fields": [
+                {
+                    "name": "mail",
+                    "label": "Email",
+                    "type": "text",
+                    "dataType": "string"
+                },
+							{
+                    "name": "phone",
+                    "label": "Téléphone",
+                    "type": "text",
+                    "dataType": "string"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Exposition</name>
+        <key>105727</key>
+        <definition>exhibition-structure.json</definition>
+        <layout>exhibition-layout.json</layout>
+    </structure>
+</root>

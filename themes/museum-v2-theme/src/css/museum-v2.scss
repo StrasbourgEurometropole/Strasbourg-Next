@@ -71,7 +71,7 @@
     }
 
     .signed-in & {
-        padding-top: 54px;
+        padding-top: 0px;
     }
 
     *{ 
@@ -415,7 +415,7 @@
                 }
             }
     
-            :first-child(){
+            :first-child{
                 min-width: 20px;
                 line-height: normal;
                 text-align: center;
@@ -441,4 +441,12 @@
     body .container {
         max-width: 1240px;
     }
+}
+
+.radio label, .checkbox label {
+    padding-left: 20px !important;
+}
+
+.radio input[type='radio'], .radio-inline input[type='radio'], .checkbox input[type='checkbox'], .checkbox-inline input[type='checkbox'] {
+    margin-left: -20px !important;
 }

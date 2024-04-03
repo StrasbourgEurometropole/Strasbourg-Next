@@ -1,0 +1,167 @@
+@mixin st-btn-default() {
+    @include create-outline();
+    @include inline-flex-center;
+    max-width: 100%;
+    padding: 16px 60px;
+    @include ft($f_txt, $s_link, 600, $c_main, 1);
+    @include letter-spacing(25);
+    text-align: center;
+    border: 1px solid transparent;
+    border-radius: $border-radius;
+    @include transition(color, background-color, border-color);
+
+    @include can-hover {
+        color: $c_main;
+        background-color: $c_white;
+    }
+
+    @include mobile {
+        padding: 15px 30px;
+        min-height: 40px;
+        font-size: $s_link_small;
+    }
+    @include mobile-small {
+        padding: 12px 10px;
+        min-height: 40px;
+    }
+}
+
+@mixin st-btn-ok() {
+    @include st-btn-default();
+    background-color: $c_sub;
+}
+
+@mixin st-btn-deny() {
+    @include st-btn-default();
+    background-color: $c_pink;
+}
+
+/* Police de caractères sur tous les éléments tarteaucitron */
+div#tarteaucitronRoot, .tac_activate {
+    * {
+        font-family: $f_txt !important;
+    }
+
+    button span:not(.tarteaucitronPlus) {
+        font-family: $f_txt !important;
+    }
+
+    /* Conteneur Bandeau cookies */
+    #tarteaucitronAlertBig {
+        background: $c_greydark;
+        width: fit-content;
+    }
+    
+    #tarteaucitronDisclaimerAlert {
+        color: $c_white;
+    }
+
+    .tarteaucitronH1 {
+        font-size: $s_h2;
+    }
+}
+
+/* Commun aux boutons du bandeau, de la pop-up de personnalisation et aux services bloqués */
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronPersonalize2,
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronAllDenied2,
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronCloseAlert,
+div#tarteaucitron #tarteaucitronServices .tarteaucitronLine .tarteaucitronAsk .tarteaucitronAllow,
+div#tarteaucitron #tarteaucitronServices #tarteaucitronAllAllowed.tarteaucitronIsSelected,
+div#tarteaucitron #tarteaucitronServices .tarteaucitronLine .tarteaucitronAsk .tarteaucitronDeny,
+div#tarteaucitron #tarteaucitronServices #tarteaucitronAllDenied.tarteaucitronIsSelected,
+div.tac_activate .tarteaucitronAllow{
+    font-size: $s_h3 !important;
+    font-weight: 400;
+    border-radius: 5px;
+}
+
+/* bandeau */
+#tarteaucitronRoot #tarteaucitronAlertBig {
+
+    /* Texte */
+    #tarteaucitronDisclaimerAlert, #tarteaucitronDisclaimerAlert strong{
+        font-size: $s_p;
+    }
+
+    /* Bouton accepter */
+    #tarteaucitronPersonalize2 {
+        @include st-btn-ok();
+    }
+    
+    /* Bouton refuser */
+    #tarteaucitronAllDenied2 {
+        @include st-btn-deny();
+    }
+    
+    /* Bouton personnaliser */
+    #tarteaucitronCloseAlert {
+        color:$c_sub;
+    
+        &:hover {
+            color: #FFFFFF;
+        }
+    }
+}
+
+/* Panneau de personnalisation des cookies */
+div#tarteaucitron {
+    width: 930px;
+
+    #tarteaucitronServices .tarteaucitronMainLine,
+    #tarteaucitronServices .tarteaucitronMainLine:hover,
+    #tarteaucitronInfo,
+    #tarteaucitronClosePanel {
+        background: $c_greydark;
+    }
+
+    #tarteaucitronInfo,
+    .tarteaucitronH2 {
+        font-size: $s_medium !important;
+    }
+    
+    #tarteaucitronPrivacyUrlDialog {
+        font-size: $s_link_small !important;
+    }
+
+    #tarteaucitronServices .tarteaucitronH3 {
+        font-size: $s_p;
+    }
+    
+    #tarteaucitronServices {
+    
+        #tarteaucitronServices_mandatory .tarteaucitronLine .tarteaucitronAsk button.tarteaucitronAllow,
+        .tarteaucitronLine .tarteaucitronAsk button.tarteaucitronAllow,
+        #tarteaucitronAllAllowed.tarteaucitronIsSelected {
+            @include st-btn-ok();
+        }
+        
+        .tarteaucitronLine .tarteaucitronAsk .tarteaucitronDeny,
+        #tarteaucitronAllDenied.tarteaucitronIsSelected {
+            @include st-btn-deny();
+        }
+        
+        .tarteaucitronTitle button {
+            background-color: $c_greydark;
+        }
+        
+        .tarteaucitronBorder .tarteaucitronLine:hover {
+            //background: rgba(51, 51, 51, 0.1);
+        }
+    }
+}
+div#tarteaucitronRoot .tarteaucitronH1,
+div#tarteaucitron #tarteaucitronClosePanel,
+div#tarteaucitron #tarteaucitronInfo p,
+div#tarteaucitron #tarteaucitronPrivacyUrlDialog,
+#tarteaucitronRoot .tarteaucitronName .tarteaucitronH2 {
+    color: $c_white;
+}
+
+/* Gestion affichage services bloqués */
+div.tac_activate {
+    background: $c_greydark;
+
+    .tac_float .tarteaucitronAllow{
+        @include st-btn-ok();
+    }
+}

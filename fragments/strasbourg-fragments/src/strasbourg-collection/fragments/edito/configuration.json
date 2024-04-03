@@ -1,0 +1,15 @@
+{
+  "fieldSets": [
+    {
+      "fields": [
+        {
+          "name": "numberOfSections",
+          "label": "Ancres Supplémentaire",
+          "type": "text",
+          "dataType": "int",
+          "defaultValue": "3"
+        }
+      ]
+    }
+  ]
+}

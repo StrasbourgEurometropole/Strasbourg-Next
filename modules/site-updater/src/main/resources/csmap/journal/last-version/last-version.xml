@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Dernière version recommandée</name>
+        <key>309117327</key>
+        <definition>last-version-structure.json</definition>
+        <layout>last-version-layout.json</layout>
+    </structure>
+</root>

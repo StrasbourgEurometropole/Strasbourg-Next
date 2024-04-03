@@ -14,6 +14,20 @@
 
 package eu.strasbourg.service.place.model.impl;
 
+import org.osgi.annotation.versioning.ProviderType;
+import com.liferay.portal.kernel.util.StringUtil;
+import eu.strasbourg.service.place.model.Period;
+import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.model.PlaceSchedule;
+import eu.strasbourg.service.place.model.PublicHoliday;
+import eu.strasbourg.service.place.model.ScheduleException;
+import eu.strasbourg.service.place.model.Slot;
+import eu.strasbourg.service.place.service.PeriodLocalServiceUtil;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
+import eu.strasbourg.service.place.service.PublicHolidayLocalServiceUtil;
+import eu.strasbourg.service.place.service.ScheduleExceptionLocalServiceUtil;
+import eu.strasbourg.utils.models.Pair;
+
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -28,24 +42,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
 import java.util.stream.Collectors;
-
-import com.liferay.portal.kernel.util.ObjectValuePair;
-import com.liferay.portal.kernel.util.StringUtil;
-
-import aQute.bnd.annotation.ProviderType;
-import eu.strasbourg.service.place.model.Period;
-import eu.strasbourg.service.place.model.Place;
-import eu.strasbourg.service.place.model.PlaceSchedule;
-import eu.strasbourg.service.place.model.PublicHoliday;
-import eu.strasbourg.service.place.model.ScheduleException;
-import eu.strasbourg.service.place.model.Slot;
-import eu.strasbourg.service.place.service.PeriodLocalServiceUtil;
-import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import eu.strasbourg.service.place.service.PublicHolidayLocalServiceUtil;
-import eu.strasbourg.service.place.service.ScheduleExceptionLocalServiceUtil;
-import eu.strasbourg.utils.models.Pair;
 
 /**
  * The extended model implementation for the SubPlace service. Represents a row
@@ -135,7 +132,7 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	 */
 	@Override
 	public List<PublicHoliday> getPublicHolidays() {
-		return PublicHolidayLocalServiceUtil.getPublicHolidaies(-1, -1);
+		return PublicHolidayLocalServiceUtil.getPublicHolidays(-1, -1);
 	}
 
 	/**
@@ -328,7 +325,7 @@ public class SubPlaceImpl extends SubPlaceBaseImpl {
 	 * Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
 	 * de la semaine en cours
 	 * 
-	 * @param surPériode
+	 * @param surPeriode
 	 *            (false = horaires d'une journée uniquement , true = horaires
 	 *            sur une semaine)
 	 */

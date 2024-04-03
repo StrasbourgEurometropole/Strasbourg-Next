@@ -5,7 +5,7 @@
         <div class="pro-search-heading">
             <div class="container">
                 <div class="pro-search-title">
-                    <h1>Actualités</h1>
+                    <h1><liferay-ui:message key="eu.news" /></h1>
                 </div>
             </div>
             <!-- File d'ariane -->

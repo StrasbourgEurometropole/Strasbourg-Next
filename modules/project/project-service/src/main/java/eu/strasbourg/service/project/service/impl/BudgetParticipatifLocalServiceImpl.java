@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- * <p>
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * <p>
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -14,10 +14,13 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -50,6 +53,7 @@ import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.service.project.service.base.BudgetParticipatifLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -118,10 +122,8 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
 
         if (entry != null) {
             // Delete the link with categories
-            for (long categoryId : entry.getCategoryIds()) {
-                this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-                        categoryId, entry.getEntryId());
-            }
+            AssetEntryAssetCategoryRelLocalServiceUtil.
+                    deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
             // Delete the link with tags
             long[] tagIds = AssetEntryLocalServiceUtil
@@ -134,7 +136,7 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
             }
 
             // Supprime lien avec les autres entries
-            List<AssetLink> links = this.assetLinkLocalService
+            List<AssetLink> links = AssetLinkLocalServiceUtil
                     .getLinks(entry.getEntryId());
             if (links != null && !links.isEmpty()) {
                 for (AssetLink link : links) {
@@ -354,7 +356,7 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         budgetsParticipatifs = budgetsParticipatifs
         		.stream()
         		.filter(budgetParticipatif -> budgetParticipatif.getStatus() == 0
-        		&& AssetEntryLocalServiceUtil.hasAssetCategoryAssetEntry(phase.getCategoryId() ,budgetParticipatif.getAssetEntry().getEntryId()))
+        		&& AssetVocabularyHelper.hasAssetCategoryAssetEntry(phase.getCategoryId() ,budgetParticipatif.getAssetEntry().getEntryId()))
         		.collect(Collectors.toList());
         
         // Creation du comparateur
@@ -387,8 +389,8 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         //Filtre les BP de la phase passee en parametre
         budgetsParticipatifs = budgetsParticipatifs
         		.stream()
-        		.filter(bp -> AssetEntryLocalServiceUtil.hasAssetCategoryAssetEntry(phase.getCategoryId() ,bp.getAssetEntry().getEntryId()))
-        		.collect((Collectors.toList()));
+        		.filter(bp -> AssetVocabularyHelper.hasAssetCategoryAssetEntry(phase.getCategoryId()
+                        ,bp.getAssetEntry().getEntryId())).collect((Collectors.toList()));
         
         // Creation du comparateur
         Comparator<BudgetParticipatif> reversedMostSupportedComparator = Comparator
@@ -450,8 +452,8 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         //Filtre les BP de la phase passee en parametre
         budgetsParticipatifs = budgetsParticipatifs
         		.stream()
-        		.filter(bp -> AssetEntryLocalServiceUtil.hasAssetCategoryAssetEntry(phase.getCategoryId() ,bp.getAssetEntry().getEntryId()))
-        		.collect((Collectors.toList()));
+        		.filter(bp -> AssetVocabularyHelper.hasAssetCategoryAssetEntry(phase.getCategoryId() ,
+                        bp.getAssetEntry().getEntryId())).collect((Collectors.toList()));
         
         
         // Si la longueur de liste est inferieur a la taille voulu, aucun besoin de la couper
@@ -665,5 +667,7 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
     public List<BudgetParticipatif> getByPublikUserID(String publikId){
         return budgetParticipatifPersistence.findByPublikId(publikId);
     }
-    
+
+    @Reference
+    private AssetLinkLocalService assetLinkLocalService;
 }

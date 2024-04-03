@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.edition.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +23,11 @@ import java.util.Objects;
  * @generated
  */
 public class EditionGalleryWrapper
+	extends BaseModelWrapper<EditionGallery>
 	implements EditionGallery, ModelWrapper<EditionGallery> {
 
 	public EditionGalleryWrapper(EditionGallery editionGallery) {
-		_editionGallery = editionGallery;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return EditionGallery.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return EditionGallery.class.getName();
+		super(editionGallery);
 	}
 
 	@Override
@@ -183,16 +161,8 @@ public class EditionGalleryWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new EditionGalleryWrapper(
-			(EditionGallery)_editionGallery.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.edition.model.EditionGallery editionGallery) {
-
-		return _editionGallery.compareTo(editionGallery);
+	public EditionGallery cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -200,12 +170,12 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _editionGallery.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _editionGallery.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -216,7 +186,7 @@ public class EditionGalleryWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _editionGallery.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -226,7 +196,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _editionGallery.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -236,12 +206,12 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _editionGallery.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _editionGallery.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -251,7 +221,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getDescription() {
-		return _editionGallery.getDescription();
+		return model.getDescription();
 	}
 
 	/**
@@ -262,7 +232,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale) {
-		return _editionGallery.getDescription(locale);
+		return model.getDescription(locale);
 	}
 
 	/**
@@ -274,7 +244,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale, boolean useDefault) {
-		return _editionGallery.getDescription(locale, useDefault);
+		return model.getDescription(locale, useDefault);
 	}
 
 	/**
@@ -285,7 +255,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getDescription(String languageId) {
-		return _editionGallery.getDescription(languageId);
+		return model.getDescription(languageId);
 	}
 
 	/**
@@ -297,17 +267,17 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getDescription(String languageId, boolean useDefault) {
-		return _editionGallery.getDescription(languageId, useDefault);
+		return model.getDescription(languageId, useDefault);
 	}
 
 	@Override
 	public String getDescriptionCurrentLanguageId() {
-		return _editionGallery.getDescriptionCurrentLanguageId();
+		return model.getDescriptionCurrentLanguageId();
 	}
 
 	@Override
 	public String getDescriptionCurrentValue() {
-		return _editionGallery.getDescriptionCurrentValue();
+		return model.getDescriptionCurrentValue();
 	}
 
 	/**
@@ -317,7 +287,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getDescriptionMap() {
-		return _editionGallery.getDescriptionMap();
+		return model.getDescriptionMap();
 	}
 
 	/**
@@ -327,7 +297,7 @@ public class EditionGalleryWrapper
 	public java.util.List<eu.strasbourg.service.edition.model.Edition>
 		getEditions() {
 
-		return _editionGallery.getEditions();
+		return model.getEditions();
 	}
 
 	/**
@@ -335,12 +305,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getEditionsIds() {
-		return _editionGallery.getEditionsIds();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _editionGallery.getExpandoBridge();
+		return model.getEditionsIds();
 	}
 
 	/**
@@ -350,7 +315,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public long getGalleryId() {
-		return _editionGallery.getGalleryId();
+		return model.getGalleryId();
 	}
 
 	/**
@@ -360,7 +325,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _editionGallery.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -368,7 +333,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getImageCopyright(java.util.Locale locale) {
-		return _editionGallery.getImageCopyright(locale);
+		return model.getImageCopyright(locale);
 	}
 
 	/**
@@ -378,7 +343,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public Long getImageId() {
-		return _editionGallery.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -386,7 +351,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getImageURL() {
-		return _editionGallery.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -396,7 +361,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public Date getLastPublishDate() {
-		return _editionGallery.getLastPublishDate();
+		return model.getLastPublishDate();
 	}
 
 	/**
@@ -404,7 +369,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public eu.strasbourg.service.edition.model.EditionGallery getLiveVersion() {
-		return _editionGallery.getLiveVersion();
+		return model.getLiveVersion();
 	}
 
 	/**
@@ -414,7 +379,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _editionGallery.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -424,12 +389,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _editionGallery.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _editionGallery.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -439,7 +399,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public Date getPublicationDate() {
-		return _editionGallery.getPublicationDate();
+		return model.getPublicationDate();
 	}
 
 	/**
@@ -449,7 +409,7 @@ public class EditionGalleryWrapper
 	public java.util.List<eu.strasbourg.service.edition.model.Edition>
 		getPublishedEditions() {
 
-		return _editionGallery.getPublishedEditions();
+		return model.getPublishedEditions();
 	}
 
 	/**
@@ -459,7 +419,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _editionGallery.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -469,7 +429,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _editionGallery.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -479,7 +439,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _editionGallery.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -489,7 +449,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _editionGallery.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -499,7 +459,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _editionGallery.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -509,7 +469,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getTitle() {
-		return _editionGallery.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -520,7 +480,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale) {
-		return _editionGallery.getTitle(locale);
+		return model.getTitle(locale);
 	}
 
 	/**
@@ -532,7 +492,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale, boolean useDefault) {
-		return _editionGallery.getTitle(locale, useDefault);
+		return model.getTitle(locale, useDefault);
 	}
 
 	/**
@@ -543,7 +503,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getTitle(String languageId) {
-		return _editionGallery.getTitle(languageId);
+		return model.getTitle(languageId);
 	}
 
 	/**
@@ -555,17 +515,17 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getTitle(String languageId, boolean useDefault) {
-		return _editionGallery.getTitle(languageId, useDefault);
+		return model.getTitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getTitleCurrentLanguageId() {
-		return _editionGallery.getTitleCurrentLanguageId();
+		return model.getTitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getTitleCurrentValue() {
-		return _editionGallery.getTitleCurrentValue();
+		return model.getTitleCurrentValue();
 	}
 
 	/**
@@ -575,7 +535,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getTitleMap() {
-		return _editionGallery.getTitleMap();
+		return model.getTitleMap();
 	}
 
 	/**
@@ -585,7 +545,7 @@ public class EditionGalleryWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTypes() {
 
-		return _editionGallery.getTypes();
+		return model.getTypes();
 	}
 
 	/**
@@ -593,7 +553,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getTypesLabels(java.util.Locale locale) {
-		return _editionGallery.getTypesLabels(locale);
+		return model.getTypesLabels(locale);
 	}
 
 	/**
@@ -603,7 +563,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _editionGallery.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -613,7 +573,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _editionGallery.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -623,7 +583,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _editionGallery.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -633,12 +593,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _editionGallery.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _editionGallery.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -648,12 +603,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _editionGallery.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _editionGallery.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -663,7 +613,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _editionGallery.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -673,12 +623,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _editionGallery.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _editionGallery.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -688,7 +633,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _editionGallery.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -698,7 +643,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _editionGallery.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -708,12 +653,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _editionGallery.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _editionGallery.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -723,7 +663,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _editionGallery.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -733,19 +673,19 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _editionGallery.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_editionGallery.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_editionGallery.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -753,12 +693,7 @@ public class EditionGalleryWrapper
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_editionGallery.prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_editionGallery.setCachedModel(cachedModel);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -768,7 +703,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_editionGallery.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -778,7 +713,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_editionGallery.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -788,7 +723,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setDescription(String description) {
-		_editionGallery.setDescription(description);
+		model.setDescription(description);
 	}
 
 	/**
@@ -799,7 +734,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setDescription(String description, java.util.Locale locale) {
-		_editionGallery.setDescription(description, locale);
+		model.setDescription(description, locale);
 	}
 
 	/**
@@ -814,12 +749,12 @@ public class EditionGalleryWrapper
 		String description, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_editionGallery.setDescription(description, locale, defaultLocale);
+		model.setDescription(description, locale, defaultLocale);
 	}
 
 	@Override
 	public void setDescriptionCurrentLanguageId(String languageId) {
-		_editionGallery.setDescriptionCurrentLanguageId(languageId);
+		model.setDescriptionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -831,7 +766,7 @@ public class EditionGalleryWrapper
 	public void setDescriptionMap(
 		Map<java.util.Locale, String> descriptionMap) {
 
-		_editionGallery.setDescriptionMap(descriptionMap);
+		model.setDescriptionMap(descriptionMap);
 	}
 
 	/**
@@ -845,24 +780,7 @@ public class EditionGalleryWrapper
 		Map<java.util.Locale, String> descriptionMap,
 		java.util.Locale defaultLocale) {
 
-		_editionGallery.setDescriptionMap(descriptionMap, defaultLocale);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_editionGallery.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_editionGallery.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_editionGallery.setExpandoBridgeAttributes(serviceContext);
+		model.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	/**
@@ -872,7 +790,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setGalleryId(long galleryId) {
-		_editionGallery.setGalleryId(galleryId);
+		model.setGalleryId(galleryId);
 	}
 
 	/**
@@ -882,7 +800,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_editionGallery.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -892,7 +810,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setImageId(Long imageId) {
-		_editionGallery.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -902,7 +820,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
-		_editionGallery.setLastPublishDate(lastPublishDate);
+		model.setLastPublishDate(lastPublishDate);
 	}
 
 	/**
@@ -912,12 +830,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_editionGallery.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_editionGallery.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -927,12 +840,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_editionGallery.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_editionGallery.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -942,7 +850,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setPublicationDate(Date publicationDate) {
-		_editionGallery.setPublicationDate(publicationDate);
+		model.setPublicationDate(publicationDate);
 	}
 
 	/**
@@ -952,7 +860,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_editionGallery.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -962,7 +870,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_editionGallery.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -972,7 +880,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_editionGallery.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -982,7 +890,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_editionGallery.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -992,7 +900,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_editionGallery.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -1002,7 +910,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setTitle(String title) {
-		_editionGallery.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -1013,7 +921,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setTitle(String title, java.util.Locale locale) {
-		_editionGallery.setTitle(title, locale);
+		model.setTitle(title, locale);
 	}
 
 	/**
@@ -1027,12 +935,12 @@ public class EditionGalleryWrapper
 	public void setTitle(
 		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_editionGallery.setTitle(title, locale, defaultLocale);
+		model.setTitle(title, locale, defaultLocale);
 	}
 
 	@Override
 	public void setTitleCurrentLanguageId(String languageId) {
-		_editionGallery.setTitleCurrentLanguageId(languageId);
+		model.setTitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1042,7 +950,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
-		_editionGallery.setTitleMap(titleMap);
+		model.setTitleMap(titleMap);
 	}
 
 	/**
@@ -1056,7 +964,7 @@ public class EditionGalleryWrapper
 		Map<java.util.Locale, String> titleMap,
 		java.util.Locale defaultLocale) {
 
-		_editionGallery.setTitleMap(titleMap, defaultLocale);
+		model.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**
@@ -1066,7 +974,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_editionGallery.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -1076,7 +984,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_editionGallery.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -1086,7 +994,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_editionGallery.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1096,19 +1004,7 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_editionGallery.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.edition.model.EditionGallery> toCacheModel() {
-
-		return _editionGallery.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.edition.model.EditionGallery toEscapedModel() {
-		return new EditionGalleryWrapper(_editionGallery.toEscapedModel());
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -1116,73 +1012,22 @@ public class EditionGalleryWrapper
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _editionGallery.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _editionGallery.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.edition.model.EditionGallery
-		toUnescapedModel() {
-
-		return new EditionGalleryWrapper(_editionGallery.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _editionGallery.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof EditionGalleryWrapper)) {
-			return false;
-		}
-
-		EditionGalleryWrapper editionGalleryWrapper =
-			(EditionGalleryWrapper)object;
-
-		if (Objects.equals(
-				_editionGallery, editionGalleryWrapper._editionGallery)) {
-
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _editionGallery.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public EditionGallery getWrappedModel() {
-		return _editionGallery;
+	protected EditionGalleryWrapper wrap(EditionGallery editionGallery) {
+		return new EditionGalleryWrapper(editionGallery);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _editionGallery.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _editionGallery.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_editionGallery.resetOriginalValues();
-	}
-
-	private final EditionGallery _editionGallery;
 
 }

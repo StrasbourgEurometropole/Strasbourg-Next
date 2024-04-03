@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.project.model.BudgetPhase;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for BudgetPhase. This utility wraps
@@ -48,10 +48,7 @@ public class BudgetPhaseLocalServiceUtil {
 	 * @param budgetPhase the budget phase
 	 * @return the budget phase that was added
 	 */
-	public static eu.strasbourg.service.project.model.BudgetPhase
-		addBudgetPhase(
-			eu.strasbourg.service.project.model.BudgetPhase budgetPhase) {
-
+	public static BudgetPhase addBudgetPhase(BudgetPhase budgetPhase) {
 		return getService().addBudgetPhase(budgetPhase);
 	}
 
@@ -61,21 +58,28 @@ public class BudgetPhaseLocalServiceUtil {
 	 * @param budgetPhaseId the primary key for the new budget phase
 	 * @return the new budget phase
 	 */
-	public static eu.strasbourg.service.project.model.BudgetPhase
-		createBudgetPhase(long budgetPhaseId) {
-
+	public static BudgetPhase createBudgetPhase(long budgetPhaseId) {
 		return getService().createBudgetPhase(budgetPhaseId);
 	}
 
 	/**
 	 * Crée une phase vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.project.model.BudgetPhase
-			createBudgetPhase(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static BudgetPhase createBudgetPhase(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createBudgetPhase(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -88,10 +92,7 @@ public class BudgetPhaseLocalServiceUtil {
 	 * @param budgetPhase the budget phase
 	 * @return the budget phase that was removed
 	 */
-	public static eu.strasbourg.service.project.model.BudgetPhase
-		deleteBudgetPhase(
-			eu.strasbourg.service.project.model.BudgetPhase budgetPhase) {
-
+	public static BudgetPhase deleteBudgetPhase(BudgetPhase budgetPhase) {
 		return getService().deleteBudgetPhase(budgetPhase);
 	}
 
@@ -106,9 +107,8 @@ public class BudgetPhaseLocalServiceUtil {
 	 * @return the budget phase that was removed
 	 * @throws PortalException if a budget phase with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.BudgetPhase
-			deleteBudgetPhase(long budgetPhaseId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static BudgetPhase deleteBudgetPhase(long budgetPhaseId)
+		throws PortalException {
 
 		return getService().deleteBudgetPhase(budgetPhaseId);
 	}
@@ -116,17 +116,22 @@ public class BudgetPhaseLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -136,9 +141,7 @@ public class BudgetPhaseLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -154,9 +157,8 @@ public class BudgetPhaseLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -174,10 +176,9 @@ public class BudgetPhaseLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -189,9 +190,7 @@ public class BudgetPhaseLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -203,15 +202,13 @@ public class BudgetPhaseLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.project.model.BudgetPhase
-		fetchBudgetPhase(long budgetPhaseId) {
-
+	public static BudgetPhase fetchBudgetPhase(long budgetPhaseId) {
 		return getService().fetchBudgetPhase(budgetPhaseId);
 	}
 
@@ -222,8 +219,8 @@ public class BudgetPhaseLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching budget phase, or <code>null</code> if a matching budget phase could not be found
 	 */
-	public static eu.strasbourg.service.project.model.BudgetPhase
-		fetchBudgetPhaseByUuidAndGroupId(String uuid, long groupId) {
+	public static BudgetPhase fetchBudgetPhaseByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchBudgetPhaseByUuidAndGroupId(uuid, groupId);
 	}
@@ -231,9 +228,8 @@ public class BudgetPhaseLocalServiceUtil {
 	/**
 	 * Recherche par mot clés
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetPhase> findByKeyword(
-			String keyword, long groupId, int start, int end) {
+	public static List<BudgetPhase> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -256,16 +252,14 @@ public class BudgetPhaseLocalServiceUtil {
 	 *
 	 * @param groupId ID du site
 	 */
-	public static eu.strasbourg.service.project.model.BudgetPhase
-		getActivePhase(long groupId) {
-
+	public static BudgetPhase getActivePhase(long groupId) {
 		return getService().getActivePhase(groupId);
 	}
 
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à uen phase
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -278,9 +272,8 @@ public class BudgetPhaseLocalServiceUtil {
 	 * @return the budget phase
 	 * @throws PortalException if a budget phase with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.BudgetPhase
-			getBudgetPhase(long budgetPhaseId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static BudgetPhase getBudgetPhase(long budgetPhaseId)
+		throws PortalException {
 
 		return getService().getBudgetPhase(budgetPhaseId);
 	}
@@ -293,9 +286,9 @@ public class BudgetPhaseLocalServiceUtil {
 	 * @return the matching budget phase
 	 * @throws PortalException if a matching budget phase could not be found
 	 */
-	public static eu.strasbourg.service.project.model.BudgetPhase
-			getBudgetPhaseByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static BudgetPhase getBudgetPhaseByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getBudgetPhaseByUuidAndGroupId(uuid, groupId);
 	}
@@ -311,10 +304,7 @@ public class BudgetPhaseLocalServiceUtil {
 	 * @param end the upper bound of the range of budget phases (not inclusive)
 	 * @return the range of budget phases
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetPhase> getBudgetPhases(
-			int start, int end) {
-
+	public static List<BudgetPhase> getBudgetPhases(int start, int end) {
 		return getService().getBudgetPhases(start, end);
 	}
 
@@ -325,9 +315,8 @@ public class BudgetPhaseLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching budget phases, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetPhase>
-			getBudgetPhasesByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<BudgetPhase> getBudgetPhasesByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getBudgetPhasesByUuidAndCompanyId(uuid, companyId);
 	}
@@ -342,13 +331,9 @@ public class BudgetPhaseLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching budget phases, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetPhase>
-			getBudgetPhasesByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.project.model.BudgetPhase>
-						orderByComparator) {
+	public static List<BudgetPhase> getBudgetPhasesByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<BudgetPhase> orderByComparator) {
 
 		return getService().getBudgetPhasesByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -366,10 +351,7 @@ public class BudgetPhaseLocalServiceUtil {
 	/**
 	 * Retourne toutes les phases d'un groupe
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetPhase> getByGroupId(
-			long groupId) {
-
+	public static List<BudgetPhase> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
@@ -377,9 +359,8 @@ public class BudgetPhaseLocalServiceUtil {
 	 * Retourne les phases d'un groupe ayant un statut actif (champ isActive et non le
 	 * statut du workFlow Liferay)
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetPhase>
-			getByIsActiveAndGroupId(boolean isActive, long groupId) {
+	public static List<BudgetPhase> getByIsActiveAndGroupId(
+		boolean isActive, long groupId) {
 
 		return getService().getByIsActiveAndGroupId(isActive, groupId);
 	}
@@ -411,9 +392,8 @@ public class BudgetPhaseLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -421,9 +401,8 @@ public class BudgetPhaseLocalServiceUtil {
 	/**
 	 * Supprime une phase
 	 */
-	public static eu.strasbourg.service.project.model.BudgetPhase
-			removeBudgetPhase(long budgetPhaseId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static BudgetPhase removeBudgetPhase(long budgetPhaseId)
+		throws PortalException {
 
 		return getService().removeBudgetPhase(budgetPhaseId);
 	}
@@ -438,10 +417,7 @@ public class BudgetPhaseLocalServiceUtil {
 	 * @param budgetPhase the budget phase
 	 * @return the budget phase that was updated
 	 */
-	public static eu.strasbourg.service.project.model.BudgetPhase
-		updateBudgetPhase(
-			eu.strasbourg.service.project.model.BudgetPhase budgetPhase) {
-
+	public static BudgetPhase updateBudgetPhase(BudgetPhase budgetPhase) {
 		return getService().updateBudgetPhase(budgetPhase);
 	}
 
@@ -450,11 +426,10 @@ public class BudgetPhaseLocalServiceUtil {
 	 *
 	 * @throws IOException
 	 */
-	public static eu.strasbourg.service.project.model.BudgetPhase
-			updateBudgetPhase(
-				eu.strasbourg.service.project.model.BudgetPhase budgetPhase,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static BudgetPhase updateBudgetPhase(
+			BudgetPhase budgetPhase,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateBudgetPhase(budgetPhase, sc);
 	}
@@ -462,10 +437,8 @@ public class BudgetPhaseLocalServiceUtil {
 	/**
 	 * Met à jour le statut de la phase "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.project.model.BudgetPhase budgetPhase,
-			int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(BudgetPhase budgetPhase, int status)
+		throws PortalException {
 
 		getService().updateStatus(budgetPhase, status);
 	}
@@ -473,36 +446,24 @@ public class BudgetPhaseLocalServiceUtil {
 	/**
 	 * Met à jour le statut de la phase par le framework workflow
 	 */
-	public static eu.strasbourg.service.project.model.BudgetPhase updateStatus(
+	public static BudgetPhase updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
 	}
 
 	public static BudgetPhaseLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<BudgetPhaseLocalService, BudgetPhaseLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(BudgetPhaseLocalService.class);
-
-		ServiceTracker<BudgetPhaseLocalService, BudgetPhaseLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<BudgetPhaseLocalService, BudgetPhaseLocalService>(
-						bundle.getBundleContext(),
-						BudgetPhaseLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(BudgetPhaseLocalService service) {
+		_service = service;
 	}
+
+	private static volatile BudgetPhaseLocalService _service;
 
 }

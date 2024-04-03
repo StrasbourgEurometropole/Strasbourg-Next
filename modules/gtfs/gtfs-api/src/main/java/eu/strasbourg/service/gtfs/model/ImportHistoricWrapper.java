@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +23,11 @@ import java.util.Objects;
  * @generated
  */
 public class ImportHistoricWrapper
+	extends BaseModelWrapper<ImportHistoric>
 	implements ImportHistoric, ModelWrapper<ImportHistoric> {
 
 	public ImportHistoricWrapper(ImportHistoric importHistoric) {
-		_importHistoric = importHistoric;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return ImportHistoric.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return ImportHistoric.class.getName();
+		super(importHistoric);
 	}
 
 	@Override
@@ -203,20 +181,12 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void addNewOperation(String operation) {
-		_importHistoric.addNewOperation(operation);
+		model.addNewOperation(operation);
 	}
 
 	@Override
-	public Object clone() {
-		return new ImportHistoricWrapper(
-			(ImportHistoric)_importHistoric.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric) {
-
-		return _importHistoric.compareTo(importHistoric);
+	public ImportHistoric cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -224,7 +194,12 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _importHistoric.getAssetEntry();
+		return model.getAssetEntry();
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -235,7 +210,7 @@ public class ImportHistoricWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _importHistoric.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -245,7 +220,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _importHistoric.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -255,7 +230,12 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _importHistoric.getCreateDate();
+		return model.getCreateDate();
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -265,7 +245,75 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getErrorDescription() {
-		return _importHistoric.getErrorDescription();
+		return model.getErrorDescription();
+	}
+
+	/**
+	 * Returns the localized error description of this import historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized error description of this import historic
+	 */
+	@Override
+	public String getErrorDescription(java.util.Locale locale) {
+		return model.getErrorDescription(locale);
+	}
+
+	/**
+	 * Returns the localized error description of this import historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized error description of this import historic. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getErrorDescription(
+		java.util.Locale locale, boolean useDefault) {
+
+		return model.getErrorDescription(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized error description of this import historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized error description of this import historic
+	 */
+	@Override
+	public String getErrorDescription(String languageId) {
+		return model.getErrorDescription(languageId);
+	}
+
+	/**
+	 * Returns the localized error description of this import historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized error description of this import historic
+	 */
+	@Override
+	public String getErrorDescription(String languageId, boolean useDefault) {
+		return model.getErrorDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getErrorDescriptionCurrentLanguageId() {
+		return model.getErrorDescriptionCurrentLanguageId();
+	}
+
+	@Override
+	public String getErrorDescriptionCurrentValue() {
+		return model.getErrorDescriptionCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized error descriptions of this import historic.
+	 *
+	 * @return the locales and localized error descriptions of this import historic
+	 */
+	@Override
+	public Map<java.util.Locale, String> getErrorDescriptionMap() {
+		return model.getErrorDescriptionMap();
 	}
 
 	/**
@@ -275,12 +323,75 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getErrorStackTrace() {
-		return _importHistoric.getErrorStackTrace();
+		return model.getErrorStackTrace();
+	}
+
+	/**
+	 * Returns the localized error stack trace of this import historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized error stack trace of this import historic
+	 */
+	@Override
+	public String getErrorStackTrace(java.util.Locale locale) {
+		return model.getErrorStackTrace(locale);
+	}
+
+	/**
+	 * Returns the localized error stack trace of this import historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized error stack trace of this import historic. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getErrorStackTrace(
+		java.util.Locale locale, boolean useDefault) {
+
+		return model.getErrorStackTrace(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized error stack trace of this import historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized error stack trace of this import historic
+	 */
+	@Override
+	public String getErrorStackTrace(String languageId) {
+		return model.getErrorStackTrace(languageId);
+	}
+
+	/**
+	 * Returns the localized error stack trace of this import historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized error stack trace of this import historic
+	 */
+	@Override
+	public String getErrorStackTrace(String languageId, boolean useDefault) {
+		return model.getErrorStackTrace(languageId, useDefault);
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _importHistoric.getExpandoBridge();
+	public String getErrorStackTraceCurrentLanguageId() {
+		return model.getErrorStackTraceCurrentLanguageId();
+	}
+
+	@Override
+	public String getErrorStackTraceCurrentValue() {
+		return model.getErrorStackTraceCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized error stack traces of this import historic.
+	 *
+	 * @return the locales and localized error stack traces of this import historic
+	 */
+	@Override
+	public Map<java.util.Locale, String> getErrorStackTraceMap() {
+		return model.getErrorStackTraceMap();
 	}
 
 	/**
@@ -290,7 +401,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public Date getFinishDate() {
-		return _importHistoric.getFinishDate();
+		return model.getFinishDate();
 	}
 
 	/**
@@ -300,7 +411,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _importHistoric.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -310,7 +421,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getGtfsFileHash() {
-		return _importHistoric.getGtfsFileHash();
+		return model.getGtfsFileHash();
 	}
 
 	/**
@@ -320,7 +431,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public long getImportHistoricId() {
-		return _importHistoric.getImportHistoricId();
+		return model.getImportHistoricId();
 	}
 
 	/**
@@ -330,7 +441,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _importHistoric.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -340,7 +451,73 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getOperations() {
-		return _importHistoric.getOperations();
+		return model.getOperations();
+	}
+
+	/**
+	 * Returns the localized operations of this import historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized operations of this import historic
+	 */
+	@Override
+	public String getOperations(java.util.Locale locale) {
+		return model.getOperations(locale);
+	}
+
+	/**
+	 * Returns the localized operations of this import historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized operations of this import historic. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getOperations(java.util.Locale locale, boolean useDefault) {
+		return model.getOperations(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized operations of this import historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized operations of this import historic
+	 */
+	@Override
+	public String getOperations(String languageId) {
+		return model.getOperations(languageId);
+	}
+
+	/**
+	 * Returns the localized operations of this import historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized operations of this import historic
+	 */
+	@Override
+	public String getOperations(String languageId, boolean useDefault) {
+		return model.getOperations(languageId, useDefault);
+	}
+
+	@Override
+	public String getOperationsCurrentLanguageId() {
+		return model.getOperationsCurrentLanguageId();
+	}
+
+	@Override
+	public String getOperationsCurrentValue() {
+		return model.getOperationsCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized operationses of this import historic.
+	 *
+	 * @return the locales and localized operationses of this import historic
+	 */
+	@Override
+	public Map<java.util.Locale, String> getOperationsMap() {
+		return model.getOperationsMap();
 	}
 
 	/**
@@ -350,12 +527,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _importHistoric.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _importHistoric.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -365,7 +537,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public int getResult() {
-		return _importHistoric.getResult();
+		return model.getResult();
 	}
 
 	/**
@@ -375,7 +547,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getResultLabel() {
-		return _importHistoric.getResultLabel();
+		return model.getResultLabel();
 	}
 
 	/**
@@ -385,7 +557,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public Date getStartDate() {
-		return _importHistoric.getStartDate();
+		return model.getStartDate();
 	}
 
 	/**
@@ -395,7 +567,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _importHistoric.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -405,7 +577,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _importHistoric.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -415,7 +587,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _importHistoric.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -425,7 +597,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _importHistoric.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -435,7 +607,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _importHistoric.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -445,7 +617,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _importHistoric.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -455,7 +627,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _importHistoric.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -465,7 +637,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _importHistoric.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -475,12 +647,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _importHistoric.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _importHistoric.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -490,12 +657,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _importHistoric.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _importHistoric.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -505,7 +667,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _importHistoric.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -515,12 +677,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _importHistoric.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _importHistoric.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -530,7 +687,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _importHistoric.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -540,7 +697,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _importHistoric.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -550,12 +707,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _importHistoric.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _importHistoric.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -565,7 +717,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _importHistoric.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -575,12 +727,27 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _importHistoric.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_importHistoric.persist();
+		model.persist();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+			java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -588,12 +755,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void sendMail() {
-		_importHistoric.sendMail();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_importHistoric.setCachedModel(cachedModel);
+		model.sendMail();
 	}
 
 	/**
@@ -603,7 +765,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_importHistoric.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -613,7 +775,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_importHistoric.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -623,7 +785,66 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setErrorDescription(String errorDescription) {
-		_importHistoric.setErrorDescription(errorDescription);
+		model.setErrorDescription(errorDescription);
+	}
+
+	/**
+	 * Sets the localized error description of this import historic in the language.
+	 *
+	 * @param errorDescription the localized error description of this import historic
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setErrorDescription(
+		String errorDescription, java.util.Locale locale) {
+
+		model.setErrorDescription(errorDescription, locale);
+	}
+
+	/**
+	 * Sets the localized error description of this import historic in the language, and sets the default locale.
+	 *
+	 * @param errorDescription the localized error description of this import historic
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setErrorDescription(
+		String errorDescription, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setErrorDescription(errorDescription, locale, defaultLocale);
+	}
+
+	@Override
+	public void setErrorDescriptionCurrentLanguageId(String languageId) {
+		model.setErrorDescriptionCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized error descriptions of this import historic from the map of locales and localized error descriptions.
+	 *
+	 * @param errorDescriptionMap the locales and localized error descriptions of this import historic
+	 */
+	@Override
+	public void setErrorDescriptionMap(
+		Map<java.util.Locale, String> errorDescriptionMap) {
+
+		model.setErrorDescriptionMap(errorDescriptionMap);
+	}
+
+	/**
+	 * Sets the localized error descriptions of this import historic from the map of locales and localized error descriptions, and sets the default locale.
+	 *
+	 * @param errorDescriptionMap the locales and localized error descriptions of this import historic
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setErrorDescriptionMap(
+		Map<java.util.Locale, String> errorDescriptionMap,
+		java.util.Locale defaultLocale) {
+
+		model.setErrorDescriptionMap(errorDescriptionMap, defaultLocale);
 	}
 
 	/**
@@ -633,24 +854,66 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setErrorStackTrace(String errorStackTrace) {
-		_importHistoric.setErrorStackTrace(errorStackTrace);
+		model.setErrorStackTrace(errorStackTrace);
+	}
+
+	/**
+	 * Sets the localized error stack trace of this import historic in the language.
+	 *
+	 * @param errorStackTrace the localized error stack trace of this import historic
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setErrorStackTrace(
+		String errorStackTrace, java.util.Locale locale) {
+
+		model.setErrorStackTrace(errorStackTrace, locale);
+	}
+
+	/**
+	 * Sets the localized error stack trace of this import historic in the language, and sets the default locale.
+	 *
+	 * @param errorStackTrace the localized error stack trace of this import historic
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setErrorStackTrace(
+		String errorStackTrace, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setErrorStackTrace(errorStackTrace, locale, defaultLocale);
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_importHistoric.setExpandoBridgeAttributes(baseModel);
+	public void setErrorStackTraceCurrentLanguageId(String languageId) {
+		model.setErrorStackTraceCurrentLanguageId(languageId);
 	}
 
+	/**
+	 * Sets the localized error stack traces of this import historic from the map of locales and localized error stack traces.
+	 *
+	 * @param errorStackTraceMap the locales and localized error stack traces of this import historic
+	 */
 	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_importHistoric.setExpandoBridgeAttributes(expandoBridge);
+	public void setErrorStackTraceMap(
+		Map<java.util.Locale, String> errorStackTraceMap) {
+
+		model.setErrorStackTraceMap(errorStackTraceMap);
 	}
 
+	/**
+	 * Sets the localized error stack traces of this import historic from the map of locales and localized error stack traces, and sets the default locale.
+	 *
+	 * @param errorStackTraceMap the locales and localized error stack traces of this import historic
+	 * @param defaultLocale the default locale
+	 */
 	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_importHistoric.setExpandoBridgeAttributes(serviceContext);
+	public void setErrorStackTraceMap(
+		Map<java.util.Locale, String> errorStackTraceMap,
+		java.util.Locale defaultLocale) {
+
+		model.setErrorStackTraceMap(errorStackTraceMap, defaultLocale);
 	}
 
 	/**
@@ -660,7 +923,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setFinishDate(Date finishDate) {
-		_importHistoric.setFinishDate(finishDate);
+		model.setFinishDate(finishDate);
 	}
 
 	/**
@@ -670,7 +933,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_importHistoric.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -680,7 +943,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setGtfsFileHash(String gtfsFileHash) {
-		_importHistoric.setGtfsFileHash(gtfsFileHash);
+		model.setGtfsFileHash(gtfsFileHash);
 	}
 
 	/**
@@ -690,7 +953,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setImportHistoricId(long importHistoricId) {
-		_importHistoric.setImportHistoricId(importHistoricId);
+		model.setImportHistoricId(importHistoricId);
 	}
 
 	/**
@@ -700,12 +963,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_importHistoric.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_importHistoric.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -715,7 +973,62 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setOperations(String operations) {
-		_importHistoric.setOperations(operations);
+		model.setOperations(operations);
+	}
+
+	/**
+	 * Sets the localized operations of this import historic in the language.
+	 *
+	 * @param operations the localized operations of this import historic
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setOperations(String operations, java.util.Locale locale) {
+		model.setOperations(operations, locale);
+	}
+
+	/**
+	 * Sets the localized operations of this import historic in the language, and sets the default locale.
+	 *
+	 * @param operations the localized operations of this import historic
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setOperations(
+		String operations, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setOperations(operations, locale, defaultLocale);
+	}
+
+	@Override
+	public void setOperationsCurrentLanguageId(String languageId) {
+		model.setOperationsCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized operationses of this import historic from the map of locales and localized operationses.
+	 *
+	 * @param operationsMap the locales and localized operationses of this import historic
+	 */
+	@Override
+	public void setOperationsMap(Map<java.util.Locale, String> operationsMap) {
+		model.setOperationsMap(operationsMap);
+	}
+
+	/**
+	 * Sets the localized operationses of this import historic from the map of locales and localized operationses, and sets the default locale.
+	 *
+	 * @param operationsMap the locales and localized operationses of this import historic
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setOperationsMap(
+		Map<java.util.Locale, String> operationsMap,
+		java.util.Locale defaultLocale) {
+
+		model.setOperationsMap(operationsMap, defaultLocale);
 	}
 
 	/**
@@ -725,12 +1038,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_importHistoric.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_importHistoric.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -740,7 +1048,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setResult(int result) {
-		_importHistoric.setResult(result);
+		model.setResult(result);
 	}
 
 	/**
@@ -750,7 +1058,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setStartDate(Date startDate) {
-		_importHistoric.setStartDate(startDate);
+		model.setStartDate(startDate);
 	}
 
 	/**
@@ -760,7 +1068,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_importHistoric.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -770,7 +1078,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_importHistoric.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -780,7 +1088,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_importHistoric.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -790,7 +1098,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_importHistoric.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -800,7 +1108,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_importHistoric.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -810,7 +1118,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_importHistoric.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -820,7 +1128,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_importHistoric.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -830,7 +1138,7 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_importHistoric.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -840,83 +1148,22 @@ public class ImportHistoricWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_importHistoric.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.gtfs.model.ImportHistoric> toCacheModel() {
-
-		return _importHistoric.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.ImportHistoric toEscapedModel() {
-		return new ImportHistoricWrapper(_importHistoric.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _importHistoric.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.ImportHistoric toUnescapedModel() {
-		return new ImportHistoricWrapper(_importHistoric.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _importHistoric.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof ImportHistoricWrapper)) {
-			return false;
-		}
-
-		ImportHistoricWrapper importHistoricWrapper =
-			(ImportHistoricWrapper)object;
-
-		if (Objects.equals(
-				_importHistoric, importHistoricWrapper._importHistoric)) {
-
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _importHistoric.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public ImportHistoric getWrappedModel() {
-		return _importHistoric;
+	protected ImportHistoricWrapper wrap(ImportHistoric importHistoric) {
+		return new ImportHistoricWrapper(importHistoric);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _importHistoric.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _importHistoric.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_importHistoric.resetOriginalValues();
-	}
-
-	private final ImportHistoric _importHistoric;
 
 }

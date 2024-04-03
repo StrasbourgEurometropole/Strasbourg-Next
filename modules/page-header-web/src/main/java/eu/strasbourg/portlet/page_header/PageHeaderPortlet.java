@@ -12,6 +12,8 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -22,7 +24,6 @@ import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration;
@@ -38,7 +39,8 @@ import eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration;
 		"javax.portlet.name=" + StrasbourgPortletKeys.PAGE_HEADER_WEB,
 		"javax.portlet.init-param.view-template=/page-header-view.jsp",
 		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" },
+		"javax.portlet.security-role-ref=power-user,user",
+			"javax.portlet.version=3.0"},
 	service = Portlet.class)
 public class PageHeaderPortlet extends MVCPortlet {
 
@@ -53,9 +55,7 @@ public class PageHeaderPortlet extends MVCPortlet {
 		
 		String imageCredit = "";
 		try {
-			PageHeaderConfiguration configuration = themeDisplay
-				.getPortletDisplay()
-				.getPortletInstanceConfiguration(PageHeaderConfiguration.class);
+			PageHeaderConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(PageHeaderConfiguration.class, themeDisplay);
 			imageCredit = configuration.imageCredit();
 			renderRequest.setAttribute("imageCredit",
 				imageCredit);

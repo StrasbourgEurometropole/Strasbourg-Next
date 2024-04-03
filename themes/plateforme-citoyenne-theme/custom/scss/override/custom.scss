@@ -1,5 +1,4 @@
 // Style pour les formulaires
-
 .portlet-forms {
 
     .ddm-radio label{
@@ -414,6 +413,14 @@
     border-style: none;
 }
 // Fin correctifs border sur les label (mantis 5606)
+
+.radio label, .checkbox label {
+    padding-left: 20px !important;
+}
+
+.radio input[type='radio'], .radio-inline input[type='radio'], .checkbox input[type='checkbox'], .checkbox-inline input[type='checkbox'] {
+    margin-left: -20px !important;
+}
 
 
 div[style="padding:5px; background-color:#9ba0ee; border:2px solid #656ab0; -moz-border-radius:9px; -khtml-border-radius:9px; -webkit-border-radius:9px; border-radius:9px;"] {

@@ -6,3 +6,4 @@ Import-Package: eu.strasbourg.*,*;resolution:=optional
  
 Export-Package: eu.strasbourg.service.office.exporter.api
 Javac-Encoding: UTF-8
+-fixupmessages "Classes found in the wrong directory"; restrict:=error; is:=warning

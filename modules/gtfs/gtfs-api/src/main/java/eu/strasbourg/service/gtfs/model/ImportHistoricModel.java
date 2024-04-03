@@ -1,34 +1,24 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
-import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedAuditedModel;
 import com.liferay.portal.kernel.model.WorkflowedModel;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
 
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model interface for the ImportHistoric service. Represents a row in the &quot;gtfs_ImportHistoric&quot; database table, with each column mapped to a property of this class.
@@ -43,8 +33,8 @@ import java.util.Date;
  */
 @ProviderType
 public interface ImportHistoricModel
-	extends BaseModel<ImportHistoric>, GroupedModel, ShardedModel,
-			StagedAuditedModel, WorkflowedModel {
+	extends BaseModel<ImportHistoric>, GroupedModel, LocalizedModel,
+			ShardedModel, StagedAuditedModel, WorkflowedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -310,8 +300,58 @@ public interface ImportHistoricModel
 	 *
 	 * @return the operations of this import historic
 	 */
-	@AutoEscape
 	public String getOperations();
+
+	/**
+	 * Returns the localized operations of this import historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized operations of this import historic
+	 */
+	@AutoEscape
+	public String getOperations(Locale locale);
+
+	/**
+	 * Returns the localized operations of this import historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized operations of this import historic. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getOperations(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized operations of this import historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized operations of this import historic
+	 */
+	@AutoEscape
+	public String getOperations(String languageId);
+
+	/**
+	 * Returns the localized operations of this import historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized operations of this import historic
+	 */
+	@AutoEscape
+	public String getOperations(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getOperationsCurrentLanguageId();
+
+	@AutoEscape
+	public String getOperationsCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized operationses of this import historic.
+	 *
+	 * @return the locales and localized operationses of this import historic
+	 */
+	public Map<Locale, String> getOperationsMap();
 
 	/**
 	 * Sets the operations of this import historic.
@@ -321,12 +361,98 @@ public interface ImportHistoricModel
 	public void setOperations(String operations);
 
 	/**
+	 * Sets the localized operations of this import historic in the language.
+	 *
+	 * @param operations the localized operations of this import historic
+	 * @param locale the locale of the language
+	 */
+	public void setOperations(String operations, Locale locale);
+
+	/**
+	 * Sets the localized operations of this import historic in the language, and sets the default locale.
+	 *
+	 * @param operations the localized operations of this import historic
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setOperations(
+		String operations, Locale locale, Locale defaultLocale);
+
+	public void setOperationsCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized operationses of this import historic from the map of locales and localized operationses.
+	 *
+	 * @param operationsMap the locales and localized operationses of this import historic
+	 */
+	public void setOperationsMap(Map<Locale, String> operationsMap);
+
+	/**
+	 * Sets the localized operationses of this import historic from the map of locales and localized operationses, and sets the default locale.
+	 *
+	 * @param operationsMap the locales and localized operationses of this import historic
+	 * @param defaultLocale the default locale
+	 */
+	public void setOperationsMap(
+		Map<Locale, String> operationsMap, Locale defaultLocale);
+
+	/**
 	 * Returns the error description of this import historic.
 	 *
 	 * @return the error description of this import historic
 	 */
-	@AutoEscape
 	public String getErrorDescription();
+
+	/**
+	 * Returns the localized error description of this import historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized error description of this import historic
+	 */
+	@AutoEscape
+	public String getErrorDescription(Locale locale);
+
+	/**
+	 * Returns the localized error description of this import historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized error description of this import historic. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getErrorDescription(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized error description of this import historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized error description of this import historic
+	 */
+	@AutoEscape
+	public String getErrorDescription(String languageId);
+
+	/**
+	 * Returns the localized error description of this import historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized error description of this import historic
+	 */
+	@AutoEscape
+	public String getErrorDescription(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getErrorDescriptionCurrentLanguageId();
+
+	@AutoEscape
+	public String getErrorDescriptionCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized error descriptions of this import historic.
+	 *
+	 * @return the locales and localized error descriptions of this import historic
+	 */
+	public Map<Locale, String> getErrorDescriptionMap();
 
 	/**
 	 * Sets the error description of this import historic.
@@ -336,12 +462,98 @@ public interface ImportHistoricModel
 	public void setErrorDescription(String errorDescription);
 
 	/**
+	 * Sets the localized error description of this import historic in the language.
+	 *
+	 * @param errorDescription the localized error description of this import historic
+	 * @param locale the locale of the language
+	 */
+	public void setErrorDescription(String errorDescription, Locale locale);
+
+	/**
+	 * Sets the localized error description of this import historic in the language, and sets the default locale.
+	 *
+	 * @param errorDescription the localized error description of this import historic
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setErrorDescription(
+		String errorDescription, Locale locale, Locale defaultLocale);
+
+	public void setErrorDescriptionCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized error descriptions of this import historic from the map of locales and localized error descriptions.
+	 *
+	 * @param errorDescriptionMap the locales and localized error descriptions of this import historic
+	 */
+	public void setErrorDescriptionMap(Map<Locale, String> errorDescriptionMap);
+
+	/**
+	 * Sets the localized error descriptions of this import historic from the map of locales and localized error descriptions, and sets the default locale.
+	 *
+	 * @param errorDescriptionMap the locales and localized error descriptions of this import historic
+	 * @param defaultLocale the default locale
+	 */
+	public void setErrorDescriptionMap(
+		Map<Locale, String> errorDescriptionMap, Locale defaultLocale);
+
+	/**
 	 * Returns the error stack trace of this import historic.
 	 *
 	 * @return the error stack trace of this import historic
 	 */
-	@AutoEscape
 	public String getErrorStackTrace();
+
+	/**
+	 * Returns the localized error stack trace of this import historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized error stack trace of this import historic
+	 */
+	@AutoEscape
+	public String getErrorStackTrace(Locale locale);
+
+	/**
+	 * Returns the localized error stack trace of this import historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized error stack trace of this import historic. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getErrorStackTrace(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized error stack trace of this import historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized error stack trace of this import historic
+	 */
+	@AutoEscape
+	public String getErrorStackTrace(String languageId);
+
+	/**
+	 * Returns the localized error stack trace of this import historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized error stack trace of this import historic
+	 */
+	@AutoEscape
+	public String getErrorStackTrace(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getErrorStackTraceCurrentLanguageId();
+
+	@AutoEscape
+	public String getErrorStackTraceCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized error stack traces of this import historic.
+	 *
+	 * @return the locales and localized error stack traces of this import historic
+	 */
+	public Map<Locale, String> getErrorStackTraceMap();
 
 	/**
 	 * Sets the error stack trace of this import historic.
@@ -349,6 +561,42 @@ public interface ImportHistoricModel
 	 * @param errorStackTrace the error stack trace of this import historic
 	 */
 	public void setErrorStackTrace(String errorStackTrace);
+
+	/**
+	 * Sets the localized error stack trace of this import historic in the language.
+	 *
+	 * @param errorStackTrace the localized error stack trace of this import historic
+	 * @param locale the locale of the language
+	 */
+	public void setErrorStackTrace(String errorStackTrace, Locale locale);
+
+	/**
+	 * Sets the localized error stack trace of this import historic in the language, and sets the default locale.
+	 *
+	 * @param errorStackTrace the localized error stack trace of this import historic
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setErrorStackTrace(
+		String errorStackTrace, Locale locale, Locale defaultLocale);
+
+	public void setErrorStackTraceCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized error stack traces of this import historic from the map of locales and localized error stack traces.
+	 *
+	 * @param errorStackTraceMap the locales and localized error stack traces of this import historic
+	 */
+	public void setErrorStackTraceMap(Map<Locale, String> errorStackTraceMap);
+
+	/**
+	 * Sets the localized error stack traces of this import historic from the map of locales and localized error stack traces, and sets the default locale.
+	 *
+	 * @param errorStackTraceMap the locales and localized error stack traces of this import historic
+	 * @param defaultLocale the default locale
+	 */
+	public void setErrorStackTraceMap(
+		Map<Locale, String> errorStackTraceMap, Locale defaultLocale);
 
 	/**
 	 * Returns the start date of this import historic.
@@ -458,62 +706,23 @@ public interface ImportHistoricModel
 	public boolean isScheduled();
 
 	@Override
-	public boolean isNew();
+	public String[] getAvailableLanguageIds();
 
 	@Override
-	public void setNew(boolean n);
+	public String getDefaultLanguageId();
 
 	@Override
-	public boolean isCachedModel();
+	public void prepareLocalizedFieldsForImport() throws LocaleException;
 
 	@Override
-	public void setCachedModel(boolean cachedModel);
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException;
 
 	@Override
-	public boolean isEscapedModel();
+	public ImportHistoric cloneWithOriginalValues();
 
-	@Override
-	public Serializable getPrimaryKeyObj();
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj);
-
-	@Override
-	public ExpandoBridge getExpandoBridge();
-
-	@Override
-	public void setExpandoBridgeAttributes(BaseModel<?> baseModel);
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge);
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext);
-
-	@Override
-	public Object clone();
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric);
-
-	@Override
-	public int hashCode();
-
-	@Override
-	public CacheModel<eu.strasbourg.service.gtfs.model.ImportHistoric>
-		toCacheModel();
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.ImportHistoric toEscapedModel();
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.ImportHistoric toUnescapedModel();
-
-	@Override
-	public String toString();
-
-	@Override
-	public String toXmlString();
+	public default String toXmlString() {
+		return null;
+	}
 
 }

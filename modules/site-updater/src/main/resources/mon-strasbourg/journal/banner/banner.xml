@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Bannière</name>
+        <key>6595874</key>
+        <definition>banner-structure.json</definition>
+        <layout>banner-layout.json</layout>
+    </structure>
+    <template>
+        <name>Bannière</name>
+        <key>6595883</key>
+        <script>banner.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.userdisplay.configuration;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -43,9 +44,7 @@ public class UserDisplayConfigurationAction extends DefaultConfigurationAction {
         ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest
                 .getAttribute(WebKeys.THEME_DISPLAY);
 
-        UserDisplayConfiguration configuration = themeDisplay
-                .getPortletDisplay()
-                .getPortletInstanceConfiguration(UserDisplayConfiguration.class);
+        UserDisplayConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(UserDisplayConfiguration.class, themeDisplay);
 
         UserDisplayConfigurationDisplayContext dc = new UserDisplayConfigurationDisplayContext(themeDisplay, configuration);
         List<String> portletIds = dc.getPortletIds();
@@ -82,9 +81,7 @@ public class UserDisplayConfigurationAction extends DefaultConfigurationAction {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
-			UserDisplayConfiguration configuration = themeDisplay
-				.getPortletDisplay()
-				.getPortletInstanceConfiguration(UserDisplayConfiguration.class);
+			UserDisplayConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(UserDisplayConfiguration.class, themeDisplay);
 
 			UserDisplayConfigurationDisplayContext dc = new UserDisplayConfigurationDisplayContext(themeDisplay, configuration);
 			request.setAttribute("dc", dc);

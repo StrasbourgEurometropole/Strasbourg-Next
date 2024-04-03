@@ -14,18 +14,14 @@
 
 package eu.strasbourg.service.objtp.service.impl;
 
-import java.util.List;
-
-import com.liferay.journal.model.JournalArticle;
-import com.liferay.journal.service.JournalArticleLocalServiceUtil;
-import com.liferay.portal.kernel.exception.PortalException;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.objtp.model.ObjectCategory;
 import eu.strasbourg.service.objtp.service.base.ObjectCategoryServiceBaseImpl;
+
+import java.util.List;
 
 /**
  * The implementation of the object category remote service.

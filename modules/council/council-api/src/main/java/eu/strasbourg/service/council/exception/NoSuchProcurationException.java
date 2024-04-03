@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.council.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Brian Wing Shun Chan
  */
-@ProviderType
 public class NoSuchProcurationException extends NoSuchModelException {
 
 	public NoSuchProcurationException() {
@@ -30,12 +27,12 @@ public class NoSuchProcurationException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchProcurationException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchProcurationException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchProcurationException(Throwable cause) {
-		super(cause);
+	public NoSuchProcurationException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

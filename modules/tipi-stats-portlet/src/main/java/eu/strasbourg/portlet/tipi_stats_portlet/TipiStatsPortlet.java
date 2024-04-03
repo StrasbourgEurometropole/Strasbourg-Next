@@ -7,6 +7,7 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
@@ -17,6 +18,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 @Component(
 		immediate = true,
 		property = { "com.liferay.portlet.instanceable=false",
+				"javax.portlet.name=" + StrasbourgPortletKeys.TIPI_STATS_PORTLET_WEB,
 			"com.liferay.portlet.footer-portlet-javascript=/js/main.js",
 			"com.liferay.portlet.header-portlet-css=/css/main.css",
 			"com.liferay.portlet.single-page-application=false",

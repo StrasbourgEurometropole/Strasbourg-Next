@@ -1,0 +1,8 @@
+Bundle-Name: Alternate Asset Categories Selector Taglib
+Bundle-SymbolicName: eu.strasbourg.asset.category.selector.taglib
+Bundle-Version: 1.0.0
+Export-Package: \
+    eu.strasbourg.asset.category.selector.taglib
+
+Provide-Capability: osgi.extender;osgi.extender="jsp.taglib";uri="http://strasbourg.eu/tld/asset-category-selector";version:Version="${Bundle-Version}"
+Web-ContextPath: /asset-category-selector-taglib

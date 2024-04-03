@@ -7,10 +7,8 @@ import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.transaction.TransactionCommitCallbackUtil;
-import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.csmap.constants.CodeCacheEnum;
 import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
-import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -38,10 +36,10 @@ public class AssetCategoryListener extends BaseModelListener<AssetCategory>
      *  A la modification d'un event, on met à jour le cache de csmapAgenda
      */
     @Override
-    public void onAfterUpdate(AssetCategory category) throws ModelListenerException {
+    public void onAfterUpdate(AssetCategory originalCategory, AssetCategory category) throws ModelListenerException {
         generateCsmapCache(category);
 
-        super.onAfterUpdate(category);
+        super.onAfterUpdate(originalCategory,category);
 
     }
 

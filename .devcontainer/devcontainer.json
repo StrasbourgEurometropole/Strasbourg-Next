@@ -1,0 +1,10 @@
+{
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "extensions": [
+    "ms-azuretools.vscode-docker"
+  ],
+  "name": "Ubuntu",
+  "remoteUser": "vscode"
+}

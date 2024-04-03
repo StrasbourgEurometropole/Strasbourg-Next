@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.activity.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,30 +19,30 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.activity.exception.NoSuchActivityCourseScheduleException;
 import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
+import eu.strasbourg.service.activity.model.ActivityCourseScheduleTable;
 import eu.strasbourg.service.activity.model.impl.ActivityCourseScheduleImpl;
 import eu.strasbourg.service.activity.model.impl.ActivityCourseScheduleModelImpl;
 import eu.strasbourg.service.activity.service.persistence.ActivityCourseSchedulePersistence;
+import eu.strasbourg.service.activity.service.persistence.ActivityCourseScheduleUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -254,10 +246,6 @@ public class ActivityCourseSchedulePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -618,8 +606,6 @@ public class ActivityCourseSchedulePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -779,11 +765,6 @@ public class ActivityCourseSchedulePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -873,8 +854,6 @@ public class ActivityCourseSchedulePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1077,10 +1056,6 @@ public class ActivityCourseSchedulePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1465,8 +1440,6 @@ public class ActivityCourseSchedulePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1641,10 +1614,6 @@ public class ActivityCourseSchedulePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1981,8 +1950,6 @@ public class ActivityCourseSchedulePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2161,10 +2128,6 @@ public class ActivityCourseSchedulePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2505,8 +2468,6 @@ public class ActivityCourseSchedulePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2526,21 +2487,14 @@ public class ActivityCourseSchedulePersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(ActivityCourseSchedule.class);
+
+		setModelImplClass(ActivityCourseScheduleImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(ActivityCourseScheduleTable.INSTANCE);
 	}
 
 	/**
@@ -2551,7 +2505,6 @@ public class ActivityCourseSchedulePersistenceImpl
 	@Override
 	public void cacheResult(ActivityCourseSchedule activityCourseSchedule) {
 		entityCache.putResult(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
 			ActivityCourseScheduleImpl.class,
 			activityCourseSchedule.getPrimaryKey(), activityCourseSchedule);
 
@@ -2562,9 +2515,9 @@ public class ActivityCourseSchedulePersistenceImpl
 				activityCourseSchedule.getGroupId()
 			},
 			activityCourseSchedule);
-
-		activityCourseSchedule.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the activity course schedules in the entity cache if it is enabled.
@@ -2575,18 +2528,22 @@ public class ActivityCourseSchedulePersistenceImpl
 	public void cacheResult(
 		List<ActivityCourseSchedule> activityCourseSchedules) {
 
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (activityCourseSchedules.size() >
+				 _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (ActivityCourseSchedule activityCourseSchedule :
 				activityCourseSchedules) {
 
 			if (entityCache.getResult(
-					ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
 					ActivityCourseScheduleImpl.class,
 					activityCourseSchedule.getPrimaryKey()) == null) {
 
 				cacheResult(activityCourseSchedule);
-			}
-			else {
-				activityCourseSchedule.resetOriginalValues();
 			}
 		}
 	}
@@ -2602,9 +2559,7 @@ public class ActivityCourseSchedulePersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(ActivityCourseScheduleImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ActivityCourseScheduleImpl.class);
 	}
 
 	/**
@@ -2617,45 +2572,27 @@ public class ActivityCourseSchedulePersistenceImpl
 	@Override
 	public void clearCache(ActivityCourseSchedule activityCourseSchedule) {
 		entityCache.removeResult(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleImpl.class,
-			activityCourseSchedule.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(ActivityCourseScheduleModelImpl)activityCourseSchedule, true);
+			ActivityCourseScheduleImpl.class, activityCourseSchedule);
 	}
 
 	@Override
 	public void clearCache(
 		List<ActivityCourseSchedule> activityCourseSchedules) {
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (ActivityCourseSchedule activityCourseSchedule :
 				activityCourseSchedules) {
 
 			entityCache.removeResult(
-				ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-				ActivityCourseScheduleImpl.class,
-				activityCourseSchedule.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(ActivityCourseScheduleModelImpl)activityCourseSchedule, true);
+				ActivityCourseScheduleImpl.class, activityCourseSchedule);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ActivityCourseScheduleImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
-				ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
 				ActivityCourseScheduleImpl.class, primaryKey);
 		}
 	}
@@ -2668,38 +2605,9 @@ public class ActivityCourseSchedulePersistenceImpl
 			activityCourseScheduleModelImpl.getGroupId()
 		};
 
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, activityCourseScheduleModelImpl,
-			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		ActivityCourseScheduleModelImpl activityCourseScheduleModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				activityCourseScheduleModelImpl.getUuid(),
-				activityCourseScheduleModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((activityCourseScheduleModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				activityCourseScheduleModelImpl.getOriginalUuid(),
-				activityCourseScheduleModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+			_finderPathFetchByUUID_G, args, activityCourseScheduleModelImpl);
 	}
 
 	/**
@@ -2851,25 +2759,25 @@ public class ActivityCourseSchedulePersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (activityCourseSchedule.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				activityCourseSchedule.setCreateDate(now);
+				activityCourseSchedule.setCreateDate(date);
 			}
 			else {
 				activityCourseSchedule.setCreateDate(
-					serviceContext.getCreateDate(now));
+					serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!activityCourseScheduleModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				activityCourseSchedule.setModifiedDate(now);
+				activityCourseSchedule.setModifiedDate(date);
 			}
 			else {
 				activityCourseSchedule.setModifiedDate(
-					serviceContext.getModifiedDate(now));
+					serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -2878,10 +2786,8 @@ public class ActivityCourseSchedulePersistenceImpl
 		try {
 			session = openSession();
 
-			if (activityCourseSchedule.isNew()) {
+			if (isNew) {
 				session.save(activityCourseSchedule);
-
-				activityCourseSchedule.setNew(false);
 			}
 			else {
 				activityCourseSchedule = (ActivityCourseSchedule)session.merge(
@@ -2895,147 +2801,15 @@ public class ActivityCourseSchedulePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!ActivityCourseScheduleModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				activityCourseScheduleModelImpl.getUuid()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				activityCourseScheduleModelImpl.getUuid(),
-				activityCourseScheduleModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {activityCourseScheduleModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {
-				activityCourseScheduleModelImpl.getActivityCoursePlaceId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByActivityCoursePlace, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByActivityCoursePlace, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((activityCourseScheduleModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					activityCourseScheduleModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {activityCourseScheduleModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((activityCourseScheduleModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					activityCourseScheduleModelImpl.getOriginalUuid(),
-					activityCourseScheduleModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					activityCourseScheduleModelImpl.getUuid(),
-					activityCourseScheduleModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((activityCourseScheduleModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					activityCourseScheduleModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {
-					activityCourseScheduleModelImpl.getGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((activityCourseScheduleModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByActivityCoursePlace.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					activityCourseScheduleModelImpl.
-						getOriginalActivityCoursePlaceId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByActivityCoursePlace, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByActivityCoursePlace,
-					args);
-
-				args = new Object[] {
-					activityCourseScheduleModelImpl.getActivityCoursePlaceId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByActivityCoursePlace, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByActivityCoursePlace,
-					args);
-			}
-		}
-
 		entityCache.putResult(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleImpl.class,
-			activityCourseSchedule.getPrimaryKey(), activityCourseSchedule,
-			false);
+			ActivityCourseScheduleImpl.class, activityCourseScheduleModelImpl,
+			false, true);
 
-		clearUniqueFindersCache(activityCourseScheduleModelImpl, false);
 		cacheUniqueFindersCache(activityCourseScheduleModelImpl);
+
+		if (isNew) {
+			activityCourseSchedule.setNew(false);
+		}
 
 		activityCourseSchedule.resetOriginalValues();
 
@@ -3086,59 +2860,6 @@ public class ActivityCourseSchedulePersistenceImpl
 	/**
 	 * Returns the activity course schedule with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the activity course schedule
-	 * @return the activity course schedule, or <code>null</code> if a activity course schedule with the primary key could not be found
-	 */
-	@Override
-	public ActivityCourseSchedule fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		ActivityCourseSchedule activityCourseSchedule =
-			(ActivityCourseSchedule)serializable;
-
-		if (activityCourseSchedule == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				activityCourseSchedule = (ActivityCourseSchedule)session.get(
-					ActivityCourseScheduleImpl.class, primaryKey);
-
-				if (activityCourseSchedule != null) {
-					cacheResult(activityCourseSchedule);
-				}
-				else {
-					entityCache.putResult(
-						ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-						ActivityCourseScheduleImpl.class, primaryKey,
-						nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-					ActivityCourseScheduleImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return activityCourseSchedule;
-	}
-
-	/**
-	 * Returns the activity course schedule with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param activityCourseScheduleId the primary key of the activity course schedule
 	 * @return the activity course schedule, or <code>null</code> if a activity course schedule with the primary key could not be found
 	 */
@@ -3147,110 +2868,6 @@ public class ActivityCourseSchedulePersistenceImpl
 		long activityCourseScheduleId) {
 
 		return fetchByPrimaryKey((Serializable)activityCourseScheduleId);
-	}
-
-	@Override
-	public Map<Serializable, ActivityCourseSchedule> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, ActivityCourseSchedule> map =
-			new HashMap<Serializable, ActivityCourseSchedule>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			ActivityCourseSchedule activityCourseSchedule = fetchByPrimaryKey(
-				primaryKey);
-
-			if (activityCourseSchedule != null) {
-				map.put(primaryKey, activityCourseSchedule);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-				ActivityCourseScheduleImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (ActivityCourseSchedule)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_ACTIVITYCOURSESCHEDULE_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (ActivityCourseSchedule activityCourseSchedule :
-					(List<ActivityCourseSchedule>)query.list()) {
-
-				map.put(
-					activityCourseSchedule.getPrimaryKeyObj(),
-					activityCourseSchedule);
-
-				cacheResult(activityCourseSchedule);
-
-				uncachedPrimaryKeys.remove(
-					activityCourseSchedule.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-					ActivityCourseScheduleImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3379,10 +2996,6 @@ public class ActivityCourseSchedulePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3429,9 +3042,6 @@ public class ActivityCourseSchedulePersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3448,6 +3058,21 @@ public class ActivityCourseSchedulePersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "activityCourseScheduleId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_ACTIVITYCOURSESCHEDULE;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return ActivityCourseScheduleModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -3456,145 +3081,111 @@ public class ActivityCourseSchedulePersistenceImpl
 	 * Initializes the activity course schedule persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseScheduleImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseScheduleImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseScheduleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseScheduleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			ActivityCourseScheduleModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseScheduleImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByUUID_G",
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			ActivityCourseScheduleModelImpl.UUID_COLUMN_BITMASK |
-			ActivityCourseScheduleModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseScheduleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseScheduleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			ActivityCourseScheduleModelImpl.UUID_COLUMN_BITMASK |
-			ActivityCourseScheduleModelImpl.COMPANYID_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseScheduleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseScheduleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			ActivityCourseScheduleModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
 
 		_finderPathWithPaginationFindByActivityCoursePlace = new FinderPath(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseScheduleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByActivityCoursePlace",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"activityCoursePlaceId"}, true);
 
 		_finderPathWithoutPaginationFindByActivityCoursePlace = new FinderPath(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleModelImpl.FINDER_CACHE_ENABLED,
-			ActivityCourseScheduleImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByActivityCoursePlace", new String[] {Long.class.getName()},
-			ActivityCourseScheduleModelImpl.
-				ACTIVITYCOURSEPLACEID_COLUMN_BITMASK);
+			new String[] {"activityCoursePlaceId"}, true);
 
 		_finderPathCountByActivityCoursePlace = new FinderPath(
-			ActivityCourseScheduleModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityCourseScheduleModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByActivityCoursePlace", new String[] {Long.class.getName()});
+			"countByActivityCoursePlace", new String[] {Long.class.getName()},
+			new String[] {"activityCoursePlaceId"}, false);
+
+		ActivityCourseScheduleUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		ActivityCourseScheduleUtil.setPersistence(null);
+
 		entityCache.removeCache(ActivityCourseScheduleImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -3605,10 +3196,6 @@ public class ActivityCourseSchedulePersistenceImpl
 
 	private static final String _SQL_SELECT_ACTIVITYCOURSESCHEDULE =
 		"SELECT activityCourseSchedule FROM ActivityCourseSchedule activityCourseSchedule";
-
-	private static final String
-		_SQL_SELECT_ACTIVITYCOURSESCHEDULE_WHERE_PKS_IN =
-			"SELECT activityCourseSchedule FROM ActivityCourseSchedule activityCourseSchedule WHERE activityCourseScheduleId IN (";
 
 	private static final String _SQL_SELECT_ACTIVITYCOURSESCHEDULE_WHERE =
 		"SELECT activityCourseSchedule FROM ActivityCourseSchedule activityCourseSchedule WHERE ";
@@ -3633,5 +3220,10 @@ public class ActivityCourseSchedulePersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

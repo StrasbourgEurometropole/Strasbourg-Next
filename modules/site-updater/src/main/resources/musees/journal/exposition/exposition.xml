@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Vignette exposition</name>
+        <key>415969609</key>
+        <definition>exposition-structure.json</definition>
+        <layout>exposition-layout.json</layout>
+    </structure>
+</root>

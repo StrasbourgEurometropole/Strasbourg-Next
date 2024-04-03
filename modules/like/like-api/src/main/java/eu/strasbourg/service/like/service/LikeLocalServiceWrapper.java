@@ -1,20 +1,12 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.like.service;
 
 import com.liferay.portal.kernel.service.ServiceWrapper;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 /**
  * Provides a wrapper for {@link LikeLocalService}.
@@ -25,6 +17,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  */
 public class LikeLocalServiceWrapper
 	implements LikeLocalService, ServiceWrapper<LikeLocalService> {
+
+	public LikeLocalServiceWrapper() {
+		this(null);
+	}
 
 	public LikeLocalServiceWrapper(LikeLocalService likeLocalService) {
 		_likeLocalService = likeLocalService;
@@ -64,6 +60,17 @@ public class LikeLocalServiceWrapper
 	@Override
 	public eu.strasbourg.service.like.model.Like createLike(long likeId) {
 		return _likeLocalService.createLike(likeId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _likeLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -129,6 +136,18 @@ public class LikeLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _likeLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _likeLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _likeLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override
@@ -349,6 +368,11 @@ public class LikeLocalServiceWrapper
 		eu.strasbourg.service.like.model.Like like) {
 
 		return _likeLocalService.updateLike(like);
+	}
+
+	@Override
+	public BasePersistence<?> getBasePersistence() {
+		return _likeLocalService.getBasePersistence();
 	}
 
 	@Override

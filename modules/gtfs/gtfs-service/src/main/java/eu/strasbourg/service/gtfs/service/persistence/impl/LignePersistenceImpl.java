@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,10 +19,12 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
@@ -38,20 +32,19 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchLigneException;
 import eu.strasbourg.service.gtfs.model.Ligne;
+import eu.strasbourg.service.gtfs.model.LigneTable;
 import eu.strasbourg.service.gtfs.model.impl.LigneImpl;
 import eu.strasbourg.service.gtfs.model.impl.LigneModelImpl;
 import eu.strasbourg.service.gtfs.service.persistence.LignePersistence;
+import eu.strasbourg.service.gtfs.service.persistence.LigneUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -251,10 +244,6 @@ public class LignePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -603,8 +592,6 @@ public class LignePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -761,11 +748,6 @@ public class LignePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -854,8 +836,6 @@ public class LignePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1055,10 +1035,6 @@ public class LignePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1435,8 +1411,6 @@ public class LignePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1608,10 +1582,6 @@ public class LignePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1935,8 +1905,6 @@ public class LignePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2090,11 +2058,6 @@ public class LignePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByRouteId, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2175,8 +2138,6 @@ public class LignePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2344,10 +2305,6 @@ public class LignePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2671,8 +2628,6 @@ public class LignePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2867,10 +2822,6 @@ public class LignePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3249,8 +3200,6 @@ public class LignePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3276,21 +3225,14 @@ public class LignePersistenceImpl
 		dbColumnNames.put("uuid", "uuid_");
 		dbColumnNames.put("type", "type_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Ligne.class);
+
+		setModelImplClass(LigneImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(LigneTable.INSTANCE);
 	}
 
 	/**
@@ -3300,9 +3242,7 @@ public class LignePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(Ligne ligne) {
-		entityCache.putResult(
-			LigneModelImpl.ENTITY_CACHE_ENABLED, LigneImpl.class,
-			ligne.getPrimaryKey(), ligne);
+		entityCache.putResult(LigneImpl.class, ligne.getPrimaryKey(), ligne);
 
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
@@ -3311,9 +3251,9 @@ public class LignePersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByRouteId, new Object[] {ligne.getRouteId()},
 			ligne);
-
-		ligne.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the lignes in the entity cache if it is enabled.
@@ -3322,15 +3262,18 @@ public class LignePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Ligne> lignes) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (lignes.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Ligne ligne : lignes) {
-			if (entityCache.getResult(
-					LigneModelImpl.ENTITY_CACHE_ENABLED, LigneImpl.class,
-					ligne.getPrimaryKey()) == null) {
+			if (entityCache.getResult(LigneImpl.class, ligne.getPrimaryKey()) ==
+					null) {
 
 				cacheResult(ligne);
-			}
-			else {
-				ligne.resetOriginalValues();
 			}
 		}
 	}
@@ -3346,9 +3289,7 @@ public class LignePersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(LigneImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(LigneImpl.class);
 	}
 
 	/**
@@ -3360,39 +3301,22 @@ public class LignePersistenceImpl
 	 */
 	@Override
 	public void clearCache(Ligne ligne) {
-		entityCache.removeResult(
-			LigneModelImpl.ENTITY_CACHE_ENABLED, LigneImpl.class,
-			ligne.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((LigneModelImpl)ligne, true);
+		entityCache.removeResult(LigneImpl.class, ligne);
 	}
 
 	@Override
 	public void clearCache(List<Ligne> lignes) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Ligne ligne : lignes) {
-			entityCache.removeResult(
-				LigneModelImpl.ENTITY_CACHE_ENABLED, LigneImpl.class,
-				ligne.getPrimaryKey());
-
-			clearUniqueFindersCache((LigneModelImpl)ligne, true);
+			entityCache.removeResult(LigneImpl.class, ligne);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(LigneImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				LigneModelImpl.ENTITY_CACHE_ENABLED, LigneImpl.class,
-				primaryKey);
+			entityCache.removeResult(LigneImpl.class, primaryKey);
 		}
 	}
 
@@ -3401,58 +3325,13 @@ public class LignePersistenceImpl
 			ligneModelImpl.getUuid(), ligneModelImpl.getGroupId()
 		};
 
-		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, ligneModelImpl, false);
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
+		finderCache.putResult(_finderPathFetchByUUID_G, args, ligneModelImpl);
 
 		args = new Object[] {ligneModelImpl.getRouteId()};
 
-		finderCache.putResult(
-			_finderPathCountByRouteId, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByRouteId, args, ligneModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		LigneModelImpl ligneModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				ligneModelImpl.getUuid(), ligneModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((ligneModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				ligneModelImpl.getOriginalUuid(),
-				ligneModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {ligneModelImpl.getRouteId()};
-
-			finderCache.removeResult(_finderPathCountByRouteId, args);
-			finderCache.removeResult(_finderPathFetchByRouteId, args);
-		}
-
-		if ((ligneModelImpl.getColumnBitmask() &
-			 _finderPathFetchByRouteId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {ligneModelImpl.getOriginalRouteId()};
-
-			finderCache.removeResult(_finderPathCountByRouteId, args);
-			finderCache.removeResult(_finderPathFetchByRouteId, args);
-		}
+		finderCache.putResult(_finderPathCountByRouteId, args, Long.valueOf(1));
+		finderCache.putResult(_finderPathFetchByRouteId, args, ligneModelImpl);
 	}
 
 	/**
@@ -3588,23 +3467,23 @@ public class LignePersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (ligne.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				ligne.setCreateDate(now);
+				ligne.setCreateDate(date);
 			}
 			else {
-				ligne.setCreateDate(serviceContext.getCreateDate(now));
+				ligne.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!ligneModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				ligne.setModifiedDate(now);
+				ligne.setModifiedDate(date);
 			}
 			else {
-				ligne.setModifiedDate(serviceContext.getModifiedDate(now));
+				ligne.setModifiedDate(serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -3613,10 +3492,8 @@ public class LignePersistenceImpl
 		try {
 			session = openSession();
 
-			if (ligne.isNew()) {
+			if (isNew) {
 				session.save(ligne);
-
-				ligne.setNew(false);
 			}
 			else {
 				ligne = (Ligne)session.merge(ligne);
@@ -3629,160 +3506,13 @@ public class LignePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(LigneImpl.class, ligneModelImpl, false, true);
 
-		if (!LigneModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {ligneModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				ligneModelImpl.getUuid(), ligneModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {ligneModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {ligneModelImpl.getStatus()};
-
-			finderCache.removeResult(_finderPathCountByStatus, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByStatus, args);
-
-			args = new Object[] {
-				ligneModelImpl.getShortName(), ligneModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByShortNameAndStatus, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByShortNameAndStatus, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((ligneModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {ligneModelImpl.getOriginalUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {ligneModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((ligneModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					ligneModelImpl.getOriginalUuid(),
-					ligneModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					ligneModelImpl.getUuid(), ligneModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((ligneModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					ligneModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {ligneModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((ligneModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByStatus.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					ligneModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByStatus, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStatus, args);
-
-				args = new Object[] {ligneModelImpl.getStatus()};
-
-				finderCache.removeResult(_finderPathCountByStatus, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStatus, args);
-			}
-
-			if ((ligneModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByShortNameAndStatus.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					ligneModelImpl.getOriginalShortName(),
-					ligneModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByShortNameAndStatus, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByShortNameAndStatus, args);
-
-				args = new Object[] {
-					ligneModelImpl.getShortName(), ligneModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByShortNameAndStatus, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByShortNameAndStatus, args);
-			}
-		}
-
-		entityCache.putResult(
-			LigneModelImpl.ENTITY_CACHE_ENABLED, LigneImpl.class,
-			ligne.getPrimaryKey(), ligne, false);
-
-		clearUniqueFindersCache(ligneModelImpl, false);
 		cacheUniqueFindersCache(ligneModelImpl);
+
+		if (isNew) {
+			ligne.setNew(false);
+		}
 
 		ligne.resetOriginalValues();
 
@@ -3829,158 +3559,12 @@ public class LignePersistenceImpl
 	/**
 	 * Returns the ligne with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the ligne
-	 * @return the ligne, or <code>null</code> if a ligne with the primary key could not be found
-	 */
-	@Override
-	public Ligne fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			LigneModelImpl.ENTITY_CACHE_ENABLED, LigneImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Ligne ligne = (Ligne)serializable;
-
-		if (ligne == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				ligne = (Ligne)session.get(LigneImpl.class, primaryKey);
-
-				if (ligne != null) {
-					cacheResult(ligne);
-				}
-				else {
-					entityCache.putResult(
-						LigneModelImpl.ENTITY_CACHE_ENABLED, LigneImpl.class,
-						primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					LigneModelImpl.ENTITY_CACHE_ENABLED, LigneImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return ligne;
-	}
-
-	/**
-	 * Returns the ligne with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param ligneId the primary key of the ligne
 	 * @return the ligne, or <code>null</code> if a ligne with the primary key could not be found
 	 */
 	@Override
 	public Ligne fetchByPrimaryKey(long ligneId) {
 		return fetchByPrimaryKey((Serializable)ligneId);
-	}
-
-	@Override
-	public Map<Serializable, Ligne> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Ligne> map = new HashMap<Serializable, Ligne>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Ligne ligne = fetchByPrimaryKey(primaryKey);
-
-			if (ligne != null) {
-				map.put(primaryKey, ligne);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				LigneModelImpl.ENTITY_CACHE_ENABLED, LigneImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Ligne)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_LIGNE_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Ligne ligne : (List<Ligne>)query.list()) {
-				map.put(ligne.getPrimaryKeyObj(), ligne);
-
-				cacheResult(ligne);
-
-				uncachedPrimaryKeys.remove(ligne.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					LigneModelImpl.ENTITY_CACHE_ENABLED, LigneImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -4107,10 +3691,6 @@ public class LignePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -4156,9 +3736,6 @@ public class LignePersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -4175,6 +3752,21 @@ public class LignePersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "ligneId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_LIGNE;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return LigneModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -4183,172 +3775,142 @@ public class LignePersistenceImpl
 	 * Initializes the ligne persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, LigneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, LigneImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, LigneImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, LigneImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			LigneModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, LigneImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			LigneModelImpl.UUID_COLUMN_BITMASK |
-			LigneModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, LigneImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, LigneImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			LigneModelImpl.UUID_COLUMN_BITMASK |
-			LigneModelImpl.COMPANYID_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, LigneImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, LigneImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			LigneModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
 
 		_finderPathFetchByRouteId = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, LigneImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByRouteId",
-			new String[] {String.class.getName()},
-			LigneModelImpl.ROUTEID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"routeId"},
+			true);
 
 		_finderPathCountByRouteId = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRouteId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"routeId"},
+			false);
 
 		_finderPathWithPaginationFindByStatus = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, LigneImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStatus",
 			new String[] {
 				Integer.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"status"}, true);
 
 		_finderPathWithoutPaginationFindByStatus = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, LigneImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStatus",
-			new String[] {Integer.class.getName()},
-			LigneModelImpl.STATUS_COLUMN_BITMASK);
+			new String[] {Integer.class.getName()}, new String[] {"status"},
+			true);
 
 		_finderPathCountByStatus = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStatus",
-			new String[] {Integer.class.getName()});
+			new String[] {Integer.class.getName()}, new String[] {"status"},
+			false);
 
 		_finderPathWithPaginationFindByShortNameAndStatus = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, LigneImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByShortNameAndStatus",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"shortName", "status"}, true);
 
 		_finderPathWithoutPaginationFindByShortNameAndStatus = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, LigneImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByShortNameAndStatus",
 			new String[] {String.class.getName(), Integer.class.getName()},
-			LigneModelImpl.SHORTNAME_COLUMN_BITMASK |
-			LigneModelImpl.STATUS_COLUMN_BITMASK);
+			new String[] {"shortName", "status"}, true);
 
 		_finderPathCountByShortNameAndStatus = new FinderPath(
-			LigneModelImpl.ENTITY_CACHE_ENABLED,
-			LigneModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByShortNameAndStatus",
-			new String[] {String.class.getName(), Integer.class.getName()});
+			new String[] {String.class.getName(), Integer.class.getName()},
+			new String[] {"shortName", "status"}, false);
+
+		LigneUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		LigneUtil.setPersistence(null);
+
 		entityCache.removeCache(LigneImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -4359,9 +3921,6 @@ public class LignePersistenceImpl
 
 	private static final String _SQL_SELECT_LIGNE =
 		"SELECT ligne FROM Ligne ligne";
-
-	private static final String _SQL_SELECT_LIGNE_WHERE_PKS_IN =
-		"SELECT ligne FROM Ligne ligne WHERE ligneId IN (";
 
 	private static final String _SQL_SELECT_LIGNE_WHERE =
 		"SELECT ligne FROM Ligne ligne WHERE ";
@@ -4385,5 +3944,10 @@ public class LignePersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "type"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

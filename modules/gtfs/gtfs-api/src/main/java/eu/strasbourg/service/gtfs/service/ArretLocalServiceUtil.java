@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.gtfs.model.Arret;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for Arret. This utility wraps
@@ -48,9 +48,7 @@ public class ArretLocalServiceUtil {
 	 * @param arret the arret
 	 * @return the arret that was added
 	 */
-	public static eu.strasbourg.service.gtfs.model.Arret addArret(
-		eu.strasbourg.service.gtfs.model.Arret arret) {
-
+	public static Arret addArret(Arret arret) {
 		return getService().addArret(arret);
 	}
 
@@ -60,20 +58,28 @@ public class ArretLocalServiceUtil {
 	 * @param arretId the primary key for the new arret
 	 * @return the new arret
 	 */
-	public static eu.strasbourg.service.gtfs.model.Arret createArret(
-		long arretId) {
-
+	public static Arret createArret(long arretId) {
 		return getService().createArret(arretId);
 	}
 
 	/**
 	 * Crée une entree avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.gtfs.model.Arret createArret(
+	public static Arret createArret(
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createArret(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -86,9 +92,7 @@ public class ArretLocalServiceUtil {
 	 * @param arret the arret
 	 * @return the arret that was removed
 	 */
-	public static eu.strasbourg.service.gtfs.model.Arret deleteArret(
-		eu.strasbourg.service.gtfs.model.Arret arret) {
-
+	public static Arret deleteArret(Arret arret) {
 		return getService().deleteArret(arret);
 	}
 
@@ -103,27 +107,29 @@ public class ArretLocalServiceUtil {
 	 * @return the arret that was removed
 	 * @throws PortalException if a arret with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.Arret deleteArret(
-			long arretId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Arret deleteArret(long arretId) throws PortalException {
 		return getService().deleteArret(arretId);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -133,9 +139,7 @@ public class ArretLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -151,9 +155,8 @@ public class ArretLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -171,10 +174,9 @@ public class ArretLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -186,9 +188,7 @@ public class ArretLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -200,15 +200,13 @@ public class ArretLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.gtfs.model.Arret fetchArret(
-		long arretId) {
-
+	public static Arret fetchArret(long arretId) {
 		return getService().fetchArret(arretId);
 	}
 
@@ -219,9 +217,7 @@ public class ArretLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching arret, or <code>null</code> if a matching arret could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.Arret
-		fetchArretByUuidAndGroupId(String uuid, long groupId) {
-
+	public static Arret fetchArretByUuidAndGroupId(String uuid, long groupId) {
 		return getService().fetchArretByUuidAndGroupId(uuid, groupId);
 	}
 
@@ -231,17 +227,15 @@ public class ArretLocalServiceUtil {
 	 * @param idsArrets: list des identifiants
 	 * @return
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Arret>
-		findByIds(java.util.List<Long> idsArrets) {
-
+	public static List<Arret> findByIds(List<Long> idsArrets) {
 		return getService().findByIds(idsArrets);
 	}
 
 	/**
 	 * Recherche par mot clés
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Arret>
-		findByKeyword(String keyword, long groupId, int start, int end) {
+	public static List<Arret> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -262,9 +256,7 @@ public class ArretLocalServiceUtil {
 	/**
 	 * Retourne la liste de tous les arrets
 	 */
-	public static java.util.Map<String, eu.strasbourg.service.gtfs.model.Arret>
-		getAll() {
-
+	public static Map<String, Arret> getAll() {
 		return getService().getAll();
 	}
 
@@ -275,9 +267,7 @@ public class ArretLocalServiceUtil {
 	 * @return the arret
 	 * @throws PortalException if a arret with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.Arret getArret(long arretId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Arret getArret(long arretId) throws PortalException {
 		return getService().getArret(arretId);
 	}
 
@@ -289,9 +279,8 @@ public class ArretLocalServiceUtil {
 	 * @return the matching arret
 	 * @throws PortalException if a matching arret could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.Arret
-			getArretByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Arret getArretByUuidAndGroupId(String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getArretByUuidAndGroupId(uuid, groupId);
 	}
@@ -307,9 +296,7 @@ public class ArretLocalServiceUtil {
 	 * @param end the upper bound of the range of arrets (not inclusive)
 	 * @return the range of arrets
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Arret>
-		getArrets(int start, int end) {
-
+	public static List<Arret> getArrets(int start, int end) {
 		return getService().getArrets(start, end);
 	}
 
@@ -320,8 +307,8 @@ public class ArretLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching arrets, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Arret>
-		getArretsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Arret> getArretsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getArretsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -336,11 +323,9 @@ public class ArretLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching arrets, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Arret>
-		getArretsByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.gtfs.model.Arret> orderByComparator) {
+	public static List<Arret> getArretsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Arret> orderByComparator) {
 
 		return getService().getArretsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -358,7 +343,7 @@ public class ArretLocalServiceUtil {
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à l'entree
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -367,36 +352,28 @@ public class ArretLocalServiceUtil {
 	/**
 	 * Retourne toutes les entrees d'un groupe
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Arret>
-		getByGroupId(long groupId) {
-
+	public static List<Arret> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
 	/**
 	 * Retourne tous les arret avec un status choisi
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Arret>
-		getByStatus(int status) {
-
+	public static List<Arret> getByStatus(int status) {
 		return getService().getByStatus(status);
 	}
 
 	/**
 	 * Retourne les arrets via le stopCode
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Arret>
-		getByStopCode(String stopCode) {
-
+	public static List<Arret> getByStopCode(String stopCode) {
 		return getService().getByStopCode(stopCode);
 	}
 
 	/**
 	 * Retourne un arret via son stopId CTS
 	 */
-	public static eu.strasbourg.service.gtfs.model.Arret getByStopId(
-		String stopId) {
-
+	public static Arret getByStopId(String stopId) {
 		return getService().getByStopId(stopId);
 	}
 
@@ -427,9 +404,8 @@ public class ArretLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -437,10 +413,7 @@ public class ArretLocalServiceUtil {
 	/**
 	 * Supprime l'entree
 	 */
-	public static eu.strasbourg.service.gtfs.model.Arret removeArret(
-			long arretId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Arret removeArret(long arretId) throws PortalException {
 		return getService().removeArret(arretId);
 	}
 
@@ -448,9 +421,9 @@ public class ArretLocalServiceUtil {
 	 * Supprime les entrees
 	 */
 	public static void removeArrets(
-			java.util.List<eu.strasbourg.service.gtfs.model.Arret> arrets,
+			List<Arret> arrets,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		getService().removeArrets(arrets, sc);
 	}
@@ -459,10 +432,10 @@ public class ArretLocalServiceUtil {
 	 * Met à jour le statut "manuellement" (pas via le workflow) des entrees
 	 */
 	public static void unpublishArrets(
-			java.util.List<eu.strasbourg.service.gtfs.model.Arret> arrets,
+			List<Arret> arrets,
 			eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		getService().unpublishArrets(arrets, importHistoric, sc);
 	}
@@ -477,9 +450,7 @@ public class ArretLocalServiceUtil {
 	 * @param arret the arret
 	 * @return the arret that was updated
 	 */
-	public static eu.strasbourg.service.gtfs.model.Arret updateArret(
-		eu.strasbourg.service.gtfs.model.Arret arret) {
-
+	public static Arret updateArret(Arret arret) {
 		return getService().updateArret(arret);
 	}
 
@@ -488,10 +459,9 @@ public class ArretLocalServiceUtil {
 	 *
 	 * @throws IOException
 	 */
-	public static eu.strasbourg.service.gtfs.model.Arret updateArret(
-			eu.strasbourg.service.gtfs.model.Arret arret,
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Arret updateArret(
+			Arret arret, com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateArret(arret, sc);
 	}
@@ -502,9 +472,9 @@ public class ArretLocalServiceUtil {
 	 * @throws IOException
 	 */
 	public static void updateArrets(
-			java.util.List<eu.strasbourg.service.gtfs.model.Arret> arrets,
+			List<Arret> arrets,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		getService().updateArrets(arrets, sc);
 	}
@@ -512,9 +482,8 @@ public class ArretLocalServiceUtil {
 	/**
 	 * Met à jour le statut "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.gtfs.model.Arret arret, int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(Arret arret, int status)
+		throws PortalException {
 
 		getService().updateStatus(arret, status);
 	}
@@ -522,33 +491,24 @@ public class ArretLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'entree par le framework workflow
 	 */
-	public static eu.strasbourg.service.gtfs.model.Arret updateStatus(
+	public static Arret updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
 	}
 
 	public static ArretLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<ArretLocalService, ArretLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(ArretLocalService.class);
-
-		ServiceTracker<ArretLocalService, ArretLocalService> serviceTracker =
-			new ServiceTracker<ArretLocalService, ArretLocalService>(
-				bundle.getBundleContext(), ArretLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(ArretLocalService service) {
+		_service = service;
 	}
+
+	private static volatile ArretLocalService _service;
 
 }

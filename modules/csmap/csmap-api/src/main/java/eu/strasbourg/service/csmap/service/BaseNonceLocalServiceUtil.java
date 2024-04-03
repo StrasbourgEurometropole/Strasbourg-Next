@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.csmap.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.csmap.model.BaseNonce;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for BaseNonce. This utility wraps
@@ -48,9 +47,7 @@ public class BaseNonceLocalServiceUtil {
 	 * @param baseNonce the base nonce
 	 * @return the base nonce that was added
 	 */
-	public static eu.strasbourg.service.csmap.model.BaseNonce addBaseNonce(
-		eu.strasbourg.service.csmap.model.BaseNonce baseNonce) {
-
+	public static BaseNonce addBaseNonce(BaseNonce baseNonce) {
 		return getService().addBaseNonce(baseNonce);
 	}
 
@@ -60,19 +57,27 @@ public class BaseNonceLocalServiceUtil {
 	 * @param baseNonceId the primary key for the new base nonce
 	 * @return the new base nonce
 	 */
-	public static eu.strasbourg.service.csmap.model.BaseNonce createBaseNonce(
-		long baseNonceId) {
-
+	public static BaseNonce createBaseNonce(long baseNonceId) {
 		return getService().createBaseNonce(baseNonceId);
 	}
 
 	/**
 	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.csmap.model.BaseNonce createBaseNonce(
+	public static BaseNonce createBaseNonce(
 		com.liferay.portal.kernel.service.ServiceContext sc) {
 
 		return getService().createBaseNonce(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -85,9 +90,7 @@ public class BaseNonceLocalServiceUtil {
 	 * @param baseNonce the base nonce
 	 * @return the base nonce that was removed
 	 */
-	public static eu.strasbourg.service.csmap.model.BaseNonce deleteBaseNonce(
-		eu.strasbourg.service.csmap.model.BaseNonce baseNonce) {
-
+	public static BaseNonce deleteBaseNonce(BaseNonce baseNonce) {
 		return getService().deleteBaseNonce(baseNonce);
 	}
 
@@ -102,9 +105,8 @@ public class BaseNonceLocalServiceUtil {
 	 * @return the base nonce that was removed
 	 * @throws PortalException if a base nonce with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.csmap.model.BaseNonce deleteBaseNonce(
-			long baseNonceId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static BaseNonce deleteBaseNonce(long baseNonceId)
+		throws PortalException {
 
 		return getService().deleteBaseNonce(baseNonceId);
 	}
@@ -112,17 +114,22 @@ public class BaseNonceLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -132,9 +139,7 @@ public class BaseNonceLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -150,9 +155,8 @@ public class BaseNonceLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -170,10 +174,9 @@ public class BaseNonceLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -185,9 +188,7 @@ public class BaseNonceLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -199,24 +200,20 @@ public class BaseNonceLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.csmap.model.BaseNonce fetchBaseNonce(
-		long baseNonceId) {
-
+	public static BaseNonce fetchBaseNonce(long baseNonceId) {
 		return getService().fetchBaseNonce(baseNonceId);
 	}
 
 	/**
 	 * Retrouve un baseNonce par sa valeur
 	 */
-	public static eu.strasbourg.service.csmap.model.BaseNonce fetchByValue(
-		String value) {
-
+	public static BaseNonce fetchByValue(String value) {
 		return getService().fetchByValue(value);
 	}
 
@@ -233,9 +230,8 @@ public class BaseNonceLocalServiceUtil {
 	 * @return the base nonce
 	 * @throws PortalException if a base nonce with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.csmap.model.BaseNonce getBaseNonce(
-			long baseNonceId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static BaseNonce getBaseNonce(long baseNonceId)
+		throws PortalException {
 
 		return getService().getBaseNonce(baseNonceId);
 	}
@@ -251,9 +247,7 @@ public class BaseNonceLocalServiceUtil {
 	 * @param end the upper bound of the range of base nonces (not inclusive)
 	 * @return the range of base nonces
 	 */
-	public static java.util.List<eu.strasbourg.service.csmap.model.BaseNonce>
-		getBaseNonces(int start, int end) {
-
+	public static List<BaseNonce> getBaseNonces(int start, int end) {
 		return getService().getBaseNonces(start, end);
 	}
 
@@ -285,9 +279,8 @@ public class BaseNonceLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -302,42 +295,28 @@ public class BaseNonceLocalServiceUtil {
 	 * @param baseNonce the base nonce
 	 * @return the base nonce that was updated
 	 */
-	public static eu.strasbourg.service.csmap.model.BaseNonce updateBaseNonce(
-		eu.strasbourg.service.csmap.model.BaseNonce baseNonce) {
-
+	public static BaseNonce updateBaseNonce(BaseNonce baseNonce) {
 		return getService().updateBaseNonce(baseNonce);
 	}
 
 	/**
 	 * Met à jour une entité et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.csmap.model.BaseNonce updateBaseNonce(
-		eu.strasbourg.service.csmap.model.BaseNonce baseNonce,
+	public static BaseNonce updateBaseNonce(
+		BaseNonce baseNonce,
 		com.liferay.portal.kernel.service.ServiceContext sc) {
 
 		return getService().updateBaseNonce(baseNonce, sc);
 	}
 
 	public static BaseNonceLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<BaseNonceLocalService, BaseNonceLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(BaseNonceLocalService.class);
-
-		ServiceTracker<BaseNonceLocalService, BaseNonceLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<BaseNonceLocalService, BaseNonceLocalService>(
-						bundle.getBundleContext(), BaseNonceLocalService.class,
-						null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(BaseNonceLocalService service) {
+		_service = service;
 	}
+
+	private static volatile BaseNonceLocalService _service;
 
 }

@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.interest.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.interest.model.UserInterest;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for UserInterest. This utility wraps
@@ -48,11 +47,18 @@ public class UserInterestLocalServiceUtil {
 	 * @param userInterest the user interest
 	 * @return the user interest that was added
 	 */
-	public static eu.strasbourg.service.interest.model.UserInterest
-		addUserInterest(
-			eu.strasbourg.service.interest.model.UserInterest userInterest) {
-
+	public static UserInterest addUserInterest(UserInterest userInterest) {
 		return getService().addUserInterest(userInterest);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -61,10 +67,9 @@ public class UserInterestLocalServiceUtil {
 	 * @param userInterestPK the primary key for the new user interest
 	 * @return the new user interest
 	 */
-	public static eu.strasbourg.service.interest.model.UserInterest
-		createUserInterest(
-			eu.strasbourg.service.interest.service.persistence.UserInterestPK
-				userInterestPK) {
+	public static UserInterest createUserInterest(
+		eu.strasbourg.service.interest.service.persistence.UserInterestPK
+			userInterestPK) {
 
 		return getService().createUserInterest(userInterestPK);
 	}
@@ -72,10 +77,9 @@ public class UserInterestLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -90,10 +94,7 @@ public class UserInterestLocalServiceUtil {
 	 * @param userInterest the user interest
 	 * @return the user interest that was removed
 	 */
-	public static eu.strasbourg.service.interest.model.UserInterest
-		deleteUserInterest(
-			eu.strasbourg.service.interest.model.UserInterest userInterest) {
-
+	public static UserInterest deleteUserInterest(UserInterest userInterest) {
 		return getService().deleteUserInterest(userInterest);
 	}
 
@@ -108,18 +109,23 @@ public class UserInterestLocalServiceUtil {
 	 * @return the user interest that was removed
 	 * @throws PortalException if a user interest with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.interest.model.UserInterest
-			deleteUserInterest(
-				eu.strasbourg.service.interest.service.persistence.
-					UserInterestPK userInterestPK)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static UserInterest deleteUserInterest(
+			eu.strasbourg.service.interest.service.persistence.UserInterestPK
+				userInterestPK)
+		throws PortalException {
 
 		return getService().deleteUserInterest(userInterestPK);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -129,9 +135,7 @@ public class UserInterestLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -147,9 +151,8 @@ public class UserInterestLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -167,10 +170,9 @@ public class UserInterestLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -182,9 +184,7 @@ public class UserInterestLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -196,16 +196,15 @@ public class UserInterestLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.interest.model.UserInterest
-		fetchUserInterest(
-			eu.strasbourg.service.interest.service.persistence.UserInterestPK
-				userInterestPK) {
+	public static UserInterest fetchUserInterest(
+		eu.strasbourg.service.interest.service.persistence.UserInterestPK
+			userInterestPK) {
 
 		return getService().fetchUserInterest(userInterestPK);
 	}
@@ -216,17 +215,11 @@ public class UserInterestLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.interest.model.UserInterest> getByInterestId(
-			long interestId) {
-
+	public static List<UserInterest> getByInterestId(long interestId) {
 		return getService().getByInterestId(interestId);
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.interest.model.UserInterest> getByPublikUserId(
-			String publikUserId) {
-
+	public static List<UserInterest> getByPublikUserId(String publikUserId) {
 		return getService().getByPublikUserId(publikUserId);
 	}
 
@@ -249,9 +242,8 @@ public class UserInterestLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -263,11 +255,10 @@ public class UserInterestLocalServiceUtil {
 	 * @return the user interest
 	 * @throws PortalException if a user interest with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.interest.model.UserInterest
-			getUserInterest(
-				eu.strasbourg.service.interest.service.persistence.
-					UserInterestPK userInterestPK)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static UserInterest getUserInterest(
+			eu.strasbourg.service.interest.service.persistence.UserInterestPK
+				userInterestPK)
+		throws PortalException {
 
 		return getService().getUserInterest(userInterestPK);
 	}
@@ -283,10 +274,7 @@ public class UserInterestLocalServiceUtil {
 	 * @param end the upper bound of the range of user interests (not inclusive)
 	 * @return the range of user interests
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.interest.model.UserInterest> getUserInterests(
-			int start, int end) {
-
+	public static List<UserInterest> getUserInterests(int start, int end) {
 		return getService().getUserInterests(start, end);
 	}
 
@@ -309,33 +297,18 @@ public class UserInterestLocalServiceUtil {
 	 * @param userInterest the user interest
 	 * @return the user interest that was updated
 	 */
-	public static eu.strasbourg.service.interest.model.UserInterest
-		updateUserInterest(
-			eu.strasbourg.service.interest.model.UserInterest userInterest) {
-
+	public static UserInterest updateUserInterest(UserInterest userInterest) {
 		return getService().updateUserInterest(userInterest);
 	}
 
 	public static UserInterestLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<UserInterestLocalService, UserInterestLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(UserInterestLocalService.class);
-
-		ServiceTracker<UserInterestLocalService, UserInterestLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<UserInterestLocalService, UserInterestLocalService>(
-						bundle.getBundleContext(),
-						UserInterestLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(UserInterestLocalService service) {
+		_service = service;
 	}
+
+	private static volatile UserInterestLocalService _service;
 
 }

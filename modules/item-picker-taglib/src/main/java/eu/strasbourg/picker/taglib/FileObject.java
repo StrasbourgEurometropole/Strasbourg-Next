@@ -2,7 +2,6 @@ package eu.strasbourg.picker.taglib;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
-
 import eu.strasbourg.utils.FileEntryHelper;
 
 public class FileObject {

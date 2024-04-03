@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.agenda.model.Event</className>
+    <template>
+        <script>event-detail.ftl</script>
+        <name>Détail événement</name>
+        <key>2532097</key>
+    </template>
+</root>

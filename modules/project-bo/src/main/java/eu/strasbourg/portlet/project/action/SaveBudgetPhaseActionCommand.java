@@ -4,12 +4,15 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -58,13 +61,13 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 					.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request
 					.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				PortletURL backURL = PortletURLFactoryUtil.create(request,
 					portletName, themeDisplay.getPlid(),
 					PortletRequest.RENDER_PHASE);
-				returnURL.setParameter("tab", request.getParameter("tab"));
-				
-				response.setRenderParameter("returnURL", returnURL.toString());
-				response.setRenderParameter("cmd", "editBudgetPhase");
+				backURL.setParameter("tab", request.getParameter("tab"));
+
+				response.setRenderParameter("backURL", backURL.toString());
+				response.setRenderParameter("cmd", "saveBudgetPhase");
 				response.setRenderParameter("mvcPath","/project-bo-edit-budget-phase.jsp");
 				return false;
 			}
@@ -138,6 +141,7 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 			budgetPhase.setEndVoteDate(endVoteDate);
 
 			_budgetPhaseLocalService.updateBudgetPhase(budgetPhase, sc);
+			response.setRenderParameter("mvcPath", "/project-bo-view-budget-phases.jsp");
 
 		} catch (PortalException e) {
 			_log.error(e);

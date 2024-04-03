@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.video.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -31,34 +23,35 @@ import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.service.persistence.impl.TableMapper;
 import com.liferay.portal.kernel.service.persistence.impl.TableMapperFactory;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.video.exception.NoSuchVideoException;
 import eu.strasbourg.service.video.model.Video;
+import eu.strasbourg.service.video.model.VideoTable;
 import eu.strasbourg.service.video.model.impl.VideoImpl;
 import eu.strasbourg.service.video.model.impl.VideoModelImpl;
 import eu.strasbourg.service.video.service.persistence.VideoGalleryPersistence;
 import eu.strasbourg.service.video.service.persistence.VideoPersistence;
+import eu.strasbourg.service.video.service.persistence.VideoUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.sql.Timestamp;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -258,10 +251,6 @@ public class VideoPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -610,8 +599,6 @@ public class VideoPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -768,11 +755,6 @@ public class VideoPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -861,8 +843,6 @@ public class VideoPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1062,10 +1042,6 @@ public class VideoPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1442,8 +1418,6 @@ public class VideoPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1615,10 +1589,6 @@ public class VideoPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1942,8 +1912,6 @@ public class VideoPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2056,9 +2024,8 @@ public class VideoPersistenceImpl
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Video video : list) {
-					if ((publicationDate.getTime() <=
-							video.getPublicationDate().getTime()) ||
-						(status != video.getStatus())) {
+					if ((publicationDate.getTime() <= video.getPublicationDate(
+						).getTime()) || (status != video.getStatus())) {
 
 						list = null;
 
@@ -2131,10 +2098,6 @@ public class VideoPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2520,8 +2483,6 @@ public class VideoPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2548,21 +2509,14 @@ public class VideoPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Video.class);
+
+		setModelImplClass(VideoImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(VideoTable.INSTANCE);
 	}
 
 	/**
@@ -2572,16 +2526,14 @@ public class VideoPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(Video video) {
-		entityCache.putResult(
-			VideoModelImpl.ENTITY_CACHE_ENABLED, VideoImpl.class,
-			video.getPrimaryKey(), video);
+		entityCache.putResult(VideoImpl.class, video.getPrimaryKey(), video);
 
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {video.getUuid(), video.getGroupId()}, video);
-
-		video.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the videos in the entity cache if it is enabled.
@@ -2590,15 +2542,18 @@ public class VideoPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Video> videos) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (videos.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Video video : videos) {
-			if (entityCache.getResult(
-					VideoModelImpl.ENTITY_CACHE_ENABLED, VideoImpl.class,
-					video.getPrimaryKey()) == null) {
+			if (entityCache.getResult(VideoImpl.class, video.getPrimaryKey()) ==
+					null) {
 
 				cacheResult(video);
-			}
-			else {
-				video.resetOriginalValues();
 			}
 		}
 	}
@@ -2614,9 +2569,7 @@ public class VideoPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(VideoImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(VideoImpl.class);
 	}
 
 	/**
@@ -2628,39 +2581,22 @@ public class VideoPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Video video) {
-		entityCache.removeResult(
-			VideoModelImpl.ENTITY_CACHE_ENABLED, VideoImpl.class,
-			video.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((VideoModelImpl)video, true);
+		entityCache.removeResult(VideoImpl.class, video);
 	}
 
 	@Override
 	public void clearCache(List<Video> videos) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Video video : videos) {
-			entityCache.removeResult(
-				VideoModelImpl.ENTITY_CACHE_ENABLED, VideoImpl.class,
-				video.getPrimaryKey());
-
-			clearUniqueFindersCache((VideoModelImpl)video, true);
+			entityCache.removeResult(VideoImpl.class, video);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(VideoImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				VideoModelImpl.ENTITY_CACHE_ENABLED, VideoImpl.class,
-				primaryKey);
+			entityCache.removeResult(VideoImpl.class, primaryKey);
 		}
 	}
 
@@ -2669,35 +2605,8 @@ public class VideoPersistenceImpl
 			videoModelImpl.getUuid(), videoModelImpl.getGroupId()
 		};
 
-		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, videoModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		VideoModelImpl videoModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				videoModelImpl.getUuid(), videoModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((videoModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				videoModelImpl.getOriginalUuid(),
-				videoModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
+		finderCache.putResult(_finderPathFetchByUUID_G, args, videoModelImpl);
 	}
 
 	/**
@@ -2836,23 +2745,23 @@ public class VideoPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (video.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				video.setCreateDate(now);
+				video.setCreateDate(date);
 			}
 			else {
-				video.setCreateDate(serviceContext.getCreateDate(now));
+				video.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!videoModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				video.setModifiedDate(now);
+				video.setModifiedDate(date);
 			}
 			else {
-				video.setModifiedDate(serviceContext.getModifiedDate(now));
+				video.setModifiedDate(serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -2861,10 +2770,8 @@ public class VideoPersistenceImpl
 		try {
 			session = openSession();
 
-			if (video.isNew()) {
+			if (isNew) {
 				session.save(video);
-
-				video.setNew(false);
 			}
 			else {
 				video = (Video)session.merge(video);
@@ -2877,102 +2784,13 @@ public class VideoPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(VideoImpl.class, videoModelImpl, false, true);
 
-		if (!VideoModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {videoModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				videoModelImpl.getUuid(), videoModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {videoModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((videoModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {videoModelImpl.getOriginalUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {videoModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((videoModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					videoModelImpl.getOriginalUuid(),
-					videoModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					videoModelImpl.getUuid(), videoModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((videoModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					videoModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {videoModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-		}
-
-		entityCache.putResult(
-			VideoModelImpl.ENTITY_CACHE_ENABLED, VideoImpl.class,
-			video.getPrimaryKey(), video, false);
-
-		clearUniqueFindersCache(videoModelImpl, false);
 		cacheUniqueFindersCache(videoModelImpl);
+
+		if (isNew) {
+			video.setNew(false);
+		}
 
 		video.resetOriginalValues();
 
@@ -3019,158 +2837,12 @@ public class VideoPersistenceImpl
 	/**
 	 * Returns the video with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the video
-	 * @return the video, or <code>null</code> if a video with the primary key could not be found
-	 */
-	@Override
-	public Video fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			VideoModelImpl.ENTITY_CACHE_ENABLED, VideoImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Video video = (Video)serializable;
-
-		if (video == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				video = (Video)session.get(VideoImpl.class, primaryKey);
-
-				if (video != null) {
-					cacheResult(video);
-				}
-				else {
-					entityCache.putResult(
-						VideoModelImpl.ENTITY_CACHE_ENABLED, VideoImpl.class,
-						primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					VideoModelImpl.ENTITY_CACHE_ENABLED, VideoImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return video;
-	}
-
-	/**
-	 * Returns the video with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param videoId the primary key of the video
 	 * @return the video, or <code>null</code> if a video with the primary key could not be found
 	 */
 	@Override
 	public Video fetchByPrimaryKey(long videoId) {
 		return fetchByPrimaryKey((Serializable)videoId);
-	}
-
-	@Override
-	public Map<Serializable, Video> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Video> map = new HashMap<Serializable, Video>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Video video = fetchByPrimaryKey(primaryKey);
-
-			if (video != null) {
-				map.put(primaryKey, video);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				VideoModelImpl.ENTITY_CACHE_ENABLED, VideoImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Video)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_VIDEO_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Video video : (List<Video>)query.list()) {
-				map.put(video.getPrimaryKeyObj(), video);
-
-				cacheResult(video);
-
-				uncachedPrimaryKeys.remove(video.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					VideoModelImpl.ENTITY_CACHE_ENABLED, VideoImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3297,10 +2969,6 @@ public class VideoPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3346,9 +3014,6 @@ public class VideoPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3475,17 +3140,18 @@ public class VideoPersistenceImpl
 	 *
 	 * @param pk the primary key of the video
 	 * @param videoGalleryPK the primary key of the video gallery
+	 * @return <code>true</code> if an association between the video and the video gallery was added; <code>false</code> if they were already associated
 	 */
 	@Override
-	public void addVideoGallery(long pk, long videoGalleryPK) {
+	public boolean addVideoGallery(long pk, long videoGalleryPK) {
 		Video video = fetchByPrimaryKey(pk);
 
 		if (video == null) {
-			videoToVideoGalleryTableMapper.addTableMapping(
+			return videoToVideoGalleryTableMapper.addTableMapping(
 				CompanyThreadLocal.getCompanyId(), pk, videoGalleryPK);
 		}
 		else {
-			videoToVideoGalleryTableMapper.addTableMapping(
+			return videoToVideoGalleryTableMapper.addTableMapping(
 				video.getCompanyId(), pk, videoGalleryPK);
 		}
 	}
@@ -3495,20 +3161,21 @@ public class VideoPersistenceImpl
 	 *
 	 * @param pk the primary key of the video
 	 * @param videoGallery the video gallery
+	 * @return <code>true</code> if an association between the video and the video gallery was added; <code>false</code> if they were already associated
 	 */
 	@Override
-	public void addVideoGallery(
+	public boolean addVideoGallery(
 		long pk, eu.strasbourg.service.video.model.VideoGallery videoGallery) {
 
 		Video video = fetchByPrimaryKey(pk);
 
 		if (video == null) {
-			videoToVideoGalleryTableMapper.addTableMapping(
+			return videoToVideoGalleryTableMapper.addTableMapping(
 				CompanyThreadLocal.getCompanyId(), pk,
 				videoGallery.getPrimaryKey());
 		}
 		else {
-			videoToVideoGalleryTableMapper.addTableMapping(
+			return videoToVideoGalleryTableMapper.addTableMapping(
 				video.getCompanyId(), pk, videoGallery.getPrimaryKey());
 		}
 	}
@@ -3518,9 +3185,10 @@ public class VideoPersistenceImpl
 	 *
 	 * @param pk the primary key of the video
 	 * @param videoGalleryPKs the primary keys of the video galleries
+	 * @return <code>true</code> if at least one association between the video and the video galleries was added; <code>false</code> if they were all already associated
 	 */
 	@Override
-	public void addVideoGalleries(long pk, long[] videoGalleryPKs) {
+	public boolean addVideoGalleries(long pk, long[] videoGalleryPKs) {
 		long companyId = 0;
 
 		Video video = fetchByPrimaryKey(pk);
@@ -3532,8 +3200,14 @@ public class VideoPersistenceImpl
 			companyId = video.getCompanyId();
 		}
 
-		videoToVideoGalleryTableMapper.addTableMappings(
+		long[] addedKeys = videoToVideoGalleryTableMapper.addTableMappings(
 			companyId, pk, videoGalleryPKs);
+
+		if (addedKeys.length > 0) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -3541,13 +3215,14 @@ public class VideoPersistenceImpl
 	 *
 	 * @param pk the primary key of the video
 	 * @param videoGalleries the video galleries
+	 * @return <code>true</code> if at least one association between the video and the video galleries was added; <code>false</code> if they were all already associated
 	 */
 	@Override
-	public void addVideoGalleries(
+	public boolean addVideoGalleries(
 		long pk,
 		List<eu.strasbourg.service.video.model.VideoGallery> videoGalleries) {
 
-		addVideoGalleries(
+		return addVideoGalleries(
 			pk,
 			ListUtil.toLongArray(
 				videoGalleries,
@@ -3691,6 +3366,21 @@ public class VideoPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "videoId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_VIDEO;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return VideoModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -3699,138 +3389,115 @@ public class VideoPersistenceImpl
 	 * Initializes the video persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		videoToVideoGalleryTableMapper = TableMapperFactory.getTableMapper(
 			"video_VideoToVideoGallery", "companyId", "videoId", "galleryId",
 			this, videoGalleryPersistence);
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			VideoModelImpl.ENTITY_CACHE_ENABLED,
-			VideoModelImpl.FINDER_CACHE_ENABLED, VideoImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			VideoModelImpl.ENTITY_CACHE_ENABLED,
-			VideoModelImpl.FINDER_CACHE_ENABLED, VideoImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			VideoModelImpl.ENTITY_CACHE_ENABLED,
-			VideoModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			VideoModelImpl.ENTITY_CACHE_ENABLED,
-			VideoModelImpl.FINDER_CACHE_ENABLED, VideoImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			VideoModelImpl.ENTITY_CACHE_ENABLED,
-			VideoModelImpl.FINDER_CACHE_ENABLED, VideoImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			VideoModelImpl.UUID_COLUMN_BITMASK |
-			VideoModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			VideoModelImpl.ENTITY_CACHE_ENABLED,
-			VideoModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			VideoModelImpl.ENTITY_CACHE_ENABLED,
-			VideoModelImpl.FINDER_CACHE_ENABLED, VideoImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			VideoModelImpl.UUID_COLUMN_BITMASK |
-			VideoModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			VideoModelImpl.ENTITY_CACHE_ENABLED,
-			VideoModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			VideoModelImpl.ENTITY_CACHE_ENABLED,
-			VideoModelImpl.FINDER_CACHE_ENABLED, VideoImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			VideoModelImpl.ENTITY_CACHE_ENABLED,
-			VideoModelImpl.FINDER_CACHE_ENABLED, VideoImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			VideoModelImpl.UUID_COLUMN_BITMASK |
-			VideoModelImpl.COMPANYID_COLUMN_BITMASK |
-			VideoModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			VideoModelImpl.ENTITY_CACHE_ENABLED,
-			VideoModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			VideoModelImpl.ENTITY_CACHE_ENABLED,
-			VideoModelImpl.FINDER_CACHE_ENABLED, VideoImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			VideoModelImpl.ENTITY_CACHE_ENABLED,
-			VideoModelImpl.FINDER_CACHE_ENABLED, VideoImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			VideoModelImpl.GROUPID_COLUMN_BITMASK |
-			VideoModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			VideoModelImpl.ENTITY_CACHE_ENABLED,
-			VideoModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
 
 		_finderPathWithPaginationFindByPublicationDateAndStatus =
 			new FinderPath(
-				VideoModelImpl.ENTITY_CACHE_ENABLED,
-				VideoModelImpl.FINDER_CACHE_ENABLED, VideoImpl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByPublicationDateAndStatus",
 				new String[] {
 					Date.class.getName(), Integer.class.getName(),
 					Integer.class.getName(), Integer.class.getName(),
 					OrderByComparator.class.getName()
-				});
+				},
+				new String[] {"publicationDate", "status"}, true);
 
 		_finderPathWithPaginationCountByPublicationDateAndStatus =
 			new FinderPath(
-				VideoModelImpl.ENTITY_CACHE_ENABLED,
-				VideoModelImpl.FINDER_CACHE_ENABLED, Long.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"countByPublicationDateAndStatus",
-				new String[] {Date.class.getName(), Integer.class.getName()});
+				new String[] {Date.class.getName(), Integer.class.getName()},
+				new String[] {"publicationDate", "status"}, false);
+
+		VideoUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		VideoUtil.setPersistence(null);
+
 		entityCache.removeCache(VideoImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		TableMapperFactory.removeTableMapper("video_VideoToVideoGallery");
 	}
@@ -3847,7 +3514,7 @@ public class VideoPersistenceImpl
 	protected TableMapper<Video, eu.strasbourg.service.video.model.VideoGallery>
 		videoToVideoGalleryTableMapper;
 
-	private Long _getTime(Date date) {
+	private static Long _getTime(Date date) {
 		if (date == null) {
 			return null;
 		}
@@ -3857,9 +3524,6 @@ public class VideoPersistenceImpl
 
 	private static final String _SQL_SELECT_VIDEO =
 		"SELECT video FROM Video video";
-
-	private static final String _SQL_SELECT_VIDEO_WHERE_PKS_IN =
-		"SELECT video FROM Video video WHERE videoId IN (";
 
 	private static final String _SQL_SELECT_VIDEO_WHERE =
 		"SELECT video FROM Video video WHERE ";
@@ -3883,5 +3547,10 @@ public class VideoPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

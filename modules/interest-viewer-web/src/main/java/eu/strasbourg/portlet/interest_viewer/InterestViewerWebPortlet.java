@@ -9,6 +9,7 @@ import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import eu.strasbourg.utils.SearchHelperV2;
 import org.osgi.service.component.annotations.Component;
 
@@ -17,10 +18,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.interest_viewer.configuration.InterestViewerConfiguration;
 import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -45,8 +44,7 @@ public class InterestViewerWebPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
 		try {
-			InterestViewerConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(InterestViewerConfiguration.class);
+			InterestViewerConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(InterestViewerConfiguration.class, themeDisplay);
 
 			// récupère le type d'affichage
 			String template = configuration.template();

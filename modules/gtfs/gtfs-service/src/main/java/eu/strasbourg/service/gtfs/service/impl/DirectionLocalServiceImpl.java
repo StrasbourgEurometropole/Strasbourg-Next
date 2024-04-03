@@ -18,12 +18,11 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import eu.strasbourg.service.gtfs.model.Direction;
+import eu.strasbourg.service.gtfs.service.base.DirectionLocalServiceBaseImpl;
 
 import java.io.IOException;
 import java.util.List;
-
-import eu.strasbourg.service.gtfs.model.Direction;
-import eu.strasbourg.service.gtfs.service.base.DirectionLocalServiceBaseImpl;
 
 /**
  * The implementation of the direction local service.

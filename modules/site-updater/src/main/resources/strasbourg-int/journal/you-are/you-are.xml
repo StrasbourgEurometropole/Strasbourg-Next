@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<root>
+    <structure>
+        <key>4903719</key>
+        <name>Vous êtes</name>
+        <definition>you-are-definition.json</definition>
+        <layout>you-are-layout.json</layout>
+    </structure>
+    <template>
+        <key>4903915</key>
+        <name>Vous êtes</name>
+        <script>you-are.ftl</script>
+    </template>
+</root>

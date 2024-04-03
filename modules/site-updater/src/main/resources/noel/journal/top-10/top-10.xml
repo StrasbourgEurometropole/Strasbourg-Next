@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Top 10</name>
+        <key>2212473</key>
+        <definition>top-10-structure.json</definition>
+        <layout>top-10-layout.json</layout>
+    </structure>
+    <template>
+        <name>Top 10</name>
+        <key>2212477</key>
+        <script>top10.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+    <template>
+        <name>Top 15</name>
+        <key>3480502</key>
+        <script>top15.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

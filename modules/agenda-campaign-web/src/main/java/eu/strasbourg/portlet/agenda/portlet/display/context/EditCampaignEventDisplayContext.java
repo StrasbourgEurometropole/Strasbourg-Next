@@ -19,16 +19,17 @@ import eu.strasbourg.service.agenda.service.CampaignEventLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.CampaignLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.display.context.BaseDisplayContext;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class EditCampaignEventDisplayContext extends BaseDisplayContext {

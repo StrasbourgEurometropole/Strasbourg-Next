@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.portal.kernel.model.LayoutSet</className>
+    <template>
+        <script>home.ftl</script>
+        <name>Header accueil</name>
+        <key>2196639</key>
+    </template>
+    <template>
+        <script>simple.ftl</script>
+        <name>Header simple</name>
+        <key>2208006</key>
+    </template>
+    <template>
+        <script>image.ftl</script>
+        <name>Header image</name>
+        <key>2212561</key>
+    </template>
+    <template>
+        <script>breadcrumbs.ftl</script>
+        <name>Fil d'ariane</name>
+        <key>2218580</key>
+    </template>
+    <template>
+        <script>experience.ftl</script>
+        <name>Header experience</name>
+        <key>2224538</key>
+    </template>
+</root>

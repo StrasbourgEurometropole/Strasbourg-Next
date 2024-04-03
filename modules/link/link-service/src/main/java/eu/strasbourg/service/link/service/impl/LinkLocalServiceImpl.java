@@ -14,17 +14,12 @@
 
 package eu.strasbourg.service.link.service.impl;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.LongStream;
-
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -43,10 +38,17 @@ import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.link.model.Link;
 import eu.strasbourg.service.link.service.base.LinkLocalServiceBaseImpl;
+import org.osgi.annotation.versioning.ProviderType;
+import org.osgi.service.component.annotations.Reference;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the link local service.
@@ -225,10 +227,8 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Supprime lien avec les catégories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-					categoryId, entry.getEntryId());
-			}
+			AssetEntryAssetCategoryRelLocalServiceUtil.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Supprime lien avec les tags
 			long[] tagsIds = this.assetEntryLocalService
@@ -353,4 +353,6 @@ public class LinkLocalServiceImpl extends LinkLocalServiceBaseImpl {
 		return indexer.search(searchContext);
 	}
 
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

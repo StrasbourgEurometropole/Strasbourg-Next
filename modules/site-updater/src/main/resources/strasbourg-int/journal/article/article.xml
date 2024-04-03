@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<root>
+    <structure>
+        <key>4903738</key>
+        <name>Article</name>
+        <definition>article-definition.json</definition>
+        <layout>article-layout.json</layout>
+    </structure>
+    <template>
+        <key>5155282</key>
+        <name>Article</name>
+        <cacheable>true</cacheable>
+        <script>article.ftl</script>
+    </template>
+</root>

@@ -9,7 +9,7 @@
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body ejob-bo">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
 	<liferay-ui:error key="name-error" message="eu.strasbourg.service.name-error" />
@@ -24,7 +24,7 @@
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.service}" model="<%=ServiceNotif.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 
 			<%-- Champ : (cache) PK de l'entite --%>
 			<aui:input name="serviceId" type="hidden" />
@@ -118,7 +118,7 @@
                  </div>
 
             </aui:fieldset>
-		</aui:fieldset-group>
+        </div></div>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
 		<aui:button-row>
@@ -133,6 +133,7 @@
             <liferay-portlet:actionURL name="deleteService" var="deleteServiceURL">
                 <portlet:param name="cmd" value="deleteService" />
                 <portlet:param name="tab" value="services" />
+                <portlet:param name="mvcPath" value="/notif-bo-view-services.jsp" />
                 <portlet:param name="serviceId"
                     value="${not empty dc.service ? dc.service.serviceId : ''}" />
             </liferay-portlet:actionURL>
@@ -142,7 +143,7 @@
 			</c:if>
 
 			<%-- Composant : bouton de retour a la liste des entites --%>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 
 		</aui:button-row>
 

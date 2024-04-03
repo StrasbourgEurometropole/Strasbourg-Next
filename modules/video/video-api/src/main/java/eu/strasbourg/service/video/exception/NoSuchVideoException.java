@@ -11,17 +11,13 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-
 package eu.strasbourg.service.video.exception;
-
-import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author BenjaminBini
  */
-@ProviderType
 public class NoSuchVideoException extends NoSuchModelException {
 
 	public NoSuchVideoException() {
@@ -31,12 +27,12 @@ public class NoSuchVideoException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchVideoException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchVideoException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchVideoException(Throwable cause) {
-		super(cause);
+	public NoSuchVideoException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

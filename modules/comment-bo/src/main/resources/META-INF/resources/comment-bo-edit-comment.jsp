@@ -18,17 +18,18 @@
 <liferay-portlet:actionURL name="deleteComment" var="deleteCommentURL">
     <portlet:param name="cmd" value="deleteComment" />
     <portlet:param name="tab" value="Comments" />
+    <portlet:param name="mvcPath" value="/comment-bo-view-comments.jsp" />
     <portlet:param name="commentId" value="${not empty dc.comment ? dc.comment.commentId : ''}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveComment" varImpl="saveCommentURL">
-    <portlet:param name="cmd" value="saveComment" />
+    <portlet:param name="tab" value="comments"/>
 </liferay-portlet:actionURL>
 
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
     <%-- Composant : definit la liste des messages d'erreur 
     (voir methode "validate" dans le saveAction de l'entite) --%>
@@ -41,9 +42,9 @@
 
         <%-- Propriete : definit l'entite de reference pour le formulaire--%>
         <aui:model-context bean="${dc.comment}" model="<%=Comment.class %>" />
-        <aui:fieldset-group markupView="lexicon">
+        <div class="sheet"><div class="panel-group panel-group-flush">
 
-            <%-- Champ : (cache) PK de l'entite --%>
+        <%-- Champ : (cache) PK de l'entite --%>
             <aui:input name="commentId" type="hidden" />
 
             <%-- Groupe de champs : Generalites --%>
@@ -78,14 +79,14 @@
              <%-- Champ : liste des signalements --%>
             <aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="signalementList">
 
-            <div class="container-fluid-1280 main-content-body">
+            <div class="container-fluid container-fluid-max-xl main-content-body">
             <aui:input type="hidden" name="selectionIds" />
                 <liferay-ui:search-container id="commentsSearchContainer">
                     <liferay-ui:search-container-results results="${dc.comment.findSignalements()}" />
 
                         <liferay-ui:search-container-row
                         className="eu.strasbourg.service.comment.model.Signalement" modelVar="reporting"
-                        keyProperty="reportingId" rowIdProperty="reportingId">
+                        keyProperty="reportingId" >
 
                             <%-- Colonne : userName --%>
                             <liferay-ui:search-container-column-text cssClass="content-column"
@@ -137,7 +138,7 @@
                 </div >
 			</aui:fieldset>
 
-        </aui:fieldset-group>
+        </div></div>
 
         <%-- Composant : Menu de gestion de l'entite --%>
         <aui:button-row>
@@ -155,7 +156,7 @@
             </c:if>
 
             <%-- Composant : bouton de retour a la liste des entites --%>
-            <aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+            <aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 
         </aui:button-row>
 

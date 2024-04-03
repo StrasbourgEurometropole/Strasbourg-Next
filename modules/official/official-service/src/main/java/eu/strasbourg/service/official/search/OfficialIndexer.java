@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
@@ -61,7 +62,7 @@ public class OfficialIndexer extends BaseIndexer<Official> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 				.getFullHierarchyCategories(official.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+		IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
 				assetCategories);
 
 		String title = official.getLastName() + " " + official.getFirstName();
@@ -133,8 +134,7 @@ public class OfficialIndexer extends BaseIndexer<Official> {
 	protected void doReindex(Official official) throws Exception {
 		Document document = getDocument(official);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-				official.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(official.getCompanyId(), document);
 
 	}
 
@@ -168,7 +168,6 @@ public class OfficialIndexer extends BaseIndexer<Official> {
 
 				});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

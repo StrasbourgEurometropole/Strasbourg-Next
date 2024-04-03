@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<root>
+    <structureOverride>
+        <parentKey>30211</parentKey>
+        <key>755984</key>
+    </structureOverride>
+    <templateOverride>
+        <parentKey>30374</parentKey>
+        <key>756011</key>
+    </templateOverride>
+</root>

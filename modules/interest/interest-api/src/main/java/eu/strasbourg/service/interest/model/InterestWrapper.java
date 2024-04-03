@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.interest.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,12 @@ import java.util.Objects;
  * @see Interest
  * @generated
  */
-public class InterestWrapper implements Interest, ModelWrapper<Interest> {
+public class InterestWrapper
+	extends BaseModelWrapper<Interest>
+	implements Interest, ModelWrapper<Interest> {
 
 	public InterestWrapper(Interest interest) {
-		_interest = interest;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Interest.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Interest.class.getName();
+		super(interest);
 	}
 
 	@Override
@@ -175,15 +154,8 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	}
 
 	@Override
-	public Object clone() {
-		return new InterestWrapper((Interest)_interest.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.interest.model.Interest interest) {
-
-		return _interest.compareTo(interest);
+	public Interest cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -191,12 +163,12 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _interest.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _interest.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -207,7 +179,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _interest.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -217,7 +189,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _interest.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -227,12 +199,12 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _interest.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _interest.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -242,7 +214,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public String getDescription() {
-		return _interest.getDescription();
+		return model.getDescription();
 	}
 
 	/**
@@ -253,7 +225,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale) {
-		return _interest.getDescription(locale);
+		return model.getDescription(locale);
 	}
 
 	/**
@@ -265,7 +237,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale, boolean useDefault) {
-		return _interest.getDescription(locale, useDefault);
+		return model.getDescription(locale, useDefault);
 	}
 
 	/**
@@ -276,7 +248,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public String getDescription(String languageId) {
-		return _interest.getDescription(languageId);
+		return model.getDescription(languageId);
 	}
 
 	/**
@@ -288,17 +260,17 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public String getDescription(String languageId, boolean useDefault) {
-		return _interest.getDescription(languageId, useDefault);
+		return model.getDescription(languageId, useDefault);
 	}
 
 	@Override
 	public String getDescriptionCurrentLanguageId() {
-		return _interest.getDescriptionCurrentLanguageId();
+		return model.getDescriptionCurrentLanguageId();
 	}
 
 	@Override
 	public String getDescriptionCurrentValue() {
-		return _interest.getDescriptionCurrentValue();
+		return model.getDescriptionCurrentValue();
 	}
 
 	/**
@@ -308,12 +280,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getDescriptionMap() {
-		return _interest.getDescriptionMap();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _interest.getExpandoBridge();
+		return model.getDescriptionMap();
 	}
 
 	/**
@@ -323,7 +290,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _interest.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -333,7 +300,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public long getInterestId() {
-		return _interest.getInterestId();
+		return model.getInterestId();
 	}
 
 	/**
@@ -343,7 +310,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public Date getLastPublishDate() {
-		return _interest.getLastPublishDate();
+		return model.getLastPublishDate();
 	}
 
 	/**
@@ -353,7 +320,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _interest.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -363,12 +330,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _interest.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _interest.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -378,7 +340,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public int getStatus() {
-		return _interest.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -388,7 +350,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _interest.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -398,7 +360,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _interest.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -408,7 +370,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _interest.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -418,7 +380,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _interest.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -428,7 +390,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public String getTitle() {
-		return _interest.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -439,7 +401,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale) {
-		return _interest.getTitle(locale);
+		return model.getTitle(locale);
 	}
 
 	/**
@@ -451,7 +413,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale, boolean useDefault) {
-		return _interest.getTitle(locale, useDefault);
+		return model.getTitle(locale, useDefault);
 	}
 
 	/**
@@ -462,7 +424,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public String getTitle(String languageId) {
-		return _interest.getTitle(languageId);
+		return model.getTitle(languageId);
 	}
 
 	/**
@@ -474,17 +436,17 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public String getTitle(String languageId, boolean useDefault) {
-		return _interest.getTitle(languageId, useDefault);
+		return model.getTitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getTitleCurrentLanguageId() {
-		return _interest.getTitleCurrentLanguageId();
+		return model.getTitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getTitleCurrentValue() {
-		return _interest.getTitleCurrentValue();
+		return model.getTitleCurrentValue();
 	}
 
 	/**
@@ -494,7 +456,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getTitleMap() {
-		return _interest.getTitleMap();
+		return model.getTitleMap();
 	}
 
 	/**
@@ -502,7 +464,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getType() {
-		return _interest.getType();
+		return model.getType();
 	}
 
 	/**
@@ -512,7 +474,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public long getTypeId() {
-		return _interest.getTypeId();
+		return model.getTypeId();
 	}
 
 	/**
@@ -522,7 +484,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public long getUserId() {
-		return _interest.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -532,7 +494,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public String getUserName() {
-		return _interest.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -542,7 +504,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _interest.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -552,12 +514,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public String getUuid() {
-		return _interest.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _interest.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -567,12 +524,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _interest.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _interest.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -582,7 +534,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _interest.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -592,12 +544,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _interest.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _interest.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -607,7 +554,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _interest.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -617,7 +564,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _interest.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -627,12 +574,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _interest.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _interest.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -642,7 +584,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public boolean isPending() {
-		return _interest.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -652,19 +594,19 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _interest.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_interest.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_interest.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -672,12 +614,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_interest.prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_interest.setCachedModel(cachedModel);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -687,7 +624,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_interest.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -697,7 +634,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_interest.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -707,7 +644,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setDescription(String description) {
-		_interest.setDescription(description);
+		model.setDescription(description);
 	}
 
 	/**
@@ -718,7 +655,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setDescription(String description, java.util.Locale locale) {
-		_interest.setDescription(description, locale);
+		model.setDescription(description, locale);
 	}
 
 	/**
@@ -733,12 +670,12 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 		String description, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_interest.setDescription(description, locale, defaultLocale);
+		model.setDescription(description, locale, defaultLocale);
 	}
 
 	@Override
 	public void setDescriptionCurrentLanguageId(String languageId) {
-		_interest.setDescriptionCurrentLanguageId(languageId);
+		model.setDescriptionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -750,7 +687,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	public void setDescriptionMap(
 		Map<java.util.Locale, String> descriptionMap) {
 
-		_interest.setDescriptionMap(descriptionMap);
+		model.setDescriptionMap(descriptionMap);
 	}
 
 	/**
@@ -764,24 +701,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 		Map<java.util.Locale, String> descriptionMap,
 		java.util.Locale defaultLocale) {
 
-		_interest.setDescriptionMap(descriptionMap, defaultLocale);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_interest.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_interest.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_interest.setExpandoBridgeAttributes(serviceContext);
+		model.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	/**
@@ -791,7 +711,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_interest.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -801,7 +721,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setInterestId(long interestId) {
-		_interest.setInterestId(interestId);
+		model.setInterestId(interestId);
 	}
 
 	/**
@@ -811,7 +731,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
-		_interest.setLastPublishDate(lastPublishDate);
+		model.setLastPublishDate(lastPublishDate);
 	}
 
 	/**
@@ -821,12 +741,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_interest.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_interest.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -836,12 +751,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_interest.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_interest.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -851,7 +761,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_interest.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -861,7 +771,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_interest.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -871,7 +781,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_interest.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -881,7 +791,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_interest.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -891,7 +801,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_interest.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -901,7 +811,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_interest.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -912,7 +822,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setTitle(String title, java.util.Locale locale) {
-		_interest.setTitle(title, locale);
+		model.setTitle(title, locale);
 	}
 
 	/**
@@ -926,12 +836,12 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	public void setTitle(
 		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_interest.setTitle(title, locale, defaultLocale);
+		model.setTitle(title, locale, defaultLocale);
 	}
 
 	@Override
 	public void setTitleCurrentLanguageId(String languageId) {
-		_interest.setTitleCurrentLanguageId(languageId);
+		model.setTitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -941,7 +851,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
-		_interest.setTitleMap(titleMap);
+		model.setTitleMap(titleMap);
 	}
 
 	/**
@@ -955,7 +865,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 		Map<java.util.Locale, String> titleMap,
 		java.util.Locale defaultLocale) {
 
-		_interest.setTitleMap(titleMap, defaultLocale);
+		model.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**
@@ -965,7 +875,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setTypeId(long typeId) {
-		_interest.setTypeId(typeId);
+		model.setTypeId(typeId);
 	}
 
 	/**
@@ -975,7 +885,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_interest.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -985,7 +895,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_interest.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -995,7 +905,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_interest.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1005,19 +915,7 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_interest.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.interest.model.Interest> toCacheModel() {
-
-		return _interest.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.interest.model.Interest toEscapedModel() {
-		return new InterestWrapper(_interest.toEscapedModel());
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -1025,68 +923,22 @@ public class InterestWrapper implements Interest, ModelWrapper<Interest> {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _interest.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _interest.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.interest.model.Interest toUnescapedModel() {
-		return new InterestWrapper(_interest.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _interest.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof InterestWrapper)) {
-			return false;
-		}
-
-		InterestWrapper interestWrapper = (InterestWrapper)object;
-
-		if (Objects.equals(_interest, interestWrapper._interest)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _interest.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Interest getWrappedModel() {
-		return _interest;
+	protected InterestWrapper wrap(Interest interest) {
+		return new InterestWrapper(interest);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _interest.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _interest.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_interest.resetOriginalValues();
-	}
-
-	private final Interest _interest;
 
 }

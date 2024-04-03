@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.activity.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.activity.model.Association;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for Association. This utility wraps
@@ -48,10 +47,7 @@ public class AssociationLocalServiceUtil {
 	 * @param association the association
 	 * @return the association that was added
 	 */
-	public static eu.strasbourg.service.activity.model.Association
-		addAssociation(
-			eu.strasbourg.service.activity.model.Association association) {
-
+	public static Association addAssociation(Association association) {
 		return getService().addAssociation(association);
 	}
 
@@ -61,21 +57,28 @@ public class AssociationLocalServiceUtil {
 	 * @param associationId the primary key for the new association
 	 * @return the new association
 	 */
-	public static eu.strasbourg.service.activity.model.Association
-		createAssociation(long associationId) {
-
+	public static Association createAssociation(long associationId) {
 		return getService().createAssociation(associationId);
 	}
 
 	/**
 	 * Crée une association vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.activity.model.Association
-			createAssociation(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Association createAssociation(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createAssociation(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -88,10 +91,7 @@ public class AssociationLocalServiceUtil {
 	 * @param association the association
 	 * @return the association that was removed
 	 */
-	public static eu.strasbourg.service.activity.model.Association
-		deleteAssociation(
-			eu.strasbourg.service.activity.model.Association association) {
-
+	public static Association deleteAssociation(Association association) {
 		return getService().deleteAssociation(association);
 	}
 
@@ -106,9 +106,8 @@ public class AssociationLocalServiceUtil {
 	 * @return the association that was removed
 	 * @throws PortalException if a association with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.Association
-			deleteAssociation(long associationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Association deleteAssociation(long associationId)
+		throws PortalException {
 
 		return getService().deleteAssociation(associationId);
 	}
@@ -116,17 +115,22 @@ public class AssociationLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -136,9 +140,7 @@ public class AssociationLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -154,9 +156,8 @@ public class AssociationLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -174,10 +175,9 @@ public class AssociationLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -189,9 +189,7 @@ public class AssociationLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -203,15 +201,13 @@ public class AssociationLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.activity.model.Association
-		fetchAssociation(long associationId) {
-
+	public static Association fetchAssociation(long associationId) {
 		return getService().fetchAssociation(associationId);
 	}
 
@@ -222,8 +218,8 @@ public class AssociationLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching association, or <code>null</code> if a matching association could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.Association
-		fetchAssociationByUuidAndGroupId(String uuid, long groupId) {
+	public static Association fetchAssociationByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchAssociationByUuidAndGroupId(uuid, groupId);
 	}
@@ -231,9 +227,8 @@ public class AssociationLocalServiceUtil {
 	/**
 	 * Lance une recherche par mots-clés
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.Association> findByKeyword(
-			String keyword, long groupId, int start, int end) {
+	public static List<Association> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -258,9 +253,8 @@ public class AssociationLocalServiceUtil {
 	 * @return the association
 	 * @throws PortalException if a association with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.Association
-			getAssociation(long associationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Association getAssociation(long associationId)
+		throws PortalException {
 
 		return getService().getAssociation(associationId);
 	}
@@ -273,9 +267,9 @@ public class AssociationLocalServiceUtil {
 	 * @return the matching association
 	 * @throws PortalException if a matching association could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.Association
-			getAssociationByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Association getAssociationByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getAssociationByUuidAndGroupId(uuid, groupId);
 	}
@@ -291,10 +285,7 @@ public class AssociationLocalServiceUtil {
 	 * @param end the upper bound of the range of associations (not inclusive)
 	 * @return the range of associations
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.Association> getAssociations(
-			int start, int end) {
-
+	public static List<Association> getAssociations(int start, int end) {
 		return getService().getAssociations(start, end);
 	}
 
@@ -305,9 +296,8 @@ public class AssociationLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching associations, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.Association>
-			getAssociationsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Association> getAssociationsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getAssociationsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -322,13 +312,9 @@ public class AssociationLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching associations, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.Association>
-			getAssociationsByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.activity.model.Association>
-						orderByComparator) {
+	public static List<Association> getAssociationsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Association> orderByComparator) {
 
 		return getService().getAssociationsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -346,7 +332,7 @@ public class AssociationLocalServiceUtil {
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à l'entité
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -355,10 +341,7 @@ public class AssociationLocalServiceUtil {
 	/**
 	 * Retourne toutes les éditions d'un groupe
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.Association> getByGroupId(
-			long groupId) {
-
+	public static List<Association> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
@@ -389,9 +372,8 @@ public class AssociationLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -399,9 +381,8 @@ public class AssociationLocalServiceUtil {
 	/**
 	 * Supprime une entité
 	 */
-	public static eu.strasbourg.service.activity.model.Association
-			removeAssociation(long associationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Association removeAssociation(long associationId)
+		throws PortalException {
 
 		return getService().removeAssociation(associationId);
 	}
@@ -426,21 +407,17 @@ public class AssociationLocalServiceUtil {
 	 * @param association the association
 	 * @return the association that was updated
 	 */
-	public static eu.strasbourg.service.activity.model.Association
-		updateAssociation(
-			eu.strasbourg.service.activity.model.Association association) {
-
+	public static Association updateAssociation(Association association) {
 		return getService().updateAssociation(association);
 	}
 
 	/**
 	 * Met à jour une association et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.activity.model.Association
-			updateAssociation(
-				eu.strasbourg.service.activity.model.Association association,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Association updateAssociation(
+			Association association,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateAssociation(association, sc);
 	}
@@ -448,33 +425,21 @@ public class AssociationLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'association par le framework workflow
 	 */
-	public static eu.strasbourg.service.activity.model.Association updateStatus(
+	public static Association updateStatus(
 			long userId, long entryId, int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().updateStatus(userId, entryId, status);
 	}
 
 	public static AssociationLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<AssociationLocalService, AssociationLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(AssociationLocalService.class);
-
-		ServiceTracker<AssociationLocalService, AssociationLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<AssociationLocalService, AssociationLocalService>(
-						bundle.getBundleContext(),
-						AssociationLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(AssociationLocalService service) {
+		_service = service;
 	}
+
+	private static volatile AssociationLocalService _service;
 
 }

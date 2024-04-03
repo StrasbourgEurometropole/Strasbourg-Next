@@ -1,28 +1,15 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notification.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,22 +21,13 @@ import java.util.Objects;
  * @generated
  */
 public class UserNotificationChannelWrapper
+	extends BaseModelWrapper<UserNotificationChannel>
 	implements ModelWrapper<UserNotificationChannel>, UserNotificationChannel {
 
 	public UserNotificationChannelWrapper(
 		UserNotificationChannel userNotificationChannel) {
 
-		_userNotificationChannel = userNotificationChannel;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return UserNotificationChannel.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return UserNotificationChannel.class.getName();
+		super(userNotificationChannel);
 	}
 
 	@Override
@@ -78,17 +56,8 @@ public class UserNotificationChannelWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new UserNotificationChannelWrapper(
-			(UserNotificationChannel)_userNotificationChannel.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.notification.model.UserNotificationChannel
-			userNotificationChannel) {
-
-		return _userNotificationChannel.compareTo(userNotificationChannel);
+	public UserNotificationChannel cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -98,12 +67,7 @@ public class UserNotificationChannelWrapper
 	 */
 	@Override
 	public long getChannelId() {
-		return _userNotificationChannel.getChannelId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _userNotificationChannel.getExpandoBridge();
+		return model.getChannelId();
 	}
 
 	/**
@@ -115,12 +79,7 @@ public class UserNotificationChannelWrapper
 	public eu.strasbourg.service.notification.service.persistence.
 		UserNotificationChannelPK getPrimaryKey() {
 
-		return _userNotificationChannel.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _userNotificationChannel.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -130,37 +89,12 @@ public class UserNotificationChannelWrapper
 	 */
 	@Override
 	public String getPublikUserId() {
-		return _userNotificationChannel.getPublikUserId();
-	}
-
-	@Override
-	public int hashCode() {
-		return _userNotificationChannel.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _userNotificationChannel.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _userNotificationChannel.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _userNotificationChannel.isNew();
+		return model.getPublikUserId();
 	}
 
 	@Override
 	public void persist() {
-		_userNotificationChannel.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_userNotificationChannel.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -170,29 +104,7 @@ public class UserNotificationChannelWrapper
 	 */
 	@Override
 	public void setChannelId(long channelId) {
-		_userNotificationChannel.setChannelId(channelId);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_userNotificationChannel.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_userNotificationChannel.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_userNotificationChannel.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_userNotificationChannel.setNew(n);
+		model.setChannelId(channelId);
 	}
 
 	/**
@@ -205,12 +117,7 @@ public class UserNotificationChannelWrapper
 		eu.strasbourg.service.notification.service.persistence.
 			UserNotificationChannelPK primaryKey) {
 
-		_userNotificationChannel.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_userNotificationChannel.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -220,86 +127,19 @@ public class UserNotificationChannelWrapper
 	 */
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_userNotificationChannel.setPublikUserId(publikUserId);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.notification.model.UserNotificationChannel>
-			toCacheModel() {
-
-		return _userNotificationChannel.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.notification.model.UserNotificationChannel
-		toEscapedModel() {
-
-		return new UserNotificationChannelWrapper(
-			_userNotificationChannel.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _userNotificationChannel.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.notification.model.UserNotificationChannel
-		toUnescapedModel() {
-
-		return new UserNotificationChannelWrapper(
-			_userNotificationChannel.toUnescapedModel());
+		model.setPublikUserId(publikUserId);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _userNotificationChannel.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
+	protected UserNotificationChannelWrapper wrap(
+		UserNotificationChannel userNotificationChannel) {
 
-		if (!(object instanceof UserNotificationChannelWrapper)) {
-			return false;
-		}
-
-		UserNotificationChannelWrapper userNotificationChannelWrapper =
-			(UserNotificationChannelWrapper)object;
-
-		if (Objects.equals(
-				_userNotificationChannel,
-				userNotificationChannelWrapper._userNotificationChannel)) {
-
-			return true;
-		}
-
-		return false;
+		return new UserNotificationChannelWrapper(userNotificationChannel);
 	}
-
-	@Override
-	public UserNotificationChannel getWrappedModel() {
-		return _userNotificationChannel;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _userNotificationChannel.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _userNotificationChannel.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_userNotificationChannel.resetOriginalValues();
-	}
-
-	private final UserNotificationChannel _userNotificationChannel;
 
 }

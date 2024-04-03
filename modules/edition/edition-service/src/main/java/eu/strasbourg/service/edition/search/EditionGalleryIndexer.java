@@ -1,13 +1,5 @@
 package eu.strasbourg.service.edition.search;
 
-import java.util.List;
-import java.util.Locale;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -22,10 +14,16 @@ import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
-
 import eu.strasbourg.service.edition.model.EditionGallery;
 import eu.strasbourg.service.edition.service.EditionGalleryLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import java.util.List;
+import java.util.Locale;
 
 @Component(immediate = true, service = Indexer.class)
 public class EditionGalleryIndexer extends BaseIndexer<EditionGallery> {
@@ -64,7 +62,7 @@ public class EditionGalleryIndexer extends BaseIndexer<EditionGallery> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(editionGallery.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+		IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
 			assetCategories);
 		
 		document.addLocalizedText(Field.TITLE, editionGallery.getTitleMap());
@@ -99,8 +97,7 @@ public class EditionGalleryIndexer extends BaseIndexer<EditionGallery> {
 	protected void doReindex(EditionGallery editionGallery) throws Exception {
 		Document document = getDocument(editionGallery);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			editionGallery.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(editionGallery.getCompanyId(), document);
 
 	}
 
@@ -132,8 +129,6 @@ public class EditionGalleryIndexer extends BaseIndexer<EditionGallery> {
 				}
 
 			});
-
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

@@ -1,21 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.json.JSON;
@@ -27,7 +19,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.place.model.PublicHoliday;
@@ -35,9 +27,9 @@ import eu.strasbourg.service.place.model.PublicHolidayModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -46,6 +38,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -107,25 +100,41 @@ public class PublicHolidayModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.place.model.PublicHoliday"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.place.model.PublicHoliday"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.place.model.PublicHoliday"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long RECURRENT_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLICHOLIDAYID_COLUMN_BITMASK = 4L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -184,9 +193,6 @@ public class PublicHolidayModelImpl
 				attributeGetterFunction.apply((PublicHoliday)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -211,170 +217,72 @@ public class PublicHolidayModelImpl
 	public Map<String, Function<PublicHoliday, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<PublicHoliday, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, PublicHoliday>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			PublicHoliday.class.getClassLoader(), PublicHoliday.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<PublicHoliday, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<PublicHoliday> constructor =
-				(Constructor<PublicHoliday>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<PublicHoliday, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<PublicHoliday, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", PublicHoliday::getUuid);
+			attributeGetterFunctions.put(
+				"publicHolidayId", PublicHoliday::getPublicHolidayId);
+			attributeGetterFunctions.put("name", PublicHoliday::getName);
+			attributeGetterFunctions.put("date", PublicHoliday::getDate);
+			attributeGetterFunctions.put(
+				"recurrent", PublicHoliday::getRecurrent);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<PublicHoliday, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<PublicHoliday, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<PublicHoliday, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<PublicHoliday, Object>>();
-		Map<String, BiConsumer<PublicHoliday, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<PublicHoliday, ?>>();
+		private static final Map<String, BiConsumer<PublicHoliday, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<PublicHoliday, Object>() {
+		static {
+			Map<String, BiConsumer<PublicHoliday, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<PublicHoliday, ?>>();
 
-				@Override
-				public Object apply(PublicHoliday publicHoliday) {
-					return publicHoliday.getUuid();
-				}
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<PublicHoliday, String>)PublicHoliday::setUuid);
+			attributeSetterBiConsumers.put(
+				"publicHolidayId",
+				(BiConsumer<PublicHoliday, Long>)
+					PublicHoliday::setPublicHolidayId);
+			attributeSetterBiConsumers.put(
+				"name",
+				(BiConsumer<PublicHoliday, String>)PublicHoliday::setName);
+			attributeSetterBiConsumers.put(
+				"date",
+				(BiConsumer<PublicHoliday, Date>)PublicHoliday::setDate);
+			attributeSetterBiConsumers.put(
+				"recurrent",
+				(BiConsumer<PublicHoliday, Boolean>)
+					PublicHoliday::setRecurrent);
 
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<PublicHoliday, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(
-					PublicHoliday publicHoliday, Object uuidObject) {
-
-					publicHoliday.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publicHolidayId",
-			new Function<PublicHoliday, Object>() {
-
-				@Override
-				public Object apply(PublicHoliday publicHoliday) {
-					return publicHoliday.getPublicHolidayId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"publicHolidayId",
-			new BiConsumer<PublicHoliday, Object>() {
-
-				@Override
-				public void accept(
-					PublicHoliday publicHoliday, Object publicHolidayIdObject) {
-
-					publicHoliday.setPublicHolidayId(
-						(Long)publicHolidayIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<PublicHoliday, Object>() {
-
-				@Override
-				public Object apply(PublicHoliday publicHoliday) {
-					return publicHoliday.getName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"name",
-			new BiConsumer<PublicHoliday, Object>() {
-
-				@Override
-				public void accept(
-					PublicHoliday publicHoliday, Object nameObject) {
-
-					publicHoliday.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"date",
-			new Function<PublicHoliday, Object>() {
-
-				@Override
-				public Object apply(PublicHoliday publicHoliday) {
-					return publicHoliday.getDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"date",
-			new BiConsumer<PublicHoliday, Object>() {
-
-				@Override
-				public void accept(
-					PublicHoliday publicHoliday, Object dateObject) {
-
-					publicHoliday.setDate((Date)dateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"recurrent",
-			new Function<PublicHoliday, Object>() {
-
-				@Override
-				public Object apply(PublicHoliday publicHoliday) {
-					return publicHoliday.getRecurrent();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"recurrent",
-			new BiConsumer<PublicHoliday, Object>() {
-
-				@Override
-				public void accept(
-					PublicHoliday publicHoliday, Object recurrentObject) {
-
-					publicHoliday.setRecurrent((Boolean)recurrentObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -389,17 +297,20 @@ public class PublicHolidayModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -409,6 +320,10 @@ public class PublicHolidayModelImpl
 
 	@Override
 	public void setPublicHolidayId(long publicHolidayId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_publicHolidayId = publicHolidayId;
 	}
 
@@ -467,6 +382,10 @@ public class PublicHolidayModelImpl
 
 	@Override
 	public void setName(String name) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_name = name;
 	}
 
@@ -521,6 +440,10 @@ public class PublicHolidayModelImpl
 
 	@Override
 	public void setDate(Date date) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_date = date;
 	}
 
@@ -536,22 +459,44 @@ public class PublicHolidayModelImpl
 
 	@Override
 	public void setRecurrent(boolean recurrent) {
-		_columnBitmask |= RECURRENT_COLUMN_BITMASK;
-
-		if (!_setOriginalRecurrent) {
-			_setOriginalRecurrent = true;
-
-			_originalRecurrent = _recurrent;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_recurrent = recurrent;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalRecurrent() {
-		return _originalRecurrent;
+		return GetterUtil.getBoolean(
+			this.<Boolean>getColumnOriginalValue("recurrent"));
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -665,6 +610,21 @@ public class PublicHolidayModelImpl
 	}
 
 	@Override
+	public PublicHoliday cloneWithOriginalValues() {
+		PublicHolidayImpl publicHolidayImpl = new PublicHolidayImpl();
+
+		publicHolidayImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		publicHolidayImpl.setPublicHolidayId(
+			this.<Long>getColumnOriginalValue("publicHolidayId"));
+		publicHolidayImpl.setName(this.<String>getColumnOriginalValue("name"));
+		publicHolidayImpl.setDate(this.<Date>getColumnOriginalValue("date_"));
+		publicHolidayImpl.setRecurrent(
+			this.<Boolean>getColumnOriginalValue("recurrent"));
+
+		return publicHolidayImpl;
+	}
+
+	@Override
 	public int compareTo(PublicHoliday publicHoliday) {
 		long primaryKey = publicHoliday.getPrimaryKey();
 
@@ -706,11 +666,19 @@ public class PublicHolidayModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -718,16 +686,9 @@ public class PublicHolidayModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		PublicHolidayModelImpl publicHolidayModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		publicHolidayModelImpl._originalUuid = publicHolidayModelImpl._uuid;
-
-		publicHolidayModelImpl._originalRecurrent =
-			publicHolidayModelImpl._recurrent;
-
-		publicHolidayModelImpl._setOriginalRecurrent = false;
-
-		publicHolidayModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -773,7 +734,7 @@ public class PublicHolidayModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -784,9 +745,26 @@ public class PublicHolidayModelImpl
 			Function<PublicHoliday, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((PublicHoliday)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((PublicHoliday)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -799,53 +777,94 @@ public class PublicHolidayModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<PublicHoliday, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<PublicHoliday, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<PublicHoliday, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((PublicHoliday)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, PublicHoliday>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					PublicHoliday.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _publicHolidayId;
 	private String _name;
 	private String _nameCurrentLanguageId;
 	private Date _date;
 	private boolean _recurrent;
-	private boolean _originalRecurrent;
-	private boolean _setOriginalRecurrent;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<PublicHoliday, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((PublicHoliday)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("publicHolidayId", _publicHolidayId);
+		_columnOriginalValues.put("name", _name);
+		_columnOriginalValues.put("date_", _date);
+		_columnOriginalValues.put("recurrent", _recurrent);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("date_", "date");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("publicHolidayId", 2L);
+
+		columnBitmasks.put("name", 4L);
+
+		columnBitmasks.put("date_", 8L);
+
+		columnBitmasks.put("recurrent", 16L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private PublicHoliday _escapedModel;
 

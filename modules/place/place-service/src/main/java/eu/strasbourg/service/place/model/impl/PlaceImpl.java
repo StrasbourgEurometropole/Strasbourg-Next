@@ -1,7 +1,9 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
+import eu.strasbourg.utils.PortalHelper;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -47,6 +49,7 @@ import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.models.Pair;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -152,7 +155,7 @@ public class PlaceImpl extends PlaceBaseImpl {
      */
     @Override
     public List<PublicHoliday> getPublicHolidays() {
-        return PublicHolidayLocalServiceUtil.getPublicHolidaies(-1, -1);
+        return PublicHolidayLocalServiceUtil.getPublicHolidays(-1, -1);
     }
 
     /**
@@ -324,6 +327,21 @@ public class PlaceImpl extends PlaceBaseImpl {
         for (AssetCategory type : types) {
             String hasSchedule = AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "schedule");
             if (Validator.isNotNull(hasSchedule) && hasSchedule.equals("true")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Retourne true si le type du lieu est recherchable (utilisé pour affiche tous les lieux de meme type)
+     */
+    @Override
+    public Boolean isSearchable() {
+        List<AssetCategory> types = this.getTypes();
+        for (AssetCategory type : types) {
+            String isSearchable = AssetVocabularyHelper.getCategoryProperty(type.getCategoryId(), "searchable");
+            if (Validator.isNotNull(isSearchable) && isSearchable.equals("true")) {
                 return true;
             }
         }
@@ -503,8 +521,8 @@ public class PlaceImpl extends PlaceBaseImpl {
         for (String documentIdStr : this.getDocumentsIds().split(",")) {
             Long documentId = GetterUtil.getLong(documentIdStr);
             if (Validator.isNotNull(documentId)) {
-                String documentURL = FileEntryHelper.getFileEntryURL(documentId);
-                DLFileEntry document = FileEntryHelper.getFileEntryByRelativeURL(documentURL);
+                DLFileEntry document = DLFileEntryLocalServiceUtil.fetchDLFileEntry(documentId);
+                String documentURL = FileEntryHelper.getFileEntryURL(document);
                 String documentTitle = document.getTitle();
                 documents.put(documentTitle, documentURL);
             }
@@ -1446,6 +1464,7 @@ public class PlaceImpl extends PlaceBaseImpl {
      */
     @Override
     public JSONObject getGeoJSON(long groupId, Locale locale) {
+        NumberFormat nf = NumberFormat.getInstance(locale);
 
         JSONObject feature = JSONFactoryUtil.createJSONObject();
         feature.put("type", "Feature");
@@ -1461,7 +1480,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
         if (group != null) {
             String url = "";
-            String virtualHostName = group.getPublicLayoutSet().getVirtualHostname();
+            String virtualHostName= PortalHelper.getVirtualHostname(group, Locale.FRANCE.getLanguage());
             if (virtualHostName.isEmpty()) {
                 url = "/web" + group.getFriendlyURL() + "/";
             } else {
@@ -1579,21 +1598,30 @@ public class PlaceImpl extends PlaceBaseImpl {
             String label = "";
             String color = occupation.getCssClass();
             if (this.isSwimmingPool() ||this.isIceRink()) {
-                title = "frequentation-real";
-                frequentation = occupation.getOccupationLabel();
-                label = occupation.getLabel();
+                title = LanguageUtil.get(locale, "frequentation-real");
+                if(Validator.isNumber(occupation.getOccupation()))
+                    frequentation = nf.format(Long.parseLong(occupation.getOccupation()));
+                else
+                    frequentation = occupation.getOccupation();
+                label = LanguageUtil.get(locale, occupation.getLabel());
             } else if (this.isMairie()) {
-                title = "time-real";
+                title = LanguageUtil.get(locale, "time-real");
                 frequentation = occupation.getOccupationLabel();
-                label = occupation.getLabel();
+                label = LanguageUtil.get(locale, occupation.getLabel());
             } else if(this.isParking()){
-                title = "occupation-real";
-                frequentation = occupation.getAvailable();
-                label = "available-spots";
+                title = LanguageUtil.get(locale, "occupation-real");
+                if(Validator.isNumber(occupation.getAvailable()))
+                    frequentation = nf.format(Long.parseLong(occupation.getAvailable()));
+                else
+                    frequentation = occupation.getAvailable();
+                label = LanguageUtil.get(locale, "available-spots");
             } else if(this.isVelhopStation()){
-                title = "live-disponibility";
-                frequentation = occupation.getAvailable();
-                label = "eu.place.available-velhop";
+                title = LanguageUtil.get(locale, "live-disponibility");
+                if(Validator.isNumber(occupation.getAvailable()))
+                    frequentation = nf.format(Long.parseLong(occupation.getAvailable()));
+                else
+                    frequentation = occupation.getAvailable();
+                label = LanguageUtil.get(locale, "eu.place.available-velhop");
             }
             JSONObject amountProperty = JSONFactoryUtil.createJSONObject();
             amountProperty.put("title", title);

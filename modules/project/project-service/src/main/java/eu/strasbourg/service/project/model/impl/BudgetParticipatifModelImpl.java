@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
@@ -17,7 +8,9 @@ package eu.strasbourg.service.project.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,29 +21,33 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetParticipatifModel;
-import eu.strasbourg.service.project.model.BudgetParticipatifSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -163,117 +160,78 @@ public class BudgetParticipatifModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.project.model.BudgetParticipatif"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.project.model.BudgetParticipatif"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.project.model.BudgetParticipatif"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long BUDGETPHASEID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ISCRUSH_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PARENTID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLIKID_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 64L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 128L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long MODIFIEDDATE_COLUMN_BITMASK = 256L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static BudgetParticipatif toModel(BudgetParticipatifSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		BudgetParticipatif model = new BudgetParticipatifImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setBudgetParticipatifId(soapModel.getBudgetParticipatifId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setTitle(soapModel.getTitle());
-		model.setDescription(soapModel.getDescription());
-		model.setSummary(soapModel.getSummary());
-		model.setBudget(soapModel.getBudget());
-		model.setMotif(soapModel.getMotif());
-		model.setPlaceTextArea(soapModel.getPlaceTextArea());
-		model.setInTheNameOf(soapModel.getInTheNameOf());
-		model.setCitoyenLastname(soapModel.getCitoyenLastname());
-		model.setCitoyenFirstname(soapModel.getCitoyenFirstname());
-		model.setCitoyenAdresse(soapModel.getCitoyenAdresse());
-		model.setCitoyenPostalCode(soapModel.getCitoyenPostalCode());
-		model.setCitoyenCity(soapModel.getCitoyenCity());
-		model.setCitoyenPhone(soapModel.getCitoyenPhone());
-		model.setCitoyenMobile(soapModel.getCitoyenMobile());
-		model.setCitoyenEmail(soapModel.getCitoyenEmail());
-		model.setCitoyenBirthday(soapModel.getCitoyenBirthday());
-		model.setHasCopyright(soapModel.isHasCopyright());
-		model.setVideoUrl(soapModel.getVideoUrl());
-		model.setImageTimeline(soapModel.getImageTimeline());
-		model.setOpacityImage(soapModel.getOpacityImage());
-		model.setIsCrush(soapModel.isIsCrush());
-		model.setCrushComment(soapModel.getCrushComment());
-		model.setPublikId(soapModel.getPublikId());
-		model.setImageId(soapModel.getImageId());
-		model.setFilesIds(soapModel.getFilesIds());
-		model.setBudgetPhaseId(soapModel.getBudgetPhaseId());
-		model.setParentId(soapModel.getParentId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<BudgetParticipatif> toModels(
-		BudgetParticipatifSoap[] soapModels) {
-
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<BudgetParticipatif> models = new ArrayList<BudgetParticipatif>(
-			soapModels.length);
-
-		for (BudgetParticipatifSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.project.service.util.PropsUtil.get(
@@ -331,9 +289,6 @@ public class BudgetParticipatifModelImpl
 				attributeGetterFunction.apply((BudgetParticipatif)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -358,977 +313,281 @@ public class BudgetParticipatifModelImpl
 	public Map<String, Function<BudgetParticipatif, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<BudgetParticipatif, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, BudgetParticipatif>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			BudgetParticipatif.class.getClassLoader(), BudgetParticipatif.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<BudgetParticipatif, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<BudgetParticipatif> constructor =
-				(Constructor<BudgetParticipatif>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<BudgetParticipatif, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<BudgetParticipatif, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", BudgetParticipatif::getUuid);
+			attributeGetterFunctions.put(
+				"budgetParticipatifId",
+				BudgetParticipatif::getBudgetParticipatifId);
+			attributeGetterFunctions.put(
+				"groupId", BudgetParticipatif::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", BudgetParticipatif::getCompanyId);
+			attributeGetterFunctions.put(
+				"userId", BudgetParticipatif::getUserId);
+			attributeGetterFunctions.put(
+				"userName", BudgetParticipatif::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", BudgetParticipatif::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", BudgetParticipatif::getModifiedDate);
+			attributeGetterFunctions.put(
+				"status", BudgetParticipatif::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", BudgetParticipatif::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", BudgetParticipatif::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", BudgetParticipatif::getStatusDate);
+			attributeGetterFunctions.put("title", BudgetParticipatif::getTitle);
+			attributeGetterFunctions.put(
+				"description", BudgetParticipatif::getDescription);
+			attributeGetterFunctions.put(
+				"summary", BudgetParticipatif::getSummary);
+			attributeGetterFunctions.put(
+				"budget", BudgetParticipatif::getBudget);
+			attributeGetterFunctions.put("motif", BudgetParticipatif::getMotif);
+			attributeGetterFunctions.put(
+				"placeTextArea", BudgetParticipatif::getPlaceTextArea);
+			attributeGetterFunctions.put(
+				"inTheNameOf", BudgetParticipatif::getInTheNameOf);
+			attributeGetterFunctions.put(
+				"citoyenLastname", BudgetParticipatif::getCitoyenLastname);
+			attributeGetterFunctions.put(
+				"citoyenFirstname", BudgetParticipatif::getCitoyenFirstname);
+			attributeGetterFunctions.put(
+				"citoyenAdresse", BudgetParticipatif::getCitoyenAdresse);
+			attributeGetterFunctions.put(
+				"citoyenPostalCode", BudgetParticipatif::getCitoyenPostalCode);
+			attributeGetterFunctions.put(
+				"citoyenCity", BudgetParticipatif::getCitoyenCity);
+			attributeGetterFunctions.put(
+				"citoyenPhone", BudgetParticipatif::getCitoyenPhone);
+			attributeGetterFunctions.put(
+				"citoyenMobile", BudgetParticipatif::getCitoyenMobile);
+			attributeGetterFunctions.put(
+				"citoyenEmail", BudgetParticipatif::getCitoyenEmail);
+			attributeGetterFunctions.put(
+				"citoyenBirthday", BudgetParticipatif::getCitoyenBirthday);
+			attributeGetterFunctions.put(
+				"hasCopyright", BudgetParticipatif::getHasCopyright);
+			attributeGetterFunctions.put(
+				"videoUrl", BudgetParticipatif::getVideoUrl);
+			attributeGetterFunctions.put(
+				"imageTimeline", BudgetParticipatif::getImageTimeline);
+			attributeGetterFunctions.put(
+				"opacityImage", BudgetParticipatif::getOpacityImage);
+			attributeGetterFunctions.put(
+				"isCrush", BudgetParticipatif::getIsCrush);
+			attributeGetterFunctions.put(
+				"crushComment", BudgetParticipatif::getCrushComment);
+			attributeGetterFunctions.put(
+				"publikId", BudgetParticipatif::getPublikId);
+			attributeGetterFunctions.put(
+				"imageId", BudgetParticipatif::getImageId);
+			attributeGetterFunctions.put(
+				"filesIds", BudgetParticipatif::getFilesIds);
+			attributeGetterFunctions.put(
+				"budgetPhaseId", BudgetParticipatif::getBudgetPhaseId);
+			attributeGetterFunctions.put(
+				"parentId", BudgetParticipatif::getParentId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<BudgetParticipatif, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<BudgetParticipatif, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<BudgetParticipatif, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<BudgetParticipatif, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<BudgetParticipatif, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setUuid);
+			attributeSetterBiConsumers.put(
+				"budgetParticipatifId",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setBudgetParticipatifId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<BudgetParticipatif, Date>)
+					BudgetParticipatif::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<BudgetParticipatif, Date>)
+					BudgetParticipatif::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<BudgetParticipatif, Integer>)
+					BudgetParticipatif::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<BudgetParticipatif, Date>)
+					BudgetParticipatif::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setTitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setDescription);
+			attributeSetterBiConsumers.put(
+				"summary",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setSummary);
+			attributeSetterBiConsumers.put(
+				"budget",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setBudget);
+			attributeSetterBiConsumers.put(
+				"motif",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setMotif);
+			attributeSetterBiConsumers.put(
+				"placeTextArea",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setPlaceTextArea);
+			attributeSetterBiConsumers.put(
+				"inTheNameOf",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setInTheNameOf);
+			attributeSetterBiConsumers.put(
+				"citoyenLastname",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setCitoyenLastname);
+			attributeSetterBiConsumers.put(
+				"citoyenFirstname",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setCitoyenFirstname);
+			attributeSetterBiConsumers.put(
+				"citoyenAdresse",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setCitoyenAdresse);
+			attributeSetterBiConsumers.put(
+				"citoyenPostalCode",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setCitoyenPostalCode);
+			attributeSetterBiConsumers.put(
+				"citoyenCity",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setCitoyenCity);
+			attributeSetterBiConsumers.put(
+				"citoyenPhone",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setCitoyenPhone);
+			attributeSetterBiConsumers.put(
+				"citoyenMobile",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setCitoyenMobile);
+			attributeSetterBiConsumers.put(
+				"citoyenEmail",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setCitoyenEmail);
+			attributeSetterBiConsumers.put(
+				"citoyenBirthday",
+				(BiConsumer<BudgetParticipatif, Date>)
+					BudgetParticipatif::setCitoyenBirthday);
+			attributeSetterBiConsumers.put(
+				"hasCopyright",
+				(BiConsumer<BudgetParticipatif, Boolean>)
+					BudgetParticipatif::setHasCopyright);
+			attributeSetterBiConsumers.put(
+				"videoUrl",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setVideoUrl);
+			attributeSetterBiConsumers.put(
+				"imageTimeline",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setImageTimeline);
+			attributeSetterBiConsumers.put(
+				"opacityImage",
+				(BiConsumer<BudgetParticipatif, Double>)
+					BudgetParticipatif::setOpacityImage);
+			attributeSetterBiConsumers.put(
+				"isCrush",
+				(BiConsumer<BudgetParticipatif, Boolean>)
+					BudgetParticipatif::setIsCrush);
+			attributeSetterBiConsumers.put(
+				"crushComment",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setCrushComment);
+			attributeSetterBiConsumers.put(
+				"publikId",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setPublikId);
+			attributeSetterBiConsumers.put(
+				"imageId",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setImageId);
+			attributeSetterBiConsumers.put(
+				"filesIds",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setFilesIds);
+			attributeSetterBiConsumers.put(
+				"budgetPhaseId",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setBudgetPhaseId);
+			attributeSetterBiConsumers.put(
+				"parentId",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setParentId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<BudgetParticipatif, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<BudgetParticipatif, Object>>();
-		Map<String, BiConsumer<BudgetParticipatif, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<BudgetParticipatif, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif, Object uuidObject) {
-
-					budgetParticipatif.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"budgetParticipatifId",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getBudgetParticipatifId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"budgetParticipatifId",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object budgetParticipatifIdObject) {
-
-					budgetParticipatif.setBudgetParticipatifId(
-						(Long)budgetParticipatifIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object groupIdObject) {
-
-					budgetParticipatif.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object companyIdObject) {
-
-					budgetParticipatif.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object userIdObject) {
-
-					budgetParticipatif.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object userNameObject) {
-
-					budgetParticipatif.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object createDateObject) {
-
-					budgetParticipatif.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object modifiedDateObject) {
-
-					budgetParticipatif.setModifiedDate(
-						(Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object statusObject) {
-
-					budgetParticipatif.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object statusByUserIdObject) {
-
-					budgetParticipatif.setStatusByUserId(
-						(Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object statusByUserNameObject) {
-
-					budgetParticipatif.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object statusDateObject) {
-
-					budgetParticipatif.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getTitle();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif, Object titleObject) {
-
-					budgetParticipatif.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getDescription();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"description",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object descriptionObject) {
-
-					budgetParticipatif.setDescription(
-						(String)descriptionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"summary",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getSummary();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"summary",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object summaryObject) {
-
-					budgetParticipatif.setSummary((String)summaryObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"budget",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getBudget();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"budget",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object budgetObject) {
-
-					budgetParticipatif.setBudget((String)budgetObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"motif",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getMotif();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"motif",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif, Object motifObject) {
-
-					budgetParticipatif.setMotif((String)motifObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"placeTextArea",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getPlaceTextArea();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"placeTextArea",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object placeTextAreaObject) {
-
-					budgetParticipatif.setPlaceTextArea(
-						(String)placeTextAreaObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"inTheNameOf",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getInTheNameOf();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"inTheNameOf",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object inTheNameOfObject) {
-
-					budgetParticipatif.setInTheNameOf(
-						(String)inTheNameOfObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citoyenLastname",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getCitoyenLastname();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"citoyenLastname",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object citoyenLastnameObject) {
-
-					budgetParticipatif.setCitoyenLastname(
-						(String)citoyenLastnameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citoyenFirstname",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getCitoyenFirstname();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"citoyenFirstname",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object citoyenFirstnameObject) {
-
-					budgetParticipatif.setCitoyenFirstname(
-						(String)citoyenFirstnameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citoyenAdresse",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getCitoyenAdresse();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"citoyenAdresse",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object citoyenAdresseObject) {
-
-					budgetParticipatif.setCitoyenAdresse(
-						(String)citoyenAdresseObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citoyenPostalCode",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getCitoyenPostalCode();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"citoyenPostalCode",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object citoyenPostalCodeObject) {
-
-					budgetParticipatif.setCitoyenPostalCode(
-						(Long)citoyenPostalCodeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citoyenCity",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getCitoyenCity();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"citoyenCity",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object citoyenCityObject) {
-
-					budgetParticipatif.setCitoyenCity(
-						(String)citoyenCityObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citoyenPhone",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getCitoyenPhone();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"citoyenPhone",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object citoyenPhoneObject) {
-
-					budgetParticipatif.setCitoyenPhone(
-						(String)citoyenPhoneObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citoyenMobile",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getCitoyenMobile();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"citoyenMobile",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object citoyenMobileObject) {
-
-					budgetParticipatif.setCitoyenMobile(
-						(String)citoyenMobileObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citoyenEmail",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getCitoyenEmail();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"citoyenEmail",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object citoyenEmailObject) {
-
-					budgetParticipatif.setCitoyenEmail(
-						(String)citoyenEmailObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citoyenBirthday",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getCitoyenBirthday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"citoyenBirthday",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object citoyenBirthdayObject) {
-
-					budgetParticipatif.setCitoyenBirthday(
-						(Date)citoyenBirthdayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"hasCopyright",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getHasCopyright();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"hasCopyright",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object hasCopyrightObject) {
-
-					budgetParticipatif.setHasCopyright(
-						(Boolean)hasCopyrightObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"videoUrl",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getVideoUrl();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"videoUrl",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object videoUrlObject) {
-
-					budgetParticipatif.setVideoUrl((String)videoUrlObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageTimeline",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getImageTimeline();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"imageTimeline",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object imageTimelineObject) {
-
-					budgetParticipatif.setImageTimeline(
-						(Long)imageTimelineObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"opacityImage",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getOpacityImage();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"opacityImage",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object opacityImageObject) {
-
-					budgetParticipatif.setOpacityImage(
-						(Double)opacityImageObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"isCrush",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getIsCrush();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"isCrush",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object isCrushObject) {
-
-					budgetParticipatif.setIsCrush((Boolean)isCrushObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"crushComment",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getCrushComment();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"crushComment",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object crushCommentObject) {
-
-					budgetParticipatif.setCrushComment(
-						(String)crushCommentObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publikId",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getPublikId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"publikId",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object publikIdObject) {
-
-					budgetParticipatif.setPublikId((String)publikIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageId",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getImageId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"imageId",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object imageIdObject) {
-
-					budgetParticipatif.setImageId((Long)imageIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"filesIds",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getFilesIds();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"filesIds",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object filesIdsObject) {
-
-					budgetParticipatif.setFilesIds((String)filesIdsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"budgetPhaseId",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getBudgetPhaseId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"budgetPhaseId",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object budgetPhaseIdObject) {
-
-					budgetParticipatif.setBudgetPhaseId(
-						(Long)budgetPhaseIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"parentId",
-			new Function<BudgetParticipatif, Object>() {
-
-				@Override
-				public Object apply(BudgetParticipatif budgetParticipatif) {
-					return budgetParticipatif.getParentId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"parentId",
-			new BiConsumer<BudgetParticipatif, Object>() {
-
-				@Override
-				public void accept(
-					BudgetParticipatif budgetParticipatif,
-					Object parentIdObject) {
-
-					budgetParticipatif.setParentId((Long)parentIdObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -1344,17 +603,20 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -1365,6 +627,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setBudgetParticipatifId(long budgetParticipatifId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_budgetParticipatifId = budgetParticipatifId;
 	}
 
@@ -1376,19 +642,20 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -1399,19 +666,21 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -1422,6 +691,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -1454,6 +727,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -1465,6 +742,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -1482,7 +763,9 @@ public class BudgetParticipatifModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -1495,19 +778,21 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -1518,6 +803,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1550,6 +839,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1561,6 +854,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1577,6 +874,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_title = title;
 	}
 
@@ -1592,8 +893,104 @@ public class BudgetParticipatifModelImpl
 	}
 
 	@Override
+	public String getDescription(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDescription(languageId);
+	}
+
+	@Override
+	public String getDescription(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getDescription(String languageId) {
+		return LocalizationUtil.getLocalization(getDescription(), languageId);
+	}
+
+	@Override
+	public String getDescription(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getDescription(), languageId, useDefault);
+	}
+
+	@Override
+	public String getDescriptionCurrentLanguageId() {
+		return _descriptionCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getDescriptionCurrentValue() {
+		Locale locale = getLocale(_descriptionCurrentLanguageId);
+
+		return getDescription(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getDescriptionMap() {
+		return LocalizationUtil.getLocalizationMap(getDescription());
+	}
+
+	@Override
 	public void setDescription(String description) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
+	}
+
+	@Override
+	public void setDescription(String description, Locale locale) {
+		setDescription(description, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setDescription(
+		String description, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(description)) {
+			setDescription(
+				LocalizationUtil.updateLocalization(
+					getDescription(), "Description", description, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setDescription(
+				LocalizationUtil.removeLocalization(
+					getDescription(), "Description", languageId));
+		}
+	}
+
+	@Override
+	public void setDescriptionCurrentLanguageId(String languageId) {
+		_descriptionCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setDescriptionMap(Map<Locale, String> descriptionMap) {
+		setDescriptionMap(descriptionMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setDescriptionMap(
+		Map<Locale, String> descriptionMap, Locale defaultLocale) {
+
+		if (descriptionMap == null) {
+			return;
+		}
+
+		setDescription(
+			LocalizationUtil.updateLocalization(
+				descriptionMap, getDescription(), "Description",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -1609,6 +1006,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setSummary(String summary) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_summary = summary;
 	}
 
@@ -1625,6 +1026,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setBudget(String budget) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_budget = budget;
 	}
 
@@ -1640,8 +1045,101 @@ public class BudgetParticipatifModelImpl
 	}
 
 	@Override
+	public String getMotif(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getMotif(languageId);
+	}
+
+	@Override
+	public String getMotif(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getMotif(languageId, useDefault);
+	}
+
+	@Override
+	public String getMotif(String languageId) {
+		return LocalizationUtil.getLocalization(getMotif(), languageId);
+	}
+
+	@Override
+	public String getMotif(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getMotif(), languageId, useDefault);
+	}
+
+	@Override
+	public String getMotifCurrentLanguageId() {
+		return _motifCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getMotifCurrentValue() {
+		Locale locale = getLocale(_motifCurrentLanguageId);
+
+		return getMotif(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getMotifMap() {
+		return LocalizationUtil.getLocalizationMap(getMotif());
+	}
+
+	@Override
 	public void setMotif(String motif) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_motif = motif;
+	}
+
+	@Override
+	public void setMotif(String motif, Locale locale) {
+		setMotif(motif, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setMotif(String motif, Locale locale, Locale defaultLocale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(motif)) {
+			setMotif(
+				LocalizationUtil.updateLocalization(
+					getMotif(), "Motif", motif, languageId, defaultLanguageId));
+		}
+		else {
+			setMotif(
+				LocalizationUtil.removeLocalization(
+					getMotif(), "Motif", languageId));
+		}
+	}
+
+	@Override
+	public void setMotifCurrentLanguageId(String languageId) {
+		_motifCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setMotifMap(Map<Locale, String> motifMap) {
+		setMotifMap(motifMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setMotifMap(
+		Map<Locale, String> motifMap, Locale defaultLocale) {
+
+		if (motifMap == null) {
+			return;
+		}
+
+		setMotif(
+			LocalizationUtil.updateLocalization(
+				motifMap, getMotif(), "Motif",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -1657,6 +1155,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setPlaceTextArea(String placeTextArea) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_placeTextArea = placeTextArea;
 	}
 
@@ -1673,6 +1175,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setInTheNameOf(String inTheNameOf) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_inTheNameOf = inTheNameOf;
 	}
 
@@ -1689,6 +1195,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setCitoyenLastname(String citoyenLastname) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_citoyenLastname = citoyenLastname;
 	}
 
@@ -1705,6 +1215,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setCitoyenFirstname(String citoyenFirstname) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_citoyenFirstname = citoyenFirstname;
 	}
 
@@ -1721,6 +1235,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setCitoyenAdresse(String citoyenAdresse) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_citoyenAdresse = citoyenAdresse;
 	}
 
@@ -1732,6 +1250,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setCitoyenPostalCode(long citoyenPostalCode) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_citoyenPostalCode = citoyenPostalCode;
 	}
 
@@ -1748,6 +1270,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setCitoyenCity(String citoyenCity) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_citoyenCity = citoyenCity;
 	}
 
@@ -1764,6 +1290,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setCitoyenPhone(String citoyenPhone) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_citoyenPhone = citoyenPhone;
 	}
 
@@ -1780,6 +1310,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setCitoyenMobile(String citoyenMobile) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_citoyenMobile = citoyenMobile;
 	}
 
@@ -1796,6 +1330,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setCitoyenEmail(String citoyenEmail) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_citoyenEmail = citoyenEmail;
 	}
 
@@ -1807,6 +1345,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setCitoyenBirthday(Date citoyenBirthday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_citoyenBirthday = citoyenBirthday;
 	}
 
@@ -1824,6 +1366,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setHasCopyright(boolean hasCopyright) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_hasCopyright = hasCopyright;
 	}
 
@@ -1840,6 +1386,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setVideoUrl(String videoUrl) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_videoUrl = videoUrl;
 	}
 
@@ -1851,6 +1401,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setImageTimeline(long imageTimeline) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageTimeline = imageTimeline;
 	}
 
@@ -1862,6 +1416,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setOpacityImage(double opacityImage) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_opacityImage = opacityImage;
 	}
 
@@ -1879,19 +1437,21 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setIsCrush(boolean isCrush) {
-		_columnBitmask |= ISCRUSH_COLUMN_BITMASK;
-
-		if (!_setOriginalIsCrush) {
-			_setOriginalIsCrush = true;
-
-			_originalIsCrush = _isCrush;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_isCrush = isCrush;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalIsCrush() {
-		return _originalIsCrush;
+		return GetterUtil.getBoolean(
+			this.<Boolean>getColumnOriginalValue("isCrush"));
 	}
 
 	@JSON
@@ -1906,8 +1466,104 @@ public class BudgetParticipatifModelImpl
 	}
 
 	@Override
+	public String getCrushComment(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getCrushComment(languageId);
+	}
+
+	@Override
+	public String getCrushComment(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getCrushComment(languageId, useDefault);
+	}
+
+	@Override
+	public String getCrushComment(String languageId) {
+		return LocalizationUtil.getLocalization(getCrushComment(), languageId);
+	}
+
+	@Override
+	public String getCrushComment(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getCrushComment(), languageId, useDefault);
+	}
+
+	@Override
+	public String getCrushCommentCurrentLanguageId() {
+		return _crushCommentCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getCrushCommentCurrentValue() {
+		Locale locale = getLocale(_crushCommentCurrentLanguageId);
+
+		return getCrushComment(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getCrushCommentMap() {
+		return LocalizationUtil.getLocalizationMap(getCrushComment());
+	}
+
+	@Override
 	public void setCrushComment(String crushComment) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_crushComment = crushComment;
+	}
+
+	@Override
+	public void setCrushComment(String crushComment, Locale locale) {
+		setCrushComment(crushComment, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setCrushComment(
+		String crushComment, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(crushComment)) {
+			setCrushComment(
+				LocalizationUtil.updateLocalization(
+					getCrushComment(), "CrushComment", crushComment, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setCrushComment(
+				LocalizationUtil.removeLocalization(
+					getCrushComment(), "CrushComment", languageId));
+		}
+	}
+
+	@Override
+	public void setCrushCommentCurrentLanguageId(String languageId) {
+		_crushCommentCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setCrushCommentMap(Map<Locale, String> crushCommentMap) {
+		setCrushCommentMap(crushCommentMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setCrushCommentMap(
+		Map<Locale, String> crushCommentMap, Locale defaultLocale) {
+
+		if (crushCommentMap == null) {
+			return;
+		}
+
+		setCrushComment(
+			LocalizationUtil.updateLocalization(
+				crushCommentMap, getCrushComment(), "CrushComment",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -1923,17 +1579,20 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setPublikId(String publikId) {
-		_columnBitmask |= PUBLIKID_COLUMN_BITMASK;
-
-		if (_originalPublikId == null) {
-			_originalPublikId = _publikId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publikId = publikId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPublikId() {
-		return GetterUtil.getString(_originalPublikId);
+		return getColumnOriginalValue("publikId");
 	}
 
 	@JSON
@@ -1944,6 +1603,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setImageId(long imageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageId = imageId;
 	}
 
@@ -1960,6 +1623,10 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setFilesIds(String filesIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_filesIds = filesIds;
 	}
 
@@ -1971,19 +1638,21 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setBudgetPhaseId(long budgetPhaseId) {
-		_columnBitmask |= BUDGETPHASEID_COLUMN_BITMASK;
-
-		if (!_setOriginalBudgetPhaseId) {
-			_setOriginalBudgetPhaseId = true;
-
-			_originalBudgetPhaseId = _budgetPhaseId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_budgetPhaseId = budgetPhaseId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalBudgetPhaseId() {
-		return _originalBudgetPhaseId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("budgetPhaseId"));
 	}
 
 	@JSON
@@ -1994,19 +1663,21 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void setParentId(long parentId) {
-		_columnBitmask |= PARENTID_COLUMN_BITMASK;
-
-		if (!_setOriginalParentId) {
-			_setOriginalParentId = true;
-
-			_originalParentId = _parentId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_parentId = parentId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalParentId() {
-		return _originalParentId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("parentId"));
 	}
 
 	@Override
@@ -2096,6 +1767,26 @@ public class BudgetParticipatifModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -2111,6 +1802,116 @@ public class BudgetParticipatifModelImpl
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> descriptionMap = getDescriptionMap();
+
+		for (Map.Entry<Locale, String> entry : descriptionMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> motifMap = getMotifMap();
+
+		for (Map.Entry<Locale, String> entry : motifMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> crushCommentMap = getCrushCommentMap();
+
+		for (Map.Entry<Locale, String> entry : crushCommentMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(
+			new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getDescription();
+
+		if (xml == null) {
+			return "";
+		}
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(
+			getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(
+			BudgetParticipatif.class.getName(), getPrimaryKey(), defaultLocale,
+			availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String description = getDescription(defaultLocale);
+
+		if (Validator.isNull(description)) {
+			setDescription(
+				getDescription(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setDescription(
+				getDescription(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String motif = getMotif(defaultLocale);
+
+		if (Validator.isNull(motif)) {
+			setMotif(getMotif(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setMotif(getMotif(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String crushComment = getCrushComment(defaultLocale);
+
+		if (Validator.isNull(crushComment)) {
+			setCrushComment(
+				getCrushComment(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setCrushComment(
+				getCrushComment(defaultLocale), defaultLocale, defaultLocale);
+		}
 	}
 
 	@Override
@@ -2180,6 +1981,93 @@ public class BudgetParticipatifModelImpl
 	}
 
 	@Override
+	public BudgetParticipatif cloneWithOriginalValues() {
+		BudgetParticipatifImpl budgetParticipatifImpl =
+			new BudgetParticipatifImpl();
+
+		budgetParticipatifImpl.setUuid(
+			this.<String>getColumnOriginalValue("uuid_"));
+		budgetParticipatifImpl.setBudgetParticipatifId(
+			this.<Long>getColumnOriginalValue("budgetParticipatifId"));
+		budgetParticipatifImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		budgetParticipatifImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		budgetParticipatifImpl.setUserId(
+			this.<Long>getColumnOriginalValue("userId"));
+		budgetParticipatifImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		budgetParticipatifImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		budgetParticipatifImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		budgetParticipatifImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		budgetParticipatifImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		budgetParticipatifImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		budgetParticipatifImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		budgetParticipatifImpl.setTitle(
+			this.<String>getColumnOriginalValue("title"));
+		budgetParticipatifImpl.setDescription(
+			this.<String>getColumnOriginalValue("description"));
+		budgetParticipatifImpl.setSummary(
+			this.<String>getColumnOriginalValue("summary"));
+		budgetParticipatifImpl.setBudget(
+			this.<String>getColumnOriginalValue("budget"));
+		budgetParticipatifImpl.setMotif(
+			this.<String>getColumnOriginalValue("motif"));
+		budgetParticipatifImpl.setPlaceTextArea(
+			this.<String>getColumnOriginalValue("placeTextArea"));
+		budgetParticipatifImpl.setInTheNameOf(
+			this.<String>getColumnOriginalValue("inTheNameOf"));
+		budgetParticipatifImpl.setCitoyenLastname(
+			this.<String>getColumnOriginalValue("citoyenLastname"));
+		budgetParticipatifImpl.setCitoyenFirstname(
+			this.<String>getColumnOriginalValue("citoyenFirstname"));
+		budgetParticipatifImpl.setCitoyenAdresse(
+			this.<String>getColumnOriginalValue("citoyenAdresse"));
+		budgetParticipatifImpl.setCitoyenPostalCode(
+			this.<Long>getColumnOriginalValue("citoyenPostalCode"));
+		budgetParticipatifImpl.setCitoyenCity(
+			this.<String>getColumnOriginalValue("citoyenCity"));
+		budgetParticipatifImpl.setCitoyenPhone(
+			this.<String>getColumnOriginalValue("citoyenPhone"));
+		budgetParticipatifImpl.setCitoyenMobile(
+			this.<String>getColumnOriginalValue("citoyenMobile"));
+		budgetParticipatifImpl.setCitoyenEmail(
+			this.<String>getColumnOriginalValue("citoyenEmail"));
+		budgetParticipatifImpl.setCitoyenBirthday(
+			this.<Date>getColumnOriginalValue("citoyenBirthday"));
+		budgetParticipatifImpl.setHasCopyright(
+			this.<Boolean>getColumnOriginalValue("hasCopyright"));
+		budgetParticipatifImpl.setVideoUrl(
+			this.<String>getColumnOriginalValue("videoUrl"));
+		budgetParticipatifImpl.setImageTimeline(
+			this.<Long>getColumnOriginalValue("imageTimeline"));
+		budgetParticipatifImpl.setOpacityImage(
+			this.<Double>getColumnOriginalValue("opacityImage"));
+		budgetParticipatifImpl.setIsCrush(
+			this.<Boolean>getColumnOriginalValue("isCrush"));
+		budgetParticipatifImpl.setCrushComment(
+			this.<String>getColumnOriginalValue("crushComment"));
+		budgetParticipatifImpl.setPublikId(
+			this.<String>getColumnOriginalValue("publikId"));
+		budgetParticipatifImpl.setImageId(
+			this.<Long>getColumnOriginalValue("imageId"));
+		budgetParticipatifImpl.setFilesIds(
+			this.<String>getColumnOriginalValue("filesIds"));
+		budgetParticipatifImpl.setBudgetPhaseId(
+			this.<Long>getColumnOriginalValue("budgetPhaseId"));
+		budgetParticipatifImpl.setParentId(
+			this.<Long>getColumnOriginalValue("parentId"));
+
+		return budgetParticipatifImpl;
+	}
+
+	@Override
 	public int compareTo(BudgetParticipatif budgetParticipatif) {
 		int value = 0;
 
@@ -2222,11 +2110,19 @@ public class BudgetParticipatifModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -2234,47 +2130,11 @@ public class BudgetParticipatifModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		BudgetParticipatifModelImpl budgetParticipatifModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		budgetParticipatifModelImpl._originalUuid =
-			budgetParticipatifModelImpl._uuid;
+		_setModifiedDate = false;
 
-		budgetParticipatifModelImpl._originalGroupId =
-			budgetParticipatifModelImpl._groupId;
-
-		budgetParticipatifModelImpl._setOriginalGroupId = false;
-
-		budgetParticipatifModelImpl._originalCompanyId =
-			budgetParticipatifModelImpl._companyId;
-
-		budgetParticipatifModelImpl._setOriginalCompanyId = false;
-
-		budgetParticipatifModelImpl._setModifiedDate = false;
-
-		budgetParticipatifModelImpl._originalStatus =
-			budgetParticipatifModelImpl._status;
-
-		budgetParticipatifModelImpl._setOriginalStatus = false;
-
-		budgetParticipatifModelImpl._originalIsCrush =
-			budgetParticipatifModelImpl._isCrush;
-
-		budgetParticipatifModelImpl._setOriginalIsCrush = false;
-
-		budgetParticipatifModelImpl._originalPublikId =
-			budgetParticipatifModelImpl._publikId;
-
-		budgetParticipatifModelImpl._originalBudgetPhaseId =
-			budgetParticipatifModelImpl._budgetPhaseId;
-
-		budgetParticipatifModelImpl._setOriginalBudgetPhaseId = false;
-
-		budgetParticipatifModelImpl._originalParentId =
-			budgetParticipatifModelImpl._parentId;
-
-		budgetParticipatifModelImpl._setOriginalParentId = false;
-
-		budgetParticipatifModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -2525,7 +2385,7 @@ public class BudgetParticipatifModelImpl
 			attributeGetterFunctions = getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -2536,9 +2396,27 @@ public class BudgetParticipatifModelImpl
 			Function<BudgetParticipatif, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((BudgetParticipatif)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply(
+				(BudgetParticipatif)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -2551,69 +2429,35 @@ public class BudgetParticipatifModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<BudgetParticipatif, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<BudgetParticipatif, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<BudgetParticipatif, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((BudgetParticipatif)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, BudgetParticipatif>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					BudgetParticipatif.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _budgetParticipatifId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _title;
 	private String _description;
+	private String _descriptionCurrentLanguageId;
 	private String _summary;
 	private String _budget;
 	private String _motif;
+	private String _motifCurrentLanguageId;
 	private String _placeTextArea;
 	private String _inTheNameOf;
 	private String _citoyenLastname;
@@ -2630,19 +2474,188 @@ public class BudgetParticipatifModelImpl
 	private long _imageTimeline;
 	private double _opacityImage;
 	private boolean _isCrush;
-	private boolean _originalIsCrush;
-	private boolean _setOriginalIsCrush;
 	private String _crushComment;
+	private String _crushCommentCurrentLanguageId;
 	private String _publikId;
-	private String _originalPublikId;
 	private long _imageId;
 	private String _filesIds;
 	private long _budgetPhaseId;
-	private long _originalBudgetPhaseId;
-	private boolean _setOriginalBudgetPhaseId;
 	private long _parentId;
-	private long _originalParentId;
-	private boolean _setOriginalParentId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<BudgetParticipatif, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((BudgetParticipatif)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put(
+			"budgetParticipatifId", _budgetParticipatifId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("summary", _summary);
+		_columnOriginalValues.put("budget", _budget);
+		_columnOriginalValues.put("motif", _motif);
+		_columnOriginalValues.put("placeTextArea", _placeTextArea);
+		_columnOriginalValues.put("inTheNameOf", _inTheNameOf);
+		_columnOriginalValues.put("citoyenLastname", _citoyenLastname);
+		_columnOriginalValues.put("citoyenFirstname", _citoyenFirstname);
+		_columnOriginalValues.put("citoyenAdresse", _citoyenAdresse);
+		_columnOriginalValues.put("citoyenPostalCode", _citoyenPostalCode);
+		_columnOriginalValues.put("citoyenCity", _citoyenCity);
+		_columnOriginalValues.put("citoyenPhone", _citoyenPhone);
+		_columnOriginalValues.put("citoyenMobile", _citoyenMobile);
+		_columnOriginalValues.put("citoyenEmail", _citoyenEmail);
+		_columnOriginalValues.put("citoyenBirthday", _citoyenBirthday);
+		_columnOriginalValues.put("hasCopyright", _hasCopyright);
+		_columnOriginalValues.put("videoUrl", _videoUrl);
+		_columnOriginalValues.put("imageTimeline", _imageTimeline);
+		_columnOriginalValues.put("opacityImage", _opacityImage);
+		_columnOriginalValues.put("isCrush", _isCrush);
+		_columnOriginalValues.put("crushComment", _crushComment);
+		_columnOriginalValues.put("publikId", _publikId);
+		_columnOriginalValues.put("imageId", _imageId);
+		_columnOriginalValues.put("filesIds", _filesIds);
+		_columnOriginalValues.put("budgetPhaseId", _budgetPhaseId);
+		_columnOriginalValues.put("parentId", _parentId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("budgetParticipatifId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("title", 4096L);
+
+		columnBitmasks.put("description", 8192L);
+
+		columnBitmasks.put("summary", 16384L);
+
+		columnBitmasks.put("budget", 32768L);
+
+		columnBitmasks.put("motif", 65536L);
+
+		columnBitmasks.put("placeTextArea", 131072L);
+
+		columnBitmasks.put("inTheNameOf", 262144L);
+
+		columnBitmasks.put("citoyenLastname", 524288L);
+
+		columnBitmasks.put("citoyenFirstname", 1048576L);
+
+		columnBitmasks.put("citoyenAdresse", 2097152L);
+
+		columnBitmasks.put("citoyenPostalCode", 4194304L);
+
+		columnBitmasks.put("citoyenCity", 8388608L);
+
+		columnBitmasks.put("citoyenPhone", 16777216L);
+
+		columnBitmasks.put("citoyenMobile", 33554432L);
+
+		columnBitmasks.put("citoyenEmail", 67108864L);
+
+		columnBitmasks.put("citoyenBirthday", 134217728L);
+
+		columnBitmasks.put("hasCopyright", 268435456L);
+
+		columnBitmasks.put("videoUrl", 536870912L);
+
+		columnBitmasks.put("imageTimeline", 1073741824L);
+
+		columnBitmasks.put("opacityImage", 2147483648L);
+
+		columnBitmasks.put("isCrush", 4294967296L);
+
+		columnBitmasks.put("crushComment", 8589934592L);
+
+		columnBitmasks.put("publikId", 17179869184L);
+
+		columnBitmasks.put("imageId", 34359738368L);
+
+		columnBitmasks.put("filesIds", 68719476736L);
+
+		columnBitmasks.put("budgetPhaseId", 137438953472L);
+
+		columnBitmasks.put("parentId", 274877906944L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private BudgetParticipatif _escapedModel;
 

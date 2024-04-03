@@ -14,5 +14,6 @@ Export-Package: \
 	eu.strasbourg.service.notif.service.persistence,\
 	eu.strasbourg.service.notif.helper
 -check: EXPORTS
+-fixupmessages "Classes found in the wrong directory"; restrict:=error; is:=warning
 
 Import-Package: *;resolution:=optional

@@ -1,0 +1,1169 @@
+// Style General - Overlay - All site
+// ==========================================================================
+.st-overlay {
+	--padding-horizontal: 80px;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	z-index: z-index('overlay');
+	width: 100%;
+	max-width: 640px;
+	background-color: $c_greydark;
+	visibility: hidden;
+	transform: translateX(calc(100% + 30px));		// espace pour le bouton close
+	transition: transform 400ms $transition-overlay-easing, visibility 400ms $transition-overlay-easing;
+
+	&.st-overlay-search {
+		z-index: z-index('overlay-shadow');
+	}
+
+	@include mobile {
+		max-width: 100%;
+		--padding-horizontal: 20px;
+		background-color: $c_main;
+
+		&.st-overlay-menu {
+			z-index: z-index('overlay-shadow');
+		}
+	}
+
+	.st-overlay-load & {
+		display: block;
+	}
+
+	&.st-is-open {
+		visibility: initial;
+		transform: initial;
+	}
+
+	// Arrivée du haut de l'écran
+	&.st--from-top {
+		transform: initial;
+		clip-path: inset(0 0 100% 0);
+		transition: clip-path 400ms $transition-overlay-easing, visibility 400ms $transition-overlay-easing;
+
+		&.st-is-open {
+			clip-path: inset(0 0 0 0);
+		}
+	}
+
+	// Arrivée du bas de l'écran
+	&.st--from-bottom {
+		transform: translateY(150px);
+		opacity: 0;
+		transition: transform 400ms $transition-overlay-easing, visibility 400ms $transition-overlay-easing, opacity 400ms $transition-overlay-easing;
+
+		&.st-is-open {
+			transform: initial;
+			opacity: initial;
+		}
+	}
+
+	.st-btn-close {
+		position: absolute;
+		top: 70px;
+		left: 0;
+		transform: translateX(-50%);
+		z-index: 10;
+
+		@include bp-down(660px) {
+			left: 15px;
+			transform: initial;
+		}
+	}
+
+	.st-overlay__inner {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	.st-overlay__heading {
+		margin-bottom: 30px;
+
+		@include mobile {
+			margin-bottom: 20px;
+		}
+
+		* + .st-title-overlay {
+			margin-top: 2px;
+
+			@include mobile {
+				margin-top: initial;
+			}
+		}
+
+		* + .st-surtitre-cat {
+			margin-top: 6px;
+
+			@include mobile {
+				margin-top: 4px;
+			}
+		}
+
+		* + .st-location {
+			margin-top: 6px;
+
+			@include mobile {
+				margin-top: 4px;
+			}
+		}
+	}
+
+
+	// Zone scrollable sur le body
+	.st-overlay__body {
+		flex-grow: 1;
+		overflow: auto;
+		padding: 70px var(--padding-horizontal);
+		@include fade-out-overflow();
+
+		@include mobile {
+			padding: 30px var(--padding-horizontal) 50px;
+			--mask-image-content: linear-gradient(to bottom, transparent, red 20px, red calc(100% - var(--fade-distance)), transparent );
+		}
+	}
+}
+
+
+
+
+
+
+
+// Bouton close à gauche en mobile
+.st-overlay-contact,
+.st-overlay-preview-agenda,
+.st-overlay-preview-person,
+.st-overlay-filters {
+	.st-btn-close {
+		@include mobile {
+			top: initial;
+			left: var(--padding-horizontal);
+			bottom: 8px;
+		}
+	}
+}
+
+// Bouton close à droite en mobile
+.st-overlay-edito,
+.st-overlay-preview-activite,
+.st-overlay-menu {
+	.st-btn-close {
+		@include mobile {
+			top: initial;
+			left: initial;
+			right: var(--padding-horizontal);
+			bottom: 8px;
+		}
+	}
+}
+
+
+.st-overlay-menu,
+.st-overlay-search {
+	.st-overlay__footer {
+		display: flex;
+		padding: 8px calc(var(--padding-horizontal) + 44px + 10px) 8px var(--padding-horizontal);		// espace pour le bouton close
+		background-color: $c_greydark;
+	}
+
+	.st-btn-compte {
+		margin-right: 8px;
+	}
+
+	.select-lang {
+		flex-shrink: 0;
+	}
+}
+
+
+.st-overlay-menu {
+	.st-scroll-indicator {
+		position: absolute;
+		right: 20px;
+		bottom: 20px;
+
+		@include mobile {
+			bottom: 80px;
+			width: 20px;
+			height: 20px;
+
+			&:before {
+				font-size: 8px;
+			}
+		}
+	}
+
+	// Menu
+	.st-nav-menu {
+		.st-nav-menu__list {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.st-nav-menu__link {
+			display: inline-block;
+			padding: 13px 0;
+			@include ft('', 12px, 700, $c_white, '');
+			@include letter-spacing(25);
+			text-transform: uppercase;
+			@include transition(color);
+
+			@include can-hover {
+				color: $c_sub;
+				text-decoration: underline;
+			}
+		}
+	}
+
+	// Menu mobile
+	.st-nav-menu-mobile {
+		margin-bottom: 24px;
+		padding-bottom: 12px;
+		border-bottom: 1px solid rgba($c_white, 0.25);
+
+
+		// Styles pour le dropdown RGAA
+		.st-barre-dropdown button {
+			position: relative;
+			height: 100%;
+			padding-bottom: 8px;
+			@include ft($f_txt, $s_p, 300, $c_white, 1);
+			@include letter-spacing(25);
+			@include transition(color);
+
+			strong {
+				font-weight: 600;
+			}
+
+			&:after {
+				@include icomoon($st-icon-arrow-down);
+				font-size: 10px;
+				color: rgba($c_white, 0.75);
+				display: inline-block;
+				margin-left: 4px;
+				@include transition(transform);
+			}
+
+			@include can-hover {
+				color: $c_sub;
+			}
+
+			&[aria-expanded="true"] {
+				color: $c_sub;
+
+				&:after {
+					transform: rotate(180deg);
+				}
+			}
+		}
+
+		.st-barre-dropdown__list {
+			display: none;
+			position: absolute;
+			background-color: $c_greydark;
+			margin-top: 5px;
+			z-index: 1;
+		}
+
+		.st-barre-dropdown__list a {
+			display: block;
+			width: auto;
+			padding: 10px;
+			@include ft($f_txt, $s_p, 300, $c_white, 1);
+			@include letter-spacing(25);
+			outline: 1px solid transparent;
+			white-space: nowrap;
+
+			strong {
+				font-weight: 600;
+			}
+
+			@include can-hover {
+				background-color: $c_white;
+				color: $c_main;
+			}
+		}
+	}
+
+	.st-select-visitor {
+		@include ft('', $s_p, 300, $c_white, 1);
+		@include letter-spacing(25);
+
+		&:after {
+			@include icomoon($st-icon-arrow-down);
+			display: inline-block;
+			font-size: 10px;
+			color: rgba($c_white, 0.75);
+			margin-left: 2px;
+			margin-top: -2px;
+		}
+
+		select {
+			@include reset-select;
+			font-weight: 600;
+			line-height: 1.2;
+			padding: 8px 0;
+		}
+
+		strong {
+			font-weight: 600;
+		}
+	}
+
+	.st-nav-menu-mobile__link {
+		@include create-outline;
+		display: block;
+		padding: 8px 0;
+		width: fit-content;
+		@include ft('', $s_p, 300, $c_white, 1);
+		@include letter-spacing(25);
+
+		@include can-hover {
+			color: $c_sub;
+		}
+	}
+}
+
+
+// Overlay - formulaire de contact
+// ==========================================================================
+.st-overlay-contact {
+	.st-overlay__footer {
+		display: flex;
+		padding: 26px var(--padding-horizontal);
+		background-color: $c_main;
+
+		@include mobile {
+			padding: 8px var(--padding-horizontal) 8px calc(var(--padding-horizontal) + 44px + 10px);		// espace pour le bouton close
+			background-color: $c_greydark;
+		}
+	}
+}
+
+
+
+// Overlay - formulaire de filtres
+// ==========================================================================
+.st-overlay-filters {
+	.st-overlay__footer {
+		display: flex;
+		padding: 26px var(--padding-horizontal);
+		background-color: $c_main;
+
+		@include mobile {
+			padding: 8px var(--padding-horizontal) 8px calc(var(--padding-horizontal) + 44px + 10px);		// espace pour le bouton close
+			background-color: $c_greydark;
+		}
+
+		.st-btn {
+			@include mobile {
+				flex-grow: 1;
+				padding-left: 20px;
+				padding-right: 20px;
+			}
+		}
+
+		.st-btn-reset-filters {
+			margin-right: auto;
+		}
+	}
+}
+
+
+// Overlay - edito (infos, liste, fiche)
+// ==========================================================================
+.st-overlay-edito {
+	.st-overlay__footer {
+		display: flex;
+		padding: 26px var(--padding-horizontal);
+		background-color: $c_main;
+
+		@include mobile {
+			padding: 8px calc(var(--padding-horizontal) + 44px + 10px) 8px var(--padding-horizontal);		// espace pour le bouton close
+			background-color: $c_greydark;
+		}
+
+		.st-btn {
+			@include min-mobile {
+				margin-left: auto;
+			}
+		}
+	}
+	
+	.st-overlay__heading {
+		display: flex;
+		flex-direction: column;
+
+		.st-surtitre-cat {
+			order: -1;
+			margin-top: initial;
+		}
+
+		.st-title-overlay {
+			margin-top: 2px;
+		}
+	}
+
+	// bg des cards pour contraster avec le fond de l'overlay
+	.st-cards-wrapper {
+		row-gap: 20px;
+
+		@include mobile {
+			row-gap: 10px;
+		}
+
+		.st-card .st-image {
+			background-color: #353D46;
+		}
+	}
+
+	.st-intro {
+		margin-bottom: 20px;
+	}
+
+	.st-bloc {
+		margin-bottom: 40px;
+
+		@include mobile {
+			margin-bottom: 20px;
+		}
+	}
+
+	.st-callout {
+		margin-top: 50px;
+
+		* + .st-surtitre-cat {
+			margin-top: 6px;
+
+			@include mobile {
+				margin-top: 4px;
+			}
+		}
+		* + .st-btn {
+			margin-top: 20px;
+		}
+	}
+}
+
+
+
+// Overlay - preview agenda
+// ==========================================================================
+.st-overlay-preview-agenda {
+	.st-overlay__footer {
+		display: flex;
+		padding: 26px var(--padding-horizontal);
+		background-color: $c_main;
+
+		@include mobile {
+			padding: 8px var(--padding-horizontal) 8px calc(var(--padding-horizontal) + 44px + 5px);		// espace pour le bouton close
+			background-color: $c_greydark;
+		}
+
+		.st-btn-icon {
+			flex-shrink: 0;
+
+			@include mobile {
+				width: 44px;
+				height: 44px;
+				font-size: 16px;
+				margin-right: 5px;
+			}
+
+			& + .st-btn-icon {
+				@include min-mobile {
+					margin-left: 10px;
+				}
+			}
+		}
+
+		.st-btn {
+			@include min-mobile {
+				margin-left: auto;
+			}
+		}
+	}
+
+	.st-overlay__heading-top {
+		--image-size: 100px;
+		--aspect-ratio: 1/1;
+		display: flex;
+		flex-direction: row-reverse;
+		align-items: flex-start;
+
+		@include mobile {
+			--image-size: 80px;
+		}
+
+		.st-image {
+			@include aspect-ratio(var(--aspect-ratio), '.st-figure');
+			width: var(--image-size);
+			margin-right: 14px;
+ 			flex-shrink: 0;
+			border-radius: $border-radius-small;
+
+			@include mobile {
+				margin-right: 10px;
+			}
+
+			img {
+				border-radius: $border-radius-small;
+			}
+		}
+
+		.st-caption {
+			margin-top: auto;
+			margin-bottom: auto;
+			margin-right: auto;
+		}
+	}
+
+	.st-overlay__heading-infos {
+		display: flex;
+		flex-wrap: wrap;
+		--col-gap: 20px;
+		--row-gap: 8px;
+		margin-left: calc(var(--col-gap) * -1);
+		margin-top: calc(var(--row-gap) * -1 + 36px);
+
+		@include mobile {
+			margin-top: calc(var(--row-gap) * -1 + 26px);
+		}
+
+		> *,
+		.st-location {
+			margin-left: var(--col-gap);
+			margin-top: var(--row-gap);
+
+			@include mobile {
+				width: 100%;
+			}
+		}
+
+		.st-date {
+			display: inline-flex;
+			@include ft('', 18px, 600, $c_white, 1);
+
+			@include mobile {
+				font-size: 14px;
+			}
+
+			&:before {
+				@include icomoon($st-icon-agenda);
+				font-size: 16px;
+				margin-right: 8px;
+
+				@include mobile {
+					font-size: 14px;
+					margin-right: 6px;
+				}
+			}
+		}
+
+		.st-schedule {
+			display: inline-flex;
+			@include ft('', 18px,300, '', 1);
+			@include letter-spacing(25);
+
+			@include mobile {
+				font-size: 14px;
+			}
+
+			&:before {
+				@include icomoon($st-icon-clock);
+				font-size: 16px;
+				margin-right: 8px;
+
+				@include mobile {
+					font-size: 14px;
+					margin-right: 6px;
+				}
+			}
+		}
+	}
+}
+
+
+// Overlay - preview élu
+// ==========================================================================
+.st-overlay-preview-person {
+	.st-overlay__footer {
+		display: flex;
+		justify-content: flex-end;
+		padding: 26px var(--padding-horizontal);
+		background-color: $c_main;
+
+		@include mobile {
+			padding: 8px var(--padding-horizontal) 8px calc(var(--padding-horizontal) + 44px + 5px);		// espace pour le bouton close
+			background-color: $c_greydark;
+		}
+
+		.st-btn-icon {
+			flex-shrink: 0;
+
+			@include mobile {
+				width: 44px;
+				height: 44px;
+				font-size: 16px;
+			}
+		}
+
+		.st-btn {
+			margin-left: 10px;
+
+			@include mobile {
+				margin-left: 5px;
+			}
+		}
+	}
+
+	.st-overlay__heading {
+		--image-size: 120px;
+		--aspect-ratio: 1/1;
+		display: flex;
+		flex-direction: row-reverse;
+		justify-content: flex-end;
+		align-items: flex-start;
+
+		@include mobile {
+			--image-size: 80px;
+		}
+
+		.st-image {
+			@include aspect-ratio(var(--aspect-ratio), '.st-figure');
+			width: var(--image-size);
+			margin-right: 14px;
+			flex-shrink: 0;
+
+			@include mobile {
+				margin-right: 10px;
+			}
+
+			img {
+				border-radius: $border-radius-small;
+			}
+		}
+
+		.st-caption {
+			margin-top: auto;
+			margin-bottom: auto;
+		}
+
+		.st-role {
+			display: block;
+			@include ft('', 12px, 400, $c_txt, 1.16);
+			@include letter-spacing(25);
+			text-transform: uppercase;
+			margin-top: 6px;
+
+			@include tablet-portrait {
+				font-size: 11px;
+			}
+			@include mobile {
+				margin-top: 4px;
+			}
+		}
+
+		.st-surtitre-cat {
+			margin-top: 0;
+		}
+	}
+
+	.st-overlay__content .st-container {
+		padding: 40px;
+		border: 1px solid rgba($c_white, 0.25);
+		border-radius: $border-radius;
+
+		@include mobile {
+			padding: 20px;
+		}
+
+		& + .st-container {
+			margin-top: 20px;
+		}
+
+		p {
+			@include ft('', 12px, 400, $c_txt, 1.16);
+			@include letter-spacing(25);
+
+			& + p {
+				margin-top: 12px;
+			}
+		}
+
+		.st-title-small {
+			@include ft('', 15px, 700, $c_white, 1);
+			@include letter-spacing(25);
+
+			& + p {
+				margin-top: 6px;
+			}
+		}
+
+		.st-note {
+			@include ft('', 12px, 300, $c_txt, 1);
+			font-style: italic;
+			@include letter-spacing(25);
+		}
+	}
+}
+
+
+
+// Overlay - preview activite
+// ==========================================================================
+.st-overlay-preview-activite {
+
+	.st-intro {
+		margin-bottom: 40px;
+	}
+
+	.st-overlay__content .st-container {
+		display: flex;
+		flex-direction: column;
+		padding: 40px;
+		border: 1px solid rgba($c_white, 0.25);
+		border-radius: $border-radius;
+
+		@include mobile {
+			padding: 20px;
+		}
+
+		& + .st-container {
+			margin-top: 20px;
+		}
+
+		.st-title-small {
+			@include ft('', 15px, 700, $c_white, 1);
+			@include letter-spacing(25);
+
+			& + * {
+				margin-top: 6px;
+			}
+		}
+
+		.st-surtitre-alt {
+			@include ft('', 12px, '', $c_txt, 1.16);
+			@include letter-spacing(25);
+			text-transform: uppercase;
+		}
+
+		* + .st-location {
+			margin-top: 6px;
+		}
+
+		.st-text {
+			p {
+				@include ft('', 12px, 400, $c_txt, 1.16);
+				@include letter-spacing(25);
+
+				& + p {
+					margin-top: 12px;
+				}
+			}
+		}
+		* + .st-text {
+			margin-top: 14px;
+		}
+
+		.st-btn {
+			align-self: flex-end;
+			margin-top: 20px;
+		}
+	}
+}
+
+
+// Overlay - Search
+// ==========================================================================
+.st-overlay-search {
+	left: 0;
+	max-width: initial;
+
+	@include min-tablet-portrait {
+		background-color: initial;
+		background-image: linear-gradient(to bottom, rgba($c_main, 0.8) 130px, $c_main 130px);		// simule le fond de la barre de nav
+
+		.st-is-scrolled & {
+			background-image: linear-gradient(to bottom, rgba($c_main, 0.8) 100px, $c_main 58px);
+		}
+	}
+
+
+	@include tablet-portrait {
+		--padding-horizontal: 40px;
+		padding-top: 40px;
+	}
+
+	@include mobile {
+		--padding-horizontal: 20px;
+		padding-top: 20px;
+	}
+
+	.st-btn-close {
+		left: initial;
+		transform: initial;
+		right: calc(100vw / 2 - 1120px / 2 + 30px);
+
+		@include can-hover {
+			background-color: $c_pink;
+		}
+
+		@include min-tablet-portrait {
+			top: 113px;
+
+			.st-is-scrolled & {
+				top: 83px;
+			}
+		}
+
+		@include bp-down(1280px) {
+			right: calc(80px + 30px);
+		}
+		@include tablet-landscape() {
+			right: calc(40px + 30px);
+		}
+
+		@include tablet-portrait {
+			top: initial;
+			bottom: 8px;
+			right: var(--padding-horizontal);
+			width: 44px;
+			height: 44px;
+		}
+	}
+
+	.st-overlay__inner {
+		@include min-tablet-portrait {
+			padding-top: 88px;
+
+			.st-is-scrolled & {
+				padding-top: 58px;
+			}
+		}
+	}
+
+
+	// Overlay - header
+	// ----------------------------------------------------------------
+
+	.st-overlay__header-row1 {
+		display: flex;
+		align-items: center;
+	}
+
+	.st-input-search-wrapper {
+		position: relative;
+		flex: 1;
+
+		&:before {
+			@include icomoon($st-icon-search);
+			position: absolute;
+			left: 30px;
+			top: 50%;
+			font-size: 18px;
+			color: $c_main;
+			transform: translateY(-50%);
+
+			@include tablet-portrait {
+				left: 20px;
+			}
+		}
+	}
+
+	.st-input-search {
+		height: 80px;
+		width: 100%;
+		padding: 0 30px 0 78px;
+		@include ft('', 20px, 400, rgba($c_greydark, 0.75), 1);
+		@include letter-spacing(25);
+		text-align: left;
+		background-color: $c_white;
+		border-radius: $border-radius-small;
+
+		@include can-hover {
+			color: $c_main;
+		}
+
+		@include tablet-portrait {
+			height: 60px;
+			padding: 0 20px 0 56px;
+			font-size: 18px;
+		}
+
+		@include mobile {
+			font-size: 14px;
+		}
+	}
+
+	.st-overlay__header-row2 {
+		display: flex;
+		align-items: flex-start;
+		padding: 10px 0;
+		border-bottom: 1px solid rgba($c_white, 0.25);
+
+		@include tablet-landscape {
+			flex-direction: column;
+		}
+
+		fieldset {
+			margin-right: 10px;
+			flex-grow: 1;
+
+			@include tablet-landscape {
+				margin-right: initial;
+			}
+		}
+
+		legend {
+			float: left;
+			padding: 6px 0;
+			width: auto;
+			@include ft('', 14px, 600, $c_white, 1);
+
+			@include tablet-landscape {
+				float: initial;
+				margin-bottom: 4px;
+			}
+		}
+	}
+
+	.st-filters-list {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		--col-gap: 10px;
+		--row-gap: 10px;
+		margin-left: calc(var(--col-gap) * -1);
+		margin-top: calc(var(--row-gap) * -1);
+
+		> * {
+			margin-left: var(--col-gap);
+			margin-top: var(--row-gap);
+		}
+	}
+
+	.st-results {
+		flex-shrink: 0;
+		padding: 6px 0;
+		@include ft('', 14px, 300, $c_txt, 1.25);
+		@include letter-spacing(25);
+		text-transform: uppercase;
+
+		@include min-tablet-landscape {
+			margin-left: auto;
+			padding-left: 20px;
+		}
+
+		@include tablet-landscape {
+			margin-top: 6px;
+		}
+
+		@include mobile {
+			font-size: 12px;
+		}
+
+		.st-results__total {
+			color: $c_white;
+		}
+	}
+
+	.st-btn-filter-search {
+		@include create-outline;
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		padding: 6px 5px;
+		background-color: $c_greydark;
+		border-radius: $border-radius-small;
+		@include ft('', 14px, 400, $c_txt, 1);
+		@include letter-spacing(25);
+		@include transition(color);
+
+		@include can-hover {
+			color: $c_white;
+		}
+
+		&.st-is-active {
+			color: $c_white;
+
+			&:after {
+				opacity: initial;
+				transform: initial;
+			}
+		}
+
+		&:before {
+			content: '';
+			width: 16px;
+			height: 16px;
+			margin-right: 5px;
+			border-radius: $border-radius-small;
+			border: 1px solid rgba($c_white, 0.5);
+		}
+
+		&:after {
+			content: '';
+			position: absolute;
+			top: 10px;
+			left: 9px;
+			width: 8px;
+			height: 8px;
+			background-color: $c_sub;
+			border-radius: 1px;
+			opacity: 0;
+			transform: scale(0.5);
+			transition: all 150ms;
+		}
+	}
+
+
+	// Overlay - cards
+	// ----------------------------------------------------------------
+
+	.st-overlay__body {
+		padding: 30px 0 70px;
+		--fade-distance: 30px;
+
+		@include mobile {
+			padding: 30px 0 50px;
+		}
+	}
+
+
+	// Grille de 2 colonnes de card horizontales
+	.st-cards-wrapper {
+		column-gap: 40px;
+		row-gap: 20px;
+
+		@include tablet-small {
+			column-gap: 20px;
+		}
+
+		@include mobile {
+			row-gap: 10px;
+		}
+
+		.st-card-container {
+			height: auto;
+		}
+	}
+}
+
+
+
+
+// Overlay - Mon quartier / Ma commune et Alerte sous forme de modale
+// ==========================================================================
+.st-overlay-location, .st-overlay-alert {
+	--padding-horizontal: 40px;
+	left: 0;
+	max-width: initial;
+	background-color: initial;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	overflow: auto;
+	pointer-events: none;		// pour rendre cliquable l'overlay-shadow en-dessous
+
+	@include mobile {
+		--padding-horizontal: 35px;
+	}
+
+	.st-btn-close {
+		position: fixed;		// reset des props pour avoir un positionnement fixed par rapport au container, pas au viewport
+		top: initial;
+		left: initial;
+		right: initial;
+		bottom: initial;
+		transform: translateY(40px) translateX(50%);		// ajustement seulement avec transform, pas top, left etc...
+
+		@include bp-down(660px) {
+			transform: translateY(15px) translateX(-15px);
+		}
+
+		@include mobile {
+			position: fixed;
+			transform: initial;
+			top: initial;
+			left: var(--padding-horizontal);
+			bottom: var(--padding-horizontal);
+		}
+	}
+
+	.st-overlay__inner {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;		// pour le calage du bouton close
+		height: auto;
+		width: 100%;
+		max-width: 600px;
+		margin-top: auto;		// centrage vertical
+		margin-bottom: auto;
+		overflow: initial;
+		pointer-events: initial;
+		background-color: $c_greydark;
+		border-radius: $border-radius;
+
+		@include mobile {
+			border-radius: $border-radius $border-radius 0 0;
+			margin-bottom: initial;		// calage en bas
+		}
+	}
+
+	.st-overlay__heading {
+		p {
+			@include ft('', 14px, 300, $c_txt, 1.57);
+			@include letter-spacing(25);
+		}
+
+		* + p {
+			margin-top: 12px;
+		}
+	}
+
+	.st-overlay__body {
+		padding: var(--padding-horizontal);
+		--fade-distance: 0;
+	}
+
+	.form-styles .st-grid-fields {
+		--row-gap: 15px;
+
+		.st-btn {
+			margin-top: 15px;
+		}
+	}
+}
+.st-overlay-location .form-styles .st-grid-fields .st-btn {
+	@include mobile {
+		margin-top: 5px;
+		margin-left: calc(42px + 10px);
+	}
+}
+
+
+// Overlay - Shadow
+// ==========================================================================
+.st-shadow-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: z-index('overlay-shadow');
+	background-color: rgba($c_main, 0.8);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 400ms $transition-overlay-easing, visibility 400ms $transition-overlay-easing;
+
+	&.st-is-open {
+		opacity: initial;
+		visibility: initial;
+	}
+}

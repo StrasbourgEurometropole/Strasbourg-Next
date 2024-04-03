@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Courrier</name>
+        <key>14367919</key>
+        <definition>register-numeric-courrier-structure.json</definition>
+        <layout>register-numeric-courrier-layout.json</layout>
+    </structure>
+    <template>
+        <name>Courrier</name>
+        <key>14367938</key>
+        <script>register-numeric-courrier.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

@@ -14,7 +14,14 @@
 
 package eu.strasbourg.service.oidc.service.impl;
 
-import com.liferay.portal.kernel.dao.orm.*;
+import com.liferay.portal.kernel.dao.orm.Criterion;
+import com.liferay.portal.kernel.dao.orm.Disjunction;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -47,6 +54,7 @@ import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.model.InitiativeHelp;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.ProjectFollowed;
+import eu.strasbourg.service.project.model.SaisineObservatoire;
 import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
@@ -54,10 +62,9 @@ import eu.strasbourg.service.project.service.InitiativeHelpLocalServiceUtil;
 import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
+import eu.strasbourg.service.project.service.SaisineObservatoireLocalServiceUtil;
 import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -453,6 +460,25 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 				help.setPublikUserId(anonymUser.getPublikId());
 				// Mise à jour en base
 				InitiativeHelpLocalServiceUtil.updateInitiativeHelp(help);
+			}
+		}
+
+		// Anonymisation des informations utilisateur dans saisines observatoire
+		List<SaisineObservatoire> saisineObservatoires = SaisineObservatoireLocalServiceUtil.
+				getByPublikUserID(publikUser.getPublikId());
+		if (!saisineObservatoires.isEmpty()) {
+			for (SaisineObservatoire saisineObservatoire : saisineObservatoires) {
+				saisineObservatoire.setPetitionnaireFirstname(anonymUser.getFirstName());
+				saisineObservatoire.setPetitionnaireLastname(anonymUser.getLastName());
+				saisineObservatoire.setPetitionnaireAdresse("");
+				saisineObservatoire.setPetitionnairePostalCode(0);
+				saisineObservatoire.setPetitionnaireCity("");
+				saisineObservatoire.setPetitionnaireBirthday(null);
+				saisineObservatoire.setPetitionnairePhone("");
+				saisineObservatoire.setPetitionnaireEmail(anonymUser.getEmail());
+				saisineObservatoire.setPublikId(anonymUser.getPublikId());
+				// Mise à jour en base
+				SaisineObservatoireLocalServiceUtil.updateSaisineObservatoire(saisineObservatoire);
 			}
 		}
 

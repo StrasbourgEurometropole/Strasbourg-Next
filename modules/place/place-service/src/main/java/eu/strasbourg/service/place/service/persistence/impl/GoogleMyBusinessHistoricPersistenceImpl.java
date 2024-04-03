@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,30 +19,30 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.place.exception.NoSuchGoogleMyBusinessHistoricException;
 import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
+import eu.strasbourg.service.place.model.GoogleMyBusinessHistoricTable;
 import eu.strasbourg.service.place.model.impl.GoogleMyBusinessHistoricImpl;
 import eu.strasbourg.service.place.model.impl.GoogleMyBusinessHistoricModelImpl;
 import eu.strasbourg.service.place.service.persistence.GoogleMyBusinessHistoricPersistence;
+import eu.strasbourg.service.place.service.persistence.GoogleMyBusinessHistoricUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -254,10 +246,6 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -620,8 +608,6 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -782,11 +768,6 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -876,8 +857,6 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1081,10 +1060,6 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1470,8 +1445,6 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1646,10 +1619,6 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1987,8 +1956,6 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2007,21 +1974,14 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(GoogleMyBusinessHistoric.class);
+
+		setModelImplClass(GoogleMyBusinessHistoricImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(GoogleMyBusinessHistoricTable.INSTANCE);
 	}
 
 	/**
@@ -2032,7 +1992,6 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 	@Override
 	public void cacheResult(GoogleMyBusinessHistoric googleMyBusinessHistoric) {
 		entityCache.putResult(
-			GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
 			GoogleMyBusinessHistoricImpl.class,
 			googleMyBusinessHistoric.getPrimaryKey(), googleMyBusinessHistoric);
 
@@ -2043,9 +2002,9 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 				googleMyBusinessHistoric.getGroupId()
 			},
 			googleMyBusinessHistoric);
-
-		googleMyBusinessHistoric.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the google my business historics in the entity cache if it is enabled.
@@ -2056,18 +2015,22 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 	public void cacheResult(
 		List<GoogleMyBusinessHistoric> googleMyBusinessHistorics) {
 
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (googleMyBusinessHistorics.size() >
+				 _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (GoogleMyBusinessHistoric googleMyBusinessHistoric :
 				googleMyBusinessHistorics) {
 
 			if (entityCache.getResult(
-					GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
 					GoogleMyBusinessHistoricImpl.class,
 					googleMyBusinessHistoric.getPrimaryKey()) == null) {
 
 				cacheResult(googleMyBusinessHistoric);
-			}
-			else {
-				googleMyBusinessHistoric.resetOriginalValues();
 			}
 		}
 	}
@@ -2083,9 +2046,7 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(GoogleMyBusinessHistoricImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(GoogleMyBusinessHistoricImpl.class);
 	}
 
 	/**
@@ -2098,46 +2059,27 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 	@Override
 	public void clearCache(GoogleMyBusinessHistoric googleMyBusinessHistoric) {
 		entityCache.removeResult(
-			GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			GoogleMyBusinessHistoricImpl.class,
-			googleMyBusinessHistoric.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(GoogleMyBusinessHistoricModelImpl)googleMyBusinessHistoric, true);
+			GoogleMyBusinessHistoricImpl.class, googleMyBusinessHistoric);
 	}
 
 	@Override
 	public void clearCache(
 		List<GoogleMyBusinessHistoric> googleMyBusinessHistorics) {
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (GoogleMyBusinessHistoric googleMyBusinessHistoric :
 				googleMyBusinessHistorics) {
 
 			entityCache.removeResult(
-				GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-				GoogleMyBusinessHistoricImpl.class,
-				googleMyBusinessHistoric.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(GoogleMyBusinessHistoricModelImpl)googleMyBusinessHistoric,
-				true);
+				GoogleMyBusinessHistoricImpl.class, googleMyBusinessHistoric);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(GoogleMyBusinessHistoricImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
-				GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
 				GoogleMyBusinessHistoricImpl.class, primaryKey);
 		}
 	}
@@ -2150,38 +2092,9 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 			googleMyBusinessHistoricModelImpl.getGroupId()
 		};
 
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, googleMyBusinessHistoricModelImpl,
-			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		GoogleMyBusinessHistoricModelImpl googleMyBusinessHistoricModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				googleMyBusinessHistoricModelImpl.getUuid(),
-				googleMyBusinessHistoricModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((googleMyBusinessHistoricModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				googleMyBusinessHistoricModelImpl.getOriginalUuid(),
-				googleMyBusinessHistoricModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+			_finderPathFetchByUUID_G, args, googleMyBusinessHistoricModelImpl);
 	}
 
 	/**
@@ -2335,25 +2248,25 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (googleMyBusinessHistoric.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				googleMyBusinessHistoric.setCreateDate(now);
+				googleMyBusinessHistoric.setCreateDate(date);
 			}
 			else {
 				googleMyBusinessHistoric.setCreateDate(
-					serviceContext.getCreateDate(now));
+					serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!googleMyBusinessHistoricModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				googleMyBusinessHistoric.setModifiedDate(now);
+				googleMyBusinessHistoric.setModifiedDate(date);
 			}
 			else {
 				googleMyBusinessHistoric.setModifiedDate(
-					serviceContext.getModifiedDate(now));
+					serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -2362,10 +2275,8 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 		try {
 			session = openSession();
 
-			if (googleMyBusinessHistoric.isNew()) {
+			if (isNew) {
 				session.save(googleMyBusinessHistoric);
-
-				googleMyBusinessHistoric.setNew(false);
 			}
 			else {
 				googleMyBusinessHistoric =
@@ -2380,116 +2291,15 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!GoogleMyBusinessHistoricModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				googleMyBusinessHistoricModelImpl.getUuid()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				googleMyBusinessHistoricModelImpl.getUuid(),
-				googleMyBusinessHistoricModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {
-				googleMyBusinessHistoricModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((googleMyBusinessHistoricModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					googleMyBusinessHistoricModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {
-					googleMyBusinessHistoricModelImpl.getUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((googleMyBusinessHistoricModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					googleMyBusinessHistoricModelImpl.getOriginalUuid(),
-					googleMyBusinessHistoricModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					googleMyBusinessHistoricModelImpl.getUuid(),
-					googleMyBusinessHistoricModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((googleMyBusinessHistoricModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					googleMyBusinessHistoricModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {
-					googleMyBusinessHistoricModelImpl.getGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-		}
-
 		entityCache.putResult(
-			GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
 			GoogleMyBusinessHistoricImpl.class,
-			googleMyBusinessHistoric.getPrimaryKey(), googleMyBusinessHistoric,
-			false);
+			googleMyBusinessHistoricModelImpl, false, true);
 
-		clearUniqueFindersCache(googleMyBusinessHistoricModelImpl, false);
 		cacheUniqueFindersCache(googleMyBusinessHistoricModelImpl);
+
+		if (isNew) {
+			googleMyBusinessHistoric.setNew(false);
+		}
 
 		googleMyBusinessHistoric.resetOriginalValues();
 
@@ -2540,60 +2350,6 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 	/**
 	 * Returns the google my business historic with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the google my business historic
-	 * @return the google my business historic, or <code>null</code> if a google my business historic with the primary key could not be found
-	 */
-	@Override
-	public GoogleMyBusinessHistoric fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			GoogleMyBusinessHistoricImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		GoogleMyBusinessHistoric googleMyBusinessHistoric =
-			(GoogleMyBusinessHistoric)serializable;
-
-		if (googleMyBusinessHistoric == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				googleMyBusinessHistoric =
-					(GoogleMyBusinessHistoric)session.get(
-						GoogleMyBusinessHistoricImpl.class, primaryKey);
-
-				if (googleMyBusinessHistoric != null) {
-					cacheResult(googleMyBusinessHistoric);
-				}
-				else {
-					entityCache.putResult(
-						GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-						GoogleMyBusinessHistoricImpl.class, primaryKey,
-						nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-					GoogleMyBusinessHistoricImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return googleMyBusinessHistoric;
-	}
-
-	/**
-	 * Returns the google my business historic with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param googleMyBusinessHistoricId the primary key of the google my business historic
 	 * @return the google my business historic, or <code>null</code> if a google my business historic with the primary key could not be found
 	 */
@@ -2602,110 +2358,6 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 		long googleMyBusinessHistoricId) {
 
 		return fetchByPrimaryKey((Serializable)googleMyBusinessHistoricId);
-	}
-
-	@Override
-	public Map<Serializable, GoogleMyBusinessHistoric> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, GoogleMyBusinessHistoric> map =
-			new HashMap<Serializable, GoogleMyBusinessHistoric>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			GoogleMyBusinessHistoric googleMyBusinessHistoric =
-				fetchByPrimaryKey(primaryKey);
-
-			if (googleMyBusinessHistoric != null) {
-				map.put(primaryKey, googleMyBusinessHistoric);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-				GoogleMyBusinessHistoricImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (GoogleMyBusinessHistoric)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_GOOGLEMYBUSINESSHISTORIC_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (GoogleMyBusinessHistoric googleMyBusinessHistoric :
-					(List<GoogleMyBusinessHistoric>)query.list()) {
-
-				map.put(
-					googleMyBusinessHistoric.getPrimaryKeyObj(),
-					googleMyBusinessHistoric);
-
-				cacheResult(googleMyBusinessHistoric);
-
-				uncachedPrimaryKeys.remove(
-					googleMyBusinessHistoric.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-					GoogleMyBusinessHistoricImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2835,10 +2487,6 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2885,9 +2533,6 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2904,6 +2549,21 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "googleMyBusinessHistoricId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_GOOGLEMYBUSINESSHISTORIC;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return GoogleMyBusinessHistoricModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2912,120 +2572,93 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 	 * Initializes the google my business historic persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			GoogleMyBusinessHistoricModelImpl.FINDER_CACHE_ENABLED,
-			GoogleMyBusinessHistoricImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			GoogleMyBusinessHistoricModelImpl.FINDER_CACHE_ENABLED,
-			GoogleMyBusinessHistoricImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			GoogleMyBusinessHistoricModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			GoogleMyBusinessHistoricModelImpl.FINDER_CACHE_ENABLED,
-			GoogleMyBusinessHistoricImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			GoogleMyBusinessHistoricModelImpl.FINDER_CACHE_ENABLED,
-			GoogleMyBusinessHistoricImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			GoogleMyBusinessHistoricModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			GoogleMyBusinessHistoricModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			GoogleMyBusinessHistoricModelImpl.FINDER_CACHE_ENABLED,
-			GoogleMyBusinessHistoricImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByUUID_G",
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			GoogleMyBusinessHistoricModelImpl.UUID_COLUMN_BITMASK |
-			GoogleMyBusinessHistoricModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			GoogleMyBusinessHistoricModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			GoogleMyBusinessHistoricModelImpl.FINDER_CACHE_ENABLED,
-			GoogleMyBusinessHistoricImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			GoogleMyBusinessHistoricModelImpl.FINDER_CACHE_ENABLED,
-			GoogleMyBusinessHistoricImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			GoogleMyBusinessHistoricModelImpl.UUID_COLUMN_BITMASK |
-			GoogleMyBusinessHistoricModelImpl.COMPANYID_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			GoogleMyBusinessHistoricModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			GoogleMyBusinessHistoricModelImpl.FINDER_CACHE_ENABLED,
-			GoogleMyBusinessHistoricImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			GoogleMyBusinessHistoricModelImpl.FINDER_CACHE_ENABLED,
-			GoogleMyBusinessHistoricImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			GoogleMyBusinessHistoricModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			GoogleMyBusinessHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			GoogleMyBusinessHistoricModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
+
+		GoogleMyBusinessHistoricUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		GoogleMyBusinessHistoricUtil.setPersistence(null);
+
 		entityCache.removeCache(GoogleMyBusinessHistoricImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -3036,10 +2669,6 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 
 	private static final String _SQL_SELECT_GOOGLEMYBUSINESSHISTORIC =
 		"SELECT googleMyBusinessHistoric FROM GoogleMyBusinessHistoric googleMyBusinessHistoric";
-
-	private static final String
-		_SQL_SELECT_GOOGLEMYBUSINESSHISTORIC_WHERE_PKS_IN =
-			"SELECT googleMyBusinessHistoric FROM GoogleMyBusinessHistoric googleMyBusinessHistoric WHERE googleMyBusinessHistoricId IN (";
 
 	private static final String _SQL_SELECT_GOOGLEMYBUSINESSHISTORIC_WHERE =
 		"SELECT googleMyBusinessHistoric FROM GoogleMyBusinessHistoric googleMyBusinessHistoric WHERE ";
@@ -3064,5 +2693,10 @@ public class GoogleMyBusinessHistoricPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

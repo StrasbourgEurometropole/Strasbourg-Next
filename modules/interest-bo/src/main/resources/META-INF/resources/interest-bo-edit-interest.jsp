@@ -1,20 +1,10 @@
 <%@ include file="/interest-bo-init.jsp"%>
-
-<liferay-util:html-bottom>
-	<script
-		src="/o/interestbo/js/interest-bo-edit-interest.js"
-		type="text/javascript"></script>
-</liferay-util:html-bottom>
-
 <%@page import="eu.strasbourg.service.interest.model.Interest"%>
-
-<liferay-portlet:renderURL varImpl="interestsURL">
-	<portlet:param name="tab" value="interests" />
-</liferay-portlet:renderURL>
 
 <liferay-portlet:actionURL name="deleteInterest" var="deleteInterestURL">
 	<portlet:param name="cmd" value="deleteInterest" />
 	<portlet:param name="tab" value="interests" />
+	<portlet:param name="mvcPath" value="/interest-bo-view-interests.jsp" />
 	<portlet:param name="interestId"
 		value="${not empty dc.interest ? dc.interest.interestId : ''}" />
 </liferay-portlet:actionURL>
@@ -22,10 +12,11 @@
 <liferay-portlet:actionURL name="saveInterest" varImpl="saveInterestURL">
 	<portlet:param name="cmd" value="saveInterest" />
 	<portlet:param name="tab" value="interests" />
+
 </liferay-portlet:actionURL>
 
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="type-error" message="type-error" />
 
@@ -36,7 +27,7 @@
 
 		<aui:model-context bean="${dc.interest}"
 			model="<%=Interest.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="interestId" type="hidden" />
 
 			<aui:fieldset collapsed="false" collapsible="true"
@@ -48,7 +39,7 @@
 				</aui:input>
 
 				<aui:input name="description" />
-				
+
 				<aui:select name="typeId" label="type" required="true">
 					<aui:option value="" label="" />
 					<c:forEach items="${dc.types}" var="category">
@@ -57,7 +48,7 @@
 						</aui:option>
 					</c:forEach>
 				</aui:select>
-				
+
 			</aui:fieldset>
 
 			<aui:fieldset collapsed="true" collapsible="true"
@@ -67,19 +58,20 @@
 				    <span class="condition">Veuillez choisir au moins une cat&eacute;gorie</span>
 				</div>
 
-				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
-				
+				<liferay-asset:asset-categories-selector
+						className="<%= Interest.class.getName() %>"
+						classPK="${dc.interest.interestId}"/>
 				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
 				<div class="has-error">
 					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
 							function (val, fieldNode, ruleValue) {
 								var validated = true;
-								var fields = document.querySelectorAll('.categories-selectors > .field-content');
+								var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
 								for (var i = 0; i < fields.length; i++) {
 									fieldContent = fields[i];
-								    if ($(fieldContent).find('.icon-asterisk').length > 0
-								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+								    if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
+								    	&& $(fieldContent).find('input[type="hidden"]').length == 0) {
 								    	validated = false;
 		                                event.preventDefault();
 								    	break;
@@ -91,12 +83,14 @@
 					</aui:input>
 				</div>
 
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= Interest.class.getName() %>"
+						classPK="${dc.interest.interestId}"/>
 
 			</aui:fieldset>
 
-		</aui:fieldset-group>
-		
+		</div></div>
+
 		<aui:button-row>
 			<c:if test="${(dc.hasPermission('ADD_INTEREST') and empty dc.interest or dc.hasPermission('EDIT_INTEREST') and not empty dc.interest) and empty themeDisplay.scopeGroup.getStagingGroup()}">
 				<aui:input type="hidden" name="workflowAction" value="" />
@@ -114,13 +108,14 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 	</aui:form>
 </div>
+
 <liferay-util:html-bottom>
 	<script
-		src="/o/interestbo/js/interest-bo-edit-manif.js"
+		src="/o/interestbo/js/interest-bo-edit-interest.js"
 		type="text/javascript"></script>
 </liferay-util:html-bottom>
 <aui:script>

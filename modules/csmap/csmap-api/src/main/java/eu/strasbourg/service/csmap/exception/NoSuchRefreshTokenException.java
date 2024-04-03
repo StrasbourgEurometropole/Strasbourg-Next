@@ -13,29 +13,26 @@
  */
 package eu.strasbourg.service.csmap.exception;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Brian Wing Shun Chan
  */
-@ProviderType
 public class NoSuchRefreshTokenException extends NoSuchModelException {
 
 	public NoSuchRefreshTokenException() {
-		super("No Refresh token for");
 	}
 
 	public NoSuchRefreshTokenException(String msg) {
-		super("No Refresh token for : " + msg);
+		super(msg);
 	}
 
-	public NoSuchRefreshTokenException(String msg, Throwable cause) {
-		super("No Refresh token for : " + msg, cause);
+	public NoSuchRefreshTokenException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchRefreshTokenException(Throwable cause) {
-		super("No Refresh token for", cause);
+	public NoSuchRefreshTokenException(Throwable throwable) {
+		super(throwable);
 	}
+
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.portal.kernel.model.Layout</className>
+    <template>
+        <name>Rubrique (v2)</name>
+        <key>31617</key>
+        <script>rubric.ftl</script>
+    </template>
+    <template>
+        <name>Rubrique édition (v2)</name>
+        <key>420085400</key>
+        <script>rubric-editions.ftl</script>
+    </template>
+</root>

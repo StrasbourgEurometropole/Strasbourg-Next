@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Bannière offre</name>
+        <key>26138407</key>
+        <definition>banner-offer-structure.json</definition>
+        <layout>banner-offer-layout.json</layout>
+    </structure>
+    <template>
+        <name>Bannière offre</name>
+        <key>26138456</key>
+        <script>banner-offer.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

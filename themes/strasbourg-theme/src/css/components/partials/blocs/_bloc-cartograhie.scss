@@ -1,0 +1,10 @@
+.st-bloc-cartographie {
+	.st-maps {
+		height: 360px;
+		border-radius: 0 0 $border-radius $border-radius;
+
+		@include mobile {
+			height: 320px;
+		}
+	}
+}

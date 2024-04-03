@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.csmap.model.impl;
@@ -23,17 +14,17 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.DateUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.service.csmap.model.RefreshTokenModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -41,6 +32,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -99,20 +91,43 @@ public class RefreshTokenModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLIKID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long VALUE_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long CREATEDATE_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
-		_entityCacheEnabled = entityCacheEnabled;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static void setFinderCacheEnabled(boolean finderCacheEnabled) {
-		_finderCacheEnabled = finderCacheEnabled;
 	}
 
 	public RefreshTokenModelImpl() {
@@ -167,9 +182,6 @@ public class RefreshTokenModelImpl
 				attributeGetterFunction.apply((RefreshToken)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -194,78 +206,70 @@ public class RefreshTokenModelImpl
 	public Map<String, Function<RefreshToken, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<RefreshToken, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, RefreshToken>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			RefreshToken.class.getClassLoader(), RefreshToken.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<RefreshToken, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<RefreshToken> constructor =
-				(Constructor<RefreshToken>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<RefreshToken, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<RefreshToken, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", RefreshToken::getUuid);
+			attributeGetterFunctions.put(
+				"refreshTokenId", RefreshToken::getRefreshTokenId);
+			attributeGetterFunctions.put(
+				"createDate", RefreshToken::getCreateDate);
+			attributeGetterFunctions.put("value", RefreshToken::getValue);
+			attributeGetterFunctions.put("publikId", RefreshToken::getPublikId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<RefreshToken, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<RefreshToken, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<RefreshToken, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<RefreshToken, Object>>();
-		Map<String, BiConsumer<RefreshToken, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<RefreshToken, ?>>();
+		private static final Map<String, BiConsumer<RefreshToken, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put("uuid", RefreshToken::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<RefreshToken, String>)RefreshToken::setUuid);
-		attributeGetterFunctions.put(
-			"refreshTokenId", RefreshToken::getRefreshTokenId);
-		attributeSetterBiConsumers.put(
-			"refreshTokenId",
-			(BiConsumer<RefreshToken, Long>)RefreshToken::setRefreshTokenId);
-		attributeGetterFunctions.put("createDate", RefreshToken::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<RefreshToken, Date>)RefreshToken::setCreateDate);
-		attributeGetterFunctions.put("value", RefreshToken::getValue);
-		attributeSetterBiConsumers.put(
-			"value", (BiConsumer<RefreshToken, String>)RefreshToken::setValue);
-		attributeGetterFunctions.put("publikId", RefreshToken::getPublikId);
-		attributeSetterBiConsumers.put(
-			"publikId",
-			(BiConsumer<RefreshToken, String>)RefreshToken::setPublikId);
+		static {
+			Map<String, BiConsumer<RefreshToken, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<RefreshToken, ?>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<RefreshToken, String>)RefreshToken::setUuid);
+			attributeSetterBiConsumers.put(
+				"refreshTokenId",
+				(BiConsumer<RefreshToken, Long>)
+					RefreshToken::setRefreshTokenId);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<RefreshToken, Date>)RefreshToken::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"value",
+				(BiConsumer<RefreshToken, String>)RefreshToken::setValue);
+			attributeSetterBiConsumers.put(
+				"publikId",
+				(BiConsumer<RefreshToken, String>)RefreshToken::setPublikId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -280,17 +284,20 @@ public class RefreshTokenModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -300,6 +307,10 @@ public class RefreshTokenModelImpl
 
 	@Override
 	public void setRefreshTokenId(long refreshTokenId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_refreshTokenId = refreshTokenId;
 	}
 
@@ -310,7 +321,9 @@ public class RefreshTokenModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_createDate = createDate;
 	}
@@ -327,17 +340,20 @@ public class RefreshTokenModelImpl
 
 	@Override
 	public void setValue(String value) {
-		_columnBitmask |= VALUE_COLUMN_BITMASK;
-
-		if (_originalValue == null) {
-			_originalValue = _value;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_value = value;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalValue() {
-		return GetterUtil.getString(_originalValue);
+		return getColumnOriginalValue("value");
 	}
 
 	@Override
@@ -352,20 +368,43 @@ public class RefreshTokenModelImpl
 
 	@Override
 	public void setPublikId(String publikId) {
-		_columnBitmask |= PUBLIKID_COLUMN_BITMASK;
-
-		if (_originalPublikId == null) {
-			_originalPublikId = _publikId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publikId = publikId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPublikId() {
-		return GetterUtil.getString(_originalPublikId);
+		return getColumnOriginalValue("publikId");
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -413,6 +452,22 @@ public class RefreshTokenModelImpl
 	}
 
 	@Override
+	public RefreshToken cloneWithOriginalValues() {
+		RefreshTokenImpl refreshTokenImpl = new RefreshTokenImpl();
+
+		refreshTokenImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		refreshTokenImpl.setRefreshTokenId(
+			this.<Long>getColumnOriginalValue("refreshTokenId"));
+		refreshTokenImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		refreshTokenImpl.setValue(this.<String>getColumnOriginalValue("value"));
+		refreshTokenImpl.setPublikId(
+			this.<String>getColumnOriginalValue("publikId"));
+
+		return refreshTokenImpl;
+	}
+
+	@Override
 	public int compareTo(RefreshToken refreshToken) {
 		int value = 0;
 
@@ -453,28 +508,29 @@ public class RefreshTokenModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
-		return _entityCacheEnabled;
+		return true;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
-		return _finderCacheEnabled;
+		return true;
 	}
 
 	@Override
 	public void resetOriginalValues() {
-		RefreshTokenModelImpl refreshTokenModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		refreshTokenModelImpl._originalUuid = refreshTokenModelImpl._uuid;
-
-		refreshTokenModelImpl._originalValue = refreshTokenModelImpl._value;
-
-		refreshTokenModelImpl._originalPublikId =
-			refreshTokenModelImpl._publikId;
-
-		refreshTokenModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -526,7 +582,7 @@ public class RefreshTokenModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -537,9 +593,26 @@ public class RefreshTokenModelImpl
 			Function<RefreshToken, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((RefreshToken)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((RefreshToken)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -552,55 +625,92 @@ public class RefreshTokenModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<RefreshToken, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<RefreshToken, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<RefreshToken, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((RefreshToken)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, RefreshToken>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					RefreshToken.class, ModelWrapper.class);
 
 	}
 
-	private static boolean _entityCacheEnabled;
-	private static boolean _finderCacheEnabled;
-
 	private String _uuid;
-	private String _originalUuid;
 	private long _refreshTokenId;
 	private Date _createDate;
 	private String _value;
-	private String _originalValue;
 	private String _publikId;
-	private String _originalPublikId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<RefreshToken, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((RefreshToken)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("refreshTokenId", _refreshTokenId);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("value", _value);
+		_columnOriginalValues.put("publikId", _publikId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("refreshTokenId", 2L);
+
+		columnBitmasks.put("createDate", 4L);
+
+		columnBitmasks.put("value", 8L);
+
+		columnBitmasks.put("publikId", 16L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private RefreshToken _escapedModel;
 

@@ -10,17 +10,17 @@
 <liferay-portlet:actionURL name="deleteBudgetParticipatif" var="deleteBudgetParticipatifURL">
 	<portlet:param name="cmd" value="deleteBudgetParticipatif" />
 	<portlet:param name="tab" value="budgets-participatifs" />
+	<portlet:param name="mvcPath" value="/project-bo-view-budgets-participatifs.jsp" />
 	<portlet:param name="budgetParticipatifId" value="${not empty dc.budgetParticipatif ? dc.budgetParticipatif.budgetParticipatifId : ''}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveBudgetParticipatif" varImpl="saveBudgetParticipatifURL">
-	<portlet:param name="cmd" value="saveBudgetParticipatif" />
 	<portlet:param name="tab" value="budgets-participatifs" />
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
 	<%-- Composant : definit la liste des messages d'erreur 
 	(voir methode "validate" dans le saveAction de l'entite) --%>
@@ -35,7 +35,7 @@
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.budgetParticipatif}" model="<%=BudgetParticipatif.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 
 			<%-- Champ : (cache) PK de l'entite --%>
 			<aui:input name="budgetParticipatifId" type="hidden" />
@@ -189,18 +189,21 @@
 				<%-- Champ : Selection des categories (gere par le portail dans l'onglet "Categories" du BO) --%>
 				<c:choose>
 				    <c:when test="${empty defaultAssetCategoryIds}">
-						<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
+						<liferay-asset:asset-categories-selector
+								className="<%= BudgetParticipatif.class.getName() %>"
+								classPK="${dc.budgetParticipatif.budgetParticipatifId}"
+						/>
                         <!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
                         <div class="has-error">
                             <aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
                                 <aui:validator name="custom" errorMessage="requested-vocabularies-error">
                                     function (val, fieldNode, ruleValue) {
                                         var validated = true;
-                                        var fields = document.querySelectorAll('.categories-selectors > .field-content');
+                                        var fields = document.querySelectorAll('[id$=assetCategoriesSelector]  > .field-content');
                                         for (var i = 0; i < fields.length; i++) {
                                             fieldContent = fields[i];
-                                            if ($(fieldContent).find('.icon-asterisk').length > 0
-                                                && $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+                                            if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
+                                                && $(fieldContent).find('input[type="hidden"]').length == 0) {
                                                 validated = false;
                                                 event.preventDefault();
                                                 break;
@@ -214,9 +217,9 @@
 				    </c:when>
 					<c:otherwise>
 					    <div class="vocabularies">
-                            <liferay-ui:asset-categories-selector
+                            <liferay-asset:asset-categories-selector
                                     className="<%= BudgetParticipatif.class.getName() %>"
-                                    curCategoryIds="${defaultAssetCategoryIds}"
+                                    categoryIds="${defaultAssetCategoryIds}"
                             />
                             <!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
                             <div class="has-error">
@@ -224,11 +227,11 @@
                                     <aui:validator name="custom" errorMessage="requested-vocabularies-error">
                                         function (val, fieldNode, ruleValue) {
                                             var validated = true;
-                                            var fields = document.querySelectorAll('.vocabularies > .field-content');
+                                            var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
                                             for (var i = 0; i < fields.length; i++) {
                                                 fieldContent = fields[i];
-                                                if ($(fieldContent).find('.icon-asterisk').length > 0
-                                                    && $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+                                                if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
+                                                    && $(fieldContent).find('input[type="hidden"]').length == 0) {
                                                     validated = false;
                                                     event.preventDefault();
                                                     break;
@@ -244,7 +247,10 @@
 				</c:choose>
 
 				<%-- Champ : Selection des etiquettes (gere par le portail dans l'onglet "Etiquettes" du BO) --%>
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= BudgetParticipatif.class.getName() %>"
+						classPK="${dc.budgetParticipatif.budgetParticipatifId}"
+				/>
 
 			</aui:fieldset>
 
@@ -297,7 +303,7 @@
 
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
 		<aui:button-row>
@@ -321,7 +327,7 @@
 			</c:if>
 			
 			<%-- Composant : bouton de retour a la liste des entites --%>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 			
 		</aui:button-row>
 	</aui:form>

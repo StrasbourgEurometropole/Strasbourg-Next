@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Social Wall</name>
+        <key>227696895</key>
+        <definition>social-wall-structure.json</definition>
+        <layout>social-wall-layout.json</layout>
+    </structure>
+    <template>
+        <name>Social Wall</name>
+        <key>227696900</key>
+        <script>social-wall.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

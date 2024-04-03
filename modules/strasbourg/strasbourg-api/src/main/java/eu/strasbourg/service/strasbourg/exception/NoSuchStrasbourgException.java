@@ -11,17 +11,13 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-
 package eu.strasbourg.service.strasbourg.exception;
-
-import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Brian Wing Shun Chan
  */
-@ProviderType
 public class NoSuchStrasbourgException extends NoSuchModelException {
 
 	public NoSuchStrasbourgException() {
@@ -31,12 +27,12 @@ public class NoSuchStrasbourgException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchStrasbourgException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchStrasbourgException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchStrasbourgException(Throwable cause) {
-		super(cause);
+	public NoSuchStrasbourgException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

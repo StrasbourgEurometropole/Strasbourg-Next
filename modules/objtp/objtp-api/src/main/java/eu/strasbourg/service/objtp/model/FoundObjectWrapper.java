@@ -1,29 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.objtp.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,11 @@ import java.util.Objects;
  * @generated
  */
 public class FoundObjectWrapper
+	extends BaseModelWrapper<FoundObject>
 	implements FoundObject, ModelWrapper<FoundObject> {
 
 	public FoundObjectWrapper(FoundObject foundObject) {
-		_foundObject = foundObject;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return FoundObject.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return FoundObject.class.getName();
+		super(foundObject);
 	}
 
 	@Override
@@ -91,15 +69,8 @@ public class FoundObjectWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new FoundObjectWrapper((FoundObject)_foundObject.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.objtp.model.FoundObject foundObject) {
-
-		return _foundObject.compareTo(foundObject);
+	public FoundObject cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -109,7 +80,7 @@ public class FoundObjectWrapper
 	 */
 	@Override
 	public String getCategoryCode() {
-		return _foundObject.getCategoryCode();
+		return model.getCategoryCode();
 	}
 
 	/**
@@ -119,12 +90,7 @@ public class FoundObjectWrapper
 	 */
 	@Override
 	public Date getDate() {
-		return _foundObject.getDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _foundObject.getExpandoBridge();
+		return model.getDate();
 	}
 
 	/**
@@ -134,7 +100,7 @@ public class FoundObjectWrapper
 	 */
 	@Override
 	public String getImageUrl() {
-		return _foundObject.getImageUrl();
+		return model.getImageUrl();
 	}
 
 	/**
@@ -144,7 +110,7 @@ public class FoundObjectWrapper
 	 */
 	@Override
 	public String getNumber() {
-		return _foundObject.getNumber();
+		return model.getNumber();
 	}
 
 	/**
@@ -154,42 +120,12 @@ public class FoundObjectWrapper
 	 */
 	@Override
 	public String getPrimaryKey() {
-		return _foundObject.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _foundObject.getPrimaryKeyObj();
-	}
-
-	@Override
-	public int hashCode() {
-		return _foundObject.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _foundObject.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _foundObject.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _foundObject.isNew();
+		return model.getPrimaryKey();
 	}
 
 	@Override
 	public void persist() {
-		_foundObject.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_foundObject.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -199,7 +135,7 @@ public class FoundObjectWrapper
 	 */
 	@Override
 	public void setCategoryCode(String categoryCode) {
-		_foundObject.setCategoryCode(categoryCode);
+		model.setCategoryCode(categoryCode);
 	}
 
 	/**
@@ -209,24 +145,7 @@ public class FoundObjectWrapper
 	 */
 	@Override
 	public void setDate(Date date) {
-		_foundObject.setDate(date);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_foundObject.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_foundObject.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_foundObject.setExpandoBridgeAttributes(serviceContext);
+		model.setDate(date);
 	}
 
 	/**
@@ -236,12 +155,7 @@ public class FoundObjectWrapper
 	 */
 	@Override
 	public void setImageUrl(String imageUrl) {
-		_foundObject.setImageUrl(imageUrl);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_foundObject.setNew(n);
+		model.setImageUrl(imageUrl);
 	}
 
 	/**
@@ -251,7 +165,7 @@ public class FoundObjectWrapper
 	 */
 	@Override
 	public void setNumber(String number) {
-		_foundObject.setNumber(number);
+		model.setNumber(number);
 	}
 
 	/**
@@ -261,80 +175,17 @@ public class FoundObjectWrapper
 	 */
 	@Override
 	public void setPrimaryKey(String primaryKey) {
-		_foundObject.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_foundObject.setPrimaryKeyObj(primaryKeyObj);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.objtp.model.FoundObject> toCacheModel() {
-
-		return _foundObject.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.objtp.model.FoundObject toEscapedModel() {
-		return new FoundObjectWrapper(_foundObject.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _foundObject.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.objtp.model.FoundObject toUnescapedModel() {
-		return new FoundObjectWrapper(_foundObject.toUnescapedModel());
+		model.setPrimaryKey(primaryKey);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _foundObject.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof FoundObjectWrapper)) {
-			return false;
-		}
-
-		FoundObjectWrapper foundObjectWrapper = (FoundObjectWrapper)object;
-
-		if (Objects.equals(_foundObject, foundObjectWrapper._foundObject)) {
-			return true;
-		}
-
-		return false;
+	protected FoundObjectWrapper wrap(FoundObject foundObject) {
+		return new FoundObjectWrapper(foundObject);
 	}
-
-	@Override
-	public FoundObject getWrappedModel() {
-		return _foundObject;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _foundObject.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _foundObject.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_foundObject.resetOriginalValues();
-	}
-
-	private final FoundObject _foundObject;
 
 }

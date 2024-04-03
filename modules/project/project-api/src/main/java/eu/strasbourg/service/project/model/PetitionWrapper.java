@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,12 @@ import java.util.Objects;
  * @see Petition
  * @generated
  */
-public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
+public class PetitionWrapper
+	extends BaseModelWrapper<Petition>
+	implements ModelWrapper<Petition>, Petition {
 
 	public PetitionWrapper(Petition petition) {
-		_petition = petition;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Petition.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Petition.class.getName();
+		super(petition);
 	}
 
 	@Override
@@ -344,15 +323,8 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	}
 
 	@Override
-	public Object clone() {
-		return new PetitionWrapper((Petition)_petition.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.project.model.Petition petition) {
-
-		return _petition.compareTo(petition);
+	public Petition cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -362,7 +334,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	public java.util.List<eu.strasbourg.service.comment.model.Comment>
 		getApprovedComments() {
 
-		return _petition.getApprovedComments();
+		return model.getApprovedComments();
 	}
 
 	/**
@@ -370,12 +342,12 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _petition.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String getAssetEntryTitle() {
-		return _petition.getAssetEntryTitle();
+		return model.getAssetEntryTitle();
 	}
 
 	/**
@@ -383,7 +355,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getAuthorImageURL() {
-		return _petition.getAuthorImageURL();
+		return model.getAuthorImageURL();
 	}
 
 	/**
@@ -391,7 +363,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getAuthorLabel() {
-		return _petition.getAuthorLabel();
+		return model.getAuthorLabel();
 	}
 
 	/**
@@ -401,7 +373,12 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public eu.strasbourg.service.oidc.model.PublikUser getAuthorPublikUser() {
-		return _petition.getAuthorPublikUser();
+		return model.getAuthorPublikUser();
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -411,7 +388,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _petition.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -423,7 +400,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCityCategories() {
 
-		return _petition.getCityCategories();
+		return model.getCityCategories();
 	}
 
 	/**
@@ -433,7 +410,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _petition.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -443,7 +420,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public int getCountFakeSignataire() {
-		return _petition.getCountFakeSignataire();
+		return model.getCountFakeSignataire();
 	}
 
 	/**
@@ -453,7 +430,12 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _petition.getCreateDate();
+		return model.getCreateDate();
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -463,7 +445,73 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getDescription() {
-		return _petition.getDescription();
+		return model.getDescription();
+	}
+
+	/**
+	 * Returns the localized description of this petition in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized description of this petition
+	 */
+	@Override
+	public String getDescription(java.util.Locale locale) {
+		return model.getDescription(locale);
+	}
+
+	/**
+	 * Returns the localized description of this petition in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this petition. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getDescription(java.util.Locale locale, boolean useDefault) {
+		return model.getDescription(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized description of this petition in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized description of this petition
+	 */
+	@Override
+	public String getDescription(String languageId) {
+		return model.getDescription(languageId);
+	}
+
+	/**
+	 * Returns the localized description of this petition in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this petition
+	 */
+	@Override
+	public String getDescription(String languageId, boolean useDefault) {
+		return model.getDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getDescriptionCurrentLanguageId() {
+		return model.getDescriptionCurrentLanguageId();
+	}
+
+	@Override
+	public String getDescriptionCurrentValue() {
+		return model.getDescriptionCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized descriptions of this petition.
+	 *
+	 * @return the locales and localized descriptions of this petition
+	 */
+	@Override
+	public Map<java.util.Locale, String> getDescriptionMap() {
+		return model.getDescriptionMap();
 	}
 
 	/**
@@ -475,7 +523,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getDistrictCategories() {
 
-		return _petition.getDistrictCategories();
+		return model.getDistrictCategories();
 	}
 
 	/**
@@ -485,12 +533,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getDistrictLabel(java.util.Locale locale) {
-		return _petition.getDistrictLabel(locale);
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _petition.getExpandoBridge();
+		return model.getDistrictLabel(locale);
 	}
 
 	/**
@@ -500,7 +543,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public Date getExpirationDate() {
-		return _petition.getExpirationDate();
+		return model.getExpirationDate();
 	}
 
 	/**
@@ -510,7 +553,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public Date getExtensionDate() {
-		return _petition.getExtensionDate();
+		return model.getExtensionDate();
 	}
 
 	/**
@@ -520,7 +563,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getExternalImageCopyright() {
-		return _petition.getExternalImageCopyright();
+		return model.getExternalImageCopyright();
 	}
 
 	/**
@@ -530,7 +573,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getExternalImageURL() {
-		return _petition.getExternalImageURL();
+		return model.getExternalImageURL();
 	}
 
 	/**
@@ -540,7 +583,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getFilesDownload() {
-		return _petition.getFilesDownload();
+		return model.getFilesDownload();
 	}
 
 	/**
@@ -550,7 +593,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getFilesIds() {
-		return _petition.getFilesIds();
+		return model.getFilesIds();
 	}
 
 	/**
@@ -558,7 +601,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public java.util.List<String> getFilesURLs() {
-		return _petition.getFilesURLs();
+		return model.getFilesURLs();
 	}
 
 	/**
@@ -568,7 +611,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getFrontStatusFR() {
-		return _petition.getFrontStatusFR();
+		return model.getFrontStatusFR();
 	}
 
 	/**
@@ -578,7 +621,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public long getGroupId() {
-		return _petition.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -586,7 +629,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getImageCopyright(java.util.Locale locale) {
-		return _petition.getImageCopyright(locale);
+		return model.getImageCopyright(locale);
 	}
 
 	/**
@@ -596,7 +639,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public long getImageId() {
-		return _petition.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -604,7 +647,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getImageURL() {
-		return _petition.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -614,7 +657,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getInTheNameOf() {
-		return _petition.getInTheNameOf();
+		return model.getInTheNameOf();
 	}
 
 	/**
@@ -624,7 +667,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public boolean getIsSupported() {
-		return _petition.getIsSupported();
+		return model.getIsSupported();
 	}
 
 	/**
@@ -634,7 +677,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public boolean getMediaChoice() {
-		return _petition.getMediaChoice();
+		return model.getMediaChoice();
 	}
 
 	/**
@@ -644,7 +687,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _petition.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -652,7 +695,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public int getNbApprovedComments() {
-		return _petition.getNbApprovedComments();
+		return model.getNbApprovedComments();
 	}
 
 	/**
@@ -660,7 +703,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getNbApprovedCommentsLabel() {
-		return _petition.getNbApprovedCommentsLabel();
+		return model.getNbApprovedCommentsLabel();
 	}
 
 	/**
@@ -670,7 +713,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public int getNbDislikes() {
-		return _petition.getNbDislikes();
+		return model.getNbDislikes();
 	}
 
 	/**
@@ -680,7 +723,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public int getNbLikes() {
-		return _petition.getNbLikes();
+		return model.getNbLikes();
 	}
 
 	/**
@@ -690,7 +733,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public long getNombreSignature() {
-		return _petition.getNombreSignature();
+		return model.getNombreSignature();
 	}
 
 	/**
@@ -700,7 +743,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getNombreSignatureBoard() {
-		return _petition.getNombreSignatureBoard();
+		return model.getNombreSignatureBoard();
 	}
 
 	/**
@@ -710,7 +753,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public long getPetitionId() {
-		return _petition.getPetitionId();
+		return model.getPetitionId();
 	}
 
 	/**
@@ -720,7 +763,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getPetitionnaireAdresse() {
-		return _petition.getPetitionnaireAdresse();
+		return model.getPetitionnaireAdresse();
 	}
 
 	/**
@@ -730,7 +773,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public Date getPetitionnaireBirthday() {
-		return _petition.getPetitionnaireBirthday();
+		return model.getPetitionnaireBirthday();
 	}
 
 	/**
@@ -740,7 +783,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getPetitionnaireCity() {
-		return _petition.getPetitionnaireCity();
+		return model.getPetitionnaireCity();
 	}
 
 	/**
@@ -750,7 +793,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getPetitionnaireEmail() {
-		return _petition.getPetitionnaireEmail();
+		return model.getPetitionnaireEmail();
 	}
 
 	/**
@@ -760,7 +803,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getPetitionnaireFirstname() {
-		return _petition.getPetitionnaireFirstname();
+		return model.getPetitionnaireFirstname();
 	}
 
 	/**
@@ -770,7 +813,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getPetitionnaireLastname() {
-		return _petition.getPetitionnaireLastname();
+		return model.getPetitionnaireLastname();
 	}
 
 	/**
@@ -780,7 +823,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getPetitionnairePhone() {
-		return _petition.getPetitionnairePhone();
+		return model.getPetitionnairePhone();
 	}
 
 	/**
@@ -790,7 +833,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public long getPetitionnairePostalCode() {
-		return _petition.getPetitionnairePostalCode();
+		return model.getPetitionnairePostalCode();
 	}
 
 	/**
@@ -800,7 +843,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getPetitionStatus() {
-		return _petition.getPetitionStatus();
+		return model.getPetitionStatus();
 	}
 
 	/**
@@ -810,7 +853,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	public com.liferay.asset.kernel.model.AssetCategory
 		getPetitionStatusCategory() {
 
-		return _petition.getPetitionStatusCategory();
+		return model.getPetitionStatusCategory();
 	}
 
 	/**
@@ -820,7 +863,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getPetitionStatusExcel() {
-		return _petition.getPetitionStatusExcel();
+		return model.getPetitionStatusExcel();
 	}
 
 	/**
@@ -830,7 +873,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getPlaceTextArea() {
-		return _petition.getPlaceTextArea();
+		return model.getPlaceTextArea();
 	}
 
 	/**
@@ -840,7 +883,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
 		getPlacitPlaces() {
 
-		return _petition.getPlacitPlaces();
+		return model.getPlacitPlaces();
 	}
 
 	/**
@@ -850,7 +893,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public double getPourcentageSignature() {
-		return _petition.getPourcentageSignature();
+		return model.getPourcentageSignature();
 	}
 
 	/**
@@ -860,12 +903,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _petition.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _petition.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -875,7 +913,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getProDureeFR() {
-		return _petition.getProDureeFR();
+		return model.getProDureeFR();
 	}
 
 	/**
@@ -883,12 +921,12 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
-		return _petition.getProjectCategory();
+		return model.getProjectCategory();
 	}
 
 	@Override
 	public String getProjectTitle(java.util.Locale locale) {
-		return _petition.getProjectTitle(locale);
+		return model.getProjectTitle(locale);
 	}
 
 	/**
@@ -898,12 +936,12 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public Date getPublicationDate() {
-		return _petition.getPublicationDate();
+		return model.getPublicationDate();
 	}
 
 	@Override
 	public String getPublicationDateFr() {
-		return _petition.getPublicationDateFr();
+		return model.getPublicationDateFr();
 	}
 
 	/**
@@ -913,7 +951,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getPublikId() {
-		return _petition.getPublikId();
+		return model.getPublikId();
 	}
 
 	/**
@@ -923,7 +961,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public long getQuotaSignature() {
-		return _petition.getQuotaSignature();
+		return model.getQuotaSignature();
 	}
 
 	/**
@@ -933,14 +971,14 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public long getSignataireNeeded() {
-		return _petition.getSignataireNeeded();
+		return model.getSignataireNeeded();
 	}
 
 	@Override
 	public java.util.List<eu.strasbourg.service.project.model.Signataire>
 		getSignataires() {
 
-		return _petition.getSignataires();
+		return model.getSignataires();
 	}
 
 	/**
@@ -950,7 +988,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public int getStatus() {
-		return _petition.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -960,7 +998,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _petition.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -970,7 +1008,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _petition.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -980,7 +1018,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _petition.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -990,7 +1028,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _petition.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -1010,7 +1048,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 		throws com.liferay.portal.kernel.exception.PortalException,
 			   com.liferay.portal.kernel.search.SearchException {
 
-		return _petition.getSuggestions(request, nbSuggestions);
+		return model.getSuggestions(request, nbSuggestions);
 	}
 
 	/**
@@ -1020,7 +1058,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getSummary() {
-		return _petition.getSummary();
+		return model.getSummary();
 	}
 
 	/**
@@ -1030,7 +1068,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getSupportedBy() {
-		return _petition.getSupportedBy();
+		return model.getSupportedBy();
 	}
 
 	/**
@@ -1040,7 +1078,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTerritoryCategories() {
 
-		return _petition.getTerritoryCategories();
+		return model.getTerritoryCategories();
 	}
 
 	/**
@@ -1050,12 +1088,12 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getThematicCategories() {
 
-		return _petition.getThematicCategories();
+		return model.getThematicCategories();
 	}
 
 	@Override
 	public String getThematicLabel(java.util.Locale locale) {
-		return _petition.getThematicLabel(locale);
+		return model.getThematicLabel(locale);
 	}
 
 	/**
@@ -1065,7 +1103,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getTitle() {
-		return _petition.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -1073,7 +1111,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public int getTodayExpirationDifferenceDays() {
-		return _petition.getTodayExpirationDifferenceDays();
+		return model.getTodayExpirationDifferenceDays();
 	}
 
 	/**
@@ -1083,7 +1121,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public long getUserId() {
-		return _petition.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -1093,7 +1131,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getUserName() {
-		return _petition.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -1103,7 +1141,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _petition.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -1113,7 +1151,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getUuid() {
-		return _petition.getUuid();
+		return model.getUuid();
 	}
 
 	/**
@@ -1123,12 +1161,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public String getVideoUrl() {
-		return _petition.getVideoUrl();
-	}
-
-	@Override
-	public int hashCode() {
-		return _petition.hashCode();
+		return model.getVideoUrl();
 	}
 
 	/**
@@ -1140,7 +1173,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	public boolean hasUserSigned(String publikUserId)
 		throws javax.portlet.PortletException {
 
-		return _petition.hasUserSigned(publikUserId);
+		return model.hasUserSigned(publikUserId);
 	}
 
 	/**
@@ -1150,12 +1183,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _petition.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _petition.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -1165,7 +1193,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _petition.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -1175,12 +1203,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _petition.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _petition.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -1190,7 +1213,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _petition.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -1200,7 +1223,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _petition.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -1210,7 +1233,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _petition.isIncomplete();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -1220,7 +1243,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public boolean isIsSupported() {
-		return _petition.isIsSupported();
+		return model.isIsSupported();
 	}
 
 	/**
@@ -1228,7 +1251,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public boolean isJudgeable() {
-		return _petition.isJudgeable();
+		return model.isJudgeable();
 	}
 
 	/**
@@ -1238,12 +1261,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public boolean isMediaChoice() {
-		return _petition.isMediaChoice();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _petition.isNew();
+		return model.isMediaChoice();
 	}
 
 	/**
@@ -1253,7 +1271,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public boolean isPending() {
-		return _petition.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -1263,17 +1281,27 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _petition.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_petition.persist();
+		model.persist();
 	}
 
 	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_petition.setCachedModel(cachedModel);
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+			java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -1283,7 +1311,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_petition.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -1293,7 +1321,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_petition.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -1303,24 +1331,64 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setDescription(String description) {
-		_petition.setDescription(description);
+		model.setDescription(description);
+	}
+
+	/**
+	 * Sets the localized description of this petition in the language.
+	 *
+	 * @param description the localized description of this petition
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setDescription(String description, java.util.Locale locale) {
+		model.setDescription(description, locale);
+	}
+
+	/**
+	 * Sets the localized description of this petition in the language, and sets the default locale.
+	 *
+	 * @param description the localized description of this petition
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setDescription(
+		String description, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setDescription(description, locale, defaultLocale);
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_petition.setExpandoBridgeAttributes(baseModel);
+	public void setDescriptionCurrentLanguageId(String languageId) {
+		model.setDescriptionCurrentLanguageId(languageId);
 	}
 
+	/**
+	 * Sets the localized descriptions of this petition from the map of locales and localized descriptions.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this petition
+	 */
 	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_petition.setExpandoBridgeAttributes(expandoBridge);
+	public void setDescriptionMap(
+		Map<java.util.Locale, String> descriptionMap) {
+
+		model.setDescriptionMap(descriptionMap);
 	}
 
+	/**
+	 * Sets the localized descriptions of this petition from the map of locales and localized descriptions, and sets the default locale.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this petition
+	 * @param defaultLocale the default locale
+	 */
 	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_petition.setExpandoBridgeAttributes(serviceContext);
+	public void setDescriptionMap(
+		Map<java.util.Locale, String> descriptionMap,
+		java.util.Locale defaultLocale) {
+
+		model.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	/**
@@ -1330,7 +1398,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setExpirationDate(Date expirationDate) {
-		_petition.setExpirationDate(expirationDate);
+		model.setExpirationDate(expirationDate);
 	}
 
 	/**
@@ -1340,7 +1408,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setExtensionDate(Date extensionDate) {
-		_petition.setExtensionDate(extensionDate);
+		model.setExtensionDate(extensionDate);
 	}
 
 	/**
@@ -1350,7 +1418,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setExternalImageCopyright(String externalImageCopyright) {
-		_petition.setExternalImageCopyright(externalImageCopyright);
+		model.setExternalImageCopyright(externalImageCopyright);
 	}
 
 	/**
@@ -1360,7 +1428,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setExternalImageURL(String externalImageURL) {
-		_petition.setExternalImageURL(externalImageURL);
+		model.setExternalImageURL(externalImageURL);
 	}
 
 	/**
@@ -1370,7 +1438,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setFilesDownload(String filesDownload) {
-		_petition.setFilesDownload(filesDownload);
+		model.setFilesDownload(filesDownload);
 	}
 
 	/**
@@ -1380,7 +1448,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setFilesIds(String filesIds) {
-		_petition.setFilesIds(filesIds);
+		model.setFilesIds(filesIds);
 	}
 
 	/**
@@ -1390,7 +1458,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_petition.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -1400,7 +1468,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setImageId(long imageId) {
-		_petition.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -1410,7 +1478,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setInTheNameOf(String inTheNameOf) {
-		_petition.setInTheNameOf(inTheNameOf);
+		model.setInTheNameOf(inTheNameOf);
 	}
 
 	/**
@@ -1420,7 +1488,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setIsSupported(boolean isSupported) {
-		_petition.setIsSupported(isSupported);
+		model.setIsSupported(isSupported);
 	}
 
 	/**
@@ -1430,7 +1498,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setMediaChoice(boolean mediaChoice) {
-		_petition.setMediaChoice(mediaChoice);
+		model.setMediaChoice(mediaChoice);
 	}
 
 	/**
@@ -1440,12 +1508,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_petition.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_petition.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -1455,7 +1518,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setPetitionId(long petitionId) {
-		_petition.setPetitionId(petitionId);
+		model.setPetitionId(petitionId);
 	}
 
 	/**
@@ -1465,7 +1528,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setPetitionnaireAdresse(String petitionnaireAdresse) {
-		_petition.setPetitionnaireAdresse(petitionnaireAdresse);
+		model.setPetitionnaireAdresse(petitionnaireAdresse);
 	}
 
 	/**
@@ -1475,7 +1538,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setPetitionnaireBirthday(Date petitionnaireBirthday) {
-		_petition.setPetitionnaireBirthday(petitionnaireBirthday);
+		model.setPetitionnaireBirthday(petitionnaireBirthday);
 	}
 
 	/**
@@ -1485,7 +1548,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setPetitionnaireCity(String petitionnaireCity) {
-		_petition.setPetitionnaireCity(petitionnaireCity);
+		model.setPetitionnaireCity(petitionnaireCity);
 	}
 
 	/**
@@ -1495,7 +1558,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setPetitionnaireEmail(String petitionnaireEmail) {
-		_petition.setPetitionnaireEmail(petitionnaireEmail);
+		model.setPetitionnaireEmail(petitionnaireEmail);
 	}
 
 	/**
@@ -1505,7 +1568,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setPetitionnaireFirstname(String petitionnaireFirstname) {
-		_petition.setPetitionnaireFirstname(petitionnaireFirstname);
+		model.setPetitionnaireFirstname(petitionnaireFirstname);
 	}
 
 	/**
@@ -1515,7 +1578,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setPetitionnaireLastname(String petitionnaireLastname) {
-		_petition.setPetitionnaireLastname(petitionnaireLastname);
+		model.setPetitionnaireLastname(petitionnaireLastname);
 	}
 
 	/**
@@ -1525,7 +1588,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setPetitionnairePhone(String petitionnairePhone) {
-		_petition.setPetitionnairePhone(petitionnairePhone);
+		model.setPetitionnairePhone(petitionnairePhone);
 	}
 
 	/**
@@ -1535,7 +1598,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setPetitionnairePostalCode(long petitionnairePostalCode) {
-		_petition.setPetitionnairePostalCode(petitionnairePostalCode);
+		model.setPetitionnairePostalCode(petitionnairePostalCode);
 	}
 
 	/**
@@ -1545,7 +1608,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setPlaceTextArea(String placeTextArea) {
-		_petition.setPlaceTextArea(placeTextArea);
+		model.setPlaceTextArea(placeTextArea);
 	}
 
 	/**
@@ -1555,12 +1618,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_petition.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_petition.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -1570,7 +1628,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setPublicationDate(Date publicationDate) {
-		_petition.setPublicationDate(publicationDate);
+		model.setPublicationDate(publicationDate);
 	}
 
 	/**
@@ -1580,7 +1638,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setPublikId(String publikId) {
-		_petition.setPublikId(publikId);
+		model.setPublikId(publikId);
 	}
 
 	/**
@@ -1590,7 +1648,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setQuotaSignature(long quotaSignature) {
-		_petition.setQuotaSignature(quotaSignature);
+		model.setQuotaSignature(quotaSignature);
 	}
 
 	/**
@@ -1600,7 +1658,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_petition.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -1610,7 +1668,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_petition.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -1620,7 +1678,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_petition.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -1630,7 +1688,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_petition.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -1640,7 +1698,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_petition.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -1650,7 +1708,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setSummary(String summary) {
-		_petition.setSummary(summary);
+		model.setSummary(summary);
 	}
 
 	/**
@@ -1660,7 +1718,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setSupportedBy(String supportedBy) {
-		_petition.setSupportedBy(supportedBy);
+		model.setSupportedBy(supportedBy);
 	}
 
 	/**
@@ -1670,7 +1728,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_petition.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -1680,7 +1738,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_petition.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -1690,7 +1748,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_petition.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -1700,7 +1758,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_petition.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1710,7 +1768,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_petition.setUuid(uuid);
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -1720,19 +1778,7 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	 */
 	@Override
 	public void setVideoUrl(String videoUrl) {
-		_petition.setVideoUrl(videoUrl);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.project.model.Petition> toCacheModel() {
-
-		return _petition.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.Petition toEscapedModel() {
-		return new PetitionWrapper(_petition.toEscapedModel());
+		model.setVideoUrl(videoUrl);
 	}
 
 	/**
@@ -1742,68 +1788,22 @@ public class PetitionWrapper implements ModelWrapper<Petition>, Petition {
 	public com.liferay.portal.kernel.json.JSONObject toJSON(
 		String publikUserId) {
 
-		return _petition.toJSON(publikUserId);
-	}
-
-	@Override
-	public String toString() {
-		return _petition.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.Petition toUnescapedModel() {
-		return new PetitionWrapper(_petition.toUnescapedModel());
+		return model.toJSON(publikUserId);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _petition.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof PetitionWrapper)) {
-			return false;
-		}
-
-		PetitionWrapper petitionWrapper = (PetitionWrapper)object;
-
-		if (Objects.equals(_petition, petitionWrapper._petition)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _petition.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Petition getWrappedModel() {
-		return _petition;
+	protected PetitionWrapper wrap(Petition petition) {
+		return new PetitionWrapper(petition);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _petition.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _petition.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_petition.resetOriginalValues();
-	}
-
-	private final Petition _petition;
 
 }

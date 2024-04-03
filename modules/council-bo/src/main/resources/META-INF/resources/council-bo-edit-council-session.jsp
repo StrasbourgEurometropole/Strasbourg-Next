@@ -5,6 +5,7 @@
 <%-- URL : definit le lien menant vers la page de listage de l'entite --%>
 <liferay-portlet:renderURL varImpl="councilSessionsURL">
 	<portlet:param name="tab" value="councilSessions" />
+    <portlet:param name="mvcPath" value="/council-bo-view-council-sessions.jsp" />
 </liferay-portlet:renderURL>
 
 
@@ -12,27 +13,29 @@
 <liferay-portlet:actionURL name="deleteCouncilSession" var="deleteCouncilSessionURL">
 	<portlet:param name="cmd" value="deleteCouncilSession" />
 	<portlet:param name="tab" value="councilSessions" />
+    <portlet:param name="mvcPath" value="/council-bo-view-council-sessions.jsp" />
 	<portlet:param name="councilSessionId"
 	    value="${not empty dc.councilSession ? dc.councilSession.councilSessionId : ''}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveCouncilSession" varImpl="saveCouncilSessionURL">
-	<portlet:param name="cmd" value="saveCouncilSession" />
 	<portlet:param name="tab" value="councilSessions" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la gestion des procurations --%>
 <liferay-portlet:renderURL varImpl="manageProcurationsURL">
+    <portlet:param name="tab" value="councilSessions" />
     <portlet:param name="cmd" value="manageProcurations" />
     <portlet:param name="councilSessionId" value="${dc.councilSession.councilSessionId}" />
-    <portlet:param name="returnURL" value="${councilSessionsURL}" />
+    <portlet:param name="backURL" value="${councilSessionsURL}" />
     <portlet:param name="mvcPath" value="/council-bo-manage-procurations.jsp" />
 </liferay-portlet:renderURL>
 
 
 <%-- URL : definit le lien menant vers la gestion des déliberations --%>
 <liferay-portlet:renderURL varImpl="deliberationsURL">
+    <portlet:param name="tab" value="deliberations" />
     <portlet:param name="cmd" value="viewDeliberations" />
     <portlet:param name="mvcPath" value="/council-bo-view-deliberations.jsp" />
 </liferay-portlet:renderURL>
@@ -68,7 +71,7 @@
     value="${not empty dc.councilSession ? dc.councilSession.councilSessionId : ''}" />
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body council-bo">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
 	<liferay-ui:error key="title-error" message="title-error" />
@@ -89,7 +92,7 @@
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.councilSession}" model="<%=CouncilSession.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+        <div class="sheet"><div class="panel-group panel-group-flush">
 
 			<%-- Champ : (cache) PK de l'entite --%>
 			<aui:input name="councilSessionId" type="hidden" />
@@ -231,7 +234,7 @@
             <aui:input cssClass="actionHidden" id="actionHidden" type="hidden"
                 name="actionHidden"
                 value="${actionValue}" />
-		</aui:fieldset-group>
+        </div></div>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
 		<aui:button-row>

@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.comment.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -63,19 +63,8 @@ public class CommentImpl extends CommentBaseImpl {
 	 */
 	@Override
 	public AssetEntry getAssetEntry() {
-		//FIXME vérifier pourquoi la méthode fetchEntry renvoie null lors de l'enregistrement d'un commentaire.
 		AssetEntry result = AssetEntryLocalServiceUtil.fetchEntry(Comment.class.getName(),
 				this.getCommentId());
-		if (result==null){
-			try {
-				result = AssetEntryLocalServiceUtil.getAssetEntry(this.getAssetEntryId());
-				if (result == null){
-					_log.error("Erreur lors de l'enregistrement d'un commentaire : l'asset est null");
-				}
-			} catch (PortalException e) {
-				_log.error("Erreur lors de l'enregistrement d'un commentaire : ",e);
-			}
-		}
 		return result;
 	}
 
@@ -100,7 +89,8 @@ public class CommentImpl extends CommentBaseImpl {
 			    result = "Vid&eacute;o";
 	        }
 		} catch (PortalException e) {
-			_log.error("Erreur lors de la récupération du type : ",e);
+			//TODO A remettre lorsque le pb s'indexation de commentaire sura resoulu
+			//_log.error("Erreur lors de la récupération du type : " + e.getMessage());
 		}
 		return result;
 	}
@@ -118,7 +108,6 @@ public class CommentImpl extends CommentBaseImpl {
 				result = temp;
 			}
 		} catch (PortalException e) {
-			_log.error("Erreur lors de la récupération du nom : ",e);
 		}
 		return result;
 	}

@@ -14,10 +14,13 @@
 
 package eu.strasbourg.service.comment.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -37,6 +40,7 @@ import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.comment.service.base.CommentLocalServiceBaseImpl;
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -254,11 +258,8 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Supprime lien avec les catégories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-					categoryId, entry.getEntryId());
-			}
-
+			AssetEntryAssetCategoryRelLocalServiceUtil.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Supprime lien avec les tags
 			long[] tagsIds = this.assetEntryLocalService
 				.getAssetTagPrimaryKeys(entry.getEntryId());
@@ -268,7 +269,7 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 			}
 
 			// Supprime lien avec les autres entries
-			List<AssetLink> links = this.assetLinkLocalService
+			List<AssetLink> links = AssetLinkLocalServiceUtil
 					.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
 				this.assetLinkLocalService.deleteAssetLink(link);
@@ -365,4 +366,6 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
         return commentPersistence.countWithDynamicQuery(dynamicQuery);
     }
 
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

@@ -1,0 +1,119 @@
+// ==============================================
+//
+//        QUANTITY QUERIES WITH NTH-CHILD
+//
+// ==============================================
+
+
+/// @see https://gist.github.com/adamgiese/717969cb38d4b30e1eff3d3abc6472f0 
+/// @example
+/// ul > li {
+///   @include at-least(6) {
+/// 		color: red;   // si au moins 6 li, ils passent en rouge
+///   }
+/// }
+
+// Vérifie si le nombre passé est valide
+@mixin valid-quantity($count) {
+	@if type-of($count) != 'number' {
+		@error 'The "count" parameter must be a number!';
+	}
+	@if not(unitless($count)) {
+		@error 'The "count" parameter must not have a unit!';
+	}
+	@if $count < 0 {
+		@error 'The "count" parameter must be at least 0!';
+	}
+}
+
+// Génère l'expression
+@mixin has-nth($expression, $selector: '*') {
+	&:nth-last-child(#{$expression}):first-child,
+	&:nth-last-child(#{$expression}):first-child ~ #{$selector} {
+		@content;
+	}
+}
+
+// S'applique s'il y a X éléments ou plus ( nbElements >= $count )
+@mixin at-least($count, $selector: '*') {
+	@include valid-quantity($count);
+	@include has-nth('n + #{$count}', $selector) {
+		@content;
+	}
+}
+
+// S'applique s'il y a X éléments ou moins ( nbElements <= $count )
+@mixin at-most($count, $selector: '*') {
+	@include valid-quantity($count);
+	@include has-nth('-n + #{$count}', $selector) {
+		@content;
+	}
+}
+
+// S'applique s'il y a exactement X éléments ( nbElements == $count )
+@mixin has-exactly($count, $selector: '*') {
+	@include valid-quantity($count);
+	@include has-nth('#{$count}', $selector) {
+		@content;
+	}
+}
+
+
+// S'applique si le nombre d'éléments est divisible par X ( nbElements % $count == 0 )
+@mixin divisible-by($count, $offset: 0, $selector: '*') {
+	@include valid-quantity($count);
+	@include has-nth('#{$count}n + #{$offset}', $selector) {
+		@content;
+	}
+}
+
+// S'applique si le nombre d'éléments est impair ( nbElements % 2 == 1 )
+@mixin has-odd($selector: '*') {
+	@include has-nth('odd', $selector) {
+		@content;
+	}
+}
+
+// S'applique si le nombre d'éléments est pair ( nbElements % 2 == 0 )
+@mixin has-even($selector: '*') {
+	@include has-nth('even', $selector) {
+		@content;
+	}
+}
+
+// S'applique si le nombre d'éléments est compris entre X et Y ( nbElements >= X && nbElements >= Y )
+@mixin between($count-min, $count-max, $selector: '*') {
+	@include valid-quantity($count-min);
+	@include valid-quantity($count-max);
+	$expression-min: 'n + #{$count-min}';
+	$expression-max: '-n + #{$count-max}';
+	&:nth-last-child(#{$expression-min}):nth-last-child(#{$expression-max}):first-child,
+	&:nth-last-child(#{$expression-min}):nth-last-child(#{$expression-max}):first-child ~ #{$selector} {
+		@content;
+	}
+}
+
+
+/* 
+Compile :
+at-least : li:nth-last-child(n + 4):first-child,
+           li:nth-last-child(n + 4):first-child ~ li
+
+at-most : li:nth-last-child(-n + 4):first-child,
+          li:nth-last-child(-n + 4):first-child ~ li
+
+has-exactly : li:nth-last-child(4):first-child,
+              li:nth-last-child(4):first-child ~ li
+
+divisible-by : li:nth-last-child(3n + 0):first-child,
+               li:nth-last-child(3n + 0):first-child ~ li
+
+has-odd : li:nth-last-child(odd):first-child,
+          li:nth-last-child(odd):first-child ~ li
+
+has-even : li:nth-last-child(even):first-child,
+           li:nth-last-child(even):first-child ~ li
+
+between : li:nth-last-child(n + 3):nth-last-child(-n + 5):first-child,
+          li:nth-last-child(n + 3):nth-last-child(-n + 5):first-child ~ li 
+*/

@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.project.model.SaisineObservatoire;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for SaisineObservatoire. This utility wraps
@@ -48,12 +47,20 @@ public class SaisineObservatoireLocalServiceUtil {
 	 * @param saisineObservatoire the saisine observatoire
 	 * @return the saisine observatoire that was added
 	 */
-	public static eu.strasbourg.service.project.model.SaisineObservatoire
-		addSaisineObservatoire(
-			eu.strasbourg.service.project.model.SaisineObservatoire
-				saisineObservatoire) {
+	public static SaisineObservatoire addSaisineObservatoire(
+		SaisineObservatoire saisineObservatoire) {
 
 		return getService().addSaisineObservatoire(saisineObservatoire);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -62,8 +69,8 @@ public class SaisineObservatoireLocalServiceUtil {
 	 * @param saisineObservatoireId the primary key for the new saisine observatoire
 	 * @return the new saisine observatoire
 	 */
-	public static eu.strasbourg.service.project.model.SaisineObservatoire
-		createSaisineObservatoire(long saisineObservatoireId) {
+	public static SaisineObservatoire createSaisineObservatoire(
+		long saisineObservatoireId) {
 
 		return getService().createSaisineObservatoire(saisineObservatoireId);
 	}
@@ -71,10 +78,9 @@ public class SaisineObservatoireLocalServiceUtil {
 	/**
 	 * Crée une saisine vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.project.model.SaisineObservatoire
-			createSaisineObservatoire(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static SaisineObservatoire createSaisineObservatoire(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createSaisineObservatoire(sc);
 	}
@@ -82,10 +88,9 @@ public class SaisineObservatoireLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -101,9 +106,9 @@ public class SaisineObservatoireLocalServiceUtil {
 	 * @return the saisine observatoire that was removed
 	 * @throws PortalException if a saisine observatoire with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.SaisineObservatoire
-			deleteSaisineObservatoire(long saisineObservatoireId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static SaisineObservatoire deleteSaisineObservatoire(
+			long saisineObservatoireId)
+		throws PortalException {
 
 		return getService().deleteSaisineObservatoire(saisineObservatoireId);
 	}
@@ -118,17 +123,21 @@ public class SaisineObservatoireLocalServiceUtil {
 	 * @param saisineObservatoire the saisine observatoire
 	 * @return the saisine observatoire that was removed
 	 */
-	public static eu.strasbourg.service.project.model.SaisineObservatoire
-		deleteSaisineObservatoire(
-			eu.strasbourg.service.project.model.SaisineObservatoire
-				saisineObservatoire) {
+	public static SaisineObservatoire deleteSaisineObservatoire(
+		SaisineObservatoire saisineObservatoire) {
 
 		return getService().deleteSaisineObservatoire(saisineObservatoire);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -138,9 +147,7 @@ public class SaisineObservatoireLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -156,9 +163,8 @@ public class SaisineObservatoireLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -176,10 +182,9 @@ public class SaisineObservatoireLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -191,9 +196,7 @@ public class SaisineObservatoireLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -205,21 +208,20 @@ public class SaisineObservatoireLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.project.model.SaisineObservatoire
-		fetchSaisineObservatoire(long saisineObservatoireId) {
+	public static SaisineObservatoire fetchSaisineObservatoire(
+		long saisineObservatoireId) {
 
 		return getService().fetchSaisineObservatoire(saisineObservatoireId);
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.project.model.SaisineObservatoire> findByKeyword(
-			String keyword, long groupId, int start, int end) {
+	public static List<SaisineObservatoire> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -235,6 +237,10 @@ public class SaisineObservatoireLocalServiceUtil {
 		getActionableDynamicQuery() {
 
 		return getService().getActionableDynamicQuery();
+	}
+
+	public static List<SaisineObservatoire> getByPublikUserID(String publikId) {
+		return getService().getByPublikUserID(publikId);
 	}
 
 	public static
@@ -256,9 +262,8 @@ public class SaisineObservatoireLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -266,9 +271,8 @@ public class SaisineObservatoireLocalServiceUtil {
 	/**
 	 * Retourne toutes les saisines publiées d'un groupe
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.SaisineObservatoire>
-			getPublishedByGroupId(long groupId) {
+	public static List<SaisineObservatoire> getPublishedByGroupId(
+		long groupId) {
 
 		return getService().getPublishedByGroupId(groupId);
 	}
@@ -280,9 +284,9 @@ public class SaisineObservatoireLocalServiceUtil {
 	 * @return the saisine observatoire
 	 * @throws PortalException if a saisine observatoire with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.SaisineObservatoire
-			getSaisineObservatoire(long saisineObservatoireId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static SaisineObservatoire getSaisineObservatoire(
+			long saisineObservatoireId)
+		throws PortalException {
 
 		return getService().getSaisineObservatoire(saisineObservatoireId);
 	}
@@ -298,9 +302,8 @@ public class SaisineObservatoireLocalServiceUtil {
 	 * @param end the upper bound of the range of saisine observatoires (not inclusive)
 	 * @return the range of saisine observatoires
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.SaisineObservatoire>
-			getSaisineObservatoires(int start, int end) {
+	public static List<SaisineObservatoire> getSaisineObservatoires(
+		int start, int end) {
 
 		return getService().getSaisineObservatoires(start, end);
 	}
@@ -314,25 +317,22 @@ public class SaisineObservatoireLocalServiceUtil {
 		return getService().getSaisineObservatoiresCount();
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.project.model.SaisineObservatoire>
-			getTheMostCommented(long groupId) {
-
+	public static List<SaisineObservatoire> getTheMostCommented(long groupId) {
 		return getService().getTheMostCommented(groupId);
 	}
 
 	/**
 	 * Supprime une saisine
 	 */
-	public static eu.strasbourg.service.project.model.SaisineObservatoire
-			removeSaisineObservatoire(long saisineObservatoireId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static SaisineObservatoire removeSaisineObservatoire(
+			long saisineObservatoireId)
+		throws PortalException {
 
 		return getService().removeSaisineObservatoire(saisineObservatoireId);
 	}
 
 	public static void updateAllSaisineObservatoireStatus()
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		getService().updateAllSaisineObservatoireStatus();
 	}
@@ -347,48 +347,28 @@ public class SaisineObservatoireLocalServiceUtil {
 	 * @param saisineObservatoire the saisine observatoire
 	 * @return the saisine observatoire that was updated
 	 */
-	public static eu.strasbourg.service.project.model.SaisineObservatoire
-		updateSaisineObservatoire(
-			eu.strasbourg.service.project.model.SaisineObservatoire
-				saisineObservatoire) {
+	public static SaisineObservatoire updateSaisineObservatoire(
+		SaisineObservatoire saisineObservatoire) {
 
 		return getService().updateSaisineObservatoire(saisineObservatoire);
 	}
 
-	public static eu.strasbourg.service.project.model.SaisineObservatoire
-			updateSaisineObservatoire(
-				eu.strasbourg.service.project.model.SaisineObservatoire
-					saisineObservatoire,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static SaisineObservatoire updateSaisineObservatoire(
+			SaisineObservatoire saisineObservatoire,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateSaisineObservatoire(saisineObservatoire, sc);
 	}
 
 	public static SaisineObservatoireLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<SaisineObservatoireLocalService, SaisineObservatoireLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			SaisineObservatoireLocalService.class);
-
-		ServiceTracker
-			<SaisineObservatoireLocalService, SaisineObservatoireLocalService>
-				serviceTracker =
-					new ServiceTracker
-						<SaisineObservatoireLocalService,
-						 SaisineObservatoireLocalService>(
-							 bundle.getBundleContext(),
-							 SaisineObservatoireLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(SaisineObservatoireLocalService service) {
+		_service = service;
 	}
+
+	private static volatile SaisineObservatoireLocalService _service;
 
 }

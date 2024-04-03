@@ -348,6 +348,7 @@ public class EntityPickerTag extends IncludeTag {
 								RequestBackedPortletURLFactoryUtil.create(request),
 								"itemSelected" + _name, ligneItemSelectorCriterion);
 				break;
+
 			case "eu.strasbourg.service.help.model.HelpProposal":
 				HelpProposalItemSelectorCriterion helpProposalItemSelectorCriterion = new HelpProposalItemSelectorCriterion();
 				helpProposalItemSelectorCriterion

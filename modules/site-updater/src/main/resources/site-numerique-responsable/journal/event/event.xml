@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Evenement</name>
+        <key>371705752</key>
+        <definition>event-structure.json</definition>
+        <layout>event-layout.json</layout>
+    </structure>
+</root>

@@ -1,0 +1,36 @@
+// Screen reader only - styles pour rendre du texte visible
+// ==========================================================================
+
+.st-sr-only {
+	position: absolute !important;
+	width: 1px !important;
+	height: 1px !important;
+	margin: -1px !important;
+	padding: 0 !important;
+	overflow: hidden !important;
+	white-space: nowrap !important;
+	border: 0 !important;
+	clip-path: inset(50%) !important;
+}
+
+.st-sr-only-focusable:focus,
+.st-sr-only-focusable:active {
+	width: auto !important;
+	height: auto !important;
+	margin: auto !important;
+	overflow: visible !important;
+	white-space: normal !important;
+	clip-path: none !important;
+}
+
+
+.st-skip-link {
+	position: fixed;
+	top: 0;
+	left: -9999px;
+	z-index: z-index('skip-link');
+
+	&:focus {
+		left: 0;
+	}
+}

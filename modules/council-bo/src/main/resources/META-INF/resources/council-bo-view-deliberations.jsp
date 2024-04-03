@@ -1,5 +1,5 @@
 <%@ include file="/council-bo-init.jsp" %>
-
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <%@page import="eu.strasbourg.service.council.constants.StageDeliberation"%>
 <%@page import="com.liferay.portal.kernel.servlet.SessionErrors"%>
 
@@ -7,49 +7,24 @@
 	<portlet:param name="tab" value="deliberations" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
+	<portlet:param name="mvcPath" value="/council-bo-view-deliberations.jsp" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
-</liferay-portlet:renderURL>
-
-<liferay-portlet:renderURL varImpl="addDeliberationURL">
-	<portlet:param name="cmd" value="editDeliberation" />
-	<portlet:param name="mvcPath" value="/council-bo-edit-deliberation.jsp" />
-	<portlet:param name="returnURL" value="${deliberationsURL}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:renderURL>
 
 <liferay-portlet:renderURL varImpl="importDeliberationURL">
+	<portlet:param name="tab" value="deliberations" />
 	<portlet:param name="cmd" value="importDeliberation" />
 	<portlet:param name="mvcPath" value="/council-bo-import-deliberation.jsp" />
-	<portlet:param name="returnURL" value="${importDeliberationURL}" />
+	<portlet:param name="backURL" value="${importDeliberationURL}" />
 </liferay-portlet:renderURL>
 
-<liferay-frontend:management-bar includeCheckBox="true" searchContainerId="deliberationsSearchContainer">
-		<liferay-frontend:management-bar-filters>
-			<c:if test="${fn:length(dc.vocabularies) > 0}">
-                <li><a>Filtrer par :</a></li>
-            </c:if>
-            <c:forEach var="vocabulary" items="${dc.vocabularies}">
-                <liferay-frontend:management-bar-filter
-                    managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}"
-                    value="${dc.getVocabularyFilterLabel(vocabulary)}" />
-            </c:forEach>
-			<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
-				orderByType="${dc.orderByType}"
-				orderColumns='<%= new String[] {"order", "title"} %>'
-				portletURL="${deliberationsURL}" />
-		</liferay-frontend:management-bar-filters>
+<clay:management-toolbar
+		managementToolbarDisplayContext="${managementDC}"
+/>
 
-		<liferay-frontend:management-bar-action-buttons>
-			<c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<liferay-frontend:management-bar-button
-					href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
-					icon="trash" label="delete" />
-			</c:if>
-		</liferay-frontend:management-bar-action-buttons>
-</liferay-frontend:management-bar>
-
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
     <%-- Composant : definit la liste des messages d'erreur --%>
     <liferay-ui:error key="quorum-error">
@@ -60,18 +35,19 @@
     <liferay-ui:success key="import-successful" message="import-successful" />
 
 	<aui:form method="post" name="fm">
-		<aui:input type="hidden" name="selectionIds" />
+
 		<liferay-ui:search-container id="deliberationsSearchContainer"
 			searchContainer="${dc.searchContainer}">
-			<liferay-ui:search-container-results results="${dc.deliberations}" />
+
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.council.model.Deliberation"
-				modelVar="deliberation" keyProperty="deliberationId" rowIdProperty="deliberationId">
+				modelVar="deliberation" keyProperty="deliberationId" >
 				<liferay-portlet:renderURL varImpl="editDeliberationURL">
 					<portlet:param name="cmd" value="editDeliberation" />
+					<portlet:param name="tab" value="deliberations" />
 					<portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
-					<portlet:param name="returnURL" value="${deliberationsURL}" />
+					<portlet:param name="backURL" value="${deliberationsURL}" />
 					<portlet:param name="mvcPath" value="/council-bo-edit-deliberation.jsp" />
 				</liferay-portlet:renderURL>
 
@@ -96,81 +72,10 @@
                     orderable="true" value="${deliberation.stage}" />
 
 				<liferay-ui:search-container-column-text>
-					<liferay-ui:icon-menu markupView="lexicon">
-						<c:if test="${dc.hasPermission('EDIT_DELIBERATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="edit" url="${editDeliberationURL}" />
-						</c:if>
-
-						<liferay-portlet:actionURL name="stageChangeDeliberation"
-							var="examinateDeliberationURL">
-							<portlet:param name="tab" value="deliberations" />
-							<portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
-							<portlet:param name="stage" value="${dc.getStageDeliberationName(2)}" />
-						</liferay-portlet:actionURL>
-						<c:if test="${deliberation.isCree() and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="examinate" url="${examinateDeliberationURL}" />
-						</c:if>
-
-						<liferay-portlet:actionURL name="openDeliberation"
-                            var="openDeliberationURL">
-                            <portlet:param name="tab" value="deliberations" />
-                            <portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
-                            <portlet:param name="stage" value="${dc.getStageDeliberationName(3)}" />
-                        </liferay-portlet:actionURL>
-                        <c:if test="${deliberation.isAffichageEnCours() and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <liferay-ui:icon message="open" url="${openDeliberationURL}" />
-                        </c:if>
-
-						<liferay-portlet:actionURL name="closeDeliberation"
-                            var="closeDeliberationURL">
-                            <portlet:param name="tab" value="deliberations" />
-                            <portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
-                        </liferay-portlet:actionURL>
-                        <c:if test="${deliberation.isVoteOuvert() and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <liferay-ui:icon message="close" url="${closeDeliberationURL}" />
-                        </c:if>
-
-						<liferay-portlet:actionURL name="stageChangeDeliberation"
-                            var="adoptDeliberationURL">
-                            <portlet:param name="tab" value="deliberations" />
-                            <portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
-                            <portlet:param name="stage" value="${dc.getStageDeliberationName(4)}" />
-                        </liferay-portlet:actionURL>
-                        <c:if test="${(deliberation.isCree() or deliberation.isRejete() or deliberation.isAffichageEnCours()) and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <liferay-ui:icon message="adopt" url="${adoptDeliberationURL}" />
-                        </c:if>
-
-						<liferay-portlet:actionURL name="stageChangeDeliberation"
-                            var="rejectDeliberationURL">
-                            <portlet:param name="tab" value="deliberations" />
-                            <portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
-                            <portlet:param name="stage" value="${dc.getStageDeliberationName(5)}" />
-                        </liferay-portlet:actionURL>
-                        <c:if test="${(deliberation.isCree() or deliberation.isAdopte() or deliberation.isAffichageEnCours()) and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <liferay-ui:icon message="reject" url="${rejectDeliberationURL}" />
-                        </c:if>
-
-						<liferay-portlet:actionURL name="stageChangeDeliberation"
-                            var="communicateDeliberationURL">
-                            <portlet:param name="tab" value="deliberations" />
-                            <portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
-                            <portlet:param name="stage" value="${dc.getStageDeliberationName(6)}" />
-                        </liferay-portlet:actionURL>
-                        <c:if test="${deliberation.isCree() or deliberation.isAffichageEnCours() and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <liferay-ui:icon message="communicate" url="${communicateDeliberationURL}" />
-                        </c:if>
-
-						<liferay-portlet:actionURL name="stageChangeDeliberation"
-                            var="pullOutDeliberationURL">
-                            <portlet:param name="tab" value="deliberations" />
-                            <portlet:param name="deliberationId" value="${deliberation.deliberationId}" />
-                            <portlet:param name="stage" value="${dc.getStageDeliberationName(7)}" />
-                        </liferay-portlet:actionURL>
-                        <c:if test="${deliberation.isCree() and empty themeDisplay.scopeGroup.getStagingGroup()}">
-                            <liferay-ui:icon message="pull-out" url="${pullOutDeliberationURL}" />
-                        </c:if>
-
-					</liferay-ui:icon-menu>
+					<clay:dropdown-actions
+							aria-label="<liferay-ui:message key='show-actions' />"
+							dropdownItems="${dc.getActionsDeliberations(deliberation).getActionDropdownItems()}"
+					/>
 				</liferay-ui:search-container-column-text>
 
 			</liferay-ui:search-container-row>
@@ -185,11 +90,6 @@
     </aui:button-row>
 </div>
 
-<c:if test="${dc.hasPermission('ADD_DELIBERATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-	<liferay-frontend:add-menu>
-		<liferay-frontend:add-menu-item title="Ajouter une deliberation" url="${addDeliberationURL}"/>
-	</liferay-frontend:add-menu>
-</c:if>
 
 <liferay-util:html-bottom>
     <script src="/o/councilbo/js/council-bo-view-deliberations.js" type="text/javascript"></script>
@@ -199,22 +99,70 @@
 	var="deleteSelectionURL">
 	<portlet:param name="cmd" value="delete" />
 	<portlet:param name="tab" value="deliberations" />
+	<portlet:param name="mvcPath" value="/council-bo-view-deliberations.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:actionURL>
+<liferay-portlet:renderURL varImpl="filterSelectionURL">
+	<portlet:param name="tab" value="deliberations" />
+	<portlet:param name="mvcPath" value="/council-bo-view-deliberations.jsp" />
+	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+	<portlet:param name="orderByType" value="${dc.orderByType}" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
+</liferay-portlet:renderURL>
 <aui:script>
-	function <portlet:namespace />deleteSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
+	var form = document.querySelector("[name='<portlet:namespace />fm']");
+	var json = '{"desiredItemSelectorReturnTypes":"infoitem","itemSubtype":null,"itemType":"com.liferay.asset.kernel.model.AssetCategory","mimeTypes":null,"multiSelection":true,"refererClassPK":"0","status":0}';
 
+    function deleteSelection() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
 			submitForm(form, '${deleteSelectionURL}');
 		}
+	}
+
+	function getCategoriesByVocabulary(vocabularyId, vocabularyName, categoriesId) {
+		const portletURL = location.protocol + '//' + location.host + location.pathname + "/-/select/com.liferay.item.selector.criteria.info.item.criterion.InfoItemItemSelectorCriterion/<portlet:namespace />selectCategory";
+		const url = Liferay.Util.PortletURL.createPortletURL(portletURL, {
+			p_p_id: 'com_liferay_item_selector_web_portlet_ItemSelectorPortlet',
+			'0_json': json,
+			p_p_lifecycle: 0,
+			p_p_state: "pop_up",
+			selectedCategories: categoriesId,
+			selectedCategoryIds: categoriesId,
+			singleSelect : false,
+			showAddCategoryButton: true,
+			vocabularyIds: vocabularyId,
+		});
+
+		Liferay.Util.openSelectionModal(
+			{
+				onSelect: function (selectedItem) {
+					if (selectedItem) {
+						var url = "${filterSelectionURL}";
+						if(!url.includes("filterCategoriesIdByVocabulariesName"))
+							url += "&<portlet:namespace />filterCategoriesIdByVocabulariesName=";
+						if(url.includes(encodeURIComponent(vocabularyName).replaceAll("%20","+").replaceAll("'","%27")+'__')){
+							const regex = encodeURIComponent(vocabularyName).replaceAll("%20","\\+").replaceAll("'","%27") + "(.(?<!___))*___";
+							const re = new RegExp(regex, 'gi');
+							url = url.replace(re,"");
+						}
+						for(index in Object.keys(selectedItem)){
+							var selection = selectedItem[Object.keys(selectedItem)[index]];
+							url += encodeURIComponent(vocabularyName) + '__' + encodeURIComponent(selection.title) + '__' + selection.categoryId + '___';
+						}
+						submitForm(form, url);
+					}
+				},
+				selectEventName: '<portlet:namespace />selectCategory',
+				title: vocabularyName,
+				multiple: true,
+				url: url
+			}
+		)
 	}
 </aui:script>

@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.project.model.InitiativeHelp;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for InitiativeHelp. This utility wraps
@@ -48,9 +47,8 @@ public class InitiativeHelpLocalServiceUtil {
 	 * @param initiativeHelp the initiative help
 	 * @return the initiative help that was added
 	 */
-	public static eu.strasbourg.service.project.model.InitiativeHelp
-		addInitiativeHelp(
-			eu.strasbourg.service.project.model.InitiativeHelp initiativeHelp) {
+	public static InitiativeHelp addInitiativeHelp(
+		InitiativeHelp initiativeHelp) {
 
 		return getService().addInitiativeHelp(initiativeHelp);
 	}
@@ -61,9 +59,7 @@ public class InitiativeHelpLocalServiceUtil {
 	 * @param initiativeHelpId the primary key for the new initiative help
 	 * @return the new initiative help
 	 */
-	public static eu.strasbourg.service.project.model.InitiativeHelp
-		createInitiativeHelp(long initiativeHelpId) {
-
+	public static InitiativeHelp createInitiativeHelp(long initiativeHelpId) {
 		return getService().createInitiativeHelp(initiativeHelpId);
 	}
 
@@ -73,11 +69,20 @@ public class InitiativeHelpLocalServiceUtil {
 	 * @param sc Le contexte de la requete.
 	 * @return L'aide cree.
 	 */
-	public static eu.strasbourg.service.project.model.InitiativeHelp
-		createInitiativeHelp(
-			com.liferay.portal.kernel.service.ServiceContext sc) {
+	public static InitiativeHelp createInitiativeHelp(
+		com.liferay.portal.kernel.service.ServiceContext sc) {
 
 		return getService().createInitiativeHelp(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -90,9 +95,8 @@ public class InitiativeHelpLocalServiceUtil {
 	 * @param initiativeHelp the initiative help
 	 * @return the initiative help that was removed
 	 */
-	public static eu.strasbourg.service.project.model.InitiativeHelp
-		deleteInitiativeHelp(
-			eu.strasbourg.service.project.model.InitiativeHelp initiativeHelp) {
+	public static InitiativeHelp deleteInitiativeHelp(
+		InitiativeHelp initiativeHelp) {
 
 		return getService().deleteInitiativeHelp(initiativeHelp);
 	}
@@ -108,9 +112,8 @@ public class InitiativeHelpLocalServiceUtil {
 	 * @return the initiative help that was removed
 	 * @throws PortalException if a initiative help with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.InitiativeHelp
-			deleteInitiativeHelp(long initiativeHelpId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static InitiativeHelp deleteInitiativeHelp(long initiativeHelpId)
+		throws PortalException {
 
 		return getService().deleteInitiativeHelp(initiativeHelpId);
 	}
@@ -118,17 +121,22 @@ public class InitiativeHelpLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -138,9 +146,7 @@ public class InitiativeHelpLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -156,9 +162,8 @@ public class InitiativeHelpLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -176,10 +181,9 @@ public class InitiativeHelpLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -191,9 +195,7 @@ public class InitiativeHelpLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -205,15 +207,13 @@ public class InitiativeHelpLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.project.model.InitiativeHelp
-		fetchInitiativeHelp(long initiativeHelpId) {
-
+	public static InitiativeHelp fetchInitiativeHelp(long initiativeHelpId) {
 		return getService().fetchInitiativeHelp(initiativeHelpId);
 	}
 
@@ -224,8 +224,8 @@ public class InitiativeHelpLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching initiative help, or <code>null</code> if a matching initiative help could not be found
 	 */
-	public static eu.strasbourg.service.project.model.InitiativeHelp
-		fetchInitiativeHelpByUuidAndGroupId(String uuid, long groupId) {
+	public static InitiativeHelp fetchInitiativeHelpByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchInitiativeHelpByUuidAndGroupId(uuid, groupId);
 	}
@@ -239,29 +239,22 @@ public class InitiativeHelpLocalServiceUtil {
 	/**
 	 * Retourne la liste des aides d'une initiative
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.InitiativeHelp> getByInitiativeId(
-			long initiativeId) {
-
+	public static List<InitiativeHelp> getByInitiativeId(long initiativeId) {
 		return getService().getByInitiativeId(initiativeId);
 	}
 
 	/**
 	 * Retourne les aides proposees par un utilisateur
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.InitiativeHelp> getByPublikUserId(
-			String publikUserId) {
-
+	public static List<InitiativeHelp> getByPublikUserId(String publikUserId) {
 		return getService().getByPublikUserId(publikUserId);
 	}
 
 	/**
 	 * Retourne l'aide proposee par un utilisateur pour une initiative donnee
 	 */
-	public static eu.strasbourg.service.project.model.InitiativeHelp
-		getByPublikUserIdAndInitiativeId(
-			String publikUserId, long initiativeId) {
+	public static InitiativeHelp getByPublikUserIdAndInitiativeId(
+		String publikUserId, long initiativeId) {
 
 		return getService().getByPublikUserIdAndInitiativeId(
 			publikUserId, initiativeId);
@@ -281,9 +274,8 @@ public class InitiativeHelpLocalServiceUtil {
 	 * @return the initiative help
 	 * @throws PortalException if a initiative help with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.InitiativeHelp
-			getInitiativeHelp(long initiativeHelpId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static InitiativeHelp getInitiativeHelp(long initiativeHelpId)
+		throws PortalException {
 
 		return getService().getInitiativeHelp(initiativeHelpId);
 	}
@@ -296,9 +288,9 @@ public class InitiativeHelpLocalServiceUtil {
 	 * @return the matching initiative help
 	 * @throws PortalException if a matching initiative help could not be found
 	 */
-	public static eu.strasbourg.service.project.model.InitiativeHelp
-			getInitiativeHelpByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static InitiativeHelp getInitiativeHelpByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getInitiativeHelpByUuidAndGroupId(uuid, groupId);
 	}
@@ -314,10 +306,7 @@ public class InitiativeHelpLocalServiceUtil {
 	 * @param end the upper bound of the range of initiative helps (not inclusive)
 	 * @return the range of initiative helps
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.InitiativeHelp> getInitiativeHelps(
-			int start, int end) {
-
+	public static List<InitiativeHelp> getInitiativeHelps(int start, int end) {
 		return getService().getInitiativeHelps(start, end);
 	}
 
@@ -342,9 +331,8 @@ public class InitiativeHelpLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -354,9 +342,7 @@ public class InitiativeHelpLocalServiceUtil {
 	 *
 	 * @param initiativeHelpId Id de l'aide inititative
 	 */
-	public static eu.strasbourg.service.project.model.InitiativeHelp
-		removeInitiativeHelp(long initiativeHelpId) {
-
+	public static InitiativeHelp removeInitiativeHelp(long initiativeHelpId) {
 		return getService().removeInitiativeHelp(initiativeHelpId);
 	}
 
@@ -370,35 +356,20 @@ public class InitiativeHelpLocalServiceUtil {
 	 * @param initiativeHelp the initiative help
 	 * @return the initiative help that was updated
 	 */
-	public static eu.strasbourg.service.project.model.InitiativeHelp
-		updateInitiativeHelp(
-			eu.strasbourg.service.project.model.InitiativeHelp initiativeHelp) {
+	public static InitiativeHelp updateInitiativeHelp(
+		InitiativeHelp initiativeHelp) {
 
 		return getService().updateInitiativeHelp(initiativeHelp);
 	}
 
 	public static InitiativeHelpLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<InitiativeHelpLocalService, InitiativeHelpLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			InitiativeHelpLocalService.class);
-
-		ServiceTracker<InitiativeHelpLocalService, InitiativeHelpLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<InitiativeHelpLocalService, InitiativeHelpLocalService>(
-						bundle.getBundleContext(),
-						InitiativeHelpLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(InitiativeHelpLocalService service) {
+		_service = service;
 	}
+
+	private static volatile InitiativeHelpLocalService _service;
 
 }

@@ -8,11 +8,15 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 >
 	<bean class="eu.strasbourg.service.notif.service.impl.MessageLocalServiceImpl" id="eu.strasbourg.service.notif.service.MessageLocalService" />
-	<bean class="eu.strasbourg.service.notif.service.persistence.impl.MessagePersistenceImpl" id="eu.strasbourg.service.notif.service.persistence.MessagePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.notif.service.persistence.impl.MessageModelArgumentsResolver" id="eu.strasbourg.service.notif.service.persistence.impl.MessageModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.notif.service.persistence.impl.MessagePersistenceImpl" id="eu.strasbourg.service.notif.service.persistence.MessagePersistence" />
 	<bean class="eu.strasbourg.service.notif.service.impl.NatureNotifLocalServiceImpl" id="eu.strasbourg.service.notif.service.NatureNotifLocalService" />
-	<bean class="eu.strasbourg.service.notif.service.persistence.impl.NatureNotifPersistenceImpl" id="eu.strasbourg.service.notif.service.persistence.NatureNotifPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.notif.service.persistence.impl.NatureNotifModelArgumentsResolver" id="eu.strasbourg.service.notif.service.persistence.impl.NatureNotifModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.notif.service.persistence.impl.NatureNotifPersistenceImpl" id="eu.strasbourg.service.notif.service.persistence.NatureNotifPersistence" />
 	<bean class="eu.strasbourg.service.notif.service.impl.NotificationLocalServiceImpl" id="eu.strasbourg.service.notif.service.NotificationLocalService" />
-	<bean class="eu.strasbourg.service.notif.service.persistence.impl.NotificationPersistenceImpl" id="eu.strasbourg.service.notif.service.persistence.NotificationPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.notif.service.persistence.impl.NotificationModelArgumentsResolver" id="eu.strasbourg.service.notif.service.persistence.impl.NotificationModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.notif.service.persistence.impl.NotificationPersistenceImpl" id="eu.strasbourg.service.notif.service.persistence.NotificationPersistence" />
 	<bean class="eu.strasbourg.service.notif.service.impl.ServiceNotifLocalServiceImpl" id="eu.strasbourg.service.notif.service.ServiceNotifLocalService" />
-	<bean class="eu.strasbourg.service.notif.service.persistence.impl.ServiceNotifPersistenceImpl" id="eu.strasbourg.service.notif.service.persistence.ServiceNotifPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.notif.service.persistence.impl.ServiceNotifModelArgumentsResolver" id="eu.strasbourg.service.notif.service.persistence.impl.ServiceNotifModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.notif.service.persistence.impl.ServiceNotifPersistenceImpl" id="eu.strasbourg.service.notif.service.persistence.ServiceNotifPersistence" />
 </beans>

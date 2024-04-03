@@ -8,6 +8,7 @@ import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -51,6 +52,7 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.LayoutHelper;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -114,9 +116,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         try {
             ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
             long groupId = themeDisplay.getLayout().getGroupId();
-            SearchAssetConfiguration configuration = themeDisplay
-                    .getPortletDisplay().getPortletInstanceConfiguration(
-                            SearchAssetConfiguration.class);
+            SearchAssetConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssetConfiguration.class, themeDisplay);
             List<String> classNameList = getClassNames(configuration);
             String userPublikId = getPublikID(renderRequest);
 
@@ -150,7 +150,8 @@ public class SearchAssetPortlet extends MVCPortlet {
 
             // Recuperation de l'URL de "base" du site
             String homeURL = "/";
-            if (themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname().isEmpty() || themeDisplay.getScopeGroup().isStagingGroup()) {
+            String virtualHostName= PortalHelper.getVirtualHostname(themeDisplay.getScopeGroup(), themeDisplay.getLanguageId());
+            if (Validator.isNotNull(virtualHostName) || themeDisplay.getScopeGroup().isStagingGroup()) {
                 homeURL = "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL() + "/";
             }
             renderRequest.setAttribute("homeURL", homeURL);
@@ -235,6 +236,14 @@ public class SearchAssetPortlet extends MVCPortlet {
                 attributes.remove(td.getPpid());
             });
 
+            // Temp fix for actionURL
+            // FIXME: remove when LPS-200157 is fixed
+            if(renderRequest.getAttribute("javax.portlet.request") instanceof RenderRequest) {
+                themeDisplay.getRequest().setAttribute("javax.portlet.request", renderRequest.getAttribute("javax.portlet.request"));
+                themeDisplay.getRequest().setAttribute("javax.portlet.response", renderRequest.getAttribute("javax.portlet.response"));
+                themeDisplay.getRequest().setAttribute("javax.portlet.config", renderRequest.getAttribute("javax.portlet.config"));
+            }
+
             // vérifie si on veut les entités échues
             renderRequest.setAttribute("isDueEntity", configuration.defaultSortField().equals("endDate_Number_sortable"));
 
@@ -264,9 +273,7 @@ public class SearchAssetPortlet extends MVCPortlet {
         try {
             ThemeDisplay themeDisplay = (ThemeDisplay) request
                     .getAttribute(WebKeys.THEME_DISPLAY);
-            SearchAssetConfiguration configuration = themeDisplay
-                    .getPortletDisplay().getPortletInstanceConfiguration(
-                            SearchAssetConfiguration.class);
+            SearchAssetConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssetConfiguration.class, themeDisplay);
 
             String resourceID = request.getResourceID();
             

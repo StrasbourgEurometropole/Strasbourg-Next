@@ -1,0 +1,214 @@
+.st-barre-single-sit {
+	width: 100%;
+	z-index: z-index("barre-sticky");
+
+	@include min-tablet-portrait {
+		position: fixed;
+		bottom: 20px;
+	}
+
+	@include tablet-portrait {
+		position: sticky;
+		top: 0;
+		margin-bottom: 10px;
+		background-color: $c_greydark;
+	}
+
+	.st-barre-inner {
+		display: flex;
+		align-items: center;
+		min-height: 100px;
+		padding: 10px;
+		background-color: $c_greydark;
+		border-radius: $border-radius;
+
+		@include tablet-portrait {
+			padding: 15px 0 10px 0;
+			min-height: initial;
+		}
+		@include tablet-small {
+			flex-direction: column;
+			align-items: initial;
+		}
+	}
+
+
+	// Vignette et texte / infos à gauche
+	// ==========================================================================
+
+	.st-container-left {
+		display: flex;
+		align-items: center;
+
+		@include min-tablet-small {
+			margin-right: 20px;
+		}
+	}
+
+	.st-image {
+		position: relative;
+		margin-right: 10px;
+
+		figure {
+			width: 80px;
+			height: 80px;
+		}
+
+		img {
+			border-radius: $border-radius-small;
+		}
+
+		@include tablet-portrait {
+			display: none;
+		}
+	}
+
+	.st-content {
+		@include min-tablet-portrait {
+			max-width: 480px;
+			margin-left: 10px;
+		}
+
+		.st-title {
+			@include ft('', 15px, 700, $c_white, 1);
+			@include letter-spacing(25);
+			margin-bottom: 5px;
+
+			@include mobile {
+				margin-bottom: 3px;
+				font-size: 14px;
+			}
+		}
+
+		address {
+			@include ft('', 12px, 400, $c_txt, 1.16);
+			@include letter-spacing(25);
+			margin-bottom: 5px;
+
+			@include mobile {
+				margin-bottom: 3px;
+			}
+		}
+
+		.st-ouverture {
+			@include ft('', 12px, 500, $c_sub, 1);
+			@include letter-spacing(200);
+			text-transform: uppercase;
+
+			&.st--closed {
+				color: $c_pink;
+			}
+		}
+	}
+
+
+	// Boutons et liens à droite
+	// ==========================================================================
+
+	.st-container-right {
+		display: flex;
+		align-items: center;
+		margin-left: auto;
+		flex-shrink: 0;
+
+		@include tablet-small {
+			margin-left: initial;
+			margin-top: 10px;
+		}
+	}
+
+	.st-liens-rapides {
+		display: flex;
+		align-items: center;
+
+		li {
+			margin-right: 10px;
+
+			@include mobile {
+				margin-right: 7px;
+			}
+
+			@include mobile-small {
+				margin-right: 5px;
+			}
+		}
+	}
+
+	.st-social-share {
+		margin-right: 15px;
+		margin-left: 10px;
+
+		@include tablet-portrait {
+			display: none;
+		}
+
+		label {
+			width: 50px;
+			height: 50px;
+		}
+
+		.st-social-share__list {
+			left: 5px;
+			top: -10px;
+		}
+	}
+
+	.st-btn-favorite-sticky {
+		flex-shrink: 0;
+
+		@include desktop {
+			@include favorites-only-icon();
+			width: 48px;
+			height: 48px;
+		}
+
+		@include tablet-portrait {
+			width: 48px;
+			height: 48px;
+			margin-left: auto;
+		}
+
+		@include mobile {
+			width: 36px;
+			height: 36px;
+		}
+	}
+
+
+	// --modifiers
+	// Dans les single agenda
+	&.st--agenda,
+	&.st--actualite,
+	&.st--association {
+		.st-date {
+			@include ft('', 13px, 600, $c_white, 1.16);
+			text-transform: uppercase;
+			margin-bottom: 1px;
+
+			@include mobile {
+				font-size: 11px;
+			}
+		}
+
+		.st-surtitre-cat {
+			margin-bottom: 2px;
+		}
+
+		.st-title {
+			margin-bottom: initial;
+		}
+
+		.st-location {
+			margin-top: 4px;
+		}
+	}
+
+	// Dans les single actualites
+	&.st--actualite {
+		.st-content {
+			@include min-tablet-portrait {
+				max-width: 380px;
+			}
+		}
+	}
+}

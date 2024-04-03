@@ -1,21 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -23,22 +15,24 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.gtfs.model.Direction;
 import eu.strasbourg.service.gtfs.model.DirectionModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -101,33 +95,65 @@ public class DirectionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.gtfs.model.Direction"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.gtfs.model.Direction"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.Direction"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ROUTEID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STOPID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TRIPID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long DIRECTIONID_COLUMN_BITMASK = 64L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -185,9 +211,6 @@ public class DirectionModelImpl
 				attributeName, attributeGetterFunction.apply((Direction)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -212,225 +235,75 @@ public class DirectionModelImpl
 	public Map<String, Function<Direction, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Direction, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Direction>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Direction.class.getClassLoader(), Direction.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<Direction, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Direction> constructor =
-				(Constructor<Direction>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Direction, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Direction, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Direction::getUuid);
+			attributeGetterFunctions.put(
+				"directionId", Direction::getDirectionId);
+			attributeGetterFunctions.put("groupId", Direction::getGroupId);
+			attributeGetterFunctions.put("companyId", Direction::getCompanyId);
+			attributeGetterFunctions.put("tripId", Direction::getTripId);
+			attributeGetterFunctions.put("stopId", Direction::getStopId);
+			attributeGetterFunctions.put("routeId", Direction::getRouteId);
+			attributeGetterFunctions.put(
+				"destinationName", Direction::getDestinationName);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Direction, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Direction, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<Direction, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Direction, Object>>();
-		Map<String, BiConsumer<Direction, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Direction, ?>>();
+		private static final Map<String, BiConsumer<Direction, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Direction, Object>() {
+		static {
+			Map<String, BiConsumer<Direction, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Direction, ?>>();
 
-				@Override
-				public Object apply(Direction direction) {
-					return direction.getUuid();
-				}
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Direction, String>)Direction::setUuid);
+			attributeSetterBiConsumers.put(
+				"directionId",
+				(BiConsumer<Direction, Long>)Direction::setDirectionId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Direction, Long>)Direction::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Direction, Long>)Direction::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"tripId", (BiConsumer<Direction, String>)Direction::setTripId);
+			attributeSetterBiConsumers.put(
+				"stopId", (BiConsumer<Direction, String>)Direction::setStopId);
+			attributeSetterBiConsumers.put(
+				"routeId",
+				(BiConsumer<Direction, String>)Direction::setRouteId);
+			attributeSetterBiConsumers.put(
+				"destinationName",
+				(BiConsumer<Direction, String>)Direction::setDestinationName);
 
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Direction, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(Direction direction, Object uuidObject) {
-					direction.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"directionId",
-			new Function<Direction, Object>() {
-
-				@Override
-				public Object apply(Direction direction) {
-					return direction.getDirectionId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"directionId",
-			new BiConsumer<Direction, Object>() {
-
-				@Override
-				public void accept(
-					Direction direction, Object directionIdObject) {
-
-					direction.setDirectionId((Long)directionIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Direction, Object>() {
-
-				@Override
-				public Object apply(Direction direction) {
-					return direction.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Direction, Object>() {
-
-				@Override
-				public void accept(Direction direction, Object groupIdObject) {
-					direction.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Direction, Object>() {
-
-				@Override
-				public Object apply(Direction direction) {
-					return direction.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Direction, Object>() {
-
-				@Override
-				public void accept(
-					Direction direction, Object companyIdObject) {
-
-					direction.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"tripId",
-			new Function<Direction, Object>() {
-
-				@Override
-				public Object apply(Direction direction) {
-					return direction.getTripId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"tripId",
-			new BiConsumer<Direction, Object>() {
-
-				@Override
-				public void accept(Direction direction, Object tripIdObject) {
-					direction.setTripId((String)tripIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"stopId",
-			new Function<Direction, Object>() {
-
-				@Override
-				public Object apply(Direction direction) {
-					return direction.getStopId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"stopId",
-			new BiConsumer<Direction, Object>() {
-
-				@Override
-				public void accept(Direction direction, Object stopIdObject) {
-					direction.setStopId((String)stopIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"routeId",
-			new Function<Direction, Object>() {
-
-				@Override
-				public Object apply(Direction direction) {
-					return direction.getRouteId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"routeId",
-			new BiConsumer<Direction, Object>() {
-
-				@Override
-				public void accept(Direction direction, Object routeIdObject) {
-					direction.setRouteId((String)routeIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"destinationName",
-			new Function<Direction, Object>() {
-
-				@Override
-				public Object apply(Direction direction) {
-					return direction.getDestinationName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"destinationName",
-			new BiConsumer<Direction, Object>() {
-
-				@Override
-				public void accept(
-					Direction direction, Object destinationNameObject) {
-
-					direction.setDestinationName((String)destinationNameObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -445,17 +318,20 @@ public class DirectionModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -465,7 +341,9 @@ public class DirectionModelImpl
 
 	@Override
 	public void setDirectionId(long directionId) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_directionId = directionId;
 	}
@@ -477,19 +355,20 @@ public class DirectionModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -499,19 +378,21 @@ public class DirectionModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -526,17 +407,20 @@ public class DirectionModelImpl
 
 	@Override
 	public void setTripId(String tripId) {
-		_columnBitmask |= TRIPID_COLUMN_BITMASK;
-
-		if (_originalTripId == null) {
-			_originalTripId = _tripId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_tripId = tripId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalTripId() {
-		return GetterUtil.getString(_originalTripId);
+		return getColumnOriginalValue("tripId");
 	}
 
 	@Override
@@ -551,17 +435,20 @@ public class DirectionModelImpl
 
 	@Override
 	public void setStopId(String stopId) {
-		_columnBitmask |= STOPID_COLUMN_BITMASK;
-
-		if (_originalStopId == null) {
-			_originalStopId = _stopId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_stopId = stopId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalStopId() {
-		return GetterUtil.getString(_originalStopId);
+		return getColumnOriginalValue("stopId");
 	}
 
 	@Override
@@ -576,17 +463,20 @@ public class DirectionModelImpl
 
 	@Override
 	public void setRouteId(String routeId) {
-		_columnBitmask |= ROUTEID_COLUMN_BITMASK;
-
-		if (_originalRouteId == null) {
-			_originalRouteId = _routeId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_routeId = routeId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalRouteId() {
-		return GetterUtil.getString(_originalRouteId);
+		return getColumnOriginalValue("routeId");
 	}
 
 	@Override
@@ -601,10 +491,34 @@ public class DirectionModelImpl
 
 	@Override
 	public void setDestinationName(String destinationName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_destinationName = destinationName;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -650,6 +564,26 @@ public class DirectionModelImpl
 		directionImpl.setDestinationName(getDestinationName());
 
 		directionImpl.resetOriginalValues();
+
+		return directionImpl;
+	}
+
+	@Override
+	public Direction cloneWithOriginalValues() {
+		DirectionImpl directionImpl = new DirectionImpl();
+
+		directionImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		directionImpl.setDirectionId(
+			this.<Long>getColumnOriginalValue("directionId"));
+		directionImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		directionImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		directionImpl.setTripId(this.<String>getColumnOriginalValue("tripId"));
+		directionImpl.setStopId(this.<String>getColumnOriginalValue("stopId"));
+		directionImpl.setRouteId(
+			this.<String>getColumnOriginalValue("routeId"));
+		directionImpl.setDestinationName(
+			this.<String>getColumnOriginalValue("destinationName"));
 
 		return directionImpl;
 	}
@@ -704,11 +638,19 @@ public class DirectionModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -716,25 +658,9 @@ public class DirectionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DirectionModelImpl directionModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		directionModelImpl._originalUuid = directionModelImpl._uuid;
-
-		directionModelImpl._originalGroupId = directionModelImpl._groupId;
-
-		directionModelImpl._setOriginalGroupId = false;
-
-		directionModelImpl._originalCompanyId = directionModelImpl._companyId;
-
-		directionModelImpl._setOriginalCompanyId = false;
-
-		directionModelImpl._originalTripId = directionModelImpl._tripId;
-
-		directionModelImpl._originalStopId = directionModelImpl._stopId;
-
-		directionModelImpl._originalRouteId = directionModelImpl._routeId;
-
-		directionModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -796,7 +722,7 @@ public class DirectionModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -807,9 +733,26 @@ public class DirectionModelImpl
 			Function<Direction, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Direction)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Direction)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -822,60 +765,104 @@ public class DirectionModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Direction, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Direction, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Direction, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Direction)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Direction>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Direction.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _directionId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private String _tripId;
-	private String _originalTripId;
 	private String _stopId;
-	private String _originalStopId;
 	private String _routeId;
-	private String _originalRouteId;
 	private String _destinationName;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Direction, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Direction)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("directionId", _directionId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("tripId", _tripId);
+		_columnOriginalValues.put("stopId", _stopId);
+		_columnOriginalValues.put("routeId", _routeId);
+		_columnOriginalValues.put("destinationName", _destinationName);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("directionId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("tripId", 16L);
+
+		columnBitmasks.put("stopId", 32L);
+
+		columnBitmasks.put("routeId", 64L);
+
+		columnBitmasks.put("destinationName", 128L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Direction _escapedModel;
 

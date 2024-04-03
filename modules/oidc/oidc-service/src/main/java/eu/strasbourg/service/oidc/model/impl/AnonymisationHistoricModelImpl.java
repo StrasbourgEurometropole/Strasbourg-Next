@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.oidc.model.impl;
@@ -17,8 +8,11 @@ package eu.strasbourg.service.oidc.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.User;
@@ -26,9 +20,12 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.oidc.model.AnonymisationHistoric;
@@ -36,16 +33,20 @@ import eu.strasbourg.service.oidc.model.AnonymisationHistoricModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -127,27 +128,47 @@ public class AnonymisationHistoricModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.oidc.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.oidc.model.AnonymisationHistoric"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.oidc.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.oidc.model.AnonymisationHistoric"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.oidc.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.oidc.model.AnonymisationHistoric"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ANONYMISATIONHISTORICID_COLUMN_BITMASK = 8L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -206,9 +227,6 @@ public class AnonymisationHistoricModelImpl
 				attributeGetterFunction.apply((AnonymisationHistoric)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -234,546 +252,166 @@ public class AnonymisationHistoricModelImpl
 	public Map<String, Function<AnonymisationHistoric, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<AnonymisationHistoric, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, AnonymisationHistoric>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			AnonymisationHistoric.class.getClassLoader(),
-			AnonymisationHistoric.class, ModelWrapper.class);
+		private static final Map
+			<String, Function<AnonymisationHistoric, Object>>
+				_attributeGetterFunctions;
 
-		try {
-			Constructor<AnonymisationHistoric> constructor =
-				(Constructor<AnonymisationHistoric>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<AnonymisationHistoric, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<AnonymisationHistoric, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put(
+				"uuid", AnonymisationHistoric::getUuid);
+			attributeGetterFunctions.put(
+				"anonymisationHistoricId",
+				AnonymisationHistoric::getAnonymisationHistoricId);
+			attributeGetterFunctions.put(
+				"groupId", AnonymisationHistoric::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", AnonymisationHistoric::getCompanyId);
+			attributeGetterFunctions.put(
+				"userId", AnonymisationHistoric::getUserId);
+			attributeGetterFunctions.put(
+				"userName", AnonymisationHistoric::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", AnonymisationHistoric::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", AnonymisationHistoric::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", AnonymisationHistoric::getLastPublishDate);
+			attributeGetterFunctions.put(
+				"status", AnonymisationHistoric::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", AnonymisationHistoric::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", AnonymisationHistoric::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", AnonymisationHistoric::getStatusDate);
+			attributeGetterFunctions.put(
+				"result", AnonymisationHistoric::getResult);
+			attributeGetterFunctions.put(
+				"operations", AnonymisationHistoric::getOperations);
+			attributeGetterFunctions.put(
+				"errorDescription", AnonymisationHistoric::getErrorDescription);
+			attributeGetterFunctions.put(
+				"errorStackTrace", AnonymisationHistoric::getErrorStackTrace);
+			attributeGetterFunctions.put(
+				"startDate", AnonymisationHistoric::getStartDate);
+			attributeGetterFunctions.put(
+				"finishDate", AnonymisationHistoric::getFinishDate);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<AnonymisationHistoric, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<AnonymisationHistoric, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map
+			<String, BiConsumer<AnonymisationHistoric, Object>>
+				_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<AnonymisationHistoric, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<AnonymisationHistoric, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<AnonymisationHistoric, String>)
+					AnonymisationHistoric::setUuid);
+			attributeSetterBiConsumers.put(
+				"anonymisationHistoricId",
+				(BiConsumer<AnonymisationHistoric, Long>)
+					AnonymisationHistoric::setAnonymisationHistoricId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<AnonymisationHistoric, Long>)
+					AnonymisationHistoric::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<AnonymisationHistoric, Long>)
+					AnonymisationHistoric::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<AnonymisationHistoric, Long>)
+					AnonymisationHistoric::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<AnonymisationHistoric, String>)
+					AnonymisationHistoric::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<AnonymisationHistoric, Date>)
+					AnonymisationHistoric::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<AnonymisationHistoric, Date>)
+					AnonymisationHistoric::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<AnonymisationHistoric, Date>)
+					AnonymisationHistoric::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<AnonymisationHistoric, Integer>)
+					AnonymisationHistoric::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<AnonymisationHistoric, Long>)
+					AnonymisationHistoric::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<AnonymisationHistoric, String>)
+					AnonymisationHistoric::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<AnonymisationHistoric, Date>)
+					AnonymisationHistoric::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"result",
+				(BiConsumer<AnonymisationHistoric, Integer>)
+					AnonymisationHistoric::setResult);
+			attributeSetterBiConsumers.put(
+				"operations",
+				(BiConsumer<AnonymisationHistoric, String>)
+					AnonymisationHistoric::setOperations);
+			attributeSetterBiConsumers.put(
+				"errorDescription",
+				(BiConsumer<AnonymisationHistoric, String>)
+					AnonymisationHistoric::setErrorDescription);
+			attributeSetterBiConsumers.put(
+				"errorStackTrace",
+				(BiConsumer<AnonymisationHistoric, String>)
+					AnonymisationHistoric::setErrorStackTrace);
+			attributeSetterBiConsumers.put(
+				"startDate",
+				(BiConsumer<AnonymisationHistoric, Date>)
+					AnonymisationHistoric::setStartDate);
+			attributeSetterBiConsumers.put(
+				"finishDate",
+				(BiConsumer<AnonymisationHistoric, Date>)
+					AnonymisationHistoric::setFinishDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<AnonymisationHistoric, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<AnonymisationHistoric, Object>>();
-		Map<String, BiConsumer<AnonymisationHistoric, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<AnonymisationHistoric, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object uuidObject) {
-
-					anonymisationHistoric.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"anonymisationHistoricId",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getAnonymisationHistoricId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"anonymisationHistoricId",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object anonymisationHistoricIdObject) {
-
-					anonymisationHistoric.setAnonymisationHistoricId(
-						(Long)anonymisationHistoricIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object groupIdObject) {
-
-					anonymisationHistoric.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object companyIdObject) {
-
-					anonymisationHistoric.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object userIdObject) {
-
-					anonymisationHistoric.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object userNameObject) {
-
-					anonymisationHistoric.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object createDateObject) {
-
-					anonymisationHistoric.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object modifiedDateObject) {
-
-					anonymisationHistoric.setModifiedDate(
-						(Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getLastPublishDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object lastPublishDateObject) {
-
-					anonymisationHistoric.setLastPublishDate(
-						(Date)lastPublishDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object statusObject) {
-
-					anonymisationHistoric.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object statusByUserIdObject) {
-
-					anonymisationHistoric.setStatusByUserId(
-						(Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object statusByUserNameObject) {
-
-					anonymisationHistoric.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object statusDateObject) {
-
-					anonymisationHistoric.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"result",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getResult();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"result",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object resultObject) {
-
-					anonymisationHistoric.setResult((Integer)resultObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"operations",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getOperations();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"operations",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object operationsObject) {
-
-					anonymisationHistoric.setOperations(
-						(String)operationsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"errorDescription",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getErrorDescription();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"errorDescription",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object errorDescriptionObject) {
-
-					anonymisationHistoric.setErrorDescription(
-						(String)errorDescriptionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"errorStackTrace",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getErrorStackTrace();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"errorStackTrace",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object errorStackTraceObject) {
-
-					anonymisationHistoric.setErrorStackTrace(
-						(String)errorStackTraceObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"startDate",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getStartDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"startDate",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object startDateObject) {
-
-					anonymisationHistoric.setStartDate((Date)startDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"finishDate",
-			new Function<AnonymisationHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					AnonymisationHistoric anonymisationHistoric) {
-
-					return anonymisationHistoric.getFinishDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"finishDate",
-			new BiConsumer<AnonymisationHistoric, Object>() {
-
-				@Override
-				public void accept(
-					AnonymisationHistoric anonymisationHistoric,
-					Object finishDateObject) {
-
-					anonymisationHistoric.setFinishDate((Date)finishDateObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -788,17 +426,20 @@ public class AnonymisationHistoricModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -808,7 +449,9 @@ public class AnonymisationHistoricModelImpl
 
 	@Override
 	public void setAnonymisationHistoricId(long anonymisationHistoricId) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_anonymisationHistoricId = anonymisationHistoricId;
 	}
@@ -820,19 +463,20 @@ public class AnonymisationHistoricModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -842,19 +486,21 @@ public class AnonymisationHistoricModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -864,6 +510,10 @@ public class AnonymisationHistoricModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -895,6 +545,10 @@ public class AnonymisationHistoricModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -905,6 +559,10 @@ public class AnonymisationHistoricModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -921,6 +579,10 @@ public class AnonymisationHistoricModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -931,6 +593,10 @@ public class AnonymisationHistoricModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -941,6 +607,10 @@ public class AnonymisationHistoricModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -951,6 +621,10 @@ public class AnonymisationHistoricModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -982,6 +656,10 @@ public class AnonymisationHistoricModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -992,6 +670,10 @@ public class AnonymisationHistoricModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1002,6 +684,10 @@ public class AnonymisationHistoricModelImpl
 
 	@Override
 	public void setResult(int result) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_result = result;
 	}
 
@@ -1016,8 +702,104 @@ public class AnonymisationHistoricModelImpl
 	}
 
 	@Override
+	public String getOperations(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getOperations(languageId);
+	}
+
+	@Override
+	public String getOperations(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getOperations(languageId, useDefault);
+	}
+
+	@Override
+	public String getOperations(String languageId) {
+		return LocalizationUtil.getLocalization(getOperations(), languageId);
+	}
+
+	@Override
+	public String getOperations(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getOperations(), languageId, useDefault);
+	}
+
+	@Override
+	public String getOperationsCurrentLanguageId() {
+		return _operationsCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getOperationsCurrentValue() {
+		Locale locale = getLocale(_operationsCurrentLanguageId);
+
+		return getOperations(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getOperationsMap() {
+		return LocalizationUtil.getLocalizationMap(getOperations());
+	}
+
+	@Override
 	public void setOperations(String operations) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_operations = operations;
+	}
+
+	@Override
+	public void setOperations(String operations, Locale locale) {
+		setOperations(operations, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setOperations(
+		String operations, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(operations)) {
+			setOperations(
+				LocalizationUtil.updateLocalization(
+					getOperations(), "Operations", operations, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setOperations(
+				LocalizationUtil.removeLocalization(
+					getOperations(), "Operations", languageId));
+		}
+	}
+
+	@Override
+	public void setOperationsCurrentLanguageId(String languageId) {
+		_operationsCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setOperationsMap(Map<Locale, String> operationsMap) {
+		setOperationsMap(operationsMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setOperationsMap(
+		Map<Locale, String> operationsMap, Locale defaultLocale) {
+
+		if (operationsMap == null) {
+			return;
+		}
+
+		setOperations(
+			LocalizationUtil.updateLocalization(
+				operationsMap, getOperations(), "Operations",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -1031,8 +813,109 @@ public class AnonymisationHistoricModelImpl
 	}
 
 	@Override
+	public String getErrorDescription(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getErrorDescription(languageId);
+	}
+
+	@Override
+	public String getErrorDescription(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getErrorDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getErrorDescription(String languageId) {
+		return LocalizationUtil.getLocalization(
+			getErrorDescription(), languageId);
+	}
+
+	@Override
+	public String getErrorDescription(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getErrorDescription(), languageId, useDefault);
+	}
+
+	@Override
+	public String getErrorDescriptionCurrentLanguageId() {
+		return _errorDescriptionCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getErrorDescriptionCurrentValue() {
+		Locale locale = getLocale(_errorDescriptionCurrentLanguageId);
+
+		return getErrorDescription(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getErrorDescriptionMap() {
+		return LocalizationUtil.getLocalizationMap(getErrorDescription());
+	}
+
+	@Override
 	public void setErrorDescription(String errorDescription) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_errorDescription = errorDescription;
+	}
+
+	@Override
+	public void setErrorDescription(String errorDescription, Locale locale) {
+		setErrorDescription(
+			errorDescription, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setErrorDescription(
+		String errorDescription, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(errorDescription)) {
+			setErrorDescription(
+				LocalizationUtil.updateLocalization(
+					getErrorDescription(), "ErrorDescription", errorDescription,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setErrorDescription(
+				LocalizationUtil.removeLocalization(
+					getErrorDescription(), "ErrorDescription", languageId));
+		}
+	}
+
+	@Override
+	public void setErrorDescriptionCurrentLanguageId(String languageId) {
+		_errorDescriptionCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setErrorDescriptionMap(
+		Map<Locale, String> errorDescriptionMap) {
+
+		setErrorDescriptionMap(
+			errorDescriptionMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setErrorDescriptionMap(
+		Map<Locale, String> errorDescriptionMap, Locale defaultLocale) {
+
+		if (errorDescriptionMap == null) {
+			return;
+		}
+
+		setErrorDescription(
+			LocalizationUtil.updateLocalization(
+				errorDescriptionMap, getErrorDescription(), "ErrorDescription",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -1046,8 +929,106 @@ public class AnonymisationHistoricModelImpl
 	}
 
 	@Override
+	public String getErrorStackTrace(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getErrorStackTrace(languageId);
+	}
+
+	@Override
+	public String getErrorStackTrace(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getErrorStackTrace(languageId, useDefault);
+	}
+
+	@Override
+	public String getErrorStackTrace(String languageId) {
+		return LocalizationUtil.getLocalization(
+			getErrorStackTrace(), languageId);
+	}
+
+	@Override
+	public String getErrorStackTrace(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getErrorStackTrace(), languageId, useDefault);
+	}
+
+	@Override
+	public String getErrorStackTraceCurrentLanguageId() {
+		return _errorStackTraceCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getErrorStackTraceCurrentValue() {
+		Locale locale = getLocale(_errorStackTraceCurrentLanguageId);
+
+		return getErrorStackTrace(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getErrorStackTraceMap() {
+		return LocalizationUtil.getLocalizationMap(getErrorStackTrace());
+	}
+
+	@Override
 	public void setErrorStackTrace(String errorStackTrace) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_errorStackTrace = errorStackTrace;
+	}
+
+	@Override
+	public void setErrorStackTrace(String errorStackTrace, Locale locale) {
+		setErrorStackTrace(
+			errorStackTrace, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setErrorStackTrace(
+		String errorStackTrace, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(errorStackTrace)) {
+			setErrorStackTrace(
+				LocalizationUtil.updateLocalization(
+					getErrorStackTrace(), "ErrorStackTrace", errorStackTrace,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setErrorStackTrace(
+				LocalizationUtil.removeLocalization(
+					getErrorStackTrace(), "ErrorStackTrace", languageId));
+		}
+	}
+
+	@Override
+	public void setErrorStackTraceCurrentLanguageId(String languageId) {
+		_errorStackTraceCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setErrorStackTraceMap(Map<Locale, String> errorStackTraceMap) {
+		setErrorStackTraceMap(errorStackTraceMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setErrorStackTraceMap(
+		Map<Locale, String> errorStackTraceMap, Locale defaultLocale) {
+
+		if (errorStackTraceMap == null) {
+			return;
+		}
+
+		setErrorStackTrace(
+			LocalizationUtil.updateLocalization(
+				errorStackTraceMap, getErrorStackTrace(), "ErrorStackTrace",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -1057,6 +1038,10 @@ public class AnonymisationHistoricModelImpl
 
 	@Override
 	public void setStartDate(Date startDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_startDate = startDate;
 	}
 
@@ -1067,6 +1052,10 @@ public class AnonymisationHistoricModelImpl
 
 	@Override
 	public void setFinishDate(Date finishDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_finishDate = finishDate;
 	}
 
@@ -1157,6 +1146,26 @@ public class AnonymisationHistoricModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1172,6 +1181,119 @@ public class AnonymisationHistoricModelImpl
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> operationsMap = getOperationsMap();
+
+		for (Map.Entry<Locale, String> entry : operationsMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> errorDescriptionMap = getErrorDescriptionMap();
+
+		for (Map.Entry<Locale, String> entry : errorDescriptionMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> errorStackTraceMap = getErrorStackTraceMap();
+
+		for (Map.Entry<Locale, String> entry : errorStackTraceMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(
+			new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getOperations();
+
+		if (xml == null) {
+			return "";
+		}
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(
+			getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(
+			AnonymisationHistoric.class.getName(), getPrimaryKey(),
+			defaultLocale, availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String operations = getOperations(defaultLocale);
+
+		if (Validator.isNull(operations)) {
+			setOperations(getOperations(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setOperations(
+				getOperations(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String errorDescription = getErrorDescription(defaultLocale);
+
+		if (Validator.isNull(errorDescription)) {
+			setErrorDescription(
+				getErrorDescription(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setErrorDescription(
+				getErrorDescription(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
+		String errorStackTrace = getErrorStackTrace(defaultLocale);
+
+		if (Validator.isNull(errorStackTrace)) {
+			setErrorStackTrace(
+				getErrorStackTrace(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setErrorStackTrace(
+				getErrorStackTrace(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
 	}
 
 	@Override
@@ -1216,6 +1338,53 @@ public class AnonymisationHistoricModelImpl
 		anonymisationHistoricImpl.setFinishDate(getFinishDate());
 
 		anonymisationHistoricImpl.resetOriginalValues();
+
+		return anonymisationHistoricImpl;
+	}
+
+	@Override
+	public AnonymisationHistoric cloneWithOriginalValues() {
+		AnonymisationHistoricImpl anonymisationHistoricImpl =
+			new AnonymisationHistoricImpl();
+
+		anonymisationHistoricImpl.setUuid(
+			this.<String>getColumnOriginalValue("uuid_"));
+		anonymisationHistoricImpl.setAnonymisationHistoricId(
+			this.<Long>getColumnOriginalValue("anonymisationHistoricId"));
+		anonymisationHistoricImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		anonymisationHistoricImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		anonymisationHistoricImpl.setUserId(
+			this.<Long>getColumnOriginalValue("userId"));
+		anonymisationHistoricImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		anonymisationHistoricImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		anonymisationHistoricImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		anonymisationHistoricImpl.setLastPublishDate(
+			this.<Date>getColumnOriginalValue("lastPublishDate"));
+		anonymisationHistoricImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		anonymisationHistoricImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		anonymisationHistoricImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		anonymisationHistoricImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		anonymisationHistoricImpl.setResult(
+			this.<Integer>getColumnOriginalValue("result"));
+		anonymisationHistoricImpl.setOperations(
+			this.<String>getColumnOriginalValue("operations"));
+		anonymisationHistoricImpl.setErrorDescription(
+			this.<String>getColumnOriginalValue("errorDescription"));
+		anonymisationHistoricImpl.setErrorStackTrace(
+			this.<String>getColumnOriginalValue("errorStackTrace"));
+		anonymisationHistoricImpl.setStartDate(
+			this.<Date>getColumnOriginalValue("startDate"));
+		anonymisationHistoricImpl.setFinishDate(
+			this.<Date>getColumnOriginalValue("finishDate"));
 
 		return anonymisationHistoricImpl;
 	}
@@ -1275,11 +1444,19 @@ public class AnonymisationHistoricModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1287,24 +1464,11 @@ public class AnonymisationHistoricModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AnonymisationHistoricModelImpl anonymisationHistoricModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		anonymisationHistoricModelImpl._originalUuid =
-			anonymisationHistoricModelImpl._uuid;
+		_setModifiedDate = false;
 
-		anonymisationHistoricModelImpl._originalGroupId =
-			anonymisationHistoricModelImpl._groupId;
-
-		anonymisationHistoricModelImpl._setOriginalGroupId = false;
-
-		anonymisationHistoricModelImpl._originalCompanyId =
-			anonymisationHistoricModelImpl._companyId;
-
-		anonymisationHistoricModelImpl._setOriginalCompanyId = false;
-
-		anonymisationHistoricModelImpl._setModifiedDate = false;
-
-		anonymisationHistoricModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1445,7 +1609,7 @@ public class AnonymisationHistoricModelImpl
 			attributeGetterFunctions = getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1456,10 +1620,27 @@ public class AnonymisationHistoricModelImpl
 			Function<AnonymisationHistoric, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(
-				attributeGetterFunction.apply((AnonymisationHistoric)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply(
+				(AnonymisationHistoric)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1472,54 +1653,19 @@ public class AnonymisationHistoricModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<AnonymisationHistoric, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<AnonymisationHistoric, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<AnonymisationHistoric, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(
-				attributeGetterFunction.apply((AnonymisationHistoric)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, AnonymisationHistoric>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					AnonymisationHistoric.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _anonymisationHistoricId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1532,10 +1678,128 @@ public class AnonymisationHistoricModelImpl
 	private Date _statusDate;
 	private int _result;
 	private String _operations;
+	private String _operationsCurrentLanguageId;
 	private String _errorDescription;
+	private String _errorDescriptionCurrentLanguageId;
 	private String _errorStackTrace;
+	private String _errorStackTraceCurrentLanguageId;
 	private Date _startDate;
 	private Date _finishDate;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<AnonymisationHistoric, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((AnonymisationHistoric)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put(
+			"anonymisationHistoricId", _anonymisationHistoricId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("lastPublishDate", _lastPublishDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("result", _result);
+		_columnOriginalValues.put("operations", _operations);
+		_columnOriginalValues.put("errorDescription", _errorDescription);
+		_columnOriginalValues.put("errorStackTrace", _errorStackTrace);
+		_columnOriginalValues.put("startDate", _startDate);
+		_columnOriginalValues.put("finishDate", _finishDate);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("anonymisationHistoricId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("lastPublishDate", 256L);
+
+		columnBitmasks.put("status", 512L);
+
+		columnBitmasks.put("statusByUserId", 1024L);
+
+		columnBitmasks.put("statusByUserName", 2048L);
+
+		columnBitmasks.put("statusDate", 4096L);
+
+		columnBitmasks.put("result", 8192L);
+
+		columnBitmasks.put("operations", 16384L);
+
+		columnBitmasks.put("errorDescription", 32768L);
+
+		columnBitmasks.put("errorStackTrace", 65536L);
+
+		columnBitmasks.put("startDate", 131072L);
+
+		columnBitmasks.put("finishDate", 262144L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private AnonymisationHistoric _escapedModel;
 

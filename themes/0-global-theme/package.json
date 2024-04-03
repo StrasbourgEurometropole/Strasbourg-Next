@@ -6,21 +6,22 @@
 		"liferay-theme"
 	],
 	"liferayTheme": {
-		"baseTheme": "unstyled",
+		"baseTheme": "styled",
 		"fontAwesome": false,
-		"screenshot": "",
 		"templateLanguage": "ftl",
-		"version": "7.2"
+		"version": "7.4"
 	},
 	"devDependencies": {
 		"compass-mixins": "^0.12.10",
-		"gulp": "^3.9.1",
-		"del": "^2.2.1",
-		"gulp-load-plugins": "^2.0.4",
-		"liferay-frontend-common-css": "^1.0.4",
-		"liferay-frontend-theme-styled": "^4.0.21",
-		"liferay-frontend-theme-unstyled": "^4.0.17",
-		"liferay-theme-tasks": "^9.5.2"
+		"del": "^6.1.1",
+		"gulp": "^4.0.2",
+		"gulp-load-plugins": "^2.0.8",
+		"gulp4-run-sequence": "^1.0.1",
+		"liferay-frontend-css-common": "^6.0.8",
+		"liferay-frontend-theme-styled": "^6.0.54",
+		"liferay-frontend-theme-unstyled": "6.0.46",
+		"liferay-theme-tasks": "^11.5.0",
+		"run-sequence": "^2.2.1"
 	},
 	"scripts": {
 		"init": "gulp init",
@@ -31,6 +32,5 @@
 		"status": "gulp status",
 		"upgrade": "gulp upgrade",
 		"watch": "gulp watch"
-	},
-	"dependencies": {}
+	}
 }

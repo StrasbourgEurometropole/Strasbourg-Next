@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_2_0.dtd">
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.4.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_4_0.dtd">
 
 <service-builder dependency-injector="ds" package-path="eu.strasbourg.service.help">
 	<namespace>help</namespace>
@@ -68,7 +68,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 
 	</entity>
 
@@ -97,7 +97,7 @@
 		<column name="publikId" type="String" />
 		<column name="helpProposalId" type="long" />
 		<column name="phoneNumber" type="String" />
-		<column name="message" type="String" />
+		<column name="message" type="String" localized="true" />
 		<column name="studentCardImageId" type="long" />
 		<column name="agreementSigned1" type="boolean" />
 		<column name="agreementSigned2" type="boolean" />
@@ -117,7 +117,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 
 	</entity>
 </service-builder>

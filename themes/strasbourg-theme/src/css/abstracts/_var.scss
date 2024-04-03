@@ -1,0 +1,201 @@
+// ==============================================
+
+//        VARIABLES SASS & CSS
+
+// ==============================================
+
+
+// Fonts
+// ==========================================================================
+$f_hx: 'TTFors', Sans-Serif;
+$f_txt: 'TTFors', Sans-Serif;
+$f_spe: 'TTFors', Sans-Serif;
+
+
+// Surcharge du path par défaut des fonts icomoon
+// ==========================================================================
+$icomoon-font-path: "../fonts/icomoon/fonts";
+
+
+// Colors
+// ================================================ ==========================
+$c_main: #171C22;
+$c_sub: #2AD783;
+$c_greydark: #20272F;
+$c_greymedium: #282F38;
+$c_border: #51555A;
+$c_grey: #B1B9C3;
+$c_gradient: #1E2329;
+$c_txt: $c_grey;
+
+$c_black: #000000;
+$c_white: #FFFFFF;
+$c_pink: #FF9F9F;
+$c_error: #E91741;
+
+// Sizes
+// ==========================================================================
+$s_h1: 45px;
+$s_h2: 30px;
+$s_h3: 18px;
+$s_small_title: 20px;
+$s_medium: 18px;
+$s_p: 14px;
+$s_link: 14px;
+$s_link_small: 12px;
+
+// Gestion des valeurs des z-index
+// ==========================================================================
+$z-layers: (
+		'overlay' : 200,
+		'mega-menu': 150,
+		'overlay-shadow': 100,
+		'skip-link': 90,
+		'barre-navigation': 80,
+		'toolbar': 70,
+		'barre-sticky' : 50,
+		'social-share' : 40,
+		'couverture' : 30,
+		'btn-slider' : 20,
+		'credits-button' : 11,
+		'credits-content' : 10,
+		'default' : 1,
+		'below' : -1,
+);
+
+
+// Width / Height / Spacing
+// ==========================================================================
+
+$small-margin: 20px;
+
+
+// Wrappers
+// ==========================================================================
+
+$wrapper-width: 1120px;
+$wrapper-small-width: 900px;
+$wrapper-large-width: 1440px;
+
+
+// ---- nouvelles variables pour gérer le layout général -----
+
+$border-gutter: 80px; // marges gauche et droite minimum autour des wrappers
+$border-gutter-tablet: 40px;
+$border-gutter-mobile: 20px;
+
+$grid-gap: 40px;
+$grid-gap-small: 20px;
+$grid-gap-mobile: 20px;
+
+$bloc-spacing: 80px;
+$bloc-spacing-mobile: 40px;
+
+$strate-spacing: 80px;
+$strate-spacing-mobile: 50px;
+
+$header-height: 80px;
+$header-height-mobile: 80px;
+
+$toolbar-height: 60px;
+$toolbar-height-mobile: 60px;
+
+$ancres-height-mobile: 60px;
+
+$slide-gap: 20px;
+$slide-gap-mobile: 10px;
+
+$barre-sit: 100px;
+$barre-sit-tablet: 88px;
+$barre-sit-mobile: 60px;
+
+// Taille maximale hauteur et taille gradient
+// ==========================================================================
+$max-height-desktop: 17.5rem;
+$max-height-mobile: 16.25rem;
+$gradient-height: 60px;
+
+$border-radius: 5px;
+$border-radius-small: 3px;
+
+// Breakpoints
+// ==========================================================================
+
+$breakpoints: (
+		mobile-small : 320px,
+		mobile : 599px,
+		tablet-small : 768px,
+		tablet-portrait : 980px,
+		tablet-landscape: 1024px,
+		desktop : 1280px,
+		wide : 1600px
+);
+
+// Breakpoints (Ancien système sans map)
+// ==========================================================================
+$breakpoint_mo_small: 320px;
+$breakpoint_mo: 599px;
+$breakpoint_tablet-small: 768px;
+$breakpoint_portrait: 980px;
+$breakpoint_paysage: 1024px;
+$breakpoint_desktop: 1280px;
+$breakpoint_wd: 1600px;
+
+
+// Transition
+// ==========================================================================
+$transition-overlay-easing: cubic-bezier(0.86, 0, 0.07, 1);
+
+
+// CSS Variables
+// ==========================================================================
+
+// Changement dynamiques des CSS vars en fonction des breakpoints
+:root {
+	--border-gutter: #{$border-gutter};
+
+	--bloc-spacing: #{$bloc-spacing};
+	--strate-spacing: #{$strate-spacing};
+
+	--grid-gap: #{$grid-gap};
+	--grid-gap-small: #{$grid-gap-small};
+
+	--header-height: #{$header-height};
+	--toolbar-height: #{$toolbar-height};
+
+	--gradient-height: #{$gradient-height};
+
+	--ancres-height-mobile: #{$ancres-height-mobile};
+
+	--slide-gap: #{$slide-gap};
+
+	--barre-height: #{$barre-sit};
+
+
+	@media screen and (max-width: map-get($breakpoints, 'tablet-landscape')) {
+		--border-gutter: #{$border-gutter-tablet};
+	}
+
+	@media screen and (max-width: map-get($breakpoints, 'tablet-portrait')) {
+		--barre-height: #{$barre-sit-tablet};
+	}
+
+	@media screen and (max-width: map-get($breakpoints, 'mobile')) {
+		--border-gutter: #{$border-gutter-mobile};
+
+		--bloc-spacing: #{$bloc-spacing-mobile};
+		--strate-spacing: #{$strate-spacing-mobile};
+
+		--grid-gap: #{$grid-gap-mobile};
+
+		--header-height: #{$header-height-mobile};
+		--toolbar-height: #{$toolbar-height-mobile};
+
+		--max-height-desktop: #{$max-height-mobile};
+
+		--slide-gap: #{$slide-gap-mobile};
+
+		--barre-height: #{$barre-sit-mobile};
+	}
+}
+

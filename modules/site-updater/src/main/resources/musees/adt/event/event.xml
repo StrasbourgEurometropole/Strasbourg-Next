@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.agenda.model.Event</className>
+    <template>
+        <name>Détail Evénement (v2)</name>
+        <key>83528</key>
+        <script>event-detail.ftl</script>
+    </template>
+    <template>
+        <name>Vignette Evénement (v2)</name>
+        <key>81226</key>
+        <script>event-thumbnail.ftl</script>
+    </template>
+    <template>
+        <name>Vignette événement recherche générale (v2)</name>
+        <key>420085092</key>
+        <script>event-thumbnail-general.ftl</script>
+    </template>
+</root>

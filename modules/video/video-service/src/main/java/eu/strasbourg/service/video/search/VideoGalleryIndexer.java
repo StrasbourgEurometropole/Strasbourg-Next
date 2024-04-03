@@ -1,13 +1,5 @@
 package eu.strasbourg.service.video.search;
 
-import java.util.List;
-import java.util.Locale;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -22,10 +14,16 @@ import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
-
 import eu.strasbourg.service.video.model.VideoGallery;
 import eu.strasbourg.service.video.service.VideoGalleryLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import java.util.List;
+import java.util.Locale;
 
 @Component(immediate = true, service = Indexer.class)
 public class VideoGalleryIndexer extends BaseIndexer<VideoGallery> {
@@ -64,7 +62,7 @@ public class VideoGalleryIndexer extends BaseIndexer<VideoGallery> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(videoGallery.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+		IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
 			assetCategories);
 		
 		document.addLocalizedText(Field.TITLE, videoGallery.getTitleMap());
@@ -99,8 +97,7 @@ public class VideoGalleryIndexer extends BaseIndexer<VideoGallery> {
 	protected void doReindex(VideoGallery videoGallery) throws Exception {
 		Document document = getDocument(videoGallery);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			videoGallery.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(videoGallery.getCompanyId(), document);
 
 	}
 
@@ -133,7 +130,6 @@ public class VideoGalleryIndexer extends BaseIndexer<VideoGallery> {
 
 			});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

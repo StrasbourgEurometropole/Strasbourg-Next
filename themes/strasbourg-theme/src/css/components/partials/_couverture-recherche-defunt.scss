@@ -1,0 +1,10 @@
+// Couverture dans les pages recherche de défunt
+.st-header-recherche-defunt {
+	@include tablet-portrait {
+		margin-top: 40px;
+	}
+
+	@include mobile {
+		margin-top: 20px;
+	}
+}

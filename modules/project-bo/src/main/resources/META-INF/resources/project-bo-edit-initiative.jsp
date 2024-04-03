@@ -10,17 +10,17 @@
 <liferay-portlet:actionURL name="deleteInitiative" var="deleteInitiativeURL">
 	<portlet:param name="cmd" value="deleteInitiative" />
 	<portlet:param name="tab" value="initiatives" />
+	<portlet:param name="mvcPath" value="/project-bo-view-initiatives.jsp" />
 	<portlet:param name="initiativeId" value="${not empty dc.initiative ? dc.initiative.initiativeId : ''}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveInitiative" varImpl="saveInitiativeURL">
-	<portlet:param name="cmd" value="saveInitiative" />
 	<portlet:param name="tab" value="initiatives" />
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
 	<%-- Composant : definit la liste des messages d'erreur 
 	(voir methode "validate" dans le saveAction de l'entite) --%>
@@ -34,7 +34,7 @@
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.initiative}" model="<%=Initiative.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 		
 			<%-- Champ : (cache) PK de l'entite --%>
 			<aui:input name="initiativeId" type="hidden" />
@@ -153,19 +153,21 @@
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="categorization">
 				
 				<%-- Champ : Selection des categories (gere par le portail dans l'onglet "Categories" du BO) --%>
-				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
-				
+				<liferay-asset:asset-categories-selector
+						className="<%= Initiative.class.getName() %>"
+						classPK="${dc.initiative.initiativeId}"
+				/>
 				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
 				<div class="has-error">
 					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
 							function (val, fieldNode, ruleValue) {
 								var validated = true;
-								var fields = document.querySelectorAll('.categories-selectors > .field-content');
+								var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
 								for (var i = 0; i < fields.length; i++) {
 									fieldContent = fields[i];
-								    if ($(fieldContent).find('.icon-asterisk').length > 0
-								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+								    if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
+								    	&& $(fieldContent).find('input[type="hidden"]').length == 0) {
 								    	validated = false;
 		                                event.preventDefault();
 								    	break;
@@ -178,11 +180,14 @@
 				</div>
 				
 				<%-- Champ : Selection des etiquettes (gere par le portail dans l'onglet "Etiquettes" du BO) --%>
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= Initiative.class.getName() %>"
+						classPK="${dc.initiative.initiativeId}"
+				/>
 
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
 		<aui:button-row>
@@ -206,7 +211,7 @@
 			</c:if>
 			
 			<%-- Composant : bouton de retour a la liste des entites --%>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 			
 		</aui:button-row>
 

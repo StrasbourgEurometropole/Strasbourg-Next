@@ -19,8 +19,16 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import eu.strasbourg.service.council.model.*;
-import eu.strasbourg.service.council.service.*;
+import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.model.Deliberation;
+import eu.strasbourg.service.council.model.Official;
+import eu.strasbourg.service.council.model.Procuration;
+import eu.strasbourg.service.council.model.Vote;
+import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
+import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
+import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
+import eu.strasbourg.service.council.service.ProcurationLocalServiceUtil;
+import eu.strasbourg.service.council.service.VoteLocalServiceUtil;
 import eu.strasbourg.service.council.service.base.DeliberationServiceBaseImpl;
 
 import java.util.ArrayList;

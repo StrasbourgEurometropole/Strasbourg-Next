@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
@@ -43,7 +44,7 @@ public class HelpRequestIndexer extends BaseIndexer<HelpRequest> {
         List<AssetCategory> assetCategories = AssetVocabularyHelper
                 .getFullHierarchyCategories(helpRequest.getCategories());
         document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-        addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+        IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
                 assetCategories);
 
         Map<Locale, String> helpProposalTitle = new HashMap<>();
@@ -110,7 +111,6 @@ public class HelpRequestIndexer extends BaseIndexer<HelpRequest> {
 
                 });
 
-        indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
         indexableActionableDynamicQuery.performActions();
     }
 
@@ -120,8 +120,7 @@ public class HelpRequestIndexer extends BaseIndexer<HelpRequest> {
     protected void doReindex(HelpRequest helpRequest) throws Exception {
         Document document = getDocument(helpRequest);
 
-        IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-                helpRequest.getCompanyId(), document, isCommitImmediately());
+        IndexWriterHelperUtil.updateDocument(helpRequest.getCompanyId(), document);
     }
 
     @Override

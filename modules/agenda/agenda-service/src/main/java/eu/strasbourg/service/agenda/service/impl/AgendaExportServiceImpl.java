@@ -23,7 +23,6 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import eu.strasbourg.service.agenda.service.base.AgendaExportServiceBaseImpl;
-import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
 import java.util.Comparator;

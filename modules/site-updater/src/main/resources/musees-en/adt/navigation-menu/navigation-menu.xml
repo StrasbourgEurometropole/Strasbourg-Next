@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.portal.kernel.theme.NavItem</className>
+    <override>
+        <parentKey>420085102</parentKey>
+        <key>450079386</key>
+    </override>
+    <override>
+        <parentKey>420085096</parentKey>
+        <key>450079382</key>
+    </override>
+</root>

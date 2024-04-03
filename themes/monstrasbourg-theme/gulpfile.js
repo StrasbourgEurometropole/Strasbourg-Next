@@ -2,6 +2,7 @@
 
 var gulp = require('gulp');
 var liferayThemeTasks = require('liferay-theme-tasks');
+var sass = require('gulp-sass')(require('sass'));
 var plugins = require('gulp-load-plugins')({
     rename: {
         'gulp-clean-css': 'cleancss',
@@ -15,7 +16,7 @@ var plugins = require('gulp-load-plugins')({
 var rename = require('gulp-rename');
 var globSass = require('gulp-sass-glob-import');
 var del = require('del');
-var runSequence = require('run-sequence').use(gulp);
+var runSequence = require('gulp4-run-sequence').use(gulp);
 
 liferayThemeTasks.registerTasks({
   gulp: gulp,
@@ -44,7 +45,6 @@ gulp.task('remove-scss', cb => {
 
 gulp.task('css', function() {
   return gulp.src('./custom/strasbourg.scss')
-    .pipe(plugins.sourcemaps.init())
     .pipe(globSass())
     .pipe(plugins.plumber({
         errorHandler: function (err) {
@@ -52,20 +52,17 @@ gulp.task('css', function() {
             this.emit('end');
         }
     })) 
-    .pipe(plugins.sass({
+    .pipe(sass({
       sourceComments: 'map'
     }))
-    .pipe(plugins.autoprefixer())  
-    .pipe(plugins.sourcemaps.write('.'))
+    .pipe(plugins.autoprefixer())
     .pipe(gulp.dest('./src/css/'))
 });
 
 gulp.task('js', function(){
     return gulp.src('./custom/strasbourg.js')
-        //.pipe(plugins.sourcemaps.init())
         .pipe(plugins.plumber())
         .pipe(plugins.include())
         .on('error', console.log)
-        //.pipe(plugins.sourcemaps.write('.'))
         .pipe(gulp.dest('src/js/'));
 });

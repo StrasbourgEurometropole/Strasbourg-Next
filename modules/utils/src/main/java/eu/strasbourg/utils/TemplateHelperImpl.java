@@ -2,6 +2,7 @@ package eu.strasbourg.utils;
 
 import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalServiceUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import eu.strasbourg.utils.api.TemplateHelperService;
 import org.osgi.service.component.annotations.Component;
 
@@ -20,5 +21,10 @@ public class TemplateHelperImpl implements TemplateHelperService {
 		List<DDMTemplate> liste = DDMTemplateLocalServiceUtil.getTemplatesByGroupId(groupId);
 		DDMTemplate template = liste.stream().filter(t -> StringHelper.compareIgnoringAccentuation(t.getName(Locale.FRANCE).toLowerCase(), name)).findFirst().orElse(null);
 		return template;
+	}
+
+	@Override
+	public String unescapeHtml(String content) {
+		return HtmlUtil.unescape(content);
 	}
 }

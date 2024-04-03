@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -17,7 +18,6 @@ import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.model.SaisineObservatoire;
 import eu.strasbourg.service.project.service.PlacitPlaceLocalService;
 import eu.strasbourg.service.project.service.SaisineObservatoireLocalService;
-import eu.strasbourg.service.project.service.SignataireLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -28,6 +28,8 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.Map;
 
 @Component(
 	immediate = true,
@@ -67,8 +69,8 @@ public class SaveSaisineObservatoireActionCommand implements MVCActionCommand {
 					portletName, themeDisplay.getPlid(),
 					PortletRequest.RENDER_PHASE);
 				
-				response.setRenderParameter("returnURL", returnURL.toString());
-				response.setRenderParameter("cmd", "editSaisineObservatoire");
+				response.setRenderParameter("backURL", returnURL.toString());
+				response.setRenderParameter("cmd", "saveSaisineObservatoire");
 				response.setRenderParameter("mvcPath","/project-bo-edit-saisine-observatoire.jsp");
 				return false;
 			}
@@ -90,7 +92,8 @@ public class SaveSaisineObservatoireActionCommand implements MVCActionCommand {
 			Long imageId = ParamUtil.getLong(request, "imageId");
 			String externalImageURL = ParamUtil.getString(request, "externalImageURL");
 			String externalImageCopyright = ParamUtil.getString(request, "externalImageCopyright");
-			String description = ParamUtil.getString(request, "description");
+			Map<Locale, String> description = LocalizationUtil
+					.getLocalizationMap(request, "description");
 			String placeTextArea = ParamUtil.getString(request, "placeTextArea");
 			String placitPlacesIndexesString = ParamUtil.getString(request, "placeIndexes");
 			String filesIds = ParamUtil.getString(request, "filesIds");
@@ -101,7 +104,8 @@ public class SaveSaisineObservatoireActionCommand implements MVCActionCommand {
 			String collectiveName = ParamUtil.getString(request, "collectiveName");
 			String otherMechanism = ParamUtil.getString(request, "otherMechanism");
 			String projectTarget = ParamUtil.getString(request, "projectTarget");
-			String cityResponse = ParamUtil.getString(request, "cityResponse");
+			Map<Locale, String> cityResponse = LocalizationUtil
+					.getLocalizationMap(request, "cityResponse");
 
 
 			// ---------------------------------------------------------------
@@ -125,7 +129,7 @@ public class SaveSaisineObservatoireActionCommand implements MVCActionCommand {
 			saisineObservatoire.setProjectTarget(projectTarget);
 
 			// Réponse de la ville
-			saisineObservatoire.setCityResponse(cityResponse);
+			saisineObservatoire.setCityResponseMap(cityResponse);
 
 			// ---------------------------------------------------------------
 			// -------------------------- Video / Image ------------------------
@@ -151,7 +155,7 @@ public class SaveSaisineObservatoireActionCommand implements MVCActionCommand {
 			// -------------------------- DESCRIPTION ------------------------
 			// ---------------------------------------------------------------
 
-			saisineObservatoire.setDescription(description);
+			saisineObservatoire.setDescriptionMap(description);
 
 			// ---------------------------------------------------------------
 			// -------------------------- LIEUX DE CONSULTATIONS -------------
@@ -225,6 +229,7 @@ public class SaveSaisineObservatoireActionCommand implements MVCActionCommand {
             
 
             _saisineObservatoireLocalService.updateSaisineObservatoire(saisineObservatoire,sc);
+			response.setRenderParameter("mvcPath", "/project-bo-view-saisines-observatoire.jsp");
 		} catch (PortalException e) {
 			_log.error(e);
 		}

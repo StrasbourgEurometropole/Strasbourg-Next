@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<root>
+    <structure>
+        <key>4903685</key>
+        <name>Actualité</name>
+        <definition>news-definition.json</definition>
+        <layout>news-layout.json</layout>
+    </structure>
+    <template>
+        <key>4903751</key>
+        <name>Actualité</name>
+        <script>news.ftl</script>
+    </template>
+</root>

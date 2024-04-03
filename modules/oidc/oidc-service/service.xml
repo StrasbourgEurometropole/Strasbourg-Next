@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
-
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.4.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_4_0.dtd">
 <service-builder package-path="eu.strasbourg.service.oidc">
 	<namespace>publik</namespace>
 	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
@@ -25,7 +24,7 @@
 		<column name="displayConfig" type="String" />
 		<column name="pactSignature" type="Date" />
 		<column name="banishDate" type="Date" />
-		<column name="banishDescription" type="String" />
+		<column name="banishDescription" type="String" localized="true"/>
 		<column name="imageURL" type="String" />
 		<column name="pactDisplay" type="boolean" />
 		<column name="csmapJSON" type="String" />
@@ -68,9 +67,9 @@
 		<column name="statusDate" type="Date" />
 		<!-- Other fields -->
 		<column name="result" type="int" />
-		<column name="operations" type="String" />
-		<column name="errorDescription" type="String" />
-		<column name="errorStackTrace" type="String" />
+		<column name="operations" type="String" localized="true" />
+		<column name="errorDescription" type="String" localized="true" />
+		<column name="errorStackTrace" type="String" localized="true" />
 		<column name="startDate" type="Date" />
 		<column name="finishDate" type="Date" />
 
@@ -87,7 +86,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 
 	</entity>
 </service-builder>

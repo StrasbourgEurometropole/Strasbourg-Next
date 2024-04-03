@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.objtp.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,27 +16,27 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.objtp.exception.NoSuchFoundObjectException;
 import eu.strasbourg.service.objtp.model.FoundObject;
+import eu.strasbourg.service.objtp.model.FoundObjectTable;
 import eu.strasbourg.service.objtp.model.impl.FoundObjectImpl;
 import eu.strasbourg.service.objtp.model.impl.FoundObjectModelImpl;
 import eu.strasbourg.service.objtp.service.persistence.FoundObjectPersistence;
+import eu.strasbourg.service.objtp.service.persistence.FoundObjectUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -251,10 +243,6 @@ public class FoundObjectPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -609,8 +597,6 @@ public class FoundObjectPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -633,21 +619,14 @@ public class FoundObjectPersistenceImpl
 		dbColumnNames.put("number", "number_");
 		dbColumnNames.put("date", "date_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(FoundObject.class);
+
+		setModelImplClass(FoundObjectImpl.class);
+		setModelPKClass(String.class);
+
+		setTable(FoundObjectTable.INSTANCE);
 	}
 
 	/**
@@ -658,11 +637,10 @@ public class FoundObjectPersistenceImpl
 	@Override
 	public void cacheResult(FoundObject foundObject) {
 		entityCache.putResult(
-			FoundObjectModelImpl.ENTITY_CACHE_ENABLED, FoundObjectImpl.class,
-			foundObject.getPrimaryKey(), foundObject);
-
-		foundObject.resetOriginalValues();
+			FoundObjectImpl.class, foundObject.getPrimaryKey(), foundObject);
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the found objects in the entity cache if it is enabled.
@@ -671,16 +649,19 @@ public class FoundObjectPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<FoundObject> foundObjects) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (foundObjects.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (FoundObject foundObject : foundObjects) {
 			if (entityCache.getResult(
-					FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
 					FoundObjectImpl.class, foundObject.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(foundObject);
-			}
-			else {
-				foundObject.resetOriginalValues();
 			}
 		}
 	}
@@ -696,9 +677,7 @@ public class FoundObjectPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(FoundObjectImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(FoundObjectImpl.class);
 	}
 
 	/**
@@ -710,35 +689,22 @@ public class FoundObjectPersistenceImpl
 	 */
 	@Override
 	public void clearCache(FoundObject foundObject) {
-		entityCache.removeResult(
-			FoundObjectModelImpl.ENTITY_CACHE_ENABLED, FoundObjectImpl.class,
-			foundObject.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(FoundObjectImpl.class, foundObject);
 	}
 
 	@Override
 	public void clearCache(List<FoundObject> foundObjects) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (FoundObject foundObject : foundObjects) {
-			entityCache.removeResult(
-				FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-				FoundObjectImpl.class, foundObject.getPrimaryKey());
+			entityCache.removeResult(FoundObjectImpl.class, foundObject);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(FoundObjectImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-				FoundObjectImpl.class, primaryKey);
+			entityCache.removeResult(FoundObjectImpl.class, primaryKey);
 		}
 	}
 
@@ -869,10 +835,8 @@ public class FoundObjectPersistenceImpl
 		try {
 			session = openSession();
 
-			if (foundObject.isNew()) {
+			if (isNew) {
 				session.save(foundObject);
-
-				foundObject.setNew(false);
 			}
 			else {
 				foundObject = (FoundObject)session.merge(foundObject);
@@ -885,48 +849,12 @@ public class FoundObjectPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!FoundObjectModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				foundObjectModelImpl.getCategoryCode()
-			};
-
-			finderCache.removeResult(_finderPathCountByCategoryCode, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByCategoryCode, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((foundObjectModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCategoryCode.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					foundObjectModelImpl.getOriginalCategoryCode()
-				};
-
-				finderCache.removeResult(_finderPathCountByCategoryCode, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCategoryCode, args);
-
-				args = new Object[] {foundObjectModelImpl.getCategoryCode()};
-
-				finderCache.removeResult(_finderPathCountByCategoryCode, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCategoryCode, args);
-			}
-		}
-
 		entityCache.putResult(
-			FoundObjectModelImpl.ENTITY_CACHE_ENABLED, FoundObjectImpl.class,
-			foundObject.getPrimaryKey(), foundObject, false);
+			FoundObjectImpl.class, foundObjectModelImpl, false, true);
+
+		if (isNew) {
+			foundObject.setNew(false);
+		}
 
 		foundObject.resetOriginalValues();
 
@@ -975,167 +903,12 @@ public class FoundObjectPersistenceImpl
 	/**
 	 * Returns the found object with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the found object
-	 * @return the found object, or <code>null</code> if a found object with the primary key could not be found
-	 */
-	@Override
-	public FoundObject fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			FoundObjectModelImpl.ENTITY_CACHE_ENABLED, FoundObjectImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		FoundObject foundObject = (FoundObject)serializable;
-
-		if (foundObject == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				foundObject = (FoundObject)session.get(
-					FoundObjectImpl.class, primaryKey);
-
-				if (foundObject != null) {
-					cacheResult(foundObject);
-				}
-				else {
-					entityCache.putResult(
-						FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-						FoundObjectImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-					FoundObjectImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return foundObject;
-	}
-
-	/**
-	 * Returns the found object with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param number the primary key of the found object
 	 * @return the found object, or <code>null</code> if a found object with the primary key could not be found
 	 */
 	@Override
 	public FoundObject fetchByPrimaryKey(String number) {
 		return fetchByPrimaryKey((Serializable)number);
-	}
-
-	@Override
-	public Map<Serializable, FoundObject> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, FoundObject> map =
-			new HashMap<Serializable, FoundObject>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			FoundObject foundObject = fetchByPrimaryKey(primaryKey);
-
-			if (foundObject != null) {
-				map.put(primaryKey, foundObject);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-				FoundObjectImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (FoundObject)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_FOUNDOBJECT_WHERE_PKS_IN);
-
-		for (int i = 0; i < uncachedPrimaryKeys.size(); i++) {
-			sb.append("?");
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			QueryPos queryPos = QueryPos.getInstance(query);
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				queryPos.add((String)primaryKey);
-			}
-
-			for (FoundObject foundObject : (List<FoundObject>)query.list()) {
-				map.put(foundObject.getPrimaryKeyObj(), foundObject);
-
-				cacheResult(foundObject);
-
-				uncachedPrimaryKeys.remove(foundObject.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-					FoundObjectImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1262,10 +1035,6 @@ public class FoundObjectPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1311,9 +1080,6 @@ public class FoundObjectPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1330,6 +1096,21 @@ public class FoundObjectPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "number_";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_FOUNDOBJECT;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return FoundObjectModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1338,52 +1119,46 @@ public class FoundObjectPersistenceImpl
 	 * Initializes the found object persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-			FoundObjectModelImpl.FINDER_CACHE_ENABLED, FoundObjectImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-			FoundObjectModelImpl.FINDER_CACHE_ENABLED, FoundObjectImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-			FoundObjectModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByCategoryCode = new FinderPath(
-			FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-			FoundObjectModelImpl.FINDER_CACHE_ENABLED, FoundObjectImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCategoryCode",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"categoryCode"}, true);
 
 		_finderPathWithoutPaginationFindByCategoryCode = new FinderPath(
-			FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-			FoundObjectModelImpl.FINDER_CACHE_ENABLED, FoundObjectImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCategoryCode",
 			new String[] {String.class.getName()},
-			FoundObjectModelImpl.CATEGORYCODE_COLUMN_BITMASK |
-			FoundObjectModelImpl.DATE_COLUMN_BITMASK);
+			new String[] {"categoryCode"}, true);
 
 		_finderPathCountByCategoryCode = new FinderPath(
-			FoundObjectModelImpl.ENTITY_CACHE_ENABLED,
-			FoundObjectModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCategoryCode",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()},
+			new String[] {"categoryCode"}, false);
+
+		FoundObjectUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		FoundObjectUtil.setPersistence(null);
+
 		entityCache.removeCache(FoundObjectImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1394,9 +1169,6 @@ public class FoundObjectPersistenceImpl
 
 	private static final String _SQL_SELECT_FOUNDOBJECT =
 		"SELECT foundObject FROM FoundObject foundObject";
-
-	private static final String _SQL_SELECT_FOUNDOBJECT_WHERE_PKS_IN =
-		"SELECT foundObject FROM FoundObject foundObject WHERE number_ IN (";
 
 	private static final String _SQL_SELECT_FOUNDOBJECT_WHERE =
 		"SELECT foundObject FROM FoundObject foundObject WHERE ";
@@ -1420,5 +1192,10 @@ public class FoundObjectPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"number", "date"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

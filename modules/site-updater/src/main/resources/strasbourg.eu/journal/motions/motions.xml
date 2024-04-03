@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Motions</name>
+        <key>1564336</key>
+        <definition>motions-structure.json</definition>
+        <layout>motions-layout.json</layout>
+    </structure>
+    <template>
+        <name>Motions</name>
+        <key>1564354</key>
+        <script>motions.ftl</script>
+    </template>
+</root>

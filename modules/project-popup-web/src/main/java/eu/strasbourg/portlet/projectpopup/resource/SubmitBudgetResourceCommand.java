@@ -8,6 +8,7 @@ import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -128,8 +129,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         ProjectPopupConfiguration configuration = null;
         try {
             sc = ServiceContextFactory.getInstance(request);
-            configuration = themeDisplay.getPortletDisplay()
-                    .getPortletInstanceConfiguration(ProjectPopupConfiguration.class);
+            configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(ProjectPopupConfiguration.class, themeDisplay);
         } catch (PortalException e) {
             _log.error(e);
         }
@@ -379,11 +379,11 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 
             // Ajout du fichier
             FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
-                    sc.getUserId(), folder.getRepositoryId(),
+                    null, sc.getUserId(), folder.getRepositoryId(),
                     folder.getFolderId(), photoFile.getName(),
                     MimeTypesUtil.getContentType(photoFile),
-                    photoFile.getName(), budgetParticipatif.getTitle(),
-                    "", imageBytes, sc);
+                    photoFile.getName(), "", budgetParticipatif.getTitle(),
+                    "", imageBytes, null, null, sc);
 
             // Lien de l'image a l'entite
             budgetParticipatif.setImageId(fileEntry.getFileEntryId());
@@ -430,7 +430,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                             folderUpload.getFolderId(),
                             budgetParticipatif.getPhase().getTitle());
                 }catch(Exception e) {
-                    folderPhase = DLAppLocalServiceUtil.addFolder(
+                    folderPhase = DLAppLocalServiceUtil.addFolder(null,
                             sc.getUserId(), repositoryId,
                             folderUpload.getFolderId(),
                             budgetParticipatif.getPhase().getTitle(),
@@ -444,7 +444,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                             folderPhase.getFolderId(),
                             budgetParticipatif.getTitle());
                 }catch(Exception e) {
-                    folder = DLAppLocalServiceUtil.addFolder(
+                    folder = DLAppLocalServiceUtil.addFolder(null,
                             sc.getUserId(), repositoryId,
                             folderPhase.getFolderId(), budgetParticipatif.getTitle(),
                             "", sc);
@@ -460,11 +460,11 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                     FileEntryHelper.logFileInfo(file);
 
                     fileEntry = DLAppLocalServiceUtil.addFileEntry(
-                            sc.getUserId(), folder.getRepositoryId(),
+                            null, sc.getUserId(), folder.getRepositoryId(),
                             folder.getFolderId(), name,
                             MimeTypesUtil.getContentType(file),
-                            name, budgetParticipatif.getTitle(),
-                            "", imageBytes, sc);
+                            name, "", budgetParticipatif.getTitle(),
+                            "", imageBytes, null, null, sc);
                 }catch(Exception e) {
                     fileEntry = DLAppLocalServiceUtil.getFileEntry(
                             themeDisplay.getScopeGroupId(), folder.getFolderId(), name);

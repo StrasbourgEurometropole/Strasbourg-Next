@@ -1,54 +1,48 @@
 package eu.strasbourg.portlet.council.display.context;
 
+import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.council.util.CouncilSessionsActionDropdownItemsProvider;
 import eu.strasbourg.portlet.council.utils.UserRoleType;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
+import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewCouncilSessionsDisplayContext extends ViewListBaseDisplayContext<CouncilSession> {
+public class ViewCouncilSessionsDisplayContext extends ViewBaseDisplayContext<CouncilSession> {
 
-    private List<CouncilSession> councilSessions;
     private List<Long> typeCouncilIds;
 
     public ViewCouncilSessionsDisplayContext(RenderRequest request, RenderResponse response) {
-        super(CouncilSession.class, request, response);
+        super(request, response, CouncilSession.class);
+        _request = request;
+        _response = response;
+        _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
         typeCouncilIds = new ArrayList<>();
         initAuthorizedTypeCouncilsIds();
     }
-
+    /**
+     * Retourne le dropdownItemsProvider de l’entité
+     *
+     */
     @SuppressWarnings("unused")
-    public List<CouncilSession> getCouncilSessions() throws PortalException {
-        if (this.councilSessions == null) {
-            Hits hits = getHits(this._themeDisplay.getScopeGroupId());
-
-            List<CouncilSession> results = new ArrayList<>();
-            if (hits != null) {
-                for (Document document : hits.getDocs()) {
-                    CouncilSession councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(
-                            GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-                    // Seuls les conseils ayant un type de conseil autorisé par les droits du User sont ajoutés aux résultats
-                    if (councilSession != null && typeCouncilIds.contains(councilSession.getTypeId())) {
-                        results.add(councilSession);
-                    }
-                }
-            }
-            this.councilSessions = results;
-        }
-
-        getSearchContainer().setTotal(councilSessions.size());
-        return this.councilSessions;
+    public CouncilSessionsActionDropdownItemsProvider getActionsConcilSessions(CouncilSession councilSession) {
+        return new CouncilSessionsActionDropdownItemsProvider(councilSession, this._request,
+                this._response);
     }
 
     private void initAuthorizedTypeCouncilsIds() {
@@ -75,8 +69,6 @@ public class ViewCouncilSessionsDisplayContext extends ViewListBaseDisplayContex
             }
         }
 
-        getSearchContainer().setTotal(results.size());
-
         return results;
     }
 
@@ -97,14 +89,58 @@ public class ViewCouncilSessionsDisplayContext extends ViewListBaseDisplayContex
     }
 
     /**
-     * Wrapper autour du permission checker pour les permissions de module
+     * Retourne le searchContainer des councilSessions
+     *
      */
-    @SuppressWarnings("unused")
-    public boolean hasPermission(String actionId) {
-        return _themeDisplay.getPermissionChecker().hasPermission(
-                this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.COUNCIL_BO, StrasbourgPortletKeys.COUNCIL_BO,
-                actionId);
+    @Override
+    public SearchContainer<CouncilSession> getSearchContainer() {
+
+        if (_searchContainer == null) {
+
+            PortletURL portletURL;
+            portletURL = PortletURLBuilder.createRenderURL(_response)
+                    .setMVCPath("/council-bo-view-council-sessions.jsp")
+                    .setKeywords(ParamUtil.getString(_request, "keywords"))
+                    .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+                    .setParameter("tab","councilSessions")
+                    .setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
+                    .buildPortletURL();
+            _searchContainer = new SearchContainer<>(_request, null, null,
+                    SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
+            _searchContainer.setEmptyResultsMessageCssClass(
+                    "taglib-empty-result-message-header-has-plus-btn");
+            _searchContainer.setOrderByColParam("orderByCol");
+            _searchContainer.setOrderByTypeParam("orderByType");
+            _searchContainer.setOrderByCol(getOrderByCol());
+            _searchContainer.setOrderByType(getOrderByType());
+            Hits hits;
+            try {
+                hits = getHits(this._themeDisplay.getScopeGroupId());
+            } catch (PortalException e) {
+                throw new RuntimeException(e);
+            }
+            _searchContainer.setResultsAndTotal(
+                    () -> {
+                        // Création de la liste d'objet
+                        List<CouncilSession> results = new ArrayList<>();
+                        if (hits != null) {
+                            for (Document document : hits.getDocs()) {
+                                CouncilSession councilSession = CouncilSessionLocalServiceUtil.fetchCouncilSession(
+                                        GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+                                // Seuls les conseils ayant un type de conseil autorisé par les droits du User sont ajoutés aux résultats
+                                if (councilSession != null && typeCouncilIds.contains(councilSession.getTypeId())) {
+                                    results.add(councilSession);
+                                }
+                            }
+                        }
+                        return results;
+                    }, hits.getLength()
+            );
+        }
+        _searchContainer.setRowChecker(
+                new EmptyOnClickRowChecker(_response));
+
+        return _searchContainer;
     }
 
     @Override
@@ -125,9 +161,8 @@ public class ViewCouncilSessionsDisplayContext extends ViewListBaseDisplayContex
                 "date");
     }
 
-    @Override
-    public String getOrderByType() {
-        return ParamUtil.getString(this._request, "orderByType", "desc");
-    }
-
+    private final RenderRequest _request;
+    private final ThemeDisplay _themeDisplay;
+    protected SearchContainer<CouncilSession> _searchContainer;
+    private final RenderResponse _response;
 }

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.csmap.model.impl;
@@ -28,6 +19,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.csmap.model.Agenda;
@@ -35,9 +27,9 @@ import eu.strasbourg.service.csmap.model.AgendaModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -46,6 +38,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -123,20 +116,43 @@ public class AgendaModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ISACTIVE_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ISPRINCIPAL_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long AGENDAID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
-		_entityCacheEnabled = entityCacheEnabled;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static void setFinderCacheEnabled(boolean finderCacheEnabled) {
-		_finderCacheEnabled = finderCacheEnabled;
 	}
 
 	public AgendaModelImpl() {
@@ -189,9 +205,6 @@ public class AgendaModelImpl
 				attributeName, attributeGetterFunction.apply((Agenda)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -214,118 +227,107 @@ public class AgendaModelImpl
 	}
 
 	public Map<String, Function<Agenda, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Agenda, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Agenda>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Agenda.class.getClassLoader(), Agenda.class, ModelWrapper.class);
+		private static final Map<String, Function<Agenda, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Agenda> constructor =
-				(Constructor<Agenda>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Agenda, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Agenda, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Agenda::getUuid);
+			attributeGetterFunctions.put("agendaId", Agenda::getAgendaId);
+			attributeGetterFunctions.put("title", Agenda::getTitle);
+			attributeGetterFunctions.put(
+				"editorialTitle", Agenda::getEditorialTitle);
+			attributeGetterFunctions.put("subtitle", Agenda::getSubtitle);
+			attributeGetterFunctions.put("imageId", Agenda::getImageId);
+			attributeGetterFunctions.put("labelLink", Agenda::getLabelLink);
+			attributeGetterFunctions.put("link", Agenda::getLink);
+			attributeGetterFunctions.put(
+				"publicationStartDate", Agenda::getPublicationStartDate);
+			attributeGetterFunctions.put(
+				"publicationEndDate", Agenda::getPublicationEndDate);
+			attributeGetterFunctions.put("isPrincipal", Agenda::getIsPrincipal);
+			attributeGetterFunctions.put("isActive", Agenda::getIsActive);
+			attributeGetterFunctions.put(
+				"campaignsIds", Agenda::getCampaignsIds);
+			attributeGetterFunctions.put("themesIds", Agenda::getThemesIds);
+			attributeGetterFunctions.put("typesIds", Agenda::getTypesIds);
+			attributeGetterFunctions.put(
+				"territoriesIds", Agenda::getTerritoriesIds);
+			attributeGetterFunctions.put("tags", Agenda::getTags);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Agenda, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Agenda, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<Agenda, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Agenda, Object>>();
-		Map<String, BiConsumer<Agenda, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Agenda, ?>>();
+		private static final Map<String, BiConsumer<Agenda, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put("uuid", Agenda::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Agenda, String>)Agenda::setUuid);
-		attributeGetterFunctions.put("agendaId", Agenda::getAgendaId);
-		attributeSetterBiConsumers.put(
-			"agendaId", (BiConsumer<Agenda, Long>)Agenda::setAgendaId);
-		attributeGetterFunctions.put("title", Agenda::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<Agenda, String>)Agenda::setTitle);
-		attributeGetterFunctions.put(
-			"editorialTitle", Agenda::getEditorialTitle);
-		attributeSetterBiConsumers.put(
-			"editorialTitle",
-			(BiConsumer<Agenda, String>)Agenda::setEditorialTitle);
-		attributeGetterFunctions.put("subtitle", Agenda::getSubtitle);
-		attributeSetterBiConsumers.put(
-			"subtitle", (BiConsumer<Agenda, String>)Agenda::setSubtitle);
-		attributeGetterFunctions.put("imageId", Agenda::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId", (BiConsumer<Agenda, Long>)Agenda::setImageId);
-		attributeGetterFunctions.put("labelLink", Agenda::getLabelLink);
-		attributeSetterBiConsumers.put(
-			"labelLink", (BiConsumer<Agenda, String>)Agenda::setLabelLink);
-		attributeGetterFunctions.put("link", Agenda::getLink);
-		attributeSetterBiConsumers.put(
-			"link", (BiConsumer<Agenda, String>)Agenda::setLink);
-		attributeGetterFunctions.put(
-			"publicationStartDate", Agenda::getPublicationStartDate);
-		attributeSetterBiConsumers.put(
-			"publicationStartDate",
-			(BiConsumer<Agenda, Date>)Agenda::setPublicationStartDate);
-		attributeGetterFunctions.put(
-			"publicationEndDate", Agenda::getPublicationEndDate);
-		attributeSetterBiConsumers.put(
-			"publicationEndDate",
-			(BiConsumer<Agenda, Date>)Agenda::setPublicationEndDate);
-		attributeGetterFunctions.put("isPrincipal", Agenda::getIsPrincipal);
-		attributeSetterBiConsumers.put(
-			"isPrincipal", (BiConsumer<Agenda, Boolean>)Agenda::setIsPrincipal);
-		attributeGetterFunctions.put("isActive", Agenda::getIsActive);
-		attributeSetterBiConsumers.put(
-			"isActive", (BiConsumer<Agenda, Boolean>)Agenda::setIsActive);
-		attributeGetterFunctions.put("campaignsIds", Agenda::getCampaignsIds);
-		attributeSetterBiConsumers.put(
-			"campaignsIds",
-			(BiConsumer<Agenda, String>)Agenda::setCampaignsIds);
-		attributeGetterFunctions.put("themesIds", Agenda::getThemesIds);
-		attributeSetterBiConsumers.put(
-			"themesIds", (BiConsumer<Agenda, String>)Agenda::setThemesIds);
-		attributeGetterFunctions.put("typesIds", Agenda::getTypesIds);
-		attributeSetterBiConsumers.put(
-			"typesIds", (BiConsumer<Agenda, String>)Agenda::setTypesIds);
-		attributeGetterFunctions.put(
-			"territoriesIds", Agenda::getTerritoriesIds);
-		attributeSetterBiConsumers.put(
-			"territoriesIds",
-			(BiConsumer<Agenda, String>)Agenda::setTerritoriesIds);
-		attributeGetterFunctions.put("tags", Agenda::getTags);
-		attributeSetterBiConsumers.put(
-			"tags", (BiConsumer<Agenda, String>)Agenda::setTags);
+		static {
+			Map<String, BiConsumer<Agenda, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Agenda, ?>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Agenda, String>)Agenda::setUuid);
+			attributeSetterBiConsumers.put(
+				"agendaId", (BiConsumer<Agenda, Long>)Agenda::setAgendaId);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Agenda, String>)Agenda::setTitle);
+			attributeSetterBiConsumers.put(
+				"editorialTitle",
+				(BiConsumer<Agenda, String>)Agenda::setEditorialTitle);
+			attributeSetterBiConsumers.put(
+				"subtitle", (BiConsumer<Agenda, String>)Agenda::setSubtitle);
+			attributeSetterBiConsumers.put(
+				"imageId", (BiConsumer<Agenda, Long>)Agenda::setImageId);
+			attributeSetterBiConsumers.put(
+				"labelLink", (BiConsumer<Agenda, String>)Agenda::setLabelLink);
+			attributeSetterBiConsumers.put(
+				"link", (BiConsumer<Agenda, String>)Agenda::setLink);
+			attributeSetterBiConsumers.put(
+				"publicationStartDate",
+				(BiConsumer<Agenda, Date>)Agenda::setPublicationStartDate);
+			attributeSetterBiConsumers.put(
+				"publicationEndDate",
+				(BiConsumer<Agenda, Date>)Agenda::setPublicationEndDate);
+			attributeSetterBiConsumers.put(
+				"isPrincipal",
+				(BiConsumer<Agenda, Boolean>)Agenda::setIsPrincipal);
+			attributeSetterBiConsumers.put(
+				"isActive", (BiConsumer<Agenda, Boolean>)Agenda::setIsActive);
+			attributeSetterBiConsumers.put(
+				"campaignsIds",
+				(BiConsumer<Agenda, String>)Agenda::setCampaignsIds);
+			attributeSetterBiConsumers.put(
+				"themesIds", (BiConsumer<Agenda, String>)Agenda::setThemesIds);
+			attributeSetterBiConsumers.put(
+				"typesIds", (BiConsumer<Agenda, String>)Agenda::setTypesIds);
+			attributeSetterBiConsumers.put(
+				"territoriesIds",
+				(BiConsumer<Agenda, String>)Agenda::setTerritoriesIds);
+			attributeSetterBiConsumers.put(
+				"tags", (BiConsumer<Agenda, String>)Agenda::setTags);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -340,17 +342,20 @@ public class AgendaModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -360,6 +365,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setAgendaId(long agendaId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_agendaId = agendaId;
 	}
 
@@ -418,6 +427,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_title = title;
 	}
 
@@ -523,6 +536,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setEditorialTitle(String editorialTitle) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_editorialTitle = editorialTitle;
 	}
 
@@ -630,6 +647,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setSubtitle(String subtitle) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_subtitle = subtitle;
 	}
 
@@ -689,6 +710,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setImageId(Long imageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageId = imageId;
 	}
 
@@ -747,6 +772,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setLabelLink(String labelLink) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_labelLink = labelLink;
 	}
 
@@ -854,6 +883,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setLink(String link) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_link = link;
 	}
 
@@ -908,6 +941,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setPublicationStartDate(Date publicationStartDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_publicationStartDate = publicationStartDate;
 	}
 
@@ -918,6 +955,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setPublicationEndDate(Date publicationEndDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_publicationEndDate = publicationEndDate;
 	}
 
@@ -928,19 +969,21 @@ public class AgendaModelImpl
 
 	@Override
 	public void setIsPrincipal(Boolean isPrincipal) {
-		_columnBitmask |= ISPRINCIPAL_COLUMN_BITMASK;
-
-		if (!_setOriginalIsPrincipal) {
-			_setOriginalIsPrincipal = true;
-
-			_originalIsPrincipal = _isPrincipal;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_isPrincipal = isPrincipal;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Boolean getOriginalIsPrincipal() {
-		return _originalIsPrincipal;
+		return GetterUtil.getBoolean(
+			this.<Boolean>getColumnOriginalValue("isPrincipal"));
 	}
 
 	@Override
@@ -950,19 +993,21 @@ public class AgendaModelImpl
 
 	@Override
 	public void setIsActive(Boolean isActive) {
-		_columnBitmask |= ISACTIVE_COLUMN_BITMASK;
-
-		if (!_setOriginalIsActive) {
-			_setOriginalIsActive = true;
-
-			_originalIsActive = _isActive;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_isActive = isActive;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Boolean getOriginalIsActive() {
-		return _originalIsActive;
+		return GetterUtil.getBoolean(
+			this.<Boolean>getColumnOriginalValue("isActive"));
 	}
 
 	@Override
@@ -977,6 +1022,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setCampaignsIds(String campaignsIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_campaignsIds = campaignsIds;
 	}
 
@@ -992,6 +1041,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setThemesIds(String themesIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_themesIds = themesIds;
 	}
 
@@ -1007,6 +1060,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setTypesIds(String typesIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_typesIds = typesIds;
 	}
 
@@ -1022,6 +1079,10 @@ public class AgendaModelImpl
 
 	@Override
 	public void setTerritoriesIds(String territoriesIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_territoriesIds = territoriesIds;
 	}
 
@@ -1037,10 +1098,34 @@ public class AgendaModelImpl
 
 	@Override
 	public void setTags(String tags) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_tags = tags;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1250,6 +1335,40 @@ public class AgendaModelImpl
 	}
 
 	@Override
+	public Agenda cloneWithOriginalValues() {
+		AgendaImpl agendaImpl = new AgendaImpl();
+
+		agendaImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		agendaImpl.setAgendaId(this.<Long>getColumnOriginalValue("agendaId"));
+		agendaImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		agendaImpl.setEditorialTitle(
+			this.<String>getColumnOriginalValue("editorialTitle"));
+		agendaImpl.setSubtitle(this.<String>getColumnOriginalValue("subtitle"));
+		agendaImpl.setImageId(this.<Long>getColumnOriginalValue("imageId"));
+		agendaImpl.setLabelLink(
+			this.<String>getColumnOriginalValue("labelLink"));
+		agendaImpl.setLink(this.<String>getColumnOriginalValue("link"));
+		agendaImpl.setPublicationStartDate(
+			this.<Date>getColumnOriginalValue("publicationStartDate"));
+		agendaImpl.setPublicationEndDate(
+			this.<Date>getColumnOriginalValue("publicationEndDate"));
+		agendaImpl.setIsPrincipal(
+			this.<Boolean>getColumnOriginalValue("isPrincipal"));
+		agendaImpl.setIsActive(
+			this.<Boolean>getColumnOriginalValue("isActive"));
+		agendaImpl.setCampaignsIds(
+			this.<String>getColumnOriginalValue("campaignsIds"));
+		agendaImpl.setThemesIds(
+			this.<String>getColumnOriginalValue("themesIds"));
+		agendaImpl.setTypesIds(this.<String>getColumnOriginalValue("typesIds"));
+		agendaImpl.setTerritoriesIds(
+			this.<String>getColumnOriginalValue("territoriesIds"));
+		agendaImpl.setTags(this.<String>getColumnOriginalValue("tags"));
+
+		return agendaImpl;
+	}
+
+	@Override
 	public int compareTo(Agenda agenda) {
 		long primaryKey = agenda.getPrimaryKey();
 
@@ -1291,31 +1410,29 @@ public class AgendaModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
-		return _entityCacheEnabled;
+		return true;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
-		return _finderCacheEnabled;
+		return true;
 	}
 
 	@Override
 	public void resetOriginalValues() {
-		AgendaModelImpl agendaModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		agendaModelImpl._originalUuid = agendaModelImpl._uuid;
-
-		agendaModelImpl._originalIsPrincipal = agendaModelImpl._isPrincipal;
-
-		agendaModelImpl._setOriginalIsPrincipal = false;
-
-		agendaModelImpl._originalIsActive = agendaModelImpl._isActive;
-
-		agendaModelImpl._setOriginalIsActive = false;
-
-		agendaModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1458,7 +1575,7 @@ public class AgendaModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1468,9 +1585,26 @@ public class AgendaModelImpl
 			String attributeName = entry.getKey();
 			Function<Agenda, Object> attributeGetterFunction = entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Agenda)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Agenda)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1483,48 +1617,16 @@ public class AgendaModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Agenda, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Agenda, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Agenda, Object> attributeGetterFunction = entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Agenda)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Agenda>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Agenda.class, ModelWrapper.class);
 
 	}
 
-	private static boolean _entityCacheEnabled;
-	private static boolean _finderCacheEnabled;
-
 	private String _uuid;
-	private String _originalUuid;
 	private long _agendaId;
 	private String _title;
 	private String _titleCurrentLanguageId;
@@ -1540,16 +1642,121 @@ public class AgendaModelImpl
 	private Date _publicationStartDate;
 	private Date _publicationEndDate;
 	private Boolean _isPrincipal;
-	private Boolean _originalIsPrincipal;
-	private boolean _setOriginalIsPrincipal;
 	private Boolean _isActive;
-	private Boolean _originalIsActive;
-	private boolean _setOriginalIsActive;
 	private String _campaignsIds;
 	private String _themesIds;
 	private String _typesIds;
 	private String _territoriesIds;
 	private String _tags;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Agenda, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Agenda)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("agendaId", _agendaId);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("editorialTitle", _editorialTitle);
+		_columnOriginalValues.put("subtitle", _subtitle);
+		_columnOriginalValues.put("imageId", _imageId);
+		_columnOriginalValues.put("labelLink", _labelLink);
+		_columnOriginalValues.put("link", _link);
+		_columnOriginalValues.put(
+			"publicationStartDate", _publicationStartDate);
+		_columnOriginalValues.put("publicationEndDate", _publicationEndDate);
+		_columnOriginalValues.put("isPrincipal", _isPrincipal);
+		_columnOriginalValues.put("isActive", _isActive);
+		_columnOriginalValues.put("campaignsIds", _campaignsIds);
+		_columnOriginalValues.put("themesIds", _themesIds);
+		_columnOriginalValues.put("typesIds", _typesIds);
+		_columnOriginalValues.put("territoriesIds", _territoriesIds);
+		_columnOriginalValues.put("tags", _tags);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("agendaId", 2L);
+
+		columnBitmasks.put("title", 4L);
+
+		columnBitmasks.put("editorialTitle", 8L);
+
+		columnBitmasks.put("subtitle", 16L);
+
+		columnBitmasks.put("imageId", 32L);
+
+		columnBitmasks.put("labelLink", 64L);
+
+		columnBitmasks.put("link", 128L);
+
+		columnBitmasks.put("publicationStartDate", 256L);
+
+		columnBitmasks.put("publicationEndDate", 512L);
+
+		columnBitmasks.put("isPrincipal", 1024L);
+
+		columnBitmasks.put("isActive", 2048L);
+
+		columnBitmasks.put("campaignsIds", 4096L);
+
+		columnBitmasks.put("themesIds", 8192L);
+
+		columnBitmasks.put("typesIds", 16384L);
+
+		columnBitmasks.put("territoriesIds", 32768L);
+
+		columnBitmasks.put("tags", 65536L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Agenda _escapedModel;
 

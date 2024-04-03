@@ -45,6 +45,7 @@ public class FelecResponse {
     }
 
     public FelecResponse() {
+        responseCode = "9";
     }
 
     public String getReturnCard() {

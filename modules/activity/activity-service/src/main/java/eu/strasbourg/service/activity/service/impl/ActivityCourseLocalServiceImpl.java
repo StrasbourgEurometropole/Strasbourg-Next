@@ -14,11 +14,7 @@
 
 package eu.strasbourg.service.activity.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.LongStream;
-
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -38,11 +34,15 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.activity.model.ActivityCoursePlace;
 import eu.strasbourg.service.activity.service.base.ActivityCourseLocalServiceBaseImpl;
+import org.osgi.annotation.versioning.ProviderType;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the activityCourse local service.
@@ -50,7 +50,7 @@ import eu.strasbourg.service.activity.service.base.ActivityCourseLocalServiceBas
  * <p>
  * All custom service methods should be put in this class. Whenever methods are
  * added, rerun ServiceBuilder to copy their definitions into the
- * {@link eu.strasbourg.service.activityCourse.service.ActivityCourseLocalService}
+ * {@link eu.strasbourg.service.activity.service.ActivityCourseLocalService}
  * interface.
  *
  * <p>
@@ -61,7 +61,7 @@ import eu.strasbourg.service.activity.service.base.ActivityCourseLocalServiceBas
  *
  * @author Brian Wing Shun Chan
  * @see ActivityCourseLocalServiceBaseImpl
- * @see eu.strasbourg.service.activityCourse.service.ActivityCourseLocalServiceUtil
+ * @see eu.strasbourg.service.activity.service.ActivityCourseLocalServiceUtil
  */
 @ProviderType
 public class ActivityCourseLocalServiceImpl
@@ -223,10 +223,8 @@ public class ActivityCourseLocalServiceImpl
 
 		if (entry != null) {
 			// Supprime le lien avec les catégories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-					categoryId, entry.getEntryId());
-			}
+			AssetEntryAssetCategoryRelLocalServiceUtil.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Supprime le lien avec les tags
 			long[] tagIds = AssetEntryLocalServiceUtil

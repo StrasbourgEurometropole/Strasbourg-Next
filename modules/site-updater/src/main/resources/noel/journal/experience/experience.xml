@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Experience</name>
+        <key>2224473</key>
+        <definition>experience-structure.json</definition>
+        <layout>experience-layout.json</layout>
+    </structure>
+    <template>
+        <name>Experience</name>
+        <key>2224477</key>
+        <script>experience.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

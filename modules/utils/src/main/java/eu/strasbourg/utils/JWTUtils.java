@@ -8,7 +8,6 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -29,9 +28,6 @@ public class JWTUtils {
 		        .withExpiresAt(expiresAt)
 		        .sign(algorithm);
 		    return token;
-		} catch (UnsupportedEncodingException exception){
-		    //UTF-8 encoding not supported
-			return "";
 		} catch (JWTCreationException exception){
 		    //Invalid Signing configuration / Couldn't convert Claims.
 			return "";
@@ -46,9 +42,6 @@ public class JWTUtils {
 					.build();
 			verifier.verify(token);
 			return true;
-		} catch (UnsupportedEncodingException exception) {
-			// UTF-8 encoding not supported
-			return false;
 		} catch (JWTVerificationException exception) {
 			// Invalid signature/claims
 			return false;
@@ -70,9 +63,6 @@ public class JWTUtils {
 			if (jwtClaim != null) {
 				return jwtClaim.as(String.class);
 			}
-			return "";
-		} catch (UnsupportedEncodingException exception) {
-			// UTF-8 encoding not supported
 			return "";
 		} catch (JWTVerificationException exception) {
 			// Invalid signature/claims

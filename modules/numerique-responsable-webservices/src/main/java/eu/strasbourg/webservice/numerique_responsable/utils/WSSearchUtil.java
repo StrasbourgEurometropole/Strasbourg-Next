@@ -46,9 +46,6 @@ public class WSSearchUtil {
         searchContext.setCompanyId(PortalUtil.getDefaultCompanyId());
         searchContext.setGroupIds(new long[]{getNumRespGroupId()});
         searchContext.setKeywords(keywords);
-        QueryConfig queryConfig = new QueryConfig();
-        queryConfig.setAttribute("locale", locale);
-        searchContext.setQueryConfig(queryConfig);
 
         // Pagination
         searchContext.setStart(start);

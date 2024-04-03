@@ -11,6 +11,8 @@ import javax.portlet.PortletPreferences;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 
@@ -29,7 +31,6 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -60,8 +61,8 @@ public class EventViewerConfigurationAction extends DefaultConfigurationAction {
 
 		if (cmd.equals("update")) {
 			// Catégories
-			String categoriesIds = ParamUtil.getString(request,
-				"categoriesIds");
+			String categoriesIds = String.join(",", ParamUtil.getStringValues(request,
+				"categoriesIds"));
 			// On enregistre les ids des catégories sous forme de String
 			// On sépare les catégories d'un même vocabulaire par des virgules
 			// et les vocabulaires par des points-virgules
@@ -179,6 +180,11 @@ public class EventViewerConfigurationAction extends DefaultConfigurationAction {
 				setPreference(request, "agendaURL", agendaURL);
 			}
 
+			// Delta
+			String delta = ParamUtil.getString(request,
+					"delta");
+			setPreference(request, "delta", delta);
+
 		}
 		super.processAction(portletConfig, request, response);
 	}
@@ -196,9 +202,7 @@ public class EventViewerConfigurationAction extends DefaultConfigurationAction {
 				"portletResource");
 			PortletPreferences preferences = PortletPreferencesFactoryUtil
 				.getPortletSetup(request, portletResource);
-			this.configuration = themeDisplay.getPortletDisplay()
-				.getPortletInstanceConfiguration(
-					EventViewerConfiguration.class);
+			this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(EventViewerConfiguration.class, themeDisplay);
 
 			// Page d'agenda
 			request.setAttribute("agendaPageUuid",
@@ -239,6 +243,10 @@ public class EventViewerConfigurationAction extends DefaultConfigurationAction {
 
 			// Tags
 			request.setAttribute("tagsNames", configuration.tagsNames());
+
+			// Delta
+			request.setAttribute("delta",
+					configuration.delta());
 
 		} catch (ConfigurationException e) {
 			_log.error(e);

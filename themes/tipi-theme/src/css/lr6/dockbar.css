@@ -1,5 +1,5 @@
 .dockbar {
-	background: #97A1AE url(../images/dockbar/dockbar_bg.png) repeat-x 0 0;
+	background: #97A1AE url(src/images/dockbar/dockbar_bg.png) repeat-x 0 0;
 	border-bottom: 1px solid #636364;
 	font-size: 13px;
 	padding: 1px 5px;
@@ -33,7 +33,7 @@
 }
 
 .dockbar .menu-button-active {
-	background: #5C94DA url(../images/dockbar/button_active_bg.png) repeat-x 0 0;
+	background: #5C94DA url(src/images/dockbar/button_active_bg.png) repeat-x 0 0;
 }
 
 .dockbar .menu-button-active a {
@@ -75,14 +75,14 @@ html > .lfr-dockbar-pinned {
 }
 
 .pin-dockbar img {
-	background: url(../images/dockbar/pin.png) no-repeat 0 0;
+	background: url(src/images/dockbar/pin.png) no-repeat 0 0;
 	height: 27px;
 	vertical-align: middle;
 	width: 27px;
 }
 
 .lfr-dockbar-pinned .pin-dockbar img {
-	background-image: url(../images/dockbar/unpin.png);
+	background-image: url(src/images/dockbar/unpin.png);
 }
 
 .dockbar .user-portrait {
@@ -95,7 +95,7 @@ html > .lfr-dockbar-pinned {
 }
 
 .dockbar .impersonating-user {
-	background: url(../images/messages/alert.png) no-repeat 0 50%;
+	background: url(src/images/messages/alert.png) no-repeat 0 50%;
 	padding-left: 20px;
 }
 
@@ -169,7 +169,7 @@ html > .lfr-dockbar-pinned {
 }
 
 .my-places-menu .current-site a {
-	background: #3068BA url(../images/arrows/01_right.png) no-repeat scroll 2px 30%;
+	background: #3068BA url(src/images/arrows/01_right.png) no-repeat scroll 2px 30%;
 	color: #FFF;
 	padding-left: 20px;
 	text-shadow: 1px 1px #333;
@@ -227,16 +227,16 @@ html > .lfr-dockbar-pinned {
 }
 
 .dockbar .toggle-controls a {
-	background: url(../images/dockbar/checked.png) no-repeat 0 50%;
+	background: url(src/images/dockbar/checked.png) no-repeat 0 50%;
 	padding-left: 20px;
 }
 
 .controls-hidden .toggle-controls a {
-	background-image: url(../images/dockbar/unchecked.png);
+	background-image: url(src/images/dockbar/unchecked.png);
 }
 
 .dockbar .menu-button {
-	background: url(../images/arrows/05_down.png) no-repeat 93% 50%;
+	background: url(src/images/arrows/05_down.png) no-repeat 93% 50%;
 	display: inline-block;
 	padding: 5px 20px 5px 5px;
 	text-decoration: none;
@@ -248,19 +248,19 @@ html > .lfr-dockbar-pinned {
 }
 
 .dockbar .add-content .menu-button span {
-	background-image: url(../images/common/add.png);
+	background-image: url(src/images/common/add.png);
 }
 
 .dockbar .manage-content .menu-button span {
-	background-image: url(../images/dockbar/settings.png);
+	background-image: url(src/images/dockbar/settings.png);
 }
 
 .dockbar .my-places .menu-button span {
-	background-image: url(../images/dockbar/places.png);
+	background-image: url(src/images/dockbar/places.png);
 }
 
 .dockbar .staging-options .menu-button span {
-	background-image: url(../images/dockbar/staging.png);
+	background-image: url(src/images/dockbar/staging.png);
 }
 
 .dockbar-messages-container {
@@ -287,12 +287,12 @@ html > .lfr-dockbar-pinned {
 }
 
 .add-content-menu .add-page a {
-	background: url(../images/navigation/add_page.png) no-repeat 3px 50%;
+	background: url(src/images/navigation/add_page.png) no-repeat 3px 50%;
 	padding-left: 25px;
 }
 
 .add-content-menu .add-application a {
-	background: url(../images/common/portlet.png) no-repeat 3px 50%;
+	background: url(src/images/common/portlet.png) no-repeat 3px 50%;
 	padding-left: 25px;
 }
 
@@ -302,21 +302,21 @@ html > .lfr-dockbar-pinned {
 }
 
 .manage-content-menu .manage-page a {
-	background-image: url(../images/dock/page_settings.png);
+	background-image: url(src/images/dock/page_settings.png);
 }
 
 .manage-content-menu .page-layout a {
-	background-image: url(../images/dock/layout.png);
+	background-image: url(src/images/dock/layout.png);
 }
 
 .manage-content-menu .sitemap a {
-	background-image: url(../images/common/sitemap.png);
+	background-image: url(src/images/common/sitemap.png);
 }
 
 .manage-content-menu .settings a {
-	background-image: url(../images/common/configuration.png);
+	background-image: url(src/images/common/configuration.png);
 }
 
 .manage-content-menu .control-panel a {
-	background-image: url(../images/dock/control_panel.png);
+	background-image: url(src/images/dock/control_panel.png);
 }

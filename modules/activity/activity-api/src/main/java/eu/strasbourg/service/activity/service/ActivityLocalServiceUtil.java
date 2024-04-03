@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.activity.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.activity.model.Activity;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for Activity. This utility wraps
@@ -48,9 +47,7 @@ public class ActivityLocalServiceUtil {
 	 * @param activity the activity
 	 * @return the activity that was added
 	 */
-	public static eu.strasbourg.service.activity.model.Activity addActivity(
-		eu.strasbourg.service.activity.model.Activity activity) {
-
+	public static Activity addActivity(Activity activity) {
 		return getService().addActivity(activity);
 	}
 
@@ -60,20 +57,28 @@ public class ActivityLocalServiceUtil {
 	 * @param activityId the primary key for the new activity
 	 * @return the new activity
 	 */
-	public static eu.strasbourg.service.activity.model.Activity createActivity(
-		long activityId) {
-
+	public static Activity createActivity(long activityId) {
 		return getService().createActivity(activityId);
 	}
 
 	/**
 	 * Crée une activité vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.activity.model.Activity createActivity(
+	public static Activity createActivity(
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createActivity(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -86,9 +91,7 @@ public class ActivityLocalServiceUtil {
 	 * @param activity the activity
 	 * @return the activity that was removed
 	 */
-	public static eu.strasbourg.service.activity.model.Activity deleteActivity(
-		eu.strasbourg.service.activity.model.Activity activity) {
-
+	public static Activity deleteActivity(Activity activity) {
 		return getService().deleteActivity(activity);
 	}
 
@@ -103,9 +106,8 @@ public class ActivityLocalServiceUtil {
 	 * @return the activity that was removed
 	 * @throws PortalException if a activity with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.Activity deleteActivity(
-			long activityId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Activity deleteActivity(long activityId)
+		throws PortalException {
 
 		return getService().deleteActivity(activityId);
 	}
@@ -113,17 +115,22 @@ public class ActivityLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -133,9 +140,7 @@ public class ActivityLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -151,9 +156,8 @@ public class ActivityLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -171,10 +175,9 @@ public class ActivityLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -186,9 +189,7 @@ public class ActivityLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -200,15 +201,13 @@ public class ActivityLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.activity.model.Activity fetchActivity(
-		long activityId) {
-
+	public static Activity fetchActivity(long activityId) {
 		return getService().fetchActivity(activityId);
 	}
 
@@ -219,8 +218,8 @@ public class ActivityLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching activity, or <code>null</code> if a matching activity could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.Activity
-		fetchActivityByUuidAndGroupId(String uuid, long groupId) {
+	public static Activity fetchActivityByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchActivityByUuidAndGroupId(uuid, groupId);
 	}
@@ -228,17 +227,15 @@ public class ActivityLocalServiceUtil {
 	/**
 	 * Lance une recherche par liste d'ids
 	 */
-	public static java.util.List<eu.strasbourg.service.activity.model.Activity>
-		findByIds(java.util.List<Long> activityIds) {
-
+	public static List<Activity> findByIds(List<Long> activityIds) {
 		return getService().findByIds(activityIds);
 	}
 
 	/**
 	 * Lance une recherche par mots-clés
 	 */
-	public static java.util.List<eu.strasbourg.service.activity.model.Activity>
-		findByKeyword(String keyword, long groupId, int start, int end) {
+	public static List<Activity> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -267,9 +264,7 @@ public class ActivityLocalServiceUtil {
 	 * @param end the upper bound of the range of activities (not inclusive)
 	 * @return the range of activities
 	 */
-	public static java.util.List<eu.strasbourg.service.activity.model.Activity>
-		getActivities(int start, int end) {
-
+	public static List<Activity> getActivities(int start, int end) {
 		return getService().getActivities(start, end);
 	}
 
@@ -280,8 +275,8 @@ public class ActivityLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching activities, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.activity.model.Activity>
-		getActivitiesByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Activity> getActivitiesByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getActivitiesByUuidAndCompanyId(uuid, companyId);
 	}
@@ -296,12 +291,9 @@ public class ActivityLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching activities, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.activity.model.Activity>
-		getActivitiesByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.activity.model.Activity>
-					orderByComparator) {
+	public static List<Activity> getActivitiesByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Activity> orderByComparator) {
 
 		return getService().getActivitiesByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -323,10 +315,7 @@ public class ActivityLocalServiceUtil {
 	 * @return the activity
 	 * @throws PortalException if a activity with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.Activity getActivity(
-			long activityId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Activity getActivity(long activityId) throws PortalException {
 		return getService().getActivity(activityId);
 	}
 
@@ -338,9 +327,9 @@ public class ActivityLocalServiceUtil {
 	 * @return the matching activity
 	 * @throws PortalException if a matching activity could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.Activity
-			getActivityByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Activity getActivityByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getActivityByUuidAndGroupId(uuid, groupId);
 	}
@@ -348,7 +337,7 @@ public class ActivityLocalServiceUtil {
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à l'entité
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -357,9 +346,7 @@ public class ActivityLocalServiceUtil {
 	/**
 	 * Retourne toutes les éditions d'un groupe
 	 */
-	public static java.util.List<eu.strasbourg.service.activity.model.Activity>
-		getByGroupId(long groupId) {
-
+	public static List<Activity> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
@@ -390,9 +377,8 @@ public class ActivityLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -417,9 +403,8 @@ public class ActivityLocalServiceUtil {
 	/**
 	 * Supprime une entité
 	 */
-	public static eu.strasbourg.service.activity.model.Activity removeActivity(
-			long activityId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Activity removeActivity(long activityId)
+		throws PortalException {
 
 		return getService().removeActivity(activityId);
 	}
@@ -438,9 +423,8 @@ public class ActivityLocalServiceUtil {
 	 * Retourne les Hits correspondant aux paramètres pour le webservice des
 	 * activités
 	 */
-	public static java.util.List<eu.strasbourg.service.activity.model.Activity>
-		searchActivities(
-			long groupId, String keywords, java.util.Locale locale) {
+	public static List<Activity> searchActivities(
+		long groupId, String keywords, java.util.Locale locale) {
 
 		return getService().searchActivities(groupId, keywords, locale);
 	}
@@ -455,19 +439,17 @@ public class ActivityLocalServiceUtil {
 	 * @param activity the activity
 	 * @return the activity that was updated
 	 */
-	public static eu.strasbourg.service.activity.model.Activity updateActivity(
-		eu.strasbourg.service.activity.model.Activity activity) {
-
+	public static Activity updateActivity(Activity activity) {
 		return getService().updateActivity(activity);
 	}
 
 	/**
 	 * Met à jour une activité et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.activity.model.Activity updateActivity(
-			eu.strasbourg.service.activity.model.Activity activity,
+	public static Activity updateActivity(
+			Activity activity,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().updateActivity(activity, sc);
 	}
@@ -475,32 +457,20 @@ public class ActivityLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'entité
 	 */
-	public static eu.strasbourg.service.activity.model.Activity updateStatus(
-			long userId, long entryId, int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Activity updateStatus(long userId, long entryId, int status)
+		throws PortalException {
 
 		return getService().updateStatus(userId, entryId, status);
 	}
 
 	public static ActivityLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<ActivityLocalService, ActivityLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(ActivityLocalService.class);
-
-		ServiceTracker<ActivityLocalService, ActivityLocalService>
-			serviceTracker =
-				new ServiceTracker<ActivityLocalService, ActivityLocalService>(
-					bundle.getBundleContext(), ActivityLocalService.class,
-					null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(ActivityLocalService service) {
+		_service = service;
 	}
+
+	private static volatile ActivityLocalService _service;
 
 }

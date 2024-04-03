@@ -14,17 +14,16 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
+import org.osgi.annotation.versioning.ProviderType;
+import com.liferay.portal.kernel.exception.PortalException;
+import eu.strasbourg.service.agenda.model.ImportReport;
+import eu.strasbourg.service.agenda.model.ImportReportLine;
+import eu.strasbourg.service.agenda.service.base.ImportReportLocalServiceBaseImpl;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import com.liferay.portal.kernel.exception.PortalException;
-
-import aQute.bnd.annotation.ProviderType;
-import eu.strasbourg.service.agenda.model.ImportReport;
-import eu.strasbourg.service.agenda.model.ImportReportLine;
-import eu.strasbourg.service.agenda.service.base.ImportReportLocalServiceBaseImpl;
 
 /**
  * The implementation of the import report local service.

@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.gtfs.model.CacheHoursJSON;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for CacheHoursJSON. This utility wraps
@@ -48,9 +47,8 @@ public class CacheHoursJSONLocalServiceUtil {
 	 * @param cacheHoursJSON the cache hours json
 	 * @return the cache hours json that was added
 	 */
-	public static eu.strasbourg.service.gtfs.model.CacheHoursJSON
-		addCacheHoursJSON(
-			eu.strasbourg.service.gtfs.model.CacheHoursJSON cacheHoursJSON) {
+	public static CacheHoursJSON addCacheHoursJSON(
+		CacheHoursJSON cacheHoursJSON) {
 
 		return getService().addCacheHoursJSON(cacheHoursJSON);
 	}
@@ -61,10 +59,9 @@ public class CacheHoursJSONLocalServiceUtil {
 	 * @param cacheHoursJSONPK the primary key for the new cache hours json
 	 * @return the new cache hours json
 	 */
-	public static eu.strasbourg.service.gtfs.model.CacheHoursJSON
-		createCacheHoursJSON(
-			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
-				cacheHoursJSONPK) {
+	public static CacheHoursJSON createCacheHoursJSON(
+		eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
+			cacheHoursJSONPK) {
 
 		return getService().createCacheHoursJSON(cacheHoursJSONPK);
 	}
@@ -72,10 +69,20 @@ public class CacheHoursJSONLocalServiceUtil {
 	/**
 	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.gtfs.model.CacheHoursJSON
-		createCacheHoursJSON(String stopCode, int type) {
+	public static CacheHoursJSON createCacheHoursJSON(
+		String stopCode, int type) {
 
 		return getService().createCacheHoursJSON(stopCode, type);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -88,9 +95,8 @@ public class CacheHoursJSONLocalServiceUtil {
 	 * @param cacheHoursJSON the cache hours json
 	 * @return the cache hours json that was removed
 	 */
-	public static eu.strasbourg.service.gtfs.model.CacheHoursJSON
-		deleteCacheHoursJSON(
-			eu.strasbourg.service.gtfs.model.CacheHoursJSON cacheHoursJSON) {
+	public static CacheHoursJSON deleteCacheHoursJSON(
+		CacheHoursJSON cacheHoursJSON) {
 
 		return getService().deleteCacheHoursJSON(cacheHoursJSON);
 	}
@@ -106,11 +112,10 @@ public class CacheHoursJSONLocalServiceUtil {
 	 * @return the cache hours json that was removed
 	 * @throws PortalException if a cache hours json with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.CacheHoursJSON
-			deleteCacheHoursJSON(
-				eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
-					cacheHoursJSONPK)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CacheHoursJSON deleteCacheHoursJSON(
+			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
+				cacheHoursJSONPK)
+		throws PortalException {
 
 		return getService().deleteCacheHoursJSON(cacheHoursJSONPK);
 	}
@@ -118,17 +123,22 @@ public class CacheHoursJSONLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -138,9 +148,7 @@ public class CacheHoursJSONLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -156,9 +164,8 @@ public class CacheHoursJSONLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -176,10 +183,9 @@ public class CacheHoursJSONLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -191,9 +197,7 @@ public class CacheHoursJSONLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -205,7 +209,7 @@ public class CacheHoursJSONLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
@@ -214,16 +218,15 @@ public class CacheHoursJSONLocalServiceUtil {
 	/**
 	 * Retourne le cache d'un arret et type
 	 */
-	public static eu.strasbourg.service.gtfs.model.CacheHoursJSON
-		fetchByStopCodeAndType(String stopCode, int type) {
+	public static CacheHoursJSON fetchByStopCodeAndType(
+		String stopCode, int type) {
 
 		return getService().fetchByStopCodeAndType(stopCode, type);
 	}
 
-	public static eu.strasbourg.service.gtfs.model.CacheHoursJSON
-		fetchCacheHoursJSON(
-			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
-				cacheHoursJSONPK) {
+	public static CacheHoursJSON fetchCacheHoursJSON(
+		eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
+			cacheHoursJSONPK) {
 
 		return getService().fetchCacheHoursJSON(cacheHoursJSONPK);
 	}
@@ -235,11 +238,10 @@ public class CacheHoursJSONLocalServiceUtil {
 	 * @return the cache hours json
 	 * @throws PortalException if a cache hours json with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.CacheHoursJSON
-			getCacheHoursJSON(
-				eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
-					cacheHoursJSONPK)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CacheHoursJSON getCacheHoursJSON(
+			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
+				cacheHoursJSONPK)
+		throws PortalException {
 
 		return getService().getCacheHoursJSON(cacheHoursJSONPK);
 	}
@@ -255,10 +257,7 @@ public class CacheHoursJSONLocalServiceUtil {
 	 * @param end the upper bound of the range of cache hours jsons (not inclusive)
 	 * @return the range of cache hours jsons
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.gtfs.model.CacheHoursJSON> getCacheHoursJSONs(
-			int start, int end) {
-
+	public static List<CacheHoursJSON> getCacheHoursJSONs(int start, int end) {
 		return getService().getCacheHoursJSONs(start, end);
 	}
 
@@ -290,9 +289,8 @@ public class CacheHoursJSONLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -307,35 +305,20 @@ public class CacheHoursJSONLocalServiceUtil {
 	 * @param cacheHoursJSON the cache hours json
 	 * @return the cache hours json that was updated
 	 */
-	public static eu.strasbourg.service.gtfs.model.CacheHoursJSON
-		updateCacheHoursJSON(
-			eu.strasbourg.service.gtfs.model.CacheHoursJSON cacheHoursJSON) {
+	public static CacheHoursJSON updateCacheHoursJSON(
+		CacheHoursJSON cacheHoursJSON) {
 
 		return getService().updateCacheHoursJSON(cacheHoursJSON);
 	}
 
 	public static CacheHoursJSONLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<CacheHoursJSONLocalService, CacheHoursJSONLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			CacheHoursJSONLocalService.class);
-
-		ServiceTracker<CacheHoursJSONLocalService, CacheHoursJSONLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<CacheHoursJSONLocalService, CacheHoursJSONLocalService>(
-						bundle.getBundleContext(),
-						CacheHoursJSONLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(CacheHoursJSONLocalService service) {
+		_service = service;
 	}
+
+	private static volatile CacheHoursJSONLocalService _service;
 
 }

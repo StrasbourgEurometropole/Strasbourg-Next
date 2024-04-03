@@ -3,6 +3,8 @@ package eu.strasbourg.portlet.project.action;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -10,6 +12,7 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -61,12 +64,12 @@ public class SaveInitiativeActionCommand implements MVCActionCommand {
 					.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request
 					.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				PortletURL backURL = PortletURLFactoryUtil.create(request,
 					portletName, themeDisplay.getPlid(),
 					PortletRequest.RENDER_PHASE);
 				
-				response.setRenderParameter("returnURL", returnURL.toString());
-				response.setRenderParameter("cmd", "editInitiative");
+				response.setRenderParameter("backURL", backURL.toString());
+				response.setRenderParameter("cmd", "saveInitiative");
 				response.setRenderParameter("mvcPath","/project-bo-edit-initiative.jsp");
 				return false;
 			}
@@ -136,8 +139,9 @@ public class SaveInitiativeActionCommand implements MVCActionCommand {
 			// ---------------------------------------------------------------
 						
 			// Corps de la description
-			String description = ParamUtil.getString(request, "description");
-			initiative.setDescription(description);
+			Map<Locale, String> description = LocalizationUtil
+					.getLocalizationMap(request, "description");
+			initiative.setDescriptionMap(description);
 			
 			// ---------------------------------------------------------------
 			// -------------------------- LIEUX ------------------------------
@@ -232,7 +236,7 @@ public class SaveInitiativeActionCommand implements MVCActionCommand {
 			initiative.setPublicationDate(publicationDate);
 
 			_initiativeLocalService.updateInitiative(initiative, sc);
-
+			response.setRenderParameter("mvcPath", "/project-bo-view-initiatives.jsp");
 		} catch (PortalException e) {
 			_log.error(e);
 		}

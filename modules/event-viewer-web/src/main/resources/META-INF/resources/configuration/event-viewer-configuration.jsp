@@ -23,8 +23,13 @@
 		</p>
 		<label><liferay-ui:message key="categories" /></label>
 		<p>
-			<liferay-ui:asset-categories-selector hiddenInput="categoriesIds"
-				curCategoryIds="${categoriesIds}" />
+			<asset-category-selector:category-selector
+					id="categoriesIds"
+					groupIds="${themeDisplay.scopeGroupId},${themeDisplay.companyGroupId}"
+					label="categories"
+					values="${categoriesIds}"
+					multiple="true"
+			/>
 		</p>
 		<br>
 		<p>
@@ -32,8 +37,8 @@
 		</p>
 		<p>
 			<label><liferay-ui:message key="tags" /></label>
-			<liferay-ui:asset-tags-selector hiddenInput="tagsNames"
-				curTags="${tagsNames}" />
+			<liferay-asset:asset-tags-selector hiddenInput="tagsNames"
+											   tagNames="${tagsNames}" />
 		</p>
 
 		<h3>
@@ -77,10 +82,13 @@
 		<p>
 			<div class="display-template">
 				<liferay-ddm:template-selector className="${className}"
-					displayStyle="${displayStyle}"
-					displayStyleGroupId="${displayStyleGroupId}"
-					refreshURL="${refreshURL}" showEmptyOption="true" />
+											   displayStyle="${displayStyle}"
+											   displayStyleGroupId="${displayStyleGroupId}"
+											   refreshURL="${refreshURL}" showEmptyOption="true" />
 			</div>
+		</p>
+		<p>
+			<aui:input type="text" name="delta" value="${delta}" label="delta" />
 		</p>
 		<p>
 			<p>

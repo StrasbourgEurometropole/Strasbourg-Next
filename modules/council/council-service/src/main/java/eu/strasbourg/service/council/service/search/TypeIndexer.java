@@ -14,11 +14,10 @@ import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
-import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Type;
-import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
@@ -66,7 +65,7 @@ public class TypeIndexer extends BaseIndexer<Type> {
         List<AssetCategory> assetCategories = AssetVocabularyHelper
                 .getFullHierarchyCategories(type.getCategories());
         document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-        addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
+        IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
 
         Map<Locale, String> titleFieldMap = new HashMap<>();
         titleFieldMap.put(Locale.FRANCE, type.getTitle());
@@ -103,8 +102,7 @@ public class TypeIndexer extends BaseIndexer<Type> {
     protected void doReindex(Type type) throws Exception {
         Document document = getDocument(type);
 
-        IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-                type.getCompanyId(), document, isCommitImmediately());
+        IndexWriterHelperUtil.updateDocument(type.getCompanyId(), document);
 
     }
 
@@ -137,7 +135,6 @@ public class TypeIndexer extends BaseIndexer<Type> {
 
                 });
 
-        indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
         indexableActionableDynamicQuery.performActions();
     }
 

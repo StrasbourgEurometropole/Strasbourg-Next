@@ -6,6 +6,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
+import com.liferay.portal.kernel.util.URLCodec;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -162,7 +163,7 @@ public class PublikApiClient {
 		}
 		String signature = Base64.getEncoder().encodeToString(sha256_HMAC.doFinal(queryStringToSign.getBytes()));
 		String signedQueryString = queryString + "algo=sha256&timestamp=" + timestamp + "&orig=" + origin
-				+ "&signature=" + HttpUtil.encodeURL(signature);
+				+ "&signature=" + URLCodec.encodeURL(signature);
 
 		return baseUrl + endpoint + "?" + signedQueryString;
 	}

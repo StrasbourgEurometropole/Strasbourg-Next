@@ -11,6 +11,7 @@ import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -123,8 +124,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
         String[] oldFileIds = ParamUtil.getStringValues(request, "budgetFileId");
         try {
             ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-            ProjectPopupConfiguration configuration = themeDisplay.getPortletDisplay()
-                    .getPortletInstanceConfiguration(ProjectPopupConfiguration.class);
+            ProjectPopupConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(ProjectPopupConfiguration.class, themeDisplay);
             nbFiles = configuration.nbFiles();
             typesFiles = configuration.typesFiles();
             sizeFile = configuration.sizeFile();
@@ -250,11 +250,11 @@ public class EditBudgetActionCommand implements MVCActionCommand {
                                 									"uploads");
                 // Ajout du fichier
                 FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
-                        sc.getUserId(), folder.getRepositoryId(),
+                        null, sc.getUserId(), folder.getRepositoryId(),
                         folder.getFolderId(), budgetPhoto.getName(),
                         MimeTypesUtil.getContentType(budgetPhoto),
-                        budgetPhoto.getName(), title,
-                        "", imageBytes, sc);
+                        budgetPhoto.getName(), "", title,
+                        "", imageBytes, null, null, sc);
                 // Lien de l'image a l'entite
                 budgetParticipatif.setImageId(fileEntry.getFileEntryId());
                 
@@ -320,7 +320,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
                                             folderUpload.getFolderId(),
                                             budgetParticipatif.getPhase().getTitle());
                                 }catch(Exception e) {
-                                    folderPhase = DLAppLocalServiceUtil.addFolder(
+                                    folderPhase = DLAppLocalServiceUtil.addFolder(null,
                                             sc.getUserId(), repositoryId,
                                             folderUpload.getFolderId(), budgetParticipatif.getPhase().getTitle(),
                                             "", sc);
@@ -333,7 +333,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
                                             folderPhase.getFolderId(),
                                             budgetParticipatif.getTitle());
                                 }catch(Exception e) {
-                                    folder = DLAppLocalServiceUtil.addFolder(
+                                    folder = DLAppLocalServiceUtil.addFolder(null,
                                             sc.getUserId(), repositoryId,
                                             folderPhase.getFolderId(), budgetParticipatif.getTitle(),
                                             "", sc);
@@ -346,11 +346,11 @@ public class EditBudgetActionCommand implements MVCActionCommand {
                                 FileEntry fileEntry;
                                 try {
                                     fileEntry = DLAppLocalServiceUtil.addFileEntry(
-                                            sc.getUserId(), folder.getRepositoryId(),
+                                            null, sc.getUserId(), folder.getRepositoryId(),
                                             folder.getFolderId(), name,
                                             MimeTypesUtil.getContentType(file),
-                                            name, title,
-                                            "", imageBytes, sc);
+                                            name, "", title,
+                                            "", imageBytes, null, null, sc);
                                 }catch(Exception e) {
                                     fileEntry = DLAppLocalServiceUtil.getFileEntry(
                                             themeDisplay.getScopeGroupId(), folder.getFolderId(), name);

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Parallax</name>
+        <key>2532120</key>
+        <definition>parallax-structure.json</definition>
+        <layout>parallax-layout.json</layout>
+    </structure>
+    <template>
+        <name>Parallaxe</name>
+        <key>2532227</key>
+        <script>parallax.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

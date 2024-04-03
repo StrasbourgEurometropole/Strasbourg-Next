@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.place.model.ScheduleException;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for ScheduleException. This utility wraps
@@ -48,12 +47,20 @@ public class ScheduleExceptionLocalServiceUtil {
 	 * @param scheduleException the schedule exception
 	 * @return the schedule exception that was added
 	 */
-	public static eu.strasbourg.service.place.model.ScheduleException
-		addScheduleException(
-			eu.strasbourg.service.place.model.ScheduleException
-				scheduleException) {
+	public static ScheduleException addScheduleException(
+		ScheduleException scheduleException) {
 
 		return getService().addScheduleException(scheduleException);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -62,19 +69,16 @@ public class ScheduleExceptionLocalServiceUtil {
 	 * @param exceptionId the primary key for the new schedule exception
 	 * @return the new schedule exception
 	 */
-	public static eu.strasbourg.service.place.model.ScheduleException
-		createScheduleException(long exceptionId) {
-
+	public static ScheduleException createScheduleException(long exceptionId) {
 		return getService().createScheduleException(exceptionId);
 	}
 
 	/**
 	 * Crée une exception vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.place.model.ScheduleException
-			createScheduleException(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ScheduleException createScheduleException(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createScheduleException(sc);
 	}
@@ -82,10 +86,9 @@ public class ScheduleExceptionLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -101,9 +104,8 @@ public class ScheduleExceptionLocalServiceUtil {
 	 * @return the schedule exception that was removed
 	 * @throws PortalException if a schedule exception with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.place.model.ScheduleException
-			deleteScheduleException(long exceptionId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ScheduleException deleteScheduleException(long exceptionId)
+		throws PortalException {
 
 		return getService().deleteScheduleException(exceptionId);
 	}
@@ -118,17 +120,21 @@ public class ScheduleExceptionLocalServiceUtil {
 	 * @param scheduleException the schedule exception
 	 * @return the schedule exception that was removed
 	 */
-	public static eu.strasbourg.service.place.model.ScheduleException
-		deleteScheduleException(
-			eu.strasbourg.service.place.model.ScheduleException
-				scheduleException) {
+	public static ScheduleException deleteScheduleException(
+		ScheduleException scheduleException) {
 
 		return getService().deleteScheduleException(scheduleException);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -138,9 +144,7 @@ public class ScheduleExceptionLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -156,9 +160,8 @@ public class ScheduleExceptionLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -176,10 +179,9 @@ public class ScheduleExceptionLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -191,9 +193,7 @@ public class ScheduleExceptionLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -205,15 +205,13 @@ public class ScheduleExceptionLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.place.model.ScheduleException
-		fetchScheduleException(long exceptionId) {
-
+	public static ScheduleException fetchScheduleException(long exceptionId) {
 		return getService().fetchScheduleException(exceptionId);
 	}
 
@@ -226,20 +224,14 @@ public class ScheduleExceptionLocalServiceUtil {
 	/**
 	 * Retourne les ScheduleException rattachés à un lieu
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.place.model.ScheduleException> getByPlaceId(
-			long placeId) {
-
+	public static List<ScheduleException> getByPlaceId(long placeId) {
 		return getService().getByPlaceId(placeId);
 	}
 
 	/**
 	 * Retourne les ScheduleException rattachés à un sous-lieu
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.place.model.ScheduleException> getBySubPlaceId(
-			long subPlaceId) {
-
+	public static List<ScheduleException> getBySubPlaceId(long subPlaceId) {
 		return getService().getBySubPlaceId(subPlaceId);
 	}
 
@@ -262,9 +254,8 @@ public class ScheduleExceptionLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -276,9 +267,8 @@ public class ScheduleExceptionLocalServiceUtil {
 	 * @return the schedule exception
 	 * @throws PortalException if a schedule exception with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.place.model.ScheduleException
-			getScheduleException(long exceptionId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ScheduleException getScheduleException(long exceptionId)
+		throws PortalException {
 
 		return getService().getScheduleException(exceptionId);
 	}
@@ -294,9 +284,8 @@ public class ScheduleExceptionLocalServiceUtil {
 	 * @param end the upper bound of the range of schedule exceptions (not inclusive)
 	 * @return the range of schedule exceptions
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.place.model.ScheduleException>
-			getScheduleExceptions(int start, int end) {
+	public static List<ScheduleException> getScheduleExceptions(
+		int start, int end) {
 
 		return getService().getScheduleExceptions(start, end);
 	}
@@ -320,38 +309,20 @@ public class ScheduleExceptionLocalServiceUtil {
 	 * @param scheduleException the schedule exception
 	 * @return the schedule exception that was updated
 	 */
-	public static eu.strasbourg.service.place.model.ScheduleException
-		updateScheduleException(
-			eu.strasbourg.service.place.model.ScheduleException
-				scheduleException) {
+	public static ScheduleException updateScheduleException(
+		ScheduleException scheduleException) {
 
 		return getService().updateScheduleException(scheduleException);
 	}
 
 	public static ScheduleExceptionLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<ScheduleExceptionLocalService, ScheduleExceptionLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			ScheduleExceptionLocalService.class);
-
-		ServiceTracker
-			<ScheduleExceptionLocalService, ScheduleExceptionLocalService>
-				serviceTracker =
-					new ServiceTracker
-						<ScheduleExceptionLocalService,
-						 ScheduleExceptionLocalService>(
-							 bundle.getBundleContext(),
-							 ScheduleExceptionLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(ScheduleExceptionLocalService service) {
+		_service = service;
 	}
+
+	private static volatile ScheduleExceptionLocalService _service;
 
 }

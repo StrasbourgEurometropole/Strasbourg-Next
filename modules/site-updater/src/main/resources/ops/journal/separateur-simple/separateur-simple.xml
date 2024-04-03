@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Séparateur simple</name>
+        <key>6009576</key>
+        <definition>separateur-simple-structure.json</definition>
+        <layout>separateur-simple-layout.json</layout>
+    </structure>
+    <template>
+        <name>Séparateur simple</name>
+        <key>6009777</key>
+        <script>séparateur simple.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

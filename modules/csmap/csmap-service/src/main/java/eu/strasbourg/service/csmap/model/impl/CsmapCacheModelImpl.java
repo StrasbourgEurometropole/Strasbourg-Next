@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.csmap.model.impl;
@@ -22,16 +13,18 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.csmap.model.CsmapCache;
 import eu.strasbourg.service.csmap.model.CsmapCacheModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -39,6 +32,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -100,18 +94,37 @@ public class CsmapCacheModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long CODECACHE_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ISLASTPROCESSSUCCESS_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long CACHEID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
-		_entityCacheEnabled = entityCacheEnabled;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static void setFinderCacheEnabled(boolean finderCacheEnabled) {
-		_finderCacheEnabled = finderCacheEnabled;
 	}
 
 	public CsmapCacheModelImpl() {
@@ -165,9 +178,6 @@ public class CsmapCacheModelImpl
 				attributeName, attributeGetterFunction.apply((CsmapCache)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -192,90 +202,78 @@ public class CsmapCacheModelImpl
 	public Map<String, Function<CsmapCache, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<CsmapCache, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, CsmapCache>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			CsmapCache.class.getClassLoader(), CsmapCache.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<CsmapCache, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<CsmapCache> constructor =
-				(Constructor<CsmapCache>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<CsmapCache, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<CsmapCache, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("cacheId", CsmapCache::getCacheId);
+			attributeGetterFunctions.put("codeCache", CsmapCache::getCodeCache);
+			attributeGetterFunctions.put(
+				"description", CsmapCache::getDescription);
+			attributeGetterFunctions.put("cacheJson", CsmapCache::getCacheJson);
+			attributeGetterFunctions.put(
+				"isLastProcessSuccess", CsmapCache::getIsLastProcessSuccess);
+			attributeGetterFunctions.put(
+				"modifiedDate", CsmapCache::getModifiedDate);
+			attributeGetterFunctions.put(
+				"processedDate", CsmapCache::getProcessedDate);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<CsmapCache, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CsmapCache, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<CsmapCache, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<CsmapCache, Object>>();
-		Map<String, BiConsumer<CsmapCache, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CsmapCache, ?>>();
+		private static final Map<String, BiConsumer<CsmapCache, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put("cacheId", CsmapCache::getCacheId);
-		attributeSetterBiConsumers.put(
-			"cacheId", (BiConsumer<CsmapCache, Long>)CsmapCache::setCacheId);
-		attributeGetterFunctions.put("codeCache", CsmapCache::getCodeCache);
-		attributeSetterBiConsumers.put(
-			"codeCache",
-			(BiConsumer<CsmapCache, Long>)CsmapCache::setCodeCache);
-		attributeGetterFunctions.put("description", CsmapCache::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<CsmapCache, String>)CsmapCache::setDescription);
-		attributeGetterFunctions.put("cacheJson", CsmapCache::getCacheJson);
-		attributeSetterBiConsumers.put(
-			"cacheJson",
-			(BiConsumer<CsmapCache, String>)CsmapCache::setCacheJson);
-		attributeGetterFunctions.put(
-			"isLastProcessSuccess", CsmapCache::getIsLastProcessSuccess);
-		attributeSetterBiConsumers.put(
-			"isLastProcessSuccess",
-			(BiConsumer<CsmapCache, Boolean>)
-				CsmapCache::setIsLastProcessSuccess);
-		attributeGetterFunctions.put(
-			"modifiedDate", CsmapCache::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<CsmapCache, Date>)CsmapCache::setModifiedDate);
-		attributeGetterFunctions.put(
-			"processedDate", CsmapCache::getProcessedDate);
-		attributeSetterBiConsumers.put(
-			"processedDate",
-			(BiConsumer<CsmapCache, Date>)CsmapCache::setProcessedDate);
+		static {
+			Map<String, BiConsumer<CsmapCache, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<CsmapCache, ?>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeSetterBiConsumers.put(
+				"cacheId",
+				(BiConsumer<CsmapCache, Long>)CsmapCache::setCacheId);
+			attributeSetterBiConsumers.put(
+				"codeCache",
+				(BiConsumer<CsmapCache, Long>)CsmapCache::setCodeCache);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<CsmapCache, String>)CsmapCache::setDescription);
+			attributeSetterBiConsumers.put(
+				"cacheJson",
+				(BiConsumer<CsmapCache, String>)CsmapCache::setCacheJson);
+			attributeSetterBiConsumers.put(
+				"isLastProcessSuccess",
+				(BiConsumer<CsmapCache, Boolean>)
+					CsmapCache::setIsLastProcessSuccess);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<CsmapCache, Date>)CsmapCache::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"processedDate",
+				(BiConsumer<CsmapCache, Date>)CsmapCache::setProcessedDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -285,6 +283,10 @@ public class CsmapCacheModelImpl
 
 	@Override
 	public void setCacheId(long cacheId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_cacheId = cacheId;
 	}
 
@@ -295,19 +297,21 @@ public class CsmapCacheModelImpl
 
 	@Override
 	public void setCodeCache(long codeCache) {
-		_columnBitmask |= CODECACHE_COLUMN_BITMASK;
-
-		if (!_setOriginalCodeCache) {
-			_setOriginalCodeCache = true;
-
-			_originalCodeCache = _codeCache;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_codeCache = codeCache;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCodeCache() {
-		return _originalCodeCache;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("codeCache"));
 	}
 
 	@Override
@@ -322,6 +326,10 @@ public class CsmapCacheModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
 	}
 
@@ -337,6 +345,10 @@ public class CsmapCacheModelImpl
 
 	@Override
 	public void setCacheJson(String cacheJson) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_cacheJson = cacheJson;
 	}
 
@@ -347,19 +359,21 @@ public class CsmapCacheModelImpl
 
 	@Override
 	public void setIsLastProcessSuccess(Boolean isLastProcessSuccess) {
-		_columnBitmask |= ISLASTPROCESSSUCCESS_COLUMN_BITMASK;
-
-		if (!_setOriginalIsLastProcessSuccess) {
-			_setOriginalIsLastProcessSuccess = true;
-
-			_originalIsLastProcessSuccess = _isLastProcessSuccess;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_isLastProcessSuccess = isLastProcessSuccess;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Boolean getOriginalIsLastProcessSuccess() {
-		return _originalIsLastProcessSuccess;
+		return GetterUtil.getBoolean(
+			this.<Boolean>getColumnOriginalValue("isLastProcessSuccess"));
 	}
 
 	@Override
@@ -367,8 +381,18 @@ public class CsmapCacheModelImpl
 		return _modifiedDate;
 	}
 
+	public boolean hasSetModifiedDate() {
+		return _setModifiedDate;
+	}
+
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
+		_setModifiedDate = true;
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -379,10 +403,34 @@ public class CsmapCacheModelImpl
 
 	@Override
 	public void setProcessedDate(Date processedDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_processedDate = processedDate;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -432,6 +480,27 @@ public class CsmapCacheModelImpl
 	}
 
 	@Override
+	public CsmapCache cloneWithOriginalValues() {
+		CsmapCacheImpl csmapCacheImpl = new CsmapCacheImpl();
+
+		csmapCacheImpl.setCacheId(this.<Long>getColumnOriginalValue("cacheId"));
+		csmapCacheImpl.setCodeCache(
+			this.<Long>getColumnOriginalValue("codeCache"));
+		csmapCacheImpl.setDescription(
+			this.<String>getColumnOriginalValue("description"));
+		csmapCacheImpl.setCacheJson(
+			this.<String>getColumnOriginalValue("cacheJson"));
+		csmapCacheImpl.setIsLastProcessSuccess(
+			this.<Boolean>getColumnOriginalValue("isLastProcessSuccess"));
+		csmapCacheImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		csmapCacheImpl.setProcessedDate(
+			this.<Date>getColumnOriginalValue("processedDate"));
+
+		return csmapCacheImpl;
+	}
+
+	@Override
 	public int compareTo(CsmapCache csmapCache) {
 		long primaryKey = csmapCache.getPrimaryKey();
 
@@ -473,30 +542,31 @@ public class CsmapCacheModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
-		return _entityCacheEnabled;
+		return true;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
-		return _finderCacheEnabled;
+		return true;
 	}
 
 	@Override
 	public void resetOriginalValues() {
-		CsmapCacheModelImpl csmapCacheModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		csmapCacheModelImpl._originalCodeCache = csmapCacheModelImpl._codeCache;
+		_setModifiedDate = false;
 
-		csmapCacheModelImpl._setOriginalCodeCache = false;
-
-		csmapCacheModelImpl._originalIsLastProcessSuccess =
-			csmapCacheModelImpl._isLastProcessSuccess;
-
-		csmapCacheModelImpl._setOriginalIsLastProcessSuccess = false;
-
-		csmapCacheModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -556,7 +626,7 @@ public class CsmapCacheModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -567,9 +637,26 @@ public class CsmapCacheModelImpl
 			Function<CsmapCache, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((CsmapCache)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((CsmapCache)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -582,58 +669,90 @@ public class CsmapCacheModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<CsmapCache, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<CsmapCache, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<CsmapCache, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((CsmapCache)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, CsmapCache>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					CsmapCache.class, ModelWrapper.class);
 
 	}
 
-	private static boolean _entityCacheEnabled;
-	private static boolean _finderCacheEnabled;
-
 	private long _cacheId;
 	private long _codeCache;
-	private long _originalCodeCache;
-	private boolean _setOriginalCodeCache;
 	private String _description;
 	private String _cacheJson;
 	private Boolean _isLastProcessSuccess;
-	private Boolean _originalIsLastProcessSuccess;
-	private boolean _setOriginalIsLastProcessSuccess;
 	private Date _modifiedDate;
+	private boolean _setModifiedDate;
 	private Date _processedDate;
+
+	public <T> T getColumnValue(String columnName) {
+		Function<CsmapCache, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((CsmapCache)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("cacheId", _cacheId);
+		_columnOriginalValues.put("codeCache", _codeCache);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("cacheJson", _cacheJson);
+		_columnOriginalValues.put(
+			"isLastProcessSuccess", _isLastProcessSuccess);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("processedDate", _processedDate);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("cacheId", 1L);
+
+		columnBitmasks.put("codeCache", 2L);
+
+		columnBitmasks.put("description", 4L);
+
+		columnBitmasks.put("cacheJson", 8L);
+
+		columnBitmasks.put("isLastProcessSuccess", 16L);
+
+		columnBitmasks.put("modifiedDate", 32L);
+
+		columnBitmasks.put("processedDate", 64L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private CsmapCache _escapedModel;
 

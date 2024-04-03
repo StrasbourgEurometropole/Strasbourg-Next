@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Explication pétitions</name>
+        <key>3073700</key>
+        <definition>explanations-petitions-structure.json</definition>
+        <layout>explanations-petitions-layout.json</layout>
+    </structure>
+    <template>
+        <name>Explications pétitions</name>
+        <key>3073727</key>
+        <script>explanations-petitions.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

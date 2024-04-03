@@ -1,209 +1,114 @@
 package eu.strasbourg.portlet.place.display.context;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
-
-import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.search.BooleanClauseOccur;
+import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
-import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.SearchContextFactory;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.Validator;
-
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.place.util.PlaceActionDropdownItemsProvider;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import eu.strasbourg.utils.SearchHelper;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.constants.VocabularyNames;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
-public class ViewPlacesDisplayContext
-	extends ViewListBaseDisplayContext<Place> {
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ViewPlacesDisplayContext extends ViewBaseDisplayContext<Place> {
 
 	public ViewPlacesDisplayContext(RenderRequest request,
 		RenderResponse response) {
-		super(Place.class, request, response);
-	}
-
-	public List<Place> getPlaces() throws PortalException {
-		if (this._places == null) {
-			List<Place> results = new ArrayList<Place>();
-
-			// On essaye déjà de récupérer un lieu par id SIG
-			Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getKeywords());
-			if (place != null) 
-			{
-				results.add(place);
-			} 
-			else 
-			{ // Sinon recherche classique
-				Hits hits = getHits(this._themeDisplay.getCompanyGroupId());
-
-				if (hits != null) 
-				{
-					for (Document document : hits.getDocs()) 
-					{
-						place = PlaceLocalServiceUtil.fetchPlace(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-						if (place != null) 
-						{
-							results.add(place);
-						}
-					}
-				}
-			}
-			this._places = results;
-		}
-		return this._places;
+		super(request, response, Place.class);
+		_request = request;
+		_response = response;
+		_themeDisplay = (ThemeDisplay) _request
+				.getAttribute(WebKeys.THEME_DISPLAY);
 	}
 
 	/**
-	 * Retourne la liste des ids de categories sur lesquels la liste des lieux
-	 * est filtrée. Si l'utilisateur est un contributeur lieu, on filtre
-	 * toujours sur les catégories liées à l'utilisateur. Le front-end n'affiche
-	 * que les catégories sur lesquels l'utilisateur a le droit de filtrer, on
-	 * considère donc que getFilterCategories ne peut renvoyer que des
-	 * catégories autorisées pour l'utilisateur
+	 * Retourne le dropdownItemsProvider de place
+	 *
 	 */
-	@Override
-	public String getFilterCategoriesIds() throws PortalException {
-		// Pas de filtre par l'utilisateur
-		if (Validator.isNull(super.getFilterCategoriesIds())|| super.getFilterCategoriesIds().equals(",")) 
-		{
-			return this.getCategoriesIdsPermission();
-		} 
-		else 
-		{
-			return super.getFilterCategoriesIds();
-		}
-	}
-
-	/**
-	 * Retourne la liste des IDs des catégories que l'utilisateur peut voir
-	 * 
-	 * @return
-	 * @throws PortalException
-	 */
-	private String getCategoriesIdsPermission() throws PortalException {
-		String categoriesIds = "";
-		if (this.hasPermission("CONTRIBUTE")) {
-			User user = _themeDisplay.getUser();
-			AssetVocabulary placeTypeVocabulary = AssetVocabularyHelper
-				.getGlobalVocabulary(VocabularyNames.PLACE_TYPE);
-			if (placeTypeVocabulary != null) {
-				long placeTypeVocabularyId = placeTypeVocabulary
-					.getVocabularyId();
-				List<AssetCategory> userCategories = AssetCategoryLocalServiceUtil
-					.getCategories(User.class.getName(), user.getUserId());
-				List<AssetCategory> userPlaceTypeCategories = userCategories
-					.stream()
-					.filter(c -> c.getVocabularyId() == placeTypeVocabularyId)
-					.collect(Collectors.toList());
-
-				for (AssetCategory category : userPlaceTypeCategories) {
-					if (Validator.isNull(categoriesIds)) {
-						categoriesIds += ",";
-					}
-					categoriesIds += String.valueOf(category.getCategoryId());
-					categoriesIds += ",";
-				}
-			}
-		}
-		
-		
-		return categoriesIds;
-	}
-	
-
-	
-	/**
-	 * Retourne les Hits de recherche
-	 */
-	@Override
-	protected Hits getHits(long groupId) throws PortalException {
-		HttpServletRequest servletRequest = PortalUtil
-			.getHttpServletRequest(_request);
-		SearchContext searchContext = SearchContextFactory
-			.getInstance(servletRequest);
-
-		// Recherche des hits
-		String keywords = ParamUtil.getString(servletRequest, "keywords");
-		Hits hits = SearchHelper.getBOSearchHits(searchContext,
-			this.getSearchContainer().getStart(),
-			this.getSearchContainer().getEnd(), Place.class.getName(), groupId,
-			this.getFilterCategoriesIds(), keywords,
-			this.getOrderByColSearchField(),
-			"desc".equals(this.getOrderByType()), BooleanClauseOccur.SHOULD);
-
-		// Total
-		int count = (int) SearchHelper.getBOSearchCount(searchContext,
-				Place.class.getName(), groupId,
-			this.getFilterCategoriesIds(), keywords, BooleanClauseOccur.SHOULD);
-		this.getSearchContainer().setTotal(count);
-		
-		// Dans le cas d'un contributeur lieu n'ayant pas de catégorie (l'admin peut tjrs tous les voir, même sans catégories)
-		if(!_themeDisplay.getPermissionChecker().isOmniadmin()  && this.getCategoriesIdsPermission().isEmpty())
-			return null;
-		
-		return hits;
-	}
-
-
-	/**
-	 * Retourne les Hits de recherche en ignorant la pagination
-	 */
-	@Override
-	protected Hits getAllHits(long groupId) throws PortalException {
-		HttpServletRequest servletRequest = PortalUtil
-			.getHttpServletRequest(_request);
-		SearchContext searchContext = SearchContextFactory
-			.getInstance(servletRequest);
-
-		// Recherche des hits
-		String keywords = ParamUtil.getString(servletRequest, "keywords");
-		Hits hits = SearchHelper.getBOSearchHits(searchContext,
-			-1, -1, Place.class.getName(), groupId,
-			this.getFilterCategoriesIds(), keywords,
-			this.getOrderByColSearchField(),
-			"desc".equals(this.getOrderByType()), BooleanClauseOccur.SHOULD);
-
-		// Total
-		int count = (int) SearchHelper.getBOSearchCount(searchContext,
-			Place.class.getName(), groupId,
-			this.getFilterCategoriesIds(), keywords, BooleanClauseOccur.SHOULD);
-		this.getSearchContainer().setTotal(count);
-
-		// Dans le cas d'un contributeur lieu n'ayant pas de catégorie (l'admin peut tjrs tous les voir, même sans catégories)
-		if(!_themeDisplay.getPermissionChecker().isOmniadmin()  && this.getCategoriesIdsPermission().isEmpty())
-			return null;
-		
-		return hits;
+	@SuppressWarnings("unused")
+	public PlaceActionDropdownItemsProvider getActionsPlace(Place place) {
+		return new PlaceActionDropdownItemsProvider(place, _request,
+				_response);
 	}
 
 	/**
 	 * Wrapper autour du permission checker pour les permissions de module
+	 * Retourne le searchContainer des élus
+	 *
+	 * @return SearchContainer<price>
 	 */
-	public boolean hasPermission(String actionId) throws PortalException {
-		return _themeDisplay.getPermissionChecker().hasPermission(
-			this._themeDisplay.getCompanyGroupId(),
-			StrasbourgPortletKeys.PLACE_BO, StrasbourgPortletKeys.PLACE_BO,
-			actionId);
+	@Override
+	public SearchContainer<Place> getSearchContainer() {
+
+		if (_searchContainer == null) {
+
+			PortletURL portletURL = PortletURLBuilder.createRenderURL(_response)
+					.setMVCPath("/place-bo-view-places.jsp")
+					.setKeywords(ParamUtil.getString(_request, "keywords"))
+					.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+					.setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
+					.buildPortletURL();
+			_searchContainer = new SearchContainer<>(_request, null, null,
+					SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
+			_searchContainer.setEmptyResultsMessageCssClass(
+					"taglib-empty-result-message-header-has-plus-btn");
+			_searchContainer.setOrderByColParam("orderByCol");
+			_searchContainer.setOrderByTypeParam("orderByType");
+			_searchContainer.setOrderByCol(getOrderByCol());
+			_searchContainer.setOrderByType(getOrderByType());
+			Hits hits;
+			try {
+				hits = getHits(this._themeDisplay.getCompanyGroupId());
+			} catch (PortalException e) {
+				throw new RuntimeException(e);
+			}
+			_searchContainer.setResultsAndTotal(
+					() -> {
+						// Création de la liste d'objet
+						List<Place> results = new ArrayList<>();
+						if (hits != null) {
+							for (Document document : hits.getDocs()) {
+								Place place = PlaceLocalServiceUtil.fetchPlace(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+								if (place!= null)
+									results.add(place);
+							}
+						}
+
+						return results;
+					}, hits.getLength()
+			);
+		}
+		_searchContainer.setRowChecker(new EmptyOnClickRowChecker(_response));
+		return _searchContainer;
 	}
 
-	private List<Place> _places;
+	@Override
+	public String getOrderByColSearchField() {
+		switch (getOrderByCol()) {
+			case "title":
+				return "localized_title_fr_FR_sortable";
+			case "modified-date":
+			default:
+				return "modified_sortable";
+		}
+	}
 
+
+	protected SearchContainer<Place> _searchContainer;
+	private final RenderRequest _request;
+	private final RenderResponse _response;
+	protected ThemeDisplay _themeDisplay;
 }
+

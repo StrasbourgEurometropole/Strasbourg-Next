@@ -1,0 +1,21 @@
+<div class="st-bloc st-bloc-video st-wrapper st--has-margin st-iframe-loaded">
+  <div class="st-container">
+    <div class="alert alert-info error-message" hidden role="alert">
+      <p>Please select the video player and enter a valid video ID.</p>
+    </div>
+
+    [#switch configuration.type]
+      [#case "youtube"]
+        <div class="youtube_player" videoID="${configuration.id}" width="${configuration.videoWidth}" height="${configuration.videoHeight}" tabindex="-1"></div>
+        [#break]
+      [#case "dailymotion"]
+        <div class="dailymotion_player" videoID="${configuration.id}" width="${configuration.videoWidth}" height="${configuration.videoHeight}" tabindex="-1"></div>
+        [#break]
+      [#case "vimeo"]
+        <div class="vimeo_player" videoID="${configuration.id}" width="${configuration.videoWidth}" height="${configuration.videoHeight}" tabindex="-1"></div>
+        [#break]
+      [#default]
+        <div class="calameo-canvas" data-id="${configuration.id}" width="${configuration.videoWidth}" height="${configuration.videoHeight}" tabindex="-1"></div>
+    [/#switch]
+  </div>
+</div>

@@ -15,7 +15,7 @@
 
     <div class="portlet-configuration-body-content">
         <div class="container-fluid-1280">
-            <aui:fieldset-group markupView="lexicon">
+    <div class="sheet"><div class="panel-group panel-group-flush">
 
                 <aui:fieldset id="general" label="general">
 
@@ -23,6 +23,7 @@
                     <aui:select name="template" label="display">
                         <aui:option value="generic" label="generic" />
                         <aui:option value="default" label="strasbourg" selected="${template eq 'default'}"/>
+                        <aui:option value="strasbourg-int" label="strasbourg-int" selected="${template eq 'strasbourg-int'}"/>
                         <aui:option value="christmas" label="christmas" selected="${template eq 'christmas'}"/>
                         <aui:option value="tipi" label="tipi" selected="${template eq 'tipi'}"/>
                         <aui:option value="placit" label="placit" selected="${template eq 'placit'}"/>
@@ -42,7 +43,7 @@
                     <aui:input name="privacyText" value="${privacyText}" localized="true" type="editor" label="privacy-text" />
                 </aui:fieldset>
 
-            </aui:fieldset-group>
+    </div></div>
         </div>
     </div>
 

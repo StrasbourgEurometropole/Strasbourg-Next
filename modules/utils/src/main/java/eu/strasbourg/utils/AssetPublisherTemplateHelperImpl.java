@@ -26,6 +26,14 @@ public class AssetPublisherTemplateHelperImpl implements AssetPublisherTemplateH
         return AssetPublisherTemplateHelper.getDocumentUrl(documentStructure);
     }
 
+    /**
+     * Récupère l'Id d'une image à partir des données fournies par la Structure d'un WebContent
+     */
+    @Override
+    public long getDocumentId(String documentStructure){
+        return AssetPublisherTemplateHelper.getDocumentId(documentStructure);
+    }
+
     @Override
     public String slugify(String s) {
         return AssetPublisherTemplateHelper.slugify(s);

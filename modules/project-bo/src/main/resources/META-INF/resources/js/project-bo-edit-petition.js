@@ -15,8 +15,6 @@ jQuery(function() {
 		setConditionalValidators();
 	});
 	
-	Liferay.on('allPortletsReady', setConditionalValidators);
-	
 	function setConditionalValidators() {
 		// Validation des champos obligatoires conditionnels
 		AUI().use('liferay-form', function() {
@@ -102,6 +100,10 @@ jQuery(function() {
 		options.appendTo = '#place-autocomplete-input-wrapper-' + index;
 		jQuery('#place-' + index + ' .place-autocomplete-input-wrapper input').autocomplete(
 				options);
+	});
+
+	$(":submit").on('click', function(e) {
+		setConditionalValidators();
 	});
 
 });

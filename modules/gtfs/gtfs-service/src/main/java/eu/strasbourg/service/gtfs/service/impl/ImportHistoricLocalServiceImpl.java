@@ -14,11 +14,14 @@
 
 package eu.strasbourg.service.gtfs.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -35,6 +38,10 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.gtfs.model.ImportHistoric;
+import eu.strasbourg.service.gtfs.service.base.ImportHistoricLocalServiceBaseImpl;
+import eu.strasbourg.service.gtfs.utils.GTFSImporter;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -45,10 +52,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.LongStream;
-
-import eu.strasbourg.service.gtfs.model.ImportHistoric;
-import eu.strasbourg.service.gtfs.service.base.ImportHistoricLocalServiceBaseImpl;
-import eu.strasbourg.service.gtfs.utils.GTFSImporter;
 
 /**
  * The implementation of the import historic local service.
@@ -206,11 +209,8 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 
 		if (entry != null) {
 			// Delete the link with categories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-						categoryId, entry.getEntryId());
-			}
-
+			AssetEntryAssetCategoryRelLocalServiceUtil.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Delete the link with tags
 			long[] tagIds = AssetEntryLocalServiceUtil
 					.getAssetTagPrimaryKeys(entry.getEntryId());
@@ -220,7 +220,7 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 			}
 
 			// Supprime lien avec les autres entries
-			List<AssetLink> links = this.assetLinkLocalService
+			List<AssetLink> links = AssetLinkLocalServiceUtil
 					.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
 				this.assetLinkLocalService.deleteAssetLink(link);
@@ -370,5 +370,7 @@ public class ImportHistoricLocalServiceImpl	extends ImportHistoricLocalServiceBa
 	}
 
 	private Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-	
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

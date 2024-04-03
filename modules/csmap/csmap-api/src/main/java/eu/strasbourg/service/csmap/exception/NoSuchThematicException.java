@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.csmap.exception;
 
-import org.osgi.annotation.versioning.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Brian Wing Shun Chan
  */
-@ProviderType
 public class NoSuchThematicException extends NoSuchModelException {
 
 	public NoSuchThematicException() {
@@ -30,12 +27,12 @@ public class NoSuchThematicException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchThematicException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchThematicException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchThematicException(Throwable cause) {
-		super(cause);
+	public NoSuchThematicException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

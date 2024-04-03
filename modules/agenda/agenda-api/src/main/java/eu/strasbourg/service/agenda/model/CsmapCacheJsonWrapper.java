@@ -1,29 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,11 @@ import java.util.Objects;
  * @generated
  */
 public class CsmapCacheJsonWrapper
+	extends BaseModelWrapper<CsmapCacheJson>
 	implements CsmapCacheJson, ModelWrapper<CsmapCacheJson> {
 
 	public CsmapCacheJsonWrapper(CsmapCacheJson csmapCacheJson) {
-		_csmapCacheJson = csmapCacheJson;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return CsmapCacheJson.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return CsmapCacheJson.class.getName();
+		super(csmapCacheJson);
 	}
 
 	@Override
@@ -119,16 +97,8 @@ public class CsmapCacheJsonWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new CsmapCacheJsonWrapper(
-			(CsmapCacheJson)_csmapCacheJson.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.agenda.model.CsmapCacheJson csmapCacheJson) {
-
-		return _csmapCacheJson.compareTo(csmapCacheJson);
+	public CsmapCacheJson cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -138,7 +108,7 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public Date getCreateEvent() {
-		return _csmapCacheJson.getCreateEvent();
+		return model.getCreateEvent();
 	}
 
 	/**
@@ -148,12 +118,7 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public long getEventId() {
-		return _csmapCacheJson.getEventId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _csmapCacheJson.getExpandoBridge();
+		return model.getEventId();
 	}
 
 	/**
@@ -163,7 +128,7 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public boolean getHasSchedules() {
-		return _csmapCacheJson.getHasSchedules();
+		return model.getHasSchedules();
 	}
 
 	/**
@@ -173,7 +138,7 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public boolean getIsActive() {
-		return _csmapCacheJson.getIsActive();
+		return model.getIsActive();
 	}
 
 	/**
@@ -183,7 +148,7 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public String getJsonEvent() {
-		return _csmapCacheJson.getJsonEvent();
+		return model.getJsonEvent();
 	}
 
 	/**
@@ -193,7 +158,7 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public Date getModifiedEvent() {
-		return _csmapCacheJson.getModifiedEvent();
+		return model.getModifiedEvent();
 	}
 
 	/**
@@ -203,12 +168,7 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _csmapCacheJson.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _csmapCacheJson.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -218,7 +178,7 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public Date getRegeneratedDate() {
-		return _csmapCacheJson.getRegeneratedDate();
+		return model.getRegeneratedDate();
 	}
 
 	/**
@@ -228,22 +188,7 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _csmapCacheJson.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _csmapCacheJson.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _csmapCacheJson.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _csmapCacheJson.isEscapedModel();
+		return model.getUuid();
 	}
 
 	/**
@@ -253,7 +198,7 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public boolean isHasSchedules() {
-		return _csmapCacheJson.isHasSchedules();
+		return model.isHasSchedules();
 	}
 
 	/**
@@ -263,22 +208,12 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public boolean isIsActive() {
-		return _csmapCacheJson.isIsActive();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _csmapCacheJson.isNew();
+		return model.isIsActive();
 	}
 
 	@Override
 	public void persist() {
-		_csmapCacheJson.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_csmapCacheJson.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -288,7 +223,7 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public void setCreateEvent(Date createEvent) {
-		_csmapCacheJson.setCreateEvent(createEvent);
+		model.setCreateEvent(createEvent);
 	}
 
 	/**
@@ -298,24 +233,7 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public void setEventId(long eventId) {
-		_csmapCacheJson.setEventId(eventId);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_csmapCacheJson.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_csmapCacheJson.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_csmapCacheJson.setExpandoBridgeAttributes(serviceContext);
+		model.setEventId(eventId);
 	}
 
 	/**
@@ -325,7 +243,7 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public void setHasSchedules(boolean hasSchedules) {
-		_csmapCacheJson.setHasSchedules(hasSchedules);
+		model.setHasSchedules(hasSchedules);
 	}
 
 	/**
@@ -335,7 +253,7 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public void setIsActive(boolean isActive) {
-		_csmapCacheJson.setIsActive(isActive);
+		model.setIsActive(isActive);
 	}
 
 	/**
@@ -345,7 +263,7 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public void setJsonEvent(String jsonEvent) {
-		_csmapCacheJson.setJsonEvent(jsonEvent);
+		model.setJsonEvent(jsonEvent);
 	}
 
 	/**
@@ -355,12 +273,7 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public void setModifiedEvent(Date modifiedEvent) {
-		_csmapCacheJson.setModifiedEvent(modifiedEvent);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_csmapCacheJson.setNew(n);
+		model.setModifiedEvent(modifiedEvent);
 	}
 
 	/**
@@ -370,12 +283,7 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_csmapCacheJson.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_csmapCacheJson.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -385,7 +293,7 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public void setRegeneratedDate(Date regeneratedDate) {
-		_csmapCacheJson.setRegeneratedDate(regeneratedDate);
+		model.setRegeneratedDate(regeneratedDate);
 	}
 
 	/**
@@ -395,80 +303,17 @@ public class CsmapCacheJsonWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_csmapCacheJson.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.agenda.model.CsmapCacheJson> toCacheModel() {
-
-		return _csmapCacheJson.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.CsmapCacheJson toEscapedModel() {
-		return new CsmapCacheJsonWrapper(_csmapCacheJson.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _csmapCacheJson.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.CsmapCacheJson
-		toUnescapedModel() {
-
-		return new CsmapCacheJsonWrapper(_csmapCacheJson.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _csmapCacheJson.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof CsmapCacheJsonWrapper)) {
-			return false;
-		}
-
-		CsmapCacheJsonWrapper csmapCacheJsonWrapper =
-			(CsmapCacheJsonWrapper)object;
-
-		if (Objects.equals(
-				_csmapCacheJson, csmapCacheJsonWrapper._csmapCacheJson)) {
-
-			return true;
-		}
-
-		return false;
+	protected CsmapCacheJsonWrapper wrap(CsmapCacheJson csmapCacheJson) {
+		return new CsmapCacheJsonWrapper(csmapCacheJson);
 	}
-
-	@Override
-	public CsmapCacheJson getWrappedModel() {
-		return _csmapCacheJson;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _csmapCacheJson.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _csmapCacheJson.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_csmapCacheJson.resetOriginalValues();
-	}
-
-	private final CsmapCacheJson _csmapCacheJson;
 
 }

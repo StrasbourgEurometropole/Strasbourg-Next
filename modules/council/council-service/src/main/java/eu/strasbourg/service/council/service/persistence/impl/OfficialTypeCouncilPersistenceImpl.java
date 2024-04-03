@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,29 +16,34 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
-import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.council.exception.NoSuchOfficialTypeCouncilException;
 import eu.strasbourg.service.council.model.OfficialTypeCouncil;
+import eu.strasbourg.service.council.model.OfficialTypeCouncilTable;
 import eu.strasbourg.service.council.model.impl.OfficialTypeCouncilImpl;
 import eu.strasbourg.service.council.model.impl.OfficialTypeCouncilModelImpl;
 import eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPK;
 import eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPersistence;
+import eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -180,7 +177,7 @@ public class OfficialTypeCouncilPersistenceImpl
 		List<OfficialTypeCouncil> list = null;
 
 		if (useFinderCache) {
-			list = (List<OfficialTypeCouncil>)finderCache.getResult(
+			list = (List<OfficialTypeCouncil>)dummyFinderCache.getResult(
 				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
@@ -247,14 +244,10 @@ public class OfficialTypeCouncilPersistenceImpl
 				cacheResult(list);
 
 				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
+					dummyFinderCache.putResult(finderPath, finderArgs, list);
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -573,7 +566,8 @@ public class OfficialTypeCouncilPersistenceImpl
 
 		Object[] finderArgs = new Object[] {uuid};
 
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+		Long count = (Long)dummyFinderCache.getResult(
+			finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(2);
@@ -608,11 +602,9 @@ public class OfficialTypeCouncilPersistenceImpl
 
 				count = (Long)query.uniqueResult();
 
-				finderCache.putResult(finderPath, finderArgs, count);
+				dummyFinderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -704,7 +696,7 @@ public class OfficialTypeCouncilPersistenceImpl
 		Object result = null;
 
 		if (useFinderCache) {
-			result = finderCache.getResult(
+			result = dummyFinderCache.getResult(
 				_finderPathFetchByUUID_G, finderArgs, this);
 		}
 
@@ -758,7 +750,7 @@ public class OfficialTypeCouncilPersistenceImpl
 
 				if (list.isEmpty()) {
 					if (useFinderCache) {
-						finderCache.putResult(
+						dummyFinderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
 				}
@@ -771,11 +763,6 @@ public class OfficialTypeCouncilPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -822,7 +809,8 @@ public class OfficialTypeCouncilPersistenceImpl
 
 		Object[] finderArgs = new Object[] {uuid, groupId};
 
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+		Long count = (Long)dummyFinderCache.getResult(
+			finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(3);
@@ -861,11 +849,9 @@ public class OfficialTypeCouncilPersistenceImpl
 
 				count = (Long)query.uniqueResult();
 
-				finderCache.putResult(finderPath, finderArgs, count);
+				dummyFinderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -989,7 +975,7 @@ public class OfficialTypeCouncilPersistenceImpl
 		List<OfficialTypeCouncil> list = null;
 
 		if (useFinderCache) {
-			list = (List<OfficialTypeCouncil>)finderCache.getResult(
+			list = (List<OfficialTypeCouncil>)dummyFinderCache.getResult(
 				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
@@ -1062,14 +1048,10 @@ public class OfficialTypeCouncilPersistenceImpl
 				cacheResult(list);
 
 				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
+					dummyFinderCache.putResult(finderPath, finderArgs, list);
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1413,7 +1395,8 @@ public class OfficialTypeCouncilPersistenceImpl
 
 		Object[] finderArgs = new Object[] {uuid, companyId};
 
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+		Long count = (Long)dummyFinderCache.getResult(
+			finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(3);
@@ -1452,11 +1435,9 @@ public class OfficialTypeCouncilPersistenceImpl
 
 				count = (Long)query.uniqueResult();
 
-				finderCache.putResult(finderPath, finderArgs, count);
+				dummyFinderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1574,7 +1555,7 @@ public class OfficialTypeCouncilPersistenceImpl
 		List<OfficialTypeCouncil> list = null;
 
 		if (useFinderCache) {
-			list = (List<OfficialTypeCouncil>)finderCache.getResult(
+			list = (List<OfficialTypeCouncil>)dummyFinderCache.getResult(
 				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
@@ -1630,14 +1611,10 @@ public class OfficialTypeCouncilPersistenceImpl
 				cacheResult(list);
 
 				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
+					dummyFinderCache.putResult(finderPath, finderArgs, list);
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1947,7 +1924,8 @@ public class OfficialTypeCouncilPersistenceImpl
 
 		Object[] finderArgs = new Object[] {officialId};
 
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+		Long count = (Long)dummyFinderCache.getResult(
+			finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(2);
@@ -1971,11 +1949,9 @@ public class OfficialTypeCouncilPersistenceImpl
 
 				count = (Long)query.uniqueResult();
 
-				finderCache.putResult(finderPath, finderArgs, count);
+				dummyFinderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2083,7 +2059,7 @@ public class OfficialTypeCouncilPersistenceImpl
 		List<OfficialTypeCouncil> list = null;
 
 		if (useFinderCache) {
-			list = (List<OfficialTypeCouncil>)finderCache.getResult(
+			list = (List<OfficialTypeCouncil>)dummyFinderCache.getResult(
 				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
@@ -2139,14 +2115,10 @@ public class OfficialTypeCouncilPersistenceImpl
 				cacheResult(list);
 
 				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
+					dummyFinderCache.putResult(finderPath, finderArgs, list);
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2451,7 +2423,8 @@ public class OfficialTypeCouncilPersistenceImpl
 
 		Object[] finderArgs = new Object[] {typeId};
 
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+		Long count = (Long)dummyFinderCache.getResult(
+			finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(2);
@@ -2475,11 +2448,9 @@ public class OfficialTypeCouncilPersistenceImpl
 
 				count = (Long)query.uniqueResult();
 
-				finderCache.putResult(finderPath, finderArgs, count);
+				dummyFinderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2570,7 +2541,7 @@ public class OfficialTypeCouncilPersistenceImpl
 		Object result = null;
 
 		if (useFinderCache) {
-			result = finderCache.getResult(
+			result = dummyFinderCache.getResult(
 				_finderPathFetchByTypeIdAndOfficialId, finderArgs, this);
 		}
 
@@ -2613,7 +2584,7 @@ public class OfficialTypeCouncilPersistenceImpl
 
 				if (list.isEmpty()) {
 					if (useFinderCache) {
-						finderCache.putResult(
+						dummyFinderCache.putResult(
 							_finderPathFetchByTypeIdAndOfficialId, finderArgs,
 							list);
 					}
@@ -2642,11 +2613,6 @@ public class OfficialTypeCouncilPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByTypeIdAndOfficialId, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2693,7 +2659,8 @@ public class OfficialTypeCouncilPersistenceImpl
 
 		Object[] finderArgs = new Object[] {typeId, officialId};
 
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+		Long count = (Long)dummyFinderCache.getResult(
+			finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(3);
@@ -2721,11 +2688,9 @@ public class OfficialTypeCouncilPersistenceImpl
 
 				count = (Long)query.uniqueResult();
 
-				finderCache.putResult(finderPath, finderArgs, count);
+				dummyFinderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2748,21 +2713,14 @@ public class OfficialTypeCouncilPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(OfficialTypeCouncil.class);
+
+		setModelImplClass(OfficialTypeCouncilImpl.class);
+		setModelPKClass(OfficialTypeCouncilPK.class);
+
+		setTable(OfficialTypeCouncilTable.INSTANCE);
 	}
 
 	/**
@@ -2772,28 +2730,27 @@ public class OfficialTypeCouncilPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(OfficialTypeCouncil officialTypeCouncil) {
-		entityCache.putResult(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
+		dummyEntityCache.putResult(
 			OfficialTypeCouncilImpl.class, officialTypeCouncil.getPrimaryKey(),
 			officialTypeCouncil);
 
-		finderCache.putResult(
+		dummyFinderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {
 				officialTypeCouncil.getUuid(), officialTypeCouncil.getGroupId()
 			},
 			officialTypeCouncil);
 
-		finderCache.putResult(
+		dummyFinderCache.putResult(
 			_finderPathFetchByTypeIdAndOfficialId,
 			new Object[] {
 				officialTypeCouncil.getTypeId(),
 				officialTypeCouncil.getOfficialId()
 			},
 			officialTypeCouncil);
-
-		officialTypeCouncil.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the official type councils in the entity cache if it is enabled.
@@ -2802,16 +2759,20 @@ public class OfficialTypeCouncilPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<OfficialTypeCouncil> officialTypeCouncils) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (officialTypeCouncils.size() >
+				 _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (OfficialTypeCouncil officialTypeCouncil : officialTypeCouncils) {
-			if (entityCache.getResult(
-					OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
+			if (dummyEntityCache.getResult(
 					OfficialTypeCouncilImpl.class,
 					officialTypeCouncil.getPrimaryKey()) == null) {
 
 				cacheResult(officialTypeCouncil);
-			}
-			else {
-				officialTypeCouncil.resetOriginalValues();
 			}
 		}
 	}
@@ -2825,11 +2786,9 @@ public class OfficialTypeCouncilPersistenceImpl
 	 */
 	@Override
 	public void clearCache() {
-		entityCache.clearCache(OfficialTypeCouncilImpl.class);
+		dummyEntityCache.clearCache(OfficialTypeCouncilImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		dummyFinderCache.clearCache(OfficialTypeCouncilImpl.class);
 	}
 
 	/**
@@ -2841,41 +2800,24 @@ public class OfficialTypeCouncilPersistenceImpl
 	 */
 	@Override
 	public void clearCache(OfficialTypeCouncil officialTypeCouncil) {
-		entityCache.removeResult(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilImpl.class, officialTypeCouncil.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(OfficialTypeCouncilModelImpl)officialTypeCouncil, true);
+		dummyEntityCache.removeResult(
+			OfficialTypeCouncilImpl.class, officialTypeCouncil);
 	}
 
 	@Override
 	public void clearCache(List<OfficialTypeCouncil> officialTypeCouncils) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (OfficialTypeCouncil officialTypeCouncil : officialTypeCouncils) {
-			entityCache.removeResult(
-				OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-				OfficialTypeCouncilImpl.class,
-				officialTypeCouncil.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(OfficialTypeCouncilModelImpl)officialTypeCouncil, true);
+			dummyEntityCache.removeResult(
+				OfficialTypeCouncilImpl.class, officialTypeCouncil);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		dummyFinderCache.clearCache(OfficialTypeCouncilImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
+			dummyEntityCache.removeResult(
 				OfficialTypeCouncilImpl.class, primaryKey);
 		}
 	}
@@ -2888,76 +2830,21 @@ public class OfficialTypeCouncilPersistenceImpl
 			officialTypeCouncilModelImpl.getGroupId()
 		};
 
-		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, officialTypeCouncilModelImpl,
-			false);
+		dummyFinderCache.putResult(
+			_finderPathCountByUUID_G, args, Long.valueOf(1));
+		dummyFinderCache.putResult(
+			_finderPathFetchByUUID_G, args, officialTypeCouncilModelImpl);
 
 		args = new Object[] {
 			officialTypeCouncilModelImpl.getTypeId(),
 			officialTypeCouncilModelImpl.getOfficialId()
 		};
 
-		finderCache.putResult(
-			_finderPathCountByTypeIdAndOfficialId, args, Long.valueOf(1),
-			false);
-		finderCache.putResult(
+		dummyFinderCache.putResult(
+			_finderPathCountByTypeIdAndOfficialId, args, Long.valueOf(1));
+		dummyFinderCache.putResult(
 			_finderPathFetchByTypeIdAndOfficialId, args,
-			officialTypeCouncilModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		OfficialTypeCouncilModelImpl officialTypeCouncilModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				officialTypeCouncilModelImpl.getUuid(),
-				officialTypeCouncilModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((officialTypeCouncilModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				officialTypeCouncilModelImpl.getOriginalUuid(),
-				officialTypeCouncilModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				officialTypeCouncilModelImpl.getTypeId(),
-				officialTypeCouncilModelImpl.getOfficialId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByTypeIdAndOfficialId, args);
-			finderCache.removeResult(
-				_finderPathFetchByTypeIdAndOfficialId, args);
-		}
-
-		if ((officialTypeCouncilModelImpl.getColumnBitmask() &
-			 _finderPathFetchByTypeIdAndOfficialId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				officialTypeCouncilModelImpl.getOriginalTypeId(),
-				officialTypeCouncilModelImpl.getOriginalOfficialId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByTypeIdAndOfficialId, args);
-			finderCache.removeResult(
-				_finderPathFetchByTypeIdAndOfficialId, args);
-		}
+			officialTypeCouncilModelImpl);
 	}
 
 	/**
@@ -3106,15 +2993,28 @@ public class OfficialTypeCouncilPersistenceImpl
 			officialTypeCouncil.setUuid(uuid);
 		}
 
+		if (isNew && (officialTypeCouncil.getCreateDate() == null)) {
+			ServiceContext serviceContext =
+				ServiceContextThreadLocal.getServiceContext();
+
+			Date date = new Date();
+
+			if (serviceContext == null) {
+				officialTypeCouncil.setCreateDate(date);
+			}
+			else {
+				officialTypeCouncil.setCreateDate(
+					serviceContext.getCreateDate(date));
+			}
+		}
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			if (officialTypeCouncil.isNew()) {
+			if (isNew) {
 				session.save(officialTypeCouncil);
-
-				officialTypeCouncil.setNew(false);
 			}
 			else {
 				officialTypeCouncil = (OfficialTypeCouncil)session.merge(
@@ -3128,136 +3028,15 @@ public class OfficialTypeCouncilPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		dummyEntityCache.putResult(
+			OfficialTypeCouncilImpl.class, officialTypeCouncilModelImpl, false,
+			true);
 
-		if (!OfficialTypeCouncilModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				officialTypeCouncilModelImpl.getUuid()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				officialTypeCouncilModelImpl.getUuid(),
-				officialTypeCouncilModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {officialTypeCouncilModelImpl.getOfficialId()};
-
-			finderCache.removeResult(_finderPathCountByOfficialId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByOfficialId, args);
-
-			args = new Object[] {officialTypeCouncilModelImpl.getTypeId()};
-
-			finderCache.removeResult(_finderPathCountByTypeId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByTypeId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((officialTypeCouncilModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					officialTypeCouncilModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {officialTypeCouncilModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((officialTypeCouncilModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					officialTypeCouncilModelImpl.getOriginalUuid(),
-					officialTypeCouncilModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					officialTypeCouncilModelImpl.getUuid(),
-					officialTypeCouncilModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((officialTypeCouncilModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByOfficialId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					officialTypeCouncilModelImpl.getOriginalOfficialId()
-				};
-
-				finderCache.removeResult(_finderPathCountByOfficialId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByOfficialId, args);
-
-				args = new Object[] {
-					officialTypeCouncilModelImpl.getOfficialId()
-				};
-
-				finderCache.removeResult(_finderPathCountByOfficialId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByOfficialId, args);
-			}
-
-			if ((officialTypeCouncilModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByTypeId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					officialTypeCouncilModelImpl.getOriginalTypeId()
-				};
-
-				finderCache.removeResult(_finderPathCountByTypeId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByTypeId, args);
-
-				args = new Object[] {officialTypeCouncilModelImpl.getTypeId()};
-
-				finderCache.removeResult(_finderPathCountByTypeId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByTypeId, args);
-			}
-		}
-
-		entityCache.putResult(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilImpl.class, officialTypeCouncil.getPrimaryKey(),
-			officialTypeCouncil, false);
-
-		clearUniqueFindersCache(officialTypeCouncilModelImpl, false);
 		cacheUniqueFindersCache(officialTypeCouncilModelImpl);
+
+		if (isNew) {
+			officialTypeCouncil.setNew(false);
+		}
 
 		officialTypeCouncil.resetOriginalValues();
 
@@ -3307,58 +3086,6 @@ public class OfficialTypeCouncilPersistenceImpl
 	/**
 	 * Returns the official type council with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the official type council
-	 * @return the official type council, or <code>null</code> if a official type council with the primary key could not be found
-	 */
-	@Override
-	public OfficialTypeCouncil fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		OfficialTypeCouncil officialTypeCouncil =
-			(OfficialTypeCouncil)serializable;
-
-		if (officialTypeCouncil == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				officialTypeCouncil = (OfficialTypeCouncil)session.get(
-					OfficialTypeCouncilImpl.class, primaryKey);
-
-				if (officialTypeCouncil != null) {
-					cacheResult(officialTypeCouncil);
-				}
-				else {
-					entityCache.putResult(
-						OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-						OfficialTypeCouncilImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-					OfficialTypeCouncilImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return officialTypeCouncil;
-	}
-
-	/**
-	 * Returns the official type council with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param officialTypeCouncilPK the primary key of the official type council
 	 * @return the official type council, or <code>null</code> if a official type council with the primary key could not be found
 	 */
@@ -3367,29 +3094,6 @@ public class OfficialTypeCouncilPersistenceImpl
 		OfficialTypeCouncilPK officialTypeCouncilPK) {
 
 		return fetchByPrimaryKey((Serializable)officialTypeCouncilPK);
-	}
-
-	@Override
-	public Map<Serializable, OfficialTypeCouncil> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, OfficialTypeCouncil> map =
-			new HashMap<Serializable, OfficialTypeCouncil>();
-
-		for (Serializable primaryKey : primaryKeys) {
-			OfficialTypeCouncil officialTypeCouncil = fetchByPrimaryKey(
-				primaryKey);
-
-			if (officialTypeCouncil != null) {
-				map.put(primaryKey, officialTypeCouncil);
-			}
-		}
-
-		return map;
 	}
 
 	/**
@@ -3476,7 +3180,7 @@ public class OfficialTypeCouncilPersistenceImpl
 		List<OfficialTypeCouncil> list = null;
 
 		if (useFinderCache) {
-			list = (List<OfficialTypeCouncil>)finderCache.getResult(
+			list = (List<OfficialTypeCouncil>)dummyFinderCache.getResult(
 				finderPath, finderArgs, this);
 		}
 
@@ -3514,14 +3218,10 @@ public class OfficialTypeCouncilPersistenceImpl
 				cacheResult(list);
 
 				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
+					dummyFinderCache.putResult(finderPath, finderArgs, list);
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3550,7 +3250,7 @@ public class OfficialTypeCouncilPersistenceImpl
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(
+		Long count = (Long)dummyFinderCache.getResult(
 			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
@@ -3564,13 +3264,10 @@ public class OfficialTypeCouncilPersistenceImpl
 
 				count = (Long)query.uniqueResult();
 
-				finderCache.putResult(
+				dummyFinderCache.putResult(
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3592,6 +3289,21 @@ public class OfficialTypeCouncilPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return dummyEntityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "officialTypeCouncilPK";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_OFFICIALTYPECOUNCIL;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return OfficialTypeCouncilModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -3600,167 +3312,122 @@ public class OfficialTypeCouncilPersistenceImpl
 	 * Initializes the official type council persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED,
-			OfficialTypeCouncilImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED,
-			OfficialTypeCouncilImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED,
-			OfficialTypeCouncilImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED,
-			OfficialTypeCouncilImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			OfficialTypeCouncilModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED,
-			OfficialTypeCouncilImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByUUID_G",
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			OfficialTypeCouncilModelImpl.UUID_COLUMN_BITMASK |
-			OfficialTypeCouncilModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED,
-			OfficialTypeCouncilImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED,
-			OfficialTypeCouncilImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			OfficialTypeCouncilModelImpl.UUID_COLUMN_BITMASK |
-			OfficialTypeCouncilModelImpl.COMPANYID_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByOfficialId = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED,
-			OfficialTypeCouncilImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByOfficialId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"officialId"}, true);
 
 		_finderPathWithoutPaginationFindByOfficialId = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED,
-			OfficialTypeCouncilImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByOfficialId",
-			new String[] {Long.class.getName()},
-			OfficialTypeCouncilModelImpl.OFFICIALID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"officialId"},
+			true);
 
 		_finderPathCountByOfficialId = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByOfficialId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"officialId"},
+			false);
 
 		_finderPathWithPaginationFindByTypeId = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED,
-			OfficialTypeCouncilImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTypeId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"typeId"}, true);
 
 		_finderPathWithoutPaginationFindByTypeId = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED,
-			OfficialTypeCouncilImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTypeId",
-			new String[] {Long.class.getName()},
-			OfficialTypeCouncilModelImpl.TYPEID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"typeId"}, true);
 
 		_finderPathCountByTypeId = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTypeId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"typeId"},
+			false);
 
 		_finderPathFetchByTypeIdAndOfficialId = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED,
-			OfficialTypeCouncilImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByTypeIdAndOfficialId",
+			FINDER_CLASS_NAME_ENTITY, "fetchByTypeIdAndOfficialId",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			OfficialTypeCouncilModelImpl.TYPEID_COLUMN_BITMASK |
-			OfficialTypeCouncilModelImpl.OFFICIALID_COLUMN_BITMASK);
+			new String[] {"typeId", "officialId"}, true);
 
 		_finderPathCountByTypeIdAndOfficialId = new FinderPath(
-			OfficialTypeCouncilModelImpl.ENTITY_CACHE_ENABLED,
-			OfficialTypeCouncilModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByTypeIdAndOfficialId",
-			new String[] {Long.class.getName(), Long.class.getName()});
+			new String[] {Long.class.getName(), Long.class.getName()},
+			new String[] {"typeId", "officialId"}, false);
+
+		OfficialTypeCouncilUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		entityCache.removeCache(OfficialTypeCouncilImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		OfficialTypeCouncilUtil.setPersistence(null);
+
+		dummyEntityCache.removeCache(OfficialTypeCouncilImpl.class.getName());
 	}
-
-	@ServiceReference(type = EntityCache.class)
-	protected EntityCache entityCache;
-
-	@ServiceReference(type = FinderCache.class)
-	protected FinderCache finderCache;
 
 	private static final String _SQL_SELECT_OFFICIALTYPECOUNCIL =
 		"SELECT officialTypeCouncil FROM OfficialTypeCouncil officialTypeCouncil";
@@ -3789,5 +3456,10 @@ public class OfficialTypeCouncilPersistenceImpl
 		new String[] {"uuid"});
 	private static final Set<String> _compoundPKColumnNames = SetUtil.fromArray(
 		new String[] {"officialId", "typeId"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return dummyFinderCache;
+	}
 
 }

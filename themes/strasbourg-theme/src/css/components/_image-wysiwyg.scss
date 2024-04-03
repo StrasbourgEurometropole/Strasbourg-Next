@@ -1,0 +1,241 @@
+// Composant image + un wysiwyg optionnel (un positionnement centré du texte à été effectué de base,
+// mais il peut être changé ici ou surchargé au niveau du bloc)
+// ==========================================================================
+
+.st-image-wysiwyg {
+	position: relative;
+	width: 100%;
+
+	.st-caption {
+		position: absolute;
+		bottom: $border-gutter;
+		left: $border-gutter;
+		right: $border-gutter;
+		z-index: 10;
+
+		@include tablet-portrait {
+			left: calc($border-gutter / 2);
+			right: calc($border-gutter / 2);
+			bottom: calc($border-gutter / 2);
+		}
+		@include mobile {
+			left: calc($border-gutter / 4);
+			right: calc($border-gutter / 4);
+			bottom: calc($border-gutter / 4);
+		}
+
+		> * {
+			max-width: 60%;
+
+			@media (max-width: 750px) {
+				max-width: 100%;
+			}
+		}
+	}
+
+	figure {
+		height: 100%;
+
+		img {
+			height: 100%;
+		}
+	}
+
+	// Positionnement des différents gradients et du texte dans le wysiwyg
+	&.st-alignleft {
+		figure {
+			&:after {
+				content: "";
+				display: block;
+				width: 80%;
+				height: 100%;
+				background: linear-gradient(-90deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+				opacity: 0.50;
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: 2;
+				pointer-events: none;
+			}
+		}
+	}
+
+	&.st-alignright {
+		.st-caption {
+			text-align: right;
+
+			> * {
+				margin-left: auto;
+				margin-right: 0;
+			}
+		}
+
+		// Si on a la classe alignright ça veut dire que le texte est vers la gauche, donc il faut avoir un gradient vers la droite
+		figure {
+			&:after {
+				content: "";
+				display: block;
+				width: 50%;
+				height: 100%;
+				background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+				opacity: 0.50;
+				position: absolute;
+				top: 0;
+				right: 0;
+				z-index: 2;
+				pointer-events: none;
+			}
+		}
+	}
+
+	&.st-aligncenter {
+		.st-caption {
+			text-align: center;
+
+			> * {
+				margin-left: auto;
+				margin-right: auto;
+			}
+		}
+
+		figure {
+			&:after {
+				content: "";
+				display: block;
+				width: 100%;
+				height: 100%;
+				background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+				opacity: 0.50;
+				position: absolute;
+				top: 0;
+				right: 0;
+				z-index: 2;
+				pointer-events: none;
+			}
+		}
+	}
+
+	// Positionnement spécial pour la version fullscreen
+
+	&.st-full-image {
+		figure {
+			position: relative;
+
+			&:after {
+				content: "";
+				display: block;
+				width: 100%;
+				height: 15%;
+				background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+				opacity: 0.50;
+				z-index: 1;
+				position: absolute;
+				bottom: 0;
+				pointer-events: none;
+			}
+		}
+
+		.st-caption {
+			position: absolute;
+			width: auto;
+			left: 0;
+			right: 0;
+			top: 50%;
+			transform: translateY(-50%);
+			height: auto;
+			display: flex;
+			flex-direction: column;
+			flex-shrink: 0;
+			z-index: 5;
+
+			> * {
+				max-width: 50%;
+				@include tablet-landscape {
+					max-width: 80%;
+				}
+				@include mobile {
+					max-width: 100%;
+				}
+			}
+
+			p {
+				font-weight: 400;
+			}
+		}
+
+		// Positionnement des différents gradients et du texte dans le wysiwyg
+		&.st-alignleft {
+			figure {
+				&:after {
+					content: "";
+					display: block;
+					width: 80%;
+					height: 100%;
+					background: linear-gradient(-90deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+					opacity: 0.50;
+					position: absolute;
+					top: 0;
+					left: -20%;
+					z-index: 2;
+					pointer-events: none;
+				}
+			}
+		}
+
+		&.st-alignright {
+			.st-caption {
+				text-align: right;
+
+				> * {
+					margin-left: auto;
+					margin-right: 0;
+				}
+			}
+
+			// Si on a la classe alignright ça veut dire que le texte est vers la gauche, donc il faut avoir un gradient vers la droite
+			figure {
+				&:after {
+					content: "";
+					display: block;
+					width: 50%;
+					height: 100%;
+					background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+					opacity: 0.50;
+					position: absolute;
+					top: 0;
+					right: 0;
+					z-index: 2;
+					pointer-events: none;
+				}
+			}
+		}
+
+		&.st-aligncenter {
+			.st-caption {
+				text-align: center;
+
+				> * {
+					margin-left: auto;
+					margin-right: auto;
+				}
+			}
+
+			figure {
+				&:after {
+					content: "";
+					display: block;
+					width: 100%;
+					height: 100%;
+					background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+					opacity: 0.50;
+					position: absolute;
+					top: 0;
+					right: 0;
+					z-index: 2;
+					pointer-events: none;
+				}
+			}
+		}
+	}
+}
+

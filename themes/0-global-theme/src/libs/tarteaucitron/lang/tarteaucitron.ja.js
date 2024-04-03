@@ -1,4 +1,5 @@
 /*global tarteaucitron */
+/* min ready */
 tarteaucitron.lang = {
     "middleBarHead": "☝ 🍪",
     "adblock": "Hello! This site is transparent and lets you chose the 3rd party services you want to allow.",
@@ -36,7 +37,8 @@ tarteaucitron.lang = {
     "title": "クッキー利用の管理について",
     "cookieDetail": "Cookie detail for",
     "ourSite": "on our site",
-    "newWindow": "(new window)",
+    "modalWindow": "(モーダルウィンドウ)",
+    "newWindow": "(新しい窓)",
     "allowAll": "すべてのクッキーを許可する",
     "denyAll": "すべてのクッキーを拒否する",
 

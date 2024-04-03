@@ -14,7 +14,6 @@
 
 package eu.strasbourg.service.comment.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
@@ -27,6 +26,7 @@ import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.util.List;
 import java.util.Locale;
@@ -143,8 +143,9 @@ public class SignalementImpl extends SignalementBaseImpl {
      */
     @Override
     public List<AssetCategory> getCategoriesByAssetEntry() {
-        return AssetCategoryLocalServiceUtil
-                .getAssetEntryAssetCategories(this.getSignalementId());
+		return AssetCategoryLocalServiceUtil
+                .getEntryCategories(this.getSignalementId());
+
     }
 
     public String getCategorieName(){
@@ -167,5 +168,4 @@ public class SignalementImpl extends SignalementBaseImpl {
     public AssetEntry getAssetEntry() {
         return AssetEntryLocalServiceUtil.fetchEntry(Signalement.class.getName(),this.getSignalementId());
     }
-
 }

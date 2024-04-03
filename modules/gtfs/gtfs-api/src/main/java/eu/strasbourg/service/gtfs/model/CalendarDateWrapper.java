@@ -1,29 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,11 @@ import java.util.Objects;
  * @generated
  */
 public class CalendarDateWrapper
+	extends BaseModelWrapper<CalendarDate>
 	implements CalendarDate, ModelWrapper<CalendarDate> {
 
 	public CalendarDateWrapper(CalendarDate calendarDate) {
-		_calendarDate = calendarDate;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return CalendarDate.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return CalendarDate.class.getName();
+		super(calendarDate);
 	}
 
 	@Override
@@ -98,15 +76,8 @@ public class CalendarDateWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new CalendarDateWrapper((CalendarDate)_calendarDate.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.gtfs.model.CalendarDate calendarDate) {
-
-		return _calendarDate.compareTo(calendarDate);
+	public CalendarDate cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -116,7 +87,7 @@ public class CalendarDateWrapper
 	 */
 	@Override
 	public Date getDate() {
-		return _calendarDate.getDate();
+		return model.getDate();
 	}
 
 	/**
@@ -126,12 +97,7 @@ public class CalendarDateWrapper
 	 */
 	@Override
 	public int getException_type() {
-		return _calendarDate.getException_type();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _calendarDate.getExpandoBridge();
+		return model.getException_type();
 	}
 
 	/**
@@ -141,7 +107,7 @@ public class CalendarDateWrapper
 	 */
 	@Override
 	public long getId() {
-		return _calendarDate.getId();
+		return model.getId();
 	}
 
 	/**
@@ -151,12 +117,7 @@ public class CalendarDateWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _calendarDate.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _calendarDate.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -166,7 +127,7 @@ public class CalendarDateWrapper
 	 */
 	@Override
 	public String getService_id() {
-		return _calendarDate.getService_id();
+		return model.getService_id();
 	}
 
 	/**
@@ -176,37 +137,12 @@ public class CalendarDateWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _calendarDate.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _calendarDate.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _calendarDate.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _calendarDate.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _calendarDate.isNew();
+		return model.getUuid();
 	}
 
 	@Override
 	public void persist() {
-		_calendarDate.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_calendarDate.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -216,7 +152,7 @@ public class CalendarDateWrapper
 	 */
 	@Override
 	public void setDate(Date date) {
-		_calendarDate.setDate(date);
+		model.setDate(date);
 	}
 
 	/**
@@ -226,24 +162,7 @@ public class CalendarDateWrapper
 	 */
 	@Override
 	public void setException_type(int exception_type) {
-		_calendarDate.setException_type(exception_type);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_calendarDate.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_calendarDate.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_calendarDate.setExpandoBridgeAttributes(serviceContext);
+		model.setException_type(exception_type);
 	}
 
 	/**
@@ -253,12 +172,7 @@ public class CalendarDateWrapper
 	 */
 	@Override
 	public void setId(long id) {
-		_calendarDate.setId(id);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_calendarDate.setNew(n);
+		model.setId(id);
 	}
 
 	/**
@@ -268,12 +182,7 @@ public class CalendarDateWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_calendarDate.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_calendarDate.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -283,7 +192,7 @@ public class CalendarDateWrapper
 	 */
 	@Override
 	public void setService_id(String service_id) {
-		_calendarDate.setService_id(service_id);
+		model.setService_id(service_id);
 	}
 
 	/**
@@ -293,75 +202,17 @@ public class CalendarDateWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_calendarDate.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.gtfs.model.CalendarDate> toCacheModel() {
-
-		return _calendarDate.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.CalendarDate toEscapedModel() {
-		return new CalendarDateWrapper(_calendarDate.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _calendarDate.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.CalendarDate toUnescapedModel() {
-		return new CalendarDateWrapper(_calendarDate.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _calendarDate.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof CalendarDateWrapper)) {
-			return false;
-		}
-
-		CalendarDateWrapper calendarDateWrapper = (CalendarDateWrapper)object;
-
-		if (Objects.equals(_calendarDate, calendarDateWrapper._calendarDate)) {
-			return true;
-		}
-
-		return false;
+	protected CalendarDateWrapper wrap(CalendarDate calendarDate) {
+		return new CalendarDateWrapper(calendarDate);
 	}
-
-	@Override
-	public CalendarDate getWrappedModel() {
-		return _calendarDate;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _calendarDate.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _calendarDate.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_calendarDate.resetOriginalValues();
-	}
-
-	private final CalendarDate _calendarDate;
 
 }

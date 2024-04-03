@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +23,11 @@ import java.util.Objects;
  * @generated
  */
 public class CampaignEventWrapper
+	extends BaseModelWrapper<CampaignEvent>
 	implements CampaignEvent, ModelWrapper<CampaignEvent> {
 
 	public CampaignEventWrapper(CampaignEvent campaignEvent) {
-		_campaignEvent = campaignEvent;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return CampaignEvent.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return CampaignEvent.class.getName();
+		super(campaignEvent);
 	}
 
 	@Override
@@ -416,20 +394,13 @@ public class CampaignEventWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new CampaignEventWrapper((CampaignEvent)_campaignEvent.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.agenda.model.CampaignEvent campaignEvent) {
-
-		return _campaignEvent.compareTo(campaignEvent);
+	public CampaignEvent cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _campaignEvent.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -439,7 +410,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getBookingDescription() {
-		return _campaignEvent.getBookingDescription();
+		return model.getBookingDescription();
 	}
 
 	/**
@@ -450,7 +421,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getBookingDescription(java.util.Locale locale) {
-		return _campaignEvent.getBookingDescription(locale);
+		return model.getBookingDescription(locale);
 	}
 
 	/**
@@ -464,7 +435,7 @@ public class CampaignEventWrapper
 	public String getBookingDescription(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _campaignEvent.getBookingDescription(locale, useDefault);
+		return model.getBookingDescription(locale, useDefault);
 	}
 
 	/**
@@ -475,7 +446,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getBookingDescription(String languageId) {
-		return _campaignEvent.getBookingDescription(languageId);
+		return model.getBookingDescription(languageId);
 	}
 
 	/**
@@ -487,17 +458,17 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getBookingDescription(String languageId, boolean useDefault) {
-		return _campaignEvent.getBookingDescription(languageId, useDefault);
+		return model.getBookingDescription(languageId, useDefault);
 	}
 
 	@Override
 	public String getBookingDescriptionCurrentLanguageId() {
-		return _campaignEvent.getBookingDescriptionCurrentLanguageId();
+		return model.getBookingDescriptionCurrentLanguageId();
 	}
 
 	@Override
 	public String getBookingDescriptionCurrentValue() {
-		return _campaignEvent.getBookingDescriptionCurrentValue();
+		return model.getBookingDescriptionCurrentValue();
 	}
 
 	/**
@@ -507,7 +478,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getBookingDescriptionMap() {
-		return _campaignEvent.getBookingDescriptionMap();
+		return model.getBookingDescriptionMap();
 	}
 
 	/**
@@ -517,12 +488,12 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getBookingURL() {
-		return _campaignEvent.getBookingURL();
+		return model.getBookingURL();
 	}
 
 	@Override
 	public eu.strasbourg.service.agenda.model.Campaign getCampaign() {
-		return _campaignEvent.getCampaign();
+		return model.getCampaign();
 	}
 
 	/**
@@ -532,7 +503,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public long getCampaignEventId() {
-		return _campaignEvent.getCampaignEventId();
+		return model.getCampaignEventId();
 	}
 
 	/**
@@ -542,7 +513,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Long getCampaignId() {
-		return _campaignEvent.getCampaignId();
+		return model.getCampaignId();
 	}
 
 	/**
@@ -550,7 +521,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getCity() {
-		return _campaignEvent.getCity();
+		return model.getCity();
 	}
 
 	/**
@@ -560,7 +531,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _campaignEvent.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -570,12 +541,12 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _campaignEvent.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _campaignEvent.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -585,7 +556,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getDescription() {
-		return _campaignEvent.getDescription();
+		return model.getDescription();
 	}
 
 	/**
@@ -596,7 +567,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale) {
-		return _campaignEvent.getDescription(locale);
+		return model.getDescription(locale);
 	}
 
 	/**
@@ -608,7 +579,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale, boolean useDefault) {
-		return _campaignEvent.getDescription(locale, useDefault);
+		return model.getDescription(locale, useDefault);
 	}
 
 	/**
@@ -619,7 +590,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getDescription(String languageId) {
-		return _campaignEvent.getDescription(languageId);
+		return model.getDescription(languageId);
 	}
 
 	/**
@@ -631,17 +602,17 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getDescription(String languageId, boolean useDefault) {
-		return _campaignEvent.getDescription(languageId, useDefault);
+		return model.getDescription(languageId, useDefault);
 	}
 
 	@Override
 	public String getDescriptionCurrentLanguageId() {
-		return _campaignEvent.getDescriptionCurrentLanguageId();
+		return model.getDescriptionCurrentLanguageId();
 	}
 
 	@Override
 	public String getDescriptionCurrentValue() {
-		return _campaignEvent.getDescriptionCurrentValue();
+		return model.getDescriptionCurrentValue();
 	}
 
 	/**
@@ -651,7 +622,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getDescriptionMap() {
-		return _campaignEvent.getDescriptionMap();
+		return model.getDescriptionMap();
 	}
 
 	/**
@@ -661,12 +632,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getEmail() {
-		return _campaignEvent.getEmail();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _campaignEvent.getExpandoBridge();
+		return model.getEmail();
 	}
 
 	/**
@@ -676,7 +642,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getFirstName() {
-		return _campaignEvent.getFirstName();
+		return model.getFirstName();
 	}
 
 	/**
@@ -686,7 +652,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Integer getFree() {
-		return _campaignEvent.getFree();
+		return model.getFree();
 	}
 
 	/**
@@ -696,7 +662,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _campaignEvent.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -706,7 +672,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Long getImageId() {
-		return _campaignEvent.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -716,7 +682,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getImageOwner() {
-		return _campaignEvent.getImageOwner();
+		return model.getImageOwner();
 	}
 
 	/**
@@ -724,7 +690,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getImageURL() {
-		return _campaignEvent.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -734,7 +700,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getLastName() {
-		return _campaignEvent.getLastName();
+		return model.getLastName();
 	}
 
 	/**
@@ -744,7 +710,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Date getLastPublishDate() {
-		return _campaignEvent.getLastPublishDate();
+		return model.getLastPublishDate();
 	}
 
 	/**
@@ -754,7 +720,7 @@ public class CampaignEventWrapper
 	public eu.strasbourg.service.agenda.model.CampaignEventStatus
 		getLastStatus() {
 
-		return _campaignEvent.getLastStatus();
+		return model.getLastStatus();
 	}
 
 	/**
@@ -762,7 +728,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getManifestationLabel(java.util.Locale locale) {
-		return _campaignEvent.getManifestationLabel(locale);
+		return model.getManifestationLabel(locale);
 	}
 
 	/**
@@ -772,7 +738,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getManifestationsIds() {
-		return _campaignEvent.getManifestationsIds();
+		return model.getManifestationsIds();
 	}
 
 	/**
@@ -782,7 +748,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public long getMaxGauge() {
-		return _campaignEvent.getMaxGauge();
+		return model.getMaxGauge();
 	}
 
 	/**
@@ -792,7 +758,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _campaignEvent.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -802,7 +768,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getOnSiteFirstName() {
-		return _campaignEvent.getOnSiteFirstName();
+		return model.getOnSiteFirstName();
 	}
 
 	/**
@@ -812,7 +778,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getOnSiteLastName() {
-		return _campaignEvent.getOnSiteLastName();
+		return model.getOnSiteLastName();
 	}
 
 	/**
@@ -822,7 +788,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getOnSitePhone() {
-		return _campaignEvent.getOnSitePhone();
+		return model.getOnSitePhone();
 	}
 
 	/**
@@ -832,7 +798,7 @@ public class CampaignEventWrapper
 	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod>
 		getPeriods() {
 
-		return _campaignEvent.getPeriods();
+		return model.getPeriods();
 	}
 
 	/**
@@ -842,7 +808,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPhone() {
-		return _campaignEvent.getPhone();
+		return model.getPhone();
 	}
 
 	/**
@@ -850,7 +816,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPlaceAlias(java.util.Locale locale) {
-		return _campaignEvent.getPlaceAlias(locale);
+		return model.getPlaceAlias(locale);
 	}
 
 	/**
@@ -860,7 +826,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Long getPlaceCityId() {
-		return _campaignEvent.getPlaceCityId();
+		return model.getPlaceCityId();
 	}
 
 	/**
@@ -870,7 +836,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPlaceCountry() {
-		return _campaignEvent.getPlaceCountry();
+		return model.getPlaceCountry();
 	}
 
 	/**
@@ -880,7 +846,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPlaceName() {
-		return _campaignEvent.getPlaceName();
+		return model.getPlaceName();
 	}
 
 	/**
@@ -891,7 +857,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPlaceName(java.util.Locale locale) {
-		return _campaignEvent.getPlaceName(locale);
+		return model.getPlaceName(locale);
 	}
 
 	/**
@@ -903,7 +869,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPlaceName(java.util.Locale locale, boolean useDefault) {
-		return _campaignEvent.getPlaceName(locale, useDefault);
+		return model.getPlaceName(locale, useDefault);
 	}
 
 	/**
@@ -914,7 +880,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPlaceName(String languageId) {
-		return _campaignEvent.getPlaceName(languageId);
+		return model.getPlaceName(languageId);
 	}
 
 	/**
@@ -926,17 +892,17 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPlaceName(String languageId, boolean useDefault) {
-		return _campaignEvent.getPlaceName(languageId, useDefault);
+		return model.getPlaceName(languageId, useDefault);
 	}
 
 	@Override
 	public String getPlaceNameCurrentLanguageId() {
-		return _campaignEvent.getPlaceNameCurrentLanguageId();
+		return model.getPlaceNameCurrentLanguageId();
 	}
 
 	@Override
 	public String getPlaceNameCurrentValue() {
-		return _campaignEvent.getPlaceNameCurrentValue();
+		return model.getPlaceNameCurrentValue();
 	}
 
 	/**
@@ -946,7 +912,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getPlaceNameMap() {
-		return _campaignEvent.getPlaceNameMap();
+		return model.getPlaceNameMap();
 	}
 
 	/**
@@ -956,7 +922,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPlaceSIGId() {
-		return _campaignEvent.getPlaceSIGId();
+		return model.getPlaceSIGId();
 	}
 
 	/**
@@ -966,7 +932,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPlaceStreetName() {
-		return _campaignEvent.getPlaceStreetName();
+		return model.getPlaceStreetName();
 	}
 
 	/**
@@ -976,7 +942,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPlaceStreetNumber() {
-		return _campaignEvent.getPlaceStreetNumber();
+		return model.getPlaceStreetNumber();
 	}
 
 	/**
@@ -986,7 +952,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPlaceZipCode() {
-		return _campaignEvent.getPlaceZipCode();
+		return model.getPlaceZipCode();
 	}
 
 	/**
@@ -996,7 +962,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPrice() {
-		return _campaignEvent.getPrice();
+		return model.getPrice();
 	}
 
 	/**
@@ -1007,7 +973,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPrice(java.util.Locale locale) {
-		return _campaignEvent.getPrice(locale);
+		return model.getPrice(locale);
 	}
 
 	/**
@@ -1019,7 +985,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPrice(java.util.Locale locale, boolean useDefault) {
-		return _campaignEvent.getPrice(locale, useDefault);
+		return model.getPrice(locale, useDefault);
 	}
 
 	/**
@@ -1030,7 +996,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPrice(String languageId) {
-		return _campaignEvent.getPrice(languageId);
+		return model.getPrice(languageId);
 	}
 
 	/**
@@ -1042,17 +1008,17 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPrice(String languageId, boolean useDefault) {
-		return _campaignEvent.getPrice(languageId, useDefault);
+		return model.getPrice(languageId, useDefault);
 	}
 
 	@Override
 	public String getPriceCurrentLanguageId() {
-		return _campaignEvent.getPriceCurrentLanguageId();
+		return model.getPriceCurrentLanguageId();
 	}
 
 	@Override
 	public String getPriceCurrentValue() {
-		return _campaignEvent.getPriceCurrentValue();
+		return model.getPriceCurrentValue();
 	}
 
 	/**
@@ -1062,7 +1028,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getPriceMap() {
-		return _campaignEvent.getPriceMap();
+		return model.getPriceMap();
 	}
 
 	/**
@@ -1072,12 +1038,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _campaignEvent.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _campaignEvent.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -1087,7 +1048,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPromoter() {
-		return _campaignEvent.getPromoter();
+		return model.getPromoter();
 	}
 
 	/**
@@ -1097,7 +1058,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPublicEmail() {
-		return _campaignEvent.getPublicEmail();
+		return model.getPublicEmail();
 	}
 
 	/**
@@ -1105,7 +1066,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPublicLabel(java.util.Locale locale) {
-		return _campaignEvent.getPublicLabel(locale);
+		return model.getPublicLabel(locale);
 	}
 
 	/**
@@ -1115,7 +1076,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPublicPhone() {
-		return _campaignEvent.getPublicPhone();
+		return model.getPublicPhone();
 	}
 
 	/**
@@ -1125,7 +1086,7 @@ public class CampaignEventWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getPublics() {
 
-		return _campaignEvent.getPublics();
+		return model.getPublics();
 	}
 
 	/**
@@ -1135,7 +1096,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getPublicsIds() {
-		return _campaignEvent.getPublicsIds();
+		return model.getPublicsIds();
 	}
 
 	/**
@@ -1145,7 +1106,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public boolean getRegistration() {
-		return _campaignEvent.getRegistration();
+		return model.getRegistration();
 	}
 
 	/**
@@ -1155,7 +1116,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Date getRegistrationEndDate() {
-		return _campaignEvent.getRegistrationEndDate();
+		return model.getRegistrationEndDate();
 	}
 
 	/**
@@ -1165,7 +1126,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Date getRegistrationStartDate() {
-		return _campaignEvent.getRegistrationStartDate();
+		return model.getRegistrationStartDate();
 	}
 
 	/**
@@ -1175,7 +1136,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getService() {
-		return _campaignEvent.getService();
+		return model.getService();
 	}
 
 	/**
@@ -1185,7 +1146,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Long getServiceId() {
-		return _campaignEvent.getServiceId();
+		return model.getServiceId();
 	}
 
 	/**
@@ -1193,7 +1154,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getServiceName(java.util.Locale locale) {
-		return _campaignEvent.getServiceName(locale);
+		return model.getServiceName(locale);
 	}
 
 	/**
@@ -1203,7 +1164,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _campaignEvent.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -1215,7 +1176,7 @@ public class CampaignEventWrapper
 		<eu.strasbourg.service.agenda.model.CampaignEventStatus>
 			getStatusHistory() {
 
-		return _campaignEvent.getStatusHistory();
+		return model.getStatusHistory();
 	}
 
 	/**
@@ -1225,7 +1186,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getSubtitle() {
-		return _campaignEvent.getSubtitle();
+		return model.getSubtitle();
 	}
 
 	/**
@@ -1236,7 +1197,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getSubtitle(java.util.Locale locale) {
-		return _campaignEvent.getSubtitle(locale);
+		return model.getSubtitle(locale);
 	}
 
 	/**
@@ -1248,7 +1209,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getSubtitle(java.util.Locale locale, boolean useDefault) {
-		return _campaignEvent.getSubtitle(locale, useDefault);
+		return model.getSubtitle(locale, useDefault);
 	}
 
 	/**
@@ -1259,7 +1220,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getSubtitle(String languageId) {
-		return _campaignEvent.getSubtitle(languageId);
+		return model.getSubtitle(languageId);
 	}
 
 	/**
@@ -1271,17 +1232,17 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getSubtitle(String languageId, boolean useDefault) {
-		return _campaignEvent.getSubtitle(languageId, useDefault);
+		return model.getSubtitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getSubtitleCurrentLanguageId() {
-		return _campaignEvent.getSubtitleCurrentLanguageId();
+		return model.getSubtitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getSubtitleCurrentValue() {
-		return _campaignEvent.getSubtitleCurrentValue();
+		return model.getSubtitleCurrentValue();
 	}
 
 	/**
@@ -1291,7 +1252,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getSubtitleMap() {
-		return _campaignEvent.getSubtitleMap();
+		return model.getSubtitleMap();
 	}
 
 	/**
@@ -1299,7 +1260,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getThemeLabel(java.util.Locale locale) {
-		return _campaignEvent.getThemeLabel(locale);
+		return model.getThemeLabel(locale);
 	}
 
 	/**
@@ -1309,7 +1270,7 @@ public class CampaignEventWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getThemes() {
 
-		return _campaignEvent.getThemes();
+		return model.getThemes();
 	}
 
 	/**
@@ -1319,7 +1280,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getThemesIds() {
-		return _campaignEvent.getThemesIds();
+		return model.getThemesIds();
 	}
 
 	/**
@@ -1329,7 +1290,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getTitle() {
-		return _campaignEvent.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -1340,7 +1301,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale) {
-		return _campaignEvent.getTitle(locale);
+		return model.getTitle(locale);
 	}
 
 	/**
@@ -1352,7 +1313,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale, boolean useDefault) {
-		return _campaignEvent.getTitle(locale, useDefault);
+		return model.getTitle(locale, useDefault);
 	}
 
 	/**
@@ -1363,7 +1324,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getTitle(String languageId) {
-		return _campaignEvent.getTitle(languageId);
+		return model.getTitle(languageId);
 	}
 
 	/**
@@ -1375,17 +1336,17 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getTitle(String languageId, boolean useDefault) {
-		return _campaignEvent.getTitle(languageId, useDefault);
+		return model.getTitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getTitleCurrentLanguageId() {
-		return _campaignEvent.getTitleCurrentLanguageId();
+		return model.getTitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getTitleCurrentValue() {
-		return _campaignEvent.getTitleCurrentValue();
+		return model.getTitleCurrentValue();
 	}
 
 	/**
@@ -1395,7 +1356,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getTitleMap() {
-		return _campaignEvent.getTitleMap();
+		return model.getTitleMap();
 	}
 
 	/**
@@ -1403,7 +1364,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getTypeLabel(java.util.Locale locale) {
-		return _campaignEvent.getTypeLabel(locale);
+		return model.getTypeLabel(locale);
 	}
 
 	/**
@@ -1413,7 +1374,7 @@ public class CampaignEventWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTypes() {
 
-		return _campaignEvent.getTypes();
+		return model.getTypes();
 	}
 
 	/**
@@ -1423,7 +1384,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getTypesIds() {
-		return _campaignEvent.getTypesIds();
+		return model.getTypesIds();
 	}
 
 	/**
@@ -1433,7 +1394,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _campaignEvent.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -1443,7 +1404,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _campaignEvent.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -1453,7 +1414,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _campaignEvent.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -1463,7 +1424,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _campaignEvent.getUuid();
+		return model.getUuid();
 	}
 
 	/**
@@ -1473,7 +1434,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Long getWebImageId() {
-		return _campaignEvent.getWebImageId();
+		return model.getWebImageId();
 	}
 
 	/**
@@ -1481,7 +1442,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getWebImageURL() {
-		return _campaignEvent.getWebImageURL();
+		return model.getWebImageURL();
 	}
 
 	/**
@@ -1491,7 +1452,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getWebsiteName() {
-		return _campaignEvent.getWebsiteName();
+		return model.getWebsiteName();
 	}
 
 	/**
@@ -1502,7 +1463,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getWebsiteName(java.util.Locale locale) {
-		return _campaignEvent.getWebsiteName(locale);
+		return model.getWebsiteName(locale);
 	}
 
 	/**
@@ -1514,7 +1475,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getWebsiteName(java.util.Locale locale, boolean useDefault) {
-		return _campaignEvent.getWebsiteName(locale, useDefault);
+		return model.getWebsiteName(locale, useDefault);
 	}
 
 	/**
@@ -1525,7 +1486,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getWebsiteName(String languageId) {
-		return _campaignEvent.getWebsiteName(languageId);
+		return model.getWebsiteName(languageId);
 	}
 
 	/**
@@ -1537,17 +1498,17 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getWebsiteName(String languageId, boolean useDefault) {
-		return _campaignEvent.getWebsiteName(languageId, useDefault);
+		return model.getWebsiteName(languageId, useDefault);
 	}
 
 	@Override
 	public String getWebsiteNameCurrentLanguageId() {
-		return _campaignEvent.getWebsiteNameCurrentLanguageId();
+		return model.getWebsiteNameCurrentLanguageId();
 	}
 
 	@Override
 	public String getWebsiteNameCurrentValue() {
-		return _campaignEvent.getWebsiteNameCurrentValue();
+		return model.getWebsiteNameCurrentValue();
 	}
 
 	/**
@@ -1557,7 +1518,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getWebsiteNameMap() {
-		return _campaignEvent.getWebsiteNameMap();
+		return model.getWebsiteNameMap();
 	}
 
 	/**
@@ -1567,7 +1528,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getWebsiteURL() {
-		return _campaignEvent.getWebsiteURL();
+		return model.getWebsiteURL();
 	}
 
 	/**
@@ -1578,7 +1539,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getWebsiteURL(java.util.Locale locale) {
-		return _campaignEvent.getWebsiteURL(locale);
+		return model.getWebsiteURL(locale);
 	}
 
 	/**
@@ -1590,7 +1551,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getWebsiteURL(java.util.Locale locale, boolean useDefault) {
-		return _campaignEvent.getWebsiteURL(locale, useDefault);
+		return model.getWebsiteURL(locale, useDefault);
 	}
 
 	/**
@@ -1601,7 +1562,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getWebsiteURL(String languageId) {
-		return _campaignEvent.getWebsiteURL(languageId);
+		return model.getWebsiteURL(languageId);
 	}
 
 	/**
@@ -1613,17 +1574,17 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public String getWebsiteURL(String languageId, boolean useDefault) {
-		return _campaignEvent.getWebsiteURL(languageId, useDefault);
+		return model.getWebsiteURL(languageId, useDefault);
 	}
 
 	@Override
 	public String getWebsiteURLCurrentLanguageId() {
-		return _campaignEvent.getWebsiteURLCurrentLanguageId();
+		return model.getWebsiteURLCurrentLanguageId();
 	}
 
 	@Override
 	public String getWebsiteURLCurrentValue() {
-		return _campaignEvent.getWebsiteURLCurrentValue();
+		return model.getWebsiteURLCurrentValue();
 	}
 
 	/**
@@ -1633,27 +1594,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getWebsiteURLMap() {
-		return _campaignEvent.getWebsiteURLMap();
-	}
-
-	@Override
-	public int hashCode() {
-		return _campaignEvent.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _campaignEvent.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _campaignEvent.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _campaignEvent.isNew();
+		return model.getWebsiteURLMap();
 	}
 
 	/**
@@ -1663,7 +1604,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public boolean isRegistration() {
-		return _campaignEvent.isRegistration();
+		return model.isRegistration();
 	}
 
 	/**
@@ -1672,19 +1613,19 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public boolean isUserManagerOfTheEvent(long userId) {
-		return _campaignEvent.isUserManagerOfTheEvent(userId);
+		return model.isUserManagerOfTheEvent(userId);
 	}
 
 	@Override
 	public void persist() {
-		_campaignEvent.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_campaignEvent.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -1692,28 +1633,28 @@ public class CampaignEventWrapper
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_campaignEvent.prepareLocalizedFieldsForImport(defaultImportLocale);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	@Override
 	public void sendDeleteMail()
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		_campaignEvent.sendDeleteMail();
+		model.sendDeleteMail();
 	}
 
 	@Override
 	public void sendDeletionDeniedMail()
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		_campaignEvent.sendDeletionDeniedMail();
+		model.sendDeletionDeniedMail();
 	}
 
 	@Override
 	public void sendStatusMail()
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		_campaignEvent.sendStatusMail();
+		model.sendStatusMail();
 	}
 
 	/**
@@ -1723,7 +1664,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setBookingDescription(String bookingDescription) {
-		_campaignEvent.setBookingDescription(bookingDescription);
+		model.setBookingDescription(bookingDescription);
 	}
 
 	/**
@@ -1736,7 +1677,7 @@ public class CampaignEventWrapper
 	public void setBookingDescription(
 		String bookingDescription, java.util.Locale locale) {
 
-		_campaignEvent.setBookingDescription(bookingDescription, locale);
+		model.setBookingDescription(bookingDescription, locale);
 	}
 
 	/**
@@ -1751,13 +1692,12 @@ public class CampaignEventWrapper
 		String bookingDescription, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_campaignEvent.setBookingDescription(
-			bookingDescription, locale, defaultLocale);
+		model.setBookingDescription(bookingDescription, locale, defaultLocale);
 	}
 
 	@Override
 	public void setBookingDescriptionCurrentLanguageId(String languageId) {
-		_campaignEvent.setBookingDescriptionCurrentLanguageId(languageId);
+		model.setBookingDescriptionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1769,7 +1709,7 @@ public class CampaignEventWrapper
 	public void setBookingDescriptionMap(
 		Map<java.util.Locale, String> bookingDescriptionMap) {
 
-		_campaignEvent.setBookingDescriptionMap(bookingDescriptionMap);
+		model.setBookingDescriptionMap(bookingDescriptionMap);
 	}
 
 	/**
@@ -1783,8 +1723,7 @@ public class CampaignEventWrapper
 		Map<java.util.Locale, String> bookingDescriptionMap,
 		java.util.Locale defaultLocale) {
 
-		_campaignEvent.setBookingDescriptionMap(
-			bookingDescriptionMap, defaultLocale);
+		model.setBookingDescriptionMap(bookingDescriptionMap, defaultLocale);
 	}
 
 	/**
@@ -1794,12 +1733,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setBookingURL(String bookingURL) {
-		_campaignEvent.setBookingURL(bookingURL);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_campaignEvent.setCachedModel(cachedModel);
+		model.setBookingURL(bookingURL);
 	}
 
 	/**
@@ -1809,7 +1743,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setCampaignEventId(long campaignEventId) {
-		_campaignEvent.setCampaignEventId(campaignEventId);
+		model.setCampaignEventId(campaignEventId);
 	}
 
 	/**
@@ -1819,7 +1753,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setCampaignId(Long campaignId) {
-		_campaignEvent.setCampaignId(campaignId);
+		model.setCampaignId(campaignId);
 	}
 
 	/**
@@ -1829,7 +1763,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_campaignEvent.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -1839,7 +1773,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_campaignEvent.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -1849,7 +1783,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setDescription(String description) {
-		_campaignEvent.setDescription(description);
+		model.setDescription(description);
 	}
 
 	/**
@@ -1860,7 +1794,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setDescription(String description, java.util.Locale locale) {
-		_campaignEvent.setDescription(description, locale);
+		model.setDescription(description, locale);
 	}
 
 	/**
@@ -1875,12 +1809,12 @@ public class CampaignEventWrapper
 		String description, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_campaignEvent.setDescription(description, locale, defaultLocale);
+		model.setDescription(description, locale, defaultLocale);
 	}
 
 	@Override
 	public void setDescriptionCurrentLanguageId(String languageId) {
-		_campaignEvent.setDescriptionCurrentLanguageId(languageId);
+		model.setDescriptionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1892,7 +1826,7 @@ public class CampaignEventWrapper
 	public void setDescriptionMap(
 		Map<java.util.Locale, String> descriptionMap) {
 
-		_campaignEvent.setDescriptionMap(descriptionMap);
+		model.setDescriptionMap(descriptionMap);
 	}
 
 	/**
@@ -1906,7 +1840,7 @@ public class CampaignEventWrapper
 		Map<java.util.Locale, String> descriptionMap,
 		java.util.Locale defaultLocale) {
 
-		_campaignEvent.setDescriptionMap(descriptionMap, defaultLocale);
+		model.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	/**
@@ -1916,24 +1850,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setEmail(String email) {
-		_campaignEvent.setEmail(email);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_campaignEvent.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_campaignEvent.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_campaignEvent.setExpandoBridgeAttributes(serviceContext);
+		model.setEmail(email);
 	}
 
 	/**
@@ -1943,7 +1860,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setFirstName(String firstName) {
-		_campaignEvent.setFirstName(firstName);
+		model.setFirstName(firstName);
 	}
 
 	/**
@@ -1953,7 +1870,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setFree(Integer free) {
-		_campaignEvent.setFree(free);
+		model.setFree(free);
 	}
 
 	/**
@@ -1963,7 +1880,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_campaignEvent.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -1973,7 +1890,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setImageId(Long imageId) {
-		_campaignEvent.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -1983,7 +1900,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setImageOwner(String imageOwner) {
-		_campaignEvent.setImageOwner(imageOwner);
+		model.setImageOwner(imageOwner);
 	}
 
 	/**
@@ -1993,7 +1910,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setLastName(String lastName) {
-		_campaignEvent.setLastName(lastName);
+		model.setLastName(lastName);
 	}
 
 	/**
@@ -2003,7 +1920,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
-		_campaignEvent.setLastPublishDate(lastPublishDate);
+		model.setLastPublishDate(lastPublishDate);
 	}
 
 	/**
@@ -2013,7 +1930,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setManifestationsIds(String manifestationsIds) {
-		_campaignEvent.setManifestationsIds(manifestationsIds);
+		model.setManifestationsIds(manifestationsIds);
 	}
 
 	/**
@@ -2023,7 +1940,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setMaxGauge(long maxGauge) {
-		_campaignEvent.setMaxGauge(maxGauge);
+		model.setMaxGauge(maxGauge);
 	}
 
 	/**
@@ -2033,12 +1950,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_campaignEvent.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_campaignEvent.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -2048,7 +1960,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setOnSiteFirstName(String onSiteFirstName) {
-		_campaignEvent.setOnSiteFirstName(onSiteFirstName);
+		model.setOnSiteFirstName(onSiteFirstName);
 	}
 
 	/**
@@ -2058,7 +1970,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setOnSiteLastName(String onSiteLastName) {
-		_campaignEvent.setOnSiteLastName(onSiteLastName);
+		model.setOnSiteLastName(onSiteLastName);
 	}
 
 	/**
@@ -2068,7 +1980,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setOnSitePhone(String onSitePhone) {
-		_campaignEvent.setOnSitePhone(onSitePhone);
+		model.setOnSitePhone(onSitePhone);
 	}
 
 	/**
@@ -2078,7 +1990,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setPhone(String phone) {
-		_campaignEvent.setPhone(phone);
+		model.setPhone(phone);
 	}
 
 	/**
@@ -2088,7 +2000,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setPlaceCityId(Long placeCityId) {
-		_campaignEvent.setPlaceCityId(placeCityId);
+		model.setPlaceCityId(placeCityId);
 	}
 
 	/**
@@ -2098,7 +2010,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setPlaceCountry(String placeCountry) {
-		_campaignEvent.setPlaceCountry(placeCountry);
+		model.setPlaceCountry(placeCountry);
 	}
 
 	/**
@@ -2108,7 +2020,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setPlaceName(String placeName) {
-		_campaignEvent.setPlaceName(placeName);
+		model.setPlaceName(placeName);
 	}
 
 	/**
@@ -2119,7 +2031,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setPlaceName(String placeName, java.util.Locale locale) {
-		_campaignEvent.setPlaceName(placeName, locale);
+		model.setPlaceName(placeName, locale);
 	}
 
 	/**
@@ -2134,12 +2046,12 @@ public class CampaignEventWrapper
 		String placeName, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_campaignEvent.setPlaceName(placeName, locale, defaultLocale);
+		model.setPlaceName(placeName, locale, defaultLocale);
 	}
 
 	@Override
 	public void setPlaceNameCurrentLanguageId(String languageId) {
-		_campaignEvent.setPlaceNameCurrentLanguageId(languageId);
+		model.setPlaceNameCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2149,7 +2061,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setPlaceNameMap(Map<java.util.Locale, String> placeNameMap) {
-		_campaignEvent.setPlaceNameMap(placeNameMap);
+		model.setPlaceNameMap(placeNameMap);
 	}
 
 	/**
@@ -2163,7 +2075,7 @@ public class CampaignEventWrapper
 		Map<java.util.Locale, String> placeNameMap,
 		java.util.Locale defaultLocale) {
 
-		_campaignEvent.setPlaceNameMap(placeNameMap, defaultLocale);
+		model.setPlaceNameMap(placeNameMap, defaultLocale);
 	}
 
 	/**
@@ -2173,7 +2085,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setPlaceSIGId(String placeSIGId) {
-		_campaignEvent.setPlaceSIGId(placeSIGId);
+		model.setPlaceSIGId(placeSIGId);
 	}
 
 	/**
@@ -2183,7 +2095,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setPlaceStreetName(String placeStreetName) {
-		_campaignEvent.setPlaceStreetName(placeStreetName);
+		model.setPlaceStreetName(placeStreetName);
 	}
 
 	/**
@@ -2193,7 +2105,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setPlaceStreetNumber(String placeStreetNumber) {
-		_campaignEvent.setPlaceStreetNumber(placeStreetNumber);
+		model.setPlaceStreetNumber(placeStreetNumber);
 	}
 
 	/**
@@ -2203,7 +2115,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setPlaceZipCode(String placeZipCode) {
-		_campaignEvent.setPlaceZipCode(placeZipCode);
+		model.setPlaceZipCode(placeZipCode);
 	}
 
 	/**
@@ -2213,7 +2125,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setPrice(String price) {
-		_campaignEvent.setPrice(price);
+		model.setPrice(price);
 	}
 
 	/**
@@ -2224,7 +2136,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setPrice(String price, java.util.Locale locale) {
-		_campaignEvent.setPrice(price, locale);
+		model.setPrice(price, locale);
 	}
 
 	/**
@@ -2238,12 +2150,12 @@ public class CampaignEventWrapper
 	public void setPrice(
 		String price, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_campaignEvent.setPrice(price, locale, defaultLocale);
+		model.setPrice(price, locale, defaultLocale);
 	}
 
 	@Override
 	public void setPriceCurrentLanguageId(String languageId) {
-		_campaignEvent.setPriceCurrentLanguageId(languageId);
+		model.setPriceCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2253,7 +2165,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setPriceMap(Map<java.util.Locale, String> priceMap) {
-		_campaignEvent.setPriceMap(priceMap);
+		model.setPriceMap(priceMap);
 	}
 
 	/**
@@ -2267,7 +2179,7 @@ public class CampaignEventWrapper
 		Map<java.util.Locale, String> priceMap,
 		java.util.Locale defaultLocale) {
 
-		_campaignEvent.setPriceMap(priceMap, defaultLocale);
+		model.setPriceMap(priceMap, defaultLocale);
 	}
 
 	/**
@@ -2277,12 +2189,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_campaignEvent.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_campaignEvent.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -2292,7 +2199,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setPromoter(String promoter) {
-		_campaignEvent.setPromoter(promoter);
+		model.setPromoter(promoter);
 	}
 
 	/**
@@ -2302,7 +2209,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setPublicEmail(String publicEmail) {
-		_campaignEvent.setPublicEmail(publicEmail);
+		model.setPublicEmail(publicEmail);
 	}
 
 	/**
@@ -2312,7 +2219,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setPublicPhone(String publicPhone) {
-		_campaignEvent.setPublicPhone(publicPhone);
+		model.setPublicPhone(publicPhone);
 	}
 
 	/**
@@ -2322,7 +2229,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setPublicsIds(String publicsIds) {
-		_campaignEvent.setPublicsIds(publicsIds);
+		model.setPublicsIds(publicsIds);
 	}
 
 	/**
@@ -2332,7 +2239,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setRegistration(boolean registration) {
-		_campaignEvent.setRegistration(registration);
+		model.setRegistration(registration);
 	}
 
 	/**
@@ -2342,7 +2249,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setRegistrationEndDate(Date registrationEndDate) {
-		_campaignEvent.setRegistrationEndDate(registrationEndDate);
+		model.setRegistrationEndDate(registrationEndDate);
 	}
 
 	/**
@@ -2352,7 +2259,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setRegistrationStartDate(Date registrationStartDate) {
-		_campaignEvent.setRegistrationStartDate(registrationStartDate);
+		model.setRegistrationStartDate(registrationStartDate);
 	}
 
 	/**
@@ -2362,7 +2269,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setService(String service) {
-		_campaignEvent.setService(service);
+		model.setService(service);
 	}
 
 	/**
@@ -2372,7 +2279,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setServiceId(Long serviceId) {
-		_campaignEvent.setServiceId(serviceId);
+		model.setServiceId(serviceId);
 	}
 
 	/**
@@ -2382,7 +2289,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_campaignEvent.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -2392,7 +2299,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setSubtitle(String subtitle) {
-		_campaignEvent.setSubtitle(subtitle);
+		model.setSubtitle(subtitle);
 	}
 
 	/**
@@ -2403,7 +2310,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setSubtitle(String subtitle, java.util.Locale locale) {
-		_campaignEvent.setSubtitle(subtitle, locale);
+		model.setSubtitle(subtitle, locale);
 	}
 
 	/**
@@ -2418,12 +2325,12 @@ public class CampaignEventWrapper
 		String subtitle, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_campaignEvent.setSubtitle(subtitle, locale, defaultLocale);
+		model.setSubtitle(subtitle, locale, defaultLocale);
 	}
 
 	@Override
 	public void setSubtitleCurrentLanguageId(String languageId) {
-		_campaignEvent.setSubtitleCurrentLanguageId(languageId);
+		model.setSubtitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2433,7 +2340,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setSubtitleMap(Map<java.util.Locale, String> subtitleMap) {
-		_campaignEvent.setSubtitleMap(subtitleMap);
+		model.setSubtitleMap(subtitleMap);
 	}
 
 	/**
@@ -2447,7 +2354,7 @@ public class CampaignEventWrapper
 		Map<java.util.Locale, String> subtitleMap,
 		java.util.Locale defaultLocale) {
 
-		_campaignEvent.setSubtitleMap(subtitleMap, defaultLocale);
+		model.setSubtitleMap(subtitleMap, defaultLocale);
 	}
 
 	/**
@@ -2457,7 +2364,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setThemesIds(String themesIds) {
-		_campaignEvent.setThemesIds(themesIds);
+		model.setThemesIds(themesIds);
 	}
 
 	/**
@@ -2467,7 +2374,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setTitle(String title) {
-		_campaignEvent.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -2478,7 +2385,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setTitle(String title, java.util.Locale locale) {
-		_campaignEvent.setTitle(title, locale);
+		model.setTitle(title, locale);
 	}
 
 	/**
@@ -2492,12 +2399,12 @@ public class CampaignEventWrapper
 	public void setTitle(
 		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_campaignEvent.setTitle(title, locale, defaultLocale);
+		model.setTitle(title, locale, defaultLocale);
 	}
 
 	@Override
 	public void setTitleCurrentLanguageId(String languageId) {
-		_campaignEvent.setTitleCurrentLanguageId(languageId);
+		model.setTitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2507,7 +2414,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
-		_campaignEvent.setTitleMap(titleMap);
+		model.setTitleMap(titleMap);
 	}
 
 	/**
@@ -2521,7 +2428,7 @@ public class CampaignEventWrapper
 		Map<java.util.Locale, String> titleMap,
 		java.util.Locale defaultLocale) {
 
-		_campaignEvent.setTitleMap(titleMap, defaultLocale);
+		model.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**
@@ -2531,7 +2438,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setTypesIds(String typesIds) {
-		_campaignEvent.setTypesIds(typesIds);
+		model.setTypesIds(typesIds);
 	}
 
 	/**
@@ -2541,7 +2448,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_campaignEvent.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -2551,7 +2458,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_campaignEvent.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -2561,7 +2468,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_campaignEvent.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -2571,7 +2478,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_campaignEvent.setUuid(uuid);
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -2581,7 +2488,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setWebImageId(Long webImageId) {
-		_campaignEvent.setWebImageId(webImageId);
+		model.setWebImageId(webImageId);
 	}
 
 	/**
@@ -2591,7 +2498,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setWebsiteName(String websiteName) {
-		_campaignEvent.setWebsiteName(websiteName);
+		model.setWebsiteName(websiteName);
 	}
 
 	/**
@@ -2602,7 +2509,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setWebsiteName(String websiteName, java.util.Locale locale) {
-		_campaignEvent.setWebsiteName(websiteName, locale);
+		model.setWebsiteName(websiteName, locale);
 	}
 
 	/**
@@ -2617,12 +2524,12 @@ public class CampaignEventWrapper
 		String websiteName, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_campaignEvent.setWebsiteName(websiteName, locale, defaultLocale);
+		model.setWebsiteName(websiteName, locale, defaultLocale);
 	}
 
 	@Override
 	public void setWebsiteNameCurrentLanguageId(String languageId) {
-		_campaignEvent.setWebsiteNameCurrentLanguageId(languageId);
+		model.setWebsiteNameCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2634,7 +2541,7 @@ public class CampaignEventWrapper
 	public void setWebsiteNameMap(
 		Map<java.util.Locale, String> websiteNameMap) {
 
-		_campaignEvent.setWebsiteNameMap(websiteNameMap);
+		model.setWebsiteNameMap(websiteNameMap);
 	}
 
 	/**
@@ -2648,7 +2555,7 @@ public class CampaignEventWrapper
 		Map<java.util.Locale, String> websiteNameMap,
 		java.util.Locale defaultLocale) {
 
-		_campaignEvent.setWebsiteNameMap(websiteNameMap, defaultLocale);
+		model.setWebsiteNameMap(websiteNameMap, defaultLocale);
 	}
 
 	/**
@@ -2658,7 +2565,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setWebsiteURL(String websiteURL) {
-		_campaignEvent.setWebsiteURL(websiteURL);
+		model.setWebsiteURL(websiteURL);
 	}
 
 	/**
@@ -2669,7 +2576,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setWebsiteURL(String websiteURL, java.util.Locale locale) {
-		_campaignEvent.setWebsiteURL(websiteURL, locale);
+		model.setWebsiteURL(websiteURL, locale);
 	}
 
 	/**
@@ -2684,12 +2591,12 @@ public class CampaignEventWrapper
 		String websiteURL, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_campaignEvent.setWebsiteURL(websiteURL, locale, defaultLocale);
+		model.setWebsiteURL(websiteURL, locale, defaultLocale);
 	}
 
 	@Override
 	public void setWebsiteURLCurrentLanguageId(String languageId) {
-		_campaignEvent.setWebsiteURLCurrentLanguageId(languageId);
+		model.setWebsiteURLCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2699,7 +2606,7 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public void setWebsiteURLMap(Map<java.util.Locale, String> websiteURLMap) {
-		_campaignEvent.setWebsiteURLMap(websiteURLMap);
+		model.setWebsiteURLMap(websiteURLMap);
 	}
 
 	/**
@@ -2713,19 +2620,7 @@ public class CampaignEventWrapper
 		Map<java.util.Locale, String> websiteURLMap,
 		java.util.Locale defaultLocale) {
 
-		_campaignEvent.setWebsiteURLMap(websiteURLMap, defaultLocale);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.agenda.model.CampaignEvent> toCacheModel() {
-
-		return _campaignEvent.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.CampaignEvent toEscapedModel() {
-		return new CampaignEventWrapper(_campaignEvent.toEscapedModel());
+		model.setWebsiteURLMap(websiteURLMap, defaultLocale);
 	}
 
 	/**
@@ -2733,22 +2628,12 @@ public class CampaignEventWrapper
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _campaignEvent.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _campaignEvent.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.CampaignEvent toUnescapedModel() {
-		return new CampaignEventWrapper(_campaignEvent.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _campaignEvent.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
@@ -2757,56 +2642,17 @@ public class CampaignEventWrapper
 			com.liferay.portal.kernel.model.User user)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _campaignEvent.updateStatus(newStatus, comment, user);
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof CampaignEventWrapper)) {
-			return false;
-		}
-
-		CampaignEventWrapper campaignEventWrapper =
-			(CampaignEventWrapper)object;
-
-		if (Objects.equals(
-				_campaignEvent, campaignEventWrapper._campaignEvent)) {
-
-			return true;
-		}
-
-		return false;
+		return model.updateStatus(newStatus, comment, user);
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _campaignEvent.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public CampaignEvent getWrappedModel() {
-		return _campaignEvent;
+	protected CampaignEventWrapper wrap(CampaignEvent campaignEvent) {
+		return new CampaignEventWrapper(campaignEvent);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _campaignEvent.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _campaignEvent.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_campaignEvent.resetOriginalValues();
-	}
-
-	private final CampaignEvent _campaignEvent;
 
 }

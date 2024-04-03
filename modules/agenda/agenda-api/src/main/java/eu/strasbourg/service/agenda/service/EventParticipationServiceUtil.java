@@ -1,22 +1,9 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service;
-
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * Provides the remote service utility for EventParticipation. This utility wraps
@@ -61,7 +48,7 @@ public class EventParticipationServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static String getOSGiServiceIdentifier() {
+	public static java.lang.String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
@@ -69,7 +56,7 @@ public class EventParticipationServiceUtil {
 	 * Retourne les participation d'evenement d'un utilisateur
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject
-		getUserEventParticipations(String userId) {
+		getUserEventParticipations(java.lang.String userId) {
 
 		return getService().getUserEventParticipations(userId);
 	}
@@ -84,26 +71,13 @@ public class EventParticipationServiceUtil {
 	}
 
 	public static EventParticipationService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<EventParticipationService, EventParticipationService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			EventParticipationService.class);
-
-		ServiceTracker<EventParticipationService, EventParticipationService>
-			serviceTracker =
-				new ServiceTracker
-					<EventParticipationService, EventParticipationService>(
-						bundle.getBundleContext(),
-						EventParticipationService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(EventParticipationService service) {
+		_service = service;
 	}
+
+	private static volatile EventParticipationService _service;
 
 }

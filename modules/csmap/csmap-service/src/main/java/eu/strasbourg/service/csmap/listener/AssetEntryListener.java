@@ -34,10 +34,10 @@ public class AssetEntryListener extends BaseModelListener<AssetEntry>
      *  A la modification d'un event, on met à jour le cache de csmapAgenda
      */
     @Override
-    public void onAfterUpdate(AssetEntry entry) throws ModelListenerException {
+    public void onAfterUpdate(AssetEntry originalEntry,AssetEntry entry) throws ModelListenerException {
         generateCsmapCache(entry);
 
-        super.onAfterUpdate(entry);
+        super.onAfterUpdate(originalEntry,entry);
 
     }
 

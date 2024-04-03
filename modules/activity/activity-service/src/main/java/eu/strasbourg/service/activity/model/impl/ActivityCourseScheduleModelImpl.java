@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.activity.model.impl;
@@ -17,6 +8,7 @@ package eu.strasbourg.service.activity.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -32,28 +24,26 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
 import eu.strasbourg.service.activity.model.ActivityCourseScheduleModel;
-import eu.strasbourg.service.activity.model.ActivityCourseScheduleSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -139,93 +129,54 @@ public class ActivityCourseScheduleModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.activity.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.activity.model.ActivityCourseSchedule"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.activity.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.activity.model.ActivityCourseSchedule"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.activity.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.activity.model.ActivityCourseSchedule"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ACTIVITYCOURSEPLACEID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ACTIVITYCOURSESCHEDULEID_COLUMN_BITMASK = 16L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static ActivityCourseSchedule toModel(
-		ActivityCourseScheduleSoap soapModel) {
-
-		if (soapModel == null) {
-			return null;
-		}
-
-		ActivityCourseSchedule model = new ActivityCourseScheduleImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setActivityCourseScheduleId(
-			soapModel.getActivityCourseScheduleId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setActivityCoursePlaceId(soapModel.getActivityCoursePlaceId());
-		model.setStartTime(soapModel.getStartTime());
-		model.setEndTime(soapModel.getEndTime());
-		model.setMonday(soapModel.isMonday());
-		model.setTuesday(soapModel.isTuesday());
-		model.setWednesday(soapModel.isWednesday());
-		model.setThursday(soapModel.isThursday());
-		model.setFriday(soapModel.isFriday());
-		model.setSaturday(soapModel.isSaturday());
-		model.setSunday(soapModel.isSunday());
-		model.setComments(soapModel.getComments());
-		model.setPeriodsIds(soapModel.getPeriodsIds());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<ActivityCourseSchedule> toModels(
-		ActivityCourseScheduleSoap[] soapModels) {
-
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<ActivityCourseSchedule> models =
-			new ArrayList<ActivityCourseSchedule>(soapModels.length);
-
-		for (ActivityCourseScheduleSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.activity.service.util.PropsUtil.get(
@@ -283,9 +234,6 @@ public class ActivityCourseScheduleModelImpl
 				attributeGetterFunction.apply((ActivityCourseSchedule)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -311,570 +259,173 @@ public class ActivityCourseScheduleModelImpl
 	public Map<String, Function<ActivityCourseSchedule, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<ActivityCourseSchedule, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, ActivityCourseSchedule>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			ActivityCourseSchedule.class.getClassLoader(),
-			ActivityCourseSchedule.class, ModelWrapper.class);
+		private static final Map
+			<String, Function<ActivityCourseSchedule, Object>>
+				_attributeGetterFunctions;
 
-		try {
-			Constructor<ActivityCourseSchedule> constructor =
-				(Constructor<ActivityCourseSchedule>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<ActivityCourseSchedule, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<ActivityCourseSchedule, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put(
+				"uuid", ActivityCourseSchedule::getUuid);
+			attributeGetterFunctions.put(
+				"activityCourseScheduleId",
+				ActivityCourseSchedule::getActivityCourseScheduleId);
+			attributeGetterFunctions.put(
+				"groupId", ActivityCourseSchedule::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", ActivityCourseSchedule::getCompanyId);
+			attributeGetterFunctions.put(
+				"userId", ActivityCourseSchedule::getUserId);
+			attributeGetterFunctions.put(
+				"userName", ActivityCourseSchedule::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", ActivityCourseSchedule::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", ActivityCourseSchedule::getModifiedDate);
+			attributeGetterFunctions.put(
+				"activityCoursePlaceId",
+				ActivityCourseSchedule::getActivityCoursePlaceId);
+			attributeGetterFunctions.put(
+				"startTime", ActivityCourseSchedule::getStartTime);
+			attributeGetterFunctions.put(
+				"endTime", ActivityCourseSchedule::getEndTime);
+			attributeGetterFunctions.put(
+				"monday", ActivityCourseSchedule::getMonday);
+			attributeGetterFunctions.put(
+				"tuesday", ActivityCourseSchedule::getTuesday);
+			attributeGetterFunctions.put(
+				"wednesday", ActivityCourseSchedule::getWednesday);
+			attributeGetterFunctions.put(
+				"thursday", ActivityCourseSchedule::getThursday);
+			attributeGetterFunctions.put(
+				"friday", ActivityCourseSchedule::getFriday);
+			attributeGetterFunctions.put(
+				"saturday", ActivityCourseSchedule::getSaturday);
+			attributeGetterFunctions.put(
+				"sunday", ActivityCourseSchedule::getSunday);
+			attributeGetterFunctions.put(
+				"comments", ActivityCourseSchedule::getComments);
+			attributeGetterFunctions.put(
+				"periodsIds", ActivityCourseSchedule::getPeriodsIds);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<ActivityCourseSchedule, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ActivityCourseSchedule, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map
+			<String, BiConsumer<ActivityCourseSchedule, Object>>
+				_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<ActivityCourseSchedule, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<ActivityCourseSchedule, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<ActivityCourseSchedule, String>)
+					ActivityCourseSchedule::setUuid);
+			attributeSetterBiConsumers.put(
+				"activityCourseScheduleId",
+				(BiConsumer<ActivityCourseSchedule, Long>)
+					ActivityCourseSchedule::setActivityCourseScheduleId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<ActivityCourseSchedule, Long>)
+					ActivityCourseSchedule::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<ActivityCourseSchedule, Long>)
+					ActivityCourseSchedule::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<ActivityCourseSchedule, Long>)
+					ActivityCourseSchedule::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<ActivityCourseSchedule, String>)
+					ActivityCourseSchedule::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<ActivityCourseSchedule, Date>)
+					ActivityCourseSchedule::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<ActivityCourseSchedule, Date>)
+					ActivityCourseSchedule::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"activityCoursePlaceId",
+				(BiConsumer<ActivityCourseSchedule, Long>)
+					ActivityCourseSchedule::setActivityCoursePlaceId);
+			attributeSetterBiConsumers.put(
+				"startTime",
+				(BiConsumer<ActivityCourseSchedule, String>)
+					ActivityCourseSchedule::setStartTime);
+			attributeSetterBiConsumers.put(
+				"endTime",
+				(BiConsumer<ActivityCourseSchedule, String>)
+					ActivityCourseSchedule::setEndTime);
+			attributeSetterBiConsumers.put(
+				"monday",
+				(BiConsumer<ActivityCourseSchedule, Boolean>)
+					ActivityCourseSchedule::setMonday);
+			attributeSetterBiConsumers.put(
+				"tuesday",
+				(BiConsumer<ActivityCourseSchedule, Boolean>)
+					ActivityCourseSchedule::setTuesday);
+			attributeSetterBiConsumers.put(
+				"wednesday",
+				(BiConsumer<ActivityCourseSchedule, Boolean>)
+					ActivityCourseSchedule::setWednesday);
+			attributeSetterBiConsumers.put(
+				"thursday",
+				(BiConsumer<ActivityCourseSchedule, Boolean>)
+					ActivityCourseSchedule::setThursday);
+			attributeSetterBiConsumers.put(
+				"friday",
+				(BiConsumer<ActivityCourseSchedule, Boolean>)
+					ActivityCourseSchedule::setFriday);
+			attributeSetterBiConsumers.put(
+				"saturday",
+				(BiConsumer<ActivityCourseSchedule, Boolean>)
+					ActivityCourseSchedule::setSaturday);
+			attributeSetterBiConsumers.put(
+				"sunday",
+				(BiConsumer<ActivityCourseSchedule, Boolean>)
+					ActivityCourseSchedule::setSunday);
+			attributeSetterBiConsumers.put(
+				"comments",
+				(BiConsumer<ActivityCourseSchedule, String>)
+					ActivityCourseSchedule::setComments);
+			attributeSetterBiConsumers.put(
+				"periodsIds",
+				(BiConsumer<ActivityCourseSchedule, String>)
+					ActivityCourseSchedule::setPeriodsIds);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<ActivityCourseSchedule, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<ActivityCourseSchedule, Object>>();
-		Map<String, BiConsumer<ActivityCourseSchedule, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<ActivityCourseSchedule, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object uuidObject) {
-
-					activityCourseSchedule.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"activityCourseScheduleId",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getActivityCourseScheduleId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"activityCourseScheduleId",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object activityCourseScheduleIdObject) {
-
-					activityCourseSchedule.setActivityCourseScheduleId(
-						(Long)activityCourseScheduleIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object groupIdObject) {
-
-					activityCourseSchedule.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object companyIdObject) {
-
-					activityCourseSchedule.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object userIdObject) {
-
-					activityCourseSchedule.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object userNameObject) {
-
-					activityCourseSchedule.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object createDateObject) {
-
-					activityCourseSchedule.setCreateDate(
-						(Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object modifiedDateObject) {
-
-					activityCourseSchedule.setModifiedDate(
-						(Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"activityCoursePlaceId",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getActivityCoursePlaceId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"activityCoursePlaceId",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object activityCoursePlaceIdObject) {
-
-					activityCourseSchedule.setActivityCoursePlaceId(
-						(Long)activityCoursePlaceIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"startTime",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getStartTime();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"startTime",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object startTimeObject) {
-
-					activityCourseSchedule.setStartTime(
-						(String)startTimeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"endTime",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getEndTime();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"endTime",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object endTimeObject) {
-
-					activityCourseSchedule.setEndTime((String)endTimeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"monday",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getMonday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"monday",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object mondayObject) {
-
-					activityCourseSchedule.setMonday((Boolean)mondayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"tuesday",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getTuesday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"tuesday",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object tuesdayObject) {
-
-					activityCourseSchedule.setTuesday((Boolean)tuesdayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"wednesday",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getWednesday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"wednesday",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object wednesdayObject) {
-
-					activityCourseSchedule.setWednesday(
-						(Boolean)wednesdayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"thursday",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getThursday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"thursday",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object thursdayObject) {
-
-					activityCourseSchedule.setThursday((Boolean)thursdayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"friday",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getFriday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"friday",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object fridayObject) {
-
-					activityCourseSchedule.setFriday((Boolean)fridayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"saturday",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getSaturday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"saturday",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object saturdayObject) {
-
-					activityCourseSchedule.setSaturday((Boolean)saturdayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"sunday",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getSunday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"sunday",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object sundayObject) {
-
-					activityCourseSchedule.setSunday((Boolean)sundayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"comments",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getComments();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"comments",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object commentsObject) {
-
-					activityCourseSchedule.setComments((String)commentsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"periodsIds",
-			new Function<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public Object apply(
-					ActivityCourseSchedule activityCourseSchedule) {
-
-					return activityCourseSchedule.getPeriodsIds();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"periodsIds",
-			new BiConsumer<ActivityCourseSchedule, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCourseSchedule activityCourseSchedule,
-					Object periodsIdsObject) {
-
-					activityCourseSchedule.setPeriodsIds(
-						(String)periodsIdsObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -890,17 +441,20 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -911,6 +465,10 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setActivityCourseScheduleId(long activityCourseScheduleId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_activityCourseScheduleId = activityCourseScheduleId;
 	}
 
@@ -922,19 +480,20 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -945,19 +504,21 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -968,6 +529,10 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -1000,6 +565,10 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -1011,6 +580,10 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -1028,6 +601,10 @@ public class ActivityCourseScheduleModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -1039,19 +616,21 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setActivityCoursePlaceId(long activityCoursePlaceId) {
-		_columnBitmask |= ACTIVITYCOURSEPLACEID_COLUMN_BITMASK;
-
-		if (!_setOriginalActivityCoursePlaceId) {
-			_setOriginalActivityCoursePlaceId = true;
-
-			_originalActivityCoursePlaceId = _activityCoursePlaceId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_activityCoursePlaceId = activityCoursePlaceId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalActivityCoursePlaceId() {
-		return _originalActivityCoursePlaceId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("activityCoursePlaceId"));
 	}
 
 	@JSON
@@ -1067,6 +646,10 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setStartTime(String startTime) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_startTime = startTime;
 	}
 
@@ -1083,6 +666,10 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setEndTime(String endTime) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_endTime = endTime;
 	}
 
@@ -1100,6 +687,10 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setMonday(boolean monday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_monday = monday;
 	}
 
@@ -1117,6 +708,10 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setTuesday(boolean tuesday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_tuesday = tuesday;
 	}
 
@@ -1134,6 +729,10 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setWednesday(boolean wednesday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_wednesday = wednesday;
 	}
 
@@ -1151,6 +750,10 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setThursday(boolean thursday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_thursday = thursday;
 	}
 
@@ -1168,6 +771,10 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setFriday(boolean friday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_friday = friday;
 	}
 
@@ -1185,6 +792,10 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setSaturday(boolean saturday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_saturday = saturday;
 	}
 
@@ -1202,6 +813,10 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setSunday(boolean sunday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_sunday = sunday;
 	}
 
@@ -1261,6 +876,10 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setComments(String comments) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_comments = comments;
 	}
 
@@ -1326,6 +945,10 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void setPeriodsIds(String periodsIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_periodsIds = periodsIds;
 	}
 
@@ -1336,6 +959,26 @@ public class ActivityCourseScheduleModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1469,6 +1112,55 @@ public class ActivityCourseScheduleModelImpl
 	}
 
 	@Override
+	public ActivityCourseSchedule cloneWithOriginalValues() {
+		ActivityCourseScheduleImpl activityCourseScheduleImpl =
+			new ActivityCourseScheduleImpl();
+
+		activityCourseScheduleImpl.setUuid(
+			this.<String>getColumnOriginalValue("uuid_"));
+		activityCourseScheduleImpl.setActivityCourseScheduleId(
+			this.<Long>getColumnOriginalValue("activityCourseScheduleId"));
+		activityCourseScheduleImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		activityCourseScheduleImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		activityCourseScheduleImpl.setUserId(
+			this.<Long>getColumnOriginalValue("userId"));
+		activityCourseScheduleImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		activityCourseScheduleImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		activityCourseScheduleImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		activityCourseScheduleImpl.setActivityCoursePlaceId(
+			this.<Long>getColumnOriginalValue("activityCoursePlaceId"));
+		activityCourseScheduleImpl.setStartTime(
+			this.<String>getColumnOriginalValue("startTime"));
+		activityCourseScheduleImpl.setEndTime(
+			this.<String>getColumnOriginalValue("endTime"));
+		activityCourseScheduleImpl.setMonday(
+			this.<Boolean>getColumnOriginalValue("monday"));
+		activityCourseScheduleImpl.setTuesday(
+			this.<Boolean>getColumnOriginalValue("tuesday"));
+		activityCourseScheduleImpl.setWednesday(
+			this.<Boolean>getColumnOriginalValue("wednesday"));
+		activityCourseScheduleImpl.setThursday(
+			this.<Boolean>getColumnOriginalValue("thursday"));
+		activityCourseScheduleImpl.setFriday(
+			this.<Boolean>getColumnOriginalValue("friday"));
+		activityCourseScheduleImpl.setSaturday(
+			this.<Boolean>getColumnOriginalValue("saturday"));
+		activityCourseScheduleImpl.setSunday(
+			this.<Boolean>getColumnOriginalValue("sunday"));
+		activityCourseScheduleImpl.setComments(
+			this.<String>getColumnOriginalValue("comments"));
+		activityCourseScheduleImpl.setPeriodsIds(
+			this.<String>getColumnOriginalValue("periodsIds"));
+
+		return activityCourseScheduleImpl;
+	}
+
+	@Override
 	public int compareTo(ActivityCourseSchedule activityCourseSchedule) {
 		long primaryKey = activityCourseSchedule.getPrimaryKey();
 
@@ -1511,11 +1203,19 @@ public class ActivityCourseScheduleModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1523,30 +1223,11 @@ public class ActivityCourseScheduleModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ActivityCourseScheduleModelImpl activityCourseScheduleModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		activityCourseScheduleModelImpl._originalUuid =
-			activityCourseScheduleModelImpl._uuid;
+		_setModifiedDate = false;
 
-		activityCourseScheduleModelImpl._originalGroupId =
-			activityCourseScheduleModelImpl._groupId;
-
-		activityCourseScheduleModelImpl._setOriginalGroupId = false;
-
-		activityCourseScheduleModelImpl._originalCompanyId =
-			activityCourseScheduleModelImpl._companyId;
-
-		activityCourseScheduleModelImpl._setOriginalCompanyId = false;
-
-		activityCourseScheduleModelImpl._setModifiedDate = false;
-
-		activityCourseScheduleModelImpl._originalActivityCoursePlaceId =
-			activityCourseScheduleModelImpl._activityCoursePlaceId;
-
-		activityCourseScheduleModelImpl._setOriginalActivityCoursePlaceId =
-			false;
-
-		activityCourseScheduleModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1656,7 +1337,7 @@ public class ActivityCourseScheduleModelImpl
 			attributeGetterFunctions = getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1667,10 +1348,27 @@ public class ActivityCourseScheduleModelImpl
 			Function<ActivityCourseSchedule, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(
-				attributeGetterFunction.apply((ActivityCourseSchedule)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply(
+				(ActivityCourseSchedule)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1683,62 +1381,25 @@ public class ActivityCourseScheduleModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<ActivityCourseSchedule, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<ActivityCourseSchedule, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<ActivityCourseSchedule, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(
-				attributeGetterFunction.apply((ActivityCourseSchedule)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, ActivityCourseSchedule>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					ActivityCourseSchedule.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _activityCourseScheduleId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _activityCoursePlaceId;
-	private long _originalActivityCoursePlaceId;
-	private boolean _setOriginalActivityCoursePlaceId;
 	private String _startTime;
 	private String _endTime;
 	private boolean _monday;
@@ -1751,6 +1412,125 @@ public class ActivityCourseScheduleModelImpl
 	private String _comments;
 	private String _commentsCurrentLanguageId;
 	private String _periodsIds;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<ActivityCourseSchedule, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((ActivityCourseSchedule)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put(
+			"activityCourseScheduleId", _activityCourseScheduleId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put(
+			"activityCoursePlaceId", _activityCoursePlaceId);
+		_columnOriginalValues.put("startTime", _startTime);
+		_columnOriginalValues.put("endTime", _endTime);
+		_columnOriginalValues.put("monday", _monday);
+		_columnOriginalValues.put("tuesday", _tuesday);
+		_columnOriginalValues.put("wednesday", _wednesday);
+		_columnOriginalValues.put("thursday", _thursday);
+		_columnOriginalValues.put("friday", _friday);
+		_columnOriginalValues.put("saturday", _saturday);
+		_columnOriginalValues.put("sunday", _sunday);
+		_columnOriginalValues.put("comments", _comments);
+		_columnOriginalValues.put("periodsIds", _periodsIds);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("activityCourseScheduleId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("activityCoursePlaceId", 256L);
+
+		columnBitmasks.put("startTime", 512L);
+
+		columnBitmasks.put("endTime", 1024L);
+
+		columnBitmasks.put("monday", 2048L);
+
+		columnBitmasks.put("tuesday", 4096L);
+
+		columnBitmasks.put("wednesday", 8192L);
+
+		columnBitmasks.put("thursday", 16384L);
+
+		columnBitmasks.put("friday", 32768L);
+
+		columnBitmasks.put("saturday", 65536L);
+
+		columnBitmasks.put("sunday", 131072L);
+
+		columnBitmasks.put("comments", 262144L);
+
+		columnBitmasks.put("periodsIds", 524288L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private ActivityCourseSchedule _escapedModel;
 

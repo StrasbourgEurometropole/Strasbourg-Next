@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Liens</name>
+        <key>415969466</key>
+        <definition>links-structure.json</definition>
+        <layout>links-layout.json</layout>
+    </structure>
+    <template>
+        <name>Liens</name>
+        <key>420085404</key>
+        <script>acces.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+    <template>
+        <name>Menu pré-header</name>
+        <key>420085450</key>
+        <script>menu-pre-header.ftl</script>
+    </template>
+</root>

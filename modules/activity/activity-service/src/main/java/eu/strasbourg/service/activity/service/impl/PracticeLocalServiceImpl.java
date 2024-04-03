@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.activity.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -209,11 +210,8 @@ public class PracticeLocalServiceImpl extends PracticeLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Supprime le lien avec les catégories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-						categoryId, entry.getEntryId());
-			}
-
+			AssetEntryAssetCategoryRelLocalServiceUtil.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Supprime le lien avec les tags
 			long[] tagIds = AssetEntryLocalServiceUtil
 					.getAssetTagPrimaryKeys(entry.getEntryId());
@@ -345,12 +343,9 @@ public class PracticeLocalServiceImpl extends PracticeLocalServiceBaseImpl {
 	@Override
 	public List<PracticeCategories> getPracticesSortedByAssociation(long associationId) {
 		// Permet la récupération de toutes les catégories entières
-		Session session = practicePersistence.openSession();
-		SQLQuery query = session.createSQLQuery("SET SESSION group_concat_max_len = 1000000");
-		query.executeUpdate();
-
+		Session session = practicePersistence.getCurrentSession();
+		SQLQuery query = session.createSQLQuery(this.query);
 		List<PracticeCategories> practicesCategories = new ArrayList<>();
-		query = session.createSQLQuery(this.query);
 		QueryPos pos = QueryPos.getInstance(query);
 		pos.add(associationId);
 		for (Object values : query.list()) {
@@ -358,7 +353,6 @@ public class PracticeLocalServiceImpl extends PracticeLocalServiceBaseImpl {
 			PracticeCategories practiceCategories = new PracticeCategories(categoies);
 			practicesCategories.add(practiceCategories);
 		}
-		session.close();
 		return practicesCategories;
 	}
 
@@ -394,4 +388,5 @@ public class PracticeLocalServiceImpl extends PracticeLocalServiceBaseImpl {
 			"                LEFT JOIN AssetCategory AS agdparent ON agdparent.categoryId = gdparent.parentCategoryId" +
 			"                WHERE associationId = ?) as pratique" +
 			"            ORDER BY domaine, pratique";
+
 }

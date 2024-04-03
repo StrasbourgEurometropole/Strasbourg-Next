@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.gtfs.model.Calendar;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for Calendar. This utility wraps
@@ -48,9 +48,7 @@ public class CalendarLocalServiceUtil {
 	 * @param calendar the calendar
 	 * @return the calendar that was added
 	 */
-	public static eu.strasbourg.service.gtfs.model.Calendar addCalendar(
-		eu.strasbourg.service.gtfs.model.Calendar calendar) {
-
+	public static Calendar addCalendar(Calendar calendar) {
 		return getService().addCalendar(calendar);
 	}
 
@@ -60,18 +58,16 @@ public class CalendarLocalServiceUtil {
 	 * @param id the primary key for the new calendar
 	 * @return the new calendar
 	 */
-	public static eu.strasbourg.service.gtfs.model.Calendar createCalendar(
-		long id) {
-
+	public static Calendar createCalendar(long id) {
 		return getService().createCalendar(id);
 	}
 
 	/**
 	 * Crée un Calendar vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.gtfs.model.Calendar createCalendar(
+	public static Calendar createCalendar(
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createCalendar(sc);
 	}
@@ -79,12 +75,21 @@ public class CalendarLocalServiceUtil {
 	/**
 	 * Crée un Calendar à partir d'une entrée GTFS
 	 */
-	public static eu.strasbourg.service.gtfs.model.Calendar
-			createCalendarFromGTFS(
-				eu.strasbourg.utils.models.CalendarGTFS entry)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Calendar createCalendarFromGTFS(
+			eu.strasbourg.utils.models.CalendarGTFS entry)
+		throws PortalException {
 
 		return getService().createCalendarFromGTFS(entry);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -97,9 +102,7 @@ public class CalendarLocalServiceUtil {
 	 * @param calendar the calendar
 	 * @return the calendar that was removed
 	 */
-	public static eu.strasbourg.service.gtfs.model.Calendar deleteCalendar(
-		eu.strasbourg.service.gtfs.model.Calendar calendar) {
-
+	public static Calendar deleteCalendar(Calendar calendar) {
 		return getService().deleteCalendar(calendar);
 	}
 
@@ -114,27 +117,29 @@ public class CalendarLocalServiceUtil {
 	 * @return the calendar that was removed
 	 * @throws PortalException if a calendar with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.Calendar deleteCalendar(
-			long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Calendar deleteCalendar(long id) throws PortalException {
 		return getService().deleteCalendar(id);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -144,9 +149,7 @@ public class CalendarLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -162,9 +165,8 @@ public class CalendarLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -182,10 +184,9 @@ public class CalendarLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -197,9 +198,7 @@ public class CalendarLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -211,15 +210,13 @@ public class CalendarLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.gtfs.model.Calendar fetchCalendar(
-		long id) {
-
+	public static Calendar fetchCalendar(long id) {
 		return getService().fetchCalendar(id);
 	}
 
@@ -236,9 +233,7 @@ public class CalendarLocalServiceUtil {
 	 * @return the calendar
 	 * @throws PortalException if a calendar with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.Calendar getCalendar(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Calendar getCalendar(long id) throws PortalException {
 		return getService().getCalendar(id);
 	}
 
@@ -253,9 +248,7 @@ public class CalendarLocalServiceUtil {
 	 * @param end the upper bound of the range of calendars (not inclusive)
 	 * @return the range of calendars
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Calendar>
-		getCalendars(int start, int end) {
-
+	public static List<Calendar> getCalendars(int start, int end) {
 		return getService().getCalendars(start, end);
 	}
 
@@ -287,9 +280,8 @@ public class CalendarLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -298,8 +290,8 @@ public class CalendarLocalServiceUtil {
 	 * Import des calendrier sous le format de données GTFS
 	 */
 	public static void importFromGTFS(
-			java.util.Map<String, eu.strasbourg.utils.models.CalendarGTFS> data)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, eu.strasbourg.utils.models.CalendarGTFS> data)
+		throws PortalException {
 
 		getService().importFromGTFS(data);
 	}
@@ -307,18 +299,15 @@ public class CalendarLocalServiceUtil {
 	/**
 	 * Supprime toutes les Calendar
 	 */
-	public static void removeAllCalendars()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static void removeAllCalendars() throws PortalException {
 		getService().removeAllCalendars();
 	}
 
 	/**
 	 * Supprime un Calendar
 	 */
-	public static eu.strasbourg.service.gtfs.model.Calendar removeCalendar(
-			long calendarId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Calendar removeCalendar(long calendarId)
+		throws PortalException {
 
 		return getService().removeCalendar(calendarId);
 	}
@@ -333,9 +322,7 @@ public class CalendarLocalServiceUtil {
 	 * @param calendar the calendar
 	 * @return the calendar that was updated
 	 */
-	public static eu.strasbourg.service.gtfs.model.Calendar updateCalendar(
-		eu.strasbourg.service.gtfs.model.Calendar calendar) {
-
+	public static Calendar updateCalendar(Calendar calendar) {
 		return getService().updateCalendar(calendar);
 	}
 
@@ -344,33 +331,22 @@ public class CalendarLocalServiceUtil {
 	 *
 	 * @throws IOException
 	 */
-	public static eu.strasbourg.service.gtfs.model.Calendar updateCalendar(
-			eu.strasbourg.service.gtfs.model.Calendar calendar,
+	public static Calendar updateCalendar(
+			Calendar calendar,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().updateCalendar(calendar, sc);
 	}
 
 	public static CalendarLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<CalendarLocalService, CalendarLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(CalendarLocalService.class);
-
-		ServiceTracker<CalendarLocalService, CalendarLocalService>
-			serviceTracker =
-				new ServiceTracker<CalendarLocalService, CalendarLocalService>(
-					bundle.getBundleContext(), CalendarLocalService.class,
-					null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(CalendarLocalService service) {
+		_service = service;
 	}
+
+	private static volatile CalendarLocalService _service;
 
 }

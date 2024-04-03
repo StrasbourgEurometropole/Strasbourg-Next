@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Bulles</name>
+        <key>2206601</key>
+        <definition>bubbles-structure.json</definition>
+        <layout>bubbles-layout.json</layout>
+    </structure>
+    <template>
+        <name>Bulles</name>
+        <key>2206605</key>
+        <script>bubbles.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

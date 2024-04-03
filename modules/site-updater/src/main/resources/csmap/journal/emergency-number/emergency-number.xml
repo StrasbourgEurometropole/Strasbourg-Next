@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Numéro d'urgence</name>
+        <key>93508909</key>
+        <definition>emergency-number-structure.json</definition>
+        <layout>emergency-number-layout.json</layout>
+    </structure>
+</root>

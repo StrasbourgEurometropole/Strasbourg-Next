@@ -1,25 +1,30 @@
 package eu.strasbourg.portlet.association;
 
-import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.association.configuration.SearchAssociationConfiguration;
 import eu.strasbourg.portlet.association.display.context.SearchAssociationDisplayContext;
 import eu.strasbourg.service.activity.model.Association;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
-import javax.portlet.*;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,19 +32,19 @@ import java.util.Map;
  */
 @Component(
 	immediate = true,
-	configurationPid = "eu.strasbourg.portlet.association.configuration.SearchAssociationConfiguration",
 	property = {
-		"javax.portlet.version=3.0",
-		"com.liferay.portlet.display-category=Strasbourg",
-		"com.liferay.portlet.instanceable=false",
-		"com.liferay.portlet.css-class-wrapper=search-association-portlet",
-		"com.liferay.portlet.single-page-application=false",
-		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/search-association-view.jsp",
-		"javax.portlet.init-param.check-auth-token=false",
-		"javax.portlet.init-param.config-template=/configuration/search-association-configuration.jsp",
-		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user"}, service = Portlet.class)
+			"javax.portlet.version=3.0",
+			"com.liferay.portlet.display-category=Strasbourg",
+			"com.liferay.portlet.header-portlet-css=/css/search-association-main.css",
+			"com.liferay.portlet.instanceable=false",
+			"javax.portlet.display-name=Recherche d'association",
+			"javax.portlet.init-param.template-path=/",
+			"javax.portlet.init-param.view-template=/search-association-view.jsp",
+			"javax.portlet.init-param.config-template=/configuration/search-association-configuration.jsp",
+			"javax.portlet.init-param.check-auth-token=false",
+			"javax.portlet.name=" + StrasbourgPortletKeys.ASSOCIATION_SEARCH_WEB,
+			"javax.portlet.resource-bundle=content.Language",
+			"javax.portlet.security-role-ref=power-user,user"}, service = Portlet.class)
 public class SearchAssociationPortlet extends MVCPortlet {
 
 	@Override
@@ -47,9 +52,7 @@ public class SearchAssociationPortlet extends MVCPortlet {
 
 		try {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-			this._configuration = themeDisplay
-					.getPortletDisplay().getPortletInstanceConfiguration(
-							SearchAssociationConfiguration.class);
+			this._configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssociationConfiguration.class, themeDisplay);
 
 			// On set le DisplayContext
 			SearchAssociationDisplayContext dc = new SearchAssociationDisplayContext(request, response);
@@ -59,6 +62,7 @@ public class SearchAssociationPortlet extends MVCPortlet {
 			// correspondre à chaque type d'asset une page de détail
 			Map<String, Long> className_layoutId = new HashMap<>();
 			String layoutFriendlyURL = this._configuration.layoutFriendlyURL();
+			String description = this._configuration.description();
 			Layout layout = LayoutLocalServiceUtil.fetchLayoutByFriendlyURL(
 					themeDisplay.getScopeGroupId(), false,
 					layoutFriendlyURL);
@@ -67,6 +71,7 @@ public class SearchAssociationPortlet extends MVCPortlet {
 			}
 
 			request.setAttribute("classNameLayoutId", className_layoutId);
+			request.setAttribute("description", description);
 
 			super.render(request, response);
 		} catch (Exception ex) {
@@ -95,11 +100,6 @@ public class SearchAssociationPortlet extends MVCPortlet {
 
 	private boolean validate(ActionRequest request) {
 		boolean isValid = true;
-
-		if (Validator.isNull(ParamUtil.getString(request, "domain"))) {
-			SessionErrors.add(request, "practice-error");
-			isValid = false;
-		}
 
 		return isValid;
 	}

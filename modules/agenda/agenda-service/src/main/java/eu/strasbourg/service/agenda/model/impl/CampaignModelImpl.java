@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
@@ -17,6 +8,7 @@ package eu.strasbourg.service.agenda.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -33,7 +25,7 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
@@ -42,9 +34,9 @@ import eu.strasbourg.service.agenda.model.CampaignModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -53,6 +45,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -136,29 +129,53 @@ public class CampaignModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.agenda.model.Campaign"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.agenda.model.Campaign"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.agenda.model.Campaign"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TITLE_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long MODIFIEDDATE_COLUMN_BITMASK = 16L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -216,9 +233,6 @@ public class CampaignModelImpl
 				attributeName, attributeGetterFunction.apply((Campaign)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -243,477 +257,128 @@ public class CampaignModelImpl
 	public Map<String, Function<Campaign, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Campaign, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Campaign>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Campaign.class.getClassLoader(), Campaign.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<Campaign, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Campaign> constructor =
-				(Constructor<Campaign>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Campaign, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Campaign, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Campaign::getUuid);
+			attributeGetterFunctions.put("campaignId", Campaign::getCampaignId);
+			attributeGetterFunctions.put("groupId", Campaign::getGroupId);
+			attributeGetterFunctions.put("companyId", Campaign::getCompanyId);
+			attributeGetterFunctions.put("userId", Campaign::getUserId);
+			attributeGetterFunctions.put("userName", Campaign::getUserName);
+			attributeGetterFunctions.put("createDate", Campaign::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Campaign::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", Campaign::getLastPublishDate);
+			attributeGetterFunctions.put("status", Campaign::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Campaign::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Campaign::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Campaign::getStatusDate);
+			attributeGetterFunctions.put("title", Campaign::getTitle);
+			attributeGetterFunctions.put(
+				"defaultImageId", Campaign::getDefaultImageId);
+			attributeGetterFunctions.put(
+				"defaultImageCopyright", Campaign::getDefaultImageCopyright);
+			attributeGetterFunctions.put(
+				"managersIds", Campaign::getManagersIds);
+			attributeGetterFunctions.put(
+				"exportEnabled", Campaign::getExportEnabled);
+			attributeGetterFunctions.put("startDate", Campaign::getStartDate);
+			attributeGetterFunctions.put("endDate", Campaign::getEndDate);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Campaign, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Campaign, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Campaign, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Campaign, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Campaign, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Campaign, String>)Campaign::setUuid);
+			attributeSetterBiConsumers.put(
+				"campaignId",
+				(BiConsumer<Campaign, Long>)Campaign::setCampaignId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Campaign, Long>)Campaign::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Campaign, Long>)Campaign::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Campaign, Long>)Campaign::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Campaign, String>)Campaign::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Campaign, Date>)Campaign::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Campaign, Date>)Campaign::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<Campaign, Date>)Campaign::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Campaign, Integer>)Campaign::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Campaign, Long>)Campaign::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Campaign, String>)Campaign::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Campaign, Date>)Campaign::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Campaign, String>)Campaign::setTitle);
+			attributeSetterBiConsumers.put(
+				"defaultImageId",
+				(BiConsumer<Campaign, Long>)Campaign::setDefaultImageId);
+			attributeSetterBiConsumers.put(
+				"defaultImageCopyright",
+				(BiConsumer<Campaign, String>)
+					Campaign::setDefaultImageCopyright);
+			attributeSetterBiConsumers.put(
+				"managersIds",
+				(BiConsumer<Campaign, String>)Campaign::setManagersIds);
+			attributeSetterBiConsumers.put(
+				"exportEnabled",
+				(BiConsumer<Campaign, Boolean>)Campaign::setExportEnabled);
+			attributeSetterBiConsumers.put(
+				"startDate",
+				(BiConsumer<Campaign, Date>)Campaign::setStartDate);
+			attributeSetterBiConsumers.put(
+				"endDate", (BiConsumer<Campaign, Date>)Campaign::setEndDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<Campaign, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Campaign, Object>>();
-		Map<String, BiConsumer<Campaign, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Campaign, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(Campaign campaign, Object uuidObject) {
-					campaign.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"campaignId",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getCampaignId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"campaignId",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(Campaign campaign, Object campaignIdObject) {
-					campaign.setCampaignId((Long)campaignIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(Campaign campaign, Object groupIdObject) {
-					campaign.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(Campaign campaign, Object companyIdObject) {
-					campaign.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(Campaign campaign, Object userIdObject) {
-					campaign.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(Campaign campaign, Object userNameObject) {
-					campaign.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(Campaign campaign, Object createDateObject) {
-					campaign.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(
-					Campaign campaign, Object modifiedDateObject) {
-
-					campaign.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getLastPublishDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(
-					Campaign campaign, Object lastPublishDateObject) {
-
-					campaign.setLastPublishDate((Date)lastPublishDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(Campaign campaign, Object statusObject) {
-					campaign.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(
-					Campaign campaign, Object statusByUserIdObject) {
-
-					campaign.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(
-					Campaign campaign, Object statusByUserNameObject) {
-
-					campaign.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(Campaign campaign, Object statusDateObject) {
-					campaign.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getTitle();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(Campaign campaign, Object titleObject) {
-					campaign.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"defaultImageId",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getDefaultImageId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"defaultImageId",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(
-					Campaign campaign, Object defaultImageIdObject) {
-
-					campaign.setDefaultImageId((Long)defaultImageIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"defaultImageCopyright",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getDefaultImageCopyright();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"defaultImageCopyright",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(
-					Campaign campaign, Object defaultImageCopyrightObject) {
-
-					campaign.setDefaultImageCopyright(
-						(String)defaultImageCopyrightObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"managersIds",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getManagersIds();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"managersIds",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(
-					Campaign campaign, Object managersIdsObject) {
-
-					campaign.setManagersIds((String)managersIdsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"exportEnabled",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getExportEnabled();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"exportEnabled",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(
-					Campaign campaign, Object exportEnabledObject) {
-
-					campaign.setExportEnabled((Boolean)exportEnabledObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"startDate",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getStartDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"startDate",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(Campaign campaign, Object startDateObject) {
-					campaign.setStartDate((Date)startDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"endDate",
-			new Function<Campaign, Object>() {
-
-				@Override
-				public Object apply(Campaign campaign) {
-					return campaign.getEndDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"endDate",
-			new BiConsumer<Campaign, Object>() {
-
-				@Override
-				public void accept(Campaign campaign, Object endDateObject) {
-					campaign.setEndDate((Date)endDateObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -728,17 +393,20 @@ public class CampaignModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -748,6 +416,10 @@ public class CampaignModelImpl
 
 	@Override
 	public void setCampaignId(long campaignId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_campaignId = campaignId;
 	}
 
@@ -758,19 +430,20 @@ public class CampaignModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -780,19 +453,21 @@ public class CampaignModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -802,6 +477,10 @@ public class CampaignModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -833,6 +512,10 @@ public class CampaignModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -843,6 +526,10 @@ public class CampaignModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -859,7 +546,9 @@ public class CampaignModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -871,6 +560,10 @@ public class CampaignModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -881,6 +574,10 @@ public class CampaignModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -891,6 +588,10 @@ public class CampaignModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -922,6 +623,10 @@ public class CampaignModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -932,6 +637,10 @@ public class CampaignModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -990,10 +699,8 @@ public class CampaignModelImpl
 
 	@Override
 	public void setTitle(String title) {
-		_columnBitmask |= TITLE_COLUMN_BITMASK;
-
-		if (_originalTitle == null) {
-			_originalTitle = _title;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_title = title;
@@ -1045,8 +752,13 @@ public class CampaignModelImpl
 				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalTitle() {
-		return GetterUtil.getString(_originalTitle);
+		return getColumnOriginalValue("title");
 	}
 
 	@Override
@@ -1056,6 +768,10 @@ public class CampaignModelImpl
 
 	@Override
 	public void setDefaultImageId(long defaultImageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_defaultImageId = defaultImageId;
 	}
 
@@ -1117,6 +833,10 @@ public class CampaignModelImpl
 
 	@Override
 	public void setDefaultImageCopyright(String defaultImageCopyright) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_defaultImageCopyright = defaultImageCopyright;
 	}
 
@@ -1189,6 +909,10 @@ public class CampaignModelImpl
 
 	@Override
 	public void setManagersIds(String managersIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_managersIds = managersIds;
 	}
 
@@ -1199,6 +923,10 @@ public class CampaignModelImpl
 
 	@Override
 	public void setExportEnabled(Boolean exportEnabled) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_exportEnabled = exportEnabled;
 	}
 
@@ -1209,6 +937,10 @@ public class CampaignModelImpl
 
 	@Override
 	public void setStartDate(Date startDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_startDate = startDate;
 	}
 
@@ -1219,6 +951,10 @@ public class CampaignModelImpl
 
 	@Override
 	public void setEndDate(Date endDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_endDate = endDate;
 	}
 
@@ -1309,6 +1045,26 @@ public class CampaignModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1464,6 +1220,48 @@ public class CampaignModelImpl
 	}
 
 	@Override
+	public Campaign cloneWithOriginalValues() {
+		CampaignImpl campaignImpl = new CampaignImpl();
+
+		campaignImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		campaignImpl.setCampaignId(
+			this.<Long>getColumnOriginalValue("campaignId"));
+		campaignImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		campaignImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		campaignImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		campaignImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		campaignImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		campaignImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		campaignImpl.setLastPublishDate(
+			this.<Date>getColumnOriginalValue("lastPublishDate"));
+		campaignImpl.setStatus(this.<Integer>getColumnOriginalValue("status"));
+		campaignImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		campaignImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		campaignImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		campaignImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		campaignImpl.setDefaultImageId(
+			this.<Long>getColumnOriginalValue("defaultImageId"));
+		campaignImpl.setDefaultImageCopyright(
+			this.<String>getColumnOriginalValue("defaultImageCopyright"));
+		campaignImpl.setManagersIds(
+			this.<String>getColumnOriginalValue("managersIds"));
+		campaignImpl.setExportEnabled(
+			this.<Boolean>getColumnOriginalValue("exportEnabled"));
+		campaignImpl.setStartDate(
+			this.<Date>getColumnOriginalValue("startDate"));
+		campaignImpl.setEndDate(this.<Date>getColumnOriginalValue("endDate"));
+
+		return campaignImpl;
+	}
+
+	@Override
 	public int compareTo(Campaign campaign) {
 		int value = 0;
 
@@ -1506,11 +1304,19 @@ public class CampaignModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1518,23 +1324,11 @@ public class CampaignModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CampaignModelImpl campaignModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		campaignModelImpl._originalUuid = campaignModelImpl._uuid;
+		_setModifiedDate = false;
 
-		campaignModelImpl._originalGroupId = campaignModelImpl._groupId;
-
-		campaignModelImpl._setOriginalGroupId = false;
-
-		campaignModelImpl._originalCompanyId = campaignModelImpl._companyId;
-
-		campaignModelImpl._setOriginalCompanyId = false;
-
-		campaignModelImpl._setModifiedDate = false;
-
-		campaignModelImpl._originalTitle = campaignModelImpl._title;
-
-		campaignModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1674,7 +1468,7 @@ public class CampaignModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1685,9 +1479,26 @@ public class CampaignModelImpl
 			Function<Campaign, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Campaign)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Campaign)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1700,53 +1511,19 @@ public class CampaignModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Campaign, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Campaign, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Campaign, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Campaign)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Campaign>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Campaign.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _campaignId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1759,7 +1536,6 @@ public class CampaignModelImpl
 	private Date _statusDate;
 	private String _title;
 	private String _titleCurrentLanguageId;
-	private String _originalTitle;
 	private long _defaultImageId;
 	private String _defaultImageCopyright;
 	private String _defaultImageCopyrightCurrentLanguageId;
@@ -1767,6 +1543,124 @@ public class CampaignModelImpl
 	private Boolean _exportEnabled;
 	private Date _startDate;
 	private Date _endDate;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Campaign, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Campaign)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("campaignId", _campaignId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("lastPublishDate", _lastPublishDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("defaultImageId", _defaultImageId);
+		_columnOriginalValues.put(
+			"defaultImageCopyright", _defaultImageCopyright);
+		_columnOriginalValues.put("managersIds", _managersIds);
+		_columnOriginalValues.put("exportEnabled", _exportEnabled);
+		_columnOriginalValues.put("startDate", _startDate);
+		_columnOriginalValues.put("endDate", _endDate);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("campaignId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("lastPublishDate", 256L);
+
+		columnBitmasks.put("status", 512L);
+
+		columnBitmasks.put("statusByUserId", 1024L);
+
+		columnBitmasks.put("statusByUserName", 2048L);
+
+		columnBitmasks.put("statusDate", 4096L);
+
+		columnBitmasks.put("title", 8192L);
+
+		columnBitmasks.put("defaultImageId", 16384L);
+
+		columnBitmasks.put("defaultImageCopyright", 32768L);
+
+		columnBitmasks.put("managersIds", 65536L);
+
+		columnBitmasks.put("exportEnabled", 131072L);
+
+		columnBitmasks.put("startDate", 262144L);
+
+		columnBitmasks.put("endDate", 524288L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Campaign _escapedModel;
 

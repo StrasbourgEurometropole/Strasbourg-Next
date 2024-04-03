@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Budgets Participatifs</name>
+        <key>3210065</key>
+        <definition>budgets-participatifs-structure.json</definition>
+        <layout>budgets-participatifs-layout.json</layout>
+    </structure>
+    <template>
+        <name>Budgets participatifs</name>
+        <key>3210078</key>
+        <script>budgets-participatifs.ftl</script>
+    </template>
+</root>

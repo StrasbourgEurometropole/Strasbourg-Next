@@ -1,78 +1,38 @@
 <%@ include file="/project-bo-init.jsp"%>
-
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <%-- URL : definit le lien avec les parametres de recherche des entites--%>
 <liferay-portlet:renderURL varImpl="petitionsURL">
 	<portlet:param name="tab" value="petitions" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
+	<portlet:param name="mvcPath" value="/project-bo-view-petitions.jsp" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
-</liferay-portlet:renderURL>
-
-<%-- URL : definit le lien vers la page d'ajout/edition d'une entite --%>
-<liferay-portlet:renderURL varImpl="addPetitionURL">
-	<portlet:param name="cmd" value="editPetition" />
-	<portlet:param name="mvcPath" value="/project-bo-edit-petition.jsp" />
-	<portlet:param name="returnURL" value="${petitionsURL}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:renderURL>
 
 <%-- Composant : barre de filtres et de gestion des entites --%>
-<liferay-frontend:management-bar includeCheckBox="true" searchContainerId="petitionsSearchContainer">
-
-		<%-- Composant : partie filtres et selection --%>
-		<liferay-frontend:management-bar-filters>
-			<c:if test="${fn:length(dc.vocabularies) > 0}">
-				<li><a>Filtrer par :</a></li>
-			</c:if>
-			<c:forEach var="vocabulary" items="${dc.vocabularies}">
-				<liferay-frontend:management-bar-filter 
-					managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}" 
-					value="${dc.getVocabularyFilterLabel(vocabulary)}" />
-			</c:forEach>
-
-			<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
-				orderByType="${dc.orderByType}"
-				orderColumns='<%= new String[] {"title", "modified-date"} %>'
-				portletURL="${petitionsURL}" />
-		</liferay-frontend:management-bar-filters>
-
-		<%-- Composant : partie gestion (affichee apres une selection) --%>
-		<liferay-frontend:management-bar-action-buttons>
-			<c:if test="${not dc.workflowEnabled}">
-				<c:if test="${dc.hasPermission('EDIT_PETITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-					<liferay-frontend:management-bar-button
-						href='<%="javascript:" + renderResponse.getNamespace() + "unpublishSelection();"%>'
-						icon="times" label="unpublish" />
-				</c:if>
-			</c:if>
-			<c:if test="${dc.hasPermission('DELETE_PETITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-			<liferay-frontend:management-bar-button
-				href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
-				icon="trash" label="delete" />
-			</c:if>
-		</liferay-frontend:management-bar-action-buttons>
-		
-</liferay-frontend:management-bar>
+<clay:management-toolbar
+		managementToolbarDisplayContext="${managementDC}"
+/>
 
 <%-- Composant : tableau de visualisation des entites --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
-		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="petitionsSearchContainer"
 			searchContainer="${dc.searchContainer}">
-			<liferay-ui:search-container-results results="${dc.petitions}" />
 
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.project.model.Petition" modelVar="petition"
-				keyProperty="petitionId" rowIdProperty="petitionId">
+				keyProperty="petitionId" >
 				
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionne --%>
 				<liferay-portlet:renderURL varImpl="editPetitionURL">
 					<portlet:param name="cmd" value="editPetition" />
 					<portlet:param name="petitionId" value="${petition.petitionId}" />
-					<portlet:param name="returnURL" value="${petitionsURL}" />
+					<portlet:param name="backURL" value="${petitionsURL}" />
 					<portlet:param name="mvcPath" value="/project-bo-edit-petition.jsp" />
+					<portlet:param name="tab" value="petitions" />
 				</liferay-portlet:renderURL>
 
 				<%-- Colonne : Titre --%>
@@ -111,28 +71,10 @@
 
 				<%-- Colonne : Actions possibles --%>
 				<liferay-ui:search-container-column-text>
-					<liferay-ui:icon-menu markupView="lexicon">
-					
-						<c:if test="${dc.hasPermission('EDIT_PETITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="edit" url="${editPetitionURL}" />
-						</c:if>
-						
-						<liferay-portlet:resourceURL id="exportSignatairesXlsx" var="exportSignatairesXlsxURL">
-							<portlet:param name="petitionId" value="${petition.petitionId}" />
-						</liferay-portlet:resourceURL>
-						<liferay-ui:icon message="export-xlsx-signataires" url="${exportSignatairesXlsxURL}" />
-
-						<liferay-portlet:actionURL name="deletePetition" var="deletePetitionURL">
-							<portlet:param name="cmd" value="deletePetition" />
-							<portlet:param name="tab" value="petitions" />
-							<portlet:param name="petitionId" value="${petition.petitionId}" />
-						</liferay-portlet:actionURL>
-						
-						<c:if test="${dc.hasPermission('DELETE_PETITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="delete" url="${deletePetitionURL}" />
-						</c:if>
-						
-					</liferay-ui:icon-menu>
+					<clay:dropdown-actions
+							aria-label="<liferay-ui:message key='show-actions' />"
+							dropdownItems="${dc.getActionsPetition(petition).getActionDropdownItems()}"
+					/>
 				</liferay-ui:search-container-column-text>
 
 			</liferay-ui:search-container-row>
@@ -146,7 +88,6 @@
 	<liferay-portlet:resourceURL var="exportPetitionsXlsxURL" id="exportPetitionsXlsx" copyCurrentRenderParameters="false">
     </liferay-portlet:resourceURL>
    	<form method="POST" action="${exportPetitionsXlsxURL}">
-   		<aui:input type="hidden" name="petitionIds" value="${dc.allPetitionIds}" />
    		<aui:button-row>
    			<aui:button cssClass="btn-lg" type="submit"
    				value="export-petitions-xlsx" />
@@ -155,12 +96,6 @@
 
 </div>
 
-<%-- Composant : bouton d'ajout d'entite --%>
-<liferay-frontend:add-menu>
-	<c:if test="${dc.hasPermission('ADD_PETITION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-		<liferay-frontend:add-menu-item title="Ajouter une petition" url="${addPetitionURL}" />
-	</c:if>
-</liferay-frontend:add-menu>
 
 <%-- URL : defini le lien vers l'action de suppression --%>
 <liferay-portlet:actionURL name="selectionAction" var="deleteSelectionURL">
@@ -168,20 +103,10 @@
 	<portlet:param name="tab" value="petitions" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
+	<portlet:param name="mvcPath" value="/project-bo-view-petitions.jsp" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
-</liferay-portlet:actionURL>
-
-<%-- URL : defini le lien vers l'action de publication --%>
-<liferay-portlet:actionURL name="selectionAction" var="publishSelectionURL">
-	<portlet:param name="cmd" value="publish" />
-	<portlet:param name="tab" value="petitions" />
-	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
-	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
-	<portlet:param name="keywords" value="${dc.keywords}" />
-	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : defini le lien vers l'action de depublication --%>
@@ -190,44 +115,74 @@
 	<portlet:param name="tab" value="petitions" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
+	<portlet:param name="mvcPath" value="/project-bo-view-petitions.jsp" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:actionURL>
-
+<liferay-portlet:renderURL varImpl="filterSelectionURL">
+	<portlet:param name="tab" value="petitions" />
+	<portlet:param name="mvcPath" value="/project-bo-view-petitions.jsp" />
+	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+	<portlet:param name="orderByType" value="${dc.orderByType}" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
+</liferay-portlet:renderURL>
 <%-- Script : permet l'affichage des alertes de validation d'action --%>
 <aui:script>
-	function <portlet:namespace />deleteSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
+	var form = document.querySelector("[name='<portlet:namespace />fm']");
+	var json = '{"desiredItemSelectorReturnTypes":"infoitem","itemSubtype":null,"itemType":"com.liferay.asset.kernel.model.AssetCategory","mimeTypes":null,"multiSelection":true,"refererClassPK":"0","status":0}';
 
+	function deleteSelection() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-selected-entries" />')) {
 			submitForm(form, '${deleteSelectionURL}');
 		}
 	}
-	function <portlet:namespace />publishSelection() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-publish-selected-entries" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
-
-			submitForm(form, '${publishSelectionURL}');
-		}
-	}
-	function <portlet:namespace />unpublishSelection() {
+	function unpublishSelection() {
 		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-unpublish-selected-entries" />')) {
-			var form = AUI.$(document.<portlet:namespace />fm);
-			var selectionIdsInput = document
-					.getElementsByName('<portlet:namespace />selectionIds')[0];
-			selectionIdsInput.value = Liferay.Util.listCheckedExcept(form,
-					'<portlet:namespace />allRowIds');
-
 			submitForm(form, '${unpublishSelectionURL}');
 		}
+	}
+
+	function getCategoriesByVocabulary(vocabularyId, vocabularyName, categoriesId) {
+		const portletURL = location.protocol + '//' + location.host + location.pathname + "/-/select/com.liferay.item.selector.criteria.info.item.criterion.InfoItemItemSelectorCriterion/<portlet:namespace />selectCategory";
+		const url = Liferay.Util.PortletURL.createPortletURL(portletURL, {
+			p_p_id: 'com_liferay_item_selector_web_portlet_ItemSelectorPortlet',
+			'0_json': json,
+			p_p_lifecycle: 0,
+			p_p_state: "pop_up",
+			selectedCategories: categoriesId,
+			selectedCategoryIds: categoriesId,
+			singleSelect : false,
+			showAddCategoryButton: true,
+			vocabularyIds: vocabularyId,
+		});
+
+		Liferay.Util.openSelectionModal(
+			{
+				onSelect: function (selectedItem) {
+					if (selectedItem) {
+						var url = "${filterSelectionURL}";
+						if(!url.includes("filterCategoriesIdByVocabulariesName"))
+							url += "&<portlet:namespace />filterCategoriesIdByVocabulariesName=";
+						if(url.includes(encodeURIComponent(vocabularyName).replaceAll("%20","+").replaceAll("'","%27")+'__')){
+							const regex = encodeURIComponent(vocabularyName).replaceAll("%20","\\+").replaceAll("'","%27") + "(.(?<!___))*___";
+							const re = new RegExp(regex, 'gi');
+							url = url.replace(re,"");
+						}
+						for(index in Object.keys(selectedItem)){
+							var selection = selectedItem[Object.keys(selectedItem)[index]];
+							url += encodeURIComponent(vocabularyName) + '__' + encodeURIComponent(selection.title) + '__' + selection.categoryId + '___';
+						}
+						submitForm(form, url);
+					}
+				},
+				selectEventName: '<portlet:namespace />selectCategory',
+				title: vocabularyName,
+				multiple: true,
+				url: url
+			}
+		)
 	}
 </aui:script>

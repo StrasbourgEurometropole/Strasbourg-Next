@@ -15,12 +15,10 @@
 package eu.strasbourg.service.csmap.service.impl;
 
 import com.liferay.portal.aop.AopService;
-
+import com.liferay.portal.kernel.service.ServiceContext;
 import eu.strasbourg.service.csmap.exception.NoSuchRefreshTokenException;
 import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.service.csmap.service.base.RefreshTokenLocalServiceBaseImpl;
-
-import com.liferay.portal.kernel.service.ServiceContext;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.List;

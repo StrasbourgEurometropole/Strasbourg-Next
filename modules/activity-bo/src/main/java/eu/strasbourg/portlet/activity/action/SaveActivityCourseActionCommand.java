@@ -104,14 +104,15 @@ public class SaveActivityCourseActionCommand extends BaseMVCActionCommand {
 			// Si pas valide : on reste sur la page d'édition
 			PortalUtil.copyRequestParameters(request, response);
 
-			PortletURL returnURL = PortletURLFactoryUtil.create(request,
+			PortletURL backURL = PortletURLFactoryUtil.create(request,
 				portletName, themeDisplay.getPlid(),
 				PortletRequest.RENDER_PHASE);
-			returnURL.setParameter("tab", request.getParameter("tab"));
+			backURL.setParameter("tab", request.getParameter("tab"));
 
-			response.setRenderParameter("returnURL", returnURL.toString());
+			response.setRenderParameter("backURL", backURL.toString());
 			response.setRenderParameter("mvcPath",
 				"/activity-bo-edit-course.jsp");
+			response.setRenderParameter("cmd", "saveActivityCourse");
 			return;
 		}
 
@@ -123,6 +124,9 @@ public class SaveActivityCourseActionCommand extends BaseMVCActionCommand {
 		// Présentation
 		Map<Locale, String> presentation = LocalizationUtil.getLocalizationMap(request, "presentation");
 		activityCourse.setPresentationMap(presentation);
+
+		Integer duration = ParamUtil.getInteger(request, "duration");
+		activityCourse.setDuration(duration);
 
 		// Activité
 		long activityId = ParamUtil.getLong(request, "activityId");
@@ -297,12 +301,7 @@ public class SaveActivityCourseActionCommand extends BaseMVCActionCommand {
 
 		// Update de l'entité
 		activityCourseLocalService.updateActivityCourse(activityCourse, sc);
-
-		// Post / Redirect / Get si tout est bon
-		PortletURL renderURL = PortletURLFactoryUtil.create(request,
-			portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
-		renderURL.setParameter("tab", request.getParameter("tab"));
-		response.sendRedirect(renderURL.toString());
+		response.setRenderParameter("mvcPath", "/activity-bo-view-courses.jsp");
 	}
 
 	/**

@@ -8,6 +8,9 @@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %><%@
 taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %><%@
 taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
+<%@ taglib uri="http://liferay.com/tld/asset" prefix="liferay-asset" %>
+<%@ taglib uri="http://strasbourg.eu/tld/asset-category-selector" prefix="asset-category-selector" %>
+
 
 <liferay-theme:defineObjects />
 
@@ -52,17 +55,17 @@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
     </aui:script>
 </liferay-util:body-top>
 
-<link rel="stylesheet" href="/o/mapweb/css/leaflet.css" />
-<link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.css" />
-<link rel="stylesheet" href="/o/mapweb/css/MarkerCluster.Default.css" />
-<link rel="stylesheet" href="/o/mapweb/css/leaflet-gesture-handling.css" />
+<link rel="stylesheet" href="/o/0-global-theme/libs/leaflet/leaflet.css" />
+<link rel="stylesheet" href="/o/0-global-theme/libs/leaflet/MarkerCluster.css" />
+<link rel="stylesheet" href="/o/0-global-theme/libs/leaflet/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="/o/0-global-theme/libs/leaflet/leaflet-gesture-handling.css" />
 <link rel="stylesheet" href="/o/mapweb/css/map.css" />
 
 <liferay-util:html-bottom>
-    <script src="/o/mapweb/js/leaflet.js"></script>
-    <script src="/o/mapweb/js/leaflet.markercluster-src.js"></script>
-    <script src="/o/mapweb/js/leaflet-list-markers.src.js"></script>
-    <script src="/o/mapweb/js/leaflet.snogylop.js"></script>
+    <script src="/o/0-global-theme/libs/leaflet/leaflet.js"></script>
+    <script src="/o/0-global-theme/libs/leaflet/leaflet.markercluster-src.js"></script>
+    <script src="/o/0-global-theme/libs/leaflet/leaflet-list-markers.src.js"></script>
+    <script src="/o/0-global-theme/libs/leaflet/leaflet.snogylop.js"></script>
     <script src="/o/mapweb/js/map.js"></script>
-    <script src="/o/mapweb/js/leaflet-gesture-handling.js"></script>
+    <script src="/o/0-global-theme/libs/leaflet/leaflet-gesture-handling.js"></script>
 </liferay-util:html-bottom>

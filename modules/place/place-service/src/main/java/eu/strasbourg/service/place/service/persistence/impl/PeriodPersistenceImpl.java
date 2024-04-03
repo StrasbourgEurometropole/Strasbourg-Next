@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,29 +16,29 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.place.exception.NoSuchPeriodException;
 import eu.strasbourg.service.place.model.Period;
+import eu.strasbourg.service.place.model.PeriodTable;
 import eu.strasbourg.service.place.model.impl.PeriodImpl;
 import eu.strasbourg.service.place.model.impl.PeriodModelImpl;
 import eu.strasbourg.service.place.service.persistence.PeriodPersistence;
+import eu.strasbourg.service.place.service.persistence.PeriodUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -246,10 +238,6 @@ public class PeriodPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -598,8 +586,6 @@ public class PeriodPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -767,10 +753,6 @@ public class PeriodPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1094,8 +1076,6 @@ public class PeriodPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1114,21 +1094,14 @@ public class PeriodPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Period.class);
+
+		setModelImplClass(PeriodImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(PeriodTable.INSTANCE);
 	}
 
 	/**
@@ -1138,12 +1111,10 @@ public class PeriodPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(Period period) {
-		entityCache.putResult(
-			PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
-			period.getPrimaryKey(), period);
-
-		period.resetOriginalValues();
+		entityCache.putResult(PeriodImpl.class, period.getPrimaryKey(), period);
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the periods in the entity cache if it is enabled.
@@ -1152,15 +1123,18 @@ public class PeriodPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Period> periods) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (periods.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Period period : periods) {
 			if (entityCache.getResult(
-					PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
-					period.getPrimaryKey()) == null) {
+					PeriodImpl.class, period.getPrimaryKey()) == null) {
 
 				cacheResult(period);
-			}
-			else {
-				period.resetOriginalValues();
 			}
 		}
 	}
@@ -1176,9 +1150,7 @@ public class PeriodPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(PeriodImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(PeriodImpl.class);
 	}
 
 	/**
@@ -1190,35 +1162,22 @@ public class PeriodPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Period period) {
-		entityCache.removeResult(
-			PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
-			period.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(PeriodImpl.class, period);
 	}
 
 	@Override
 	public void clearCache(List<Period> periods) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Period period : periods) {
-			entityCache.removeResult(
-				PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
-				period.getPrimaryKey());
+			entityCache.removeResult(PeriodImpl.class, period);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(PeriodImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
-				primaryKey);
+			entityCache.removeResult(PeriodImpl.class, primaryKey);
 		}
 	}
 
@@ -1355,10 +1314,8 @@ public class PeriodPersistenceImpl
 		try {
 			session = openSession();
 
-			if (period.isNew()) {
+			if (isNew) {
 				session.save(period);
-
-				period.setNew(false);
 			}
 			else {
 				period = (Period)session.merge(period);
@@ -1371,71 +1328,11 @@ public class PeriodPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(PeriodImpl.class, periodModelImpl, false, true);
 
-		if (!PeriodModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		if (isNew) {
+			period.setNew(false);
 		}
-		else if (isNew) {
-			Object[] args = new Object[] {periodModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {periodModelImpl.getPlaceId()};
-
-			finderCache.removeResult(_finderPathCountByPlaceId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPlaceId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((periodModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					periodModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {periodModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((periodModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPlaceId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					periodModelImpl.getOriginalPlaceId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPlaceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPlaceId, args);
-
-				args = new Object[] {periodModelImpl.getPlaceId()};
-
-				finderCache.removeResult(_finderPathCountByPlaceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPlaceId, args);
-			}
-		}
-
-		entityCache.putResult(
-			PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
-			period.getPrimaryKey(), period, false);
 
 		period.resetOriginalValues();
 
@@ -1482,158 +1379,12 @@ public class PeriodPersistenceImpl
 	/**
 	 * Returns the period with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the period
-	 * @return the period, or <code>null</code> if a period with the primary key could not be found
-	 */
-	@Override
-	public Period fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Period period = (Period)serializable;
-
-		if (period == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				period = (Period)session.get(PeriodImpl.class, primaryKey);
-
-				if (period != null) {
-					cacheResult(period);
-				}
-				else {
-					entityCache.putResult(
-						PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
-						primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return period;
-	}
-
-	/**
-	 * Returns the period with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param periodId the primary key of the period
 	 * @return the period, or <code>null</code> if a period with the primary key could not be found
 	 */
 	@Override
 	public Period fetchByPrimaryKey(long periodId) {
 		return fetchByPrimaryKey((Serializable)periodId);
-	}
-
-	@Override
-	public Map<Serializable, Period> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Period> map = new HashMap<Serializable, Period>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Period period = fetchByPrimaryKey(primaryKey);
-
-			if (period != null) {
-				map.put(primaryKey, period);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Period)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_PERIOD_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Period period : (List<Period>)query.list()) {
-				map.put(period.getPrimaryKeyObj(), period);
-
-				cacheResult(period);
-
-				uncachedPrimaryKeys.remove(period.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					PeriodModelImpl.ENTITY_CACHE_ENABLED, PeriodImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1760,10 +1511,6 @@ public class PeriodPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1809,9 +1556,6 @@ public class PeriodPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1828,6 +1572,21 @@ public class PeriodPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "periodId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_PERIOD;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return PeriodModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1836,73 +1595,64 @@ public class PeriodPersistenceImpl
 	 * Initializes the period persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodModelImpl.FINDER_CACHE_ENABLED, PeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodModelImpl.FINDER_CACHE_ENABLED, PeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodModelImpl.FINDER_CACHE_ENABLED, PeriodImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodModelImpl.FINDER_CACHE_ENABLED, PeriodImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			PeriodModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathWithPaginationFindByPlaceId = new FinderPath(
-			PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodModelImpl.FINDER_CACHE_ENABLED, PeriodImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPlaceId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"placeId"}, true);
 
 		_finderPathWithoutPaginationFindByPlaceId = new FinderPath(
-			PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodModelImpl.FINDER_CACHE_ENABLED, PeriodImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPlaceId",
-			new String[] {Long.class.getName()},
-			PeriodModelImpl.PLACEID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"placeId"},
+			true);
 
 		_finderPathCountByPlaceId = new FinderPath(
-			PeriodModelImpl.ENTITY_CACHE_ENABLED,
-			PeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPlaceId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"placeId"},
+			false);
+
+		PeriodUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		PeriodUtil.setPersistence(null);
+
 		entityCache.removeCache(PeriodImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1913,9 +1663,6 @@ public class PeriodPersistenceImpl
 
 	private static final String _SQL_SELECT_PERIOD =
 		"SELECT period FROM Period period";
-
-	private static final String _SQL_SELECT_PERIOD_WHERE_PKS_IN =
-		"SELECT period FROM Period period WHERE periodId IN (";
 
 	private static final String _SQL_SELECT_PERIOD_WHERE =
 		"SELECT period FROM Period period WHERE ";
@@ -1939,5 +1686,10 @@ public class PeriodPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

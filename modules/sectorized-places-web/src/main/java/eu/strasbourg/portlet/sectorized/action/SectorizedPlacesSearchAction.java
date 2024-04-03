@@ -1,16 +1,7 @@
 package eu.strasbourg.portlet.sectorized.action;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-import javax.portlet.PortletPreferences;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
@@ -18,10 +9,8 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.sectorized.configuration.SectorizedPlacesConfiguration;
 import eu.strasbourg.portlet.sectorized.display.context.SectorizedPlacesDisplayContext;
 import eu.strasbourg.service.adict.AdictService;
@@ -29,6 +18,15 @@ import eu.strasbourg.service.adict.Street;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component(immediate = true, property = { "javax.portlet.name=" + StrasbourgPortletKeys.SECTORIZED_PLACES_WEB,
 		"mvc.command.name=search" }, service = MVCActionCommand.class)
@@ -54,8 +52,7 @@ public class SectorizedPlacesSearchAction implements MVCActionCommand {
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		SectorizedPlacesConfiguration configuration;
 		try {
-			configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(SectorizedPlacesConfiguration.class);
+			configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SectorizedPlacesConfiguration.class, themeDisplay);
 
 		} catch (Exception e) {
 			SessionErrors.add(request, "unknown-error");

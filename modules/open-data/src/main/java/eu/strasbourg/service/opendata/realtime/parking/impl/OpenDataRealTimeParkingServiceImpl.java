@@ -9,7 +9,6 @@ import eu.strasbourg.service.opendata.realtime.parking.OpenDataRealTimeParkingSe
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 

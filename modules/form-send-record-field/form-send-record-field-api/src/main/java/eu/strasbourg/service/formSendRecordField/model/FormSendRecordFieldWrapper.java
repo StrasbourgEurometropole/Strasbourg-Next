@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.formSendRecordField.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +23,11 @@ import java.util.Objects;
  * @generated
  */
 public class FormSendRecordFieldWrapper
+	extends BaseModelWrapper<FormSendRecordField>
 	implements FormSendRecordField, ModelWrapper<FormSendRecordField> {
 
 	public FormSendRecordFieldWrapper(FormSendRecordField formSendRecordField) {
-		_formSendRecordField = formSendRecordField;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return FormSendRecordField.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return FormSendRecordField.class.getName();
+		super(formSendRecordField);
 	}
 
 	@Override
@@ -184,17 +162,8 @@ public class FormSendRecordFieldWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new FormSendRecordFieldWrapper(
-			(FormSendRecordField)_formSendRecordField.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.formSendRecordField.model.FormSendRecordField
-			formSendRecordField) {
-
-		return _formSendRecordField.compareTo(formSendRecordField);
+	public FormSendRecordField cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -207,7 +176,7 @@ public class FormSendRecordFieldWrapper
 		<eu.strasbourg.service.formSendRecordField.model.
 			FormSendRecordFieldSignalement> findSignalements() {
 
-		return _formSendRecordField.findSignalements();
+		return model.findSignalements();
 	}
 
 	/**
@@ -215,7 +184,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _formSendRecordField.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -225,7 +194,12 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public long getAssetEntryId() {
-		return _formSendRecordField.getAssetEntryId();
+		return model.getAssetEntryId();
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -235,7 +209,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _formSendRecordField.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -245,7 +219,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public long getContentId() {
-		return _formSendRecordField.getContentId();
+		return model.getContentId();
 	}
 
 	/**
@@ -255,7 +229,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public int getCountSignalements() {
-		return _formSendRecordField.getCountSignalements();
+		return model.getCountSignalements();
 	}
 
 	/**
@@ -265,12 +239,12 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _formSendRecordField.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _formSendRecordField.getExpandoBridge();
+	public String getDefaultLanguageId() {
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -280,7 +254,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public long getFormSendRecordFieldId() {
-		return _formSendRecordField.getFormSendRecordFieldId();
+		return model.getFormSendRecordFieldId();
 	}
 
 	/**
@@ -290,7 +264,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _formSendRecordField.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -300,7 +274,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public String getInstanceId() {
-		return _formSendRecordField.getInstanceId();
+		return model.getInstanceId();
 	}
 
 	/**
@@ -311,7 +285,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes() {
-		return _formSendRecordField.getLikes();
+		return model.getLikes();
 	}
 
 	/**
@@ -321,7 +295,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _formSendRecordField.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -331,7 +305,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public int getNbDislikes() {
-		return _formSendRecordField.getNbDislikes();
+		return model.getNbDislikes();
 	}
 
 	/**
@@ -343,7 +317,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public int getNbLikes() {
-		return _formSendRecordField.getNbLikes();
+		return model.getNbLikes();
 	}
 
 	/**
@@ -353,12 +327,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _formSendRecordField.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _formSendRecordField.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -368,7 +337,73 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public String getResponse() {
-		return _formSendRecordField.getResponse();
+		return model.getResponse();
+	}
+
+	/**
+	 * Returns the localized response of this form send record field in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized response of this form send record field
+	 */
+	@Override
+	public String getResponse(java.util.Locale locale) {
+		return model.getResponse(locale);
+	}
+
+	/**
+	 * Returns the localized response of this form send record field in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized response of this form send record field. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getResponse(java.util.Locale locale, boolean useDefault) {
+		return model.getResponse(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized response of this form send record field in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized response of this form send record field
+	 */
+	@Override
+	public String getResponse(String languageId) {
+		return model.getResponse(languageId);
+	}
+
+	/**
+	 * Returns the localized response of this form send record field in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized response of this form send record field
+	 */
+	@Override
+	public String getResponse(String languageId, boolean useDefault) {
+		return model.getResponse(languageId, useDefault);
+	}
+
+	@Override
+	public String getResponseCurrentLanguageId() {
+		return model.getResponseCurrentLanguageId();
+	}
+
+	@Override
+	public String getResponseCurrentValue() {
+		return model.getResponseCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized responses of this form send record field.
+	 *
+	 * @return the locales and localized responses of this form send record field
+	 */
+	@Override
+	public Map<java.util.Locale, String> getResponseMap() {
+		return model.getResponseMap();
 	}
 
 	/**
@@ -378,7 +413,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public long getResponseUserId() {
-		return _formSendRecordField.getResponseUserId();
+		return model.getResponseUserId();
 	}
 
 	/**
@@ -388,7 +423,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public String getResponseUserUuid() {
-		return _formSendRecordField.getResponseUserUuid();
+		return model.getResponseUserUuid();
 	}
 
 	/**
@@ -398,7 +433,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _formSendRecordField.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -408,7 +443,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _formSendRecordField.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -418,7 +453,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _formSendRecordField.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -428,7 +463,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _formSendRecordField.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -438,7 +473,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _formSendRecordField.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -448,7 +483,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _formSendRecordField.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -458,7 +493,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _formSendRecordField.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -468,7 +503,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _formSendRecordField.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -478,12 +513,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _formSendRecordField.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _formSendRecordField.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -493,12 +523,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _formSendRecordField.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _formSendRecordField.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -508,7 +533,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _formSendRecordField.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -518,12 +543,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _formSendRecordField.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _formSendRecordField.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -533,7 +553,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _formSendRecordField.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -543,7 +563,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _formSendRecordField.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -553,12 +573,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _formSendRecordField.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _formSendRecordField.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -568,7 +583,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _formSendRecordField.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -578,12 +593,27 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _formSendRecordField.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_formSendRecordField.persist();
+		model.persist();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+			java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -593,12 +623,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setAssetEntryId(long assetEntryId) {
-		_formSendRecordField.setAssetEntryId(assetEntryId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_formSendRecordField.setCachedModel(cachedModel);
+		model.setAssetEntryId(assetEntryId);
 	}
 
 	/**
@@ -608,7 +633,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_formSendRecordField.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -618,7 +643,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setContentId(long contentId) {
-		_formSendRecordField.setContentId(contentId);
+		model.setContentId(contentId);
 	}
 
 	/**
@@ -628,24 +653,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_formSendRecordField.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_formSendRecordField.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_formSendRecordField.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_formSendRecordField.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -655,7 +663,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setFormSendRecordFieldId(long formSendRecordFieldId) {
-		_formSendRecordField.setFormSendRecordFieldId(formSendRecordFieldId);
+		model.setFormSendRecordFieldId(formSendRecordFieldId);
 	}
 
 	/**
@@ -665,7 +673,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_formSendRecordField.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -675,7 +683,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setInstanceId(String instanceId) {
-		_formSendRecordField.setInstanceId(instanceId);
+		model.setInstanceId(instanceId);
 	}
 
 	/**
@@ -685,12 +693,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_formSendRecordField.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_formSendRecordField.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -700,12 +703,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_formSendRecordField.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_formSendRecordField.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -715,7 +713,62 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setResponse(String response) {
-		_formSendRecordField.setResponse(response);
+		model.setResponse(response);
+	}
+
+	/**
+	 * Sets the localized response of this form send record field in the language.
+	 *
+	 * @param response the localized response of this form send record field
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setResponse(String response, java.util.Locale locale) {
+		model.setResponse(response, locale);
+	}
+
+	/**
+	 * Sets the localized response of this form send record field in the language, and sets the default locale.
+	 *
+	 * @param response the localized response of this form send record field
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setResponse(
+		String response, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setResponse(response, locale, defaultLocale);
+	}
+
+	@Override
+	public void setResponseCurrentLanguageId(String languageId) {
+		model.setResponseCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized responses of this form send record field from the map of locales and localized responses.
+	 *
+	 * @param responseMap the locales and localized responses of this form send record field
+	 */
+	@Override
+	public void setResponseMap(Map<java.util.Locale, String> responseMap) {
+		model.setResponseMap(responseMap);
+	}
+
+	/**
+	 * Sets the localized responses of this form send record field from the map of locales and localized responses, and sets the default locale.
+	 *
+	 * @param responseMap the locales and localized responses of this form send record field
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setResponseMap(
+		Map<java.util.Locale, String> responseMap,
+		java.util.Locale defaultLocale) {
+
+		model.setResponseMap(responseMap, defaultLocale);
 	}
 
 	/**
@@ -725,7 +778,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setResponseUserId(long responseUserId) {
-		_formSendRecordField.setResponseUserId(responseUserId);
+		model.setResponseUserId(responseUserId);
 	}
 
 	/**
@@ -735,7 +788,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setResponseUserUuid(String responseUserUuid) {
-		_formSendRecordField.setResponseUserUuid(responseUserUuid);
+		model.setResponseUserUuid(responseUserUuid);
 	}
 
 	/**
@@ -745,7 +798,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_formSendRecordField.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -755,7 +808,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_formSendRecordField.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -765,7 +818,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_formSendRecordField.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -775,7 +828,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_formSendRecordField.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -785,7 +838,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_formSendRecordField.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -795,7 +848,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_formSendRecordField.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -805,7 +858,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_formSendRecordField.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -815,7 +868,7 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_formSendRecordField.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -825,91 +878,24 @@ public class FormSendRecordFieldWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_formSendRecordField.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.formSendRecordField.model.FormSendRecordField>
-			toCacheModel() {
-
-		return _formSendRecordField.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.formSendRecordField.model.FormSendRecordField
-		toEscapedModel() {
-
-		return new FormSendRecordFieldWrapper(
-			_formSendRecordField.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _formSendRecordField.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.formSendRecordField.model.FormSendRecordField
-		toUnescapedModel() {
-
-		return new FormSendRecordFieldWrapper(
-			_formSendRecordField.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _formSendRecordField.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof FormSendRecordFieldWrapper)) {
-			return false;
-		}
-
-		FormSendRecordFieldWrapper formSendRecordFieldWrapper =
-			(FormSendRecordFieldWrapper)object;
-
-		if (Objects.equals(
-				_formSendRecordField,
-				formSendRecordFieldWrapper._formSendRecordField)) {
-
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _formSendRecordField.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public FormSendRecordField getWrappedModel() {
-		return _formSendRecordField;
-	}
+	protected FormSendRecordFieldWrapper wrap(
+		FormSendRecordField formSendRecordField) {
 
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _formSendRecordField.isEntityCacheEnabled();
+		return new FormSendRecordFieldWrapper(formSendRecordField);
 	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _formSendRecordField.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_formSendRecordField.resetOriginalValues();
-	}
-
-	private final FormSendRecordField _formSendRecordField;
 
 }

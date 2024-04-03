@@ -1,21 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -23,16 +15,16 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.gtfs.model.StopTime;
 import eu.strasbourg.service.gtfs.model.StopTimeModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -40,6 +32,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -103,25 +96,40 @@ public class StopTimeModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.gtfs.model.StopTime"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.gtfs.model.StopTime"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.StopTime"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STOP_ID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TRIP_ID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -179,9 +187,6 @@ public class StopTimeModelImpl
 				attributeName, attributeGetterFunction.apply((StopTime)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -206,249 +211,82 @@ public class StopTimeModelImpl
 	public Map<String, Function<StopTime, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<StopTime, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, StopTime>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			StopTime.class.getClassLoader(), StopTime.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<StopTime, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<StopTime> constructor =
-				(Constructor<StopTime>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<StopTime, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<StopTime, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", StopTime::getUuid);
+			attributeGetterFunctions.put("id", StopTime::getId);
+			attributeGetterFunctions.put("trip_id", StopTime::getTrip_id);
+			attributeGetterFunctions.put(
+				"arrival_time", StopTime::getArrival_time);
+			attributeGetterFunctions.put(
+				"departure_time", StopTime::getDeparture_time);
+			attributeGetterFunctions.put("stop_id", StopTime::getStop_id);
+			attributeGetterFunctions.put(
+				"stop_sequence", StopTime::getStop_sequence);
+			attributeGetterFunctions.put(
+				"pickup_type", StopTime::getPickup_type);
+			attributeGetterFunctions.put(
+				"drop_off_type", StopTime::getDrop_off_type);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<StopTime, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<StopTime, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<StopTime, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<StopTime, Object>>();
-		Map<String, BiConsumer<StopTime, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<StopTime, ?>>();
+		private static final Map<String, BiConsumer<StopTime, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<StopTime, Object>() {
+		static {
+			Map<String, BiConsumer<StopTime, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<StopTime, ?>>();
 
-				@Override
-				public Object apply(StopTime stopTime) {
-					return stopTime.getUuid();
-				}
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<StopTime, String>)StopTime::setUuid);
+			attributeSetterBiConsumers.put(
+				"id", (BiConsumer<StopTime, Long>)StopTime::setId);
+			attributeSetterBiConsumers.put(
+				"trip_id", (BiConsumer<StopTime, String>)StopTime::setTrip_id);
+			attributeSetterBiConsumers.put(
+				"arrival_time",
+				(BiConsumer<StopTime, Date>)StopTime::setArrival_time);
+			attributeSetterBiConsumers.put(
+				"departure_time",
+				(BiConsumer<StopTime, Date>)StopTime::setDeparture_time);
+			attributeSetterBiConsumers.put(
+				"stop_id", (BiConsumer<StopTime, String>)StopTime::setStop_id);
+			attributeSetterBiConsumers.put(
+				"stop_sequence",
+				(BiConsumer<StopTime, Integer>)StopTime::setStop_sequence);
+			attributeSetterBiConsumers.put(
+				"pickup_type",
+				(BiConsumer<StopTime, String>)StopTime::setPickup_type);
+			attributeSetterBiConsumers.put(
+				"drop_off_type",
+				(BiConsumer<StopTime, String>)StopTime::setDrop_off_type);
 
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<StopTime, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(StopTime stopTime, Object uuidObject) {
-					stopTime.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"id",
-			new Function<StopTime, Object>() {
-
-				@Override
-				public Object apply(StopTime stopTime) {
-					return stopTime.getId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"id",
-			new BiConsumer<StopTime, Object>() {
-
-				@Override
-				public void accept(StopTime stopTime, Object idObject) {
-					stopTime.setId((Long)idObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"trip_id",
-			new Function<StopTime, Object>() {
-
-				@Override
-				public Object apply(StopTime stopTime) {
-					return stopTime.getTrip_id();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"trip_id",
-			new BiConsumer<StopTime, Object>() {
-
-				@Override
-				public void accept(StopTime stopTime, Object trip_idObject) {
-					stopTime.setTrip_id((String)trip_idObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"arrival_time",
-			new Function<StopTime, Object>() {
-
-				@Override
-				public Object apply(StopTime stopTime) {
-					return stopTime.getArrival_time();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"arrival_time",
-			new BiConsumer<StopTime, Object>() {
-
-				@Override
-				public void accept(
-					StopTime stopTime, Object arrival_timeObject) {
-
-					stopTime.setArrival_time((Date)arrival_timeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"departure_time",
-			new Function<StopTime, Object>() {
-
-				@Override
-				public Object apply(StopTime stopTime) {
-					return stopTime.getDeparture_time();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"departure_time",
-			new BiConsumer<StopTime, Object>() {
-
-				@Override
-				public void accept(
-					StopTime stopTime, Object departure_timeObject) {
-
-					stopTime.setDeparture_time((Date)departure_timeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"stop_id",
-			new Function<StopTime, Object>() {
-
-				@Override
-				public Object apply(StopTime stopTime) {
-					return stopTime.getStop_id();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"stop_id",
-			new BiConsumer<StopTime, Object>() {
-
-				@Override
-				public void accept(StopTime stopTime, Object stop_idObject) {
-					stopTime.setStop_id((String)stop_idObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"stop_sequence",
-			new Function<StopTime, Object>() {
-
-				@Override
-				public Object apply(StopTime stopTime) {
-					return stopTime.getStop_sequence();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"stop_sequence",
-			new BiConsumer<StopTime, Object>() {
-
-				@Override
-				public void accept(
-					StopTime stopTime, Object stop_sequenceObject) {
-
-					stopTime.setStop_sequence((Integer)stop_sequenceObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"pickup_type",
-			new Function<StopTime, Object>() {
-
-				@Override
-				public Object apply(StopTime stopTime) {
-					return stopTime.getPickup_type();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"pickup_type",
-			new BiConsumer<StopTime, Object>() {
-
-				@Override
-				public void accept(
-					StopTime stopTime, Object pickup_typeObject) {
-
-					stopTime.setPickup_type((String)pickup_typeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"drop_off_type",
-			new Function<StopTime, Object>() {
-
-				@Override
-				public Object apply(StopTime stopTime) {
-					return stopTime.getDrop_off_type();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"drop_off_type",
-			new BiConsumer<StopTime, Object>() {
-
-				@Override
-				public void accept(
-					StopTime stopTime, Object drop_off_typeObject) {
-
-					stopTime.setDrop_off_type((String)drop_off_typeObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -463,17 +301,20 @@ public class StopTimeModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -483,6 +324,10 @@ public class StopTimeModelImpl
 
 	@Override
 	public void setId(long id) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_id = id;
 	}
 
@@ -498,17 +343,20 @@ public class StopTimeModelImpl
 
 	@Override
 	public void setTrip_id(String trip_id) {
-		_columnBitmask = -1L;
-
-		if (_originalTrip_id == null) {
-			_originalTrip_id = _trip_id;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_trip_id = trip_id;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalTrip_id() {
-		return GetterUtil.getString(_originalTrip_id);
+		return getColumnOriginalValue("trip_id");
 	}
 
 	@Override
@@ -518,6 +366,10 @@ public class StopTimeModelImpl
 
 	@Override
 	public void setArrival_time(Date arrival_time) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_arrival_time = arrival_time;
 	}
 
@@ -528,6 +380,10 @@ public class StopTimeModelImpl
 
 	@Override
 	public void setDeparture_time(Date departure_time) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_departure_time = departure_time;
 	}
 
@@ -543,17 +399,20 @@ public class StopTimeModelImpl
 
 	@Override
 	public void setStop_id(String stop_id) {
-		_columnBitmask |= STOP_ID_COLUMN_BITMASK;
-
-		if (_originalStop_id == null) {
-			_originalStop_id = _stop_id;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_stop_id = stop_id;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalStop_id() {
-		return GetterUtil.getString(_originalStop_id);
+		return getColumnOriginalValue("stop_id");
 	}
 
 	@Override
@@ -563,6 +422,10 @@ public class StopTimeModelImpl
 
 	@Override
 	public void setStop_sequence(int stop_sequence) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_stop_sequence = stop_sequence;
 	}
 
@@ -578,6 +441,10 @@ public class StopTimeModelImpl
 
 	@Override
 	public void setPickup_type(String pickup_type) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_pickup_type = pickup_type;
 	}
 
@@ -593,10 +460,34 @@ public class StopTimeModelImpl
 
 	@Override
 	public void setDrop_off_type(String drop_off_type) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_drop_off_type = drop_off_type;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -648,6 +539,28 @@ public class StopTimeModelImpl
 	}
 
 	@Override
+	public StopTime cloneWithOriginalValues() {
+		StopTimeImpl stopTimeImpl = new StopTimeImpl();
+
+		stopTimeImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		stopTimeImpl.setId(this.<Long>getColumnOriginalValue("id_"));
+		stopTimeImpl.setTrip_id(this.<String>getColumnOriginalValue("trip_id"));
+		stopTimeImpl.setArrival_time(
+			this.<Date>getColumnOriginalValue("arrival_time"));
+		stopTimeImpl.setDeparture_time(
+			this.<Date>getColumnOriginalValue("departure_time"));
+		stopTimeImpl.setStop_id(this.<String>getColumnOriginalValue("stop_id"));
+		stopTimeImpl.setStop_sequence(
+			this.<Integer>getColumnOriginalValue("stop_sequence"));
+		stopTimeImpl.setPickup_type(
+			this.<String>getColumnOriginalValue("pickup_type"));
+		stopTimeImpl.setDrop_off_type(
+			this.<String>getColumnOriginalValue("drop_off_type"));
+
+		return stopTimeImpl;
+	}
+
+	@Override
 	public int compareTo(StopTime stopTime) {
 		int value = 0;
 
@@ -687,11 +600,19 @@ public class StopTimeModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -699,15 +620,9 @@ public class StopTimeModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		StopTimeModelImpl stopTimeModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		stopTimeModelImpl._originalUuid = stopTimeModelImpl._uuid;
-
-		stopTimeModelImpl._originalTrip_id = stopTimeModelImpl._trip_id;
-
-		stopTimeModelImpl._originalStop_id = stopTimeModelImpl._stop_id;
-
-		stopTimeModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -785,7 +700,7 @@ public class StopTimeModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -796,9 +711,26 @@ public class StopTimeModelImpl
 			Function<StopTime, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((StopTime)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((StopTime)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -811,56 +743,109 @@ public class StopTimeModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<StopTime, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<StopTime, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<StopTime, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((StopTime)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, StopTime>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					StopTime.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _id;
 	private String _trip_id;
-	private String _originalTrip_id;
 	private Date _arrival_time;
 	private Date _departure_time;
 	private String _stop_id;
-	private String _originalStop_id;
 	private int _stop_sequence;
 	private String _pickup_type;
 	private String _drop_off_type;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<StopTime, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((StopTime)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("id_", _id);
+		_columnOriginalValues.put("trip_id", _trip_id);
+		_columnOriginalValues.put("arrival_time", _arrival_time);
+		_columnOriginalValues.put("departure_time", _departure_time);
+		_columnOriginalValues.put("stop_id", _stop_id);
+		_columnOriginalValues.put("stop_sequence", _stop_sequence);
+		_columnOriginalValues.put("pickup_type", _pickup_type);
+		_columnOriginalValues.put("drop_off_type", _drop_off_type);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("id_", "id");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("id_", 2L);
+
+		columnBitmasks.put("trip_id", 4L);
+
+		columnBitmasks.put("arrival_time", 8L);
+
+		columnBitmasks.put("departure_time", 16L);
+
+		columnBitmasks.put("stop_id", 32L);
+
+		columnBitmasks.put("stop_sequence", 64L);
+
+		columnBitmasks.put("pickup_type", 128L);
+
+		columnBitmasks.put("drop_off_type", 256L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private StopTime _escapedModel;
 

@@ -14,14 +14,11 @@
 
 package eu.strasbourg.service.official.service.impl;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -37,11 +34,16 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.base.OfficialLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import org.osgi.annotation.versioning.ProviderType;
+import org.osgi.service.component.annotations.Reference;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The implementation of the official local service.
@@ -215,10 +217,8 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Delete the link with categories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-						categoryId, entry.getEntryId());
-			}
+			AssetEntryAssetCategoryRelLocalServiceUtil.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Delete the link with tags
 			long[] tagIds = AssetEntryLocalServiceUtil
@@ -229,10 +229,10 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 			}
 
 //			TODO suppression de ce morceau de code ou ajout de la ligne
-//			<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+//			<!-- References AssetLink Placeholder -->
 //			dans service.xml ?
 //			// Supprime lien avec les autres entries
-//			List<AssetLink> links = this.assetLinkLocalService
+//			List<AssetLink> links = AssetLinkLocalServiceUtil
 //					.getLinks(entry.getEntryId());
 //			for (AssetLink link : links) {
 //				this.assetLinkLocalService.deleteAssetLink(link);
@@ -334,4 +334,7 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 
 		return this.officialPersistence.countWithDynamicQuery(dynamicQuery);
 	}
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

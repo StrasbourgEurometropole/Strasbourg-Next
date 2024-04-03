@@ -1,11 +1,5 @@
 package eu.strasbourg.service.activity.exportimport;
 
-import java.util.List;
-import java.util.Map;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
 import com.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler;
@@ -21,13 +15,17 @@ import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Element;
-
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.activity.service.ActivityCourseLocalService;
 import eu.strasbourg.service.activity.service.ActivityLocalService;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalService;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import java.util.List;
+import java.util.Map;
 
 @Component(immediate = true, service = StagedModelDataHandler.class)
 public class ActivityStagedModelDataHandler

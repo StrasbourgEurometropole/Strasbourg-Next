@@ -2,27 +2,26 @@ package eu.strasbourg.portlet.dynamic_search_asset;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
-import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -32,6 +31,8 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.spring.extender.service.ServiceReference;
+import com.liferay.portlet.documentlibrary.lar.FileEntryUtil;
 import eu.strasbourg.portlet.dynamic_search_asset.configuration.DynamicSearchAssetConfiguration;
 import eu.strasbourg.portlet.dynamic_search_asset.constants.Constants;
 import eu.strasbourg.service.activity.model.Activity;
@@ -64,10 +65,16 @@ import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
+import eu.strasbourg.utils.AssetPublisherTemplateHelper;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.JournalArticleHelper;
 import eu.strasbourg.utils.LayoutHelper;
 import eu.strasbourg.utils.SearchHelper;
+import eu.strasbourg.utils.api.FileEntryHelperService;
+import eu.strasbourg.utils.api.LayoutHelperService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -116,8 +123,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		try {
 			// Recuperation du contexte de la requete
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-			DynamicSearchAssetConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(DynamicSearchAssetConfiguration.class);
+			DynamicSearchAssetConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(DynamicSearchAssetConfiguration.class, themeDisplay);
 			
 			// Recuperation et attribution des informations de l'utilisateur
 			String publikUserId = getPublikID(request);
@@ -126,6 +132,26 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			// Recuperation et attribution de l'URL de base du site
 			String homeUrl = Utils.getHomeURL(themeDisplay);
 			request.setAttribute("homeURL", homeUrl);
+
+
+			Boolean isPublikLoggedin = (Boolean) themeDisplay.getRequest().getSession().getAttribute("publik_logged_in");
+			request.setAttribute("isPublikLoggedin", isPublikLoggedin != null && isPublikLoggedin);
+
+			String currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent();
+			String dashboardURL = _layoutHelperService.getDashboardURL();
+			request.setAttribute("dashboardURL", dashboardURL);
+
+			String publikLoginURL = _layoutHelperService.getPublikLoginURL(currentUrl);
+			request.setAttribute("publikLoginURL", publikLoginURL);
+
+			String publikLogoutURL = _layoutHelperService.getPublikLogoutURL(currentUrl);
+			request.setAttribute("publikLogoutURL", publikLogoutURL);
+
+			if(isPublikLoggedin != null && isPublikLoggedin) {
+				String publikName = themeDisplay.getRequest().getSession().getAttribute("publik_given_name") + " " + themeDisplay.getRequest().getSession().getAttribute("publik_family_name").toString().charAt(0);
+				request.setAttribute("publikName", publikName);
+			}
+
 			
 			// Recuperation du formulaire configuré
 			String searchForm = configuration.searchForm();
@@ -138,6 +164,9 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			// Recuperation des classes demandees
 			List<String> classNames = this.getConfiguredClassNamesList(configuration);
 			request.setAttribute("classNames", classNames);
+
+			// Retourne le delta
+			request.setAttribute("delta", configuration.delta());
 			
 		} catch (ConfigurationException e) {
 			_log.error(e.getMessage(), e);
@@ -160,8 +189,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		try {
 			// Recuperation du contexte de la requete
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-			DynamicSearchAssetConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(DynamicSearchAssetConfiguration.class);
+			DynamicSearchAssetConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(DynamicSearchAssetConfiguration.class, themeDisplay);
 			long groupId = themeDisplay.getLayout().getGroupId();
 			String resourceID = request.getResourceID();	
 			
@@ -238,31 +266,32 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 								GetterUtil.getString(document.get(Field.ENTRY_CLASS_NAME)),
 								GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
 
-						//On elimine tous les BP qui ne font pas parti de la phase active. Si pas de phase active, pas d'affichage des BP
-						//C'est dommage de faire le filtrage après la recherche mais la configuration actuelle de la recherche ne permet pas
-						//de préfiltrer sur la catégorie pour une seule entité en particuler
-						if(document.get(Field.ENTRY_CLASS_NAME).equals("eu.strasbourg.service.project.model.BudgetParticipatif") &&
-								(activePhaseCategory == null ||
-										!AssetCategoryLocalServiceUtil.hasAssetEntryAssetCategory(entry.getEntryId(), activePhaseCategory.getCategoryId()))) {
-							entry = null;
-						}
-
-						//On elimine tous les CW qui n'ont pas de layout
-						if(document.get(Field.ENTRY_CLASS_NAME).equals(JournalArticle.class.getName())){
-							// on vérifie si le jourrnalArticle est utilisé
-							try {
-								JournalArticle journalArticle = JournalArticleServiceUtil.getLatestArticle(entry.getClassPK());
-								String url = LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay);
-								if (Validator.isNull(url)) {
-									entry = null;
-								}
-							}catch (PortalException e){
+						if (entry != null) {
+							//On elimine tous les BP qui ne font pas parti de la phase active. Si pas de phase active, pas d'affichage des BP
+							//C'est dommage de faire le filtrage après la recherche mais la configuration actuelle de la recherche ne permet pas
+							//de préfiltrer sur la catégorie pour une seule entité en particuler
+							if (document.get(Field.ENTRY_CLASS_NAME).equals("eu.strasbourg.service.project.model.BudgetParticipatif") &&
+									(activePhaseCategory == null ||
+											!AssetVocabularyHelper.hasAssetCategoryAssetEntry(entry.getEntryId(), activePhaseCategory.getCategoryId()))) {
 								entry = null;
 							}
-						}
-						
-						if (entry != null) {
-							results.add(entry);
+
+							//On elimine tous les CW qui n'ont pas de layout
+							if (document.get(Field.ENTRY_CLASS_NAME).equals(JournalArticle.class.getName())) {
+								// on vérifie si le jourrnalArticle est utilisé
+								try {
+									JournalArticle journalArticle = JournalArticleServiceUtil.getLatestArticle(entry.getClassPK());
+									String url = LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay);
+									if (Validator.isNull(url)) {
+										entry = null;
+									}
+								} catch (PortalException e) {
+									entry = null;
+								}
+							}
+							if (entry != null) {
+								results.add(entry);
+							}
 						}
 					}
 					totalResult = SearchHelper.getGlobalSearchCount(searchContext, classNames, groupId, globalGroupId,
@@ -273,7 +302,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				List<AssetEntry> assetEntries = results;
 				
 				this.applyTemplateBehaviors(configuration,assetEntries);
-				
+
 				JSONArray jsonResponse = this.constructJSONSelection(request, configuration,assetEntries,totalResult);
 				
 				// Recuperation de l'élément d'écriture de la réponse
@@ -355,6 +384,10 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		JSONObject jsonTotalResult = JSONFactoryUtil.createJSONObject();
 		jsonTotalResult.put("totalResult", totalResult);
 		jsonResponse.put(jsonTotalResult);
+
+		JSONObject jsonDisplayResult = JSONFactoryUtil.createJSONObject();
+		jsonDisplayResult.put("displayResult", configuration.delta());
+		jsonResponse.put(jsonDisplayResult);
 		
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		Locale locale = themeDisplay.getLocale();
@@ -370,19 +403,17 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			// Récupération du JSON de l'entité selon le type d'assetEntry
 			// Note : impossibilité d'utilisé un switch case pour cause d'utilisation de non-constante
 			// TODO : Trouver comment contrer l'archaïssité de java sur le sujet des constantes sur les switch
-
 			// AssetEntry : Événement
 			if (assetClassName.equals(Event.class.getName())) {
-
 				Event event = EventLocalServiceUtil.getEvent(assetEntry.getClassPK());
-				JSONObject jsonEvent = JSONSearchHelper.createEventSearchJson(event, locale, themeDisplay, publikUserId, configAffichage, descriptionMaxLength);
+				JSONObject jsonEvent = JSONSearchHelper.createEventSearchJson(event, getImageURL(event.getImageId()), locale, themeDisplay, publikUserId, configAffichage, descriptionMaxLength);
 				jsonResponse.put(jsonEvent);
 			}
 			
 			// AssetEntry : Projet
 			else if (assetClassName.equals(Project.class.getName())) {
 				Project project = ProjectLocalServiceUtil.getProject(assetEntry.getClassPK());
-				JSONObject jsonProject = JSONSearchHelper.createProjectSearchJson(project, themeDisplay, configAffichage, descriptionMaxLength);
+				JSONObject jsonProject = JSONSearchHelper.createProjectSearchJson(project, getImageURL(project.getImageId()), themeDisplay, configAffichage, descriptionMaxLength);
 				jsonResponse.put(jsonProject);
 			}
 
@@ -396,14 +427,14 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			// AssetEntry : Vidéo
 			else if (assetClassName.equals(Video.class.getName())) {
 				Video video = VideoLocalServiceUtil.getVideo(assetEntry.getClassPK());
-				JSONObject jsonVideo = JSONSearchHelper.createVideoSearchJson(video, locale, themeDisplay, configAffichage);
+				JSONObject jsonVideo = JSONSearchHelper.createVideoSearchJson(video, getImageURL(video.getImageId()), locale, themeDisplay, configAffichage);
 				jsonResponse.put(jsonVideo);
 			}
 
 			// AssetEntry : Pétition
 			else if (assetClassName.equals(Petition.class.getName())) {
 				Petition petition = PetitionLocalServiceUtil.fetchPetition(assetEntry.getClassPK());
-				JSONObject jsonPetition = JSONSearchHelper.createPetitionSearchJson(petition, themeDisplay, configAffichage);
+				JSONObject jsonPetition = JSONSearchHelper.createPetitionSearchJson(petition, getImageURL(petition.getImageId()), themeDisplay, configAffichage);
 				jsonResponse.put(jsonPetition);
 			}
 			
@@ -417,7 +448,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			// AssetEntry : Initiatives
 			else if (assetClassName.equals(Initiative.class.getName())) {
 				Initiative initiative = InitiativeLocalServiceUtil.fetchInitiative(assetEntry.getClassPK());
-				JSONObject jsonInitiative = JSONSearchHelper.createInitiativeSearchJson(initiative, themeDisplay, configAffichage);
+				JSONObject jsonInitiative = JSONSearchHelper.createInitiativeSearchJson(initiative, getImageURL(initiative.getImageId()), themeDisplay, configAffichage);
 				jsonResponse.put(jsonInitiative);
 			}
 			
@@ -440,7 +471,12 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				// Si tel est le cas
 				if (containsNewsTagName || !configAffichage.equals(Constants.SEARCH_FORM_PLACIT)) {
 					try {
-						JSONObject jsonArticle = JSONSearchHelper.createJournalArticleSearchJson(assetEntry, locale, themeDisplay, configAffichage, descriptionMaxLength);
+						JournalArticle journalArticle = JournalArticleServiceUtil.getLatestArticle(assetEntry.getClassPK());
+						String documentStructure = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "thumbnail", locale);
+						// Parse les données JSON
+						JSONObject documentJSONObject = JSONFactoryUtil.createJSONObject(documentStructure);
+
+						JSONObject jsonArticle = JSONSearchHelper.createJournalArticleSearchJson(assetEntry, journalArticle, getImageURL(documentJSONObject.getLong("fileEntryId")), locale, themeDisplay, configAffichage, descriptionMaxLength, publikUserId);
 						jsonResponse.put(jsonArticle);
 					}catch (Exception e){
 						_log.error(e);
@@ -451,14 +487,14 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			// AssetEntry : Official
 			else if (assetClassName.equals(Official.class.getName())) {
 				Official official = OfficialLocalServiceUtil.getOfficial(assetEntry.getClassPK());
-				JSONObject jsonOfficial = JSONSearchHelper.createOfficialSearchJson(official, locale, themeDisplay, configAffichage);
+				JSONObject jsonOfficial = JSONSearchHelper.createOfficialSearchJson(official, getImageURL(official.getImageId()), locale, themeDisplay, configAffichage);
 				jsonResponse.put(jsonOfficial);
 			}
 
 			// AssetEntry : Edition
 			else if (assetClassName.equals(Edition.class.getName())) {
 				Edition edition = EditionLocalServiceUtil.getEdition(assetEntry.getClassPK());
-				JSONObject jsonEdition = JSONSearchHelper.createEditionSearchJson(edition, locale, themeDisplay, configAffichage, descriptionMaxLength);
+				JSONObject jsonEdition = JSONSearchHelper.createEditionSearchJson(edition, getImageURL(edition.getImageId()), locale, themeDisplay, configAffichage, descriptionMaxLength, publikUserId);
 				jsonResponse.put(jsonEdition);
 			}
 
@@ -472,28 +508,28 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			// AssetEntry : EditionGallery
 			else if (assetClassName.equals(EditionGallery.class.getName())) {
 				EditionGallery editionGallery = EditionGalleryLocalServiceUtil.getEditionGallery(assetEntry.getClassPK());
-				JSONObject jsonEditionGallery = JSONSearchHelper.createEditionGallerySearchJson(editionGallery, locale, themeDisplay, configAffichage, descriptionMaxLength);
+				JSONObject jsonEditionGallery = JSONSearchHelper.createEditionGallerySearchJson(editionGallery, getImageURL(editionGallery.getImageId()), locale, themeDisplay, configAffichage, descriptionMaxLength);
 				jsonResponse.put(jsonEditionGallery);
 			}
 
 			// AssetEntry : Place
 			else if (assetClassName.equals(Place.class.getName())) {
 				Place place = PlaceLocalServiceUtil.getPlace(assetEntry.getClassPK());
-				JSONObject jsonPlace = JSONSearchHelper.createPlaceSearchJson(place, locale, themeDisplay, configAffichage);
+				JSONObject jsonPlace = JSONSearchHelper.createPlaceSearchJson(place, getImageURL(place.getImageId()), locale, themeDisplay, configAffichage, publikUserId);
 				jsonResponse.put(jsonPlace);
 			}
 
 			// AssetEntry : ActivityCourse
 			else if (assetClassName.equals(ActivityCourse.class.getName())) {
 				ActivityCourse activityCourse = ActivityCourseLocalServiceUtil.getActivityCourse(assetEntry.getClassPK());
-				JSONObject jsonActivityCourse = JSONSearchHelper.createActivityCourseSearchJson(activityCourse, locale, themeDisplay, configAffichage);
+				JSONObject jsonActivityCourse = JSONSearchHelper.createActivityCourseSearchJson(activityCourse, getImageURL(activityCourse.getImageId()), locale, themeDisplay, configAffichage);
 				jsonResponse.put(jsonActivityCourse);
 			}
 
 			// AssetEntry : Activity
 			else if (assetClassName.equals(Activity.class.getName())) {
 				Activity activity = ActivityLocalServiceUtil.getActivity(assetEntry.getClassPK());
-				JSONObject jsonActivity = JSONSearchHelper.createActivitySearchJson(activity, locale, themeDisplay, configAffichage, descriptionMaxLength);
+				JSONObject jsonActivity = JSONSearchHelper.createActivitySearchJson(activity, getImageURL(activity.getImageId()), locale, themeDisplay, configAffichage, descriptionMaxLength);
 				jsonResponse.put(jsonActivity);
 			}
 		}
@@ -539,7 +575,21 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		
 		return SessionParamUtil.getString(originalRequest, "publik_internal_id");
 	}
-	
+
+	private String getImageURL(long fileEntryId){
+		if(Validator.isNotNull(fileEntryId)) {
+			FileEntry fileEntry = FileEntryUtil.fetchByPrimaryKey(fileEntryId);
+			return fileEntryHelperService.getClosestSizeImageURL(fileEntry, 100);
+		}
+		return "";
+	}
+
+	@Reference
+	public FileEntryHelperService fileEntryHelperService;
+
+	@Reference
+	private LayoutHelperService _layoutHelperService;
+
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	
 }

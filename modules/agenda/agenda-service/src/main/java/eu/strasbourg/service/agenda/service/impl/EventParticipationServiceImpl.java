@@ -14,11 +14,6 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -27,11 +22,14 @@ import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.util.SessionParamUtil;
-
 import eu.strasbourg.service.agenda.exception.NoSuchEventParticipationException;
 import eu.strasbourg.service.agenda.model.EventParticipation;
 import eu.strasbourg.service.agenda.service.base.EventParticipationServiceBaseImpl;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.List;
 
 /**
  * The implementation of the event participation remote service.

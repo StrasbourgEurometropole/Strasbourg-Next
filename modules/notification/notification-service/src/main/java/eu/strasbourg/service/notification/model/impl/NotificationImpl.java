@@ -14,16 +14,15 @@
 
 package eu.strasbourg.service.notification.model.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.notification.service.UserNotificationTypeLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The extended model implementation for the Notification service. Represents a

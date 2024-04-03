@@ -2,26 +2,24 @@
 <%@ include file="/place-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.place.model.Place"%>
 
-<liferay-portlet:renderURL varImpl="placesURL">
-	<portlet:param name="tab" value="places" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deletePlace" var="deletePlaceURL">
 	<portlet:param name="cmd" value="deletePlace" />
 	<portlet:param name="tab" value="places" />
+	<portlet:param name="mvcPath" value="/place-bo-view-places.jsp" />
 	<portlet:param name="placeId"
 		value="${not empty dc.place ? dc.place.placeId : ''}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="savePlace" varImpl="savePlaceURL">
-	<portlet:param name="cmd" value="savePlace" />
+	<portlet:param name="tab" value="places" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:renderURL var="manageSubPlacesURL">
 	<portlet:param name="tab" value="subPlaces" />
 </liferay-portlet:renderURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="alias-error" message="alias-error" />
 	<liferay-ui:error key="period-error" message="period-error" />
 	<liferay-ui:error key="slot-error" message="slot-error" />
@@ -34,7 +32,7 @@
 			id="translationManager" />
 
 		<aui:model-context bean="${dc.place}" model="<%=Place.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="placeId" type="hidden" />
 
 			<!-- Informations géographique -->
@@ -129,9 +127,13 @@
 					</aui:input>
 				</div>
 
-				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
+				<liferay-asset:asset-categories-selector
+						className="<%= Place.class.getName() %>"
+						classPK="${dc.place.placeId}"/>
 
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= Place.class.getName() %>"
+						classPK="${dc.place.placeId}"/>
 
 			</aui:fieldset>
 				
@@ -287,29 +289,31 @@
 
                         <aui:input name="periodsIndexes" type="hidden" />
 
-                        <div class="nav-tabs">
+                        <div>
                             <ul class="nav nav-tabs" role="tablist">
                                 <c:set var="nbPeriod" value="0"/>
                                 <c:forEach items="${dc.place.periods}" var="period" varStatus="status">
-                                    <li role="presentation"
-                                        <c:if test="${status.count == 1}">
-                                            class="active"
-                                        </c:if>
+                                    <li role="presentation" class="nav-item <c:if test="${status.count == 1}">
+									active
+								</c:if>"
+
                                      id="onglet${nbPeriod}" >
-                                        <a aria-controls="period${nbPeriod}" href="#period${nbPeriod}" data-toggle="tab" role="tab">
+                                        <a aria-controls="period${nbPeriod}" href="#period${nbPeriod}" class="nav-link" data-toggle="tab" role="tab">
                                             <liferay-ui:message key="period" /> ${status.count}
-                                            <span class="btn-icon icon icon-trash" onClick="deletePeriod(${nbPeriod}); return false;"></span>
+                                            <span class="btn-icon icon icon-trash  ml-2" onClick="deletePeriod(${nbPeriod}); return false;"></span>
                                         </a>
                                     </li>
                                     <c:set var="nbPeriod" value="${nbPeriod + 1}"/>
                                 </c:forEach>
-                                <li role="presentation"
-                                    <c:if test="${empty dc.place.periods}">
-                                        class="active"
-                                    </c:if>
-                                 id="addPeriod" >
-                                    <a aria-controls="add" onClick="addPeriod(); return false;" data-toggle="tab" role="tab" aria-expanded="true"><span class="btn-icon icon icon-plus"></span></a>
-                                </li>
+								<button
+										title="Ajouter"
+										class="btn btn-monospaced btn-sm"
+										type="button"
+										aria-controls="add"
+										id="addPeriod"
+										onClick="window.addPeriod(); return false;">
+									<span class="btn-icon icon icon-plus"></span>
+								</button>
                             </ul>
                         </div>
 
@@ -521,7 +525,7 @@
 					
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<aui:button-row>
 			<aui:input type="hidden" name="workflowAction" value="" />
@@ -540,7 +544,7 @@
 				<aui:button cssClass="btn-lg" href="${deletePlaceURL}"
 					type="cancel" value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>

@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notif.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.notif.model.Notification;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for Notification. This utility wraps
@@ -48,10 +48,7 @@ public class NotificationLocalServiceUtil {
 	 * @param notification the notification
 	 * @return the notification that was added
 	 */
-	public static eu.strasbourg.service.notif.model.Notification
-		addNotification(
-			eu.strasbourg.service.notif.model.Notification notification) {
-
+	public static Notification addNotification(Notification notification) {
 		return getService().addNotification(notification);
 	}
 
@@ -61,21 +58,28 @@ public class NotificationLocalServiceUtil {
 	 * @param notificationId the primary key for the new notification
 	 * @return the new notification
 	 */
-	public static eu.strasbourg.service.notif.model.Notification
-		createNotification(long notificationId) {
-
+	public static Notification createNotification(long notificationId) {
 		return getService().createNotification(notificationId);
 	}
 
 	/**
 	 * Crée une offre vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.notif.model.Notification
-			createNotification(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Notification createNotification(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createNotification(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -89,9 +93,8 @@ public class NotificationLocalServiceUtil {
 	 * @return the notification that was removed
 	 * @throws PortalException if a notification with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.notif.model.Notification
-			deleteNotification(long notificationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Notification deleteNotification(long notificationId)
+		throws PortalException {
 
 		return getService().deleteNotification(notificationId);
 	}
@@ -106,27 +109,29 @@ public class NotificationLocalServiceUtil {
 	 * @param notification the notification
 	 * @return the notification that was removed
 	 */
-	public static eu.strasbourg.service.notif.model.Notification
-		deleteNotification(
-			eu.strasbourg.service.notif.model.Notification notification) {
-
+	public static Notification deleteNotification(Notification notification) {
 		return getService().deleteNotification(notification);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -136,9 +141,7 @@ public class NotificationLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -154,9 +157,8 @@ public class NotificationLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -174,10 +176,9 @@ public class NotificationLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -189,9 +190,7 @@ public class NotificationLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -203,15 +202,13 @@ public class NotificationLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.notif.model.Notification
-		fetchNotification(long notificationId) {
-
+	public static Notification fetchNotification(long notificationId) {
 		return getService().fetchNotification(notificationId);
 	}
 
@@ -222,14 +219,14 @@ public class NotificationLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching notification, or <code>null</code> if a matching notification could not be found
 	 */
-	public static eu.strasbourg.service.notif.model.Notification
-		fetchNotificationByUuidAndGroupId(String uuid, long groupId) {
+	public static Notification fetchNotificationByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchNotificationByUuidAndGroupId(uuid, groupId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.notif.model.Notification>
-		findByKeyword(String keyword, long groupId, int start, int end) {
+	public static List<Notification> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -244,9 +241,7 @@ public class NotificationLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
-	public static java.util.List<eu.strasbourg.service.notif.model.Notification>
-		getByServiceIds(long[] serviceIds) {
-
+	public static List<Notification> getByServiceIds(long[] serviceIds) {
 		return getService().getByServiceIds(serviceIds);
 	}
 
@@ -265,9 +260,7 @@ public class NotificationLocalServiceUtil {
 		return getService().getIndexableActionableDynamicQuery();
 	}
 
-	public static java.util.List<eu.strasbourg.service.notif.model.Notification>
-		getInProgressNotifications() {
-
+	public static List<Notification> getInProgressNotifications() {
 		return getService().getInProgressNotifications();
 	}
 
@@ -278,9 +271,8 @@ public class NotificationLocalServiceUtil {
 	 * @return the notification
 	 * @throws PortalException if a notification with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.notif.model.Notification
-			getNotification(long notificationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Notification getNotification(long notificationId)
+		throws PortalException {
 
 		return getService().getNotification(notificationId);
 	}
@@ -293,9 +285,9 @@ public class NotificationLocalServiceUtil {
 	 * @return the matching notification
 	 * @throws PortalException if a matching notification could not be found
 	 */
-	public static eu.strasbourg.service.notif.model.Notification
-			getNotificationByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Notification getNotificationByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getNotificationByUuidAndGroupId(uuid, groupId);
 	}
@@ -311,9 +303,7 @@ public class NotificationLocalServiceUtil {
 	 * @param end the upper bound of the range of notifications (not inclusive)
 	 * @return the range of notifications
 	 */
-	public static java.util.List<eu.strasbourg.service.notif.model.Notification>
-		getNotifications(int start, int end) {
-
+	public static List<Notification> getNotifications(int start, int end) {
 		return getService().getNotifications(start, end);
 	}
 
@@ -324,8 +314,8 @@ public class NotificationLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching notifications, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.notif.model.Notification>
-		getNotificationsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Notification> getNotificationsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getNotificationsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -340,12 +330,9 @@ public class NotificationLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching notifications, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.notif.model.Notification>
-		getNotificationsByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.notif.model.Notification>
-					orderByComparator) {
+	public static List<Notification> getNotificationsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Notification> orderByComparator) {
 
 		return getService().getNotificationsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -360,9 +347,7 @@ public class NotificationLocalServiceUtil {
 		return getService().getNotificationsCount();
 	}
 
-	public static java.util.List<eu.strasbourg.service.notif.model.Notification>
-		getNotificationsToSend() {
-
+	public static List<Notification> getNotificationsToSend() {
 		return getService().getNotificationsToSend();
 	}
 
@@ -375,34 +360,28 @@ public class NotificationLocalServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
-	public static java.util.List<eu.strasbourg.service.notif.model.Notification>
-		getPastNotifications() {
-
+	public static List<Notification> getPastNotifications() {
 		return getService().getPastNotifications();
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
-	public static java.util.List<eu.strasbourg.service.notif.model.Notification>
-		getToComeNotifications() {
-
+	public static List<Notification> getToComeNotifications() {
 		return getService().getToComeNotifications();
 	}
 
 	/**
 	 * Supprime une notification
 	 */
-	public static eu.strasbourg.service.notif.model.Notification
-			removeNotification(long notificationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Notification removeNotification(long notificationId)
+		throws PortalException {
 
 		return getService().removeNotification(notificationId);
 	}
@@ -421,21 +400,17 @@ public class NotificationLocalServiceUtil {
 	 * @param notification the notification
 	 * @return the notification that was updated
 	 */
-	public static eu.strasbourg.service.notif.model.Notification
-		updateNotification(
-			eu.strasbourg.service.notif.model.Notification notification) {
-
+	public static Notification updateNotification(Notification notification) {
 		return getService().updateNotification(notification);
 	}
 
 	/**
 	 * Met à jour une notification et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.notif.model.Notification
-			updateNotification(
-				eu.strasbourg.service.notif.model.Notification notification,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Notification updateNotification(
+			Notification notification,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateNotification(notification, sc);
 	}
@@ -443,36 +418,24 @@ public class NotificationLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'edition par le framework workflow
 	 */
-	public static eu.strasbourg.service.notif.model.Notification updateStatus(
+	public static Notification updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
 	}
 
 	public static NotificationLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<NotificationLocalService, NotificationLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(NotificationLocalService.class);
-
-		ServiceTracker<NotificationLocalService, NotificationLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<NotificationLocalService, NotificationLocalService>(
-						bundle.getBundleContext(),
-						NotificationLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(NotificationLocalService service) {
+		_service = service;
 	}
+
+	private static volatile NotificationLocalService _service;
 
 }

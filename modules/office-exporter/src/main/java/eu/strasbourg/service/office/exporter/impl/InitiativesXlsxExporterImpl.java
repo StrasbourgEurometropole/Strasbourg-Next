@@ -1,28 +1,30 @@
 package eu.strasbourg.service.office.exporter.impl;
 
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import eu.strasbourg.service.office.exporter.api.InitiativesXlsxExporter;
 import eu.strasbourg.service.project.model.Initiative;
+import eu.strasbourg.service.project.service.InitiativeLocalService;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 @Component(
         immediate = true,
@@ -33,8 +35,15 @@ public class InitiativesXlsxExporterImpl implements InitiativesXlsxExporter {
     private ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
             this.getClass().getClassLoader());
 
+    private InitiativeLocalService initiativeLocalService;
+
+    @Reference(unbind = "-")
+    public void setInitiativeLocalService(InitiativeLocalService initiativeLocalService) {
+        this.initiativeLocalService = initiativeLocalService;
+    }
+
     @Override
-    public void exportInitiatives(OutputStream stream, List<Initiative> initiatives) {
+    public void exportInitiatives(OutputStream stream) {
         // Initialisation du document
         XSSFWorkbook workbook = new XSSFWorkbook();
 
@@ -58,7 +67,7 @@ public class InitiativesXlsxExporterImpl implements InitiativesXlsxExporter {
         }};
 
         // Parcours des budget et creation de la ligne a ajouter dans l'excel
-        for (Initiative initiative : initiatives) {
+        for (Initiative initiative : this.initiativeLocalService.getInitiatives(QueryUtil.ALL_POS, QueryUtil.ALL_POS)) {
             Object[] initiativeRow = {
                     getfield(unescapeHtml4(initiative.getTitle())),
                     getfield(unescapeHtml4(initiative.getDescription())),

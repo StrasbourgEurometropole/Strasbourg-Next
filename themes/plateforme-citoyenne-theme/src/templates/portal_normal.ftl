@@ -84,7 +84,7 @@
 
 <@liferay.control_menu />
 
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
@@ -100,7 +100,6 @@
 	<#include "${full_templates_path}/modal_banned.ftl" />
 
 	<main id="content" class="pro-overflow-visible">
-		<h1 class="hide-accessible">${the_title}</h1>
 
 		<#if selectable>
 			<@liferay_util["include"] page=content_include />

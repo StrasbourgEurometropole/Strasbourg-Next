@@ -1,18 +1,16 @@
 package eu.strasbourg.portlet.edition.template;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
+import com.liferay.portlet.display.template.BasePortletDisplayTemplateHandler;
 import com.liferay.portal.kernel.portletdisplaytemplate.PortletDisplayTemplateManager;
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
-
 import eu.strasbourg.service.edition.model.Edition;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 
 @Component(

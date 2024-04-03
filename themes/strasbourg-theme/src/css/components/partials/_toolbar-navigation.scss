@@ -1,0 +1,94 @@
+.st-toolbar-navigation {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	z-index: z-index("barre-navigation");
+	width: 100%;
+	background-color: $c_greydark;
+
+	@include min-tablet-portrait {
+		display: none;
+	}
+
+	.st-toolbar-inner {
+		display: flex;
+		align-items: center;
+		height: var(--toolbar-height);
+	}
+
+	.st-has-logo {
+		margin-right: auto;
+	}
+
+	.st-logo {
+		display: flex;
+		align-items: center;
+		@include create-outline;
+
+		img {
+			max-height: 30px;
+
+			@include mobile {
+				max-height: 20px;
+				width: auto;
+			}
+		}
+	}
+
+	li:not(.st-has-logo) {
+		& + li {
+			margin-left: 10px;
+
+			@include mobile {
+				margin-left: 5px;
+			}
+		}
+
+		button, a {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 44px;
+			height: 44px;
+			border-radius: $border-radius;
+		}
+	}
+
+	.st-lien-libre {
+		@include create-outline;
+		border: 1px solid $c_sub;
+
+		span {
+			font-size: 20px;
+			color: $c_sub;
+		}
+	}
+
+	.st-btn-search {
+		@include create-outline;
+		background-color: $c_white;
+
+		[class^="st-icon-"], [class*=" st-icon-"] {
+			font-size: 16px;
+			color: $c_greydark;
+		}
+	}
+
+	button.st-btn-menu {
+		padding: 0;
+
+		.st-btn-menu__icon {
+			width: 16px;
+			height: 12px;
+			margin-right: initial;
+
+			.st-btn-menu__line {
+				width: 100%;
+
+				& + .st-btn-menu__line {
+					margin-top: 3px;
+				}
+			}
+		}
+	}
+}

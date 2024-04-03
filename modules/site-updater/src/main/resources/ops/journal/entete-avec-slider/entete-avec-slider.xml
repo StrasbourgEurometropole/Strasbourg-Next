@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Entête avec slider</name>
+        <key>6009600</key>
+        <definition>entete-avec-slider-structure.json</definition>
+        <layout>entete-avec-slider-layout.json</layout>
+    </structure>
+    <template>
+        <name>Entête avec slider</name>
+        <key>6009794</key>
+        <script>entete avec slider.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.like.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,26 +16,27 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.like.exception.NoSuchLikeException;
 import eu.strasbourg.service.like.model.Like;
+import eu.strasbourg.service.like.model.LikeTable;
 import eu.strasbourg.service.like.model.impl.LikeImpl;
 import eu.strasbourg.service.like.model.impl.LikeModelImpl;
 import eu.strasbourg.service.like.service.persistence.LikePersistence;
+import eu.strasbourg.service.like.service.persistence.LikeUtil;
 
 import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -249,10 +242,6 @@ public class LikePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -603,8 +592,6 @@ public class LikePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -810,10 +797,6 @@ public class LikePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1200,8 +1183,6 @@ public class LikePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1438,11 +1419,6 @@ public class LikePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByAllAttributes, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1569,8 +1545,6 @@ public class LikePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1804,12 +1778,6 @@ public class LikePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByAllAttributesExceptIsDislike,
-						finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1930,8 +1898,6 @@ public class LikePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2134,10 +2100,6 @@ public class LikePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2488,8 +2450,6 @@ public class LikePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2690,10 +2650,6 @@ public class LikePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3075,8 +3031,6 @@ public class LikePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3101,6 +3055,11 @@ public class LikePersistenceImpl
 
 	public LikePersistenceImpl() {
 		setModelClass(Like.class);
+
+		setModelImplClass(LikeImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(LikeTable.INSTANCE);
 	}
 
 	/**
@@ -3110,9 +3069,7 @@ public class LikePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(Like like) {
-		entityCache.putResult(
-			LikeModelImpl.ENTITY_CACHE_ENABLED, LikeImpl.class,
-			like.getPrimaryKey(), like);
+		entityCache.putResult(LikeImpl.class, like.getPrimaryKey(), like);
 
 		finderCache.putResult(
 			_finderPathFetchByAllAttributes,
@@ -3129,9 +3086,9 @@ public class LikePersistenceImpl
 				like.getEntityId()
 			},
 			like);
-
-		like.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the likes in the entity cache if it is enabled.
@@ -3140,15 +3097,18 @@ public class LikePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Like> likes) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (likes.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Like like : likes) {
-			if (entityCache.getResult(
-					LikeModelImpl.ENTITY_CACHE_ENABLED, LikeImpl.class,
-					like.getPrimaryKey()) == null) {
+			if (entityCache.getResult(LikeImpl.class, like.getPrimaryKey()) ==
+					null) {
 
 				cacheResult(like);
-			}
-			else {
-				like.resetOriginalValues();
 			}
 		}
 	}
@@ -3164,9 +3124,7 @@ public class LikePersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(LikeImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(LikeImpl.class);
 	}
 
 	/**
@@ -3178,38 +3136,22 @@ public class LikePersistenceImpl
 	 */
 	@Override
 	public void clearCache(Like like) {
-		entityCache.removeResult(
-			LikeModelImpl.ENTITY_CACHE_ENABLED, LikeImpl.class,
-			like.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((LikeModelImpl)like, true);
+		entityCache.removeResult(LikeImpl.class, like);
 	}
 
 	@Override
 	public void clearCache(List<Like> likes) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Like like : likes) {
-			entityCache.removeResult(
-				LikeModelImpl.ENTITY_CACHE_ENABLED, LikeImpl.class,
-				like.getPrimaryKey());
-
-			clearUniqueFindersCache((LikeModelImpl)like, true);
+			entityCache.removeResult(LikeImpl.class, like);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(LikeImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				LikeModelImpl.ENTITY_CACHE_ENABLED, LikeImpl.class, primaryKey);
+			entityCache.removeResult(LikeImpl.class, primaryKey);
 		}
 	}
 
@@ -3221,9 +3163,9 @@ public class LikePersistenceImpl
 		};
 
 		finderCache.putResult(
-			_finderPathCountByAllAttributes, args, Long.valueOf(1), false);
+			_finderPathCountByAllAttributes, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathFetchByAllAttributes, args, likeModelImpl, false);
+			_finderPathFetchByAllAttributes, args, likeModelImpl);
 
 		args = new Object[] {
 			likeModelImpl.getPublikUserId(), likeModelImpl.getTitle(),
@@ -3232,69 +3174,10 @@ public class LikePersistenceImpl
 
 		finderCache.putResult(
 			_finderPathCountByAllAttributesExceptIsDislike, args,
-			Long.valueOf(1), false);
+			Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathFetchByAllAttributesExceptIsDislike, args, likeModelImpl,
-			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		LikeModelImpl likeModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				likeModelImpl.getPublikUserId(), likeModelImpl.getTitle(),
-				likeModelImpl.isIsDislike(), likeModelImpl.getTypeId(),
-				likeModelImpl.getEntityId()
-			};
-
-			finderCache.removeResult(_finderPathCountByAllAttributes, args);
-			finderCache.removeResult(_finderPathFetchByAllAttributes, args);
-		}
-
-		if ((likeModelImpl.getColumnBitmask() &
-			 _finderPathFetchByAllAttributes.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				likeModelImpl.getOriginalPublikUserId(),
-				likeModelImpl.getOriginalTitle(),
-				likeModelImpl.getOriginalIsDislike(),
-				likeModelImpl.getOriginalTypeId(),
-				likeModelImpl.getOriginalEntityId()
-			};
-
-			finderCache.removeResult(_finderPathCountByAllAttributes, args);
-			finderCache.removeResult(_finderPathFetchByAllAttributes, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				likeModelImpl.getPublikUserId(), likeModelImpl.getTitle(),
-				likeModelImpl.getTypeId(), likeModelImpl.getEntityId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByAllAttributesExceptIsDislike, args);
-			finderCache.removeResult(
-				_finderPathFetchByAllAttributesExceptIsDislike, args);
-		}
-
-		if ((likeModelImpl.getColumnBitmask() &
-			 _finderPathFetchByAllAttributesExceptIsDislike.
-				 getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				likeModelImpl.getOriginalPublikUserId(),
-				likeModelImpl.getOriginalTitle(),
-				likeModelImpl.getOriginalTypeId(),
-				likeModelImpl.getOriginalEntityId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByAllAttributesExceptIsDislike, args);
-			finderCache.removeResult(
-				_finderPathFetchByAllAttributesExceptIsDislike, args);
-		}
+			_finderPathFetchByAllAttributesExceptIsDislike, args,
+			likeModelImpl);
 	}
 
 	/**
@@ -3420,10 +3303,8 @@ public class LikePersistenceImpl
 		try {
 			session = openSession();
 
-			if (like.isNew()) {
+			if (isNew) {
 				session.save(like);
-
-				like.setNew(false);
 			}
 			else {
 				like = (Like)session.merge(like);
@@ -3436,156 +3317,13 @@ public class LikePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(LikeImpl.class, likeModelImpl, false, true);
 
-		if (!LikeModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {likeModelImpl.getPublikUserId()};
-
-			finderCache.removeResult(_finderPathCountByPublikUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPublikUserId, args);
-
-			args = new Object[] {
-				likeModelImpl.getPublikUserId(), likeModelImpl.isIsDislike()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByPublikUserIdAndIsDislike, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPublikUserIdAndIsDislike,
-				args);
-
-			args = new Object[] {
-				likeModelImpl.getEntityId(), likeModelImpl.getTypeId()
-			};
-
-			finderCache.removeResult(_finderPathCountByEntityIdAndTypeId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByEntityIdAndTypeId, args);
-
-			args = new Object[] {
-				likeModelImpl.getEntityId(), likeModelImpl.getTypeId(),
-				likeModelImpl.isIsDislike()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByEntityIdAndTypeIdAndIsDislike, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByEntityIdAndTypeIdAndIsDislike,
-				args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((likeModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPublikUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					likeModelImpl.getOriginalPublikUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-
-				args = new Object[] {likeModelImpl.getPublikUserId()};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-			}
-
-			if ((likeModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPublikUserIdAndIsDislike.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					likeModelImpl.getOriginalPublikUserId(),
-					likeModelImpl.getOriginalIsDislike()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByPublikUserIdAndIsDislike, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserIdAndIsDislike,
-					args);
-
-				args = new Object[] {
-					likeModelImpl.getPublikUserId(), likeModelImpl.isIsDislike()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByPublikUserIdAndIsDislike, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserIdAndIsDislike,
-					args);
-			}
-
-			if ((likeModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByEntityIdAndTypeId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					likeModelImpl.getOriginalEntityId(),
-					likeModelImpl.getOriginalTypeId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByEntityIdAndTypeId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByEntityIdAndTypeId, args);
-
-				args = new Object[] {
-					likeModelImpl.getEntityId(), likeModelImpl.getTypeId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByEntityIdAndTypeId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByEntityIdAndTypeId, args);
-			}
-
-			if ((likeModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByEntityIdAndTypeIdAndIsDislike.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					likeModelImpl.getOriginalEntityId(),
-					likeModelImpl.getOriginalTypeId(),
-					likeModelImpl.getOriginalIsDislike()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByEntityIdAndTypeIdAndIsDislike, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByEntityIdAndTypeIdAndIsDislike,
-					args);
-
-				args = new Object[] {
-					likeModelImpl.getEntityId(), likeModelImpl.getTypeId(),
-					likeModelImpl.isIsDislike()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByEntityIdAndTypeIdAndIsDislike, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByEntityIdAndTypeIdAndIsDislike,
-					args);
-			}
-		}
-
-		entityCache.putResult(
-			LikeModelImpl.ENTITY_CACHE_ENABLED, LikeImpl.class,
-			like.getPrimaryKey(), like, false);
-
-		clearUniqueFindersCache(likeModelImpl, false);
 		cacheUniqueFindersCache(likeModelImpl);
+
+		if (isNew) {
+			like.setNew(false);
+		}
 
 		like.resetOriginalValues();
 
@@ -3632,157 +3370,12 @@ public class LikePersistenceImpl
 	/**
 	 * Returns the like with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the like
-	 * @return the like, or <code>null</code> if a like with the primary key could not be found
-	 */
-	@Override
-	public Like fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			LikeModelImpl.ENTITY_CACHE_ENABLED, LikeImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Like like = (Like)serializable;
-
-		if (like == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				like = (Like)session.get(LikeImpl.class, primaryKey);
-
-				if (like != null) {
-					cacheResult(like);
-				}
-				else {
-					entityCache.putResult(
-						LikeModelImpl.ENTITY_CACHE_ENABLED, LikeImpl.class,
-						primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					LikeModelImpl.ENTITY_CACHE_ENABLED, LikeImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return like;
-	}
-
-	/**
-	 * Returns the like with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param likeId the primary key of the like
 	 * @return the like, or <code>null</code> if a like with the primary key could not be found
 	 */
 	@Override
 	public Like fetchByPrimaryKey(long likeId) {
 		return fetchByPrimaryKey((Serializable)likeId);
-	}
-
-	@Override
-	public Map<Serializable, Like> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Like> map = new HashMap<Serializable, Like>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Like like = fetchByPrimaryKey(primaryKey);
-
-			if (like != null) {
-				map.put(primaryKey, like);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				LikeModelImpl.ENTITY_CACHE_ENABLED, LikeImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Like)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_LIKE__WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Like like : (List<Like>)query.list()) {
-				map.put(like.getPrimaryKeyObj(), like);
-
-				cacheResult(like);
-
-				uncachedPrimaryKeys.remove(like.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					LikeModelImpl.ENTITY_CACHE_ENABLED, LikeImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3909,10 +3502,6 @@ public class LikePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3958,9 +3547,6 @@ public class LikePersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3972,6 +3558,21 @@ public class LikePersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "likeId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_LIKE_;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return LikeModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -3980,190 +3581,163 @@ public class LikePersistenceImpl
 	 * Initializes the like persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			LikeModelImpl.ENTITY_CACHE_ENABLED,
-			LikeModelImpl.FINDER_CACHE_ENABLED, LikeImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			LikeModelImpl.ENTITY_CACHE_ENABLED,
-			LikeModelImpl.FINDER_CACHE_ENABLED, LikeImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			LikeModelImpl.ENTITY_CACHE_ENABLED,
-			LikeModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByPublikUserId = new FinderPath(
-			LikeModelImpl.ENTITY_CACHE_ENABLED,
-			LikeModelImpl.FINDER_CACHE_ENABLED, LikeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"publikUserId"}, true);
 
 		_finderPathWithoutPaginationFindByPublikUserId = new FinderPath(
-			LikeModelImpl.ENTITY_CACHE_ENABLED,
-			LikeModelImpl.FINDER_CACHE_ENABLED, LikeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
 			new String[] {String.class.getName()},
-			LikeModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
+			new String[] {"publikUserId"}, true);
 
 		_finderPathCountByPublikUserId = new FinderPath(
-			LikeModelImpl.ENTITY_CACHE_ENABLED,
-			LikeModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()},
+			new String[] {"publikUserId"}, false);
 
 		_finderPathWithPaginationFindByPublikUserIdAndIsDislike =
 			new FinderPath(
-				LikeModelImpl.ENTITY_CACHE_ENABLED,
-				LikeModelImpl.FINDER_CACHE_ENABLED, LikeImpl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByPublikUserIdAndIsDislike",
 				new String[] {
 					String.class.getName(), Boolean.class.getName(),
 					Integer.class.getName(), Integer.class.getName(),
 					OrderByComparator.class.getName()
-				});
+				},
+				new String[] {"publikUserId", "isDislike"}, true);
 
 		_finderPathWithoutPaginationFindByPublikUserIdAndIsDislike =
 			new FinderPath(
-				LikeModelImpl.ENTITY_CACHE_ENABLED,
-				LikeModelImpl.FINDER_CACHE_ENABLED, LikeImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByPublikUserIdAndIsDislike",
 				new String[] {String.class.getName(), Boolean.class.getName()},
-				LikeModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
-				LikeModelImpl.ISDISLIKE_COLUMN_BITMASK);
+				new String[] {"publikUserId", "isDislike"}, true);
 
 		_finderPathCountByPublikUserIdAndIsDislike = new FinderPath(
-			LikeModelImpl.ENTITY_CACHE_ENABLED,
-			LikeModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByPublikUserIdAndIsDislike",
-			new String[] {String.class.getName(), Boolean.class.getName()});
+			new String[] {String.class.getName(), Boolean.class.getName()},
+			new String[] {"publikUserId", "isDislike"}, false);
 
 		_finderPathFetchByAllAttributes = new FinderPath(
-			LikeModelImpl.ENTITY_CACHE_ENABLED,
-			LikeModelImpl.FINDER_CACHE_ENABLED, LikeImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByAllAttributes",
 			new String[] {
 				String.class.getName(), String.class.getName(),
 				Boolean.class.getName(), Long.class.getName(),
 				Long.class.getName()
 			},
-			LikeModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
-			LikeModelImpl.TITLE_COLUMN_BITMASK |
-			LikeModelImpl.ISDISLIKE_COLUMN_BITMASK |
-			LikeModelImpl.TYPEID_COLUMN_BITMASK |
-			LikeModelImpl.ENTITYID_COLUMN_BITMASK);
+			new String[] {
+				"publikUserId", "title", "isDislike", "typeId", "entityId"
+			},
+			true);
 
 		_finderPathCountByAllAttributes = new FinderPath(
-			LikeModelImpl.ENTITY_CACHE_ENABLED,
-			LikeModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAllAttributes",
 			new String[] {
 				String.class.getName(), String.class.getName(),
 				Boolean.class.getName(), Long.class.getName(),
 				Long.class.getName()
-			});
+			},
+			new String[] {
+				"publikUserId", "title", "isDislike", "typeId", "entityId"
+			},
+			false);
 
 		_finderPathFetchByAllAttributesExceptIsDislike = new FinderPath(
-			LikeModelImpl.ENTITY_CACHE_ENABLED,
-			LikeModelImpl.FINDER_CACHE_ENABLED, LikeImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByAllAttributesExceptIsDislike",
 			new String[] {
 				String.class.getName(), String.class.getName(),
 				Long.class.getName(), Long.class.getName()
 			},
-			LikeModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
-			LikeModelImpl.TITLE_COLUMN_BITMASK |
-			LikeModelImpl.TYPEID_COLUMN_BITMASK |
-			LikeModelImpl.ENTITYID_COLUMN_BITMASK);
+			new String[] {"publikUserId", "title", "typeId", "entityId"}, true);
 
 		_finderPathCountByAllAttributesExceptIsDislike = new FinderPath(
-			LikeModelImpl.ENTITY_CACHE_ENABLED,
-			LikeModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByAllAttributesExceptIsDislike",
 			new String[] {
 				String.class.getName(), String.class.getName(),
 				Long.class.getName(), Long.class.getName()
-			});
+			},
+			new String[] {"publikUserId", "title", "typeId", "entityId"},
+			false);
 
 		_finderPathWithPaginationFindByEntityIdAndTypeId = new FinderPath(
-			LikeModelImpl.ENTITY_CACHE_ENABLED,
-			LikeModelImpl.FINDER_CACHE_ENABLED, LikeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByEntityIdAndTypeId",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"entityId", "typeId"}, true);
 
 		_finderPathWithoutPaginationFindByEntityIdAndTypeId = new FinderPath(
-			LikeModelImpl.ENTITY_CACHE_ENABLED,
-			LikeModelImpl.FINDER_CACHE_ENABLED, LikeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByEntityIdAndTypeId",
 			new String[] {Long.class.getName(), Long.class.getName()},
-			LikeModelImpl.ENTITYID_COLUMN_BITMASK |
-			LikeModelImpl.TYPEID_COLUMN_BITMASK);
+			new String[] {"entityId", "typeId"}, true);
 
 		_finderPathCountByEntityIdAndTypeId = new FinderPath(
-			LikeModelImpl.ENTITY_CACHE_ENABLED,
-			LikeModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByEntityIdAndTypeId",
-			new String[] {Long.class.getName(), Long.class.getName()});
+			new String[] {Long.class.getName(), Long.class.getName()},
+			new String[] {"entityId", "typeId"}, false);
 
 		_finderPathWithPaginationFindByEntityIdAndTypeIdAndIsDislike =
 			new FinderPath(
-				LikeModelImpl.ENTITY_CACHE_ENABLED,
-				LikeModelImpl.FINDER_CACHE_ENABLED, LikeImpl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByEntityIdAndTypeIdAndIsDislike",
 				new String[] {
 					Long.class.getName(), Long.class.getName(),
 					Boolean.class.getName(), Integer.class.getName(),
 					Integer.class.getName(), OrderByComparator.class.getName()
-				});
+				},
+				new String[] {"entityId", "typeId", "isDislike"}, true);
 
 		_finderPathWithoutPaginationFindByEntityIdAndTypeIdAndIsDislike =
 			new FinderPath(
-				LikeModelImpl.ENTITY_CACHE_ENABLED,
-				LikeModelImpl.FINDER_CACHE_ENABLED, LikeImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByEntityIdAndTypeIdAndIsDislike",
 				new String[] {
 					Long.class.getName(), Long.class.getName(),
 					Boolean.class.getName()
 				},
-				LikeModelImpl.ENTITYID_COLUMN_BITMASK |
-				LikeModelImpl.TYPEID_COLUMN_BITMASK |
-				LikeModelImpl.ISDISLIKE_COLUMN_BITMASK);
+				new String[] {"entityId", "typeId", "isDislike"}, true);
 
 		_finderPathCountByEntityIdAndTypeIdAndIsDislike = new FinderPath(
-			LikeModelImpl.ENTITY_CACHE_ENABLED,
-			LikeModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByEntityIdAndTypeIdAndIsDislike",
 			new String[] {
 				Long.class.getName(), Long.class.getName(),
 				Boolean.class.getName()
-			});
+			},
+			new String[] {"entityId", "typeId", "isDislike"}, false);
+
+		LikeUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		LikeUtil.setPersistence(null);
+
 		entityCache.removeCache(LikeImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -4174,9 +3748,6 @@ public class LikePersistenceImpl
 
 	private static final String _SQL_SELECT_LIKE_ =
 		"SELECT like_ FROM Like like_";
-
-	private static final String _SQL_SELECT_LIKE__WHERE_PKS_IN =
-		"SELECT like_ FROM Like like_ WHERE likeId IN (";
 
 	private static final String _SQL_SELECT_LIKE__WHERE =
 		"SELECT like_ FROM Like like_ WHERE ";
@@ -4197,5 +3768,10 @@ public class LikePersistenceImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		LikePersistenceImpl.class);
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

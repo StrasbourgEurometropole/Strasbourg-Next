@@ -14,8 +14,8 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import eu.strasbourg.service.agenda.service.base.HistoricLocalServiceBaseImpl;
 import eu.strasbourg.service.agenda.model.Historic;
+import eu.strasbourg.service.agenda.service.base.HistoricLocalServiceBaseImpl;
 
 import java.util.Date;
 import java.util.List;

@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,30 +19,30 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.project.exception.NoSuchPetitionException;
 import eu.strasbourg.service.project.model.Petition;
+import eu.strasbourg.service.project.model.PetitionTable;
 import eu.strasbourg.service.project.model.impl.PetitionImpl;
 import eu.strasbourg.service.project.model.impl.PetitionModelImpl;
 import eu.strasbourg.service.project.service.persistence.PetitionPersistence;
+import eu.strasbourg.service.project.service.persistence.PetitionUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -250,10 +242,6 @@ public class PetitionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -602,8 +590,6 @@ public class PetitionPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -761,11 +747,6 @@ public class PetitionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -854,8 +835,6 @@ public class PetitionPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1055,10 +1034,6 @@ public class PetitionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1437,8 +1412,6 @@ public class PetitionPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1610,10 +1583,6 @@ public class PetitionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1937,8 +1906,6 @@ public class PetitionPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2119,10 +2086,6 @@ public class PetitionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2475,8 +2438,6 @@ public class PetitionPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2658,10 +2619,6 @@ public class PetitionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3011,8 +2968,6 @@ public class PetitionPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3034,21 +2989,14 @@ public class PetitionPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Petition.class);
+
+		setModelImplClass(PetitionImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(PetitionTable.INSTANCE);
 	}
 
 	/**
@@ -3059,15 +3007,14 @@ public class PetitionPersistenceImpl
 	@Override
 	public void cacheResult(Petition petition) {
 		entityCache.putResult(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
-			petition.getPrimaryKey(), petition);
+			PetitionImpl.class, petition.getPrimaryKey(), petition);
 
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {petition.getUuid(), petition.getGroupId()}, petition);
-
-		petition.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the petitions in the entity cache if it is enabled.
@@ -3076,15 +3023,18 @@ public class PetitionPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Petition> petitions) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (petitions.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Petition petition : petitions) {
 			if (entityCache.getResult(
-					PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
-					petition.getPrimaryKey()) == null) {
+					PetitionImpl.class, petition.getPrimaryKey()) == null) {
 
 				cacheResult(petition);
-			}
-			else {
-				petition.resetOriginalValues();
 			}
 		}
 	}
@@ -3100,9 +3050,7 @@ public class PetitionPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(PetitionImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(PetitionImpl.class);
 	}
 
 	/**
@@ -3114,39 +3062,22 @@ public class PetitionPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Petition petition) {
-		entityCache.removeResult(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
-			petition.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((PetitionModelImpl)petition, true);
+		entityCache.removeResult(PetitionImpl.class, petition);
 	}
 
 	@Override
 	public void clearCache(List<Petition> petitions) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Petition petition : petitions) {
-			entityCache.removeResult(
-				PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
-				petition.getPrimaryKey());
-
-			clearUniqueFindersCache((PetitionModelImpl)petition, true);
+			entityCache.removeResult(PetitionImpl.class, petition);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(PetitionImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
-				primaryKey);
+			entityCache.removeResult(PetitionImpl.class, primaryKey);
 		}
 	}
 
@@ -3157,35 +3088,9 @@ public class PetitionPersistenceImpl
 			petitionModelImpl.getUuid(), petitionModelImpl.getGroupId()
 		};
 
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, petitionModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		PetitionModelImpl petitionModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				petitionModelImpl.getUuid(), petitionModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((petitionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				petitionModelImpl.getOriginalUuid(),
-				petitionModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+			_finderPathFetchByUUID_G, args, petitionModelImpl);
 	}
 
 	/**
@@ -3324,23 +3229,23 @@ public class PetitionPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (petition.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				petition.setCreateDate(now);
+				petition.setCreateDate(date);
 			}
 			else {
-				petition.setCreateDate(serviceContext.getCreateDate(now));
+				petition.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!petitionModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				petition.setModifiedDate(now);
+				petition.setModifiedDate(date);
 			}
 			else {
-				petition.setModifiedDate(serviceContext.getModifiedDate(now));
+				petition.setModifiedDate(serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -3349,10 +3254,8 @@ public class PetitionPersistenceImpl
 		try {
 			session = openSession();
 
-			if (petition.isNew()) {
+			if (isNew) {
 				session.save(petition);
-
-				petition.setNew(false);
 			}
 			else {
 				petition = (Petition)session.merge(petition);
@@ -3365,163 +3268,14 @@ public class PetitionPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!PetitionModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {petitionModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				petitionModelImpl.getUuid(), petitionModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {petitionModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {
-				petitionModelImpl.getStatus(), petitionModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByStatusAndGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByStatusAndGroupId, args);
-
-			args = new Object[] {petitionModelImpl.getPublikId()};
-
-			finderCache.removeResult(_finderPathCountByPublikId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPublikId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((petitionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					petitionModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {petitionModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((petitionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					petitionModelImpl.getOriginalUuid(),
-					petitionModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					petitionModelImpl.getUuid(),
-					petitionModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((petitionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					petitionModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {petitionModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((petitionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByStatusAndGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					petitionModelImpl.getOriginalStatus(),
-					petitionModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByStatusAndGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStatusAndGroupId, args);
-
-				args = new Object[] {
-					petitionModelImpl.getStatus(),
-					petitionModelImpl.getGroupId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByStatusAndGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStatusAndGroupId, args);
-			}
-
-			if ((petitionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPublikId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					petitionModelImpl.getOriginalPublikId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikId, args);
-
-				args = new Object[] {petitionModelImpl.getPublikId()};
-
-				finderCache.removeResult(_finderPathCountByPublikId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikId, args);
-			}
-		}
-
 		entityCache.putResult(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
-			petition.getPrimaryKey(), petition, false);
+			PetitionImpl.class, petitionModelImpl, false, true);
 
-		clearUniqueFindersCache(petitionModelImpl, false);
 		cacheUniqueFindersCache(petitionModelImpl);
+
+		if (isNew) {
+			petition.setNew(false);
+		}
 
 		petition.resetOriginalValues();
 
@@ -3570,160 +3324,12 @@ public class PetitionPersistenceImpl
 	/**
 	 * Returns the petition with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the petition
-	 * @return the petition, or <code>null</code> if a petition with the primary key could not be found
-	 */
-	@Override
-	public Petition fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Petition petition = (Petition)serializable;
-
-		if (petition == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				petition = (Petition)session.get(
-					PetitionImpl.class, primaryKey);
-
-				if (petition != null) {
-					cacheResult(petition);
-				}
-				else {
-					entityCache.putResult(
-						PetitionModelImpl.ENTITY_CACHE_ENABLED,
-						PetitionImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return petition;
-	}
-
-	/**
-	 * Returns the petition with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param petitionId the primary key of the petition
 	 * @return the petition, or <code>null</code> if a petition with the primary key could not be found
 	 */
 	@Override
 	public Petition fetchByPrimaryKey(long petitionId) {
 		return fetchByPrimaryKey((Serializable)petitionId);
-	}
-
-	@Override
-	public Map<Serializable, Petition> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Petition> map = new HashMap<Serializable, Petition>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Petition petition = fetchByPrimaryKey(primaryKey);
-
-			if (petition != null) {
-				map.put(primaryKey, petition);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Petition)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_PETITION_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Petition petition : (List<Petition>)query.list()) {
-				map.put(petition.getPrimaryKeyObj(), petition);
-
-				cacheResult(petition);
-
-				uncachedPrimaryKeys.remove(petition.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					PetitionModelImpl.ENTITY_CACHE_ENABLED, PetitionImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3850,10 +3456,6 @@ public class PetitionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3899,9 +3501,6 @@ public class PetitionPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3918,6 +3517,21 @@ public class PetitionPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "petitionId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_PETITION;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return PetitionModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -3926,163 +3540,131 @@ public class PetitionPersistenceImpl
 	 * Initializes the petition persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			PetitionModelImpl.UUID_COLUMN_BITMASK |
-			PetitionModelImpl.TITLE_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			PetitionModelImpl.UUID_COLUMN_BITMASK |
-			PetitionModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			PetitionModelImpl.UUID_COLUMN_BITMASK |
-			PetitionModelImpl.COMPANYID_COLUMN_BITMASK |
-			PetitionModelImpl.TITLE_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			PetitionModelImpl.GROUPID_COLUMN_BITMASK |
-			PetitionModelImpl.TITLE_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
 
 		_finderPathWithPaginationFindByStatusAndGroupId = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStatusAndGroupId",
 			new String[] {
 				Integer.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"status", "groupId"}, true);
 
 		_finderPathWithoutPaginationFindByStatusAndGroupId = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStatusAndGroupId",
 			new String[] {Integer.class.getName(), Long.class.getName()},
-			PetitionModelImpl.STATUS_COLUMN_BITMASK |
-			PetitionModelImpl.GROUPID_COLUMN_BITMASK |
-			PetitionModelImpl.TITLE_COLUMN_BITMASK);
+			new String[] {"status", "groupId"}, true);
 
 		_finderPathCountByStatusAndGroupId = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByStatusAndGroupId",
-			new String[] {Integer.class.getName(), Long.class.getName()});
+			new String[] {Integer.class.getName(), Long.class.getName()},
+			new String[] {"status", "groupId"}, false);
 
 		_finderPathWithPaginationFindByPublikId = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"publikId"}, true);
 
 		_finderPathWithoutPaginationFindByPublikId = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, PetitionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikId",
-			new String[] {String.class.getName()},
-			PetitionModelImpl.PUBLIKID_COLUMN_BITMASK |
-			PetitionModelImpl.TITLE_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"publikId"},
+			true);
 
 		_finderPathCountByPublikId = new FinderPath(
-			PetitionModelImpl.ENTITY_CACHE_ENABLED,
-			PetitionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"publikId"},
+			false);
+
+		PetitionUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		PetitionUtil.setPersistence(null);
+
 		entityCache.removeCache(PetitionImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -4093,9 +3675,6 @@ public class PetitionPersistenceImpl
 
 	private static final String _SQL_SELECT_PETITION =
 		"SELECT petition FROM Petition petition";
-
-	private static final String _SQL_SELECT_PETITION_WHERE_PKS_IN =
-		"SELECT petition FROM Petition petition WHERE petitionId IN (";
 
 	private static final String _SQL_SELECT_PETITION_WHERE =
 		"SELECT petition FROM Petition petition WHERE ";
@@ -4119,5 +3698,10 @@ public class PetitionPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

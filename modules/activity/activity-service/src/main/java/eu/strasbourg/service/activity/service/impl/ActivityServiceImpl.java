@@ -14,9 +14,7 @@
 
 package eu.strasbourg.service.activity.service.impl;
 
-import java.util.List;
-import java.util.Locale;
-
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -24,11 +22,12 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.util.LocaleUtil;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.service.ActivityLocalServiceUtil;
 import eu.strasbourg.service.activity.service.base.ActivityServiceBaseImpl;
+
+import java.util.List;
+import java.util.Locale;
 
 /**
  * The implementation of the activity remote service.

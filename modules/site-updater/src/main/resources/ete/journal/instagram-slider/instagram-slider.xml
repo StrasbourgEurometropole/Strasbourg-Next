@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Slider Instagram</name>
+        <key>381155541</key>
+        <definition>instagram-slider-structure.json</definition>
+        <layout>instagram-slider-layout.json</layout>
+    </structure>
+    <template>
+        <name>Slider Instagram</name>
+        <key>381155562</key>
+        <script>insta-slider.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

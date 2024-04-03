@@ -7,6 +7,7 @@ import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -36,6 +37,7 @@ import eu.strasbourg.service.search.log.model.SearchLog;
 import eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.Pager;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -67,8 +69,7 @@ public class SearchAssetDisplayContext {
 		this._response = response;
 		this._request = request;
 		this._themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
-		this._configuration = this._themeDisplay.getPortletDisplay()
-				.getPortletInstanceConfiguration(SearchAssetConfiguration.class);
+		this._configuration =  ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssetConfiguration.class, _themeDisplay);
 		this.initSearchContainer();
 		if (!this._configuration.hideResultsBeforeSearch() || this.isUserSearch()
 				|| ParamUtil.getBoolean(this._request, "paginate")) {
@@ -182,7 +183,8 @@ public class SearchAssetDisplayContext {
 	 * Retourne l'URL de la page d'accueil
 	 */
 	public String getHomeURL() {
-		if (this._themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname() != null
+		String virtualHostName= PortalHelper.getVirtualHostname(this._themeDisplay.getScopeGroup(), this._themeDisplay.getLanguageId());
+		if (virtualHostName != null
 				|| this._themeDisplay.getScopeGroup().isStagingGroup()) {
 			return "/web" + this._themeDisplay.getScopeGroup().getFriendlyURL() + "/";
 		} else {
@@ -284,7 +286,7 @@ public class SearchAssetDisplayContext {
 			long count = SearchHelper.getGlobalSearchCount(searchContext, classNames, groupId, globalGroupId,
 					globalScope, keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds,
 					prefilterCategoriesIds, prefilterTagsNames,idSIGPlace, searchProcedure, this._themeDisplay.getLocale());
-			this.getSearchContainer().setTotal((int) count);
+			this.getSearchContainer().setResultsAndTotal(()->results, (int) count);
 		}
 		
 		this._entries = results;
@@ -520,8 +522,7 @@ public class SearchAssetDisplayContext {
 
 		SearchAssetConfiguration configuration;
 		try {
-			configuration = this._themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(SearchAssetConfiguration.class);
+			configuration =  ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssetConfiguration.class, _themeDisplay);
 			_displayExport = configuration.displayExport();
 		} catch (ConfigurationException e) {
 			_log.error(e.getMessage(), e);

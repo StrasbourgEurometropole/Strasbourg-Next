@@ -80,14 +80,15 @@ public class SaveActivityActionCommand extends BaseMVCActionCommand {
 			// Si pas valide : on reste sur la page d'édition
 			PortalUtil.copyRequestParameters(request, response);
 
-			PortletURL returnURL = PortletURLFactoryUtil.create(request,
+			PortletURL backURL = PortletURLFactoryUtil.create(request,
 				portletName, themeDisplay.getPlid(),
 				PortletRequest.RENDER_PHASE);
-			returnURL.setParameter("tab", request.getParameter("tab"));
+			backURL.setParameter("tab", request.getParameter("tab"));
 
-			response.setRenderParameter("returnURL", returnURL.toString());
+			response.setRenderParameter("backURL", backURL.toString());
 			response.setRenderParameter("mvcPath",
 				"/activity-bo-edit-activity.jsp");
+			response.setRenderParameter("cmd", "saveActivity");
 			return;
 		}
 
@@ -119,12 +120,7 @@ public class SaveActivityActionCommand extends BaseMVCActionCommand {
 
 		// Update de l'entité
 		activityLocalService.updateActivity(activity, sc);
-
-		// Post / Redirect / Get si tout est bon
-		PortletURL renderURL = PortletURLFactoryUtil.create(request,
-			portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
-		renderURL.setParameter("tab", request.getParameter("tab"));
-		response.sendRedirect(renderURL.toString());
+		response.setRenderParameter("mvcPath", "/activity-bo-view-activities.jsp");
 	}
 
 	/**

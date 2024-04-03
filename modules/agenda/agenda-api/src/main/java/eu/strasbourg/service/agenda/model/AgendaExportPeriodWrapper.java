@@ -1,29 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,11 @@ import java.util.Objects;
  * @generated
  */
 public class AgendaExportPeriodWrapper
+	extends BaseModelWrapper<AgendaExportPeriod>
 	implements AgendaExportPeriod, ModelWrapper<AgendaExportPeriod> {
 
 	public AgendaExportPeriodWrapper(AgendaExportPeriod agendaExportPeriod) {
-		_agendaExportPeriod = agendaExportPeriod;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return AgendaExportPeriod.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return AgendaExportPeriod.class.getName();
+		super(agendaExportPeriod);
 	}
 
 	@Override
@@ -99,17 +77,8 @@ public class AgendaExportPeriodWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new AgendaExportPeriodWrapper(
-			(AgendaExportPeriod)_agendaExportPeriod.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.agenda.model.AgendaExportPeriod
-			agendaExportPeriod) {
-
-		return _agendaExportPeriod.compareTo(agendaExportPeriod);
+	public AgendaExportPeriod cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -119,7 +88,7 @@ public class AgendaExportPeriodWrapper
 	 */
 	@Override
 	public long getAgendaExportId() {
-		return _agendaExportPeriod.getAgendaExportId();
+		return model.getAgendaExportId();
 	}
 
 	/**
@@ -129,7 +98,7 @@ public class AgendaExportPeriodWrapper
 	 */
 	@Override
 	public long getAgendaExportPeriodId() {
-		return _agendaExportPeriod.getAgendaExportPeriodId();
+		return model.getAgendaExportPeriodId();
 	}
 
 	/**
@@ -139,12 +108,7 @@ public class AgendaExportPeriodWrapper
 	 */
 	@Override
 	public Date getEndDate() {
-		return _agendaExportPeriod.getEndDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _agendaExportPeriod.getExpandoBridge();
+		return model.getEndDate();
 	}
 
 	/**
@@ -154,12 +118,7 @@ public class AgendaExportPeriodWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _agendaExportPeriod.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _agendaExportPeriod.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -169,7 +128,7 @@ public class AgendaExportPeriodWrapper
 	 */
 	@Override
 	public Date getStartDate() {
-		return _agendaExportPeriod.getStartDate();
+		return model.getStartDate();
 	}
 
 	/**
@@ -179,32 +138,12 @@ public class AgendaExportPeriodWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _agendaExportPeriod.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _agendaExportPeriod.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _agendaExportPeriod.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _agendaExportPeriod.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _agendaExportPeriod.isNew();
+		return model.getUuid();
 	}
 
 	@Override
 	public void persist() {
-		_agendaExportPeriod.persist();
+		model.persist();
 	}
 
 	/**
@@ -214,7 +153,7 @@ public class AgendaExportPeriodWrapper
 	 */
 	@Override
 	public void setAgendaExportId(long agendaExportId) {
-		_agendaExportPeriod.setAgendaExportId(agendaExportId);
+		model.setAgendaExportId(agendaExportId);
 	}
 
 	/**
@@ -224,12 +163,7 @@ public class AgendaExportPeriodWrapper
 	 */
 	@Override
 	public void setAgendaExportPeriodId(long agendaExportPeriodId) {
-		_agendaExportPeriod.setAgendaExportPeriodId(agendaExportPeriodId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_agendaExportPeriod.setCachedModel(cachedModel);
+		model.setAgendaExportPeriodId(agendaExportPeriodId);
 	}
 
 	/**
@@ -239,29 +173,7 @@ public class AgendaExportPeriodWrapper
 	 */
 	@Override
 	public void setEndDate(Date endDate) {
-		_agendaExportPeriod.setEndDate(endDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_agendaExportPeriod.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_agendaExportPeriod.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_agendaExportPeriod.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_agendaExportPeriod.setNew(n);
+		model.setEndDate(endDate);
 	}
 
 	/**
@@ -271,12 +183,7 @@ public class AgendaExportPeriodWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_agendaExportPeriod.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_agendaExportPeriod.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -286,7 +193,7 @@ public class AgendaExportPeriodWrapper
 	 */
 	@Override
 	public void setStartDate(Date startDate) {
-		_agendaExportPeriod.setStartDate(startDate);
+		model.setStartDate(startDate);
 	}
 
 	/**
@@ -296,85 +203,19 @@ public class AgendaExportPeriodWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_agendaExportPeriod.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.agenda.model.AgendaExportPeriod> toCacheModel() {
-
-		return _agendaExportPeriod.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.AgendaExportPeriod
-		toEscapedModel() {
-
-		return new AgendaExportPeriodWrapper(
-			_agendaExportPeriod.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _agendaExportPeriod.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.AgendaExportPeriod
-		toUnescapedModel() {
-
-		return new AgendaExportPeriodWrapper(
-			_agendaExportPeriod.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _agendaExportPeriod.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
+	protected AgendaExportPeriodWrapper wrap(
+		AgendaExportPeriod agendaExportPeriod) {
 
-		if (!(object instanceof AgendaExportPeriodWrapper)) {
-			return false;
-		}
-
-		AgendaExportPeriodWrapper agendaExportPeriodWrapper =
-			(AgendaExportPeriodWrapper)object;
-
-		if (Objects.equals(
-				_agendaExportPeriod,
-				agendaExportPeriodWrapper._agendaExportPeriod)) {
-
-			return true;
-		}
-
-		return false;
+		return new AgendaExportPeriodWrapper(agendaExportPeriod);
 	}
-
-	@Override
-	public AgendaExportPeriod getWrappedModel() {
-		return _agendaExportPeriod;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _agendaExportPeriod.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _agendaExportPeriod.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_agendaExportPeriod.resetOriginalValues();
-	}
-
-	private final AgendaExportPeriod _agendaExportPeriod;
 
 }

@@ -1,29 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,11 @@ import java.util.Objects;
  * @generated
  */
 public class ProjectTimelineWrapper
+	extends BaseModelWrapper<ProjectTimeline>
 	implements ModelWrapper<ProjectTimeline>, ProjectTimeline {
 
 	public ProjectTimelineWrapper(ProjectTimeline projectTimeline) {
-		_projectTimeline = projectTimeline;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return ProjectTimeline.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return ProjectTimeline.class.getName();
+		super(projectTimeline);
 	}
 
 	@Override
@@ -127,16 +105,8 @@ public class ProjectTimelineWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new ProjectTimelineWrapper(
-			(ProjectTimeline)_projectTimeline.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.project.model.ProjectTimeline projectTimeline) {
-
-		return _projectTimeline.compareTo(projectTimeline);
+	public ProjectTimeline cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -146,7 +116,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public long getBudgetParticipatifId() {
-		return _projectTimeline.getBudgetParticipatifId();
+		return model.getBudgetParticipatifId();
 	}
 
 	/**
@@ -156,7 +126,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public Date getDate() {
-		return _projectTimeline.getDate();
+		return model.getDate();
 	}
 
 	/**
@@ -166,12 +136,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public String getDateFormat() {
-		return _projectTimeline.getDateFormat();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _projectTimeline.getExpandoBridge();
+		return model.getDateFormat();
 	}
 
 	/**
@@ -181,7 +146,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public String getFreeMarkerFormatDate() {
-		return _projectTimeline.getFreeMarkerFormatDate();
+		return model.getFreeMarkerFormatDate();
 	}
 
 	/**
@@ -191,7 +156,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public String getLink() {
-		return _projectTimeline.getLink();
+		return model.getLink();
 	}
 
 	/**
@@ -201,12 +166,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _projectTimeline.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _projectTimeline.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -216,7 +176,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public long getProjectId() {
-		return _projectTimeline.getProjectId();
+		return model.getProjectId();
 	}
 
 	/**
@@ -226,7 +186,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public long getProjectTimelineId() {
-		return _projectTimeline.getProjectTimelineId();
+		return model.getProjectTimelineId();
 	}
 
 	/**
@@ -236,7 +196,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public int getSpacing() {
-		return _projectTimeline.getSpacing();
+		return model.getSpacing();
 	}
 
 	/**
@@ -246,7 +206,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public int getStartDay() {
-		return _projectTimeline.getStartDay();
+		return model.getStartDay();
 	}
 
 	/**
@@ -256,32 +216,12 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public String getTitle() {
-		return _projectTimeline.getTitle();
-	}
-
-	@Override
-	public int hashCode() {
-		return _projectTimeline.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _projectTimeline.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _projectTimeline.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _projectTimeline.isNew();
+		return model.getTitle();
 	}
 
 	@Override
 	public void persist() {
-		_projectTimeline.persist();
+		model.persist();
 	}
 
 	/**
@@ -291,12 +231,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public void setBudgetParticipatifId(long budgetParticipatifId) {
-		_projectTimeline.setBudgetParticipatifId(budgetParticipatifId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_projectTimeline.setCachedModel(cachedModel);
+		model.setBudgetParticipatifId(budgetParticipatifId);
 	}
 
 	/**
@@ -306,7 +241,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public void setDate(Date date) {
-		_projectTimeline.setDate(date);
+		model.setDate(date);
 	}
 
 	/**
@@ -316,24 +251,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public void setDateFormat(String dateFormat) {
-		_projectTimeline.setDateFormat(dateFormat);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_projectTimeline.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_projectTimeline.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_projectTimeline.setExpandoBridgeAttributes(serviceContext);
+		model.setDateFormat(dateFormat);
 	}
 
 	/**
@@ -343,12 +261,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public void setLink(String link) {
-		_projectTimeline.setLink(link);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_projectTimeline.setNew(n);
+		model.setLink(link);
 	}
 
 	/**
@@ -358,12 +271,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_projectTimeline.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_projectTimeline.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -373,7 +281,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public void setProjectId(long projectId) {
-		_projectTimeline.setProjectId(projectId);
+		model.setProjectId(projectId);
 	}
 
 	/**
@@ -383,7 +291,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public void setProjectTimelineId(long projectTimelineId) {
-		_projectTimeline.setProjectTimelineId(projectTimelineId);
+		model.setProjectTimelineId(projectTimelineId);
 	}
 
 	/**
@@ -393,7 +301,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public void setSpacing(int spacing) {
-		_projectTimeline.setSpacing(spacing);
+		model.setSpacing(spacing);
 	}
 
 	/**
@@ -403,7 +311,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public void setStartDay(int startDay) {
-		_projectTimeline.setStartDay(startDay);
+		model.setStartDay(startDay);
 	}
 
 	/**
@@ -413,21 +321,7 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public void setTitle(String title) {
-		_projectTimeline.setTitle(title);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.project.model.ProjectTimeline> toCacheModel() {
-
-		return _projectTimeline.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.ProjectTimeline
-		toEscapedModel() {
-
-		return new ProjectTimelineWrapper(_projectTimeline.toEscapedModel());
+		model.setTitle(title);
 	}
 
 	/**
@@ -435,68 +329,17 @@ public class ProjectTimelineWrapper
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _projectTimeline.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _projectTimeline.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.ProjectTimeline
-		toUnescapedModel() {
-
-		return new ProjectTimelineWrapper(_projectTimeline.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _projectTimeline.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof ProjectTimelineWrapper)) {
-			return false;
-		}
-
-		ProjectTimelineWrapper projectTimelineWrapper =
-			(ProjectTimelineWrapper)object;
-
-		if (Objects.equals(
-				_projectTimeline, projectTimelineWrapper._projectTimeline)) {
-
-			return true;
-		}
-
-		return false;
+	protected ProjectTimelineWrapper wrap(ProjectTimeline projectTimeline) {
+		return new ProjectTimelineWrapper(projectTimeline);
 	}
-
-	@Override
-	public ProjectTimeline getWrappedModel() {
-		return _projectTimeline;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _projectTimeline.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _projectTimeline.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_projectTimeline.resetOriginalValues();
-	}
-
-	private final ProjectTimeline _projectTimeline;
 
 }

@@ -1,0 +1,97 @@
+.st-bloc-elu {
+	.st-container {
+		padding: 30px;
+		background-color: $c_greydark;
+		border-radius: $border-radius;
+
+		@include mobile {
+			padding: 20px;
+		}
+	}
+
+	.st-title {
+		@include tablet-small {
+			text-align: center;
+		}
+
+		& + * {
+			@include min-mobile {
+				margin-top: 30px;
+			}
+			@include mobile {
+				margin-top: 20px;
+			}
+		}
+	}
+
+	.st-bloc-elu__inner {
+		display: flex;
+		align-items: center;
+		min-height: 160px;
+
+		@include min-tablet-small {
+			&:after {
+				content: "";
+				display: block;
+				height: 1px;
+				background-image: url(../images/deco/dotted-line.svg);
+				flex-grow: 1;
+				margin-left: 30px;
+			}
+		}
+
+		@include tablet-small {
+			flex-direction: column;
+			text-align: center;
+		}
+	}
+
+	.st-image {
+		flex-shrink: 0;
+
+		img {
+			width: 160px;
+			height: 160px;
+			border-radius: $border-radius-small;
+		}
+
+		& + * {
+			@include min-tablet-small {
+				margin-left: 30px;
+			}
+			@include tablet-small {
+				margin-top: 20px;
+			}
+			@include mobile {
+				margin-top: 10px;
+			}
+		}
+	}
+
+	.st-caption {
+		max-width: 400px;
+
+		& + * {
+			@include tablet-small {
+				margin-top: 20px;
+			}
+		}
+	}
+
+	.st-name {
+		@include ft('', 15px, 700, $c_white, 1);
+		@include letter-spacing(25);
+
+		& + * {
+			margin-top: 6px;
+		}
+	}
+
+	.st-btn {
+		flex-shrink: 0;
+
+		@include min-tablet-small {
+			order: 3;
+		}
+	}
+}

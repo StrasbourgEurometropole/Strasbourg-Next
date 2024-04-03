@@ -16,14 +16,13 @@ package eu.strasbourg.service.gtfs.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
+import eu.strasbourg.service.gtfs.model.Route;
+import eu.strasbourg.service.gtfs.service.base.RouteLocalServiceBaseImpl;
+import eu.strasbourg.utils.models.RoutesGTFS;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
-import eu.strasbourg.service.gtfs.model.Route;
-import eu.strasbourg.service.gtfs.service.base.RouteLocalServiceBaseImpl;
-import eu.strasbourg.utils.models.RoutesGTFS;
 
 /**
  * The implementation of the route local service.

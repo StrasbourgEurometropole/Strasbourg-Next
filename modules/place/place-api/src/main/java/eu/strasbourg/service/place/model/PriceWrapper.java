@@ -1,29 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,20 +21,11 @@ import java.util.Objects;
  * @see Price
  * @generated
  */
-public class PriceWrapper implements ModelWrapper<Price>, Price {
+public class PriceWrapper
+	extends BaseModelWrapper<Price> implements ModelWrapper<Price>, Price {
 
 	public PriceWrapper(Price price) {
-		_price = price;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Price.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Price.class.getName();
+		super(price);
 	}
 
 	@Override
@@ -118,28 +96,18 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	}
 
 	@Override
-	public Object clone() {
-		return new PriceWrapper((Price)_price.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.place.model.Price price) {
-		return _price.compareTo(price);
+	public Price cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _price.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _price.getDefaultLanguageId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _price.getExpandoBridge();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -147,7 +115,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.Place> getPlaces() {
-		return _price.getPlaces();
+		return model.getPlaces();
 	}
 
 	/**
@@ -156,7 +124,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public String getPlacesIds() {
-		return _price.getPlacesIds();
+		return model.getPlacesIds();
 	}
 
 	/**
@@ -166,7 +134,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public String getPriceDescription() {
-		return _price.getPriceDescription();
+		return model.getPriceDescription();
 	}
 
 	/**
@@ -177,7 +145,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public String getPriceDescription(java.util.Locale locale) {
-		return _price.getPriceDescription(locale);
+		return model.getPriceDescription(locale);
 	}
 
 	/**
@@ -191,7 +159,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	public String getPriceDescription(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _price.getPriceDescription(locale, useDefault);
+		return model.getPriceDescription(locale, useDefault);
 	}
 
 	/**
@@ -202,7 +170,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public String getPriceDescription(String languageId) {
-		return _price.getPriceDescription(languageId);
+		return model.getPriceDescription(languageId);
 	}
 
 	/**
@@ -214,17 +182,17 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public String getPriceDescription(String languageId, boolean useDefault) {
-		return _price.getPriceDescription(languageId, useDefault);
+		return model.getPriceDescription(languageId, useDefault);
 	}
 
 	@Override
 	public String getPriceDescriptionCurrentLanguageId() {
-		return _price.getPriceDescriptionCurrentLanguageId();
+		return model.getPriceDescriptionCurrentLanguageId();
 	}
 
 	@Override
 	public String getPriceDescriptionCurrentValue() {
-		return _price.getPriceDescriptionCurrentValue();
+		return model.getPriceDescriptionCurrentValue();
 	}
 
 	/**
@@ -234,7 +202,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getPriceDescriptionMap() {
-		return _price.getPriceDescriptionMap();
+		return model.getPriceDescriptionMap();
 	}
 
 	/**
@@ -244,7 +212,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public long getPriceId() {
-		return _price.getPriceId();
+		return model.getPriceId();
 	}
 
 	/**
@@ -254,12 +222,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _price.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _price.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -269,7 +232,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public int getStatus() {
-		return _price.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -279,7 +242,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _price.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -289,7 +252,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _price.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -299,7 +262,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _price.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -309,7 +272,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _price.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -319,7 +282,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public String getTitle() {
-		return _price.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -330,7 +293,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale) {
-		return _price.getTitle(locale);
+		return model.getTitle(locale);
 	}
 
 	/**
@@ -342,7 +305,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale, boolean useDefault) {
-		return _price.getTitle(locale, useDefault);
+		return model.getTitle(locale, useDefault);
 	}
 
 	/**
@@ -353,7 +316,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public String getTitle(String languageId) {
-		return _price.getTitle(languageId);
+		return model.getTitle(languageId);
 	}
 
 	/**
@@ -365,17 +328,17 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public String getTitle(String languageId, boolean useDefault) {
-		return _price.getTitle(languageId, useDefault);
+		return model.getTitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getTitleCurrentLanguageId() {
-		return _price.getTitleCurrentLanguageId();
+		return model.getTitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getTitleCurrentValue() {
-		return _price.getTitleCurrentValue();
+		return model.getTitleCurrentValue();
 	}
 
 	/**
@@ -385,7 +348,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getTitleMap() {
-		return _price.getTitleMap();
+		return model.getTitleMap();
 	}
 
 	/**
@@ -395,12 +358,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public String getUuid() {
-		return _price.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _price.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -410,12 +368,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _price.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _price.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -425,7 +378,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _price.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -435,12 +388,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _price.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _price.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -450,7 +398,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _price.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -460,7 +408,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _price.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -470,12 +418,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _price.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _price.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -485,7 +428,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public boolean isPending() {
-		return _price.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -495,19 +438,19 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _price.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_price.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_price.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -515,34 +458,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_price.prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_price.setCachedModel(cachedModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_price.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_price.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_price.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_price.setNew(n);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -552,7 +468,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public void setPriceDescription(String priceDescription) {
-		_price.setPriceDescription(priceDescription);
+		model.setPriceDescription(priceDescription);
 	}
 
 	/**
@@ -565,7 +481,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	public void setPriceDescription(
 		String priceDescription, java.util.Locale locale) {
 
-		_price.setPriceDescription(priceDescription, locale);
+		model.setPriceDescription(priceDescription, locale);
 	}
 
 	/**
@@ -580,12 +496,12 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 		String priceDescription, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_price.setPriceDescription(priceDescription, locale, defaultLocale);
+		model.setPriceDescription(priceDescription, locale, defaultLocale);
 	}
 
 	@Override
 	public void setPriceDescriptionCurrentLanguageId(String languageId) {
-		_price.setPriceDescriptionCurrentLanguageId(languageId);
+		model.setPriceDescriptionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -597,7 +513,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	public void setPriceDescriptionMap(
 		Map<java.util.Locale, String> priceDescriptionMap) {
 
-		_price.setPriceDescriptionMap(priceDescriptionMap);
+		model.setPriceDescriptionMap(priceDescriptionMap);
 	}
 
 	/**
@@ -611,7 +527,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 		Map<java.util.Locale, String> priceDescriptionMap,
 		java.util.Locale defaultLocale) {
 
-		_price.setPriceDescriptionMap(priceDescriptionMap, defaultLocale);
+		model.setPriceDescriptionMap(priceDescriptionMap, defaultLocale);
 	}
 
 	/**
@@ -621,7 +537,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public void setPriceId(long priceId) {
-		_price.setPriceId(priceId);
+		model.setPriceId(priceId);
 	}
 
 	/**
@@ -631,12 +547,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_price.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_price.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -646,7 +557,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_price.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -656,7 +567,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_price.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -666,7 +577,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_price.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -676,7 +587,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_price.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -686,7 +597,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_price.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -696,7 +607,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_price.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -707,7 +618,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public void setTitle(String title, java.util.Locale locale) {
-		_price.setTitle(title, locale);
+		model.setTitle(title, locale);
 	}
 
 	/**
@@ -721,12 +632,12 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	public void setTitle(
 		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_price.setTitle(title, locale, defaultLocale);
+		model.setTitle(title, locale, defaultLocale);
 	}
 
 	@Override
 	public void setTitleCurrentLanguageId(String languageId) {
-		_price.setTitleCurrentLanguageId(languageId);
+		model.setTitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -736,7 +647,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
-		_price.setTitleMap(titleMap);
+		model.setTitleMap(titleMap);
 	}
 
 	/**
@@ -750,7 +661,7 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 		Map<java.util.Locale, String> titleMap,
 		java.util.Locale defaultLocale) {
 
-		_price.setTitleMap(titleMap, defaultLocale);
+		model.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**
@@ -760,75 +671,17 @@ public class PriceWrapper implements ModelWrapper<Price>, Price {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_price.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.place.model.Price> toCacheModel() {
-
-		return _price.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.Price toEscapedModel() {
-		return new PriceWrapper(_price.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _price.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.Price toUnescapedModel() {
-		return new PriceWrapper(_price.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _price.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof PriceWrapper)) {
-			return false;
-		}
-
-		PriceWrapper priceWrapper = (PriceWrapper)object;
-
-		if (Objects.equals(_price, priceWrapper._price)) {
-			return true;
-		}
-
-		return false;
+	protected PriceWrapper wrap(Price price) {
+		return new PriceWrapper(price);
 	}
-
-	@Override
-	public Price getWrappedModel() {
-		return _price;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _price.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _price.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_price.resetOriginalValues();
-	}
-
-	private final Price _price;
 
 }

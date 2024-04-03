@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
@@ -17,7 +8,9 @@ package eu.strasbourg.service.project.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -27,29 +20,33 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.project.model.Participation;
 import eu.strasbourg.service.project.model.ParticipationModel;
-import eu.strasbourg.service.project.model.ParticipationSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -147,97 +144,54 @@ public class ParticipationModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.project.model.Participation"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.project.model.Participation"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.project.model.Participation"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TITLE_COLUMN_BITMASK = 16L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Participation toModel(ParticipationSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Participation model = new ParticipationImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setParticipationId(soapModel.getParticipationId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setTitle(soapModel.getTitle());
-		model.setContactName(soapModel.getContactName());
-		model.setContactLine1(soapModel.getContactLine1());
-		model.setContactLine2(soapModel.getContactLine2());
-		model.setContactPhoneNumber(soapModel.getContactPhoneNumber());
-		model.setVideoUrl(soapModel.getVideoUrl());
-		model.setExternalImageURL(soapModel.getExternalImageURL());
-		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
-		model.setMediaChoice(soapModel.isMediaChoice());
-		model.setDescriptionChapeau(soapModel.getDescriptionChapeau());
-		model.setDescriptionBody(soapModel.getDescriptionBody());
-		model.setConsultationPlacesBody(soapModel.getConsultationPlacesBody());
-		model.setImageId(soapModel.getImageId());
-		model.setFilesIds(soapModel.getFilesIds());
-		model.setEventsIds(soapModel.getEventsIds());
-		model.setPublicationDate(soapModel.getPublicationDate());
-		model.setExpirationDate(soapModel.getExpirationDate());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Participation> toModels(ParticipationSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Participation> models = new ArrayList<Participation>(
-			soapModels.length);
-
-		for (ParticipationSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.project.service.util.PropsUtil.get(
@@ -295,9 +249,6 @@ public class ParticipationModelImpl
 				attributeGetterFunction.apply((Participation)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -322,712 +273,205 @@ public class ParticipationModelImpl
 	public Map<String, Function<Participation, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Participation, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Participation>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Participation.class.getClassLoader(), Participation.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<Participation, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Participation> constructor =
-				(Constructor<Participation>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Participation, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<Participation, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Participation::getUuid);
+			attributeGetterFunctions.put(
+				"participationId", Participation::getParticipationId);
+			attributeGetterFunctions.put("groupId", Participation::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", Participation::getCompanyId);
+			attributeGetterFunctions.put("userId", Participation::getUserId);
+			attributeGetterFunctions.put(
+				"userName", Participation::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", Participation::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Participation::getModifiedDate);
+			attributeGetterFunctions.put("status", Participation::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Participation::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Participation::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", Participation::getStatusDate);
+			attributeGetterFunctions.put("title", Participation::getTitle);
+			attributeGetterFunctions.put(
+				"contactName", Participation::getContactName);
+			attributeGetterFunctions.put(
+				"contactLine1", Participation::getContactLine1);
+			attributeGetterFunctions.put(
+				"contactLine2", Participation::getContactLine2);
+			attributeGetterFunctions.put(
+				"contactPhoneNumber", Participation::getContactPhoneNumber);
+			attributeGetterFunctions.put(
+				"videoUrl", Participation::getVideoUrl);
+			attributeGetterFunctions.put(
+				"externalImageURL", Participation::getExternalImageURL);
+			attributeGetterFunctions.put(
+				"externalImageCopyright",
+				Participation::getExternalImageCopyright);
+			attributeGetterFunctions.put(
+				"mediaChoice", Participation::getMediaChoice);
+			attributeGetterFunctions.put(
+				"descriptionChapeau", Participation::getDescriptionChapeau);
+			attributeGetterFunctions.put(
+				"descriptionBody", Participation::getDescriptionBody);
+			attributeGetterFunctions.put(
+				"consultationPlacesBody",
+				Participation::getConsultationPlacesBody);
+			attributeGetterFunctions.put("imageId", Participation::getImageId);
+			attributeGetterFunctions.put(
+				"filesIds", Participation::getFilesIds);
+			attributeGetterFunctions.put(
+				"eventsIds", Participation::getEventsIds);
+			attributeGetterFunctions.put(
+				"publicationDate", Participation::getPublicationDate);
+			attributeGetterFunctions.put(
+				"expirationDate", Participation::getExpirationDate);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Participation, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Participation, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Participation, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Participation, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<Participation, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<Participation, String>)Participation::setUuid);
+			attributeSetterBiConsumers.put(
+				"participationId",
+				(BiConsumer<Participation, Long>)
+					Participation::setParticipationId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<Participation, Long>)Participation::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Participation, Long>)Participation::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<Participation, Long>)Participation::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Participation, String>)Participation::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Participation, Date>)Participation::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Participation, Date>)
+					Participation::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<Participation, Integer>)Participation::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Participation, Long>)
+					Participation::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Participation, String>)
+					Participation::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Participation, Date>)Participation::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<Participation, String>)Participation::setTitle);
+			attributeSetterBiConsumers.put(
+				"contactName",
+				(BiConsumer<Participation, String>)
+					Participation::setContactName);
+			attributeSetterBiConsumers.put(
+				"contactLine1",
+				(BiConsumer<Participation, String>)
+					Participation::setContactLine1);
+			attributeSetterBiConsumers.put(
+				"contactLine2",
+				(BiConsumer<Participation, String>)
+					Participation::setContactLine2);
+			attributeSetterBiConsumers.put(
+				"contactPhoneNumber",
+				(BiConsumer<Participation, String>)
+					Participation::setContactPhoneNumber);
+			attributeSetterBiConsumers.put(
+				"videoUrl",
+				(BiConsumer<Participation, String>)Participation::setVideoUrl);
+			attributeSetterBiConsumers.put(
+				"externalImageURL",
+				(BiConsumer<Participation, String>)
+					Participation::setExternalImageURL);
+			attributeSetterBiConsumers.put(
+				"externalImageCopyright",
+				(BiConsumer<Participation, String>)
+					Participation::setExternalImageCopyright);
+			attributeSetterBiConsumers.put(
+				"mediaChoice",
+				(BiConsumer<Participation, Boolean>)
+					Participation::setMediaChoice);
+			attributeSetterBiConsumers.put(
+				"descriptionChapeau",
+				(BiConsumer<Participation, String>)
+					Participation::setDescriptionChapeau);
+			attributeSetterBiConsumers.put(
+				"descriptionBody",
+				(BiConsumer<Participation, String>)
+					Participation::setDescriptionBody);
+			attributeSetterBiConsumers.put(
+				"consultationPlacesBody",
+				(BiConsumer<Participation, String>)
+					Participation::setConsultationPlacesBody);
+			attributeSetterBiConsumers.put(
+				"imageId",
+				(BiConsumer<Participation, Long>)Participation::setImageId);
+			attributeSetterBiConsumers.put(
+				"filesIds",
+				(BiConsumer<Participation, String>)Participation::setFilesIds);
+			attributeSetterBiConsumers.put(
+				"eventsIds",
+				(BiConsumer<Participation, String>)Participation::setEventsIds);
+			attributeSetterBiConsumers.put(
+				"publicationDate",
+				(BiConsumer<Participation, Date>)
+					Participation::setPublicationDate);
+			attributeSetterBiConsumers.put(
+				"expirationDate",
+				(BiConsumer<Participation, Date>)
+					Participation::setExpirationDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<Participation, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Participation, Object>>();
-		Map<String, BiConsumer<Participation, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Participation, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object uuidObject) {
-
-					participation.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"participationId",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getParticipationId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"participationId",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object participationIdObject) {
-
-					participation.setParticipationId(
-						(Long)participationIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object groupIdObject) {
-
-					participation.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object companyIdObject) {
-
-					participation.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object userIdObject) {
-
-					participation.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object userNameObject) {
-
-					participation.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object createDateObject) {
-
-					participation.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object modifiedDateObject) {
-
-					participation.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object statusObject) {
-
-					participation.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object statusByUserIdObject) {
-
-					participation.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation,
-					Object statusByUserNameObject) {
-
-					participation.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object statusDateObject) {
-
-					participation.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getTitle();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object titleObject) {
-
-					participation.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"contactName",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getContactName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"contactName",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object contactNameObject) {
-
-					participation.setContactName((String)contactNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"contactLine1",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getContactLine1();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"contactLine1",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object contactLine1Object) {
-
-					participation.setContactLine1((String)contactLine1Object);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"contactLine2",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getContactLine2();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"contactLine2",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object contactLine2Object) {
-
-					participation.setContactLine2((String)contactLine2Object);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"contactPhoneNumber",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getContactPhoneNumber();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"contactPhoneNumber",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation,
-					Object contactPhoneNumberObject) {
-
-					participation.setContactPhoneNumber(
-						(String)contactPhoneNumberObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"videoUrl",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getVideoUrl();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"videoUrl",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object videoUrlObject) {
-
-					participation.setVideoUrl((String)videoUrlObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"externalImageURL",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getExternalImageURL();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"externalImageURL",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation,
-					Object externalImageURLObject) {
-
-					participation.setExternalImageURL(
-						(String)externalImageURLObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"externalImageCopyright",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getExternalImageCopyright();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"externalImageCopyright",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation,
-					Object externalImageCopyrightObject) {
-
-					participation.setExternalImageCopyright(
-						(String)externalImageCopyrightObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"mediaChoice",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getMediaChoice();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"mediaChoice",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object mediaChoiceObject) {
-
-					participation.setMediaChoice((Boolean)mediaChoiceObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"descriptionChapeau",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getDescriptionChapeau();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"descriptionChapeau",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation,
-					Object descriptionChapeauObject) {
-
-					participation.setDescriptionChapeau(
-						(String)descriptionChapeauObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"descriptionBody",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getDescriptionBody();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"descriptionBody",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object descriptionBodyObject) {
-
-					participation.setDescriptionBody(
-						(String)descriptionBodyObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"consultationPlacesBody",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getConsultationPlacesBody();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"consultationPlacesBody",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation,
-					Object consultationPlacesBodyObject) {
-
-					participation.setConsultationPlacesBody(
-						(String)consultationPlacesBodyObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageId",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getImageId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"imageId",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object imageIdObject) {
-
-					participation.setImageId((Long)imageIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"filesIds",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getFilesIds();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"filesIds",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object filesIdsObject) {
-
-					participation.setFilesIds((String)filesIdsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"eventsIds",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getEventsIds();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"eventsIds",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object eventsIdsObject) {
-
-					participation.setEventsIds((String)eventsIdsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publicationDate",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getPublicationDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"publicationDate",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object publicationDateObject) {
-
-					participation.setPublicationDate(
-						(Date)publicationDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"expirationDate",
-			new Function<Participation, Object>() {
-
-				@Override
-				public Object apply(Participation participation) {
-					return participation.getExpirationDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"expirationDate",
-			new BiConsumer<Participation, Object>() {
-
-				@Override
-				public void accept(
-					Participation participation, Object expirationDateObject) {
-
-					participation.setExpirationDate((Date)expirationDateObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -1043,17 +487,20 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -1064,6 +511,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setParticipationId(long participationId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_participationId = participationId;
 	}
 
@@ -1075,19 +526,20 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -1098,19 +550,21 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -1121,6 +575,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -1153,6 +611,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -1164,6 +626,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -1181,6 +647,10 @@ public class ParticipationModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -1192,19 +662,21 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -1215,6 +687,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1247,6 +723,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1258,6 +738,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1274,7 +758,9 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setTitle(String title) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_title = title;
 	}
@@ -1292,6 +778,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setContactName(String contactName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_contactName = contactName;
 	}
 
@@ -1308,6 +798,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setContactLine1(String contactLine1) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_contactLine1 = contactLine1;
 	}
 
@@ -1324,6 +818,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setContactLine2(String contactLine2) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_contactLine2 = contactLine2;
 	}
 
@@ -1340,6 +838,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setContactPhoneNumber(String contactPhoneNumber) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_contactPhoneNumber = contactPhoneNumber;
 	}
 
@@ -1356,6 +858,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setVideoUrl(String videoUrl) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_videoUrl = videoUrl;
 	}
 
@@ -1372,6 +878,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setExternalImageURL(String externalImageURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_externalImageURL = externalImageURL;
 	}
 
@@ -1388,6 +898,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setExternalImageCopyright(String externalImageCopyright) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_externalImageCopyright = externalImageCopyright;
 	}
 
@@ -1405,6 +919,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setMediaChoice(boolean mediaChoice) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mediaChoice = mediaChoice;
 	}
 
@@ -1421,6 +939,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setDescriptionChapeau(String descriptionChapeau) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_descriptionChapeau = descriptionChapeau;
 	}
 
@@ -1436,8 +958,106 @@ public class ParticipationModelImpl
 	}
 
 	@Override
+	public String getDescriptionBody(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDescriptionBody(languageId);
+	}
+
+	@Override
+	public String getDescriptionBody(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDescriptionBody(languageId, useDefault);
+	}
+
+	@Override
+	public String getDescriptionBody(String languageId) {
+		return LocalizationUtil.getLocalization(
+			getDescriptionBody(), languageId);
+	}
+
+	@Override
+	public String getDescriptionBody(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getDescriptionBody(), languageId, useDefault);
+	}
+
+	@Override
+	public String getDescriptionBodyCurrentLanguageId() {
+		return _descriptionBodyCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getDescriptionBodyCurrentValue() {
+		Locale locale = getLocale(_descriptionBodyCurrentLanguageId);
+
+		return getDescriptionBody(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getDescriptionBodyMap() {
+		return LocalizationUtil.getLocalizationMap(getDescriptionBody());
+	}
+
+	@Override
 	public void setDescriptionBody(String descriptionBody) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_descriptionBody = descriptionBody;
+	}
+
+	@Override
+	public void setDescriptionBody(String descriptionBody, Locale locale) {
+		setDescriptionBody(
+			descriptionBody, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setDescriptionBody(
+		String descriptionBody, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(descriptionBody)) {
+			setDescriptionBody(
+				LocalizationUtil.updateLocalization(
+					getDescriptionBody(), "DescriptionBody", descriptionBody,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setDescriptionBody(
+				LocalizationUtil.removeLocalization(
+					getDescriptionBody(), "DescriptionBody", languageId));
+		}
+	}
+
+	@Override
+	public void setDescriptionBodyCurrentLanguageId(String languageId) {
+		_descriptionBodyCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setDescriptionBodyMap(Map<Locale, String> descriptionBodyMap) {
+		setDescriptionBodyMap(descriptionBodyMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setDescriptionBodyMap(
+		Map<Locale, String> descriptionBodyMap, Locale defaultLocale) {
+
+		if (descriptionBodyMap == null) {
+			return;
+		}
+
+		setDescriptionBody(
+			LocalizationUtil.updateLocalization(
+				descriptionBodyMap, getDescriptionBody(), "DescriptionBody",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -1452,8 +1072,115 @@ public class ParticipationModelImpl
 	}
 
 	@Override
+	public String getConsultationPlacesBody(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getConsultationPlacesBody(languageId);
+	}
+
+	@Override
+	public String getConsultationPlacesBody(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getConsultationPlacesBody(languageId, useDefault);
+	}
+
+	@Override
+	public String getConsultationPlacesBody(String languageId) {
+		return LocalizationUtil.getLocalization(
+			getConsultationPlacesBody(), languageId);
+	}
+
+	@Override
+	public String getConsultationPlacesBody(
+		String languageId, boolean useDefault) {
+
+		return LocalizationUtil.getLocalization(
+			getConsultationPlacesBody(), languageId, useDefault);
+	}
+
+	@Override
+	public String getConsultationPlacesBodyCurrentLanguageId() {
+		return _consultationPlacesBodyCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getConsultationPlacesBodyCurrentValue() {
+		Locale locale = getLocale(_consultationPlacesBodyCurrentLanguageId);
+
+		return getConsultationPlacesBody(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getConsultationPlacesBodyMap() {
+		return LocalizationUtil.getLocalizationMap(getConsultationPlacesBody());
+	}
+
+	@Override
 	public void setConsultationPlacesBody(String consultationPlacesBody) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_consultationPlacesBody = consultationPlacesBody;
+	}
+
+	@Override
+	public void setConsultationPlacesBody(
+		String consultationPlacesBody, Locale locale) {
+
+		setConsultationPlacesBody(
+			consultationPlacesBody, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setConsultationPlacesBody(
+		String consultationPlacesBody, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(consultationPlacesBody)) {
+			setConsultationPlacesBody(
+				LocalizationUtil.updateLocalization(
+					getConsultationPlacesBody(), "ConsultationPlacesBody",
+					consultationPlacesBody, languageId, defaultLanguageId));
+		}
+		else {
+			setConsultationPlacesBody(
+				LocalizationUtil.removeLocalization(
+					getConsultationPlacesBody(), "ConsultationPlacesBody",
+					languageId));
+		}
+	}
+
+	@Override
+	public void setConsultationPlacesBodyCurrentLanguageId(String languageId) {
+		_consultationPlacesBodyCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setConsultationPlacesBodyMap(
+		Map<Locale, String> consultationPlacesBodyMap) {
+
+		setConsultationPlacesBodyMap(
+			consultationPlacesBodyMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setConsultationPlacesBodyMap(
+		Map<Locale, String> consultationPlacesBodyMap, Locale defaultLocale) {
+
+		if (consultationPlacesBodyMap == null) {
+			return;
+		}
+
+		setConsultationPlacesBody(
+			LocalizationUtil.updateLocalization(
+				consultationPlacesBodyMap, getConsultationPlacesBody(),
+				"ConsultationPlacesBody",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -1464,6 +1191,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setImageId(long imageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageId = imageId;
 	}
 
@@ -1480,6 +1211,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setFilesIds(String filesIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_filesIds = filesIds;
 	}
 
@@ -1496,6 +1231,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setEventsIds(String eventsIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_eventsIds = eventsIds;
 	}
 
@@ -1507,6 +1246,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setPublicationDate(Date publicationDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_publicationDate = publicationDate;
 	}
 
@@ -1518,6 +1261,10 @@ public class ParticipationModelImpl
 
 	@Override
 	public void setExpirationDate(Date expirationDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_expirationDate = expirationDate;
 	}
 
@@ -1608,6 +1355,26 @@ public class ParticipationModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1622,6 +1389,103 @@ public class ParticipationModelImpl
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> descriptionBodyMap = getDescriptionBodyMap();
+
+		for (Map.Entry<Locale, String> entry : descriptionBodyMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> consultationPlacesBodyMap =
+			getConsultationPlacesBodyMap();
+
+		for (Map.Entry<Locale, String> entry :
+				consultationPlacesBodyMap.entrySet()) {
+
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(
+			new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getDescriptionBody();
+
+		if (xml == null) {
+			return "";
+		}
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(
+			getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(
+			Participation.class.getName(), getPrimaryKey(), defaultLocale,
+			availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String descriptionBody = getDescriptionBody(defaultLocale);
+
+		if (Validator.isNull(descriptionBody)) {
+			setDescriptionBody(
+				getDescriptionBody(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setDescriptionBody(
+				getDescriptionBody(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
+		String consultationPlacesBody = getConsultationPlacesBody(
+			defaultLocale);
+
+		if (Validator.isNull(consultationPlacesBody)) {
+			setConsultationPlacesBody(
+				getConsultationPlacesBody(modelDefaultLanguageId),
+				defaultLocale);
+		}
+		else {
+			setConsultationPlacesBody(
+				getConsultationPlacesBody(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
 	}
 
 	@Override
@@ -1681,6 +1545,71 @@ public class ParticipationModelImpl
 	}
 
 	@Override
+	public Participation cloneWithOriginalValues() {
+		ParticipationImpl participationImpl = new ParticipationImpl();
+
+		participationImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		participationImpl.setParticipationId(
+			this.<Long>getColumnOriginalValue("participationId"));
+		participationImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		participationImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		participationImpl.setUserId(
+			this.<Long>getColumnOriginalValue("userId"));
+		participationImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		participationImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		participationImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		participationImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		participationImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		participationImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		participationImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		participationImpl.setTitle(
+			this.<String>getColumnOriginalValue("title"));
+		participationImpl.setContactName(
+			this.<String>getColumnOriginalValue("contactName"));
+		participationImpl.setContactLine1(
+			this.<String>getColumnOriginalValue("contactLine1"));
+		participationImpl.setContactLine2(
+			this.<String>getColumnOriginalValue("contactLine2"));
+		participationImpl.setContactPhoneNumber(
+			this.<String>getColumnOriginalValue("contactPhoneNumber"));
+		participationImpl.setVideoUrl(
+			this.<String>getColumnOriginalValue("videoUrl"));
+		participationImpl.setExternalImageURL(
+			this.<String>getColumnOriginalValue("externalImageURL"));
+		participationImpl.setExternalImageCopyright(
+			this.<String>getColumnOriginalValue("externalImageCopyright"));
+		participationImpl.setMediaChoice(
+			this.<Boolean>getColumnOriginalValue("mediaChoice"));
+		participationImpl.setDescriptionChapeau(
+			this.<String>getColumnOriginalValue("descriptionChapeau"));
+		participationImpl.setDescriptionBody(
+			this.<String>getColumnOriginalValue("descriptionBody"));
+		participationImpl.setConsultationPlacesBody(
+			this.<String>getColumnOriginalValue("consultationPlacesBody"));
+		participationImpl.setImageId(
+			this.<Long>getColumnOriginalValue("imageId"));
+		participationImpl.setFilesIds(
+			this.<String>getColumnOriginalValue("filesIds"));
+		participationImpl.setEventsIds(
+			this.<String>getColumnOriginalValue("eventsIds"));
+		participationImpl.setPublicationDate(
+			this.<Date>getColumnOriginalValue("publicationDate"));
+		participationImpl.setExpirationDate(
+			this.<Date>getColumnOriginalValue("expirationDate"));
+
+		return participationImpl;
+	}
+
+	@Override
 	public int compareTo(Participation participation) {
 		int value = 0;
 
@@ -1720,11 +1649,19 @@ public class ParticipationModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1732,27 +1669,11 @@ public class ParticipationModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ParticipationModelImpl participationModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		participationModelImpl._originalUuid = participationModelImpl._uuid;
+		_setModifiedDate = false;
 
-		participationModelImpl._originalGroupId =
-			participationModelImpl._groupId;
-
-		participationModelImpl._setOriginalGroupId = false;
-
-		participationModelImpl._originalCompanyId =
-			participationModelImpl._companyId;
-
-		participationModelImpl._setOriginalCompanyId = false;
-
-		participationModelImpl._setModifiedDate = false;
-
-		participationModelImpl._originalStatus = participationModelImpl._status;
-
-		participationModelImpl._setOriginalStatus = false;
-
-		participationModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1970,7 +1891,7 @@ public class ParticipationModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1981,9 +1902,26 @@ public class ParticipationModelImpl
 			Function<Participation, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Participation)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Participation)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1996,61 +1934,25 @@ public class ParticipationModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Participation, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Participation, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Participation, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Participation)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Participation>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Participation.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _participationId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
@@ -2065,12 +1967,160 @@ public class ParticipationModelImpl
 	private boolean _mediaChoice;
 	private String _descriptionChapeau;
 	private String _descriptionBody;
+	private String _descriptionBodyCurrentLanguageId;
 	private String _consultationPlacesBody;
+	private String _consultationPlacesBodyCurrentLanguageId;
 	private long _imageId;
 	private String _filesIds;
 	private String _eventsIds;
 	private Date _publicationDate;
 	private Date _expirationDate;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Participation, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Participation)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("participationId", _participationId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("contactName", _contactName);
+		_columnOriginalValues.put("contactLine1", _contactLine1);
+		_columnOriginalValues.put("contactLine2", _contactLine2);
+		_columnOriginalValues.put("contactPhoneNumber", _contactPhoneNumber);
+		_columnOriginalValues.put("videoUrl", _videoUrl);
+		_columnOriginalValues.put("externalImageURL", _externalImageURL);
+		_columnOriginalValues.put(
+			"externalImageCopyright", _externalImageCopyright);
+		_columnOriginalValues.put("mediaChoice", _mediaChoice);
+		_columnOriginalValues.put("descriptionChapeau", _descriptionChapeau);
+		_columnOriginalValues.put("descriptionBody", _descriptionBody);
+		_columnOriginalValues.put(
+			"consultationPlacesBody", _consultationPlacesBody);
+		_columnOriginalValues.put("imageId", _imageId);
+		_columnOriginalValues.put("filesIds", _filesIds);
+		_columnOriginalValues.put("eventsIds", _eventsIds);
+		_columnOriginalValues.put("publicationDate", _publicationDate);
+		_columnOriginalValues.put("expirationDate", _expirationDate);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("participationId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("title", 4096L);
+
+		columnBitmasks.put("contactName", 8192L);
+
+		columnBitmasks.put("contactLine1", 16384L);
+
+		columnBitmasks.put("contactLine2", 32768L);
+
+		columnBitmasks.put("contactPhoneNumber", 65536L);
+
+		columnBitmasks.put("videoUrl", 131072L);
+
+		columnBitmasks.put("externalImageURL", 262144L);
+
+		columnBitmasks.put("externalImageCopyright", 524288L);
+
+		columnBitmasks.put("mediaChoice", 1048576L);
+
+		columnBitmasks.put("descriptionChapeau", 2097152L);
+
+		columnBitmasks.put("descriptionBody", 4194304L);
+
+		columnBitmasks.put("consultationPlacesBody", 8388608L);
+
+		columnBitmasks.put("imageId", 16777216L);
+
+		columnBitmasks.put("filesIds", 33554432L);
+
+		columnBitmasks.put("eventsIds", 67108864L);
+
+		columnBitmasks.put("publicationDate", 134217728L);
+
+		columnBitmasks.put("expirationDate", 268435456L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Participation _escapedModel;
 

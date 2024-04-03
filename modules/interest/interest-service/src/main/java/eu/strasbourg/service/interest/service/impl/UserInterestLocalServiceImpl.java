@@ -14,10 +14,10 @@
 
 package eu.strasbourg.service.interest.service.impl;
 
-import java.util.List;
-
 import eu.strasbourg.service.interest.model.UserInterest;
 import eu.strasbourg.service.interest.service.base.UserInterestLocalServiceBaseImpl;
+
+import java.util.List;
 
 /**
  * The implementation of the user interest local service.

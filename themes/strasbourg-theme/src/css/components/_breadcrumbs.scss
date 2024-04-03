@@ -1,0 +1,62 @@
+// Fil d'ariane
+// ==========================================================================
+.st-page-wrapper .st-breadcrumbs {
+	.st-breadcrumbs__list {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		padding-top: 8px;
+	}
+
+	.st-breadcrumbs__item {
+		position: relative;
+
+		&:not(:last-of-type) {
+			&:after {
+				content: '';
+				position: absolute;
+				right: 10px;
+				top: 50%;
+				display: inline-block;
+				width: 3px;
+				height: 1px;
+				vertical-align: middle;
+				background-color: $c_txt;
+				transform: translateY(100%);
+			}
+		}
+
+		&:first-of-type {
+			.st-breadcrumbs__link {
+				padding-left: 0;
+			}
+		}
+
+		&:last-of-type {
+			.st-breadcrumbs__link {
+				padding-right: 0;
+			}
+		}
+
+		.st-breadcrumbs__link {
+			@include create-outline;
+
+			@include can-hover {
+				color: $c_sub;
+			}
+		}
+
+		.st-breadcrumbs__link,
+		span {
+			position: relative;
+			@include ft('', $s_link_small, 400, $c_txt, 1.16);
+			display: inline-block;
+			padding: 0 20px 0 0;
+		}
+
+		span {
+			font-weight: 500;
+			color: $c_white;
+		}
+	}
+}

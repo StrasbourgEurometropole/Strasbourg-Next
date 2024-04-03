@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notification.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.notification.model.UserNotificationType;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for UserNotificationType. This utility wraps
@@ -48,12 +47,20 @@ public class UserNotificationTypeLocalServiceUtil {
 	 * @param userNotificationType the user notification type
 	 * @return the user notification type that was added
 	 */
-	public static eu.strasbourg.service.notification.model.UserNotificationType
-		addUserNotificationType(
-			eu.strasbourg.service.notification.model.UserNotificationType
-				userNotificationType) {
+	public static UserNotificationType addUserNotificationType(
+		UserNotificationType userNotificationType) {
 
 		return getService().addUserNotificationType(userNotificationType);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -62,10 +69,9 @@ public class UserNotificationTypeLocalServiceUtil {
 	 * @param userNotificationTypePK the primary key for the new user notification type
 	 * @return the new user notification type
 	 */
-	public static eu.strasbourg.service.notification.model.UserNotificationType
-		createUserNotificationType(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationTypePK userNotificationTypePK) {
+	public static UserNotificationType createUserNotificationType(
+		eu.strasbourg.service.notification.service.persistence.
+			UserNotificationTypePK userNotificationTypePK) {
 
 		return getService().createUserNotificationType(userNotificationTypePK);
 	}
@@ -73,10 +79,9 @@ public class UserNotificationTypeLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -91,10 +96,8 @@ public class UserNotificationTypeLocalServiceUtil {
 	 * @param userNotificationType the user notification type
 	 * @return the user notification type that was removed
 	 */
-	public static eu.strasbourg.service.notification.model.UserNotificationType
-		deleteUserNotificationType(
-			eu.strasbourg.service.notification.model.UserNotificationType
-				userNotificationType) {
+	public static UserNotificationType deleteUserNotificationType(
+		UserNotificationType userNotificationType) {
 
 		return getService().deleteUserNotificationType(userNotificationType);
 	}
@@ -110,18 +113,23 @@ public class UserNotificationTypeLocalServiceUtil {
 	 * @return the user notification type that was removed
 	 * @throws PortalException if a user notification type with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.notification.model.UserNotificationType
-			deleteUserNotificationType(
-				eu.strasbourg.service.notification.service.persistence.
-					UserNotificationTypePK userNotificationTypePK)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static UserNotificationType deleteUserNotificationType(
+			eu.strasbourg.service.notification.service.persistence.
+				UserNotificationTypePK userNotificationTypePK)
+		throws PortalException {
 
 		return getService().deleteUserNotificationType(userNotificationTypePK);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -131,9 +139,7 @@ public class UserNotificationTypeLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -149,9 +155,8 @@ public class UserNotificationTypeLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -169,10 +174,9 @@ public class UserNotificationTypeLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -184,9 +188,7 @@ public class UserNotificationTypeLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -198,16 +200,15 @@ public class UserNotificationTypeLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.notification.model.UserNotificationType
-		fetchUserNotificationType(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationTypePK userNotificationTypePK) {
+	public static UserNotificationType fetchUserNotificationType(
+		eu.strasbourg.service.notification.service.persistence.
+			UserNotificationTypePK userNotificationTypePK) {
 
 		return getService().fetchUserNotificationType(userNotificationTypePK);
 	}
@@ -215,9 +216,8 @@ public class UserNotificationTypeLocalServiceUtil {
 	/**
 	 * Retourne la liste des statuts de notification pour un utilisateur
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.notification.model.UserNotificationType>
-			getByPublikUserId(String publikUserId) {
+	public static List<UserNotificationType> getByPublikUserId(
+		String publikUserId) {
 
 		return getService().getByPublikUserId(publikUserId);
 	}
@@ -234,9 +234,8 @@ public class UserNotificationTypeLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -248,11 +247,10 @@ public class UserNotificationTypeLocalServiceUtil {
 	 * @return the user notification type
 	 * @throws PortalException if a user notification type with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.notification.model.UserNotificationType
-			getUserNotificationType(
-				eu.strasbourg.service.notification.service.persistence.
-					UserNotificationTypePK userNotificationTypePK)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static UserNotificationType getUserNotificationType(
+			eu.strasbourg.service.notification.service.persistence.
+				UserNotificationTypePK userNotificationTypePK)
+		throws PortalException {
 
 		return getService().getUserNotificationType(userNotificationTypePK);
 	}
@@ -268,9 +266,8 @@ public class UserNotificationTypeLocalServiceUtil {
 	 * @param end the upper bound of the range of user notification types (not inclusive)
 	 * @return the range of user notification types
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.notification.model.UserNotificationType>
-			getUserNotificationTypes(int start, int end) {
+	public static List<UserNotificationType> getUserNotificationTypes(
+		int start, int end) {
 
 		return getService().getUserNotificationTypes(start, end);
 	}
@@ -279,7 +276,7 @@ public class UserNotificationTypeLocalServiceUtil {
 	 * Retourne la liste des types de notifications auxquels l'utilisateur est
 	 * abonné
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+	public static List<com.liferay.asset.kernel.model.AssetCategory>
 		getUserNotificationTypes(String publikUserId) {
 
 		return getService().getUserNotificationTypes(publikUserId);
@@ -297,7 +294,7 @@ public class UserNotificationTypeLocalServiceUtil {
 	/**
 	 * Retourne la liste des utilisateurs abonnés à un type de notification
 	 */
-	public static java.util.List<eu.strasbourg.service.oidc.model.PublikUser>
+	public static List<eu.strasbourg.service.oidc.model.PublikUser>
 		getUsersSubscribedToType(long typeId) {
 
 		return getService().getUsersSubscribedToType(typeId);
@@ -317,7 +314,7 @@ public class UserNotificationTypeLocalServiceUtil {
 	 */
 	public static void replaceUserSubscriptions(
 		String publikUserId,
-		java.util.List<com.liferay.asset.kernel.model.AssetCategory> types) {
+		List<com.liferay.asset.kernel.model.AssetCategory> types) {
 
 		getService().replaceUserSubscriptions(publikUserId, types);
 	}
@@ -332,38 +329,20 @@ public class UserNotificationTypeLocalServiceUtil {
 	 * @param userNotificationType the user notification type
 	 * @return the user notification type that was updated
 	 */
-	public static eu.strasbourg.service.notification.model.UserNotificationType
-		updateUserNotificationType(
-			eu.strasbourg.service.notification.model.UserNotificationType
-				userNotificationType) {
+	public static UserNotificationType updateUserNotificationType(
+		UserNotificationType userNotificationType) {
 
 		return getService().updateUserNotificationType(userNotificationType);
 	}
 
 	public static UserNotificationTypeLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<UserNotificationTypeLocalService, UserNotificationTypeLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			UserNotificationTypeLocalService.class);
-
-		ServiceTracker
-			<UserNotificationTypeLocalService, UserNotificationTypeLocalService>
-				serviceTracker =
-					new ServiceTracker
-						<UserNotificationTypeLocalService,
-						 UserNotificationTypeLocalService>(
-							 bundle.getBundleContext(),
-							 UserNotificationTypeLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(UserNotificationTypeLocalService service) {
+		_service = service;
 	}
+
+	private static volatile UserNotificationTypeLocalService _service;
 
 }

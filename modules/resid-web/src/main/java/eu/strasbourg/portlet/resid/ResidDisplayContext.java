@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.resid;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -27,8 +28,7 @@ public class ResidDisplayContext {
 	public ResidDisplayContext(ThemeDisplay themeDisplay) {
 		this.themeDisplay = themeDisplay;
 		try {
-			this.configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(ResidConfiguration.class);
+			this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(ResidConfiguration.class, themeDisplay);
 		} catch (ConfigurationException e) {
 			_log.error(e.getMessage(), e);
 		}

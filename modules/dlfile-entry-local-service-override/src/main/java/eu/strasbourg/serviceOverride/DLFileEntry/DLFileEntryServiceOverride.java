@@ -10,8 +10,9 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceWrapper;
+//import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
 import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
-import com.liferay.portal.kernel.image.ImageToolUtil;
+import com.liferay.portal.image.ImageToolUtil;
 
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import org.osgi.service.component.annotations.Component;
@@ -20,6 +21,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.*;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,11 +51,12 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
     }
 
     @Override
-    public DLFileEntry addFileEntry(long userId, long groupId, long repositoryId, long folderId, String sourceFileName,
-                                    String mimeType, String title, String description, String changeLog,
-                                    long fileEntryTypeId, Map<String, DDMFormValues> ddmFormValuesMap,
-                                    File file, InputStream is, long size, ServiceContext serviceContext)
-            throws PortalException {
+    public DLFileEntry addFileEntry(
+            String externalReferenceCode, long userId, long groupId, long repositoryId,
+            long folderId, String sourceFileName, String mimeType, String title, String urlTitle,
+            String description, String changeLog, long fileEntryTypeId,
+            Map <String, DDMFormValues> ddmFormValuesMap, File file, InputStream is, long size,
+            Date expirationDate, Date reviewDate, ServiceContext serviceContext) throws PortalException {
         DLFileEntry entry = DLFileEntryLocalServiceUtil.fetchFileEntry(groupId, folderId, title);
         Map<String, Object> map = new HashMap<>(overrideDLFileEntry(entry,sourceFileName, mimeType, title, file, is, size));
         sourceFileName = (String) map.get("sourceFileName");
@@ -62,16 +65,17 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
         file = (File) map.get("file");
         is = (InputStream) map.get("is");
         size = (long) map.get("size");
-        return super.addFileEntry(userId, groupId, repositoryId, folderId, sourceFileName, mimeType, title, description,
-                changeLog, fileEntryTypeId, ddmFormValuesMap, file, is, size, serviceContext);
+        return super.addFileEntry(externalReferenceCode, userId, groupId, repositoryId, folderId, sourceFileName,
+                mimeType, title, urlTitle, description, changeLog, fileEntryTypeId, ddmFormValuesMap, file,
+                is, size, expirationDate, reviewDate, serviceContext);
     }
 
     @Override
     public DLFileEntry updateFileEntry(
-            long userId, long fileEntryId, String sourceFileName, String mimeType, String title, String description,
-            String changeLog, DLVersionNumberIncrease dlVersionNumberIncrease, long fileEntryTypeId,
-            java.util.Map<String, DDMFormValues> ddmFormValuesMap, java.io.File file, java.io.InputStream is,
-            long size, com.liferay.portal.kernel.service.ServiceContext serviceContext)
+            long userId, long fileEntryId, String sourceFileName, String mimeType, String title, String urlTitle,
+            String description, String changeLog, DLVersionNumberIncrease dlVersionNumberIncrease,
+            long fileEntryTypeId, Map<String, DDMFormValues> ddmFormValuesMap, File file,
+            InputStream is, long size, Date expirationDate, Date reviewDate, ServiceContext serviceContext)
             throws PortalException {
         DLFileEntry entry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryTypeId);
         Map<String, Object> map = new HashMap<>(overrideDLFileEntry(entry, sourceFileName,
@@ -83,10 +87,9 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
         file = (File) map.get("file");
         is = (InputStream) map.get("is");
         size = (long) map.get("size");
-        return super.updateFileEntry(
-                userId, fileEntryId, sourceFileName, mimeType, title, description,
-                changeLog, dlVersionNumberIncrease, fileEntryTypeId,
-                ddmFormValuesMap, file, is, size, serviceContext);
+        return super.updateFileEntry(userId, fileEntryId, sourceFileName, mimeType, title, urlTitle,
+                description, changeLog, dlVersionNumberIncrease, fileEntryTypeId, ddmFormValuesMap, file,
+                is, size, expirationDate, reviewDate, serviceContext);
     }
 
     private RenderedImage readImage(boolean imageInFile, InputStream is, File file) throws IOException {

@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -23,11 +15,15 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
@@ -35,17 +31,19 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchCacheHoursJSONException;
 import eu.strasbourg.service.gtfs.model.CacheHoursJSON;
+import eu.strasbourg.service.gtfs.model.CacheHoursJSONTable;
 import eu.strasbourg.service.gtfs.model.impl.CacheHoursJSONImpl;
 import eu.strasbourg.service.gtfs.model.impl.CacheHoursJSONModelImpl;
 import eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK;
 import eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPersistence;
+import eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -248,10 +246,6 @@ public class CacheHoursJSONPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -603,8 +597,6 @@ public class CacheHoursJSONPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -789,10 +781,6 @@ public class CacheHoursJSONPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1148,8 +1136,6 @@ public class CacheHoursJSONPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1318,10 +1304,6 @@ public class CacheHoursJSONPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1647,8 +1629,6 @@ public class CacheHoursJSONPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1819,11 +1799,6 @@ public class CacheHoursJSONPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByStopCodeAndType, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1912,8 +1887,6 @@ public class CacheHoursJSONPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1939,21 +1912,14 @@ public class CacheHoursJSONPersistenceImpl
 		dbColumnNames.put("uuid", "uuid_");
 		dbColumnNames.put("type", "type_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(CacheHoursJSON.class);
+
+		setModelImplClass(CacheHoursJSONImpl.class);
+		setModelPKClass(CacheHoursJSONPK.class);
+
+		setTable(CacheHoursJSONTable.INSTANCE);
 	}
 
 	/**
@@ -1964,7 +1930,6 @@ public class CacheHoursJSONPersistenceImpl
 	@Override
 	public void cacheResult(CacheHoursJSON cacheHoursJSON) {
 		entityCache.putResult(
-			CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
 			CacheHoursJSONImpl.class, cacheHoursJSON.getPrimaryKey(),
 			cacheHoursJSON);
 
@@ -1974,9 +1939,9 @@ public class CacheHoursJSONPersistenceImpl
 				cacheHoursJSON.getStopCode(), cacheHoursJSON.getType()
 			},
 			cacheHoursJSON);
-
-		cacheHoursJSON.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the cache hours jsons in the entity cache if it is enabled.
@@ -1985,16 +1950,19 @@ public class CacheHoursJSONPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<CacheHoursJSON> cacheHoursJSONs) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (cacheHoursJSONs.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (CacheHoursJSON cacheHoursJSON : cacheHoursJSONs) {
 			if (entityCache.getResult(
-					CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
 					CacheHoursJSONImpl.class, cacheHoursJSON.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(cacheHoursJSON);
-			}
-			else {
-				cacheHoursJSON.resetOriginalValues();
 			}
 		}
 	}
@@ -2010,9 +1978,7 @@ public class CacheHoursJSONPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(CacheHoursJSONImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(CacheHoursJSONImpl.class);
 	}
 
 	/**
@@ -2024,40 +1990,22 @@ public class CacheHoursJSONPersistenceImpl
 	 */
 	@Override
 	public void clearCache(CacheHoursJSON cacheHoursJSON) {
-		entityCache.removeResult(
-			CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-			CacheHoursJSONImpl.class, cacheHoursJSON.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((CacheHoursJSONModelImpl)cacheHoursJSON, true);
+		entityCache.removeResult(CacheHoursJSONImpl.class, cacheHoursJSON);
 	}
 
 	@Override
 	public void clearCache(List<CacheHoursJSON> cacheHoursJSONs) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (CacheHoursJSON cacheHoursJSON : cacheHoursJSONs) {
-			entityCache.removeResult(
-				CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-				CacheHoursJSONImpl.class, cacheHoursJSON.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(CacheHoursJSONModelImpl)cacheHoursJSON, true);
+			entityCache.removeResult(CacheHoursJSONImpl.class, cacheHoursJSON);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(CacheHoursJSONImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-				CacheHoursJSONImpl.class, primaryKey);
+			entityCache.removeResult(CacheHoursJSONImpl.class, primaryKey);
 		}
 	}
 
@@ -2070,36 +2018,9 @@ public class CacheHoursJSONPersistenceImpl
 		};
 
 		finderCache.putResult(
-			_finderPathCountByStopCodeAndType, args, Long.valueOf(1), false);
+			_finderPathCountByStopCodeAndType, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathFetchByStopCodeAndType, args, cacheHoursJSONModelImpl,
-			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		CacheHoursJSONModelImpl cacheHoursJSONModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				cacheHoursJSONModelImpl.getStopCode(),
-				cacheHoursJSONModelImpl.getType()
-			};
-
-			finderCache.removeResult(_finderPathCountByStopCodeAndType, args);
-			finderCache.removeResult(_finderPathFetchByStopCodeAndType, args);
-		}
-
-		if ((cacheHoursJSONModelImpl.getColumnBitmask() &
-			 _finderPathFetchByStopCodeAndType.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				cacheHoursJSONModelImpl.getOriginalStopCode(),
-				cacheHoursJSONModelImpl.getOriginalType()
-			};
-
-			finderCache.removeResult(_finderPathCountByStopCodeAndType, args);
-			finderCache.removeResult(_finderPathFetchByStopCodeAndType, args);
-		}
+			_finderPathFetchByStopCodeAndType, args, cacheHoursJSONModelImpl);
 	}
 
 	/**
@@ -2238,15 +2159,28 @@ public class CacheHoursJSONPersistenceImpl
 			cacheHoursJSON.setUuid(uuid);
 		}
 
+		if (!cacheHoursJSONModelImpl.hasSetModifiedDate()) {
+			ServiceContext serviceContext =
+				ServiceContextThreadLocal.getServiceContext();
+
+			Date date = new Date();
+
+			if (serviceContext == null) {
+				cacheHoursJSON.setModifiedDate(date);
+			}
+			else {
+				cacheHoursJSON.setModifiedDate(
+					serviceContext.getModifiedDate(date));
+			}
+		}
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			if (cacheHoursJSON.isNew()) {
+			if (isNew) {
 				session.save(cacheHoursJSON);
-
-				cacheHoursJSON.setNew(false);
 			}
 			else {
 				cacheHoursJSON = (CacheHoursJSON)session.merge(cacheHoursJSON);
@@ -2259,100 +2193,14 @@ public class CacheHoursJSONPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!CacheHoursJSONModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {cacheHoursJSONModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {cacheHoursJSONModelImpl.getStopCode()};
-
-			finderCache.removeResult(_finderPathCountByStopCode, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByStopCode, args);
-
-			args = new Object[] {cacheHoursJSONModelImpl.getType()};
-
-			finderCache.removeResult(_finderPathCountByType, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByType, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((cacheHoursJSONModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					cacheHoursJSONModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {cacheHoursJSONModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((cacheHoursJSONModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByStopCode.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					cacheHoursJSONModelImpl.getOriginalStopCode()
-				};
-
-				finderCache.removeResult(_finderPathCountByStopCode, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStopCode, args);
-
-				args = new Object[] {cacheHoursJSONModelImpl.getStopCode()};
-
-				finderCache.removeResult(_finderPathCountByStopCode, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStopCode, args);
-			}
-
-			if ((cacheHoursJSONModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByType.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					cacheHoursJSONModelImpl.getOriginalType()
-				};
-
-				finderCache.removeResult(_finderPathCountByType, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByType, args);
-
-				args = new Object[] {cacheHoursJSONModelImpl.getType()};
-
-				finderCache.removeResult(_finderPathCountByType, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByType, args);
-			}
-		}
-
 		entityCache.putResult(
-			CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-			CacheHoursJSONImpl.class, cacheHoursJSON.getPrimaryKey(),
-			cacheHoursJSON, false);
+			CacheHoursJSONImpl.class, cacheHoursJSONModelImpl, false, true);
 
-		clearUniqueFindersCache(cacheHoursJSONModelImpl, false);
 		cacheUniqueFindersCache(cacheHoursJSONModelImpl);
+
+		if (isNew) {
+			cacheHoursJSON.setNew(false);
+		}
 
 		cacheHoursJSON.resetOriginalValues();
 
@@ -2401,85 +2249,12 @@ public class CacheHoursJSONPersistenceImpl
 	/**
 	 * Returns the cache hours json with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the cache hours json
-	 * @return the cache hours json, or <code>null</code> if a cache hours json with the primary key could not be found
-	 */
-	@Override
-	public CacheHoursJSON fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-			CacheHoursJSONImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		CacheHoursJSON cacheHoursJSON = (CacheHoursJSON)serializable;
-
-		if (cacheHoursJSON == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				cacheHoursJSON = (CacheHoursJSON)session.get(
-					CacheHoursJSONImpl.class, primaryKey);
-
-				if (cacheHoursJSON != null) {
-					cacheResult(cacheHoursJSON);
-				}
-				else {
-					entityCache.putResult(
-						CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-						CacheHoursJSONImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-					CacheHoursJSONImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return cacheHoursJSON;
-	}
-
-	/**
-	 * Returns the cache hours json with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param cacheHoursJSONPK the primary key of the cache hours json
 	 * @return the cache hours json, or <code>null</code> if a cache hours json with the primary key could not be found
 	 */
 	@Override
 	public CacheHoursJSON fetchByPrimaryKey(CacheHoursJSONPK cacheHoursJSONPK) {
 		return fetchByPrimaryKey((Serializable)cacheHoursJSONPK);
-	}
-
-	@Override
-	public Map<Serializable, CacheHoursJSON> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, CacheHoursJSON> map =
-			new HashMap<Serializable, CacheHoursJSON>();
-
-		for (Serializable primaryKey : primaryKeys) {
-			CacheHoursJSON cacheHoursJSON = fetchByPrimaryKey(primaryKey);
-
-			if (cacheHoursJSON != null) {
-				map.put(primaryKey, cacheHoursJSON);
-			}
-		}
-
-		return map;
 	}
 
 	/**
@@ -2607,10 +2382,6 @@ public class CacheHoursJSONPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2656,9 +2427,6 @@ public class CacheHoursJSONPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2680,6 +2448,21 @@ public class CacheHoursJSONPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "cacheHoursJSONPK";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_CACHEHOURSJSON;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return CacheHoursJSONModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2688,114 +2471,92 @@ public class CacheHoursJSONPersistenceImpl
 	 * Initializes the cache hours json persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-			CacheHoursJSONModelImpl.FINDER_CACHE_ENABLED,
-			CacheHoursJSONImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-			CacheHoursJSONModelImpl.FINDER_CACHE_ENABLED,
-			CacheHoursJSONImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-			CacheHoursJSONModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-			CacheHoursJSONModelImpl.FINDER_CACHE_ENABLED,
-			CacheHoursJSONImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-			CacheHoursJSONModelImpl.FINDER_CACHE_ENABLED,
-			CacheHoursJSONImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUuid", new String[] {String.class.getName()},
-			CacheHoursJSONModelImpl.UUID_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-			CacheHoursJSONModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathWithPaginationFindByStopCode = new FinderPath(
-			CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-			CacheHoursJSONModelImpl.FINDER_CACHE_ENABLED,
-			CacheHoursJSONImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByStopCode",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStopCode",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"stopCode"}, true);
 
 		_finderPathWithoutPaginationFindByStopCode = new FinderPath(
-			CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-			CacheHoursJSONModelImpl.FINDER_CACHE_ENABLED,
-			CacheHoursJSONImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByStopCode", new String[] {String.class.getName()},
-			CacheHoursJSONModelImpl.STOPCODE_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStopCode",
+			new String[] {String.class.getName()}, new String[] {"stopCode"},
+			true);
 
 		_finderPathCountByStopCode = new FinderPath(
-			CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-			CacheHoursJSONModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStopCode",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"stopCode"},
+			false);
 
 		_finderPathWithPaginationFindByType = new FinderPath(
-			CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-			CacheHoursJSONModelImpl.FINDER_CACHE_ENABLED,
-			CacheHoursJSONImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByType",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByType",
 			new String[] {
 				Integer.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"type_"}, true);
 
 		_finderPathWithoutPaginationFindByType = new FinderPath(
-			CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-			CacheHoursJSONModelImpl.FINDER_CACHE_ENABLED,
-			CacheHoursJSONImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByType", new String[] {Integer.class.getName()},
-			CacheHoursJSONModelImpl.TYPE_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByType",
+			new String[] {Integer.class.getName()}, new String[] {"type_"},
+			true);
 
 		_finderPathCountByType = new FinderPath(
-			CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-			CacheHoursJSONModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByType",
-			new String[] {Integer.class.getName()});
+			new String[] {Integer.class.getName()}, new String[] {"type_"},
+			false);
 
 		_finderPathFetchByStopCodeAndType = new FinderPath(
-			CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-			CacheHoursJSONModelImpl.FINDER_CACHE_ENABLED,
-			CacheHoursJSONImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByStopCodeAndType",
+			FINDER_CLASS_NAME_ENTITY, "fetchByStopCodeAndType",
 			new String[] {String.class.getName(), Integer.class.getName()},
-			CacheHoursJSONModelImpl.STOPCODE_COLUMN_BITMASK |
-			CacheHoursJSONModelImpl.TYPE_COLUMN_BITMASK);
+			new String[] {"stopCode", "type_"}, true);
 
 		_finderPathCountByStopCodeAndType = new FinderPath(
-			CacheHoursJSONModelImpl.ENTITY_CACHE_ENABLED,
-			CacheHoursJSONModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStopCodeAndType",
-			new String[] {String.class.getName(), Integer.class.getName()});
+			new String[] {String.class.getName(), Integer.class.getName()},
+			new String[] {"stopCode", "type_"}, false);
+
+		CacheHoursJSONUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		CacheHoursJSONUtil.setPersistence(null);
+
 		entityCache.removeCache(CacheHoursJSONImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -2831,5 +2592,10 @@ public class CacheHoursJSONPersistenceImpl
 		new String[] {"uuid", "type"});
 	private static final Set<String> _compoundPKColumnNames = SetUtil.fromArray(
 		new String[] {"stopCode", "type"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

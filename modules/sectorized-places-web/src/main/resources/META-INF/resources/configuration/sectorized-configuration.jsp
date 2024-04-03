@@ -40,3 +40,7 @@
 		</aui:fieldset>
 	</aui:form>
 </div>
+
+<liferay-util:html-bottom>
+	<script	src="/o/agendabo/js/vendors/jquery.autocomplete.js"></script>
+</liferay-util:html-bottom>

@@ -14,20 +14,18 @@ import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
+import eu.strasbourg.service.gtfs.model.Ligne;
+import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
+import org.osgi.service.component.annotations.Component;
 
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
-import org.osgi.service.component.annotations.Component;
-
-import eu.strasbourg.service.gtfs.model.Ligne;
-import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
 
 @Component(
 	immediate = true, 
@@ -67,7 +65,7 @@ public class LigneIndexer extends BaseIndexer<Ligne> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(ligne.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+		IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
 			assetCategories);
 		
 		Map<Locale, String> titleFieldMap = new HashMap<Locale, String>();
@@ -106,8 +104,7 @@ public class LigneIndexer extends BaseIndexer<Ligne> {
 	protected void doReindex(Ligne ligne) throws Exception {
 		Document document = getDocument(ligne);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-				ligne.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(ligne.getCompanyId(), document);
 		
 	}
 	
@@ -140,7 +137,6 @@ public class LigneIndexer extends BaseIndexer<Ligne> {
 
 			});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 	

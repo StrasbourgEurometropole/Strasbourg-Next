@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.association.configuration;
 
 import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -50,6 +51,9 @@ public class SearchAssociationConfigurationAction extends DefaultConfigurationAc
 			String templateKey = ParamUtil
 					.getString(actionRequest, "templateKey");
 
+			String description = ParamUtil
+					.getString(actionRequest, "description");
+
 			// Et la friendlyURL du layout de détail correspondant
 			String layoutFriendlyURL = ParamUtil
 					.getString(actionRequest, "layoutFriendlyURL");
@@ -62,6 +66,7 @@ public class SearchAssociationConfigurationAction extends DefaultConfigurationAc
 				return;
 			}
 			setPreference(actionRequest, "templateKey", templateKey);
+			setPreference(actionRequest, "description", description);
 			setPreference(actionRequest, "layoutFriendlyURL",
 					layoutFriendlyURL);
 
@@ -82,9 +87,7 @@ public class SearchAssociationConfigurationAction extends DefaultConfigurationAc
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
-			SearchAssociationConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-							SearchAssociationConfiguration.class);
+			SearchAssociationConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssociationConfiguration.class, themeDisplay);
 
 			// Liste des templates de l'association
 			long classNameId = ClassNameLocalServiceUtil.getClassNameId(Association.class.getName());
@@ -95,6 +98,8 @@ public class SearchAssociationConfigurationAction extends DefaultConfigurationAc
 			// Template sélectionné
 			String templateKey = ParamUtil.getString(request,
 					"templateKey");
+
+			String description = configuration.description();
 			if (templateKey.isEmpty()) {
 				templateKey = configuration.templateKey();
 			}
@@ -103,6 +108,7 @@ public class SearchAssociationConfigurationAction extends DefaultConfigurationAc
 			// Layouts
 			String layoutFriendlyURL = configuration.layoutFriendlyURL();
 			request.setAttribute("layoutFriendlyURL", layoutFriendlyURL);
+			request.setAttribute("description", description);
 
 			// Delta
 			long delta = ParamUtil.getLong(request, "delta",

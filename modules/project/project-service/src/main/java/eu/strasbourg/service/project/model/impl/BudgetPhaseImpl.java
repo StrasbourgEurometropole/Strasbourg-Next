@@ -14,18 +14,17 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import java.util.Date;
-import java.util.List;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.project.constants.PhaseState;
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.annotation.versioning.ProviderType;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * The extended model implementation for the BudgetPhase service. Represents a row in the &quot;project_BudgetPhase&quot; database table, with each column mapped to a property of this class.

@@ -1,0 +1,5 @@
+ALTER TABLE objtp_FoundObject
+    MODIFY imageUrl VARCHAR(255);
+
+
+COMMIT_TRANSACTION;

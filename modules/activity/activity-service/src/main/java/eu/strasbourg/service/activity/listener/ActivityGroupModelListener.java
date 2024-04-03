@@ -1,9 +1,5 @@
 package eu.strasbourg.service.activity.listener;
 
-import java.util.List;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
@@ -11,11 +7,13 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.activity.service.ActivityCourseLocalServiceUtil;
 import eu.strasbourg.service.activity.service.ActivityLocalServiceUtil;
+import org.osgi.service.component.annotations.Component;
+
+import java.util.List;
 
 @Component(immediate = true, service = ModelListener.class)
 public class ActivityGroupModelListener extends BaseModelListener<Group> {

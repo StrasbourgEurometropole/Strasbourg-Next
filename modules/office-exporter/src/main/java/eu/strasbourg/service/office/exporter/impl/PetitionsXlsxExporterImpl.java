@@ -1,5 +1,6 @@
 package eu.strasbourg.service.office.exporter.impl;
 
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -50,20 +51,7 @@ public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter {
     }
 
     @Override
-    public void exportPetitions(OutputStream stream, String petitionIdsStr) {
-        List<Petition> petitions = new ArrayList<>();
-        for (String petitionIdStr : petitionIdsStr.split(",")) {
-            if (Validator.isNotNull(petitionIdStr)) {
-                Petition petition = petitionLocalService.fetchPetition(Long.valueOf(petitionIdStr));
-                if (Validator.isNotNull(petition))
-                    petitions.add(petition);
-            }
-        }
-        exportPetitions(stream, petitions);
-    }
-
-    @Override
-    public void exportPetitions(OutputStream stream, List<Petition> petitions) {
+    public void exportPetitions(OutputStream stream) {
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("Petitions");
         Object[][] petitionData = {{LanguageUtil.get(bundle, "title"),
@@ -92,7 +80,7 @@ public class PetitionsXlsxExporterImpl implements PetitionsXlsxExporter {
                 LanguageUtil.get(bundle, "project"),
                 LanguageUtil.get(bundle, "districts")}};
 
-        for (Petition petition : petitions) {
+        for (Petition petition : this.petitionLocalService.getPetitions(QueryUtil.ALL_POS, QueryUtil.ALL_POS)) {
             String languageId = LocaleUtil.toLanguageId(Locale.FRANCE);
             String title = LocalizationUtil.getLocalization(petition.getTitle(), languageId);
             Object[] petitionRow = {getfield(title),

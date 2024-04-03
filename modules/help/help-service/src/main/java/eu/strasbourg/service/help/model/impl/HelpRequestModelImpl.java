@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.help.model.impl;
@@ -33,6 +24,7 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
@@ -41,9 +33,9 @@ import eu.strasbourg.service.help.model.HelpRequestModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -52,6 +44,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -137,24 +130,55 @@ public class HelpRequestModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long HELPPROPOSALID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLIKID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long HELPREQUESTID_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
-		_entityCacheEnabled = entityCacheEnabled;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static void setFinderCacheEnabled(boolean finderCacheEnabled) {
-		_finderCacheEnabled = finderCacheEnabled;
 	}
 
 	public HelpRequestModelImpl() {
@@ -209,9 +233,6 @@ public class HelpRequestModelImpl
 				attributeGetterFunction.apply((HelpRequest)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -236,149 +257,147 @@ public class HelpRequestModelImpl
 	public Map<String, Function<HelpRequest, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<HelpRequest, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, HelpRequest>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			HelpRequest.class.getClassLoader(), HelpRequest.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<HelpRequest, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<HelpRequest> constructor =
-				(Constructor<HelpRequest>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<HelpRequest, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<HelpRequest, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", HelpRequest::getUuid);
+			attributeGetterFunctions.put(
+				"helpRequestId", HelpRequest::getHelpRequestId);
+			attributeGetterFunctions.put("groupId", HelpRequest::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", HelpRequest::getCompanyId);
+			attributeGetterFunctions.put("userId", HelpRequest::getUserId);
+			attributeGetterFunctions.put("userName", HelpRequest::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", HelpRequest::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", HelpRequest::getModifiedDate);
+			attributeGetterFunctions.put("status", HelpRequest::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", HelpRequest::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", HelpRequest::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", HelpRequest::getStatusDate);
+			attributeGetterFunctions.put("publikId", HelpRequest::getPublikId);
+			attributeGetterFunctions.put(
+				"helpProposalId", HelpRequest::getHelpProposalId);
+			attributeGetterFunctions.put(
+				"phoneNumber", HelpRequest::getPhoneNumber);
+			attributeGetterFunctions.put("message", HelpRequest::getMessage);
+			attributeGetterFunctions.put(
+				"studentCardImageId", HelpRequest::getStudentCardImageId);
+			attributeGetterFunctions.put(
+				"agreementSigned1", HelpRequest::getAgreementSigned1);
+			attributeGetterFunctions.put(
+				"agreementSigned2", HelpRequest::getAgreementSigned2);
+			attributeGetterFunctions.put(
+				"agreementSigned3", HelpRequest::getAgreementSigned3);
+			attributeGetterFunctions.put("comment", HelpRequest::getComment);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<HelpRequest, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<HelpRequest, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<HelpRequest, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<HelpRequest, Object>>();
-		Map<String, BiConsumer<HelpRequest, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<HelpRequest, ?>>();
+		private static final Map<String, BiConsumer<HelpRequest, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put("uuid", HelpRequest::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<HelpRequest, String>)HelpRequest::setUuid);
-		attributeGetterFunctions.put(
-			"helpRequestId", HelpRequest::getHelpRequestId);
-		attributeSetterBiConsumers.put(
-			"helpRequestId",
-			(BiConsumer<HelpRequest, Long>)HelpRequest::setHelpRequestId);
-		attributeGetterFunctions.put("groupId", HelpRequest::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<HelpRequest, Long>)HelpRequest::setGroupId);
-		attributeGetterFunctions.put("companyId", HelpRequest::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<HelpRequest, Long>)HelpRequest::setCompanyId);
-		attributeGetterFunctions.put("userId", HelpRequest::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<HelpRequest, Long>)HelpRequest::setUserId);
-		attributeGetterFunctions.put("userName", HelpRequest::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<HelpRequest, String>)HelpRequest::setUserName);
-		attributeGetterFunctions.put("createDate", HelpRequest::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<HelpRequest, Date>)HelpRequest::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", HelpRequest::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<HelpRequest, Date>)HelpRequest::setModifiedDate);
-		attributeGetterFunctions.put("status", HelpRequest::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<HelpRequest, Integer>)HelpRequest::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", HelpRequest::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<HelpRequest, Long>)HelpRequest::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", HelpRequest::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<HelpRequest, String>)HelpRequest::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", HelpRequest::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			(BiConsumer<HelpRequest, Date>)HelpRequest::setStatusDate);
-		attributeGetterFunctions.put("publikId", HelpRequest::getPublikId);
-		attributeSetterBiConsumers.put(
-			"publikId",
-			(BiConsumer<HelpRequest, String>)HelpRequest::setPublikId);
-		attributeGetterFunctions.put(
-			"helpProposalId", HelpRequest::getHelpProposalId);
-		attributeSetterBiConsumers.put(
-			"helpProposalId",
-			(BiConsumer<HelpRequest, Long>)HelpRequest::setHelpProposalId);
-		attributeGetterFunctions.put(
-			"phoneNumber", HelpRequest::getPhoneNumber);
-		attributeSetterBiConsumers.put(
-			"phoneNumber",
-			(BiConsumer<HelpRequest, String>)HelpRequest::setPhoneNumber);
-		attributeGetterFunctions.put("message", HelpRequest::getMessage);
-		attributeSetterBiConsumers.put(
-			"message",
-			(BiConsumer<HelpRequest, String>)HelpRequest::setMessage);
-		attributeGetterFunctions.put(
-			"studentCardImageId", HelpRequest::getStudentCardImageId);
-		attributeSetterBiConsumers.put(
-			"studentCardImageId",
-			(BiConsumer<HelpRequest, Long>)HelpRequest::setStudentCardImageId);
-		attributeGetterFunctions.put(
-			"agreementSigned1", HelpRequest::getAgreementSigned1);
-		attributeSetterBiConsumers.put(
-			"agreementSigned1",
-			(BiConsumer<HelpRequest, Boolean>)HelpRequest::setAgreementSigned1);
-		attributeGetterFunctions.put(
-			"agreementSigned2", HelpRequest::getAgreementSigned2);
-		attributeSetterBiConsumers.put(
-			"agreementSigned2",
-			(BiConsumer<HelpRequest, Boolean>)HelpRequest::setAgreementSigned2);
-		attributeGetterFunctions.put(
-			"agreementSigned3", HelpRequest::getAgreementSigned3);
-		attributeSetterBiConsumers.put(
-			"agreementSigned3",
-			(BiConsumer<HelpRequest, Boolean>)HelpRequest::setAgreementSigned3);
-		attributeGetterFunctions.put("comment", HelpRequest::getComment);
-		attributeSetterBiConsumers.put(
-			"comment",
-			(BiConsumer<HelpRequest, String>)HelpRequest::setComment);
+		static {
+			Map<String, BiConsumer<HelpRequest, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<HelpRequest, ?>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<HelpRequest, String>)HelpRequest::setUuid);
+			attributeSetterBiConsumers.put(
+				"helpRequestId",
+				(BiConsumer<HelpRequest, Long>)HelpRequest::setHelpRequestId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<HelpRequest, Long>)HelpRequest::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<HelpRequest, Long>)HelpRequest::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<HelpRequest, Long>)HelpRequest::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<HelpRequest, String>)HelpRequest::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<HelpRequest, Date>)HelpRequest::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<HelpRequest, Date>)HelpRequest::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<HelpRequest, Integer>)HelpRequest::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<HelpRequest, Long>)HelpRequest::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<HelpRequest, String>)
+					HelpRequest::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<HelpRequest, Date>)HelpRequest::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"publikId",
+				(BiConsumer<HelpRequest, String>)HelpRequest::setPublikId);
+			attributeSetterBiConsumers.put(
+				"helpProposalId",
+				(BiConsumer<HelpRequest, Long>)HelpRequest::setHelpProposalId);
+			attributeSetterBiConsumers.put(
+				"phoneNumber",
+				(BiConsumer<HelpRequest, String>)HelpRequest::setPhoneNumber);
+			attributeSetterBiConsumers.put(
+				"message",
+				(BiConsumer<HelpRequest, String>)HelpRequest::setMessage);
+			attributeSetterBiConsumers.put(
+				"studentCardImageId",
+				(BiConsumer<HelpRequest, Long>)
+					HelpRequest::setStudentCardImageId);
+			attributeSetterBiConsumers.put(
+				"agreementSigned1",
+				(BiConsumer<HelpRequest, Boolean>)
+					HelpRequest::setAgreementSigned1);
+			attributeSetterBiConsumers.put(
+				"agreementSigned2",
+				(BiConsumer<HelpRequest, Boolean>)
+					HelpRequest::setAgreementSigned2);
+			attributeSetterBiConsumers.put(
+				"agreementSigned3",
+				(BiConsumer<HelpRequest, Boolean>)
+					HelpRequest::setAgreementSigned3);
+			attributeSetterBiConsumers.put(
+				"comment",
+				(BiConsumer<HelpRequest, String>)HelpRequest::setComment);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -393,17 +412,20 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -413,6 +435,10 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setHelpRequestId(long helpRequestId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_helpRequestId = helpRequestId;
 	}
 
@@ -423,19 +449,20 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -445,19 +472,21 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -467,6 +496,10 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -498,6 +531,10 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -508,6 +545,10 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -524,6 +565,10 @@ public class HelpRequestModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -534,6 +579,10 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -544,6 +593,10 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -575,6 +628,10 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -585,6 +642,10 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -600,17 +661,20 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setPublikId(String publikId) {
-		_columnBitmask |= PUBLIKID_COLUMN_BITMASK;
-
-		if (_originalPublikId == null) {
-			_originalPublikId = _publikId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publikId = publikId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPublikId() {
-		return GetterUtil.getString(_originalPublikId);
+		return getColumnOriginalValue("publikId");
 	}
 
 	@Override
@@ -620,19 +684,21 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setHelpProposalId(long helpProposalId) {
-		_columnBitmask |= HELPPROPOSALID_COLUMN_BITMASK;
-
-		if (!_setOriginalHelpProposalId) {
-			_setOriginalHelpProposalId = true;
-
-			_originalHelpProposalId = _helpProposalId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_helpProposalId = helpProposalId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalHelpProposalId() {
-		return _originalHelpProposalId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("helpProposalId"));
 	}
 
 	@Override
@@ -647,6 +713,10 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setPhoneNumber(String phoneNumber) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_phoneNumber = phoneNumber;
 	}
 
@@ -661,8 +731,104 @@ public class HelpRequestModelImpl
 	}
 
 	@Override
+	public String getMessage(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getMessage(languageId);
+	}
+
+	@Override
+	public String getMessage(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getMessage(languageId, useDefault);
+	}
+
+	@Override
+	public String getMessage(String languageId) {
+		return LocalizationUtil.getLocalization(getMessage(), languageId);
+	}
+
+	@Override
+	public String getMessage(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getMessage(), languageId, useDefault);
+	}
+
+	@Override
+	public String getMessageCurrentLanguageId() {
+		return _messageCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getMessageCurrentValue() {
+		Locale locale = getLocale(_messageCurrentLanguageId);
+
+		return getMessage(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getMessageMap() {
+		return LocalizationUtil.getLocalizationMap(getMessage());
+	}
+
+	@Override
 	public void setMessage(String message) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_message = message;
+	}
+
+	@Override
+	public void setMessage(String message, Locale locale) {
+		setMessage(message, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setMessage(
+		String message, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(message)) {
+			setMessage(
+				LocalizationUtil.updateLocalization(
+					getMessage(), "Message", message, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setMessage(
+				LocalizationUtil.removeLocalization(
+					getMessage(), "Message", languageId));
+		}
+	}
+
+	@Override
+	public void setMessageCurrentLanguageId(String languageId) {
+		_messageCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setMessageMap(Map<Locale, String> messageMap) {
+		setMessageMap(messageMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setMessageMap(
+		Map<Locale, String> messageMap, Locale defaultLocale) {
+
+		if (messageMap == null) {
+			return;
+		}
+
+		setMessage(
+			LocalizationUtil.updateLocalization(
+				messageMap, getMessage(), "Message",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -672,6 +838,10 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setStudentCardImageId(long studentCardImageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_studentCardImageId = studentCardImageId;
 	}
 
@@ -687,6 +857,10 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setAgreementSigned1(boolean agreementSigned1) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_agreementSigned1 = agreementSigned1;
 	}
 
@@ -702,6 +876,10 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setAgreementSigned2(boolean agreementSigned2) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_agreementSigned2 = agreementSigned2;
 	}
 
@@ -717,6 +895,10 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setAgreementSigned3(boolean agreementSigned3) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_agreementSigned3 = agreementSigned3;
 	}
 
@@ -775,6 +957,10 @@ public class HelpRequestModelImpl
 
 	@Override
 	public void setComment(String comment) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_comment = comment;
 	}
 
@@ -914,6 +1100,26 @@ public class HelpRequestModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -934,6 +1140,17 @@ public class HelpRequestModelImpl
 	public String[] getAvailableLanguageIds() {
 		Set<String> availableLanguageIds = new TreeSet<String>();
 
+		Map<Locale, String> messageMap = getMessageMap();
+
+		for (Map.Entry<Locale, String> entry : messageMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		Map<Locale, String> commentMap = getCommentMap();
 
 		for (Map.Entry<Locale, String> entry : commentMap.entrySet()) {
@@ -951,7 +1168,7 @@ public class HelpRequestModelImpl
 
 	@Override
 	public String getDefaultLanguageId() {
-		String xml = getComment();
+		String xml = getMessage();
 
 		if (xml == null) {
 			return "";
@@ -985,6 +1202,15 @@ public class HelpRequestModelImpl
 		Locale defaultLocale = LocaleUtil.getSiteDefault();
 
 		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String message = getMessage(defaultLocale);
+
+		if (Validator.isNull(message)) {
+			setMessage(getMessage(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setMessage(getMessage(defaultLocale), defaultLocale, defaultLocale);
+		}
 
 		String comment = getComment(defaultLocale);
 
@@ -1043,6 +1269,54 @@ public class HelpRequestModelImpl
 	}
 
 	@Override
+	public HelpRequest cloneWithOriginalValues() {
+		HelpRequestImpl helpRequestImpl = new HelpRequestImpl();
+
+		helpRequestImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		helpRequestImpl.setHelpRequestId(
+			this.<Long>getColumnOriginalValue("helpRequestId"));
+		helpRequestImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		helpRequestImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		helpRequestImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		helpRequestImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		helpRequestImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		helpRequestImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		helpRequestImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		helpRequestImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		helpRequestImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		helpRequestImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		helpRequestImpl.setPublikId(
+			this.<String>getColumnOriginalValue("publikId"));
+		helpRequestImpl.setHelpProposalId(
+			this.<Long>getColumnOriginalValue("helpProposalId"));
+		helpRequestImpl.setPhoneNumber(
+			this.<String>getColumnOriginalValue("phoneNumber"));
+		helpRequestImpl.setMessage(
+			this.<String>getColumnOriginalValue("message"));
+		helpRequestImpl.setStudentCardImageId(
+			this.<Long>getColumnOriginalValue("studentCardImageId"));
+		helpRequestImpl.setAgreementSigned1(
+			this.<Boolean>getColumnOriginalValue("agreementSigned1"));
+		helpRequestImpl.setAgreementSigned2(
+			this.<Boolean>getColumnOriginalValue("agreementSigned2"));
+		helpRequestImpl.setAgreementSigned3(
+			this.<Boolean>getColumnOriginalValue("agreementSigned3"));
+		helpRequestImpl.setComment(
+			this.<String>getColumnOriginalValue("comment_"));
+
+		return helpRequestImpl;
+	}
+
+	@Override
 	public int compareTo(HelpRequest helpRequest) {
 		long primaryKey = helpRequest.getPrimaryKey();
 
@@ -1084,41 +1358,31 @@ public class HelpRequestModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
-		return _entityCacheEnabled;
+		return true;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
-		return _finderCacheEnabled;
+		return true;
 	}
 
 	@Override
 	public void resetOriginalValues() {
-		HelpRequestModelImpl helpRequestModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		helpRequestModelImpl._originalUuid = helpRequestModelImpl._uuid;
+		_setModifiedDate = false;
 
-		helpRequestModelImpl._originalGroupId = helpRequestModelImpl._groupId;
-
-		helpRequestModelImpl._setOriginalGroupId = false;
-
-		helpRequestModelImpl._originalCompanyId =
-			helpRequestModelImpl._companyId;
-
-		helpRequestModelImpl._setOriginalCompanyId = false;
-
-		helpRequestModelImpl._setModifiedDate = false;
-
-		helpRequestModelImpl._originalPublikId = helpRequestModelImpl._publikId;
-
-		helpRequestModelImpl._originalHelpProposalId =
-			helpRequestModelImpl._helpProposalId;
-
-		helpRequestModelImpl._setOriginalHelpProposalId = false;
-
-		helpRequestModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1240,7 +1504,7 @@ public class HelpRequestModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1251,9 +1515,26 @@ public class HelpRequestModelImpl
 			Function<HelpRequest, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((HelpRequest)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((HelpRequest)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1266,56 +1547,19 @@ public class HelpRequestModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<HelpRequest, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<HelpRequest, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<HelpRequest, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((HelpRequest)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, HelpRequest>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					HelpRequest.class, ModelWrapper.class);
 
 	}
 
-	private static boolean _entityCacheEnabled;
-	private static boolean _finderCacheEnabled;
-
 	private String _uuid;
-	private String _originalUuid;
 	private long _helpRequestId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1326,18 +1570,137 @@ public class HelpRequestModelImpl
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _publikId;
-	private String _originalPublikId;
 	private long _helpProposalId;
-	private long _originalHelpProposalId;
-	private boolean _setOriginalHelpProposalId;
 	private String _phoneNumber;
 	private String _message;
+	private String _messageCurrentLanguageId;
 	private long _studentCardImageId;
 	private boolean _agreementSigned1;
 	private boolean _agreementSigned2;
 	private boolean _agreementSigned3;
 	private String _comment;
 	private String _commentCurrentLanguageId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<HelpRequest, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((HelpRequest)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("helpRequestId", _helpRequestId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("publikId", _publikId);
+		_columnOriginalValues.put("helpProposalId", _helpProposalId);
+		_columnOriginalValues.put("phoneNumber", _phoneNumber);
+		_columnOriginalValues.put("message", _message);
+		_columnOriginalValues.put("studentCardImageId", _studentCardImageId);
+		_columnOriginalValues.put("agreementSigned1", _agreementSigned1);
+		_columnOriginalValues.put("agreementSigned2", _agreementSigned2);
+		_columnOriginalValues.put("agreementSigned3", _agreementSigned3);
+		_columnOriginalValues.put("comment_", _comment);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("comment_", "comment");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("helpRequestId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("publikId", 4096L);
+
+		columnBitmasks.put("helpProposalId", 8192L);
+
+		columnBitmasks.put("phoneNumber", 16384L);
+
+		columnBitmasks.put("message", 32768L);
+
+		columnBitmasks.put("studentCardImageId", 65536L);
+
+		columnBitmasks.put("agreementSigned1", 131072L);
+
+		columnBitmasks.put("agreementSigned2", 262144L);
+
+		columnBitmasks.put("agreementSigned3", 524288L);
+
+		columnBitmasks.put("comment_", 1048576L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private HelpRequest _escapedModel;
 

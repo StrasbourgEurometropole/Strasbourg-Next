@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.template.*;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -27,6 +28,7 @@ import eu.strasbourg.service.project.service.ProjectFollowedLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalService;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalService;
 import eu.strasbourg.utils.MailHelper;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -63,11 +65,11 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 
 				ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
+				PortletURL backURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
 						PortletRequest.RENDER_PHASE);
 
-				response.setRenderParameter("returnURL", returnURL.toString());
-				response.setRenderParameter("cmd", "editProject");
+				response.setRenderParameter("backURL", backURL.toString());
+				response.setRenderParameter("cmd", "saveProject");
 				response.setRenderParameter("mvcPath", "/project-bo-edit-project.jsp");
 				return false;
 			}
@@ -90,8 +92,9 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			project.setTitle(title);
 
 			// Description
-			String description = ParamUtil.getString(request, "description");
-			project.setDescription(description);
+			Map<Locale, String> description = LocalizationUtil
+					.getLocalizationMap(request, "description");
+			project.setDescriptionMap(description);
 
 			// Image
 			Long imageId = ParamUtil.getLong(request, "imageId");
@@ -133,8 +136,9 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			project.setDuration(duration);
 
 			// Partenaires
-			String partners = ParamUtil.getString(request, "partners");
-			project.setPartners(partners);
+			Map<Locale, String> partners = LocalizationUtil
+					.getLocalizationMap(request, "partners");
+			project.setPartnersMap(partners);
 
 			// ---------------------------------------------------------------
 			// -------------------------- CONTACT ----------------------------
@@ -348,6 +352,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			}
 
 			_projectLocalService.updateProject(project, sc);
+			response.setRenderParameter("mvcPath", "/project-bo-view-projects.jsp");
 
 		} catch (PortalException | IOException | AddressException e) {
 			_log.error(e);
@@ -368,7 +373,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 		}
 
 		// Description
-		if (Validator.isNull(ParamUtil.getString(request, "description"))) {
+		if (Validator.isNull(ParamUtil.getString(request, "descriptionEditor"))) {
 			SessionErrors.add(request, "description-error");
 			isValid = false;
 		}
@@ -391,7 +396,8 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		StringBuilder result = new StringBuilder(request.getServerName());
 		result.append(":").append(request.getServerPort()).append("/");
-		if (themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname().isEmpty()
+		String virtualHostname= PortalHelper.getVirtualHostname(themeDisplay.getScopeGroup(),themeDisplay.getLanguageId());
+		if (virtualHostname.isEmpty()
 				|| themeDisplay.getScopeGroup().isStagingGroup()) {
 			result.append("web").append(themeDisplay.getLayout().getGroup().getFriendlyURL()).append("/");
 		}

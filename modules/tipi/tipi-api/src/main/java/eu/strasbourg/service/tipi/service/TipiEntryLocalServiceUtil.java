@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.tipi.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.tipi.model.TipiEntry;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for TipiEntry. This utility wraps
@@ -37,7 +36,7 @@ public class TipiEntryLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.tipi.service.impl.TipiEntryLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static eu.strasbourg.service.tipi.model.TipiEntry addPayment(
+	public static TipiEntry addPayment(
 		java.util.Date date, String type, String status, String price) {
 
 		return getService().addPayment(date, type, status, price);
@@ -53,10 +52,18 @@ public class TipiEntryLocalServiceUtil {
 	 * @param tipiEntry the tipi entry
 	 * @return the tipi entry that was added
 	 */
-	public static eu.strasbourg.service.tipi.model.TipiEntry addTipiEntry(
-		eu.strasbourg.service.tipi.model.TipiEntry tipiEntry) {
-
+	public static TipiEntry addTipiEntry(TipiEntry tipiEntry) {
 		return getService().addTipiEntry(tipiEntry);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -65,19 +72,16 @@ public class TipiEntryLocalServiceUtil {
 	 * @param id the primary key for the new tipi entry
 	 * @return the new tipi entry
 	 */
-	public static eu.strasbourg.service.tipi.model.TipiEntry createTipiEntry(
-		long id) {
-
+	public static TipiEntry createTipiEntry(long id) {
 		return getService().createTipiEntry(id);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -93,10 +97,7 @@ public class TipiEntryLocalServiceUtil {
 	 * @return the tipi entry that was removed
 	 * @throws PortalException if a tipi entry with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.tipi.model.TipiEntry deleteTipiEntry(
-			long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static TipiEntry deleteTipiEntry(long id) throws PortalException {
 		return getService().deleteTipiEntry(id);
 	}
 
@@ -110,15 +111,19 @@ public class TipiEntryLocalServiceUtil {
 	 * @param tipiEntry the tipi entry
 	 * @return the tipi entry that was removed
 	 */
-	public static eu.strasbourg.service.tipi.model.TipiEntry deleteTipiEntry(
-		eu.strasbourg.service.tipi.model.TipiEntry tipiEntry) {
-
+	public static TipiEntry deleteTipiEntry(TipiEntry tipiEntry) {
 		return getService().deleteTipiEntry(tipiEntry);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -128,9 +133,7 @@ public class TipiEntryLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -146,9 +149,8 @@ public class TipiEntryLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -166,10 +168,9 @@ public class TipiEntryLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -181,9 +182,7 @@ public class TipiEntryLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -195,15 +194,13 @@ public class TipiEntryLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.tipi.model.TipiEntry fetchTipiEntry(
-		long id) {
-
+	public static TipiEntry fetchTipiEntry(long id) {
 		return getService().fetchTipiEntry(id);
 	}
 
@@ -213,9 +210,7 @@ public class TipiEntryLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
-	public static java.util.List<eu.strasbourg.service.tipi.model.TipiEntry>
-		getByDate(java.util.Date date) {
-
+	public static List<TipiEntry> getByDate(java.util.Date date) {
 		return getService().getByDate(date);
 	}
 
@@ -238,9 +233,8 @@ public class TipiEntryLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -256,9 +250,7 @@ public class TipiEntryLocalServiceUtil {
 	 * @param end the upper bound of the range of tipi entries (not inclusive)
 	 * @return the range of tipi entries
 	 */
-	public static java.util.List<eu.strasbourg.service.tipi.model.TipiEntry>
-		getTipiEntries(int start, int end) {
-
+	public static List<TipiEntry> getTipiEntries(int start, int end) {
 		return getService().getTipiEntries(start, end);
 	}
 
@@ -278,10 +270,7 @@ public class TipiEntryLocalServiceUtil {
 	 * @return the tipi entry
 	 * @throws PortalException if a tipi entry with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.tipi.model.TipiEntry getTipiEntry(
-			long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static TipiEntry getTipiEntry(long id) throws PortalException {
 		return getService().getTipiEntry(id);
 	}
 
@@ -295,32 +284,18 @@ public class TipiEntryLocalServiceUtil {
 	 * @param tipiEntry the tipi entry
 	 * @return the tipi entry that was updated
 	 */
-	public static eu.strasbourg.service.tipi.model.TipiEntry updateTipiEntry(
-		eu.strasbourg.service.tipi.model.TipiEntry tipiEntry) {
-
+	public static TipiEntry updateTipiEntry(TipiEntry tipiEntry) {
 		return getService().updateTipiEntry(tipiEntry);
 	}
 
 	public static TipiEntryLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<TipiEntryLocalService, TipiEntryLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(TipiEntryLocalService.class);
-
-		ServiceTracker<TipiEntryLocalService, TipiEntryLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<TipiEntryLocalService, TipiEntryLocalService>(
-						bundle.getBundleContext(), TipiEntryLocalService.class,
-						null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(TipiEntryLocalService service) {
+		_service = service;
 	}
+
+	private static volatile TipiEntryLocalService _service;
 
 }

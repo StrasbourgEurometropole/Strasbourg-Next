@@ -1,0 +1,129 @@
+// ==============================================
+//
+//        LAYOUT
+//
+// ==============================================
+
+
+//  Centrage
+// -----------------------------------------------
+
+// Centre un élément horizontalement et verticalement en absolue (son parent doit être positionné)
+@mixin absolute-center() {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+// Flex container centré horizontalement et verticalement
+@mixin flex-center() {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+// Inline-flex container centré horizontalement et verticalement
+@mixin inline-flex-center() {
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+}
+
+// Étire un élement en absolue dans son parent (qui doit être positionné)
+/// @param {Color} $bg-color - Couleur de fond
+@mixin absolute-stretch($bg-color: null) {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+
+	@if $bg-color {
+		background-color: $bg-color;
+	}
+}
+
+
+// Mixin Aspect-ratio pour les images
+// ==========================================================================
+
+
+/// Crée un aspect-ratio avec un pseudo-element
+/// @param {Number} $aspect-ratio - Ratio Largeur / Hauteur
+/// @param {String} $selector - Sélecteur(s) enfant(s) à remonter dans le container en position absolue, par défaut 1er enfant direct
+/// @param {Length} $padding-bottom - Padding-bottom optionnel sur le pseudo-element
+/// @example @include aspect-ratio();  -> Pas d'arguments -> ratio 1/1 par défaut
+/// @example @include aspect-ratio(16/9);  -> Largeur et hauteur
+@mixin aspect-ratio($aspect-ratio: 1/1, $selector: "> :first-child", $padding-bottom: null) {
+	position: relative;
+	@if ($selector) {
+		$selector: unquote($selector)
+	};
+
+	&:before {
+		content: '';
+		display: block;
+		padding-top: calc(100% / (#{$aspect-ratio}));
+		padding-bottom: $padding-bottom; // optionnel
+	}
+
+	// Remonte les enfants dans le container
+	@if $selector {
+		#{$selector} {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+			width: 100%;
+		}
+	}
+}
+
+// Pseudo-block en absolue et dimensionné, son positionnement se fait en dehors du mixin
+/// @param {Length} $width - Largeur
+/// @param {Length} $height - Hauteur
+/// @param {Color} $bg-color - Couleur de fond
+@mixin pseudo-block($width, $height, $bg-color: null) {
+	content: '';
+	position: absolute;
+	width: $width;
+	height: $height;
+	@if $bg-color {
+		background-color: $bg-color;
+	}
+}
+
+// Pseudo-block en absolue et étiré dans son parent
+/// @param {Color} $bg-color - Couleur de fond
+@mixin pseudo-block-stretch($bg-color: null) {
+	@include absolute-stretch($bg-color);
+	content: '';
+}
+
+
+//  Z-layer system
+// -----------------------------------------------
+
+// Renvoi une valeur de z-index défini à partir de la map de config
+// (à renonmmer en z() )
+@function z-index($layer) {
+	@if not map-has-key($z-layers, $layer) {
+		@warn "No z-index found in $z-layers map for `#{$layer}`. Property omitted.";
+	}
+
+	@return map-get($z-layers, $layer);
+}
+
+
+//  CSS Grid
+// -----------------------------------------------
+
+// Grille dont le nombre de colonne est calculé automatiquement à partir d'une largeur minimum de colonne
+@mixin auto-grid($min-width, $gap, $auto-mode: auto-fill) {
+	--min-width: #{$min-width};
+	--gap: #{$gap};
+	display: grid;
+	grid-gap: var(--gap);
+	grid-template-columns: repeat($auto-mode, minmax(var(--min-width), 1fr));
+}

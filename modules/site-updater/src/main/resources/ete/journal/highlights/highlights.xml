@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Highlights</name>
+        <key>381155536</key>
+        <definition>highlights-structure.json</definition>
+        <layout>highlights-layout.json</layout>
+    </structure>
+    <template>
+        <name>Highlights</name>
+        <key>381155556</key>
+        <script>highlights.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

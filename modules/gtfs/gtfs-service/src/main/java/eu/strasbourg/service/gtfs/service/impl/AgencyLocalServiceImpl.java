@@ -16,12 +16,12 @@ package eu.strasbourg.service.gtfs.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
-import java.io.IOException;
-import java.util.Map;
-
 import eu.strasbourg.service.gtfs.model.Agency;
 import eu.strasbourg.service.gtfs.service.base.AgencyLocalServiceBaseImpl;
 import eu.strasbourg.utils.models.AgencyGTFS;
+
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * The implementation of the agency local service.

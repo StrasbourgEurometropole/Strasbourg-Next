@@ -1,0 +1,253 @@
+// define custom clay variables
+
+$input: (
+        enabled: true,
+        outline-offset: 1px,
+        font-size: 0.875rem,
+        font-weight: 400,
+        color: #fff,
+        line-height: 1.42,
+        width: 100%,
+        padding: 18px 20px,
+        border: 1px solid rgba(255, 255, 255, .5),
+        border-radius: 5px,
+        background-color: #171C22,
+        transition: all .2s ease,
+        height: 100%,
+        mobile: (
+        ),
+        placeholder: (
+        ),
+        focus: (
+        ),
+        disabled: (
+        ),
+);
+$custom-control-indicator-size: 1.25rem;
+$panel-bg: transparent;
+$active-bg: #2ad783;
+$component-active-bg: #212529;
+$component-active-color: #fff;
+$custom-control-indicator-checked-border-color: #fff;
+$custom-control-indicator-bg: transparent;
+$custom-control-indicator-bg-size: 90% 90%;
+$custom-checkbox-indicator-icon-checked: clay-svg-url(
+                "<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-1.5 -2.5 8 8'><rect x='0' y='0' width='5' height='5' fill='#{$active-bg}'/></svg>"
+);
+
+$custom-radio-indicator-icon-checked: clay-svg-url(
+                "<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-4 -4 8 8'><circle r='3' fill='#{$active-bg}'/></svg>"
+);
+$custom-control-label: (
+        margin-bottom: initial,
+        font-size: 0.875rem,
+        font-weight: 500,
+        color: #fff,
+        line-height: 1.42,
+        vertical-align: sub,
+);
+$primary: #2ad783;
+$btn-padding-x: 60px;
+$btn-padding-y: 16px;
+$btn-font-size: 0.875rem;
+$btn-font-weight: 600;
+
+$btn-primary: (
+        hover: (
+                background-color: $component-active-color,
+                color: #212529
+        ),
+);
+
+$multi-step-icon-active-bg: $active-bg;
+
+$table-color: #fff;
+$table-accent-bg: transparent;
+$table-bg: transparent;
+$table-border-color: rgba(255,255,255,.25);
+$table-head-bg: #2ad783;
+
+$c-table-thead: () !default;
+$c-table-thead: map-merge(
+                (
+                        color: black,
+                        font-weight: 500
+                ),
+                $c-table-thead
+);
+
+$table-list-accent-bg: transparent;
+$table-list-head-bg: #2ad783;
+$table-list-border-radius: 0;
+$table-list-border-y-width: 0;
+$c-table-list-thead: () !default;
+$c-table-list_thead: map-merge(
+  (
+    table-cell: (
+      color: black,
+      font-weight: 500
+    ),
+  ),
+  $c-table-list-thead
+);
+
+$c-table-list-cell: () !default;
+$c-table-list-cell: map-merge(
+  (
+    border-color: rgba(255,255,255,.25),
+    border-style: solid,
+    border-width: 1px,
+  ),
+  $c-table-list-cell
+);
+
+$c-table-list-tbody: () !default;
+$c-table-list-tbody: map-merge(
+  (
+    background-color: transparent,
+  ),
+  $c-table-list-tbody
+);
+$table-list-hover-bg: transparent;
+
+.table {
+  border-radius: 5px;
+}
+
+.portlet-forms {
+  .lfr-ddm__default-page-header-title {
+    display: block;
+    font-size: 30px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1;
+  }
+  .lfr-ddm__default-page-header-line {
+    display: none;
+  }
+  .lfr-ddm-form-container {
+    .form-control {
+      color: #fff;
+
+      &::placeholder {
+        color: #6b6c7e;
+      }
+    }
+    .ddm-label-required{
+      svg{
+        display: none;
+      }
+      &:before {
+        content: '*';
+        color: #ff9f9f;
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+    }
+    .option-selected {
+        color: #fff;
+    }
+    .custom-control-label-text {
+        color: #fff;
+    }
+    .lfr-ddm-form-pagination-controls, .ddm-page-container-layout {
+      .btn {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        max-width: 100%;
+        padding: 16px 60px;
+        font-family: "TTFors", Sans-Serif;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: 0.025em;
+        text-align: center;
+        border-radius: 5px;
+        transition: color 0.2s, background-color 0.2s, border-color 0.2s;
+        height: 100%;
+      }
+      .btn.btn-primary {
+        color: #171C22;
+        background-color: #2AD783;
+        border: 1px solid transparent;
+      }
+      .btn.btn-secondary {
+        color: #ffffff;
+        background-color: #171C22;
+        border: 1px solid #2AD783;
+      }
+
+      @media screen and (max-width: 599px) {
+        .btn {
+          padding: 15px 30px;
+          min-height: 40px;
+          font-size: 12px;
+        }
+      }
+      @media screen and (max-width: 320px) {
+        .btn {
+          padding: 12px 10px;
+          min-height: 40px;
+        }
+      }
+      .btn:focus {
+        color: #171C22;
+        background-color: #FFFFFF;
+        border-color: transparent;
+      }
+
+      .btn:hover {
+        color: #171C22;
+        background-color: #FFFFFF;
+        border-color: transparent;
+      }
+
+    }
+    .ddm-form-page-container .clay-color {
+      .input-group-text{
+        height: 100%;
+      }
+      label {
+        margin-bottom: 0;
+      }
+    }
+  }
+  .ddm-form-page-container {
+    .ddm-form-pagination .ddm-wizard .multi-step-item.active .multi-step-divider {
+      background-color: #2ad783;
+    }
+    label, .lfr-ddm-legend {
+      display: inline-block;
+      margin-bottom: 5px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #2ad783;
+      line-height: 1.42;
+      cursor: pointer;
+    }
+    .liferay-ddm-form-field-paragraph-text {
+      p {
+        color: white;
+      }
+    }
+  }
+}
+
+.dropdown-menu.date-picker {
+  select.form-control{
+    color: #ffffff;
+  }
+
+  .nav-btn{
+    min-width: 0;
+  }
+
+  .date-picker-col {
+    padding: 0;
+  }
+
+  .date-picker-date.active{
+    background-color: $table-head-bg;
+  }
+}

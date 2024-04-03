@@ -1,0 +1,4 @@
+Bundle-Name: macro-library
+Bundle-SymbolicName: eu.strasbourg.template.macro.library
+Bundle-Version: 1.0.0
+Fragment-Host: com.liferay.portal.template.freemarker

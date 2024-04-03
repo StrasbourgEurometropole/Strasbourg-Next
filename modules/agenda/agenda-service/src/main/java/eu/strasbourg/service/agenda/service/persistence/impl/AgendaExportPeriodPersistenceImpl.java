@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,29 +16,29 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.exception.NoSuchAgendaExportPeriodException;
 import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
+import eu.strasbourg.service.agenda.model.AgendaExportPeriodTable;
 import eu.strasbourg.service.agenda.model.impl.AgendaExportPeriodImpl;
 import eu.strasbourg.service.agenda.model.impl.AgendaExportPeriodModelImpl;
 import eu.strasbourg.service.agenda.service.persistence.AgendaExportPeriodPersistence;
+import eu.strasbourg.service.agenda.service.persistence.AgendaExportPeriodUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -250,10 +242,6 @@ public class AgendaExportPeriodPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -610,8 +598,6 @@ public class AgendaExportPeriodPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -788,10 +774,6 @@ public class AgendaExportPeriodPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1129,8 +1111,6 @@ public class AgendaExportPeriodPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1149,21 +1129,14 @@ public class AgendaExportPeriodPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(AgendaExportPeriod.class);
+
+		setModelImplClass(AgendaExportPeriodImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(AgendaExportPeriodTable.INSTANCE);
 	}
 
 	/**
@@ -1174,12 +1147,11 @@ public class AgendaExportPeriodPersistenceImpl
 	@Override
 	public void cacheResult(AgendaExportPeriod agendaExportPeriod) {
 		entityCache.putResult(
-			AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
 			AgendaExportPeriodImpl.class, agendaExportPeriod.getPrimaryKey(),
 			agendaExportPeriod);
-
-		agendaExportPeriod.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the agenda export periods in the entity cache if it is enabled.
@@ -1188,16 +1160,20 @@ public class AgendaExportPeriodPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<AgendaExportPeriod> agendaExportPeriods) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (agendaExportPeriods.size() >
+				 _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (AgendaExportPeriod agendaExportPeriod : agendaExportPeriods) {
 			if (entityCache.getResult(
-					AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
 					AgendaExportPeriodImpl.class,
 					agendaExportPeriod.getPrimaryKey()) == null) {
 
 				cacheResult(agendaExportPeriod);
-			}
-			else {
-				agendaExportPeriod.resetOriginalValues();
 			}
 		}
 	}
@@ -1213,9 +1189,7 @@ public class AgendaExportPeriodPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(AgendaExportPeriodImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(AgendaExportPeriodImpl.class);
 	}
 
 	/**
@@ -1228,35 +1202,23 @@ public class AgendaExportPeriodPersistenceImpl
 	@Override
 	public void clearCache(AgendaExportPeriod agendaExportPeriod) {
 		entityCache.removeResult(
-			AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportPeriodImpl.class, agendaExportPeriod.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+			AgendaExportPeriodImpl.class, agendaExportPeriod);
 	}
 
 	@Override
 	public void clearCache(List<AgendaExportPeriod> agendaExportPeriods) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (AgendaExportPeriod agendaExportPeriod : agendaExportPeriods) {
 			entityCache.removeResult(
-				AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
-				AgendaExportPeriodImpl.class,
-				agendaExportPeriod.getPrimaryKey());
+				AgendaExportPeriodImpl.class, agendaExportPeriod);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(AgendaExportPeriodImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
-				AgendaExportPeriodImpl.class, primaryKey);
+			entityCache.removeResult(AgendaExportPeriodImpl.class, primaryKey);
 		}
 	}
 
@@ -1406,10 +1368,8 @@ public class AgendaExportPeriodPersistenceImpl
 		try {
 			session = openSession();
 
-			if (agendaExportPeriod.isNew()) {
+			if (isNew) {
 				session.save(agendaExportPeriod);
-
-				agendaExportPeriod.setNew(false);
 			}
 			else {
 				agendaExportPeriod = (AgendaExportPeriod)session.merge(
@@ -1423,80 +1383,13 @@ public class AgendaExportPeriodPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!AgendaExportPeriodModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				agendaExportPeriodModelImpl.getUuid()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				agendaExportPeriodModelImpl.getAgendaExportId()
-			};
-
-			finderCache.removeResult(_finderPathCountByAgendaExportId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByAgendaExportId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((agendaExportPeriodModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					agendaExportPeriodModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {agendaExportPeriodModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((agendaExportPeriodModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByAgendaExportId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					agendaExportPeriodModelImpl.getOriginalAgendaExportId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByAgendaExportId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAgendaExportId, args);
-
-				args = new Object[] {
-					agendaExportPeriodModelImpl.getAgendaExportId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByAgendaExportId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAgendaExportId, args);
-			}
-		}
-
 		entityCache.putResult(
-			AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportPeriodImpl.class, agendaExportPeriod.getPrimaryKey(),
-			agendaExportPeriod, false);
+			AgendaExportPeriodImpl.class, agendaExportPeriodModelImpl, false,
+			true);
+
+		if (isNew) {
+			agendaExportPeriod.setNew(false);
+		}
 
 		agendaExportPeriod.resetOriginalValues();
 
@@ -1545,167 +1438,12 @@ public class AgendaExportPeriodPersistenceImpl
 	/**
 	 * Returns the agenda export period with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the agenda export period
-	 * @return the agenda export period, or <code>null</code> if a agenda export period with the primary key could not be found
-	 */
-	@Override
-	public AgendaExportPeriod fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportPeriodImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		AgendaExportPeriod agendaExportPeriod =
-			(AgendaExportPeriod)serializable;
-
-		if (agendaExportPeriod == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				agendaExportPeriod = (AgendaExportPeriod)session.get(
-					AgendaExportPeriodImpl.class, primaryKey);
-
-				if (agendaExportPeriod != null) {
-					cacheResult(agendaExportPeriod);
-				}
-				else {
-					entityCache.putResult(
-						AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
-						AgendaExportPeriodImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
-					AgendaExportPeriodImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return agendaExportPeriod;
-	}
-
-	/**
-	 * Returns the agenda export period with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param agendaExportPeriodId the primary key of the agenda export period
 	 * @return the agenda export period, or <code>null</code> if a agenda export period with the primary key could not be found
 	 */
 	@Override
 	public AgendaExportPeriod fetchByPrimaryKey(long agendaExportPeriodId) {
 		return fetchByPrimaryKey((Serializable)agendaExportPeriodId);
-	}
-
-	@Override
-	public Map<Serializable, AgendaExportPeriod> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, AgendaExportPeriod> map =
-			new HashMap<Serializable, AgendaExportPeriod>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			AgendaExportPeriod agendaExportPeriod = fetchByPrimaryKey(
-				primaryKey);
-
-			if (agendaExportPeriod != null) {
-				map.put(primaryKey, agendaExportPeriod);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
-				AgendaExportPeriodImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (AgendaExportPeriod)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_AGENDAEXPORTPERIOD_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (AgendaExportPeriod agendaExportPeriod :
-					(List<AgendaExportPeriod>)query.list()) {
-
-				map.put(
-					agendaExportPeriod.getPrimaryKeyObj(), agendaExportPeriod);
-
-				cacheResult(agendaExportPeriod);
-
-				uncachedPrimaryKeys.remove(
-					agendaExportPeriod.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
-					AgendaExportPeriodImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1834,10 +1572,6 @@ public class AgendaExportPeriodPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1884,9 +1618,6 @@ public class AgendaExportPeriodPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1903,6 +1634,21 @@ public class AgendaExportPeriodPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "agendaExportPeriodId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_AGENDAEXPORTPERIOD;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return AgendaExportPeriodModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1911,79 +1657,64 @@ public class AgendaExportPeriodPersistenceImpl
 	 * Initializes the agenda export period persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportPeriodModelImpl.FINDER_CACHE_ENABLED,
-			AgendaExportPeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportPeriodModelImpl.FINDER_CACHE_ENABLED,
-			AgendaExportPeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportPeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportPeriodModelImpl.FINDER_CACHE_ENABLED,
-			AgendaExportPeriodImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportPeriodModelImpl.FINDER_CACHE_ENABLED,
-			AgendaExportPeriodImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			AgendaExportPeriodModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportPeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathWithPaginationFindByAgendaExportId = new FinderPath(
-			AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportPeriodModelImpl.FINDER_CACHE_ENABLED,
-			AgendaExportPeriodImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAgendaExportId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"agendaExportId"}, true);
 
 		_finderPathWithoutPaginationFindByAgendaExportId = new FinderPath(
-			AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportPeriodModelImpl.FINDER_CACHE_ENABLED,
-			AgendaExportPeriodImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAgendaExportId",
 			new String[] {Long.class.getName()},
-			AgendaExportPeriodModelImpl.AGENDAEXPORTID_COLUMN_BITMASK);
+			new String[] {"agendaExportId"}, true);
 
 		_finderPathCountByAgendaExportId = new FinderPath(
-			AgendaExportPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportPeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAgendaExportId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()},
+			new String[] {"agendaExportId"}, false);
+
+		AgendaExportPeriodUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		AgendaExportPeriodUtil.setPersistence(null);
+
 		entityCache.removeCache(AgendaExportPeriodImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1994,9 +1725,6 @@ public class AgendaExportPeriodPersistenceImpl
 
 	private static final String _SQL_SELECT_AGENDAEXPORTPERIOD =
 		"SELECT agendaExportPeriod FROM AgendaExportPeriod agendaExportPeriod";
-
-	private static final String _SQL_SELECT_AGENDAEXPORTPERIOD_WHERE_PKS_IN =
-		"SELECT agendaExportPeriod FROM AgendaExportPeriod agendaExportPeriod WHERE agendaExportPeriodId IN (";
 
 	private static final String _SQL_SELECT_AGENDAEXPORTPERIOD_WHERE =
 		"SELECT agendaExportPeriod FROM AgendaExportPeriod agendaExportPeriod WHERE ";
@@ -2020,5 +1748,10 @@ public class AgendaExportPeriodPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

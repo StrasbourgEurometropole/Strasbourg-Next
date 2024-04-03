@@ -1,0 +1,54 @@
+{
+  "fieldSets": [
+    {
+      "fields": [
+        {
+          "dataType": "string",
+          "defaultValue": "youtube",
+          "label": "Fournisseur vidéo",
+          "name": "type",
+          "type": "select",
+          "typeOptions": {
+            "validValues": [
+              {
+                "label": "Youtube",
+                "value": "youtube"
+              },
+              {
+                "label": "Dailymotion",
+                "value": "dailymotion"
+              },
+              {
+                "label": "Vimeo",
+                "value": "vimeo"
+              },
+              {
+                "label": "Calameo",
+                "value": "calameo"
+              }
+            ]
+          }
+        },
+        {
+          "defaultValue": "",
+          "label": "ID vidéo",
+          "name": "id",
+          "type": "text"
+        },
+        {
+          "defaultValue": "",
+          "label": "width",
+          "name": "videoWidth",
+          "type": "text"
+        },
+        {
+          "defaultValue": "",
+          "label": "height",
+          "name": "videoHeight",
+          "type": "text"
+        }
+      ],
+      "label": "external-video-options"
+    }
+  ]
+}

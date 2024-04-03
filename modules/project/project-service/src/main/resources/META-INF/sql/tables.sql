@@ -54,7 +54,7 @@ create table project_BudgetPhase (
 	statusByUserName VARCHAR(75) null,
 	statusDate DATE null,
 	title VARCHAR(75) null,
-	description TEXT null,
+	description VARCHAR(75) null,
 	numberOfVote LONG,
 	isActive BOOLEAN,
 	beginDate DATE null,

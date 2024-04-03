@@ -3,8 +3,10 @@ package eu.strasbourg.portlet.help.panel;
 import com.liferay.application.list.BasePanelApp;
 import com.liferay.application.list.PanelApp;
 import com.liferay.application.list.constants.PanelCategoryKeys;
+import com.liferay.portal.kernel.model.Portlet;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 @Component(
     immediate = true,
@@ -20,5 +22,15 @@ public class HelpBOPanelApp extends BasePanelApp {
 	public String getPortletId() {
 		return StrasbourgPortletKeys.HELP_BO;
 	}
+
+	@Override
+	public Portlet getPortlet() {
+		return _portlet;
+	}
+
+	@Reference(
+			target = "(javax.portlet.name=" + StrasbourgPortletKeys.HELP_BO + ")"
+	)
+	private Portlet _portlet;
 
 }

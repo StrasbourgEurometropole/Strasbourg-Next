@@ -1,29 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,20 +21,11 @@ import java.util.Objects;
  * @see Period
  * @generated
  */
-public class PeriodWrapper implements ModelWrapper<Period>, Period {
+public class PeriodWrapper
+	extends BaseModelWrapper<Period> implements ModelWrapper<Period>, Period {
 
 	public PeriodWrapper(Period period) {
-		_period = period;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Period.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Period.class.getName();
+		super(period);
 	}
 
 	@Override
@@ -146,13 +124,8 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	}
 
 	@Override
-	public Object clone() {
-		return new PeriodWrapper((Period)_period.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.place.model.Period period) {
-		return _period.compareTo(period);
+	public Period cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -162,7 +135,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	public java.util.List<eu.strasbourg.service.place.model.Slot>
 		getAllSlots() {
 
-		return _period.getAllSlots();
+		return model.getAllSlots();
 	}
 
 	/**
@@ -172,17 +145,17 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public Boolean getAlwaysOpen() {
-		return _period.getAlwaysOpen();
+		return model.getAlwaysOpen();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _period.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _period.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -192,12 +165,12 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public Boolean getDefaultPeriod() {
-		return _period.getDefaultPeriod();
+		return model.getDefaultPeriod();
 	}
 
 	@Override
 	public String getDisplay(java.util.Locale locale) {
-		return _period.getDisplay(locale);
+		return model.getDisplay(locale);
 	}
 
 	/**
@@ -207,12 +180,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public Date getEndDate() {
-		return _period.getEndDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _period.getExpandoBridge();
+		return model.getEndDate();
 	}
 
 	/**
@@ -222,7 +190,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public String getName() {
-		return _period.getName();
+		return model.getName();
 	}
 
 	/**
@@ -233,7 +201,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public String getName(java.util.Locale locale) {
-		return _period.getName(locale);
+		return model.getName(locale);
 	}
 
 	/**
@@ -245,7 +213,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public String getName(java.util.Locale locale, boolean useDefault) {
-		return _period.getName(locale, useDefault);
+		return model.getName(locale, useDefault);
 	}
 
 	/**
@@ -256,7 +224,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public String getName(String languageId) {
-		return _period.getName(languageId);
+		return model.getName(languageId);
 	}
 
 	/**
@@ -268,17 +236,17 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public String getName(String languageId, boolean useDefault) {
-		return _period.getName(languageId, useDefault);
+		return model.getName(languageId, useDefault);
 	}
 
 	@Override
 	public String getNameCurrentLanguageId() {
-		return _period.getNameCurrentLanguageId();
+		return model.getNameCurrentLanguageId();
 	}
 
 	@Override
 	public String getNameCurrentValue() {
-		return _period.getNameCurrentValue();
+		return model.getNameCurrentValue();
 	}
 
 	/**
@@ -288,7 +256,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getNameMap() {
-		return _period.getNameMap();
+		return model.getNameMap();
 	}
 
 	/**
@@ -298,7 +266,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public long getPeriodId() {
-		return _period.getPeriodId();
+		return model.getPeriodId();
 	}
 
 	/**
@@ -308,7 +276,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public long getPlaceId() {
-		return _period.getPlaceId();
+		return model.getPlaceId();
 	}
 
 	/**
@@ -318,12 +286,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _period.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _period.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -333,7 +296,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public long getRTGreenThreshold() {
-		return _period.getRTGreenThreshold();
+		return model.getRTGreenThreshold();
 	}
 
 	/**
@@ -343,7 +306,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public long getRTMaxThreshold() {
-		return _period.getRTMaxThreshold();
+		return model.getRTMaxThreshold();
 	}
 
 	/**
@@ -353,7 +316,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public long getRTOrangeThreshold() {
-		return _period.getRTOrangeThreshold();
+		return model.getRTOrangeThreshold();
 	}
 
 	/**
@@ -363,7 +326,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public long getRTRedThreshold() {
-		return _period.getRTRedThreshold();
+		return model.getRTRedThreshold();
 	}
 
 	/**
@@ -371,7 +334,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.Slot> getSlots() {
-		return _period.getSlots();
+		return model.getSlots();
 	}
 
 	/**
@@ -381,7 +344,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	public java.util.List<eu.strasbourg.service.place.model.Slot> getSlots(
 		long subPlaceId) {
 
-		return _period.getSlots(subPlaceId);
+		return model.getSlots(subPlaceId);
 	}
 
 	/**
@@ -391,7 +354,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public Date getStartDate() {
-		return _period.getStartDate();
+		return model.getStartDate();
 	}
 
 	/**
@@ -401,7 +364,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public String getUuid() {
-		return _period.getUuid();
+		return model.getUuid();
 	}
 
 	/**
@@ -411,7 +374,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>
 		getWeekSchedule() {
 
-		return _period.getWeekSchedule();
+		return model.getWeekSchedule();
 	}
 
 	/**
@@ -421,39 +384,19 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>
 		getWeekSchedule(long subPlaceId) {
 
-		return _period.getWeekSchedule(subPlaceId);
-	}
-
-	@Override
-	public int hashCode() {
-		return _period.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _period.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _period.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _period.isNew();
+		return model.getWeekSchedule(subPlaceId);
 	}
 
 	@Override
 	public void persist() {
-		_period.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_period.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -461,7 +404,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_period.prepareLocalizedFieldsForImport(defaultImportLocale);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -471,12 +414,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public void setAlwaysOpen(Boolean alwaysOpen) {
-		_period.setAlwaysOpen(alwaysOpen);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_period.setCachedModel(cachedModel);
+		model.setAlwaysOpen(alwaysOpen);
 	}
 
 	/**
@@ -486,7 +424,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public void setDefaultPeriod(Boolean defaultPeriod) {
-		_period.setDefaultPeriod(defaultPeriod);
+		model.setDefaultPeriod(defaultPeriod);
 	}
 
 	/**
@@ -496,24 +434,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public void setEndDate(Date endDate) {
-		_period.setEndDate(endDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_period.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_period.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_period.setExpandoBridgeAttributes(serviceContext);
+		model.setEndDate(endDate);
 	}
 
 	/**
@@ -523,7 +444,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public void setName(String name) {
-		_period.setName(name);
+		model.setName(name);
 	}
 
 	/**
@@ -534,7 +455,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public void setName(String name, java.util.Locale locale) {
-		_period.setName(name, locale);
+		model.setName(name, locale);
 	}
 
 	/**
@@ -548,12 +469,12 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	public void setName(
 		String name, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_period.setName(name, locale, defaultLocale);
+		model.setName(name, locale, defaultLocale);
 	}
 
 	@Override
 	public void setNameCurrentLanguageId(String languageId) {
-		_period.setNameCurrentLanguageId(languageId);
+		model.setNameCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -563,7 +484,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public void setNameMap(Map<java.util.Locale, String> nameMap) {
-		_period.setNameMap(nameMap);
+		model.setNameMap(nameMap);
 	}
 
 	/**
@@ -576,12 +497,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	public void setNameMap(
 		Map<java.util.Locale, String> nameMap, java.util.Locale defaultLocale) {
 
-		_period.setNameMap(nameMap, defaultLocale);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_period.setNew(n);
+		model.setNameMap(nameMap, defaultLocale);
 	}
 
 	/**
@@ -591,7 +507,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public void setPeriodId(long periodId) {
-		_period.setPeriodId(periodId);
+		model.setPeriodId(periodId);
 	}
 
 	/**
@@ -601,7 +517,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public void setPlaceId(long placeId) {
-		_period.setPlaceId(placeId);
+		model.setPlaceId(placeId);
 	}
 
 	/**
@@ -611,12 +527,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_period.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_period.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -626,7 +537,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public void setRTGreenThreshold(long RTGreenThreshold) {
-		_period.setRTGreenThreshold(RTGreenThreshold);
+		model.setRTGreenThreshold(RTGreenThreshold);
 	}
 
 	/**
@@ -636,7 +547,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public void setRTMaxThreshold(long RTMaxThreshold) {
-		_period.setRTMaxThreshold(RTMaxThreshold);
+		model.setRTMaxThreshold(RTMaxThreshold);
 	}
 
 	/**
@@ -646,7 +557,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public void setRTOrangeThreshold(long RTOrangeThreshold) {
-		_period.setRTOrangeThreshold(RTOrangeThreshold);
+		model.setRTOrangeThreshold(RTOrangeThreshold);
 	}
 
 	/**
@@ -656,7 +567,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public void setRTRedThreshold(long RTRedThreshold) {
-		_period.setRTRedThreshold(RTRedThreshold);
+		model.setRTRedThreshold(RTRedThreshold);
 	}
 
 	/**
@@ -666,7 +577,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public void setStartDate(Date startDate) {
-		_period.setStartDate(startDate);
+		model.setStartDate(startDate);
 	}
 
 	/**
@@ -676,19 +587,7 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_period.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.place.model.Period> toCacheModel() {
-
-		return _period.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.Period toEscapedModel() {
-		return new PeriodWrapper(_period.toEscapedModel());
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -696,63 +595,17 @@ public class PeriodWrapper implements ModelWrapper<Period>, Period {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _period.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _period.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.Period toUnescapedModel() {
-		return new PeriodWrapper(_period.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _period.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof PeriodWrapper)) {
-			return false;
-		}
-
-		PeriodWrapper periodWrapper = (PeriodWrapper)object;
-
-		if (Objects.equals(_period, periodWrapper._period)) {
-			return true;
-		}
-
-		return false;
+	protected PeriodWrapper wrap(Period period) {
+		return new PeriodWrapper(period);
 	}
-
-	@Override
-	public Period getWrappedModel() {
-		return _period;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _period.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _period.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_period.resetOriginalValues();
-	}
-
-	private final Period _period;
 
 }

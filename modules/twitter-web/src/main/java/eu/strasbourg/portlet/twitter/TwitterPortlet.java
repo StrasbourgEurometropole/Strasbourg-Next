@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.twitter;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -29,7 +30,8 @@ import java.util.List;
 			"javax.portlet.init-param.config-template=/configuration/twitter-configuration.jsp",
 			"javax.portlet.name=" + StrasbourgPortletKeys.TWITTER_WEB,
 		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" },
+		"javax.portlet.security-role-ref=power-user,user",
+			"javax.portlet.version=3.0"},
 	service = Portlet.class)
 public class TwitterPortlet extends MVCPortlet {
 
@@ -42,9 +44,8 @@ public class TwitterPortlet extends MVCPortlet {
 			.getAttribute(WebKeys.THEME_DISPLAY);
 
 		try {
-			TwitterConfiguration configuration = themeDisplay
-				.getPortletDisplay()
-				.getPortletInstanceConfiguration(TwitterConfiguration.class);
+			TwitterConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(TwitterConfiguration.class, themeDisplay);
+
 
 			// Compte Twitter
 			String twitterAccount = configuration.twitterAccount();

@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.activity.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,12 @@ import java.util.Objects;
  * @see Activity
  * @generated
  */
-public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
+public class ActivityWrapper
+	extends BaseModelWrapper<Activity>
+	implements Activity, ModelWrapper<Activity> {
 
 	public ActivityWrapper(Activity activity) {
-		_activity = activity;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Activity.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Activity.class.getName();
+		super(activity);
 	}
 
 	@Override
@@ -189,15 +168,8 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	}
 
 	@Override
-	public Object clone() {
-		return new ActivityWrapper((Activity)_activity.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.activity.model.Activity activity) {
-
-		return _activity.compareTo(activity);
+	public Activity cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -207,7 +179,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	public java.util.List<eu.strasbourg.service.activity.model.ActivityCourse>
 		getActivityCourses() {
 
-		return _activity.getActivityCourses();
+		return model.getActivityCourses();
 	}
 
 	/**
@@ -217,7 +189,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public long getActivityId() {
-		return _activity.getActivityId();
+		return model.getActivityId();
 	}
 
 	/**
@@ -225,12 +197,12 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _activity.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _activity.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -241,7 +213,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _activity.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -251,7 +223,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _activity.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -261,12 +233,12 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _activity.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _activity.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -276,7 +248,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getDescription() {
-		return _activity.getDescription();
+		return model.getDescription();
 	}
 
 	/**
@@ -287,7 +259,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale) {
-		return _activity.getDescription(locale);
+		return model.getDescription(locale);
 	}
 
 	/**
@@ -299,7 +271,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale, boolean useDefault) {
-		return _activity.getDescription(locale, useDefault);
+		return model.getDescription(locale, useDefault);
 	}
 
 	/**
@@ -310,7 +282,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getDescription(String languageId) {
-		return _activity.getDescription(languageId);
+		return model.getDescription(languageId);
 	}
 
 	/**
@@ -322,17 +294,17 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getDescription(String languageId, boolean useDefault) {
-		return _activity.getDescription(languageId, useDefault);
+		return model.getDescription(languageId, useDefault);
 	}
 
 	@Override
 	public String getDescriptionCurrentLanguageId() {
-		return _activity.getDescriptionCurrentLanguageId();
+		return model.getDescriptionCurrentLanguageId();
 	}
 
 	@Override
 	public String getDescriptionCurrentValue() {
-		return _activity.getDescriptionCurrentValue();
+		return model.getDescriptionCurrentValue();
 	}
 
 	/**
@@ -342,12 +314,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getDescriptionMap() {
-		return _activity.getDescriptionMap();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _activity.getExpandoBridge();
+		return model.getDescriptionMap();
 	}
 
 	/**
@@ -357,7 +324,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getFilesIds() {
-		return _activity.getFilesIds();
+		return model.getFilesIds();
 	}
 
 	/**
@@ -365,7 +332,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public java.util.List<String> getFilesURLs() {
-		return _activity.getFilesURLs();
+		return model.getFilesURLs();
 	}
 
 	/**
@@ -375,7 +342,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _activity.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -385,7 +352,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public long getImageId() {
-		return _activity.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -395,7 +362,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getImagesIds() {
-		return _activity.getImagesIds();
+		return model.getImagesIds();
 	}
 
 	/**
@@ -403,7 +370,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public java.util.List<String> getImagesURLs() {
-		return _activity.getImagesURLs();
+		return model.getImagesURLs();
 	}
 
 	/**
@@ -411,7 +378,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getImageURL() {
-		return _activity.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -421,7 +388,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public eu.strasbourg.service.activity.model.Activity getLiveVersion() {
-		return _activity.getLiveVersion();
+		return model.getLiveVersion();
 	}
 
 	/**
@@ -431,7 +398,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _activity.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -441,12 +408,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _activity.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _activity.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -456,7 +418,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	public java.util.List<eu.strasbourg.service.activity.model.ActivityCourse>
 		getPublishedActivityCourses() {
 
-		return _activity.getPublishedActivityCourses();
+		return model.getPublishedActivityCourses();
 	}
 
 	/**
@@ -466,7 +428,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public int getStatus() {
-		return _activity.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -476,7 +438,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _activity.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -486,7 +448,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _activity.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -496,7 +458,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _activity.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -506,7 +468,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _activity.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -516,7 +478,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getTitle() {
-		return _activity.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -527,7 +489,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale) {
-		return _activity.getTitle(locale);
+		return model.getTitle(locale);
 	}
 
 	/**
@@ -539,7 +501,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale, boolean useDefault) {
-		return _activity.getTitle(locale, useDefault);
+		return model.getTitle(locale, useDefault);
 	}
 
 	/**
@@ -550,7 +512,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getTitle(String languageId) {
-		return _activity.getTitle(languageId);
+		return model.getTitle(languageId);
 	}
 
 	/**
@@ -562,17 +524,17 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getTitle(String languageId, boolean useDefault) {
-		return _activity.getTitle(languageId, useDefault);
+		return model.getTitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getTitleCurrentLanguageId() {
-		return _activity.getTitleCurrentLanguageId();
+		return model.getTitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getTitleCurrentValue() {
-		return _activity.getTitleCurrentValue();
+		return model.getTitleCurrentValue();
 	}
 
 	/**
@@ -582,7 +544,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getTitleMap() {
-		return _activity.getTitleMap();
+		return model.getTitleMap();
 	}
 
 	/**
@@ -592,7 +554,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTypes() {
 
-		return _activity.getTypes();
+		return model.getTypes();
 	}
 
 	/**
@@ -600,7 +562,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getTypesLabel(java.util.Locale locale) {
-		return _activity.getTypesLabel(locale);
+		return model.getTypesLabel(locale);
 	}
 
 	/**
@@ -610,7 +572,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public long getUserId() {
-		return _activity.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -620,7 +582,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getUserName() {
-		return _activity.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -630,7 +592,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _activity.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -640,7 +602,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getUuid() {
-		return _activity.getUuid();
+		return model.getUuid();
 	}
 
 	/**
@@ -648,7 +610,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.video.model.Video> getVideos() {
-		return _activity.getVideos();
+		return model.getVideos();
 	}
 
 	/**
@@ -658,12 +620,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public String getVideosIds() {
-		return _activity.getVideosIds();
-	}
-
-	@Override
-	public int hashCode() {
-		return _activity.hashCode();
+		return model.getVideosIds();
 	}
 
 	/**
@@ -673,12 +630,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _activity.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _activity.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -688,7 +640,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _activity.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -698,12 +650,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _activity.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _activity.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -713,7 +660,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _activity.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -723,7 +670,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _activity.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -733,12 +680,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _activity.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _activity.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -748,7 +690,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public boolean isPending() {
-		return _activity.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -758,19 +700,19 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _activity.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_activity.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_activity.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -778,7 +720,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_activity.prepareLocalizedFieldsForImport(defaultImportLocale);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -788,12 +730,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setActivityId(long activityId) {
-		_activity.setActivityId(activityId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_activity.setCachedModel(cachedModel);
+		model.setActivityId(activityId);
 	}
 
 	/**
@@ -803,7 +740,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_activity.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -813,7 +750,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_activity.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -823,7 +760,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setDescription(String description) {
-		_activity.setDescription(description);
+		model.setDescription(description);
 	}
 
 	/**
@@ -834,7 +771,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setDescription(String description, java.util.Locale locale) {
-		_activity.setDescription(description, locale);
+		model.setDescription(description, locale);
 	}
 
 	/**
@@ -849,12 +786,12 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 		String description, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_activity.setDescription(description, locale, defaultLocale);
+		model.setDescription(description, locale, defaultLocale);
 	}
 
 	@Override
 	public void setDescriptionCurrentLanguageId(String languageId) {
-		_activity.setDescriptionCurrentLanguageId(languageId);
+		model.setDescriptionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -866,7 +803,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	public void setDescriptionMap(
 		Map<java.util.Locale, String> descriptionMap) {
 
-		_activity.setDescriptionMap(descriptionMap);
+		model.setDescriptionMap(descriptionMap);
 	}
 
 	/**
@@ -880,24 +817,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 		Map<java.util.Locale, String> descriptionMap,
 		java.util.Locale defaultLocale) {
 
-		_activity.setDescriptionMap(descriptionMap, defaultLocale);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_activity.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_activity.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_activity.setExpandoBridgeAttributes(serviceContext);
+		model.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	/**
@@ -907,7 +827,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setFilesIds(String filesIds) {
-		_activity.setFilesIds(filesIds);
+		model.setFilesIds(filesIds);
 	}
 
 	/**
@@ -917,7 +837,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_activity.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -927,7 +847,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setImageId(long imageId) {
-		_activity.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -937,7 +857,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setImagesIds(String imagesIds) {
-		_activity.setImagesIds(imagesIds);
+		model.setImagesIds(imagesIds);
 	}
 
 	/**
@@ -947,12 +867,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_activity.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_activity.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -962,12 +877,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_activity.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_activity.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -977,7 +887,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_activity.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -987,7 +897,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_activity.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -997,7 +907,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_activity.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -1007,7 +917,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_activity.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -1017,7 +927,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_activity.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -1027,7 +937,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_activity.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -1038,7 +948,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setTitle(String title, java.util.Locale locale) {
-		_activity.setTitle(title, locale);
+		model.setTitle(title, locale);
 	}
 
 	/**
@@ -1052,12 +962,12 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	public void setTitle(
 		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_activity.setTitle(title, locale, defaultLocale);
+		model.setTitle(title, locale, defaultLocale);
 	}
 
 	@Override
 	public void setTitleCurrentLanguageId(String languageId) {
-		_activity.setTitleCurrentLanguageId(languageId);
+		model.setTitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1067,7 +977,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
-		_activity.setTitleMap(titleMap);
+		model.setTitleMap(titleMap);
 	}
 
 	/**
@@ -1081,7 +991,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 		Map<java.util.Locale, String> titleMap,
 		java.util.Locale defaultLocale) {
 
-		_activity.setTitleMap(titleMap, defaultLocale);
+		model.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**
@@ -1091,7 +1001,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_activity.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -1101,7 +1011,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_activity.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -1111,7 +1021,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_activity.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1121,7 +1031,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_activity.setUuid(uuid);
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -1131,19 +1041,7 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public void setVideosIds(String videosIds) {
-		_activity.setVideosIds(videosIds);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.activity.model.Activity> toCacheModel() {
-
-		return _activity.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.activity.model.Activity toEscapedModel() {
-		return new ActivityWrapper(_activity.toEscapedModel());
+		model.setVideosIds(videosIds);
 	}
 
 	/**
@@ -1151,68 +1049,22 @@ public class ActivityWrapper implements Activity, ModelWrapper<Activity> {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _activity.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _activity.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.activity.model.Activity toUnescapedModel() {
-		return new ActivityWrapper(_activity.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _activity.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof ActivityWrapper)) {
-			return false;
-		}
-
-		ActivityWrapper activityWrapper = (ActivityWrapper)object;
-
-		if (Objects.equals(_activity, activityWrapper._activity)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _activity.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Activity getWrappedModel() {
-		return _activity;
+	protected ActivityWrapper wrap(Activity activity) {
+		return new ActivityWrapper(activity);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _activity.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _activity.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_activity.resetOriginalValues();
-	}
-
-	private final Activity _activity;
 
 }

@@ -16,14 +16,13 @@ package eu.strasbourg.service.gtfs.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
+import eu.strasbourg.service.gtfs.model.StopTime;
+import eu.strasbourg.service.gtfs.service.base.StopTimeLocalServiceBaseImpl;
+import eu.strasbourg.utils.models.StopTimesGTFS;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
-import eu.strasbourg.service.gtfs.model.StopTime;
-import eu.strasbourg.service.gtfs.service.base.StopTimeLocalServiceBaseImpl;
-import eu.strasbourg.utils.models.StopTimesGTFS;
 
 /**
  * The implementation of the stop time local service.

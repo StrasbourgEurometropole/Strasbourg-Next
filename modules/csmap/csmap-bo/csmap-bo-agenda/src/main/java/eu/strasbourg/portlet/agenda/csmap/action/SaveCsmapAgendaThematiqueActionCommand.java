@@ -59,12 +59,15 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
 
                 String portletName = (String) request
                         .getAttribute(WebKeys.PORTLET_ID);
-                PortletURL returnURL = PortletURLFactoryUtil.create(request,
+                PortletURL backURL = PortletURLFactoryUtil.create(request,
                         portletName, td.getPlid(),
                         PortletRequest.RENDER_PHASE);
-                response.setRenderParameter("tab", "");
-                response.setRenderParameter("returnURL", returnURL.toString());
-                response.setRenderParameter("mvcPath", "/csmap-bo-agenda-edit-thematique.jsp");
+                backURL.setParameter("tab", request.getParameter("tab"));
+
+                response.setRenderParameter("backURL", backURL.toString());
+                response.setRenderParameter("cmd","saveAgendaThematique");
+                response.setRenderParameter("mvcPath",
+                        "/csmap-bo-agenda-edit-thematique.jsp");
                 return false;
             }
 
@@ -182,6 +185,9 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
 
             // Régénération du cache des agendas pour CSMap
             _csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.AGENDA.getId());
+            response.setRenderParameter("mvcPath",
+                    "/csmap-bo-agenda-view-thematiques.jsp");
+
 
         } catch (PortalException e) {
             _log.error(e.getMessage(), e);

@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.official.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,12 @@ import java.util.Objects;
  * @see Official
  * @generated
  */
-public class OfficialWrapper implements ModelWrapper<Official>, Official {
+public class OfficialWrapper
+	extends BaseModelWrapper<Official>
+	implements ModelWrapper<Official>, Official {
 
 	public OfficialWrapper(Official official) {
-		_official = official;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Official.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Official.class.getName();
+		super(official);
 	}
 
 	@Override
@@ -240,15 +219,8 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	}
 
 	@Override
-	public Object clone() {
-		return new OfficialWrapper((Official)_official.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.official.model.Official official) {
-
-		return _official.compareTo(official);
+	public Official cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -256,12 +228,12 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _official.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _official.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -272,7 +244,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _official.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -284,7 +256,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public boolean getCommunalMembership()
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _official.getCommunalMembership();
+		return model.getCommunalMembership();
 	}
 
 	/**
@@ -294,7 +266,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _official.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -304,7 +276,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getContact() {
-		return _official.getContact();
+		return model.getContact();
 	}
 
 	/**
@@ -315,7 +287,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getContact(java.util.Locale locale) {
-		return _official.getContact(locale);
+		return model.getContact(locale);
 	}
 
 	/**
@@ -327,7 +299,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getContact(java.util.Locale locale, boolean useDefault) {
-		return _official.getContact(locale, useDefault);
+		return model.getContact(locale, useDefault);
 	}
 
 	/**
@@ -338,7 +310,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getContact(String languageId) {
-		return _official.getContact(languageId);
+		return model.getContact(languageId);
 	}
 
 	/**
@@ -350,17 +322,17 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getContact(String languageId, boolean useDefault) {
-		return _official.getContact(languageId, useDefault);
+		return model.getContact(languageId, useDefault);
 	}
 
 	@Override
 	public String getContactCurrentLanguageId() {
-		return _official.getContactCurrentLanguageId();
+		return model.getContactCurrentLanguageId();
 	}
 
 	@Override
 	public String getContactCurrentValue() {
-		return _official.getContactCurrentValue();
+		return model.getContactCurrentValue();
 	}
 
 	/**
@@ -370,7 +342,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getContactMap() {
-		return _official.getContactMap();
+		return model.getContactMap();
 	}
 
 	/**
@@ -380,12 +352,12 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _official.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _official.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -395,12 +367,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getDistricts() {
 
-		return _official.getDistricts();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _official.getExpandoBridge();
+		return model.getDistricts();
 	}
 
 	/**
@@ -410,7 +377,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getFirstName() {
-		return _official.getFirstName();
+		return model.getFirstName();
 	}
 
 	/**
@@ -418,7 +385,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getFonctionCity() {
-		return _official.getFonctionCity();
+		return model.getFonctionCity();
 	}
 
 	/**
@@ -428,7 +395,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public com.liferay.asset.kernel.model.AssetCategory
 		getFonctionEurometropole() {
 
-		return _official.getFonctionEurometropole();
+		return model.getFonctionEurometropole();
 	}
 
 	/**
@@ -436,7 +403,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getFonctionTown() {
-		return _official.getFonctionTown();
+		return model.getFonctionTown();
 	}
 
 	/**
@@ -446,7 +413,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public int getGender() {
-		return _official.getGender();
+		return model.getGender();
 	}
 
 	/**
@@ -456,7 +423,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public long getGroupId() {
-		return _official.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -466,7 +433,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public Long getImageId() {
-		return _official.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -474,7 +441,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getImageURL() {
-		return _official.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -484,7 +451,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getLastName() {
-		return _official.getLastName();
+		return model.getLastName();
 	}
 
 	/**
@@ -494,7 +461,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public Date getLastPublishDate() {
-		return _official.getLastPublishDate();
+		return model.getLastPublishDate();
 	}
 
 	/**
@@ -504,7 +471,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getListeContact() {
-		return _official.getListeContact();
+		return model.getListeContact();
 	}
 
 	/**
@@ -512,7 +479,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public eu.strasbourg.service.official.model.Official getLiveVersion() {
-		return _official.getLiveVersion();
+		return model.getLiveVersion();
 	}
 
 	/**
@@ -522,7 +489,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getMissions() {
-		return _official.getMissions();
+		return model.getMissions();
 	}
 
 	/**
@@ -533,7 +500,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getMissions(java.util.Locale locale) {
-		return _official.getMissions(locale);
+		return model.getMissions(locale);
 	}
 
 	/**
@@ -545,7 +512,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getMissions(java.util.Locale locale, boolean useDefault) {
-		return _official.getMissions(locale, useDefault);
+		return model.getMissions(locale, useDefault);
 	}
 
 	/**
@@ -556,7 +523,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getMissions(String languageId) {
-		return _official.getMissions(languageId);
+		return model.getMissions(languageId);
 	}
 
 	/**
@@ -568,17 +535,17 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getMissions(String languageId, boolean useDefault) {
-		return _official.getMissions(languageId, useDefault);
+		return model.getMissions(languageId, useDefault);
 	}
 
 	@Override
 	public String getMissionsCurrentLanguageId() {
-		return _official.getMissionsCurrentLanguageId();
+		return model.getMissionsCurrentLanguageId();
 	}
 
 	@Override
 	public String getMissionsCurrentValue() {
-		return _official.getMissionsCurrentValue();
+		return model.getMissionsCurrentValue();
 	}
 
 	/**
@@ -588,7 +555,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getMissionsMap() {
-		return _official.getMissionsMap();
+		return model.getMissionsMap();
 	}
 
 	/**
@@ -598,7 +565,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _official.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -612,7 +579,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 			java.util.Locale locale)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _official.getName(category, locale);
+		return model.getName(category, locale);
 	}
 
 	/**
@@ -622,7 +589,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public long getOfficialId() {
-		return _official.getOfficialId();
+		return model.getOfficialId();
 	}
 
 	/**
@@ -632,7 +599,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public int getOrderDeputyMayor() {
-		return _official.getOrderDeputyMayor();
+		return model.getOrderDeputyMayor();
 	}
 
 	/**
@@ -642,7 +609,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public int getOrderVicePresident() {
-		return _official.getOrderVicePresident();
+		return model.getOrderVicePresident();
 	}
 
 	/**
@@ -652,7 +619,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getOthersMandates() {
 
-		return _official.getOthersMandates();
+		return model.getOthersMandates();
 	}
 
 	/**
@@ -662,7 +629,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public com.liferay.asset.kernel.model.AssetCategory
 		getPoliticalGroupCity() {
 
-		return _official.getPoliticalGroupCity();
+		return model.getPoliticalGroupCity();
 	}
 
 	/**
@@ -673,7 +640,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public com.liferay.asset.kernel.model.AssetCategory
 		getPoliticalGroupEurometropole() {
 
-		return _official.getPoliticalGroupEurometropole();
+		return model.getPoliticalGroupEurometropole();
 	}
 
 	/**
@@ -683,12 +650,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _official.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _official.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -698,7 +660,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getResumeFonction() {
-		return _official.getResumeFonction();
+		return model.getResumeFonction();
 	}
 
 	/**
@@ -709,7 +671,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getResumeFonction(java.util.Locale locale) {
-		return _official.getResumeFonction(locale);
+		return model.getResumeFonction(locale);
 	}
 
 	/**
@@ -723,7 +685,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public String getResumeFonction(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _official.getResumeFonction(locale, useDefault);
+		return model.getResumeFonction(locale, useDefault);
 	}
 
 	/**
@@ -734,7 +696,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getResumeFonction(String languageId) {
-		return _official.getResumeFonction(languageId);
+		return model.getResumeFonction(languageId);
 	}
 
 	/**
@@ -746,17 +708,17 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getResumeFonction(String languageId, boolean useDefault) {
-		return _official.getResumeFonction(languageId, useDefault);
+		return model.getResumeFonction(languageId, useDefault);
 	}
 
 	@Override
 	public String getResumeFonctionCurrentLanguageId() {
-		return _official.getResumeFonctionCurrentLanguageId();
+		return model.getResumeFonctionCurrentLanguageId();
 	}
 
 	@Override
 	public String getResumeFonctionCurrentValue() {
-		return _official.getResumeFonctionCurrentValue();
+		return model.getResumeFonctionCurrentValue();
 	}
 
 	/**
@@ -766,7 +728,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getResumeFonctionMap() {
-		return _official.getResumeFonctionMap();
+		return model.getResumeFonctionMap();
 	}
 
 	/**
@@ -776,7 +738,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public int getStatus() {
-		return _official.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -786,7 +748,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _official.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -796,7 +758,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _official.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -806,7 +768,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _official.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -816,7 +778,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _official.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -826,7 +788,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTerritories() {
 
-		return _official.getTerritories();
+		return model.getTerritories();
 	}
 
 	/**
@@ -836,7 +798,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getThematicDelegation() {
-		return _official.getThematicDelegation();
+		return model.getThematicDelegation();
 	}
 
 	/**
@@ -847,7 +809,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getThematicDelegation(java.util.Locale locale) {
-		return _official.getThematicDelegation(locale);
+		return model.getThematicDelegation(locale);
 	}
 
 	/**
@@ -861,7 +823,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public String getThematicDelegation(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _official.getThematicDelegation(locale, useDefault);
+		return model.getThematicDelegation(locale, useDefault);
 	}
 
 	/**
@@ -872,7 +834,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getThematicDelegation(String languageId) {
-		return _official.getThematicDelegation(languageId);
+		return model.getThematicDelegation(languageId);
 	}
 
 	/**
@@ -884,17 +846,17 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getThematicDelegation(String languageId, boolean useDefault) {
-		return _official.getThematicDelegation(languageId, useDefault);
+		return model.getThematicDelegation(languageId, useDefault);
 	}
 
 	@Override
 	public String getThematicDelegationCurrentLanguageId() {
-		return _official.getThematicDelegationCurrentLanguageId();
+		return model.getThematicDelegationCurrentLanguageId();
 	}
 
 	@Override
 	public String getThematicDelegationCurrentValue() {
-		return _official.getThematicDelegationCurrentValue();
+		return model.getThematicDelegationCurrentValue();
 	}
 
 	/**
@@ -904,7 +866,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getThematicDelegationMap() {
-		return _official.getThematicDelegationMap();
+		return model.getThematicDelegationMap();
 	}
 
 	/**
@@ -912,7 +874,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getTown() {
-		return _official.getTown();
+		return model.getTown();
 	}
 
 	/**
@@ -922,7 +884,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public long getUserId() {
-		return _official.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -932,7 +894,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getUserName() {
-		return _official.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -942,7 +904,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _official.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -952,7 +914,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public String getUuid() {
-		return _official.getUuid();
+		return model.getUuid();
 	}
 
 	/**
@@ -962,12 +924,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean getWasMinister() {
-		return _official.getWasMinister();
-	}
-
-	@Override
-	public int hashCode() {
-		return _official.hashCode();
+		return model.getWasMinister();
 	}
 
 	/**
@@ -977,7 +934,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _official.isApproved();
+		return model.isApproved();
 	}
 
 	/**
@@ -989,12 +946,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public boolean isAssistant()
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _official.isAssistant();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _official.isCachedModel();
+		return model.isAssistant();
 	}
 
 	/**
@@ -1002,7 +954,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isCategoryOfficial(long categoryId) {
-		return _official.isCategoryOfficial(categoryId);
+		return model.isCategoryOfficial(categoryId);
 	}
 
 	/**
@@ -1012,7 +964,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _official.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -1022,7 +974,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _official.isDraft();
+		return model.isDraft();
 	}
 
 	/**
@@ -1034,7 +986,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public boolean isEluEurometropole()
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _official.isEluEurometropole();
+		return model.isEluEurometropole();
 	}
 
 	/**
@@ -1046,12 +998,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public boolean isEluMunicipal()
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _official.isEluMunicipal();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _official.isEscapedModel();
+		return model.isEluMunicipal();
 	}
 
 	/**
@@ -1061,7 +1008,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _official.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -1071,7 +1018,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _official.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -1081,12 +1028,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _official.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _official.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -1096,7 +1038,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isPending() {
-		return _official.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -1106,7 +1048,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _official.isScheduled();
+		return model.isScheduled();
 	}
 
 	/**
@@ -1116,19 +1058,19 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public boolean isWasMinister() {
-		return _official.isWasMinister();
+		return model.isWasMinister();
 	}
 
 	@Override
 	public void persist() {
-		_official.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_official.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -1136,12 +1078,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_official.prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_official.setCachedModel(cachedModel);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -1151,7 +1088,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_official.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -1161,7 +1098,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setContact(String contact) {
-		_official.setContact(contact);
+		model.setContact(contact);
 	}
 
 	/**
@@ -1172,7 +1109,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setContact(String contact, java.util.Locale locale) {
-		_official.setContact(contact, locale);
+		model.setContact(contact, locale);
 	}
 
 	/**
@@ -1187,12 +1124,12 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 		String contact, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_official.setContact(contact, locale, defaultLocale);
+		model.setContact(contact, locale, defaultLocale);
 	}
 
 	@Override
 	public void setContactCurrentLanguageId(String languageId) {
-		_official.setContactCurrentLanguageId(languageId);
+		model.setContactCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1202,7 +1139,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setContactMap(Map<java.util.Locale, String> contactMap) {
-		_official.setContactMap(contactMap);
+		model.setContactMap(contactMap);
 	}
 
 	/**
@@ -1216,7 +1153,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 		Map<java.util.Locale, String> contactMap,
 		java.util.Locale defaultLocale) {
 
-		_official.setContactMap(contactMap, defaultLocale);
+		model.setContactMap(contactMap, defaultLocale);
 	}
 
 	/**
@@ -1226,24 +1163,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_official.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_official.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_official.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_official.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -1253,7 +1173,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setFirstName(String firstName) {
-		_official.setFirstName(firstName);
+		model.setFirstName(firstName);
 	}
 
 	/**
@@ -1263,7 +1183,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setGender(int gender) {
-		_official.setGender(gender);
+		model.setGender(gender);
 	}
 
 	/**
@@ -1273,7 +1193,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_official.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -1283,7 +1203,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setImageId(Long imageId) {
-		_official.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -1293,7 +1213,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setLastName(String lastName) {
-		_official.setLastName(lastName);
+		model.setLastName(lastName);
 	}
 
 	/**
@@ -1303,7 +1223,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
-		_official.setLastPublishDate(lastPublishDate);
+		model.setLastPublishDate(lastPublishDate);
 	}
 
 	/**
@@ -1313,7 +1233,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setListeContact(String listeContact) {
-		_official.setListeContact(listeContact);
+		model.setListeContact(listeContact);
 	}
 
 	/**
@@ -1323,7 +1243,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setMissions(String missions) {
-		_official.setMissions(missions);
+		model.setMissions(missions);
 	}
 
 	/**
@@ -1334,7 +1254,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setMissions(String missions, java.util.Locale locale) {
-		_official.setMissions(missions, locale);
+		model.setMissions(missions, locale);
 	}
 
 	/**
@@ -1349,12 +1269,12 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 		String missions, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_official.setMissions(missions, locale, defaultLocale);
+		model.setMissions(missions, locale, defaultLocale);
 	}
 
 	@Override
 	public void setMissionsCurrentLanguageId(String languageId) {
-		_official.setMissionsCurrentLanguageId(languageId);
+		model.setMissionsCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1364,7 +1284,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setMissionsMap(Map<java.util.Locale, String> missionsMap) {
-		_official.setMissionsMap(missionsMap);
+		model.setMissionsMap(missionsMap);
 	}
 
 	/**
@@ -1378,7 +1298,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 		Map<java.util.Locale, String> missionsMap,
 		java.util.Locale defaultLocale) {
 
-		_official.setMissionsMap(missionsMap, defaultLocale);
+		model.setMissionsMap(missionsMap, defaultLocale);
 	}
 
 	/**
@@ -1388,12 +1308,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_official.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_official.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -1403,7 +1318,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setOfficialId(long officialId) {
-		_official.setOfficialId(officialId);
+		model.setOfficialId(officialId);
 	}
 
 	/**
@@ -1413,7 +1328,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setOrderDeputyMayor(int orderDeputyMayor) {
-		_official.setOrderDeputyMayor(orderDeputyMayor);
+		model.setOrderDeputyMayor(orderDeputyMayor);
 	}
 
 	/**
@@ -1423,7 +1338,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setOrderVicePresident(int orderVicePresident) {
-		_official.setOrderVicePresident(orderVicePresident);
+		model.setOrderVicePresident(orderVicePresident);
 	}
 
 	/**
@@ -1433,12 +1348,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_official.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_official.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -1448,7 +1358,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setResumeFonction(String resumeFonction) {
-		_official.setResumeFonction(resumeFonction);
+		model.setResumeFonction(resumeFonction);
 	}
 
 	/**
@@ -1461,7 +1371,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public void setResumeFonction(
 		String resumeFonction, java.util.Locale locale) {
 
-		_official.setResumeFonction(resumeFonction, locale);
+		model.setResumeFonction(resumeFonction, locale);
 	}
 
 	/**
@@ -1476,12 +1386,12 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 		String resumeFonction, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_official.setResumeFonction(resumeFonction, locale, defaultLocale);
+		model.setResumeFonction(resumeFonction, locale, defaultLocale);
 	}
 
 	@Override
 	public void setResumeFonctionCurrentLanguageId(String languageId) {
-		_official.setResumeFonctionCurrentLanguageId(languageId);
+		model.setResumeFonctionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1493,7 +1403,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public void setResumeFonctionMap(
 		Map<java.util.Locale, String> resumeFonctionMap) {
 
-		_official.setResumeFonctionMap(resumeFonctionMap);
+		model.setResumeFonctionMap(resumeFonctionMap);
 	}
 
 	/**
@@ -1507,7 +1417,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 		Map<java.util.Locale, String> resumeFonctionMap,
 		java.util.Locale defaultLocale) {
 
-		_official.setResumeFonctionMap(resumeFonctionMap, defaultLocale);
+		model.setResumeFonctionMap(resumeFonctionMap, defaultLocale);
 	}
 
 	/**
@@ -1517,7 +1427,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_official.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -1527,7 +1437,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_official.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -1537,7 +1447,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_official.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -1547,7 +1457,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_official.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -1557,7 +1467,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_official.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -1567,7 +1477,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setThematicDelegation(String thematicDelegation) {
-		_official.setThematicDelegation(thematicDelegation);
+		model.setThematicDelegation(thematicDelegation);
 	}
 
 	/**
@@ -1580,7 +1490,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public void setThematicDelegation(
 		String thematicDelegation, java.util.Locale locale) {
 
-		_official.setThematicDelegation(thematicDelegation, locale);
+		model.setThematicDelegation(thematicDelegation, locale);
 	}
 
 	/**
@@ -1595,13 +1505,12 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 		String thematicDelegation, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_official.setThematicDelegation(
-			thematicDelegation, locale, defaultLocale);
+		model.setThematicDelegation(thematicDelegation, locale, defaultLocale);
 	}
 
 	@Override
 	public void setThematicDelegationCurrentLanguageId(String languageId) {
-		_official.setThematicDelegationCurrentLanguageId(languageId);
+		model.setThematicDelegationCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1613,7 +1522,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	public void setThematicDelegationMap(
 		Map<java.util.Locale, String> thematicDelegationMap) {
 
-		_official.setThematicDelegationMap(thematicDelegationMap);
+		model.setThematicDelegationMap(thematicDelegationMap);
 	}
 
 	/**
@@ -1627,8 +1536,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 		Map<java.util.Locale, String> thematicDelegationMap,
 		java.util.Locale defaultLocale) {
 
-		_official.setThematicDelegationMap(
-			thematicDelegationMap, defaultLocale);
+		model.setThematicDelegationMap(thematicDelegationMap, defaultLocale);
 	}
 
 	/**
@@ -1638,7 +1546,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_official.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -1648,7 +1556,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_official.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -1658,7 +1566,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_official.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1668,7 +1576,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_official.setUuid(uuid);
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -1678,19 +1586,7 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public void setWasMinister(boolean wasMinister) {
-		_official.setWasMinister(wasMinister);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.official.model.Official> toCacheModel() {
-
-		return _official.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.official.model.Official toEscapedModel() {
-		return new OfficialWrapper(_official.toEscapedModel());
+		model.setWasMinister(wasMinister);
 	}
 
 	/**
@@ -1698,68 +1594,22 @@ public class OfficialWrapper implements ModelWrapper<Official>, Official {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _official.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _official.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.official.model.Official toUnescapedModel() {
-		return new OfficialWrapper(_official.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _official.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof OfficialWrapper)) {
-			return false;
-		}
-
-		OfficialWrapper officialWrapper = (OfficialWrapper)object;
-
-		if (Objects.equals(_official, officialWrapper._official)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _official.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Official getWrappedModel() {
-		return _official;
+	protected OfficialWrapper wrap(Official official) {
+		return new OfficialWrapper(official);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _official.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _official.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_official.resetOriginalValues();
-	}
-
-	private final Official _official;
 
 }

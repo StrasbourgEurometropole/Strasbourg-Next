@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Editorial</name>
+        <key>1572892</key>
+        <definition>editorial-structure.json</definition>
+        <layout>editorial-layout.json</layout>
+    </structure>
+    <template>
+        <name>Editorial</name>
+        <key>1572920</key>
+        <script>editorial.ftl</script>
+    </template>
+</root>

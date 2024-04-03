@@ -1,0 +1,15 @@
+
+.st-form-defunt {
+	margin-bottom: 60px;
+
+	@include mobile {
+		margin-bottom: 40px;
+	}
+
+	.st-field-checkbox {
+		margin-top: 20px;
+	}
+	.st-btn-submit-wrapper {
+		text-align: right;
+	}
+}

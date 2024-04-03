@@ -1,20 +1,12 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service;
 
 import com.liferay.portal.kernel.service.ServiceWrapper;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 /**
  * Provides a wrapper for {@link EventLocalService}.
@@ -25,6 +17,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  */
 public class EventLocalServiceWrapper
 	implements EventLocalService, ServiceWrapper<EventLocalService> {
+
+	public EventLocalServiceWrapper() {
+		this(null);
+	}
 
 	public EventLocalServiceWrapper(EventLocalService eventLocalService) {
 		_eventLocalService = eventLocalService;
@@ -48,28 +44,33 @@ public class EventLocalServiceWrapper
 	}
 
 	@Override
-	public void addManifestationEvent(
+	public boolean addManifestationEvent(
 		long manifestationId, eu.strasbourg.service.agenda.model.Event event) {
 
-		_eventLocalService.addManifestationEvent(manifestationId, event);
+		return _eventLocalService.addManifestationEvent(manifestationId, event);
 	}
 
 	@Override
-	public void addManifestationEvent(long manifestationId, long eventId) {
-		_eventLocalService.addManifestationEvent(manifestationId, eventId);
+	public boolean addManifestationEvent(long manifestationId, long eventId) {
+		return _eventLocalService.addManifestationEvent(
+			manifestationId, eventId);
 	}
 
 	@Override
-	public void addManifestationEvents(
+	public boolean addManifestationEvents(
 		long manifestationId,
 		java.util.List<eu.strasbourg.service.agenda.model.Event> events) {
 
-		_eventLocalService.addManifestationEvents(manifestationId, events);
+		return _eventLocalService.addManifestationEvents(
+			manifestationId, events);
 	}
 
 	@Override
-	public void addManifestationEvents(long manifestationId, long[] eventIds) {
-		_eventLocalService.addManifestationEvents(manifestationId, eventIds);
+	public boolean addManifestationEvents(
+		long manifestationId, long[] eventIds) {
+
+		return _eventLocalService.addManifestationEvents(
+			manifestationId, eventIds);
 	}
 
 	/**
@@ -86,6 +87,23 @@ public class EventLocalServiceWrapper
 	@Override
 	public void clearManifestationEvents(long manifestationId) {
 		_eventLocalService.clearManifestationEvents(manifestationId);
+	}
+
+	/**
+	 * Convertit une liste d'événements en TreeMap, avec pour clé les dates
+	 *
+	 * @param entries
+	 * @return
+	 */
+	@Override
+	public java.util.TreeMap
+		<java.util.Date,
+		 java.util.List<com.liferay.asset.kernel.model.AssetEntry>>
+			convertEventsToTreeMap(
+				java.util.List<com.liferay.asset.kernel.model.AssetEntry>
+					entries) {
+
+		return _eventLocalService.convertEventsToTreeMap(entries);
 	}
 
 	/**
@@ -121,6 +139,17 @@ public class EventLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _eventLocalService.createEvent(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _eventLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -214,6 +243,18 @@ public class EventLocalServiceWrapper
 	@Override
 	public boolean doImport() throws Exception {
 		return _eventLocalService.doImport();
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _eventLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _eventLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override
@@ -735,6 +776,11 @@ public class EventLocalServiceWrapper
 
 		return _eventLocalService.updateStatus(
 			userId, entryId, status, sc, workflowContext);
+	}
+
+	@Override
+	public BasePersistence<?> getBasePersistence() {
+		return _eventLocalService.getBasePersistence();
 	}
 
 	@Override

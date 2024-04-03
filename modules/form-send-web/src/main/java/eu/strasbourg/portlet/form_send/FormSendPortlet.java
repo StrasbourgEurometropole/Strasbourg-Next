@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.form_send;
 
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -18,7 +19,12 @@ import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldSign
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
-import javax.portlet.*;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
@@ -42,8 +48,7 @@ public class FormSendPortlet extends MVCPortlet {
 
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
-			FormSendConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(FormSendConfiguration.class);
+			FormSendConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(FormSendConfiguration.class, themeDisplay);
 
 
 			String template = configuration.template();
@@ -74,7 +79,6 @@ public class FormSendPortlet extends MVCPortlet {
 	 * @throws PortalException PortalException
 	 */
 	public void signalement(ActionRequest request, ActionResponse response) throws PortalException, IOException {
-
 		// Recuperation de l'URL de redirection
 		String redirectURL = ParamUtil.getString(request, "redirectURL");
 		// ... du contexte de la requete
@@ -95,7 +99,7 @@ public class FormSendPortlet extends MVCPortlet {
 		signalement.setFormSendRecordFieldId(entityId);
 		signalement.setStatus(WorkflowConstants.STATUS_DENIED);
 
-		AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(signalement.getSignalementId(), categoryId);
+		AssetEntryAssetCategoryRelLocalServiceUtil.addAssetEntryAssetCategoryRel(signalement.getSignalementId(), categoryId);
 		FormSendRecordFieldSignalementLocalServiceUtil.updateFormSendRecordFieldSignalement(signalement,sc);
 
 		response.sendRedirect(redirectURL  + "#rep_" + entityId);

@@ -146,9 +146,9 @@
                                 formated_info = feature.properties[info_to_display];
                                 hasContenu = true;
                             } else if (info_to_display == 'amount') {
-                                var frequentation = '<div class="infowindow__opened">' + Liferay.Language.get(feature.properties[info_to_display]["title"]) + '</div>';
+                                var frequentation = '<div class="infowindow__opened">' + feature.properties[info_to_display]["title"] + '</div>';
                                 frequentation += '<div class="infowindow__frequentation ' + feature.properties[info_to_display]["color"] + '">' + feature.properties[info_to_display]["frequentation"] + '</div>';
-                                frequentation += '<div class="crowded-label">' + Liferay.Language.get(feature.properties[info_to_display]["label"]);
+                                frequentation += '<div class="crowded-label">' + feature.properties[info_to_display]["label"];
                                 if (feature.properties[info_to_display]["label"] == "available-spots" || feature.properties[info_to_display]["label"] == "eu.place.available-velhop"){
                                     frequentation += feature.properties[info_to_display]["frequentation"];
                                 }
@@ -369,7 +369,7 @@
                 if (feature.properties.icon) {
                     if (feature.properties.amount) {
                         var divIcon = new L.divIcon({
-                            html:  '<img width="35" height="49" src="' + feature.properties.icon + '"><div class="aroundme__marker-amount ' 
+                            html:  '<img width="35" height="49" style="width:35px; height:49px;" src="' + feature.properties.icon + '"><div class="aroundme__marker-amount '
                                 + feature.properties.amount.color + '">' 
                                 + feature.properties.amount.frequentation + '</div>',
                             iconSize: [35,49],
@@ -379,7 +379,7 @@
                         return L.marker(latlng, { icon: divIcon })
                     } else if (feature.properties.alert) {
                            var divIcon = new L.divIcon({
-                               html:  '<img width="35" height="49" src="' + feature.properties.icon + '"><div class="aroundme__marker-alert"></div>',
+                               html:  '<img width="35" height="49" style="width:35px; height:49px;" src="' + feature.properties.icon + '"><div class="aroundme__marker-alert"></div>',
                                iconSize: [35,49],
                                iconAnchor: [17, 49],
                                popupAnchor: [1, -49]

@@ -116,7 +116,7 @@ function createHelp(help){
             '<div class="wrapper-card-help">' +
                 (help.imageURL != "" ? 
                     '<figure role="group" class="fit-cover">' +
-                        '<img src="' + help.imageURL + '?imagePreview=1" loading="lazy" width="240" height="250" alt="Photo d’illustration de ' + help.title + '"/>' +
+                        '<img src="' + help.imageURL + '&imagePreview=1" loading="lazy" width="240" height="250" alt="Photo d’illustration de ' + help.title + '"/>' +
                     '</figure>'
                     :
                     ''

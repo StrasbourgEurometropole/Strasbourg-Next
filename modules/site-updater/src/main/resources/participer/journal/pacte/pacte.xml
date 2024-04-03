@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Le Pacte</name>
+        <key>2532193</key>
+        <definition>pacte-structure.json</definition>
+        <layout>pacte-layout.json</layout>
+    </structure>
+    <template>
+        <name>Le Pacte</name>
+        <key>2532268</key>
+        <script>pacte.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

@@ -1,28 +1,15 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notif.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -33,20 +20,12 @@ import java.util.Objects;
  * @see Message
  * @generated
  */
-public class MessageWrapper implements Message, ModelWrapper<Message> {
+public class MessageWrapper
+	extends BaseModelWrapper<Message>
+	implements Message, ModelWrapper<Message> {
 
 	public MessageWrapper(Message message) {
-		_message = message;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Message.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Message.class.getName();
+		super(message);
 	}
 
 	@Override
@@ -82,18 +61,13 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	}
 
 	@Override
-	public Object clone() {
-		return new MessageWrapper((Message)_message.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.notif.model.Message message) {
-		return _message.compareTo(message);
+	public Message cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _message.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -103,7 +77,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	 */
 	@Override
 	public String getContent() {
-		return _message.getContent();
+		return model.getContent();
 	}
 
 	/**
@@ -114,7 +88,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	 */
 	@Override
 	public String getContent(java.util.Locale locale) {
-		return _message.getContent(locale);
+		return model.getContent(locale);
 	}
 
 	/**
@@ -126,7 +100,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	 */
 	@Override
 	public String getContent(java.util.Locale locale, boolean useDefault) {
-		return _message.getContent(locale, useDefault);
+		return model.getContent(locale, useDefault);
 	}
 
 	/**
@@ -137,7 +111,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	 */
 	@Override
 	public String getContent(String languageId) {
-		return _message.getContent(languageId);
+		return model.getContent(languageId);
 	}
 
 	/**
@@ -149,17 +123,17 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	 */
 	@Override
 	public String getContent(String languageId, boolean useDefault) {
-		return _message.getContent(languageId, useDefault);
+		return model.getContent(languageId, useDefault);
 	}
 
 	@Override
 	public String getContentCurrentLanguageId() {
-		return _message.getContentCurrentLanguageId();
+		return model.getContentCurrentLanguageId();
 	}
 
 	@Override
 	public String getContentCurrentValue() {
-		return _message.getContentCurrentValue();
+		return model.getContentCurrentValue();
 	}
 
 	/**
@@ -169,17 +143,12 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getContentMap() {
-		return _message.getContentMap();
+		return model.getContentMap();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _message.getDefaultLanguageId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _message.getExpandoBridge();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -189,7 +158,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	 */
 	@Override
 	public long getMessageId() {
-		return _message.getMessageId();
+		return model.getMessageId();
 	}
 
 	/**
@@ -199,12 +168,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _message.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _message.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -214,39 +178,19 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	 */
 	@Override
 	public long getServiceId() {
-		return _message.getServiceId();
-	}
-
-	@Override
-	public int hashCode() {
-		return _message.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _message.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _message.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _message.isNew();
+		return model.getServiceId();
 	}
 
 	@Override
 	public void persist() {
-		_message.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_message.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -254,12 +198,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_message.prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_message.setCachedModel(cachedModel);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -269,7 +208,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	 */
 	@Override
 	public void setContent(String content) {
-		_message.setContent(content);
+		model.setContent(content);
 	}
 
 	/**
@@ -280,7 +219,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	 */
 	@Override
 	public void setContent(String content, java.util.Locale locale) {
-		_message.setContent(content, locale);
+		model.setContent(content, locale);
 	}
 
 	/**
@@ -295,12 +234,12 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 		String content, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_message.setContent(content, locale, defaultLocale);
+		model.setContent(content, locale, defaultLocale);
 	}
 
 	@Override
 	public void setContentCurrentLanguageId(String languageId) {
-		_message.setContentCurrentLanguageId(languageId);
+		model.setContentCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -310,7 +249,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	 */
 	@Override
 	public void setContentMap(Map<java.util.Locale, String> contentMap) {
-		_message.setContentMap(contentMap);
+		model.setContentMap(contentMap);
 	}
 
 	/**
@@ -324,24 +263,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 		Map<java.util.Locale, String> contentMap,
 		java.util.Locale defaultLocale) {
 
-		_message.setContentMap(contentMap, defaultLocale);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_message.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_message.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_message.setExpandoBridgeAttributes(serviceContext);
+		model.setContentMap(contentMap, defaultLocale);
 	}
 
 	/**
@@ -351,12 +273,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	 */
 	@Override
 	public void setMessageId(long messageId) {
-		_message.setMessageId(messageId);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_message.setNew(n);
+		model.setMessageId(messageId);
 	}
 
 	/**
@@ -366,12 +283,7 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_message.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_message.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -381,75 +293,17 @@ public class MessageWrapper implements Message, ModelWrapper<Message> {
 	 */
 	@Override
 	public void setServiceId(long serviceId) {
-		_message.setServiceId(serviceId);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.notif.model.Message> toCacheModel() {
-
-		return _message.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.notif.model.Message toEscapedModel() {
-		return new MessageWrapper(_message.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _message.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.notif.model.Message toUnescapedModel() {
-		return new MessageWrapper(_message.toUnescapedModel());
+		model.setServiceId(serviceId);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _message.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof MessageWrapper)) {
-			return false;
-		}
-
-		MessageWrapper messageWrapper = (MessageWrapper)object;
-
-		if (Objects.equals(_message, messageWrapper._message)) {
-			return true;
-		}
-
-		return false;
+	protected MessageWrapper wrap(Message message) {
+		return new MessageWrapper(message);
 	}
-
-	@Override
-	public Message getWrappedModel() {
-		return _message;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _message.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _message.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_message.resetOriginalValues();
-	}
-
-	private final Message _message;
 
 }

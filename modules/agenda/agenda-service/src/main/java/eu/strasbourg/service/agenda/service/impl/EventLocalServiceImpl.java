@@ -14,12 +14,14 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -44,7 +46,14 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import eu.strasbourg.service.agenda.exception.NoSuchEventException;
-import eu.strasbourg.service.agenda.model.*;
+import eu.strasbourg.service.agenda.model.CacheJson;
+import eu.strasbourg.service.agenda.model.CsmapCacheJson;
+import eu.strasbourg.service.agenda.model.Event;
+import eu.strasbourg.service.agenda.model.EventModel;
+import eu.strasbourg.service.agenda.model.EventParticipation;
+import eu.strasbourg.service.agenda.model.EventPeriod;
+import eu.strasbourg.service.agenda.model.Historic;
+import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventParticipationLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
 import eu.strasbourg.service.agenda.service.base.EventLocalServiceBaseImpl;
@@ -56,6 +65,8 @@ import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import org.osgi.annotation.versioning.ProviderType;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -64,14 +75,7 @@ import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -266,6 +270,50 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	}
 
 	/**
+	 * Convertit une liste d'événements en TreeMap, avec pour clé les dates
+	 * @param entries
+	 * @return
+	 */
+	@Override
+	public TreeMap<Date, List<AssetEntry>> convertEventsToTreeMap(List<AssetEntry> entries) {
+		TreeMap<Date, List<AssetEntry>> eventsByDate = new TreeMap<>();
+		for (AssetEntry entry : entries) {
+			long eventEntryId = entry.getClassPK();
+
+			// Fetch the Event directly by entryId, reducing database calls
+			Event event = EventLocalServiceUtil.fetchEvent(eventEntryId);
+
+			if (event != null) {
+				List<EventPeriod> eventPeriods = event.getEventPeriods();
+				for (EventPeriod eventPeriod : eventPeriods) {
+					List<LocalDate> dateRange = generateDateRange(eventPeriod.getStartDate().toInstant().atZone(ZoneId.of("UTC")).toLocalDate(), eventPeriod.getEndDate().toInstant().atZone(ZoneId.of("UTC")).toLocalDate());
+					for (LocalDate eventDate : dateRange) {
+						if(eventDate.isBefore(LocalDate.now())) {
+							continue;
+						}
+						eventsByDate.computeIfAbsent(Date.from(eventDate.atStartOfDay(ZoneId.of("UTC")).toInstant()), k -> new ArrayList<>()).add(entry);
+					}
+
+				}
+			}
+		}
+
+		return eventsByDate;
+	}
+
+	public static List<LocalDate> generateDateRange(LocalDate startDate, LocalDate endDate) {
+		List<LocalDate> dateRange = new ArrayList<>();
+
+		LocalDate currentDate = startDate;
+		while (!currentDate.isAfter(endDate)) {
+			dateRange.add(currentDate);
+			currentDate = currentDate.plusDays(1); // Move to the next day
+		}
+
+		return dateRange;
+	}
+
+	/**
 	 * Met à jour l'AssetEntry rattachée à l'édition
 	 */
 	private void updateAssetEntry(Event event, ServiceContext sc)
@@ -433,10 +481,8 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Delete the link with categories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-					categoryId, entry.getEntryId());
-			}
+			AssetEntryAssetCategoryRelLocalServiceUtil.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Delete the link with tags
 			long[] tagIds = AssetEntryLocalServiceUtil
@@ -447,7 +493,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 			}
 
 			// Supprime lien avec les autres entries
-			List<AssetLink> links = this.assetLinkLocalService
+			List<AssetLink> links = AssetLinkLocalServiceUtil
 				.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
 				this.assetLinkLocalService.deleteAssetLink(link);
@@ -829,5 +875,8 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	)
 	protected eu.strasbourg.service.agenda.service.HistoricLocalService
 			historicLocalService;
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 
 }

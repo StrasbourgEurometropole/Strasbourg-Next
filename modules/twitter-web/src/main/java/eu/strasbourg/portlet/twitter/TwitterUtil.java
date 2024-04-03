@@ -1,12 +1,7 @@
 package eu.strasbourg.portlet.twitter;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
-
+import com.liferay.portal.kernel.cache.PortalCacheHelperUtil;
+import com.liferay.portal.kernel.cache.PortalCacheManagerNames;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
@@ -15,6 +10,11 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class TwitterUtil {
 
@@ -43,10 +43,10 @@ public class TwitterUtil {
 
 	public static List<Tweet> getUserTimeline(String username, int count) {
 
-		Object timelineFromCache = MultiVMPoolUtil
-			.getPortalCache("twitter_cache").get(username);
-		Object lastTimelineUpdate = MultiVMPoolUtil
-			.getPortalCache("twitter_cache").get(username + "_last_update");
+		Object timelineFromCache = PortalCacheHelperUtil
+				.getPortalCache(PortalCacheManagerNames.MULTI_VM,"twitter_cache").get(username);
+		Object lastTimelineUpdate = PortalCacheHelperUtil
+				.getPortalCache(PortalCacheManagerNames.MULTI_VM,"twitter_cache").get(username + "_last_update");
 		if (timelineFromCache != null && lastTimelineUpdate != null) {
 			long now = new Date().getTime();
 			long timeBeforeNextUpdate = 100
@@ -84,13 +84,14 @@ public class TwitterUtil {
 					break;
 				}
 			}
-			MultiVMPoolUtil.getPortalCache("twitter_cache").remove(username);
-			MultiVMPoolUtil.getPortalCache("twitter_cache")
-				.remove(username + "_last_update");
-			MultiVMPoolUtil.getPortalCache("twitter_cache").put(username,
-				(Serializable) tweets);
-			MultiVMPoolUtil.getPortalCache("twitter_cache")
-				.put(username + "_last_update", new Date().getTime());
+			PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,
+					"twitter_cache").remove(username);
+			PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,
+							"twitter_cache").remove(username + "_last_update");
+			PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,
+					"twitter_cache").put(username,(Serializable) tweets);
+			PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,
+							"twitter_cache").put(username + "_last_update", new Date().getTime());
 			return tweets;
 		} catch (TwitterException e) {
 			_log.info(e.getMessage() + " : " + username);

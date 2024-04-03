@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service.persistence;
@@ -26,10 +17,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * The persistence utility for the event service. This utility wraps <code>eu.strasbourg.service.agenda.service.persistence.impl.EventPersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
@@ -2290,9 +2277,10 @@ public class EventUtil {
 	 *
 	 * @param pk the primary key of the event
 	 * @param manifestationPK the primary key of the manifestation
+	 * @return <code>true</code> if an association between the event and the manifestation was added; <code>false</code> if they were already associated
 	 */
-	public static void addManifestation(long pk, long manifestationPK) {
-		getPersistence().addManifestation(pk, manifestationPK);
+	public static boolean addManifestation(long pk, long manifestationPK) {
+		return getPersistence().addManifestation(pk, manifestationPK);
 	}
 
 	/**
@@ -2300,12 +2288,13 @@ public class EventUtil {
 	 *
 	 * @param pk the primary key of the event
 	 * @param manifestation the manifestation
+	 * @return <code>true</code> if an association between the event and the manifestation was added; <code>false</code> if they were already associated
 	 */
-	public static void addManifestation(
+	public static boolean addManifestation(
 		long pk,
 		eu.strasbourg.service.agenda.model.Manifestation manifestation) {
 
-		getPersistence().addManifestation(pk, manifestation);
+		return getPersistence().addManifestation(pk, manifestation);
 	}
 
 	/**
@@ -2313,9 +2302,10 @@ public class EventUtil {
 	 *
 	 * @param pk the primary key of the event
 	 * @param manifestationPKs the primary keys of the manifestations
+	 * @return <code>true</code> if at least one association between the event and the manifestations was added; <code>false</code> if they were all already associated
 	 */
-	public static void addManifestations(long pk, long[] manifestationPKs) {
-		getPersistence().addManifestations(pk, manifestationPKs);
+	public static boolean addManifestations(long pk, long[] manifestationPKs) {
+		return getPersistence().addManifestations(pk, manifestationPKs);
 	}
 
 	/**
@@ -2323,12 +2313,13 @@ public class EventUtil {
 	 *
 	 * @param pk the primary key of the event
 	 * @param manifestations the manifestations
+	 * @return <code>true</code> if at least one association between the event and the manifestations was added; <code>false</code> if they were all already associated
 	 */
-	public static void addManifestations(
+	public static boolean addManifestations(
 		long pk,
 		List<eu.strasbourg.service.agenda.model.Manifestation> manifestations) {
 
-		getPersistence().addManifestations(pk, manifestations);
+		return getPersistence().addManifestations(pk, manifestations);
 	}
 
 	/**
@@ -2409,27 +2400,14 @@ public class EventUtil {
 		getPersistence().setManifestations(pk, manifestations);
 	}
 
-	public static Set<String> getBadColumnNames() {
-		return getPersistence().getBadColumnNames();
-	}
-
 	public static EventPersistence getPersistence() {
-		return _serviceTracker.getService();
+		return _persistence;
 	}
 
-	private static ServiceTracker<EventPersistence, EventPersistence>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(EventPersistence.class);
-
-		ServiceTracker<EventPersistence, EventPersistence> serviceTracker =
-			new ServiceTracker<EventPersistence, EventPersistence>(
-				bundle.getBundleContext(), EventPersistence.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setPersistence(EventPersistence persistence) {
+		_persistence = persistence;
 	}
+
+	private static volatile EventPersistence _persistence;
 
 }

@@ -1,16 +1,19 @@
 <%@ include file="/csmap-bo-agenda-init.jsp" %>
 
 <%@page import="eu.strasbourg.service.csmap.model.Agenda"%>
-
+<liferay-portlet:renderURL varImpl="agendaThematiqueURL">
+	<portlet:param name="tab" value="agendaThematique" />
+	<portlet:param name="mvcPath" value="/csmap-bo-agenda-view-thematiques.jsp"/>
+</liferay-portlet:renderURL>
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveAgendaThematique" varImpl="saveAgendaThematiqueURL">
-	<portlet:param name="cmd" value="saveAgendaThematique" />
 	<portlet:param name="tab" value="agendaThematique" />
+	<portlet:param name="mvcPath" value="/csmap-bo-agenda-view-thematiques.jsp"/>
 </liferay-portlet:actionURL>
 
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="editorial-title-error" message="editorial-title-error" />
 	<liferay-ui:error key="publication-date-error" message="publication-date-error" />
@@ -20,7 +23,7 @@
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.agendaThematique}" model="<%=Agenda.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 
             <%-- Champ : (cache) PK de l'entite --%>
             <aui:input name="agendaId" type="hidden" />
@@ -80,18 +83,18 @@
                     </c:forEach>
                 </select>
 
-                <liferay-ui:asset-categories-selector
+                <liferay-asset:asset-categories-selector
                     className="${dc.className}"
                     hiddenInput="Vocabulary"
-                    curCategoryIds="${dc.allCategoriesAgenda}" />
+                    categoryIds="${dc.allCategoriesAgenda}" />
 
                 <label><span>Tags</span></label>
-                <liferay-ui:asset-tags-selector
+                <liferay-asset:asset-tags-selector
                     hiddenInput="tags"
-                    curTags="${dc.agendaThematique.tags}" />
+					tagNames="${dc.agendaThematique.tags}" />
             </aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
 		<aui:button-row>

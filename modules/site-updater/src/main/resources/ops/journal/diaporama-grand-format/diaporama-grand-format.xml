@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Diaporama grand format</name>
+        <key>6009625</key>
+        <definition>diaporama-grand-format-structure.json</definition>
+        <layout>diaporama-grand-format-layout.json</layout>
+    </structure>
+    <template>
+        <name>Diaporama grand format</name>
+        <key>6009757</key>
+        <script>diaporama grand format.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

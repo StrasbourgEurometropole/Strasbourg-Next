@@ -13,13 +13,11 @@
  */
 package eu.strasbourg.service.project.exception;
 
-import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Cedric Henry
  */
-@ProviderType
 public class NoSuchSignataireException extends NoSuchModelException {
 
 	public NoSuchSignataireException() {
@@ -29,12 +27,12 @@ public class NoSuchSignataireException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchSignataireException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchSignataireException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchSignataireException(Throwable cause) {
-		super(cause);
+	public NoSuchSignataireException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

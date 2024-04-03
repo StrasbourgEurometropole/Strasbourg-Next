@@ -12,7 +12,7 @@
 				</c:if>
 				<c:if test="${required}">
 					<span class="icon-asterisk text-warning"> 
-						<span class="hide-accessible"><liferay-ui:message key="required" /></span>
+						<span class="sr-only"><liferay-ui:message key="required" /></span>
 					</span>
 				</c:if>
 			</label>
@@ -48,39 +48,36 @@
 			</c:if>
 		</div>
 	</div>
-	<aui:script use="liferay-item-selector-dialog">
+	<aui:script>
 	// JS g�rant l'ouverture du popup de selection du fichier
 	$('#<portlet:namespace />choose-layout-${name}-${currentLocale}').on('click',
 		function(event) {
 			var multipleSelection = ${multiple};
 			var localized = ${localized};
 			var fieldName = localized ? '#<portlet:namespace />${name}_${currentLocale}' : '#<portlet:namespace />${name}';
-			var itemSelectorDialog = new A.LiferayItemSelectorDialog(
+			Liferay.Util.openSelectionModal(
 				{
-					eventName: 'itemSelected${name}${currentLocale.language}',
-					on: {
-						// Ev�nement d�clench� lors de la s�lection d'un fichier
-						selectedItemChange: function(event) {
-							var selectedItem = event.newVal;
-							if (!!selectedItem && !!selectedItem.id) {
-								var htmlToAppend = '<li>'
-									+ selectedItem.name + ' - <a href="#" class="remove-layout" data-entry-id="' + selectedItem.id + '">Supprimer</a>';
-									+ '</li>';
-								if (!multipleSelection) {
-									$('#layouts-thumbnails-${name}-${currentLocale}').empty();
+					selectEventName: 'itemSelected${name}${currentLocale.language}',
+					// Ev�nement d�clench� lors de la s�lection d'un fichier
+					onSelect: function(selectedItem) {
+						if (!!selectedItem && !!selectedItem.id) {
+							var htmlToAppend = '<li>'
+								+ selectedItem.name + ' - <a href="#" class="remove-layout" data-entry-id="' + selectedItem.id + '">Supprimer</a>';
+								+ '</li>';
+							if (!multipleSelection) {
+								$('#layouts-thumbnails-${name}-${currentLocale}').empty();
+							}
+							$('#layouts-thumbnails-${name}-${currentLocale}').append(htmlToAppend);
+							if (!multipleSelection) {
+								$(fieldName).val(selectedItem.id);
+							} else {
+								var currentValue = $(fieldName).val();
+								var newValue = currentValue;
+								if (currentValue.length > 0) {
+									newValue += ',';
 								}
-								$('#layouts-thumbnails-${name}-${currentLocale}').append(htmlToAppend);
-								if (!multipleSelection) {
-									$(fieldName).val(selectedItem.id);
-								} else {
-									var currentValue = $(fieldName).val();
-									var newValue = currentValue;
-									if (currentValue.length > 0) {
-										newValue += ',';
-									}
-									newValue += selectedItem.id;
-									$(fieldName).val(newValue);
-								}							
+								newValue += selectedItem.id;
+								$(fieldName).val(newValue);
 							}
 						}
 					},
@@ -89,7 +86,6 @@
 					url: '${requestScope[itemSelectorURLVarName]}'
 				}
 			);
-			itemSelectorDialog.open();
 		}
 	);
 	// Suppression d'un fichier

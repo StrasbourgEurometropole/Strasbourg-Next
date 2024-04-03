@@ -1,0 +1,273 @@
+.st-bloc-infos-complementaires {
+
+	.st-container {
+		--grid-gap: 40px;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--grid-gap);
+
+		@include tablet-small {
+			--grid-gap: 20px;
+			grid-template-columns: minmax(10px, 1fr);
+		}
+
+		& + .st-container {
+			margin-top: var(--grid-gap);
+		}
+	}
+
+	.st-title {
+		margin-bottom: 20px;
+	}
+
+	.st-title-small {
+		@include ft($f_hx, 15px, 700, $c_white, 1);
+		@include letter-spacing(25);
+	}
+
+	p {
+		@include ft('', 12px, 400, $c_txt, 1.16);
+		@include letter-spacing(25);
+	}
+
+	.st-component-container {
+		position: relative;
+		padding: 40px;
+		border: 1px solid rgba($c_white, 0.25);
+		border-radius: $border-radius;
+
+		@include mobile {
+			padding: 20px;
+		}
+	}
+
+	// variantes
+	.st-component-type-1 {
+		.st-component-container {
+			@include create-outline;
+			display: flex;
+			align-items: center;
+
+			@include can-hover {
+				text-decoration: none;
+
+				.st-btn-arrow {
+					background-color: $c_sub;
+					border-color: transparent;
+
+					&:before {
+						color: $c_main;
+					}
+				}
+			}
+		}
+
+		.st-title-small {
+			margin-bottom: 7px;
+		}
+
+		.st-content {
+			margin-right: 40px;
+		}
+
+		.st-btn-arrow {
+			flex-shrink: 0;
+			margin-left: auto;
+		}
+	}
+
+	.st-component-type-2 {
+		.st-component-container {
+			padding: 0;
+			border: none;
+		}
+
+		.st-lien-container {
+			position: relative;
+			--link-padding-top: 36px;		// Premier lien si plusieurs dans la liste
+			--link-padding-bottom: 24px;
+
+			&:only-child {
+				--link-padding-top: 36px;		// Un seul lien dans la liste
+				--link-padding-bottom: 36px;
+			}
+
+			& + .st-lien-container {
+				--link-padding-top: 24px;		// Liens entre le premier et le dernier
+				--link-padding-bottom: 24px;
+
+				&:before {
+					content: "";
+					position: absolute;
+					top: 0;
+					left: 40px;
+					right: 40px;
+					height: 1px;
+					background-image: url(../images/deco/dotted-line.svg);
+					pointer-events: none;
+
+					@include mobile {
+						left: 20px;
+						right: 20px;
+					}
+				}
+			}
+
+			& + .st-lien-container:last-child {
+				--link-padding-top: 24px;		// Dernier lien si plusieurs dans la liste
+				--link-padding-bottom: 36px;
+			}
+
+			.st-lien {
+				padding: var(--link-padding-top) 40px var(--link-padding-bottom);
+
+				@include mobile {
+					--link-padding-top: 16px;
+					--link-padding-bottom: 16px;
+					padding: var(--link-padding-top) 20px var(--link-padding-bottom);
+				}
+			}
+		}
+
+		.st-lien {
+			@include create-outline;
+			display: block;
+
+			@include can-hover {
+				.st-text {
+					color: $c_white;
+				}
+			}
+		}
+
+		.st-title-lien {
+			@include ft('', $s_p, 400, $c_white, 1);
+
+			& + .st-text {
+				margin-top: 5px;
+			}
+			@include mobile {
+				font-size: 12px;
+			}
+		}
+
+		.st-text {
+			@include ft('', $s_p, 600, $c_sub, 1);
+			@include letter-spacing(25);
+			@include transition(color);
+
+			@include mobile {
+				font-size: 12px;
+			}
+
+			.st-type {
+				@include ft('', 14px, 300, $c_txt, 1);
+				margin-right: 10px;
+
+				@include mobile {
+					font-size: 12px;
+				}
+			}
+		}
+
+		.st-liste {
+			border: 1px solid rgba($c_white, 0.25);
+			border-radius: $border-radius;
+		}
+	}
+
+	.st-component-type-3 {
+		.st-title-small {
+			margin-bottom: 13px;
+		}
+
+		.st-liens {
+			display: flex;
+			flex-wrap: wrap;
+			--gap: 10px;
+			margin-left: calc(var(--gap) * -1);
+			margin-top: calc(var(--gap) * -1);
+			font-size: 0;
+			@include mobile {
+				flex-direction: column;
+			}
+
+			> * {
+				margin-left: var(--gap);
+				margin-top: var(--gap);
+
+				.st-btn {
+					@include mobile {
+						width: 100%;
+					}
+				}
+			}
+		}
+
+		p + p {
+			margin-top: 10px;
+		}
+
+		p a {
+			color: $c_sub;
+			text-decoration: underline;
+
+			@include can-hover {
+				color: $c_white;
+			}
+		}
+
+		.st-liste-icons {
+			display: flex;
+			flex-wrap: wrap;
+			--gap: 10px;
+			margin-left: calc(var(--gap) * -1);
+			margin-top: calc(var(--gap) * -1);
+			font-size: 0;
+
+			> * {
+				margin-left: var(--gap);
+				margin-top: var(--gap);
+			}
+
+			[class^="st-icon-"], [class*=" st-icon-"] {
+				font-size: 20px;
+			}
+		}
+
+		.st-list-text {
+			li {
+				@include ft('', 12px, 400, $c_txt, 1.16);
+				@include letter-spacing(25);
+				margin-top: 10px;
+			}
+		}
+	}
+
+	.st-component-type-4 {
+	}
+
+
+	// -- modifiers
+	// mode multi-colonnes sur les single-agenda
+	&.st--two-columns {
+		.st-container {
+			display: block;
+			column-count: 2;
+			column-gap: var(--grid-gap);
+
+			@include tablet-portrait {
+				--grid-gap: 20px;
+			}
+
+			@include tablet-small {
+				column-count: initial;
+			}
+
+			> * {
+				margin-bottom: var(--grid-gap);
+				break-inside: avoid;
+			}
+		}
+	}
+}

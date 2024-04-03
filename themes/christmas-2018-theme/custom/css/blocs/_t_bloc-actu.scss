@@ -48,7 +48,7 @@
 	.publication {
 		margin-bottom: 15px;
 	}
-	h1, h2, h3, h4 {
+	h1, h2, h4 {
 		@include ft($f_hx, 18px, 700, $c_txt, normal);
 		display: block;
 		padding-bottom: 20px;

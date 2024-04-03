@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.portal.kernel.model.LayoutSet</className>
+    <template>
+        <script>title-and-description.ftl</script>
+        <name>Titre et description</name>
+        <key>1320903</key>
+    </template>
+    <template>
+        <script>title-actes-reglementaires.ftl</script>
+        <name>Entête liste des actes réglementaires et normatifs</name>
+        <key>17447845</key>
+    </template>
+</root>

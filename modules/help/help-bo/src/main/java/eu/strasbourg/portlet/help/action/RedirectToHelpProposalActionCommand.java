@@ -43,12 +43,12 @@ public class RedirectToHelpProposalActionCommand implements MVCActionCommand {
                     .getAttribute(WebKeys.THEME_DISPLAY);
             String portletName = (String) actionRequest
                     .getAttribute(WebKeys.PORTLET_ID);
-            PortletURL returnURL = PortletURLFactoryUtil.create(actionRequest,
+            PortletURL backURL = PortletURLFactoryUtil.create(actionRequest,
                     portletName, themeDisplay.getPlid(),
                     PortletRequest.RENDER_PHASE);
-            returnURL.setParameter("tab", actionRequest.getParameter("tab"));
-
-            actionResponse.setRenderParameter("returnURL", returnURL.toString());
+            backURL.setParameter("tab", actionRequest.getParameter("tab"));
+            actionResponse.setRenderParameter("cmd", "editHelpProposal");
+            actionResponse.setRenderParameter("backURL", backURL.toString());
             actionResponse.setRenderParameter("mvcPath",
                     "/help-bo-edit-help-proposal.jsp");
             actionResponse.setRenderParameter("helpProposalId", String.valueOf(helpProposalId));

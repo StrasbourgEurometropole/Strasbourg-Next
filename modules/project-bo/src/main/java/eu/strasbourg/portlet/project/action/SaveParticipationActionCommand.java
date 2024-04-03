@@ -10,6 +10,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -30,6 +31,8 @@ import javax.portlet.PortletURL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 @Component(
 	immediate = true,
@@ -58,12 +61,12 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 					.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request
 					.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				PortletURL backURL = PortletURLFactoryUtil.create(request,
 					portletName, themeDisplay.getPlid(),
 					PortletRequest.RENDER_PHASE);
 				
-				response.setRenderParameter("returnURL", returnURL.toString());
-				response.setRenderParameter("cmd", "editParticipation");
+				response.setRenderParameter("backURL", backURL.toString());
+				response.setRenderParameter("cmd", "saveParticipation");
 				response.setRenderParameter("mvcPath","/project-bo-edit-participation.jsp");
 				return false;
 			}
@@ -149,16 +152,18 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			participation.setDescriptionChapeau(descriptionChapeau);
 			
 			// Corps de la description
-			String descriptionBody = ParamUtil.getString(request, "descriptionBody");
-			participation.setDescriptionBody(descriptionBody);
+			Map<Locale, String> descriptionBody = LocalizationUtil
+					.getLocalizationMap(request, "descriptionBody");
+			participation.setDescriptionBodyMap(descriptionBody);
 			
 			// ---------------------------------------------------------------
 			// -------------------------- LIEUX DE CONSULTATIONS -------------
 			// ---------------------------------------------------------------
 			
 			// Corps de la description des lieux de consultation
-			String consultationPlacesBody = ParamUtil.getString(request, "consultationPlacesBody");
-			participation.setConsultationPlacesBody(consultationPlacesBody);
+			Map<Locale, String> consultationPlacesBody = LocalizationUtil
+					.getLocalizationMap(request, "consultationPlacesBody");
+			participation.setConsultationPlacesBodyMap(consultationPlacesBody);
 			
 			// Lieux
 			for (PlacitPlace placitPlace : participation.getPlacitPlaces()) {
@@ -256,6 +261,7 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			participation.setExpirationDate(expirationDate);
 			
 			_participationLocalService.updateParticipation(participation, sc);
+			response.setRenderParameter("mvcPath", "/project-bo-view-participations.jsp");
 
 		} catch (PortalException e) {
 			_log.error(e);

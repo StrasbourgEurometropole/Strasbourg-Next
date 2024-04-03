@@ -8,7 +8,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 >
 	<bean class="eu.strasbourg.service.oidc.service.impl.AnonymisationHistoricLocalServiceImpl" id="eu.strasbourg.service.oidc.service.AnonymisationHistoricLocalService" />
-	<bean class="eu.strasbourg.service.oidc.service.persistence.impl.AnonymisationHistoricPersistenceImpl" id="eu.strasbourg.service.oidc.service.persistence.AnonymisationHistoricPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.oidc.service.persistence.impl.AnonymisationHistoricModelArgumentsResolver" id="eu.strasbourg.service.oidc.service.persistence.impl.AnonymisationHistoricModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.oidc.service.persistence.impl.AnonymisationHistoricPersistenceImpl" id="eu.strasbourg.service.oidc.service.persistence.AnonymisationHistoricPersistence" />
 	<bean class="eu.strasbourg.service.oidc.service.impl.PublikUserLocalServiceImpl" id="eu.strasbourg.service.oidc.service.PublikUserLocalService" />
-	<bean class="eu.strasbourg.service.oidc.service.persistence.impl.PublikUserPersistenceImpl" id="eu.strasbourg.service.oidc.service.persistence.PublikUserPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.oidc.service.persistence.impl.PublikUserModelArgumentsResolver" id="eu.strasbourg.service.oidc.service.persistence.impl.PublikUserModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.oidc.service.persistence.impl.PublikUserPersistenceImpl" id="eu.strasbourg.service.oidc.service.persistence.PublikUserPersistence" />
 </beans>

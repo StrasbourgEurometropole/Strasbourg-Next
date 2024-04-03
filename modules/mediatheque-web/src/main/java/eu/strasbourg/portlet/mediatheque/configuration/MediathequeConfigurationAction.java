@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.mediatheque.configuration;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -88,9 +89,7 @@ public class MediathequeConfigurationAction
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
 			// Pages sélectionnées
-			MediathequeConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-					MediathequeConfiguration.class);
+			MediathequeConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(MediathequeConfiguration.class, themeDisplay);
 			request.setAttribute("error", configuration.errorXML());
 			request.setAttribute("demarche", configuration.demarcheXML());
 			request.setAttribute("retourURL", configuration.retourURL());

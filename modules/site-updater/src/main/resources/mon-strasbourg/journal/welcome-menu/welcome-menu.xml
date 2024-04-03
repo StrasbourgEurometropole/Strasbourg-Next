@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Welcome menu</name>
+        <key>6595778</key>
+        <definition>welcome-menu-structure.json</definition>
+        <layout>welcome-menu-layout.json</layout>
+    </structure>
+    <template>
+        <name>Welcome menu</name>
+        <key>6595789</key>
+        <script>welcome-menu.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

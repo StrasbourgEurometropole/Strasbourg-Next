@@ -17,14 +17,14 @@
 		<field name="title" type="String">
 			<hint name="max-length">400</hint>
 		</field>
-		<field name="description" type="String">
+		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="summary" type="String">
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="budget" type="String" />
-		<field name="motif" type="String">
+		<field localized="true" name="motif" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="placeTextArea" type="String">
@@ -57,7 +57,7 @@
 			<hint name="default-value">1.00</hint>
 		</field>
 		<field name="isCrush" type="boolean" />
-		<field name="crushComment" type="String">
+		<field localized="true" name="crushComment" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="publikId" type="String" />
@@ -82,9 +82,7 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field name="title" type="String" />
-		<field name="description" type="String">
-			<hint-collection name="EDITOR" />
-		</field>
+		<field name="description" type="String" />
 		<field name="numberOfVote" type="long" />
 		<field name="isActive" type="boolean" />
 		<field name="beginDate" type="Date" />
@@ -131,7 +129,7 @@
 		<field name="title" type="String">
 			<hint name="max-length">400</hint>
 		</field>
-		<field name="description" type="String">
+		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="placeTextArea" type="String" />
@@ -204,10 +202,10 @@
 		<field name="descriptionChapeau" type="String">
 			<hint name="max-length">400</hint>
 		</field>
-		<field name="descriptionBody" type="String">
+		<field localized="true" name="descriptionBody" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
-		<field name="consultationPlacesBody" type="String">
+		<field localized="true" name="consultationPlacesBody" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="imageId" type="long" />
@@ -238,7 +236,7 @@
 			<hint name="max-length">500</hint>
 			<hint-collection name="EDITOR" />
 		</field>
-		<field name="description" type="String">
+		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="placeTextArea" type="String">
@@ -332,14 +330,14 @@
 		<field name="opacityImage" type="double">
 			<hint name="default-value">1.00</hint>
 		</field>
-		<field name="description" type="String">
+		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="detailURL" type="String" />
 		<field name="budget" type="String" />
 		<field name="label" type="String" />
 		<field name="duration" type="String" />
-		<field name="partners" type="String">
+		<field localized="true" name="partners" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="contactName" type="String" />
@@ -389,14 +387,14 @@
 		<field name="title" type="String">
 			<hint name="max-length">400</hint>
 		</field>
-		<field name="description" type="String">
+		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="placeTextArea" type="String">
 			<hint name="max-length">400</hint>
 		</field>
 		<field name="filesDownload" type="String" />
-		<field name="cityResponse" type="String">
+		<field localized="true" name="cityResponse" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="projectTarget" type="String">

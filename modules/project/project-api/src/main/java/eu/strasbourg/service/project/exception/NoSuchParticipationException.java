@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.project.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Cedric Henry
  */
-@ProviderType
 public class NoSuchParticipationException extends NoSuchModelException {
 
 	public NoSuchParticipationException() {
@@ -30,12 +27,12 @@ public class NoSuchParticipationException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchParticipationException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchParticipationException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchParticipationException(Throwable cause) {
-		super(cause);
+	public NoSuchParticipationException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

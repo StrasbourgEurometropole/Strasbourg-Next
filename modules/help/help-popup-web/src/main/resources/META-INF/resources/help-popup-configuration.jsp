@@ -17,8 +17,8 @@
 
 		<aui:input name="redirect" type="hidden"
 			value="${configurationRenderURL}" />
-		
-		<aui:fieldset-group markupView="lexicon">
+
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<!-- Affichage -->
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="display">
@@ -40,7 +40,7 @@
 				</aui:select>
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<aui:button-row>
 			<aui:button type="submit"></aui:button>

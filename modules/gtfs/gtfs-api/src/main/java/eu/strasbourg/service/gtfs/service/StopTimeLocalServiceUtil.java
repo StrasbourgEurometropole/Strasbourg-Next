@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.gtfs.model.StopTime;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for StopTime. This utility wraps
@@ -48,10 +48,18 @@ public class StopTimeLocalServiceUtil {
 	 * @param stopTime the stop time
 	 * @return the stop time that was added
 	 */
-	public static eu.strasbourg.service.gtfs.model.StopTime addStopTime(
-		eu.strasbourg.service.gtfs.model.StopTime stopTime) {
-
+	public static StopTime addStopTime(StopTime stopTime) {
 		return getService().addStopTime(stopTime);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -60,18 +68,16 @@ public class StopTimeLocalServiceUtil {
 	 * @param id the primary key for the new stop time
 	 * @return the new stop time
 	 */
-	public static eu.strasbourg.service.gtfs.model.StopTime createStopTime(
-		long id) {
-
+	public static StopTime createStopTime(long id) {
 		return getService().createStopTime(id);
 	}
 
 	/**
 	 * Crée un StopTime vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.gtfs.model.StopTime createStopTime(
+	public static StopTime createStopTime(
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createStopTime(sc);
 	}
@@ -79,10 +85,9 @@ public class StopTimeLocalServiceUtil {
 	/**
 	 * Crée un temps d'arret à partir d'une entrée GTFS
 	 */
-	public static eu.strasbourg.service.gtfs.model.StopTime
-			createStopTimeFromGTFS(
-				eu.strasbourg.utils.models.StopTimesGTFS entry)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static StopTime createStopTimeFromGTFS(
+			eu.strasbourg.utils.models.StopTimesGTFS entry)
+		throws PortalException {
 
 		return getService().createStopTimeFromGTFS(entry);
 	}
@@ -90,10 +95,9 @@ public class StopTimeLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -109,10 +113,7 @@ public class StopTimeLocalServiceUtil {
 	 * @return the stop time that was removed
 	 * @throws PortalException if a stop time with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.StopTime deleteStopTime(
-			long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static StopTime deleteStopTime(long id) throws PortalException {
 		return getService().deleteStopTime(id);
 	}
 
@@ -126,15 +127,19 @@ public class StopTimeLocalServiceUtil {
 	 * @param stopTime the stop time
 	 * @return the stop time that was removed
 	 */
-	public static eu.strasbourg.service.gtfs.model.StopTime deleteStopTime(
-		eu.strasbourg.service.gtfs.model.StopTime stopTime) {
-
+	public static StopTime deleteStopTime(StopTime stopTime) {
 		return getService().deleteStopTime(stopTime);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -144,9 +149,7 @@ public class StopTimeLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -162,9 +165,8 @@ public class StopTimeLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -182,10 +184,9 @@ public class StopTimeLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -197,9 +198,7 @@ public class StopTimeLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -211,15 +210,13 @@ public class StopTimeLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.gtfs.model.StopTime fetchStopTime(
-		long id) {
-
+	public static StopTime fetchStopTime(long id) {
 		return getService().fetchStopTime(id);
 	}
 
@@ -248,9 +245,8 @@ public class StopTimeLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -262,9 +258,7 @@ public class StopTimeLocalServiceUtil {
 	 * @return the stop time
 	 * @throws PortalException if a stop time with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.StopTime getStopTime(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static StopTime getStopTime(long id) throws PortalException {
 		return getService().getStopTime(id);
 	}
 
@@ -279,9 +273,7 @@ public class StopTimeLocalServiceUtil {
 	 * @param end the upper bound of the range of stop times (not inclusive)
 	 * @return the range of stop times
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.StopTime>
-		getStopTimes(int start, int end) {
-
+	public static List<StopTime> getStopTimes(int start, int end) {
 		return getService().getStopTimes(start, end);
 	}
 
@@ -298,10 +290,8 @@ public class StopTimeLocalServiceUtil {
 	 * Import des temps d'arret de calendrier sous le format de données GTFS
 	 */
 	public static void importFromGTFS(
-			java.util.Map
-				<String,
-				 java.util.List<eu.strasbourg.utils.models.StopTimesGTFS>> data)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, List<eu.strasbourg.utils.models.StopTimesGTFS>> data)
+		throws PortalException {
 
 		getService().importFromGTFS(data);
 	}
@@ -309,18 +299,15 @@ public class StopTimeLocalServiceUtil {
 	/**
 	 * Supprime toutes le StopTime
 	 */
-	public static void removeAllStopTimes()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static void removeAllStopTimes() throws PortalException {
 		getService().removeAllStopTimes();
 	}
 
 	/**
 	 * Supprime un StopTime
 	 */
-	public static eu.strasbourg.service.gtfs.model.StopTime removeStopTime(
-			long stopTimeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static StopTime removeStopTime(long stopTimeId)
+		throws PortalException {
 
 		return getService().removeStopTime(stopTimeId);
 	}
@@ -335,9 +322,7 @@ public class StopTimeLocalServiceUtil {
 	 * @param stopTime the stop time
 	 * @return the stop time that was updated
 	 */
-	public static eu.strasbourg.service.gtfs.model.StopTime updateStopTime(
-		eu.strasbourg.service.gtfs.model.StopTime stopTime) {
-
+	public static StopTime updateStopTime(StopTime stopTime) {
 		return getService().updateStopTime(stopTime);
 	}
 
@@ -346,33 +331,22 @@ public class StopTimeLocalServiceUtil {
 	 *
 	 * @throws IOException
 	 */
-	public static eu.strasbourg.service.gtfs.model.StopTime updateStopTime(
-			eu.strasbourg.service.gtfs.model.StopTime stopTime,
+	public static StopTime updateStopTime(
+			StopTime stopTime,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().updateStopTime(stopTime, sc);
 	}
 
 	public static StopTimeLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<StopTimeLocalService, StopTimeLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(StopTimeLocalService.class);
-
-		ServiceTracker<StopTimeLocalService, StopTimeLocalService>
-			serviceTracker =
-				new ServiceTracker<StopTimeLocalService, StopTimeLocalService>(
-					bundle.getBundleContext(), StopTimeLocalService.class,
-					null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(StopTimeLocalService service) {
+		_service = service;
 	}
+
+	private static volatile StopTimeLocalService _service;
 
 }

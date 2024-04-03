@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,30 +19,30 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.project.exception.NoSuchBudgetSupportException;
 import eu.strasbourg.service.project.model.BudgetSupport;
+import eu.strasbourg.service.project.model.BudgetSupportTable;
 import eu.strasbourg.service.project.model.impl.BudgetSupportImpl;
 import eu.strasbourg.service.project.model.impl.BudgetSupportModelImpl;
 import eu.strasbourg.service.project.service.persistence.BudgetSupportPersistence;
+import eu.strasbourg.service.project.service.persistence.BudgetSupportUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -252,10 +244,6 @@ public class BudgetSupportPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -606,8 +594,6 @@ public class BudgetSupportPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -765,11 +751,6 @@ public class BudgetSupportPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -858,8 +839,6 @@ public class BudgetSupportPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1060,10 +1039,6 @@ public class BudgetSupportPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1446,8 +1421,6 @@ public class BudgetSupportPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1620,10 +1593,6 @@ public class BudgetSupportPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1951,8 +1920,6 @@ public class BudgetSupportPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2129,10 +2096,6 @@ public class BudgetSupportPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2467,8 +2430,6 @@ public class BudgetSupportPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2654,10 +2615,6 @@ public class BudgetSupportPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3015,8 +2972,6 @@ public class BudgetSupportPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3228,10 +3183,6 @@ public class BudgetSupportPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3633,8 +3584,6 @@ public class BudgetSupportPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3662,21 +3611,14 @@ public class BudgetSupportPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(BudgetSupport.class);
+
+		setModelImplClass(BudgetSupportImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(BudgetSupportTable.INSTANCE);
 	}
 
 	/**
@@ -3687,7 +3629,6 @@ public class BudgetSupportPersistenceImpl
 	@Override
 	public void cacheResult(BudgetSupport budgetSupport) {
 		entityCache.putResult(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
 			BudgetSupportImpl.class, budgetSupport.getPrimaryKey(),
 			budgetSupport);
 
@@ -3695,9 +3636,9 @@ public class BudgetSupportPersistenceImpl
 			_finderPathFetchByUUID_G,
 			new Object[] {budgetSupport.getUuid(), budgetSupport.getGroupId()},
 			budgetSupport);
-
-		budgetSupport.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the budget supports in the entity cache if it is enabled.
@@ -3706,16 +3647,19 @@ public class BudgetSupportPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<BudgetSupport> budgetSupports) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (budgetSupports.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (BudgetSupport budgetSupport : budgetSupports) {
 			if (entityCache.getResult(
-					BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
 					BudgetSupportImpl.class, budgetSupport.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(budgetSupport);
-			}
-			else {
-				budgetSupport.resetOriginalValues();
 			}
 		}
 	}
@@ -3731,9 +3675,7 @@ public class BudgetSupportPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(BudgetSupportImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(BudgetSupportImpl.class);
 	}
 
 	/**
@@ -3745,40 +3687,22 @@ public class BudgetSupportPersistenceImpl
 	 */
 	@Override
 	public void clearCache(BudgetSupport budgetSupport) {
-		entityCache.removeResult(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportImpl.class, budgetSupport.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((BudgetSupportModelImpl)budgetSupport, true);
+		entityCache.removeResult(BudgetSupportImpl.class, budgetSupport);
 	}
 
 	@Override
 	public void clearCache(List<BudgetSupport> budgetSupports) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (BudgetSupport budgetSupport : budgetSupports) {
-			entityCache.removeResult(
-				BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-				BudgetSupportImpl.class, budgetSupport.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(BudgetSupportModelImpl)budgetSupport, true);
+			entityCache.removeResult(BudgetSupportImpl.class, budgetSupport);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(BudgetSupportImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-				BudgetSupportImpl.class, primaryKey);
+			entityCache.removeResult(BudgetSupportImpl.class, primaryKey);
 		}
 	}
 
@@ -3790,36 +3714,9 @@ public class BudgetSupportPersistenceImpl
 			budgetSupportModelImpl.getGroupId()
 		};
 
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, budgetSupportModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		BudgetSupportModelImpl budgetSupportModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				budgetSupportModelImpl.getUuid(),
-				budgetSupportModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((budgetSupportModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				budgetSupportModelImpl.getOriginalUuid(),
-				budgetSupportModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+			_finderPathFetchByUUID_G, args, budgetSupportModelImpl);
 	}
 
 	/**
@@ -3962,24 +3859,24 @@ public class BudgetSupportPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (budgetSupport.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				budgetSupport.setCreateDate(now);
+				budgetSupport.setCreateDate(date);
 			}
 			else {
-				budgetSupport.setCreateDate(serviceContext.getCreateDate(now));
+				budgetSupport.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!budgetSupportModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				budgetSupport.setModifiedDate(now);
+				budgetSupport.setModifiedDate(date);
 			}
 			else {
 				budgetSupport.setModifiedDate(
-					serviceContext.getModifiedDate(now));
+					serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -3988,10 +3885,8 @@ public class BudgetSupportPersistenceImpl
 		try {
 			session = openSession();
 
-			if (budgetSupport.isNew()) {
+			if (isNew) {
 				session.save(budgetSupport);
-
-				budgetSupport.setNew(false);
 			}
 			else {
 				budgetSupport = (BudgetSupport)session.merge(budgetSupport);
@@ -4004,204 +3899,14 @@ public class BudgetSupportPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!BudgetSupportModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {budgetSupportModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				budgetSupportModelImpl.getUuid(),
-				budgetSupportModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {budgetSupportModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {
-				budgetSupportModelImpl.getBudgetParticipatifId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByBudgetParticipatif, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByBudgetParticipatif, args);
-
-			args = new Object[] {budgetSupportModelImpl.getPublikUserId()};
-
-			finderCache.removeResult(_finderPathCountByPublikUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPublikUserId, args);
-
-			args = new Object[] {
-				budgetSupportModelImpl.getBudgetParticipatifId(),
-				budgetSupportModelImpl.getPublikUserId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByBudgetParticipatifIdAndPublikUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByBudgetParticipatifIdAndPublikUserId,
-				args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((budgetSupportModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					budgetSupportModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {budgetSupportModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((budgetSupportModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					budgetSupportModelImpl.getOriginalUuid(),
-					budgetSupportModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					budgetSupportModelImpl.getUuid(),
-					budgetSupportModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((budgetSupportModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					budgetSupportModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {budgetSupportModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((budgetSupportModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByBudgetParticipatif.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					budgetSupportModelImpl.getOriginalBudgetParticipatifId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByBudgetParticipatif, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByBudgetParticipatif, args);
-
-				args = new Object[] {
-					budgetSupportModelImpl.getBudgetParticipatifId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByBudgetParticipatif, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByBudgetParticipatif, args);
-			}
-
-			if ((budgetSupportModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPublikUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					budgetSupportModelImpl.getOriginalPublikUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-
-				args = new Object[] {budgetSupportModelImpl.getPublikUserId()};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-			}
-
-			if ((budgetSupportModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByBudgetParticipatifIdAndPublikUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					budgetSupportModelImpl.getOriginalBudgetParticipatifId(),
-					budgetSupportModelImpl.getOriginalPublikUserId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByBudgetParticipatifIdAndPublikUserId,
-					args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByBudgetParticipatifIdAndPublikUserId,
-					args);
-
-				args = new Object[] {
-					budgetSupportModelImpl.getBudgetParticipatifId(),
-					budgetSupportModelImpl.getPublikUserId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByBudgetParticipatifIdAndPublikUserId,
-					args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByBudgetParticipatifIdAndPublikUserId,
-					args);
-			}
-		}
-
 		entityCache.putResult(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportImpl.class, budgetSupport.getPrimaryKey(),
-			budgetSupport, false);
+			BudgetSupportImpl.class, budgetSupportModelImpl, false, true);
 
-		clearUniqueFindersCache(budgetSupportModelImpl, false);
 		cacheUniqueFindersCache(budgetSupportModelImpl);
+
+		if (isNew) {
+			budgetSupport.setNew(false);
+		}
 
 		budgetSupport.resetOriginalValues();
 
@@ -4250,163 +3955,12 @@ public class BudgetSupportPersistenceImpl
 	/**
 	 * Returns the budget support with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the budget support
-	 * @return the budget support, or <code>null</code> if a budget support with the primary key could not be found
-	 */
-	@Override
-	public BudgetSupport fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		BudgetSupport budgetSupport = (BudgetSupport)serializable;
-
-		if (budgetSupport == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				budgetSupport = (BudgetSupport)session.get(
-					BudgetSupportImpl.class, primaryKey);
-
-				if (budgetSupport != null) {
-					cacheResult(budgetSupport);
-				}
-				else {
-					entityCache.putResult(
-						BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-						BudgetSupportImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-					BudgetSupportImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return budgetSupport;
-	}
-
-	/**
-	 * Returns the budget support with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param budgetSupportId the primary key of the budget support
 	 * @return the budget support, or <code>null</code> if a budget support with the primary key could not be found
 	 */
 	@Override
 	public BudgetSupport fetchByPrimaryKey(long budgetSupportId) {
 		return fetchByPrimaryKey((Serializable)budgetSupportId);
-	}
-
-	@Override
-	public Map<Serializable, BudgetSupport> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, BudgetSupport> map =
-			new HashMap<Serializable, BudgetSupport>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			BudgetSupport budgetSupport = fetchByPrimaryKey(primaryKey);
-
-			if (budgetSupport != null) {
-				map.put(primaryKey, budgetSupport);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-				BudgetSupportImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (BudgetSupport)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_BUDGETSUPPORT_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (BudgetSupport budgetSupport :
-					(List<BudgetSupport>)query.list()) {
-
-				map.put(budgetSupport.getPrimaryKeyObj(), budgetSupport);
-
-				cacheResult(budgetSupport);
-
-				uncachedPrimaryKeys.remove(budgetSupport.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-					BudgetSupportImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -4534,10 +4088,6 @@ public class BudgetSupportPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -4583,9 +4133,6 @@ public class BudgetSupportPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -4602,6 +4149,21 @@ public class BudgetSupportPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "budgetSupportId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_BUDGETSUPPORT;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return BudgetSupportModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -4610,198 +4172,153 @@ public class BudgetSupportPersistenceImpl
 	 * Initializes the budget support persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
-			BudgetSupportImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
-			BudgetSupportImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
-			BudgetSupportImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
-			BudgetSupportImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUuid", new String[] {String.class.getName()},
-			BudgetSupportModelImpl.UUID_COLUMN_BITMASK |
-			BudgetSupportModelImpl.CREATEDATE_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
-			BudgetSupportImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			BudgetSupportModelImpl.UUID_COLUMN_BITMASK |
-			BudgetSupportModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
-			BudgetSupportImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid_C",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
-			BudgetSupportImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUuid_C",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			BudgetSupportModelImpl.UUID_COLUMN_BITMASK |
-			BudgetSupportModelImpl.COMPANYID_COLUMN_BITMASK |
-			BudgetSupportModelImpl.CREATEDATE_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
-			BudgetSupportImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByGroupId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
-			BudgetSupportImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByGroupId", new String[] {Long.class.getName()},
-			BudgetSupportModelImpl.GROUPID_COLUMN_BITMASK |
-			BudgetSupportModelImpl.CREATEDATE_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
 
 		_finderPathWithPaginationFindByBudgetParticipatif = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
-			BudgetSupportImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByBudgetParticipatif",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByBudgetParticipatif",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"budgetParticipatifId"}, true);
 
 		_finderPathWithoutPaginationFindByBudgetParticipatif = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
-			BudgetSupportImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByBudgetParticipatif", new String[] {Long.class.getName()},
-			BudgetSupportModelImpl.BUDGETPARTICIPATIFID_COLUMN_BITMASK |
-			BudgetSupportModelImpl.CREATEDATE_COLUMN_BITMASK);
+			new String[] {"budgetParticipatifId"}, true);
 
 		_finderPathCountByBudgetParticipatif = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByBudgetParticipatif", new String[] {Long.class.getName()});
+			"countByBudgetParticipatif", new String[] {Long.class.getName()},
+			new String[] {"budgetParticipatifId"}, false);
 
 		_finderPathWithPaginationFindByPublikUserId = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
-			BudgetSupportImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByPublikUserId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"publikUserId"}, true);
 
 		_finderPathWithoutPaginationFindByPublikUserId = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
-			BudgetSupportImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByPublikUserId", new String[] {String.class.getName()},
-			BudgetSupportModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
-			BudgetSupportModelImpl.CREATEDATE_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
+			new String[] {String.class.getName()},
+			new String[] {"publikUserId"}, true);
 
 		_finderPathCountByPublikUserId = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()},
+			new String[] {"publikUserId"}, false);
 
 		_finderPathWithPaginationFindByBudgetParticipatifIdAndPublikUserId =
 			new FinderPath(
-				BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-				BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
-				BudgetSupportImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByBudgetParticipatifIdAndPublikUserId",
 				new String[] {
 					Long.class.getName(), String.class.getName(),
 					Integer.class.getName(), Integer.class.getName(),
 					OrderByComparator.class.getName()
-				});
+				},
+				new String[] {"budgetParticipatifId", "publikUserId"}, true);
 
 		_finderPathWithoutPaginationFindByBudgetParticipatifIdAndPublikUserId =
 			new FinderPath(
-				BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-				BudgetSupportModelImpl.FINDER_CACHE_ENABLED,
-				BudgetSupportImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByBudgetParticipatifIdAndPublikUserId",
 				new String[] {Long.class.getName(), String.class.getName()},
-				BudgetSupportModelImpl.BUDGETPARTICIPATIFID_COLUMN_BITMASK |
-				BudgetSupportModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
-				BudgetSupportModelImpl.CREATEDATE_COLUMN_BITMASK);
+				new String[] {"budgetParticipatifId", "publikUserId"}, true);
 
 		_finderPathCountByBudgetParticipatifIdAndPublikUserId = new FinderPath(
-			BudgetSupportModelImpl.ENTITY_CACHE_ENABLED,
-			BudgetSupportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByBudgetParticipatifIdAndPublikUserId",
-			new String[] {Long.class.getName(), String.class.getName()});
+			new String[] {Long.class.getName(), String.class.getName()},
+			new String[] {"budgetParticipatifId", "publikUserId"}, false);
+
+		BudgetSupportUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		BudgetSupportUtil.setPersistence(null);
+
 		entityCache.removeCache(BudgetSupportImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -4812,9 +4329,6 @@ public class BudgetSupportPersistenceImpl
 
 	private static final String _SQL_SELECT_BUDGETSUPPORT =
 		"SELECT budgetSupport FROM BudgetSupport budgetSupport";
-
-	private static final String _SQL_SELECT_BUDGETSUPPORT_WHERE_PKS_IN =
-		"SELECT budgetSupport FROM BudgetSupport budgetSupport WHERE budgetSupportId IN (";
 
 	private static final String _SQL_SELECT_BUDGETSUPPORT_WHERE =
 		"SELECT budgetSupport FROM BudgetSupport budgetSupport WHERE ";
@@ -4838,5 +4352,10 @@ public class BudgetSupportPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

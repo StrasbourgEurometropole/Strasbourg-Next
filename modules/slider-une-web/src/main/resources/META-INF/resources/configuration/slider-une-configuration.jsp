@@ -23,8 +23,7 @@
         <aui:input type="checkbox"
             name="showTags"
             value="${showTags}"
-            label="Afficher les tags"
-            inlineField="true" />
+            label="Afficher les tags" />
 
         <aui:input type="text"
             name="link"

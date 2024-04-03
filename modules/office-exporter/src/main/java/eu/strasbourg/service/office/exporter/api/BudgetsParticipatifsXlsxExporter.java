@@ -9,6 +9,6 @@ import java.util.List;
 @ProviderType
 public interface BudgetsParticipatifsXlsxExporter {
 	
-	void exportBudgetsParticipatifs(OutputStream stream, List<BudgetParticipatif> budgetsParticipatifs);
+	void exportBudgetsParticipatifs(OutputStream stream);
 	
 }

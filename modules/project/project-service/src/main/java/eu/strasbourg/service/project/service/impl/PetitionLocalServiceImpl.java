@@ -14,12 +14,15 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -48,12 +51,12 @@ import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PetitionModel;
 import eu.strasbourg.service.project.model.PlacitPlace;
-
 import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.service.base.PetitionLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.FriendlyURLs;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -64,12 +67,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
-import static eu.strasbourg.service.project.constants.ParticiperCategories.COMPLETED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.FAILED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.IN_PROGRESS;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.NEW;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_ARRIVED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.SOON_FINISHED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.*;
 /**
  * The implementation of the petition local service.
  *
@@ -259,11 +257,8 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
 
         if (entry != null) {
             // Delete the link with categories
-            for (long categoryId : entry.getCategoryIds()) {
-                this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-                        categoryId, entry.getEntryId());
-            }
-
+            AssetEntryAssetCategoryRelLocalServiceUtil.
+                    deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
             // Delete the link with tags
             long[] tagIds = AssetEntryLocalServiceUtil
                     .getAssetTagPrimaryKeys(entry.getEntryId());
@@ -275,7 +270,7 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
             }
 
             // Supprime lien avec les autres entries
-            List<AssetLink> links = this.assetLinkLocalService
+            List<AssetLink> links = AssetLinkLocalServiceUtil
                     .getLinks(entry.getEntryId());
             if (links!=null&&!links.isEmpty()){
                 for (AssetLink link : links) {
@@ -501,4 +496,7 @@ public class PetitionLocalServiceImpl extends PetitionLocalServiceBaseImpl {
                 .filter(PetitionModel::isApproved)
                 .collect(Collectors.toList());
     }
+
+    @Reference
+    private AssetLinkLocalService assetLinkLocalService;
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>type.className</className><!--obligatoire -->
+    <skipKey>parent-template-key-to-skip1,parent-template-key-to-skip2</skipKey><!--facultatif -->
+    <template><!--autant que de templates de ce type qui n'existent pas chez le parent -->
+        <key>template-key</key><!--obligatoire -->
+        <name>Template name</name><!--obligatoire -->
+        <script>template.ftl</script><!--obligatoire -->
+    </template>
+    <override><!--autant que de templates de ce type à modifier par rapport au parent -->
+        <parentKey>parent-template-key-to-override</parentKey><!--obligatoire -->
+        <key>template-key</key><!--facultatif -->
+        <name>Template name</name><!--facultatif -->
+        <script>template.ftl</script><!--facultatif -->
+    </override>
+</root>

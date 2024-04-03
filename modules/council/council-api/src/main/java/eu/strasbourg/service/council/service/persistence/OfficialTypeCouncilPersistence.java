@@ -1,30 +1,18 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.service.persistence;
-
-import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.council.exception.NoSuchOfficialTypeCouncilException;
 import eu.strasbourg.service.council.model.OfficialTypeCouncil;
 
-import java.io.Serializable;
-
-import java.util.Map;
 import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the official type council service.
@@ -46,9 +34,6 @@ public interface OfficialTypeCouncilPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link OfficialTypeCouncilUtil} to access the official type council persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, OfficialTypeCouncil> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the official type councils where uuid = &#63;.
@@ -875,9 +860,6 @@ public interface OfficialTypeCouncilPersistence
 	 * @return the number of official type councils
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 	public Set<String> getCompoundPKColumnNames();
 

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Image G/D + texte</name>
+        <key>2532111</key>
+        <definition>image-lr-text-structure.json</definition>
+        <layout>image-lr-text-layout.json</layout>
+    </structure>
+    <template>
+        <name>Image à gauche + texte</name>
+        <key>2532209</key>
+        <script>image-l-text.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+    <template>
+        <name>Image à droite + texte</name>
+        <key>2532214</key>
+        <script>image-r-text.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

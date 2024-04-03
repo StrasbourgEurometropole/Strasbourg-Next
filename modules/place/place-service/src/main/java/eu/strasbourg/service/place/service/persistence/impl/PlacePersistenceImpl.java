@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,10 +19,12 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
@@ -38,20 +32,19 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.place.exception.NoSuchPlaceException;
 import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.model.PlaceTable;
 import eu.strasbourg.service.place.model.impl.PlaceImpl;
 import eu.strasbourg.service.place.model.impl.PlaceModelImpl;
 import eu.strasbourg.service.place.service.persistence.PlacePersistence;
+import eu.strasbourg.service.place.service.persistence.PlaceUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -251,10 +244,6 @@ public class PlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -603,8 +592,6 @@ public class PlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -761,11 +748,6 @@ public class PlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -854,8 +836,6 @@ public class PlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1055,10 +1035,6 @@ public class PlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1435,8 +1411,6 @@ public class PlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1608,10 +1582,6 @@ public class PlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1935,8 +1905,6 @@ public class PlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2102,10 +2070,6 @@ public class PlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2429,8 +2393,6 @@ public class PlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2584,11 +2546,6 @@ public class PlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchBySIGId, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2669,8 +2626,6 @@ public class PlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2842,10 +2797,6 @@ public class PlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3194,8 +3145,6 @@ public class PlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3219,21 +3168,14 @@ public class PlacePersistenceImpl
 		dbColumnNames.put("alias", "alias_");
 		dbColumnNames.put("access", "access_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Place.class);
+
+		setModelImplClass(PlaceImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(PlaceTable.INSTANCE);
 	}
 
 	/**
@@ -3243,9 +3185,7 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(Place place) {
-		entityCache.putResult(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-			place.getPrimaryKey(), place);
+		entityCache.putResult(PlaceImpl.class, place.getPrimaryKey(), place);
 
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
@@ -3253,9 +3193,9 @@ public class PlacePersistenceImpl
 
 		finderCache.putResult(
 			_finderPathFetchBySIGId, new Object[] {place.getSIGid()}, place);
-
-		place.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the places in the entity cache if it is enabled.
@@ -3264,15 +3204,18 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Place> places) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (places.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Place place : places) {
-			if (entityCache.getResult(
-					PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-					place.getPrimaryKey()) == null) {
+			if (entityCache.getResult(PlaceImpl.class, place.getPrimaryKey()) ==
+					null) {
 
 				cacheResult(place);
-			}
-			else {
-				place.resetOriginalValues();
 			}
 		}
 	}
@@ -3288,9 +3231,7 @@ public class PlacePersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(PlaceImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(PlaceImpl.class);
 	}
 
 	/**
@@ -3302,39 +3243,22 @@ public class PlacePersistenceImpl
 	 */
 	@Override
 	public void clearCache(Place place) {
-		entityCache.removeResult(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-			place.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((PlaceModelImpl)place, true);
+		entityCache.removeResult(PlaceImpl.class, place);
 	}
 
 	@Override
 	public void clearCache(List<Place> places) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Place place : places) {
-			entityCache.removeResult(
-				PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-				place.getPrimaryKey());
-
-			clearUniqueFindersCache((PlaceModelImpl)place, true);
+			entityCache.removeResult(PlaceImpl.class, place);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(PlaceImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-				primaryKey);
+			entityCache.removeResult(PlaceImpl.class, primaryKey);
 		}
 	}
 
@@ -3343,58 +3267,13 @@ public class PlacePersistenceImpl
 			placeModelImpl.getUuid(), placeModelImpl.getGroupId()
 		};
 
-		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, placeModelImpl, false);
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
+		finderCache.putResult(_finderPathFetchByUUID_G, args, placeModelImpl);
 
 		args = new Object[] {placeModelImpl.getSIGid()};
 
-		finderCache.putResult(
-			_finderPathCountBySIGId, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchBySIGId, args, placeModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		PlaceModelImpl placeModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				placeModelImpl.getUuid(), placeModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((placeModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				placeModelImpl.getOriginalUuid(),
-				placeModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {placeModelImpl.getSIGid()};
-
-			finderCache.removeResult(_finderPathCountBySIGId, args);
-			finderCache.removeResult(_finderPathFetchBySIGId, args);
-		}
-
-		if ((placeModelImpl.getColumnBitmask() &
-			 _finderPathFetchBySIGId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {placeModelImpl.getOriginalSIGid()};
-
-			finderCache.removeResult(_finderPathCountBySIGId, args);
-			finderCache.removeResult(_finderPathFetchBySIGId, args);
-		}
+		finderCache.putResult(_finderPathCountBySIGId, args, Long.valueOf(1));
+		finderCache.putResult(_finderPathFetchBySIGId, args, placeModelImpl);
 	}
 
 	/**
@@ -3530,23 +3409,23 @@ public class PlacePersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (place.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				place.setCreateDate(now);
+				place.setCreateDate(date);
 			}
 			else {
-				place.setCreateDate(serviceContext.getCreateDate(now));
+				place.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!placeModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				place.setModifiedDate(now);
+				place.setModifiedDate(date);
 			}
 			else {
-				place.setModifiedDate(serviceContext.getModifiedDate(now));
+				place.setModifiedDate(serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -3555,10 +3434,8 @@ public class PlacePersistenceImpl
 		try {
 			session = openSession();
 
-			if (place.isNew()) {
+			if (isNew) {
 				session.save(place);
-
-				place.setNew(false);
 			}
 			else {
 				place = (Place)session.merge(place);
@@ -3571,127 +3448,13 @@ public class PlacePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(PlaceImpl.class, placeModelImpl, false, true);
 
-		if (!PlaceModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {placeModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				placeModelImpl.getUuid(), placeModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {placeModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {placeModelImpl.getPriceId()};
-
-			finderCache.removeResult(_finderPathCountByPriceId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPriceId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((placeModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {placeModelImpl.getOriginalUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {placeModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((placeModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					placeModelImpl.getOriginalUuid(),
-					placeModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					placeModelImpl.getUuid(), placeModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((placeModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					placeModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {placeModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((placeModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPriceId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					placeModelImpl.getOriginalPriceId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPriceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPriceId, args);
-
-				args = new Object[] {placeModelImpl.getPriceId()};
-
-				finderCache.removeResult(_finderPathCountByPriceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPriceId, args);
-			}
-		}
-
-		entityCache.putResult(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-			place.getPrimaryKey(), place, false);
-
-		clearUniqueFindersCache(placeModelImpl, false);
 		cacheUniqueFindersCache(placeModelImpl);
+
+		if (isNew) {
+			place.setNew(false);
+		}
 
 		place.resetOriginalValues();
 
@@ -3738,158 +3501,12 @@ public class PlacePersistenceImpl
 	/**
 	 * Returns the place with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the place
-	 * @return the place, or <code>null</code> if a place with the primary key could not be found
-	 */
-	@Override
-	public Place fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Place place = (Place)serializable;
-
-		if (place == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				place = (Place)session.get(PlaceImpl.class, primaryKey);
-
-				if (place != null) {
-					cacheResult(place);
-				}
-				else {
-					entityCache.putResult(
-						PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-						primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return place;
-	}
-
-	/**
-	 * Returns the place with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param placeId the primary key of the place
 	 * @return the place, or <code>null</code> if a place with the primary key could not be found
 	 */
 	@Override
 	public Place fetchByPrimaryKey(long placeId) {
 		return fetchByPrimaryKey((Serializable)placeId);
-	}
-
-	@Override
-	public Map<Serializable, Place> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Place> map = new HashMap<Serializable, Place>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Place place = fetchByPrimaryKey(primaryKey);
-
-			if (place != null) {
-				map.put(primaryKey, place);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Place)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_PLACE_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Place place : (List<Place>)query.list()) {
-				map.put(place.getPrimaryKeyObj(), place);
-
-				cacheResult(place);
-
-				uncachedPrimaryKeys.remove(place.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					PlaceModelImpl.ENTITY_CACHE_ENABLED, PlaceImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -4016,10 +3633,6 @@ public class PlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -4065,9 +3678,6 @@ public class PlacePersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -4084,6 +3694,21 @@ public class PlacePersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "placeId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_PLACE;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return PlaceModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -4092,161 +3717,134 @@ public class PlacePersistenceImpl
 	 * Initializes the place persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			PlaceModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			PlaceModelImpl.UUID_COLUMN_BITMASK |
-			PlaceModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			PlaceModelImpl.UUID_COLUMN_BITMASK |
-			PlaceModelImpl.COMPANYID_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			PlaceModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
 
 		_finderPathWithPaginationFindByPriceId = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPriceId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"priceId"}, true);
 
 		_finderPathWithoutPaginationFindByPriceId = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPriceId",
-			new String[] {Long.class.getName()},
-			PlaceModelImpl.PRICEID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"priceId"},
+			true);
 
 		_finderPathCountByPriceId = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPriceId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"priceId"},
+			false);
 
 		_finderPathFetchBySIGId = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchBySIGId",
-			new String[] {String.class.getName()},
-			PlaceModelImpl.SIGID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"SIGid"},
+			true);
 
 		_finderPathCountBySIGId = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySIGId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"SIGid"},
+			false);
 
 		_finderPathWithPaginationFindByname = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, PlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByname",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"name"}, true);
 
 		_finderPathWithPaginationCountByname = new FinderPath(
-			PlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByname",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"name"},
+			false);
+
+		PlaceUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		PlaceUtil.setPersistence(null);
+
 		entityCache.removeCache(PlaceImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -4257,9 +3855,6 @@ public class PlacePersistenceImpl
 
 	private static final String _SQL_SELECT_PLACE =
 		"SELECT place FROM Place place";
-
-	private static final String _SQL_SELECT_PLACE_WHERE_PKS_IN =
-		"SELECT place FROM Place place WHERE placeId IN (";
 
 	private static final String _SQL_SELECT_PLACE_WHERE =
 		"SELECT place FROM Place place WHERE ";
@@ -4283,5 +3878,10 @@ public class PlacePersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "alias", "access"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

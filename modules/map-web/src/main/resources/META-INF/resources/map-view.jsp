@@ -92,7 +92,7 @@
                                                     (${dc.getPoisCategoryCount(category.categoryId, prefilters, prefilterTags, groupId, typesContenu, dateField, fromDate, toDate, locale, globalGroupId)}) --%>
 
                                                     <c:if test="${showPictos && !category.getDescription(locale).equals(\"\")}">
-                                                        <img src="${category.getDescription(locale)}">
+                                                        <img src="${category.getDescription(locale)}" alt="">
                                                     </c:if>
                                                 </label>
                                             </div>
@@ -235,9 +235,9 @@
 		                <div class="side__overflow">
 		                    <form class="liste filtres--poi">
 		                        <h2 class="filtres__title">
-		                            <div class="icon mobile-only"></div>
+		                            <span class="icon mobile-only"></span>
 		                            Liste
-		                            <div class="filler"></div>
+		                            <span class="filler"></span>
 		                            <button type="button" class="side__trigger side__trigger--close mobile-only"></button>
 		                        </h2>
 		                    </form>

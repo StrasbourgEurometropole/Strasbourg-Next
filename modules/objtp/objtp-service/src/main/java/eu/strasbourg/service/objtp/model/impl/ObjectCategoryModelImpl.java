@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.objtp.model.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -21,25 +13,24 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.objtp.model.ObjectCategory;
 import eu.strasbourg.service.objtp.model.ObjectCategoryModel;
-import eu.strasbourg.service.objtp.model.ObjectCategorySoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -95,59 +86,30 @@ public class ObjectCategoryModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.objtp.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.objtp.model.ObjectCategory"),
-		true);
-
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.objtp.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.objtp.model.ObjectCategory"),
-		true);
-
-	public static final boolean COLUMN_BITMASK_ENABLED = false;
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
 	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
 	 */
-	public static ObjectCategory toModel(ObjectCategorySoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		ObjectCategory model = new ObjectCategoryImpl();
-
-		model.setCode(soapModel.getCode());
-		model.setName(soapModel.getName());
-
-		return model;
-	}
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
 	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
 	 */
-	public static List<ObjectCategory> toModels(
-		ObjectCategorySoap[] soapModels) {
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<ObjectCategory> models = new ArrayList<ObjectCategory>(
-			soapModels.length);
-
-		for (ObjectCategorySoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
+	public static final long NAME_COLUMN_BITMASK = 1L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.objtp.service.util.ServiceProps.get(
@@ -205,9 +167,6 @@ public class ObjectCategoryModelImpl
 				attributeGetterFunction.apply((ObjectCategory)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -232,103 +191,56 @@ public class ObjectCategoryModelImpl
 	public Map<String, Function<ObjectCategory, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<ObjectCategory, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, ObjectCategory>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			ObjectCategory.class.getClassLoader(), ObjectCategory.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<ObjectCategory, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<ObjectCategory> constructor =
-				(Constructor<ObjectCategory>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<ObjectCategory, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<ObjectCategory, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("code", ObjectCategory::getCode);
+			attributeGetterFunctions.put("name", ObjectCategory::getName);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<ObjectCategory, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ObjectCategory, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<ObjectCategory, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<ObjectCategory, Object>>();
-		Map<String, BiConsumer<ObjectCategory, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ObjectCategory, ?>>();
+		private static final Map<String, BiConsumer<ObjectCategory, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"code",
-			new Function<ObjectCategory, Object>() {
+		static {
+			Map<String, BiConsumer<ObjectCategory, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<ObjectCategory, ?>>();
 
-				@Override
-				public Object apply(ObjectCategory objectCategory) {
-					return objectCategory.getCode();
-				}
+			attributeSetterBiConsumers.put(
+				"code",
+				(BiConsumer<ObjectCategory, String>)ObjectCategory::setCode);
+			attributeSetterBiConsumers.put(
+				"name",
+				(BiConsumer<ObjectCategory, String>)ObjectCategory::setName);
 
-			});
-		attributeSetterBiConsumers.put(
-			"code",
-			new BiConsumer<ObjectCategory, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(
-					ObjectCategory objectCategory, Object codeObject) {
-
-					objectCategory.setCode((String)codeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<ObjectCategory, Object>() {
-
-				@Override
-				public Object apply(ObjectCategory objectCategory) {
-					return objectCategory.getName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"name",
-			new BiConsumer<ObjectCategory, Object>() {
-
-				@Override
-				public void accept(
-					ObjectCategory objectCategory, Object nameObject) {
-
-					objectCategory.setName((String)nameObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -344,6 +256,10 @@ public class ObjectCategoryModelImpl
 
 	@Override
 	public void setCode(String code) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_code = code;
 	}
 
@@ -360,7 +276,35 @@ public class ObjectCategoryModelImpl
 
 	@Override
 	public void setName(String name) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_name = name;
+	}
+
+	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
+		return _columnBitmask;
 	}
 
 	@Override
@@ -386,6 +330,17 @@ public class ObjectCategoryModelImpl
 		objectCategoryImpl.setName(getName());
 
 		objectCategoryImpl.resetOriginalValues();
+
+		return objectCategoryImpl;
+	}
+
+	@Override
+	public ObjectCategory cloneWithOriginalValues() {
+		ObjectCategoryImpl objectCategoryImpl = new ObjectCategoryImpl();
+
+		objectCategoryImpl.setCode(
+			this.<String>getColumnOriginalValue("code_"));
+		objectCategoryImpl.setName(this.<String>getColumnOriginalValue("name"));
 
 		return objectCategoryImpl;
 	}
@@ -430,11 +385,19 @@ public class ObjectCategoryModelImpl
 		return getPrimaryKey().hashCode();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -442,6 +405,9 @@ public class ObjectCategoryModelImpl
 
 	@Override
 	public void resetOriginalValues() {
+		_columnOriginalValues = Collections.emptyMap();
+
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -474,7 +440,7 @@ public class ObjectCategoryModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -485,9 +451,26 @@ public class ObjectCategoryModelImpl
 			Function<ObjectCategory, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((ObjectCategory)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((ObjectCategory)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -500,46 +483,81 @@ public class ObjectCategoryModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<ObjectCategory, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<ObjectCategory, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<ObjectCategory, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((ObjectCategory)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, ObjectCategory>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					ObjectCategory.class, ModelWrapper.class);
 
 	}
 
 	private String _code;
 	private String _name;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<ObjectCategory, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((ObjectCategory)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("code_", _code);
+		_columnOriginalValues.put("name", _name);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("code_", "code");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("code_", 1L);
+
+		columnBitmasks.put("name", 2L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
+	private long _columnBitmask;
 	private ObjectCategory _escapedModel;
 
 }

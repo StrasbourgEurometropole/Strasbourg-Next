@@ -1,6 +1,5 @@
 package eu.strasbourg.service.csmap.listener;
 
-import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
@@ -14,10 +13,8 @@ import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.transaction.TransactionCommitCallbackUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.csmap.constants.CodeCacheEnum;
 import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
-import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -45,10 +42,10 @@ public class DLFileEntryListener extends BaseModelListener<DLFileEntry>
      *  A la modification d'un event, on met à jour le cache de csmapAgenda
      */
     @Override
-    public void onAfterUpdate(DLFileEntry file) throws ModelListenerException {
+    public void onAfterUpdate(DLFileEntry originalFile,DLFileEntry file) throws ModelListenerException {
         generateCsmapCache(file);
 
-        super.onAfterUpdate(file);
+        super.onAfterUpdate(originalFile,file);
 
     }
 

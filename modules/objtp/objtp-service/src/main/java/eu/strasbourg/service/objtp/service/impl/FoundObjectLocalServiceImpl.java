@@ -14,21 +14,18 @@
 
 package eu.strasbourg.service.objtp.service.impl;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Transactional;
-
 import eu.strasbourg.service.objtp.model.FoundObject;
 import eu.strasbourg.service.objtp.service.base.FoundObjectLocalServiceBaseImpl;
 import eu.strasbourg.service.objtp.service.util.ObjtpImporter;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.List;
 
 /**
  * The implementation of the found object local service.

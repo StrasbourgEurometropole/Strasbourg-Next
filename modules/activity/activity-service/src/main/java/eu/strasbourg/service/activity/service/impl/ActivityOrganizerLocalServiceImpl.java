@@ -14,11 +14,7 @@
 
 package eu.strasbourg.service.activity.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.LongStream;
-
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -38,10 +34,14 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.activity.model.ActivityOrganizer;
 import eu.strasbourg.service.activity.service.base.ActivityOrganizerLocalServiceBaseImpl;
+import org.osgi.annotation.versioning.ProviderType;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the activityOrganizer local service.
@@ -49,7 +49,7 @@ import eu.strasbourg.service.activity.service.base.ActivityOrganizerLocalService
  * <p>
  * All custom service methods should be put in this class. Whenever methods are
  * added, rerun ServiceBuilder to copy their definitions into the
- * {@link eu.strasbourg.service.activityOrganizer.service.ActivityOrganizerLocalService}
+ * {@link eu.strasbourg.service.activity.service.ActivityOrganizerLocalService}
  * interface.
  *
  * <p>
@@ -60,7 +60,7 @@ import eu.strasbourg.service.activity.service.base.ActivityOrganizerLocalService
  *
  * @author Brian Wing Shun Chan
  * @see ActivityOrganizerLocalServiceBaseImpl
- * @see eu.strasbourg.service.activityOrganizer.service.ActivityOrganizerLocalServiceUtil
+ * @see eu.strasbourg.service.activity.service.ActivityOrganizerLocalServiceUtil
  */
 @ProviderType
 public class ActivityOrganizerLocalServiceImpl
@@ -217,11 +217,8 @@ public class ActivityOrganizerLocalServiceImpl
 
 		if (entry != null) {
 			// Supprime le lien avec les catégories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-					categoryId, entry.getEntryId());
-			}
-
+			AssetEntryAssetCategoryRelLocalServiceUtil.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Supprime le lien avec les tags
 			long[] tagIds = AssetEntryLocalServiceUtil
 				.getAssetTagPrimaryKeys(entry.getEntryId());

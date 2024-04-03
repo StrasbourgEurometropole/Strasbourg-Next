@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,10 +16,12 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
@@ -35,19 +29,18 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchRouteException;
 import eu.strasbourg.service.gtfs.model.Route;
+import eu.strasbourg.service.gtfs.model.RouteTable;
 import eu.strasbourg.service.gtfs.model.impl.RouteImpl;
 import eu.strasbourg.service.gtfs.model.impl.RouteModelImpl;
 import eu.strasbourg.service.gtfs.service.persistence.RoutePersistence;
+import eu.strasbourg.service.gtfs.service.persistence.RouteUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -247,10 +240,6 @@ public class RoutePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -598,8 +587,6 @@ public class RoutePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -755,11 +742,6 @@ public class RoutePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByRouteId, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -840,8 +822,6 @@ public class RoutePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -864,21 +844,14 @@ public class RoutePersistenceImpl
 		dbColumnNames.put("uuid", "uuid_");
 		dbColumnNames.put("id", "id_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Route.class);
+
+		setModelImplClass(RouteImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(RouteTable.INSTANCE);
 	}
 
 	/**
@@ -888,16 +861,14 @@ public class RoutePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(Route route) {
-		entityCache.putResult(
-			RouteModelImpl.ENTITY_CACHE_ENABLED, RouteImpl.class,
-			route.getPrimaryKey(), route);
+		entityCache.putResult(RouteImpl.class, route.getPrimaryKey(), route);
 
 		finderCache.putResult(
 			_finderPathFetchByRouteId, new Object[] {route.getRoute_id()},
 			route);
-
-		route.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the routes in the entity cache if it is enabled.
@@ -906,15 +877,18 @@ public class RoutePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Route> routes) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (routes.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Route route : routes) {
-			if (entityCache.getResult(
-					RouteModelImpl.ENTITY_CACHE_ENABLED, RouteImpl.class,
-					route.getPrimaryKey()) == null) {
+			if (entityCache.getResult(RouteImpl.class, route.getPrimaryKey()) ==
+					null) {
 
 				cacheResult(route);
-			}
-			else {
-				route.resetOriginalValues();
 			}
 		}
 	}
@@ -930,9 +904,7 @@ public class RoutePersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(RouteImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(RouteImpl.class);
 	}
 
 	/**
@@ -944,69 +916,30 @@ public class RoutePersistenceImpl
 	 */
 	@Override
 	public void clearCache(Route route) {
-		entityCache.removeResult(
-			RouteModelImpl.ENTITY_CACHE_ENABLED, RouteImpl.class,
-			route.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((RouteModelImpl)route, true);
+		entityCache.removeResult(RouteImpl.class, route);
 	}
 
 	@Override
 	public void clearCache(List<Route> routes) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Route route : routes) {
-			entityCache.removeResult(
-				RouteModelImpl.ENTITY_CACHE_ENABLED, RouteImpl.class,
-				route.getPrimaryKey());
-
-			clearUniqueFindersCache((RouteModelImpl)route, true);
+			entityCache.removeResult(RouteImpl.class, route);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(RouteImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				RouteModelImpl.ENTITY_CACHE_ENABLED, RouteImpl.class,
-				primaryKey);
+			entityCache.removeResult(RouteImpl.class, primaryKey);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(RouteModelImpl routeModelImpl) {
 		Object[] args = new Object[] {routeModelImpl.getRoute_id()};
 
-		finderCache.putResult(
-			_finderPathCountByRouteId, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByRouteId, args, routeModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		RouteModelImpl routeModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {routeModelImpl.getRoute_id()};
-
-			finderCache.removeResult(_finderPathCountByRouteId, args);
-			finderCache.removeResult(_finderPathFetchByRouteId, args);
-		}
-
-		if ((routeModelImpl.getColumnBitmask() &
-			 _finderPathFetchByRouteId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {routeModelImpl.getOriginalRoute_id()};
-
-			finderCache.removeResult(_finderPathCountByRouteId, args);
-			finderCache.removeResult(_finderPathFetchByRouteId, args);
-		}
+		finderCache.putResult(_finderPathCountByRouteId, args, Long.valueOf(1));
+		finderCache.putResult(_finderPathFetchByRouteId, args, routeModelImpl);
 	}
 
 	/**
@@ -1142,10 +1075,8 @@ public class RoutePersistenceImpl
 		try {
 			session = openSession();
 
-			if (route.isNew()) {
+			if (isNew) {
 				session.save(route);
-
-				route.setNew(false);
 			}
 			else {
 				route = (Route)session.merge(route);
@@ -1158,47 +1089,13 @@ public class RoutePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(RouteImpl.class, routeModelImpl, false, true);
 
-		if (!RouteModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {routeModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((routeModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {routeModelImpl.getOriginalUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {routeModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-		}
-
-		entityCache.putResult(
-			RouteModelImpl.ENTITY_CACHE_ENABLED, RouteImpl.class,
-			route.getPrimaryKey(), route, false);
-
-		clearUniqueFindersCache(routeModelImpl, false);
 		cacheUniqueFindersCache(routeModelImpl);
+
+		if (isNew) {
+			route.setNew(false);
+		}
 
 		route.resetOriginalValues();
 
@@ -1245,158 +1142,12 @@ public class RoutePersistenceImpl
 	/**
 	 * Returns the route with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the route
-	 * @return the route, or <code>null</code> if a route with the primary key could not be found
-	 */
-	@Override
-	public Route fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			RouteModelImpl.ENTITY_CACHE_ENABLED, RouteImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Route route = (Route)serializable;
-
-		if (route == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				route = (Route)session.get(RouteImpl.class, primaryKey);
-
-				if (route != null) {
-					cacheResult(route);
-				}
-				else {
-					entityCache.putResult(
-						RouteModelImpl.ENTITY_CACHE_ENABLED, RouteImpl.class,
-						primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					RouteModelImpl.ENTITY_CACHE_ENABLED, RouteImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return route;
-	}
-
-	/**
-	 * Returns the route with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param id the primary key of the route
 	 * @return the route, or <code>null</code> if a route with the primary key could not be found
 	 */
 	@Override
 	public Route fetchByPrimaryKey(long id) {
 		return fetchByPrimaryKey((Serializable)id);
-	}
-
-	@Override
-	public Map<Serializable, Route> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Route> map = new HashMap<Serializable, Route>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Route route = fetchByPrimaryKey(primaryKey);
-
-			if (route != null) {
-				map.put(primaryKey, route);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				RouteModelImpl.ENTITY_CACHE_ENABLED, RouteImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Route)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_ROUTE_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Route route : (List<Route>)query.list()) {
-				map.put(route.getPrimaryKeyObj(), route);
-
-				cacheResult(route);
-
-				uncachedPrimaryKeys.remove(route.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					RouteModelImpl.ENTITY_CACHE_ENABLED, RouteImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1523,10 +1274,6 @@ public class RoutePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1572,9 +1319,6 @@ public class RoutePersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1591,6 +1335,21 @@ public class RoutePersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "id_";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_ROUTE;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return RouteModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1599,65 +1358,56 @@ public class RoutePersistenceImpl
 	 * Initializes the route persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			RouteModelImpl.ENTITY_CACHE_ENABLED,
-			RouteModelImpl.FINDER_CACHE_ENABLED, RouteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			RouteModelImpl.ENTITY_CACHE_ENABLED,
-			RouteModelImpl.FINDER_CACHE_ENABLED, RouteImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			RouteModelImpl.ENTITY_CACHE_ENABLED,
-			RouteModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			RouteModelImpl.ENTITY_CACHE_ENABLED,
-			RouteModelImpl.FINDER_CACHE_ENABLED, RouteImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			RouteModelImpl.ENTITY_CACHE_ENABLED,
-			RouteModelImpl.FINDER_CACHE_ENABLED, RouteImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			RouteModelImpl.UUID_COLUMN_BITMASK |
-			RouteModelImpl.ROUTE_ID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			RouteModelImpl.ENTITY_CACHE_ENABLED,
-			RouteModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByRouteId = new FinderPath(
-			RouteModelImpl.ENTITY_CACHE_ENABLED,
-			RouteModelImpl.FINDER_CACHE_ENABLED, RouteImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByRouteId",
-			new String[] {String.class.getName()},
-			RouteModelImpl.ROUTE_ID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"route_id"},
+			true);
 
 		_finderPathCountByRouteId = new FinderPath(
-			RouteModelImpl.ENTITY_CACHE_ENABLED,
-			RouteModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRouteId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"route_id"},
+			false);
+
+		RouteUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		RouteUtil.setPersistence(null);
+
 		entityCache.removeCache(RouteImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1668,9 +1418,6 @@ public class RoutePersistenceImpl
 
 	private static final String _SQL_SELECT_ROUTE =
 		"SELECT route FROM Route route";
-
-	private static final String _SQL_SELECT_ROUTE_WHERE_PKS_IN =
-		"SELECT route FROM Route route WHERE id_ IN (";
 
 	private static final String _SQL_SELECT_ROUTE_WHERE =
 		"SELECT route FROM Route route WHERE ";
@@ -1694,5 +1441,10 @@ public class RoutePersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "id"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

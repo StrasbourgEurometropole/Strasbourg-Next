@@ -1,0 +1,190 @@
+// ==============================================
+
+//        BREAKPOINTS
+
+// ==============================================
+
+
+//  Fonctions utilitaires
+// -----------------------------------------------
+
+// Renvoie le prefixe d'un nom de breakpoint, utilisé dans les classes de visiblité et basic-grid
+/// @param {String} $breakpoint-name - Nom du breakpoint
+/// @return {String} - Préfixe du breakpoint
+/// @require {Map} $breakpoints - Map des breakpoints
+@function get-breakpoint-prefix($breakpoint-name) {
+	// Préfixe raccourci pour certains breakpoints
+	@if ($breakpoint-name == 'tablet-small') {
+		@return 't-small';
+	} @else if ($breakpoint-name == 'tablet-portrait') {
+		@return 't-portrait';
+	} @else if ($breakpoint-name == 'tablet-landscape') {
+		@return 't-landscape';
+	} @else {
+		@return "#{$breakpoint-name}";
+	}
+}
+
+// Vérifie qu'un nom de breakpoint existe dans $breakpoints, renvoie la valeur correspondante sinon renvoie null
+/// @param {String} $breakpoint-name - Nom du breakpoint
+/// @return {Length} - Valeur correspondante ou null
+/// @require {Map} $breakpoints - Map des breakpoints
+@function get-breakpoint-value($breakpoint-name) {
+	@if not map-has-key($breakpoints, $breakpoint-name) {
+		@warn "Unfortunately, no value could be retrieved from `#{$breakpoint-name}`. "
+    + "Available breakpoints are: #{map-keys($breakpoints)}.";
+	}
+	@return map-get($breakpoints, $breakpoint-name);
+}
+
+
+//  Mixins pour gérer les media-queries
+// -----------------------------------------------
+
+// S'applique jusqu'à un breakpoint : (max-width: value)
+/// @param {String|Length} $breakpoint - Nom du breakpoint ou valeur (ex: 1280px)
+@mixin bp-down($breakpoint) {
+	$value: $breakpoint;
+
+	// Breakpoint nommé -> vérifie que le nom du breakpoint existe et renvoie la valeur
+	@if type-of($breakpoint) == string {
+		$value: get-breakpoint-value($breakpoint);
+	}
+
+	@if $value {
+		@media screen and (max-width: ($value)) {
+			@content;
+		}
+	}
+}
+
+
+// S'applique à partir d'un breakpoint : (min-width: value)
+/// @param {String|Length} $breakpoint - Nom du breakpoint ou valeur (ex: 1280px)
+@mixin bp-up($breakpoint) {
+	$value: $breakpoint;
+
+	// Breakpoint nommé -> vérifie que le nom du breakpoint existe et renvoie la valeur
+	@if type-of($breakpoint) == string {
+		$value: get-breakpoint-value($breakpoint);
+	}
+
+	@if $value {
+		@media screen and (min-width: $value+ 1) {
+			@content;
+		}
+	}
+}
+
+
+// S'applique entre deux breakpoints : (min-width: value) and (max-width: value)
+/// @param {String|Length} $breakpoint-min - Nom du breakpoint min, ou valeur (ex: 1280px)
+/// @param {String|Length} $breakpoint-max - Nom du breakpoint max, ou valeur (ex: 1480px)
+@mixin bp-between($breakpoint-min, $breakpoint-max) {
+	$value-min: $breakpoint-min;
+	$value-max: $breakpoint-max;
+
+	// Breakpoint nommé -> vérifie que le nom du breakpoint existe et renvoie la valeur
+	@if type-of($breakpoint-min) == string {
+		$value-min: get-breakpoint-value($breakpoint-min);
+	}
+	@if type-of($breakpoint-max) == string {
+		$value-max: get-breakpoint-value($breakpoint-max);
+	}
+
+	@if $value-min and $value-max {
+		@media screen and (min-width: $value-min) and (max-width: ($value-max)) {
+			@content;
+		}
+	}
+}
+
+
+//  Alias de mixins - jusqu'au breakpoint nommé (MQ avec max-width)
+// -----------------------------------------------
+@mixin wide {
+	@include bp-down(wide) {
+		@content;
+	}
+}
+
+@mixin desktop {
+	@include bp-down(desktop) {
+		@content;
+	}
+}
+
+@mixin tablet-landscape {
+	@include bp-down(tablet-landscape) {
+		@content;
+	}
+}
+
+@mixin tablet-portrait {
+	@include bp-down(tablet-portrait) {
+		@content;
+	}
+}
+
+@mixin tablet-small {
+	@include bp-down(tablet-small) {
+		@content;
+	}
+}
+
+@mixin mobile {
+	@include bp-down(mobile) {
+		@content;
+	}
+}
+
+@mixin mobile-small {
+	@include bp-down(mobile-small) {
+		@content;
+	}
+}
+
+
+//  Alias de mixins - à partir du breakpoint nommé (MQ avec min-width)
+// -----------------------------------------------
+@mixin min-mobile-small {
+	@include bp-up(mobile-small) {
+		@content;
+	}
+}
+
+@mixin min-mobile {
+	@include bp-up(mobile) {
+		@content;
+	}
+}
+
+@mixin min-tablet-small {
+	@include bp-up(tablet-small) {
+		@content;
+	}
+}
+
+@mixin min-tablet-portrait {
+	@include bp-up(tablet-portrait) {
+		@content;
+	}
+}
+
+@mixin min-tablet-landscape {
+	@include bp-up(tablet-landscape) {
+		@content;
+	}
+}
+
+@mixin min-desktop {
+	@include bp-up(desktop) {
+		@content;
+	}
+}
+
+@mixin min-wide {
+	@include bp-up(wide) {
+		@content;
+	}
+}

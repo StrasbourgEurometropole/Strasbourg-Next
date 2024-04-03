@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Séparateur menu</name>
+        <key>6009571</key>
+        <definition>separateur-menu-structure.json</definition>
+        <layout>separateur-menu-layout.json</layout>
+    </structure>
+    <template>
+        <name>Séparateur menu</name>
+        <key>6009781</key>
+        <script>séparateur menu.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,26 +16,27 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.exception.NoSuchCacheJsonException;
 import eu.strasbourg.service.agenda.model.CacheJson;
+import eu.strasbourg.service.agenda.model.CacheJsonTable;
 import eu.strasbourg.service.agenda.model.impl.CacheJsonImpl;
 import eu.strasbourg.service.agenda.model.impl.CacheJsonModelImpl;
 import eu.strasbourg.service.agenda.service.persistence.CacheJsonPersistence;
+import eu.strasbourg.service.agenda.service.persistence.CacheJsonUtil;
 
 import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -207,11 +200,6 @@ public class CacheJsonPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByeventId, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -281,8 +269,6 @@ public class CacheJsonPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -443,11 +429,6 @@ public class CacheJsonPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByeventIdAndIsApproved, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -524,8 +505,6 @@ public class CacheJsonPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -701,10 +680,6 @@ public class CacheJsonPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1031,8 +1006,6 @@ public class CacheJsonPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1048,6 +1021,11 @@ public class CacheJsonPersistenceImpl
 
 	public CacheJsonPersistenceImpl() {
 		setModelClass(CacheJson.class);
+
+		setModelImplClass(CacheJsonImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(CacheJsonTable.INSTANCE);
 	}
 
 	/**
@@ -1058,8 +1036,7 @@ public class CacheJsonPersistenceImpl
 	@Override
 	public void cacheResult(CacheJson cacheJson) {
 		entityCache.putResult(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED, CacheJsonImpl.class,
-			cacheJson.getPrimaryKey(), cacheJson);
+			CacheJsonImpl.class, cacheJson.getPrimaryKey(), cacheJson);
 
 		finderCache.putResult(
 			_finderPathFetchByeventId, new Object[] {cacheJson.getEventId()},
@@ -1069,9 +1046,9 @@ public class CacheJsonPersistenceImpl
 			_finderPathFetchByeventIdAndIsApproved,
 			new Object[] {cacheJson.getEventId(), cacheJson.isIsApproved()},
 			cacheJson);
-
-		cacheJson.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the cache jsons in the entity cache if it is enabled.
@@ -1080,15 +1057,18 @@ public class CacheJsonPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<CacheJson> cacheJsons) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (cacheJsons.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (CacheJson cacheJson : cacheJsons) {
 			if (entityCache.getResult(
-					CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
 					CacheJsonImpl.class, cacheJson.getPrimaryKey()) == null) {
 
 				cacheResult(cacheJson);
-			}
-			else {
-				cacheJson.resetOriginalValues();
 			}
 		}
 	}
@@ -1104,9 +1084,7 @@ public class CacheJsonPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(CacheJsonImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(CacheJsonImpl.class);
 	}
 
 	/**
@@ -1118,39 +1096,22 @@ public class CacheJsonPersistenceImpl
 	 */
 	@Override
 	public void clearCache(CacheJson cacheJson) {
-		entityCache.removeResult(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED, CacheJsonImpl.class,
-			cacheJson.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((CacheJsonModelImpl)cacheJson, true);
+		entityCache.removeResult(CacheJsonImpl.class, cacheJson);
 	}
 
 	@Override
 	public void clearCache(List<CacheJson> cacheJsons) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (CacheJson cacheJson : cacheJsons) {
-			entityCache.removeResult(
-				CacheJsonModelImpl.ENTITY_CACHE_ENABLED, CacheJsonImpl.class,
-				cacheJson.getPrimaryKey());
-
-			clearUniqueFindersCache((CacheJsonModelImpl)cacheJson, true);
+			entityCache.removeResult(CacheJsonImpl.class, cacheJson);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(CacheJsonImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				CacheJsonModelImpl.ENTITY_CACHE_ENABLED, CacheJsonImpl.class,
-				primaryKey);
+			entityCache.removeResult(CacheJsonImpl.class, primaryKey);
 		}
 	}
 
@@ -1159,69 +1120,18 @@ public class CacheJsonPersistenceImpl
 
 		Object[] args = new Object[] {cacheJsonModelImpl.getEventId()};
 
+		finderCache.putResult(_finderPathCountByeventId, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByeventId, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByeventId, args, cacheJsonModelImpl, false);
+			_finderPathFetchByeventId, args, cacheJsonModelImpl);
 
 		args = new Object[] {
 			cacheJsonModelImpl.getEventId(), cacheJsonModelImpl.isIsApproved()
 		};
 
 		finderCache.putResult(
-			_finderPathCountByeventIdAndIsApproved, args, Long.valueOf(1),
-			false);
+			_finderPathCountByeventIdAndIsApproved, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathFetchByeventIdAndIsApproved, args, cacheJsonModelImpl,
-			false);
-	}
-
-	protected void clearUniqueFindersCache(
-		CacheJsonModelImpl cacheJsonModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {cacheJsonModelImpl.getEventId()};
-
-			finderCache.removeResult(_finderPathCountByeventId, args);
-			finderCache.removeResult(_finderPathFetchByeventId, args);
-		}
-
-		if ((cacheJsonModelImpl.getColumnBitmask() &
-			 _finderPathFetchByeventId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				cacheJsonModelImpl.getOriginalEventId()
-			};
-
-			finderCache.removeResult(_finderPathCountByeventId, args);
-			finderCache.removeResult(_finderPathFetchByeventId, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				cacheJsonModelImpl.getEventId(),
-				cacheJsonModelImpl.isIsApproved()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByeventIdAndIsApproved, args);
-			finderCache.removeResult(
-				_finderPathFetchByeventIdAndIsApproved, args);
-		}
-
-		if ((cacheJsonModelImpl.getColumnBitmask() &
-			 _finderPathFetchByeventIdAndIsApproved.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				cacheJsonModelImpl.getOriginalEventId(),
-				cacheJsonModelImpl.getOriginalIsApproved()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByeventIdAndIsApproved, args);
-			finderCache.removeResult(
-				_finderPathFetchByeventIdAndIsApproved, args);
-		}
+			_finderPathFetchByeventIdAndIsApproved, args, cacheJsonModelImpl);
 	}
 
 	/**
@@ -1350,10 +1260,8 @@ public class CacheJsonPersistenceImpl
 		try {
 			session = openSession();
 
-			if (cacheJson.isNew()) {
+			if (isNew) {
 				session.save(cacheJson);
-
-				cacheJson.setNew(false);
 			}
 			else {
 				cacheJson = (CacheJson)session.merge(cacheJson);
@@ -1366,49 +1274,14 @@ public class CacheJsonPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!CacheJsonModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {cacheJsonModelImpl.isIsApproved()};
-
-			finderCache.removeResult(_finderPathCountByisApproved, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByisApproved, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((cacheJsonModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByisApproved.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					cacheJsonModelImpl.getOriginalIsApproved()
-				};
-
-				finderCache.removeResult(_finderPathCountByisApproved, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByisApproved, args);
-
-				args = new Object[] {cacheJsonModelImpl.isIsApproved()};
-
-				finderCache.removeResult(_finderPathCountByisApproved, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByisApproved, args);
-			}
-		}
-
 		entityCache.putResult(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED, CacheJsonImpl.class,
-			cacheJson.getPrimaryKey(), cacheJson, false);
+			CacheJsonImpl.class, cacheJsonModelImpl, false, true);
 
-		clearUniqueFindersCache(cacheJsonModelImpl, false);
 		cacheUniqueFindersCache(cacheJsonModelImpl);
+
+		if (isNew) {
+			cacheJson.setNew(false);
+		}
 
 		cacheJson.resetOriginalValues();
 
@@ -1457,161 +1330,12 @@ public class CacheJsonPersistenceImpl
 	/**
 	 * Returns the cache json with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the cache json
-	 * @return the cache json, or <code>null</code> if a cache json with the primary key could not be found
-	 */
-	@Override
-	public CacheJson fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED, CacheJsonImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		CacheJson cacheJson = (CacheJson)serializable;
-
-		if (cacheJson == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				cacheJson = (CacheJson)session.get(
-					CacheJsonImpl.class, primaryKey);
-
-				if (cacheJson != null) {
-					cacheResult(cacheJson);
-				}
-				else {
-					entityCache.putResult(
-						CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-						CacheJsonImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-					CacheJsonImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return cacheJson;
-	}
-
-	/**
-	 * Returns the cache json with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param eventId the primary key of the cache json
 	 * @return the cache json, or <code>null</code> if a cache json with the primary key could not be found
 	 */
 	@Override
 	public CacheJson fetchByPrimaryKey(long eventId) {
 		return fetchByPrimaryKey((Serializable)eventId);
-	}
-
-	@Override
-	public Map<Serializable, CacheJson> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, CacheJson> map =
-			new HashMap<Serializable, CacheJson>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			CacheJson cacheJson = fetchByPrimaryKey(primaryKey);
-
-			if (cacheJson != null) {
-				map.put(primaryKey, cacheJson);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				CacheJsonModelImpl.ENTITY_CACHE_ENABLED, CacheJsonImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (CacheJson)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_CACHEJSON_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (CacheJson cacheJson : (List<CacheJson>)query.list()) {
-				map.put(cacheJson.getPrimaryKeyObj(), cacheJson);
-
-				cacheResult(cacheJson);
-
-				uncachedPrimaryKeys.remove(cacheJson.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-					CacheJsonImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1738,10 +1462,6 @@ public class CacheJsonPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1787,9 +1507,6 @@ public class CacheJsonPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1801,6 +1518,21 @@ public class CacheJsonPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "eventId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_CACHEJSON;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return CacheJsonModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1809,79 +1541,67 @@ public class CacheJsonPersistenceImpl
 	 * Initializes the cache json persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathFetchByeventId = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByeventId",
-			new String[] {Long.class.getName()},
-			CacheJsonModelImpl.EVENTID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"eventId"},
+			true);
 
 		_finderPathCountByeventId = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByeventId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"eventId"},
+			false);
 
 		_finderPathFetchByeventIdAndIsApproved = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByeventIdAndIsApproved",
 			new String[] {Long.class.getName(), Boolean.class.getName()},
-			CacheJsonModelImpl.EVENTID_COLUMN_BITMASK |
-			CacheJsonModelImpl.ISAPPROVED_COLUMN_BITMASK);
+			new String[] {"eventId", "isApproved"}, true);
 
 		_finderPathCountByeventIdAndIsApproved = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByeventIdAndIsApproved",
-			new String[] {Long.class.getName(), Boolean.class.getName()});
+			new String[] {Long.class.getName(), Boolean.class.getName()},
+			new String[] {"eventId", "isApproved"}, false);
 
 		_finderPathWithPaginationFindByisApproved = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByisApproved",
 			new String[] {
 				Boolean.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"isApproved"}, true);
 
 		_finderPathWithoutPaginationFindByisApproved = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, CacheJsonImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByisApproved",
-			new String[] {Boolean.class.getName()},
-			CacheJsonModelImpl.ISAPPROVED_COLUMN_BITMASK);
+			new String[] {Boolean.class.getName()}, new String[] {"isApproved"},
+			true);
 
 		_finderPathCountByisApproved = new FinderPath(
-			CacheJsonModelImpl.ENTITY_CACHE_ENABLED,
-			CacheJsonModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByisApproved",
-			new String[] {Boolean.class.getName()});
+			new String[] {Boolean.class.getName()}, new String[] {"isApproved"},
+			false);
+
+		CacheJsonUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		CacheJsonUtil.setPersistence(null);
+
 		entityCache.removeCache(CacheJsonImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1892,9 +1612,6 @@ public class CacheJsonPersistenceImpl
 
 	private static final String _SQL_SELECT_CACHEJSON =
 		"SELECT cacheJson FROM CacheJson cacheJson";
-
-	private static final String _SQL_SELECT_CACHEJSON_WHERE_PKS_IN =
-		"SELECT cacheJson FROM CacheJson cacheJson WHERE eventId IN (";
 
 	private static final String _SQL_SELECT_CACHEJSON_WHERE =
 		"SELECT cacheJson FROM CacheJson cacheJson WHERE ";
@@ -1915,5 +1632,10 @@ public class CacheJsonPersistenceImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		CacheJsonPersistenceImpl.class);
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

@@ -1,0 +1,192 @@
+.st-bloc-liens {
+	.st-liste {
+		border: 1px solid rgba($c_white, 0.25);
+		border-radius: $border-radius;
+	}
+
+	.st-lien-container {
+		position: relative;
+		display: flex;
+		align-items: center;
+		--link-padding-top: 36px;		// Premier lien si plusieurs dans la liste
+		--link-padding-bottom: 24px;
+
+		&:only-child {
+			--link-padding-top: 36px;		// Un seul lien dans la liste
+			--link-padding-bottom: 36px;
+		}
+
+		& + .st-lien-container {
+			--link-padding-top: 24px;		// Liens entre le premier et le dernier
+			--link-padding-bottom: 24px;
+
+			&:before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 40px;
+				right: 40px;
+				height: 1px;
+				background-image: url("../images/deco/dotted-line.svg");
+				pointer-events: none;
+
+				@include mobile {
+					left: 20px;
+					right: 20px;
+				}
+			}
+		}
+
+		& + .st-lien-container:last-child {
+			--link-padding-top: 24px;		// Dernier lien si plusieurs dans la liste
+			--link-padding-bottom: 36px;
+		}
+
+		.st-lien {
+			padding: var(--link-padding-top) 40px var(--link-padding-bottom);
+
+			@include mobile {
+				--link-padding-top: 16px;
+				--link-padding-bottom: 16px;
+				padding: var(--link-padding-top) 20px var(--link-padding-bottom);
+			}
+		}
+	}
+
+	.st-lien {
+		@include create-outline;
+		position: relative;
+		display: flex;
+		align-items: center;
+		width: 100%;
+
+		@include tablet-portrait {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		@include can-hover {
+			.st-title-lien {
+				color: $c_sub;
+			}
+		}
+	}
+
+	.st-title-lien {
+		@include ft('', $s_p, 400, $c_white, 1);
+		@include letter-spacing(25);
+		@include transition(color);
+
+		@include min-tablet-portrait {
+			max-width: 500px;
+		}
+
+		@include mobile {
+			font-size: 12px;
+		}
+	}
+
+	.st-lien-content {
+		display: flex;
+		align-items: center;
+		flex-grow: 1;
+
+		@include min-tablet-portrait {
+			margin-left: 10px;
+		}
+
+		@include tablet-portrait {
+			margin-top: 8px;
+		}
+		@include mobile {
+			margin-top: 4px;
+		}
+	}
+
+	.st-type {
+		@include ft('', $s_p, 300, $c_txt, 1);
+		@include letter-spacing(25);
+		margin-right: 10px;
+
+		@include mobile {
+			font-size: 12px;
+		}
+	}
+
+	.st-text {
+		@include ft('', $s_p, 600, $c_sub, 1);
+		@include letter-spacing(25);
+
+		@include min-tablet-portrait {
+			margin-left: auto;
+		}
+
+		@include mobile {
+			font-size: 12px;
+		}
+	}
+
+	.st-lien-left {
+		@include min-tablet-portrait {
+			max-width: 410px;
+		}
+
+		.st-type {
+			text-transform: initial;
+			margin-right: initial;
+			margin-top: 2px;
+
+			@include mobile {
+				font-size: 12px;
+			}
+		}
+	}
+	
+	
+	// --modifiers
+	&.st--in-overlay {
+		.st-lien-container {
+			& + .st-lien-container {
+				&:before {
+					left: 20px;
+					right: 20px;
+				}
+			}
+
+			.st-lien {
+				--link-padding-top: 16px;
+				--link-padding-bottom: 16px;
+				padding: var(--link-padding-top) 20px var(--link-padding-bottom);
+			}
+		}
+
+		.st-lien {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.st-title-lien {
+			font-size: 12px;
+		}
+
+		.st-lien-content {
+			margin-left: initial;
+			margin-top: 4px;
+		}
+
+		.st-type {
+			font-size: 12px;
+		}
+
+		.st-text {
+			font-size: 12px;
+		}
+	}
+
+	// Tout le contenu aligné à gauche
+	&.st--align-left  {
+		.st-text {
+			margin-left: initial;
+		}
+	}
+}

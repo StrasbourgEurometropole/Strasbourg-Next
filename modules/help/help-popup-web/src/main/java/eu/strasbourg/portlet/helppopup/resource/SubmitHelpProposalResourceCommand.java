@@ -307,8 +307,6 @@ public class SubmitHelpProposalResourceCommand implements MVCResourceCommand {
             // Verification de la bonne recuperation du contenu du fichier
             if (photo != null && photo.exists()) {
             	
-                byte[] imageBytes = FileUtil.getBytes(photo);
-                
                 // Dossier a la racine
                 DLFolder folderparent = DLFolderLocalServiceUtil.getFolder(themeDisplay.getScopeGroupId(),
                         													DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
@@ -323,7 +321,7 @@ public class SubmitHelpProposalResourceCommand implements MVCResourceCommand {
                         folder.getFolderId(), photo.getName(),
                         MimeTypesUtil.getContentType(photo),
                         photo.getName(), title,
-                        "", imageBytes, sc);
+                        "", photo, sc);
                 // Lien de l'image a l'entite
                 helpProposal.setImageId(fileEntry.getFileEntryId());
                 

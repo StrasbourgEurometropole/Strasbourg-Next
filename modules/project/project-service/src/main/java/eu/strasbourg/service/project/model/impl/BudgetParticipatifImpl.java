@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- * <p>
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * <p>
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -14,11 +14,10 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.asset.kernel.service.persistence.AssetEntryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -65,6 +64,7 @@ import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.CategoryNames;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.annotation.versioning.ProviderType;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
@@ -74,18 +74,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Stream;
 
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_ACCEPTABLE;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_CANCELLED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_FEASIBLE;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_IN_PROGRESS;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_LAUREAT;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_MERGED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_ACCEPTABLE;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_FEASIBLE;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_SELECTED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_REALIZED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_SUBMITTED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_SUSPENDED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.*;
 
 /**
  * The extended model implementation for the BudgetParticipatif service. Represents a row in the &quot;project_BudgetParticipatif&quot; database table, with each column mapped to a property of this class.
@@ -573,8 +562,8 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     	AssetCategory category = AssetVocabularyHelper.getCategory(status.getName(), groupID);
     	
     	if(!statuses.isEmpty())
-    		AssetEntryUtil.removeAssetCategory(entry.getEntryId(), statuses.get(0));
-    	
+		AssetEntryAssetCategoryRelLocalServiceUtil.deleteAssetEntryAssetCategoryRel
+				(entry.getEntryId(), statuses.get(0).getCategoryId());
     	AssetVocabularyHelper.addCategoryToAssetEntry(category, entry);
     }
     

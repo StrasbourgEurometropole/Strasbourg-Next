@@ -14,11 +14,6 @@
 
 package eu.strasbourg.service.notification.service.impl;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
-import java.util.List;
-
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -32,13 +27,17 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.notification.model.Notification;
 import eu.strasbourg.service.notification.model.UserNotificationStatus;
 import eu.strasbourg.service.notification.service.base.NotificationLocalServiceBaseImpl;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationStatusPK;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
 
 /**
  * The implementation of the notification local service.

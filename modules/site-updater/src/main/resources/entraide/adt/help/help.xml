@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.help.model.HelpProposal</className>
+    <template>
+        <script>help-detail.ftl</script>
+        <name>Détail aide</name>
+        <key>87804842</key>
+    </template>
+</root>

@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.asset.kernel.model.AssetEntry</className>
+    <template>
+        <name>Réseaux sociaux de musée (v2)</name>
+        <key>420085074</key>
+        <script>social-wall.ftl</script>
+    </template>
+    <template>
+        <name>Liste d'Editions (v2)</name>
+        <key>94994</key>
+        <script>edition-list.ftl</script>
+    </template>
+    <template>
+        <name>Liste d'événement (v2)</name>
+        <key>95017</key>
+        <script>event-slider.ftl</script>
+    </template>
+    <template>
+        <name>Documents utiles (v2)</name>
+        <key>33520</key>
+        <script>useful-documents.ftl</script>
+    </template>
+    <template>
+        <name>Onglet (v2)</name>
+        <key>36154</key>
+        <script>tab.ftl</script>
+    </template>
+    <template>
+        <name>Vignette Article/News recherche générale (v2)</name>
+        <key>96244</key>
+        <script>thumbnail-general.ftl</script>
+    </template>
+    <template>
+        <name>Liens utiles brut (sans titre)</name>
+        <key>603438</key>
+        <script>useful-link-without-title.ftl</script>
+    </template>
+    <template>
+        <name>A la une</name>
+        <key>420084916</key>
+        <script>big-news.ftl</script>
+    </template>
+    <template>
+        <name>Liens utiles</name>
+        <key>39781</key>
+        <script>useful-link.ftl</script>
+    </template>
+    <template>
+        <name>Liste des oeuvres musées (v2)</name>
+        <key>420085025</key>
+        <script>artwork-list-museum.ftl</script>
+    </template>
+    <template>
+        <name>Liste des oeuvres (v2)</name>
+        <key>420085031</key>
+        <script>artwork-list.ftl</script>
+    </template>
+    <template>
+        <name>Slider en Bref (v2)</name>
+        <key>420085042</key>
+        <script>en-bref-slider.ftl</script>
+    </template>
+    <template>
+        <name>Liste Exposition (v2)</name>
+        <key>420085047</key>
+        <script>expo-list.ftl</script>
+    </template>
+    <template>
+        <name>Slider exposition (v2)</name>
+        <key>420085052</key>
+        <script>expo-slider.ftl</script>
+    </template>
+    <template>
+        <name>Slider News (v2)</name>
+        <key>420085057</key>
+        <script>news-slider.ftl</script>
+    </template>
+    <template>
+        <name>Vignette news (v2)</name>
+        <key>420085063</key>
+        <script>news-thumbnail.ftl</script>
+    </template>
+    <template>
+        <name>Liste des anciennes expositions (v2)</name>
+        <key>420085067</key>
+        <script>old-expo-list.ftl</script>
+    </template>
+</root>

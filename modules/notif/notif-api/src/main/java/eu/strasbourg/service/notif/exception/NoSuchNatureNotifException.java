@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.notif.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Brian Wing Shun Chan
  */
-@ProviderType
 public class NoSuchNatureNotifException extends NoSuchModelException {
 
 	public NoSuchNatureNotifException() {
@@ -30,12 +27,12 @@ public class NoSuchNatureNotifException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchNatureNotifException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchNatureNotifException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchNatureNotifException(Throwable cause) {
-		super(cause);
+	public NoSuchNatureNotifException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

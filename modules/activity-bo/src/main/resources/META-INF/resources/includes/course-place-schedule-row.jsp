@@ -23,27 +23,27 @@
 	</div>
 	
 	<!-- Jours concernés par l'horaire -->
-	<div class="days">
+	<div class="days" style="display: flex">
 		<aui:input type="checkbox" value="1" name="monday_${param.placeIndex}_${param.scheduleIndex}" 
-			label="L" inlineField="true" inlineLabel="left" checked="${courseSchedule.hasScheduleOnDay(0)}" />
+			label="L" inlineLabel="left" checked="${courseSchedule.hasScheduleOnDay(0)}" />
 			
 		<aui:input type="checkbox" value="1" name="tuesday_${param.placeIndex}_${param.scheduleIndex}" 
-			label="M" inlineField="true" inlineLabel="left" checked="${courseSchedule.hasScheduleOnDay(1)}" />
+			label="M" inlineLabel="left" checked="${courseSchedule.hasScheduleOnDay(1)}" />
 			
 		<aui:input type="checkbox" value="1" name="wednesday_${param.placeIndex}_${param.scheduleIndex}" 
-			label="M" inlineField="true" inlineLabel="left" checked="${courseSchedule.hasScheduleOnDay(2)}" />
+			label="M" inlineLabel="left" checked="${courseSchedule.hasScheduleOnDay(2)}" />
 			
 		<aui:input type="checkbox" value="1" name="thursday_${param.placeIndex}_${param.scheduleIndex}" 
-			label="J" inlineField="true" inlineLabel="left" checked="${courseSchedule.hasScheduleOnDay(3)}" />
+			label="J" inlineLabel="left" checked="${courseSchedule.hasScheduleOnDay(3)}" />
 			
 		<aui:input type="checkbox" value="1" name="friday_${param.placeIndex}_${param.scheduleIndex}" 
-			label="V" inlineField="true" inlineLabel="left" checked="${courseSchedule.hasScheduleOnDay(4)}" />
+			label="V" inlineLabel="left" checked="${courseSchedule.hasScheduleOnDay(4)}" />
 			
 		<aui:input type="checkbox" value="1" name="saturday_${param.placeIndex}_${param.scheduleIndex}" 
-			label="S" inlineField="true" inlineLabel="left" checked="${courseSchedule.hasScheduleOnDay(5)}" />
+			label="S" inlineLabel="left" checked="${courseSchedule.hasScheduleOnDay(5)}" />
 			
 		<aui:input type="checkbox" value="1" name="sunday_${param.placeIndex}_${param.scheduleIndex}" 
-			label="D" inlineField="true" inlineLabel="left" checked="${courseSchedule.hasScheduleOnDay(6)}" />
+			label="D" inlineLabel="left" checked="${courseSchedule.hasScheduleOnDay(6)}" />
 	</div>
 	
 	<div class="comments">

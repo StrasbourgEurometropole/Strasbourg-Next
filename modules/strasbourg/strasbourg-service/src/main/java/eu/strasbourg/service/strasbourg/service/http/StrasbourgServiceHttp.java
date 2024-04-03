@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.strasbourg.service.http;
@@ -47,7 +38,6 @@ import eu.strasbourg.service.strasbourg.service.StrasbourgServiceUtil;
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see StrasbourgServiceSoap
  * @generated
  */
 public class StrasbourgServiceHttp {
@@ -86,8 +76,7 @@ public class StrasbourgServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getFileDetails(
-		HttpPrincipal httpPrincipal, long groupId, String uuid,
-		String language) {
+		HttpPrincipal httpPrincipal, String friendlyUrl, String language) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -95,7 +84,7 @@ public class StrasbourgServiceHttp {
 				_getFileDetailsParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, groupId, uuid, language);
+				methodKey, friendlyUrl, language);
 
 			Object returnObj = null;
 
@@ -736,13 +725,45 @@ public class StrasbourgServiceHttp {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
+		getCategoriesByGroupIds(HttpPrincipal httpPrincipal, long[] groupIds) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				StrasbourgServiceUtil.class, "getCategoriesByGroupIds",
+				_getCategoriesByGroupIdsParameterTypes25);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, groupIds);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONArray)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static com.liferay.portal.kernel.json.JSONArray
 		getVocabulariesByGroupIds(
 			HttpPrincipal httpPrincipal, long[] groupIds) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
 				StrasbourgServiceUtil.class, "getVocabulariesByGroupIds",
-				_getVocabulariesByGroupIdsParameterTypes25);
+				_getVocabulariesByGroupIdsParameterTypes26);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, groupIds);
@@ -775,7 +796,7 @@ public class StrasbourgServiceHttp {
 		long.class, String.class, String.class
 	};
 	private static final Class<?>[] _getFileDetailsParameterTypes4 =
-		new Class[] {long.class, String.class, String.class};
+		new Class[] {String.class, String.class};
 	private static final Class<?>[] _searchStreetsParameterTypes5 =
 		new Class[] {String.class};
 	private static final Class<?>[] _searchStreetsParameterTypes6 =
@@ -828,7 +849,9 @@ public class StrasbourgServiceHttp {
 		_getCategoriesByClassNameAndGroupIdsParameterTypes24 = new Class[] {
 			long[].class, String.class
 		};
-	private static final Class<?>[] _getVocabulariesByGroupIdsParameterTypes25 =
+	private static final Class<?>[] _getCategoriesByGroupIdsParameterTypes25 =
+		new Class[] {long[].class};
+	private static final Class<?>[] _getVocabulariesByGroupIdsParameterTypes26 =
 		new Class[] {long[].class};
 
 }

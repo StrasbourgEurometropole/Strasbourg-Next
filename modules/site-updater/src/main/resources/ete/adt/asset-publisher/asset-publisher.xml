@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.asset.kernel.model.AssetEntry</className>
+    <template>
+        <script>all-news.ftl</script>
+        <name>Toutes les actualités</name>
+        <key>1572832</key>
+    </template>
+    <template>
+        <script>events-big-slider.ftl</script>
+        <name>Gros slider événements</name>
+        <key>1572836</key>
+    </template>
+    <template>
+        <script>events-slider.ftl</script>
+        <name>Slider événements</name>
+        <key>1572840</key>
+    </template>
+    <template>
+        <script>web-content-thumbnail.ftl</script>
+        <name>Vignette contenu web</name>
+        <key>1572872</key>
+    </template>
+    <template>
+        <script>home-news.ftl</script>
+        <name>Actualités (accueil)</name>
+        <key>1572876</key>
+    </template>
+    <template>
+        <script>documents.ftl</script>
+        <name>Documents</name>
+        <key>1573206</key>
+    </template>
+</root>

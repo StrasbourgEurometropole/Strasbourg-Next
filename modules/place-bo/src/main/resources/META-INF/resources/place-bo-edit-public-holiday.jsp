@@ -1,25 +1,22 @@
 <%@ include file="/place-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.place.model.PublicHoliday"%>
 
-<liferay-portlet:renderURL varImpl="publicHolidaysURL">
-	<portlet:param name="tab" value="publicHolidays" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deletePublicHoliday"
 	var="deletePublicHolidayURL">
 	<portlet:param name="cmd" value="deletePublicHoliday" />
 	<portlet:param name="tab" value="publicHolidays" />
 	<portlet:param name="publicHolidayId"
 		value="${not empty dc.publicHoliday ? dc.publicHoliday.publicHolidayId : ''}" />
+	<portlet:param name="mvcPath" value="/place-bo-view-public-holidays.jsp" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="savePublicHoliday"
 	varImpl="savePublicHolidayURL">
-	<portlet:param name="cmd" value="savePublicHoliday" />
 	<portlet:param name="tab" value="publicHolidays" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="name-error" message="name-error" />
 	<liferay-ui:error key="date-error" message="date-error" />
 
@@ -30,7 +27,7 @@
 
 		<aui:model-context bean="${dc.publicHoliday}"
 			model="<%=PublicHoliday.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="publicHolidayId" type="hidden" />
 
 			<!-- Informations gÃ©nÃ©rale -->
@@ -52,7 +49,7 @@
 
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<aui:button-row>
 			<c:if test="${empty themeDisplay.scopeGroup.getStagingGroup()}">
@@ -63,7 +60,7 @@
 				<aui:button cssClass="btn-lg" href="${deletePublicHolidayURL}" type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>

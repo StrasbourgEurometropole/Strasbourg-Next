@@ -3,7 +3,6 @@ package eu.strasbourg.portlet.place.csmap.action;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -62,7 +61,7 @@ public class SaveCsmapPlaceCategoriesActionCommand extends BaseMVCActionCommand 
                 AssetCategory parentCategory = placeTypeCategory.getParentCategory();
                 if (Validator.isNotNull(parentCategory)) {
                     long parentId = parentCategory.getCategoryId();
-                    if (!placeTypesIdsList.contains(parentId)) {
+                    if (!placeTypesIdsList.contains(parentId) && placeTypes.indexOf(""+parentId) == -1) {
                         placeTypes.append(",").append(parentId);
                     }
                 }

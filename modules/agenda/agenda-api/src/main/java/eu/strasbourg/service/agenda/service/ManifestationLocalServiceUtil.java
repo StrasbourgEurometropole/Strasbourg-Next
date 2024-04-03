@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.agenda.model.Manifestation;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for Manifestation. This utility wraps
@@ -37,31 +37,28 @@ public class ManifestationLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.agenda.service.impl.ManifestationLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static void addEventManifestation(
+	public static boolean addEventManifestation(
 		long eventId, long manifestationId) {
 
-		getService().addEventManifestation(eventId, manifestationId);
+		return getService().addEventManifestation(eventId, manifestationId);
 	}
 
-	public static void addEventManifestation(
-		long eventId,
-		eu.strasbourg.service.agenda.model.Manifestation manifestation) {
+	public static boolean addEventManifestation(
+		long eventId, Manifestation manifestation) {
 
-		getService().addEventManifestation(eventId, manifestation);
+		return getService().addEventManifestation(eventId, manifestation);
 	}
 
-	public static void addEventManifestations(
-		long eventId,
-		java.util.List<eu.strasbourg.service.agenda.model.Manifestation>
-			manifestations) {
+	public static boolean addEventManifestations(
+		long eventId, List<Manifestation> manifestations) {
 
-		getService().addEventManifestations(eventId, manifestations);
+		return getService().addEventManifestations(eventId, manifestations);
 	}
 
-	public static void addEventManifestations(
+	public static boolean addEventManifestations(
 		long eventId, long[] manifestationIds) {
 
-		getService().addEventManifestations(eventId, manifestationIds);
+		return getService().addEventManifestations(eventId, manifestationIds);
 	}
 
 	/**
@@ -74,10 +71,7 @@ public class ManifestationLocalServiceUtil {
 	 * @param manifestation the manifestation
 	 * @return the manifestation that was added
 	 */
-	public static eu.strasbourg.service.agenda.model.Manifestation
-		addManifestation(
-			eu.strasbourg.service.agenda.model.Manifestation manifestation) {
-
+	public static Manifestation addManifestation(Manifestation manifestation) {
 		return getService().addManifestation(manifestation);
 	}
 
@@ -85,9 +79,7 @@ public class ManifestationLocalServiceUtil {
 	 * Modifie le statut de tous les manifestations au statut "SCHEDULED" qui
 	 * ont une date de publication dans le futur
 	 */
-	public static void checkManifestations()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static void checkManifestations() throws PortalException {
 		getService().checkManifestations();
 	}
 
@@ -101,21 +93,28 @@ public class ManifestationLocalServiceUtil {
 	 * @param manifestationId the primary key for the new manifestation
 	 * @return the new manifestation
 	 */
-	public static eu.strasbourg.service.agenda.model.Manifestation
-		createManifestation(long manifestationId) {
-
+	public static Manifestation createManifestation(long manifestationId) {
 		return getService().createManifestation(manifestationId);
 	}
 
 	/**
 	 * Crée un lien vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.agenda.model.Manifestation
-			createManifestation(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Manifestation createManifestation(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createManifestation(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	public static void deleteEventManifestation(
@@ -125,16 +124,13 @@ public class ManifestationLocalServiceUtil {
 	}
 
 	public static void deleteEventManifestation(
-		long eventId,
-		eu.strasbourg.service.agenda.model.Manifestation manifestation) {
+		long eventId, Manifestation manifestation) {
 
 		getService().deleteEventManifestation(eventId, manifestation);
 	}
 
 	public static void deleteEventManifestations(
-		long eventId,
-		java.util.List<eu.strasbourg.service.agenda.model.Manifestation>
-			manifestations) {
+		long eventId, List<Manifestation> manifestations) {
 
 		getService().deleteEventManifestations(eventId, manifestations);
 	}
@@ -156,9 +152,8 @@ public class ManifestationLocalServiceUtil {
 	 * @return the manifestation that was removed
 	 * @throws PortalException if a manifestation with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.Manifestation
-			deleteManifestation(long manifestationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Manifestation deleteManifestation(long manifestationId)
+		throws PortalException {
 
 		return getService().deleteManifestation(manifestationId);
 	}
@@ -173,9 +168,8 @@ public class ManifestationLocalServiceUtil {
 	 * @param manifestation the manifestation
 	 * @return the manifestation that was removed
 	 */
-	public static eu.strasbourg.service.agenda.model.Manifestation
-		deleteManifestation(
-			eu.strasbourg.service.agenda.model.Manifestation manifestation) {
+	public static Manifestation deleteManifestation(
+		Manifestation manifestation) {
 
 		return getService().deleteManifestation(manifestation);
 	}
@@ -184,7 +178,7 @@ public class ManifestationLocalServiceUtil {
 	 * Supprime les manifestations dépubliés depuis au moins un mois
 	 */
 	public static void deleteOldUnpublishedManifestations()
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		getService().deleteOldUnpublishedManifestations();
 	}
@@ -192,17 +186,22 @@ public class ManifestationLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -212,9 +211,7 @@ public class ManifestationLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -230,9 +227,8 @@ public class ManifestationLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -250,10 +246,9 @@ public class ManifestationLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -265,9 +260,7 @@ public class ManifestationLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -279,15 +272,13 @@ public class ManifestationLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.agenda.model.Manifestation
-		fetchManifestation(long manifestationId) {
-
+	public static Manifestation fetchManifestation(long manifestationId) {
 		return getService().fetchManifestation(manifestationId);
 	}
 
@@ -298,21 +289,18 @@ public class ManifestationLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching manifestation, or <code>null</code> if a matching manifestation could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.Manifestation
-		fetchManifestationByUuidAndGroupId(String uuid, long groupId) {
+	public static Manifestation fetchManifestationByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchManifestationByUuidAndGroupId(uuid, groupId);
 	}
 
-	public static eu.strasbourg.service.agenda.model.Manifestation
-		findByIdSource(String idSource) {
-
+	public static Manifestation findByIdSource(String idSource) {
 		return getService().findByIdSource(idSource);
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.Manifestation> findByKeyword(
-			String keyword, long groupId, int start, int end) {
+	public static List<Manifestation> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -321,8 +309,8 @@ public class ManifestationLocalServiceUtil {
 		return getService().findByKeywordCount(keyword, groupId);
 	}
 
-	public static eu.strasbourg.service.agenda.model.Manifestation
-		findBySourceAndIdSource(String source, String idSource) {
+	public static Manifestation findBySourceAndIdSource(
+		String source, String idSource) {
 
 		return getService().findBySourceAndIdSource(source, idSource);
 	}
@@ -333,7 +321,7 @@ public class ManifestationLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -342,34 +330,23 @@ public class ManifestationLocalServiceUtil {
 	/**
 	 * Retourne toutes les galeries éditions d'un groupe
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.Manifestation> getByGroupId(
-			long groupId) {
-
+	public static List<Manifestation> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.Manifestation>
-			getEventManifestations(long eventId) {
-
+	public static List<Manifestation> getEventManifestations(long eventId) {
 		return getService().getEventManifestations(eventId);
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.Manifestation>
-			getEventManifestations(long eventId, int start, int end) {
+	public static List<Manifestation> getEventManifestations(
+		long eventId, int start, int end) {
 
 		return getService().getEventManifestations(eventId, start, end);
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.Manifestation>
-			getEventManifestations(
-				long eventId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.agenda.model.Manifestation>
-						orderByComparator) {
+	public static List<Manifestation> getEventManifestations(
+		long eventId, int start, int end,
+		OrderByComparator<Manifestation> orderByComparator) {
 
 		return getService().getEventManifestations(
 			eventId, start, end, orderByComparator);
@@ -411,9 +388,8 @@ public class ManifestationLocalServiceUtil {
 	 * @return the manifestation
 	 * @throws PortalException if a manifestation with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.Manifestation
-			getManifestation(long manifestationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Manifestation getManifestation(long manifestationId)
+		throws PortalException {
 
 		return getService().getManifestation(manifestationId);
 	}
@@ -426,9 +402,9 @@ public class ManifestationLocalServiceUtil {
 	 * @return the matching manifestation
 	 * @throws PortalException if a matching manifestation could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.Manifestation
-			getManifestationByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Manifestation getManifestationByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getManifestationByUuidAndGroupId(uuid, groupId);
 	}
@@ -444,10 +420,7 @@ public class ManifestationLocalServiceUtil {
 	 * @param end the upper bound of the range of manifestations (not inclusive)
 	 * @return the range of manifestations
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.Manifestation> getManifestations(
-			int start, int end) {
-
+	public static List<Manifestation> getManifestations(int start, int end) {
 		return getService().getManifestations(start, end);
 	}
 
@@ -458,9 +431,8 @@ public class ManifestationLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching manifestations, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.Manifestation>
-			getManifestationsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Manifestation> getManifestationsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getManifestationsByUuidAndCompanyId(
 			uuid, companyId);
@@ -476,13 +448,9 @@ public class ManifestationLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching manifestations, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.Manifestation>
-			getManifestationsByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.agenda.model.Manifestation>
-						orderByComparator) {
+	public static List<Manifestation> getManifestationsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Manifestation> orderByComparator) {
 
 		return getService().getManifestationsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -509,9 +477,8 @@ public class ManifestationLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -534,9 +501,8 @@ public class ManifestationLocalServiceUtil {
 	 * @return The deleted Manifestation
 	 * @throws PortalException
 	 */
-	public static eu.strasbourg.service.agenda.model.Manifestation
-			removeManifestation(long manifestationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Manifestation removeManifestation(long manifestationId)
+		throws PortalException {
 
 		return getService().removeManifestation(manifestationId);
 	}
@@ -557,9 +523,7 @@ public class ManifestationLocalServiceUtil {
 	/**
 	 * Dépublie les manifestations dont la date de fin est dépassée
 	 */
-	public static void unpublishPastManifestations()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static void unpublishPastManifestations() throws PortalException {
 		getService().unpublishPastManifestations();
 	}
 
@@ -573,9 +537,8 @@ public class ManifestationLocalServiceUtil {
 	 * @param manifestation the manifestation
 	 * @return the manifestation that was updated
 	 */
-	public static eu.strasbourg.service.agenda.model.Manifestation
-		updateManifestation(
-			eu.strasbourg.service.agenda.model.Manifestation manifestation) {
+	public static Manifestation updateManifestation(
+		Manifestation manifestation) {
 
 		return getService().updateManifestation(manifestation);
 	}
@@ -583,11 +546,10 @@ public class ManifestationLocalServiceUtil {
 	/**
 	 * Met à jour un lien et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.agenda.model.Manifestation
-			updateManifestation(
-				eu.strasbourg.service.agenda.model.Manifestation manifestation,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Manifestation updateManifestation(
+			Manifestation manifestation,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateManifestation(manifestation, sc);
 	}
@@ -595,11 +557,11 @@ public class ManifestationLocalServiceUtil {
 	/**
 	 * Met à jour le statut de la galerie par le framework workflow
 	 */
-	public static eu.strasbourg.service.agenda.model.Manifestation updateStatus(
+	public static Manifestation updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
@@ -608,35 +570,20 @@ public class ManifestationLocalServiceUtil {
 	/**
 	 * Met à jour le statut de la galerie "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.agenda.model.Manifestation manifestation,
-			int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(Manifestation manifestation, int status)
+		throws PortalException {
 
 		getService().updateStatus(manifestation, status);
 	}
 
 	public static ManifestationLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<ManifestationLocalService, ManifestationLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			ManifestationLocalService.class);
-
-		ServiceTracker<ManifestationLocalService, ManifestationLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<ManifestationLocalService, ManifestationLocalService>(
-						bundle.getBundleContext(),
-						ManifestationLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(ManifestationLocalService service) {
+		_service = service;
 	}
+
+	private static volatile ManifestationLocalService _service;
 
 }

@@ -14,12 +14,14 @@
 
 package eu.strasbourg.service.place.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -55,22 +57,19 @@ import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.ScheduleException;
 import eu.strasbourg.service.place.model.SubPlace;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.service.place.service.base.PlaceLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import org.osgi.annotation.versioning.ProviderType;
+import org.osgi.service.component.annotations.Reference;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.net.URL;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -444,6 +443,26 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
                 null);
     }
 
+
+    /**
+     * Récupère le nombre d'emplacements approuvés associés à une catégorie d'actifs spécifique
+     * au sein d'un groupe d'entreprise donné.
+     *
+     * @param assetCategory La catégorie d'actifs pour laquelle compter les emplacements.
+     * @param companyGroupId L'identifiant du groupe d'entreprise dans lequel effectuer la recherche.
+     * @return Le nombre d'emplacements approuvés associés à la catégorie d'actifs donnée.
+     * @throws PortalException En cas d'erreur lors de la récupération des données.
+     */
+    @Override
+    public Integer getPlaceCountByAssetCategory(AssetCategory assetCategory, long companyGroupId) throws PortalException {
+        List<AssetEntry> entries = AssetVocabularyHelper.getAssetEntriesByAssetCategory(assetCategory);
+        return entries.parallelStream()
+                .map(entry -> PlaceLocalServiceUtil.fetchPlaceByUuidAndGroupId(entry.getClassUuid(), companyGroupId))
+                .filter(Objects::nonNull)
+                .filter(Place::isApproved)
+                .collect(Collectors.toList()).size();
+    }
+
     /**
      * Supprime un lieu
      */
@@ -451,55 +470,52 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
     public Place removePlace(long placeId) throws PortalException {
         AssetEntry entry = AssetEntryLocalServiceUtil
                 .fetchEntry(Place.class.getName(), placeId);
+if (entry != null) {
+			// Delete the link with categories
+			AssetEntryAssetCategoryRelLocalServiceUtil.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
-        if (entry != null) {
-            // Delete the link with categories
-            for (long categoryId : entry.getCategoryIds()) {
-                this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-                        categoryId, entry.getEntryId());
-            }
+			// Delete the link with tags
+			long[] tagIds = AssetEntryLocalServiceUtil
+					.getAssetTagPrimaryKeys(entry.getEntryId());
+			for (int i = 0; i < tagIds.length; i++) {
+				AssetEntryLocalServiceUtil.deleteAssetTagAssetEntry(tagIds[i],
+						entry.getEntryId());
+			}
 
-            // Delete the link with tags
-            long[] tagIds = AssetEntryLocalServiceUtil
-                    .getAssetTagPrimaryKeys(entry.getEntryId());
-            for (int i = 0; i < tagIds.length; i++) {
-                AssetEntryLocalServiceUtil.deleteAssetTagAssetEntry(tagIds[i],
-                        entry.getEntryId());
-            }
+			// Supprime lien avec les autres entries
+			List<AssetLink> links = AssetLinkLocalServiceUtil
+					.getLinks(entry.getEntryId());
+			for (AssetLink link : links) {
+				this.assetLinkLocalService.deleteAssetLink(link);
+			}
 
-            // Supprime lien avec les autres entries
-            List<AssetLink> links = this.assetLinkLocalService
-                    .getLinks(entry.getEntryId());
-            for (AssetLink link : links) {
-                this.assetLinkLocalService.deleteAssetLink(link);
-            }
+			// Delete the AssetEntry
+			AssetEntryLocalServiceUtil.deleteEntry(Place.class.getName(),
+					placeId);
 
-            // Delete the AssetEntry
-            AssetEntryLocalServiceUtil.deleteEntry(Place.class.getName(),
-                    placeId);
+		}
 
-        }
+		// Supprime le lieu
+		Place place = placePersistence.remove(placeId);
 
-        // Supprime le lieu
-        Place place = placePersistence.remove(placeId);
+		// Supprime les exceptions liées au lieu
+		List<ScheduleException> exceptions = place.getScheduleExceptions();
+		for (ScheduleException exception : exceptions) {
+			this.scheduleExceptionLocalService.deleteScheduleException(exception.getExceptionId());
+		}
 
-        // Supprime les exceptions liées au lieu
-        List<ScheduleException> exceptions = place.getScheduleExceptions();
-        for (ScheduleException exception : exceptions) {
-            this.scheduleExceptionLocalService.deleteScheduleException(exception.getExceptionId());
-        }
-
-        // Supprime les sous-lieux
-        List<SubPlace> subPlaces = place.getSubPlaces();
-        for (SubPlace subPlace : subPlaces) {
-            this.subPlaceLocalService.removeSubPlace(subPlace.getSubPlaceId());
-        }
-
-        // Supprime les périodes
-        List<Period> periods = place.getPeriods();
-        for (Period period : periods) {
-            this.periodLocalService.removePeriod(period.getPeriodId());
-        }
+		// Supprime les sous-lieux
+		List<SubPlace> subPlaces = place.getSubPlaces();
+		for (SubPlace subPlace : subPlaces) {
+			this.subPlaceLocalService.removeSubPlace(subPlace.getSubPlaceId());
+		}
+		
+		// Supprime les périodes
+		List<Period> periods = place.getPeriods();
+		for (Period period : periods) {
+			 this.periodLocalService.removePeriod(period.getPeriodId());
+		}
 
         //Mise à jour pour CSMap
         if (Validator.isNotNull(csmapCacheJsonLocalService.fetchCsmapCacheJson(place.getSIGid())))
@@ -612,6 +628,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
     public List<Place> getByGroupId(long groupId) {
         return this.placePersistence.findByGroupId(groupId);
     }
+    
 	/**
 	 * Recherche des places par identifiants
 	 * @param idsPlace : liste ids places
@@ -659,4 +676,7 @@ public class PlaceLocalServiceImpl extends PlaceLocalServiceBaseImpl {
         return "Can not update real time data for" + "'" + lieu + "' rtExternalId :" + rtExternalId + ", sigId :" + sigId;
     }
     private Log log = LogFactoryUtil.getLog(this.getClass().getName());
+
+    @Reference
+    private AssetLinkLocalService assetLinkLocalService;
 }

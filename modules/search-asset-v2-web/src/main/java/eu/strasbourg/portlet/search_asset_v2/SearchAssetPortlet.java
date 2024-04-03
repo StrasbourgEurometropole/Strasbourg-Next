@@ -7,6 +7,7 @@ import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -239,8 +240,15 @@ public class SearchAssetPortlet extends MVCPortlet {
 				attributes.remove(td.getPpid());
 			});
 
+			// Temp fix for actionURL
+			// FIXME: remove when LPS-200157 is fixed
+			if(renderRequest.getAttribute("javax.portlet.request") instanceof RenderRequest) {
+				themeDisplay.getRequest().setAttribute("javax.portlet.response", renderRequest.getAttribute("javax.portlet.response"));
+				themeDisplay.getRequest().setAttribute("javax.portlet.config", renderRequest.getAttribute("javax.portlet.config"));
+			}
 			boolean isDueEntity = false;
 			renderRequest.setAttribute("isDueEntity", isDueEntity);
+
 
 			super.render(renderRequest, renderResponse);
 		} catch (Exception e) {
@@ -270,9 +278,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 			ThemeDisplay themeDisplay = (ThemeDisplay) resourceRequest
 					.getAttribute(WebKeys.THEME_DISPLAY);
 
-			SearchAssetConfiguration configuration = themeDisplay
-					.getPortletDisplay().getPortletInstanceConfiguration(
-							SearchAssetConfiguration.class);
+			SearchAssetConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssetConfiguration.class, themeDisplay);
 
 			ConfigurationData configurationData = new ConfigurationData(configuration);
 

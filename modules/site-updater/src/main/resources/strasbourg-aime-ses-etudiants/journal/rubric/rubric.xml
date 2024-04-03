@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Rubrique</name>
+        <key>898379</key>
+        <definition>rubric-structure.json</definition>
+        <layout>rubric-layout.json</layout>
+    </structure>
+    <template>
+        <name>Rubrique</name>
+        <key>898403</key>
+        <script>rubrique.ftl</script>
+    </template>
+</root>

@@ -14,12 +14,7 @@
 
 package eu.strasbourg.service.interest.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
-
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -39,12 +34,17 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.model.UserInterest;
 import eu.strasbourg.service.interest.service.base.InterestLocalServiceBaseImpl;
 import eu.strasbourg.service.interest.service.persistence.UserInterestPK;
+import org.osgi.annotation.versioning.ProviderType;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the interest local service.
@@ -198,10 +198,8 @@ public class InterestLocalServiceImpl extends InterestLocalServiceBaseImpl {
 			}
 
 			// Supprime le lien avec les catégories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(categoryId, entry.getEntryId());
-			}
-
+			AssetEntryAssetCategoryRelLocalServiceUtil.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Supprime le lien avec les tags
 			long[] tagIds = AssetEntryLocalServiceUtil.getAssetTagPrimaryKeys(entry.getEntryId());
 			for (int i = 0; i < tagIds.length; i++) {
@@ -332,5 +330,4 @@ public class InterestLocalServiceImpl extends InterestLocalServiceBaseImpl {
 
 		return interestPersistence.countWithDynamicQuery(dynamicQuery);
 	}
-
 }

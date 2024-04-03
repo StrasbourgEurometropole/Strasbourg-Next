@@ -1,24 +1,20 @@
 <%@ include file="/edition-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.edition.model.EditionGallery"%>
 
-<liferay-portlet:renderURL varImpl="galleriesURL">
-	<portlet:param name="tab" value="galleries" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteGallery" var="deleteGalleryURL">
 	<portlet:param name="cmd" value="deleteGallery" />
 	<portlet:param name="tab" value="galleries" />
+	<portlet:param name="mvcPath" value="/edition-bo-view-galleries.jsp" />
 	<portlet:param name="galleryId"
 		value="${not empty dc.editionGallery ? dc.editionGallery.galleryId : ''}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveGallery" varImpl="saveGalleryURL">
-	<portlet:param name="cmd" value="saveGallery" />
 	<portlet:param name="tab" value="galleries" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
-
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
 
@@ -29,7 +25,7 @@
 
 		<aui:model-context bean="${dc.editionGallery}"
 			model="<%=EditionGallery.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="galleryId" type="hidden" />
 
 			<aui:fieldset collapsed="false" collapsible="true"
@@ -54,20 +50,21 @@
 
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="categorization">
-				
-				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
-				
+
+				<liferay-asset:asset-categories-selector
+						className="<%= EditionGallery.class.getName() %>"
+						classPK="${dc.editionGallery.galleryId}"/>
 				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
 				<div class="has-error">
 					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
 							function (val, fieldNode, ruleValue) {
 								var validated = true;
-								var fields = document.querySelectorAll('.categories-selectors > .field-content');
+								var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
 								for (var i = 0; i < fields.length; i++) {
 									fieldContent = fields[i];
-								    if ($(fieldContent).find('.icon-asterisk').length > 0
-								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+								    if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
+								    	&& $(fieldContent).find('input[type="hidden"]').length == 0) {
 								    	validated = false;
 								    	break;
 								    }
@@ -78,7 +75,9 @@
 					</aui:input>
 				</div>
 
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= EditionGallery.class.getName() %>"
+						classPK="${dc.editionGallery.galleryId}"/>
 
 			</aui:fieldset>
 
@@ -86,8 +85,6 @@
 				label="publication">
 				<aui:input name="publicationDate" />
 			</aui:fieldset>
-
-		</aui:fieldset-group>
 		
 		<aui:button-row>
 			<c:if test="${(dc.hasPermission('ADD_EDITION_GALLERY') and empty dc.editionGallery or dc.hasPermission('EDIT_EDITION_GALLERY') and not empty dc.editionGallery ) and empty themeDisplay.scopeGroup.getStagingGroup()}">
@@ -106,7 +103,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 	</aui:form>
 </div>

@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.notif.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import eu.strasbourg.service.notif.model.Message;
 import eu.strasbourg.service.notif.model.NatureNotif;
 import eu.strasbourg.service.notif.service.MessageLocalServiceUtil;

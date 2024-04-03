@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.help.service.base;
@@ -21,6 +12,7 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerRegistryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -40,6 +32,8 @@ import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
@@ -54,6 +48,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.service.HelpProposalLocalService;
+import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.service.help.service.persistence.HelpProposalPersistence;
 import eu.strasbourg.service.help.service.persistence.HelpRequestPersistence;
 
@@ -63,6 +58,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -83,7 +79,7 @@ public abstract class HelpProposalLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>HelpProposalLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>HelpProposalLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>HelpProposalLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -149,6 +145,18 @@ public abstract class HelpProposalLocalServiceBaseImpl
 	@Override
 	public HelpProposal deleteHelpProposal(HelpProposal helpProposal) {
 		return helpProposalPersistence.remove(helpProposal);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return helpProposalPersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -418,13 +426,30 @@ public abstract class HelpProposalLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return helpProposalPersistence.create(
+			((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement HelpProposalLocalServiceImpl#deleteHelpProposal(HelpProposal) to avoid orphaned data");
+		}
 
 		return helpProposalLocalService.deleteHelpProposal(
 			(HelpProposal)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<HelpProposal> getBasePersistence() {
 		return helpProposalPersistence;
 	}
@@ -530,6 +555,11 @@ public abstract class HelpProposalLocalServiceBaseImpl
 		return helpProposalPersistence.update(helpProposal);
 	}
 
+	@Deactivate
+	protected void deactivate() {
+		HelpProposalLocalServiceUtil.setService(null);
+	}
+
 	@Override
 	public Class<?>[] getAopInterfaces() {
 		return new Class<?>[] {
@@ -541,6 +571,8 @@ public abstract class HelpProposalLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		helpProposalLocalService = (HelpProposalLocalService)aopProxy;
+
+		HelpProposalLocalServiceUtil.setService(helpProposalLocalService);
 	}
 
 	/**
@@ -614,11 +646,10 @@ public abstract class HelpProposalLocalServiceBaseImpl
 		assetEntryLocalService;
 
 	@Reference
-	protected com.liferay.asset.kernel.service.AssetLinkLocalService
-		assetLinkLocalService;
-
-	@Reference
 	protected com.liferay.asset.kernel.service.AssetTagLocalService
 		assetTagLocalService;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		HelpProposalLocalServiceBaseImpl.class);
 
 }

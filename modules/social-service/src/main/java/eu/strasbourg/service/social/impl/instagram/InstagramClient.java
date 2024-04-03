@@ -1,7 +1,8 @@
 package eu.strasbourg.service.social.impl.instagram;
 
 
-import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
+import com.liferay.portal.kernel.cache.PortalCacheHelperUtil;
+import com.liferay.portal.kernel.cache.PortalCacheManagerNames;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -27,8 +28,8 @@ public class InstagramClient {
 	public static List<SocialPost> getInstagramPosts(String token, int count) {
 
 
-		Object timelineFromCache = MultiVMPoolUtil.getPortalCache("instagram_cache").get(token);
-		Object lastTimelineUpdate = MultiVMPoolUtil.getPortalCache("instagram_cache").get(token + "_last_update");
+		Object timelineFromCache = PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,"instagram_cache").get(token);
+		Object lastTimelineUpdate = PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,"instagram_cache").get(token + "_last_update");
 
 		if (timelineFromCache != null && lastTimelineUpdate != null) {
 			long now = new Date().getTime();
@@ -98,13 +99,13 @@ public class InstagramClient {
 			log.error(e.getMessage());
 		}
 
-		MultiVMPoolUtil.getPortalCache("instagram_cache").remove(token);
-		MultiVMPoolUtil.getPortalCache("instagram_cache")
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,"instagram_cache").remove(token);
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,"instagram_cache")
 				.remove(token + "_last_update");
 
-		MultiVMPoolUtil.getPortalCache("instagram_cache")
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,"instagram_cache")
 				.put(token, (Serializable) posts);
-		MultiVMPoolUtil.getPortalCache("instagram_cache")
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,"instagram_cache")
 				.put(token + "_last_update", new Date().getTime());
 
 		return posts;

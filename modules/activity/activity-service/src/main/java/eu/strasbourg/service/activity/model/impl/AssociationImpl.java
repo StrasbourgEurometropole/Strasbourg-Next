@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.activity.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -27,6 +27,7 @@ import eu.strasbourg.service.activity.service.AssociationLocalServiceUtil;
 import eu.strasbourg.service.activity.service.PracticeLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -98,5 +99,25 @@ public class AssociationImpl extends AssociationBaseImpl {
 	@Override
 	public List<PracticeCategories> getPracticesCategories() {
 		return PracticeLocalServiceUtil.getPracticesSortedByAssociation(this.getAssociationId());
+	}
+
+	/**
+	 * Retourne les territoires de l'association
+	 */
+	@Override
+	public List<AssetCategory> getTerritories() {
+		List<AssetCategory> territories = new ArrayList<>();
+		// for each practice, get the territories
+		List<Practice> practices = this.getPractices();
+		for (Practice practice : practices) {
+			List<AssetCategory> practiceTerritories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(practice.getAssetEntry(), "territoire");
+			// add the territories to the list
+			for (AssetCategory territory : practiceTerritories) {
+				if (!territories.contains(territory)) {
+					territories.add(territory);
+				}
+			}
+		}
+		return territories;
 	}
 }

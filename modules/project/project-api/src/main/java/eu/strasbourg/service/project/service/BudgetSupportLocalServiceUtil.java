@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.project.model.BudgetSupport;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for BudgetSupport. This utility wraps
@@ -48,10 +47,7 @@ public class BudgetSupportLocalServiceUtil {
 	 * @param budgetSupport the budget support
 	 * @return the budget support that was added
 	 */
-	public static eu.strasbourg.service.project.model.BudgetSupport
-		addBudgetSupport(
-			eu.strasbourg.service.project.model.BudgetSupport budgetSupport) {
-
+	public static BudgetSupport addBudgetSupport(BudgetSupport budgetSupport) {
 		return getService().addBudgetSupport(budgetSupport);
 	}
 
@@ -74,9 +70,7 @@ public class BudgetSupportLocalServiceUtil {
 	 * @param budgetSupportId the primary key for the new budget support
 	 * @return the new budget support
 	 */
-	public static eu.strasbourg.service.project.model.BudgetSupport
-		createBudgetSupport(long budgetSupportId) {
-
+	public static BudgetSupport createBudgetSupport(long budgetSupportId) {
 		return getService().createBudgetSupport(budgetSupportId);
 	}
 
@@ -86,11 +80,20 @@ public class BudgetSupportLocalServiceUtil {
 	 * @param sc Le contexte de la requete.
 	 * @return Le soutien cree.
 	 */
-	public static eu.strasbourg.service.project.model.BudgetSupport
-		createBudgetSupport(
-			com.liferay.portal.kernel.service.ServiceContext sc) {
+	public static BudgetSupport createBudgetSupport(
+		com.liferay.portal.kernel.service.ServiceContext sc) {
 
 		return getService().createBudgetSupport(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -103,9 +106,8 @@ public class BudgetSupportLocalServiceUtil {
 	 * @param budgetSupport the budget support
 	 * @return the budget support that was removed
 	 */
-	public static eu.strasbourg.service.project.model.BudgetSupport
-		deleteBudgetSupport(
-			eu.strasbourg.service.project.model.BudgetSupport budgetSupport) {
+	public static BudgetSupport deleteBudgetSupport(
+		BudgetSupport budgetSupport) {
 
 		return getService().deleteBudgetSupport(budgetSupport);
 	}
@@ -121,9 +123,8 @@ public class BudgetSupportLocalServiceUtil {
 	 * @return the budget support that was removed
 	 * @throws PortalException if a budget support with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.BudgetSupport
-			deleteBudgetSupport(long budgetSupportId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static BudgetSupport deleteBudgetSupport(long budgetSupportId)
+		throws PortalException {
 
 		return getService().deleteBudgetSupport(budgetSupportId);
 	}
@@ -131,17 +132,22 @@ public class BudgetSupportLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -151,9 +157,7 @@ public class BudgetSupportLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -169,9 +173,8 @@ public class BudgetSupportLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -189,10 +192,9 @@ public class BudgetSupportLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -204,9 +206,7 @@ public class BudgetSupportLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -218,15 +218,13 @@ public class BudgetSupportLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.project.model.BudgetSupport
-		fetchBudgetSupport(long budgetSupportId) {
-
+	public static BudgetSupport fetchBudgetSupport(long budgetSupportId) {
 		return getService().fetchBudgetSupport(budgetSupportId);
 	}
 
@@ -237,8 +235,8 @@ public class BudgetSupportLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching budget support, or <code>null</code> if a matching budget support could not be found
 	 */
-	public static eu.strasbourg.service.project.model.BudgetSupport
-		fetchBudgetSupportByUuidAndGroupId(String uuid, long groupId) {
+	public static BudgetSupport fetchBudgetSupportByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchBudgetSupportByUuidAndGroupId(uuid, groupId);
 	}
@@ -256,9 +254,8 @@ public class BudgetSupportLocalServiceUtil {
 	 * @return the budget support
 	 * @throws PortalException if a budget support with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.BudgetSupport
-			getBudgetSupport(long budgetSupportId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static BudgetSupport getBudgetSupport(long budgetSupportId)
+		throws PortalException {
 
 		return getService().getBudgetSupport(budgetSupportId);
 	}
@@ -267,13 +264,12 @@ public class BudgetSupportLocalServiceUtil {
 	 * Recuperer les soutiens d'un budgte et d'un utilisateur donne
 	 *
 	 * @param budgetParticipatifId ID du budget participatif.
-	 * @param publikId ID publik de l'utilsiateur
+	 * @param publikUserId ID publik de l'utilsiateur
 	 * @return Liste des soutiens
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetSupport>
-			getBudgetSupportByBudgetParticipatifIdAndPublikUserId(
-				long budgetParticipatifId, String publikUserId) {
+	public static List<BudgetSupport>
+		getBudgetSupportByBudgetParticipatifIdAndPublikUserId(
+			long budgetParticipatifId, String publikUserId) {
 
 		return getService().
 			getBudgetSupportByBudgetParticipatifIdAndPublikUserId(
@@ -286,9 +282,8 @@ public class BudgetSupportLocalServiceUtil {
 	 * @param publikId ID publik de l'utilsiateur
 	 * @return Liste des soutiens
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetSupport>
-			getBudgetSupportByPublikId(String publikId) {
+	public static List<BudgetSupport> getBudgetSupportByPublikId(
+		String publikId) {
 
 		return getService().getBudgetSupportByPublikId(publikId);
 	}
@@ -301,9 +296,9 @@ public class BudgetSupportLocalServiceUtil {
 	 * @return the matching budget support
 	 * @throws PortalException if a matching budget support could not be found
 	 */
-	public static eu.strasbourg.service.project.model.BudgetSupport
-			getBudgetSupportByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static BudgetSupport getBudgetSupportByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getBudgetSupportByUuidAndGroupId(uuid, groupId);
 	}
@@ -319,10 +314,7 @@ public class BudgetSupportLocalServiceUtil {
 	 * @param end the upper bound of the range of budget supports (not inclusive)
 	 * @return the range of budget supports
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetSupport> getBudgetSupports(
-			int start, int end) {
-
+	public static List<BudgetSupport> getBudgetSupports(int start, int end) {
 		return getService().getBudgetSupports(start, end);
 	}
 
@@ -332,9 +324,8 @@ public class BudgetSupportLocalServiceUtil {
 	 * @param budgetParticipatifId ID du budget participatif.
 	 * @return Liste des budgets participatifs
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetSupport>
-			getBudgetSupportsByBudgetParticipatifId(long budgetParticipatifId) {
+	public static List<BudgetSupport> getBudgetSupportsByBudgetParticipatifId(
+		long budgetParticipatifId) {
 
 		return getService().getBudgetSupportsByBudgetParticipatifId(
 			budgetParticipatifId);
@@ -347,9 +338,8 @@ public class BudgetSupportLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching budget supports, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetSupport>
-			getBudgetSupportsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<BudgetSupport> getBudgetSupportsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getBudgetSupportsByUuidAndCompanyId(
 			uuid, companyId);
@@ -365,13 +355,9 @@ public class BudgetSupportLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching budget supports, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetSupport>
-			getBudgetSupportsByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.project.model.BudgetSupport>
-						orderByComparator) {
+	public static List<BudgetSupport> getBudgetSupportsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<BudgetSupport> orderByComparator) {
 
 		return getService().getBudgetSupportsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -413,9 +399,8 @@ public class BudgetSupportLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -439,34 +424,20 @@ public class BudgetSupportLocalServiceUtil {
 	 * @param budgetSupport the budget support
 	 * @return the budget support that was updated
 	 */
-	public static eu.strasbourg.service.project.model.BudgetSupport
-		updateBudgetSupport(
-			eu.strasbourg.service.project.model.BudgetSupport budgetSupport) {
+	public static BudgetSupport updateBudgetSupport(
+		BudgetSupport budgetSupport) {
 
 		return getService().updateBudgetSupport(budgetSupport);
 	}
 
 	public static BudgetSupportLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<BudgetSupportLocalService, BudgetSupportLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			BudgetSupportLocalService.class);
-
-		ServiceTracker<BudgetSupportLocalService, BudgetSupportLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<BudgetSupportLocalService, BudgetSupportLocalService>(
-						bundle.getBundleContext(),
-						BudgetSupportLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(BudgetSupportLocalService service) {
+		_service = service;
 	}
+
+	private static volatile BudgetSupportLocalService _service;
 
 }

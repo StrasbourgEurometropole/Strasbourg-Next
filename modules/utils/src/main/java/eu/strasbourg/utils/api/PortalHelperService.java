@@ -10,6 +10,11 @@ public interface PortalHelperService {
     String getHomeURL(ThemeDisplay themeDisplay);
 
     /**
+     * Retourne HomeURL
+     */
+    String getHomeURL(ThemeDisplay themeDisplay, String suffix);
+
+    /**
      * Retourne PortalURL
      */
     String getPortalURL(ThemeDisplay themeDisplay);

@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.mediatheque.portlet;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -13,6 +14,7 @@ import eu.strasbourg.portlet.mediatheque.configuration.MediathequeConfiguration;
 import eu.strasbourg.portlet.mediatheque.dissociate.DissociateResponse;
 import eu.strasbourg.portlet.mediatheque.dissociate.DissociateWebService;
 import eu.strasbourg.portlet.mediatheque.mapping.MediathequeMapping;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
@@ -39,8 +41,7 @@ public class MediathequeDisplayContext {
 	public MediathequeDisplayContext(ThemeDisplay themeDisplay) {
 		this.themeDisplay = themeDisplay;
 		try {
-			this.configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(MediathequeConfiguration.class);
+			this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(MediathequeConfiguration.class, themeDisplay);
 		} catch (ConfigurationException e) {
 			_log.error(e.getMessage());
 		}
@@ -206,7 +207,7 @@ public class MediathequeDisplayContext {
 	}
 
 	public String getVirtualHostName() {
-		return themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname();
+		return PortalHelper.getVirtualHostname(themeDisplay.getScopeGroup(), themeDisplay.getLanguageId());
 	}
 
 	// Récupération de l'id utilisateur

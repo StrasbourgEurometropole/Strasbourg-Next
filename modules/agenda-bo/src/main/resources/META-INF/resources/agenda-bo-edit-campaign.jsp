@@ -1,24 +1,21 @@
 <%@ include file="/agenda-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.agenda.model.Campaign"%>
 
-<liferay-portlet:renderURL varImpl="campaignsURL">
-	<portlet:param name="tab" value="campaigns" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteCampaign" var="deleteCampaignURL">
 	<portlet:param name="cmd" value="deleteCampaign" />
 	<portlet:param name="tab" value="campaigns" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-campaigns.jsp" />
 	<portlet:param name="campaignId"
 		value="${not empty dc.campaign ? dc.campaign.campaignId : ''}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveCampaign" varImpl="saveCampaignURL">
-	<portlet:param name="cmd" value="saveCampaign" />
 	<portlet:param name="tab" value="campaigns" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
 	<liferay-ui:error key="copyright-error" message="copyright-error" />
@@ -34,7 +31,7 @@
 			id="translationManager" />
 
 		<aui:model-context bean="${dc.campaign}" model="<%=Campaign.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="campaignId" type="hidden" />
 
 			<aui:fieldset collapsed="false" collapsible="true" label="general">
@@ -107,11 +104,13 @@
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="categorization">
 
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= Campaign.class.getName() %>"
+						classPK="${dc.campaign.campaignId}"/>
 
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 
 		<aui:button-row>
@@ -133,10 +132,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
-			<liferay-portlet:renderURL varImpl="cancelURL">
-				<liferay-portlet:param name="tab" value="campaigns" />
-			</liferay-portlet:renderURL>
-			<aui:button cssClass="btn-lg" href="${cancelURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 	</aui:form>
 </div>

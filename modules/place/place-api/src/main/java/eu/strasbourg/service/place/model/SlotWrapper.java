@@ -1,28 +1,15 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -33,20 +20,11 @@ import java.util.Objects;
  * @see Slot
  * @generated
  */
-public class SlotWrapper implements ModelWrapper<Slot>, Slot {
+public class SlotWrapper
+	extends BaseModelWrapper<Slot> implements ModelWrapper<Slot>, Slot {
 
 	public SlotWrapper(Slot slot) {
-		_slot = slot;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Slot.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Slot.class.getName();
+		super(slot);
 	}
 
 	@Override
@@ -117,18 +95,13 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	}
 
 	@Override
-	public Object clone() {
-		return new SlotWrapper((Slot)_slot.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.place.model.Slot slot) {
-		return _slot.compareTo(slot);
+	public Slot cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _slot.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -138,7 +111,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public String getComment() {
-		return _slot.getComment();
+		return model.getComment();
 	}
 
 	/**
@@ -149,7 +122,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public String getComment(java.util.Locale locale) {
-		return _slot.getComment(locale);
+		return model.getComment(locale);
 	}
 
 	/**
@@ -161,7 +134,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public String getComment(java.util.Locale locale, boolean useDefault) {
-		return _slot.getComment(locale, useDefault);
+		return model.getComment(locale, useDefault);
 	}
 
 	/**
@@ -172,7 +145,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public String getComment(String languageId) {
-		return _slot.getComment(languageId);
+		return model.getComment(languageId);
 	}
 
 	/**
@@ -184,17 +157,17 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public String getComment(String languageId, boolean useDefault) {
-		return _slot.getComment(languageId, useDefault);
+		return model.getComment(languageId, useDefault);
 	}
 
 	@Override
 	public String getCommentCurrentLanguageId() {
-		return _slot.getCommentCurrentLanguageId();
+		return model.getCommentCurrentLanguageId();
 	}
 
 	@Override
 	public String getCommentCurrentValue() {
-		return _slot.getCommentCurrentValue();
+		return model.getCommentCurrentValue();
 	}
 
 	/**
@@ -204,7 +177,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getCommentMap() {
-		return _slot.getCommentMap();
+		return model.getCommentMap();
 	}
 
 	/**
@@ -214,12 +187,12 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public long getDayOfWeek() {
-		return _slot.getDayOfWeek();
+		return model.getDayOfWeek();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _slot.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -229,12 +202,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public String getEndHour() {
-		return _slot.getEndHour();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _slot.getExpandoBridge();
+		return model.getEndHour();
 	}
 
 	/**
@@ -244,7 +212,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public long getPeriodId() {
-		return _slot.getPeriodId();
+		return model.getPeriodId();
 	}
 
 	/**
@@ -254,12 +222,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _slot.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _slot.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -269,7 +232,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public long getSlotId() {
-		return _slot.getSlotId();
+		return model.getSlotId();
 	}
 
 	/**
@@ -279,7 +242,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public String getStartHour() {
-		return _slot.getStartHour();
+		return model.getStartHour();
 	}
 
 	/**
@@ -289,7 +252,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public long getSubPlaceId() {
-		return _slot.getSubPlaceId();
+		return model.getSubPlaceId();
 	}
 
 	/**
@@ -299,39 +262,19 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public String getUuid() {
-		return _slot.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _slot.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _slot.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _slot.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _slot.isNew();
+		return model.getUuid();
 	}
 
 	@Override
 	public void persist() {
-		_slot.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_slot.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -339,12 +282,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_slot.prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_slot.setCachedModel(cachedModel);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -354,7 +292,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public void setComment(String comment) {
-		_slot.setComment(comment);
+		model.setComment(comment);
 	}
 
 	/**
@@ -365,7 +303,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public void setComment(String comment, java.util.Locale locale) {
-		_slot.setComment(comment, locale);
+		model.setComment(comment, locale);
 	}
 
 	/**
@@ -380,12 +318,12 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 		String comment, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_slot.setComment(comment, locale, defaultLocale);
+		model.setComment(comment, locale, defaultLocale);
 	}
 
 	@Override
 	public void setCommentCurrentLanguageId(String languageId) {
-		_slot.setCommentCurrentLanguageId(languageId);
+		model.setCommentCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -395,7 +333,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public void setCommentMap(Map<java.util.Locale, String> commentMap) {
-		_slot.setCommentMap(commentMap);
+		model.setCommentMap(commentMap);
 	}
 
 	/**
@@ -409,7 +347,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 		Map<java.util.Locale, String> commentMap,
 		java.util.Locale defaultLocale) {
 
-		_slot.setCommentMap(commentMap, defaultLocale);
+		model.setCommentMap(commentMap, defaultLocale);
 	}
 
 	/**
@@ -419,7 +357,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public void setDayOfWeek(long dayOfWeek) {
-		_slot.setDayOfWeek(dayOfWeek);
+		model.setDayOfWeek(dayOfWeek);
 	}
 
 	/**
@@ -429,29 +367,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public void setEndHour(String endHour) {
-		_slot.setEndHour(endHour);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_slot.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_slot.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_slot.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_slot.setNew(n);
+		model.setEndHour(endHour);
 	}
 
 	/**
@@ -461,7 +377,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public void setPeriodId(long periodId) {
-		_slot.setPeriodId(periodId);
+		model.setPeriodId(periodId);
 	}
 
 	/**
@@ -471,12 +387,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_slot.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_slot.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -486,7 +397,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public void setSlotId(long slotId) {
-		_slot.setSlotId(slotId);
+		model.setSlotId(slotId);
 	}
 
 	/**
@@ -496,7 +407,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public void setStartHour(String startHour) {
-		_slot.setStartHour(startHour);
+		model.setStartHour(startHour);
 	}
 
 	/**
@@ -506,7 +417,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public void setSubPlaceId(long subPlaceId) {
-		_slot.setSubPlaceId(subPlaceId);
+		model.setSubPlaceId(subPlaceId);
 	}
 
 	/**
@@ -516,19 +427,7 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_slot.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.place.model.Slot> toCacheModel() {
-
-		return _slot.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.Slot toEscapedModel() {
-		return new SlotWrapper(_slot.toEscapedModel());
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -536,63 +435,17 @@ public class SlotWrapper implements ModelWrapper<Slot>, Slot {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _slot.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _slot.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.Slot toUnescapedModel() {
-		return new SlotWrapper(_slot.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _slot.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof SlotWrapper)) {
-			return false;
-		}
-
-		SlotWrapper slotWrapper = (SlotWrapper)object;
-
-		if (Objects.equals(_slot, slotWrapper._slot)) {
-			return true;
-		}
-
-		return false;
+	protected SlotWrapper wrap(Slot slot) {
+		return new SlotWrapper(slot);
 	}
-
-	@Override
-	public Slot getWrappedModel() {
-		return _slot;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _slot.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _slot.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_slot.resetOriginalValues();
-	}
-
-	private final Slot _slot;
 
 }

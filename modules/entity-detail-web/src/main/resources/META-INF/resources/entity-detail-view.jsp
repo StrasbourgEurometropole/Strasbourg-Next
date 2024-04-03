@@ -18,5 +18,5 @@
 	</liferay-ddm:template-renderer>
 </c:if>
 <c:if test="${empty entry}">
-	<p>Entit&eacute; inconnue</p>
+	${notFoundHTML}
 </c:if>

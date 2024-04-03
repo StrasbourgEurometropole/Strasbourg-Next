@@ -1,28 +1,15 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -33,20 +20,12 @@ import java.util.Objects;
  * @see Direction
  * @generated
  */
-public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
+public class DirectionWrapper
+	extends BaseModelWrapper<Direction>
+	implements Direction, ModelWrapper<Direction> {
 
 	public DirectionWrapper(Direction direction) {
-		_direction = direction;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Direction.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Direction.class.getName();
+		super(direction);
 	}
 
 	@Override
@@ -117,13 +96,8 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	}
 
 	@Override
-	public Object clone() {
-		return new DirectionWrapper((Direction)_direction.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.gtfs.model.Direction direction) {
-		return _direction.compareTo(direction);
+	public Direction cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -133,7 +107,7 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _direction.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -143,7 +117,7 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public String getDestinationName() {
-		return _direction.getDestinationName();
+		return model.getDestinationName();
 	}
 
 	/**
@@ -153,12 +127,7 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public long getDirectionId() {
-		return _direction.getDirectionId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _direction.getExpandoBridge();
+		return model.getDirectionId();
 	}
 
 	/**
@@ -168,7 +137,7 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _direction.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -176,7 +145,7 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public eu.strasbourg.service.gtfs.model.Ligne getLigne() {
-		return _direction.getLigne();
+		return model.getLigne();
 	}
 
 	/**
@@ -186,12 +155,7 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _direction.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _direction.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -201,7 +165,7 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public String getRouteId() {
-		return _direction.getRouteId();
+		return model.getRouteId();
 	}
 
 	/**
@@ -211,7 +175,7 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public String getStopId() {
-		return _direction.getStopId();
+		return model.getStopId();
 	}
 
 	/**
@@ -221,7 +185,7 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public String getTripId() {
-		return _direction.getTripId();
+		return model.getTripId();
 	}
 
 	/**
@@ -231,37 +195,12 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public String getUuid() {
-		return _direction.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _direction.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _direction.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _direction.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _direction.isNew();
+		return model.getUuid();
 	}
 
 	@Override
 	public void persist() {
-		_direction.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_direction.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -271,7 +210,7 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_direction.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -281,7 +220,7 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public void setDestinationName(String destinationName) {
-		_direction.setDestinationName(destinationName);
+		model.setDestinationName(destinationName);
 	}
 
 	/**
@@ -291,24 +230,7 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public void setDirectionId(long directionId) {
-		_direction.setDirectionId(directionId);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_direction.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_direction.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_direction.setExpandoBridgeAttributes(serviceContext);
+		model.setDirectionId(directionId);
 	}
 
 	/**
@@ -318,12 +240,7 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_direction.setGroupId(groupId);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_direction.setNew(n);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -333,12 +250,7 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_direction.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_direction.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -348,7 +260,7 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public void setRouteId(String routeId) {
-		_direction.setRouteId(routeId);
+		model.setRouteId(routeId);
 	}
 
 	/**
@@ -358,7 +270,7 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public void setStopId(String stopId) {
-		_direction.setStopId(stopId);
+		model.setStopId(stopId);
 	}
 
 	/**
@@ -368,7 +280,7 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public void setTripId(String tripId) {
-		_direction.setTripId(tripId);
+		model.setTripId(tripId);
 	}
 
 	/**
@@ -378,75 +290,17 @@ public class DirectionWrapper implements Direction, ModelWrapper<Direction> {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_direction.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.gtfs.model.Direction> toCacheModel() {
-
-		return _direction.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Direction toEscapedModel() {
-		return new DirectionWrapper(_direction.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _direction.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Direction toUnescapedModel() {
-		return new DirectionWrapper(_direction.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _direction.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof DirectionWrapper)) {
-			return false;
-		}
-
-		DirectionWrapper directionWrapper = (DirectionWrapper)object;
-
-		if (Objects.equals(_direction, directionWrapper._direction)) {
-			return true;
-		}
-
-		return false;
+	protected DirectionWrapper wrap(Direction direction) {
+		return new DirectionWrapper(direction);
 	}
-
-	@Override
-	public Direction getWrappedModel() {
-		return _direction;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _direction.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _direction.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_direction.resetOriginalValues();
-	}
-
-	private final Direction _direction;
 
 }

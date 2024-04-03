@@ -1,9 +1,9 @@
 package eu.strasbourg.portlet.twitter;
 
+import eu.strasbourg.portlet.twitter.autolink.Autolink;
+
 import java.io.Serializable;
 import java.util.Date;
-
-import eu.strasbourg.portlet.twitter.autolink.Autolink;
 
 public class Tweet implements Serializable {
 	private static final long serialVersionUID = 1953550332174235144L;

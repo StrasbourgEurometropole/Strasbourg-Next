@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notif.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.notif.model.Message;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for Message. This utility wraps
@@ -48,16 +47,14 @@ public class MessageLocalServiceUtil {
 	 * @param message the message
 	 * @return the message that was added
 	 */
-	public static eu.strasbourg.service.notif.model.Message addMessage(
-		eu.strasbourg.service.notif.model.Message message) {
-
+	public static Message addMessage(Message message) {
 		return getService().addMessage(message);
 	}
 
 	/**
 	 * Crée un message vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.notif.model.Message createMessage() {
+	public static Message createMessage() {
 		return getService().createMessage();
 	}
 
@@ -67,10 +64,18 @@ public class MessageLocalServiceUtil {
 	 * @param messageId the primary key for the new message
 	 * @return the new message
 	 */
-	public static eu.strasbourg.service.notif.model.Message createMessage(
-		long messageId) {
-
+	public static Message createMessage(long messageId) {
 		return getService().createMessage(messageId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -84,10 +89,7 @@ public class MessageLocalServiceUtil {
 	 * @return the message that was removed
 	 * @throws PortalException if a message with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.notif.model.Message deleteMessage(
-			long messageId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Message deleteMessage(long messageId) throws PortalException {
 		return getService().deleteMessage(messageId);
 	}
 
@@ -101,26 +103,29 @@ public class MessageLocalServiceUtil {
 	 * @param message the message
 	 * @return the message that was removed
 	 */
-	public static eu.strasbourg.service.notif.model.Message deleteMessage(
-		eu.strasbourg.service.notif.model.Message message) {
-
+	public static Message deleteMessage(Message message) {
 		return getService().deleteMessage(message);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -130,9 +135,7 @@ public class MessageLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -148,9 +151,8 @@ public class MessageLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -168,10 +170,9 @@ public class MessageLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -183,9 +184,7 @@ public class MessageLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -197,15 +196,13 @@ public class MessageLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.notif.model.Message fetchMessage(
-		long messageId) {
-
+	public static Message fetchMessage(long messageId) {
 		return getService().fetchMessage(messageId);
 	}
 
@@ -215,9 +212,7 @@ public class MessageLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
-	public static java.util.List<eu.strasbourg.service.notif.model.Message>
-		getByServiceId(long serviceId) {
-
+	public static List<Message> getByServiceId(long serviceId) {
 		return getService().getByServiceId(serviceId);
 	}
 
@@ -235,10 +230,7 @@ public class MessageLocalServiceUtil {
 	 * @return the message
 	 * @throws PortalException if a message with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.notif.model.Message getMessage(
-			long messageId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Message getMessage(long messageId) throws PortalException {
 		return getService().getMessage(messageId);
 	}
 
@@ -253,9 +245,7 @@ public class MessageLocalServiceUtil {
 	 * @param end the upper bound of the range of messages (not inclusive)
 	 * @return the range of messages
 	 */
-	public static java.util.List<eu.strasbourg.service.notif.model.Message>
-		getMessages(int start, int end) {
-
+	public static List<Message> getMessages(int start, int end) {
 		return getService().getMessages(start, end);
 	}
 
@@ -280,9 +270,8 @@ public class MessageLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -297,30 +286,18 @@ public class MessageLocalServiceUtil {
 	 * @param message the message
 	 * @return the message that was updated
 	 */
-	public static eu.strasbourg.service.notif.model.Message updateMessage(
-		eu.strasbourg.service.notif.model.Message message) {
-
+	public static Message updateMessage(Message message) {
 		return getService().updateMessage(message);
 	}
 
 	public static MessageLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<MessageLocalService, MessageLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(MessageLocalService.class);
-
-		ServiceTracker<MessageLocalService, MessageLocalService>
-			serviceTracker =
-				new ServiceTracker<MessageLocalService, MessageLocalService>(
-					bundle.getBundleContext(), MessageLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(MessageLocalService service) {
+		_service = service;
 	}
+
+	private static volatile MessageLocalService _service;
 
 }

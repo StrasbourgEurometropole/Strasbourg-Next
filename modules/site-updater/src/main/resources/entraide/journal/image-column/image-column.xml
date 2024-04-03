@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Image + texte colonne</name>
+        <key>87803538</key>
+        <definition>image-column-structure.json</definition>
+        <layout>image-column-layout.json</layout>
+    </structure>
+</root>

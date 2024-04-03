@@ -1,5 +1,5 @@
 //  On garde une référence globale
-var placeAutoFields = undefined;;
+var placeAutoFields = undefined;
 
 jQuery(function() {
 	var namespace = "_eu_strasbourg_portlet_project_ProjectBOPortlet_";
@@ -14,8 +14,6 @@ jQuery(function() {
 		$('.' + classOfDivToHide + ' .image-thumbnail').remove();
 		setConditionalValidators();
 	});
-	
-	Liferay.on('allPortletsReady', setConditionalValidators);
 	
 	function setConditionalValidators() {
 		// Validation des champos obligatoires conditionnels
@@ -102,6 +100,10 @@ jQuery(function() {
 		options.appendTo = '#place-autocomplete-input-wrapper-' + index;
 		jQuery('#place-' + index + ' .place-autocomplete-input-wrapper input').autocomplete(
 				options);
+	});
+
+	$(":submit").on('click', function(e) {
+		setConditionalValidators();
 	});
 
 });

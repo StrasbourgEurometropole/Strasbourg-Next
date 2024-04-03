@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Les instances</name>
+        <key>2532201</key>
+        <definition>instances-structure.json</definition>
+        <layout>instances-layout.json</layout>
+    </structure>
+    <template>
+        <name>Les instances</name>
+        <key>2532275</key>
+        <script>instances.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

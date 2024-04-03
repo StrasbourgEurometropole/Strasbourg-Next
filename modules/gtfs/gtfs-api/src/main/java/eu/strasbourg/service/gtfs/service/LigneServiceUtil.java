@@ -1,22 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import java.util.Map;
 
 /**
  * Provides the remote service utility for Ligne. This utility wraps
@@ -48,7 +37,7 @@ public class LigneServiceUtil {
 	/**
 	 * Recuperer les couleurs des lignes pour freemarker
 	 */
-	public static java.util.Map<String, String[]> getLigneColorsFreemarker() {
+	public static Map<String, String[]> getLigneColorsFreemarker() {
 		return getService().getLigneColorsFreemarker();
 	}
 
@@ -62,21 +51,13 @@ public class LigneServiceUtil {
 	}
 
 	public static LigneService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<LigneService, LigneService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(LigneService.class);
-
-		ServiceTracker<LigneService, LigneService> serviceTracker =
-			new ServiceTracker<LigneService, LigneService>(
-				bundle.getBundleContext(), LigneService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(LigneService service) {
+		_service = service;
 	}
+
+	private static volatile LigneService _service;
 
 }

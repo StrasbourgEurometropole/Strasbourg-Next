@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.link.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,11 @@ import java.util.Objects;
  * @see Link
  * @generated
  */
-public class LinkWrapper implements Link, ModelWrapper<Link> {
+public class LinkWrapper
+	extends BaseModelWrapper<Link> implements Link, ModelWrapper<Link> {
 
 	public LinkWrapper(Link link) {
-		_link = link;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Link.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Link.class.getName();
+		super(link);
 	}
 
 	@Override
@@ -175,13 +153,8 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	}
 
 	@Override
-	public Object clone() {
-		return new LinkWrapper((Link)_link.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.link.model.Link link) {
-		return _link.compareTo(link);
+	public Link cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -189,12 +162,12 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _link.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _link.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -205,7 +178,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _link.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -215,7 +188,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _link.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -225,17 +198,12 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _link.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _link.getDefaultLanguageId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _link.getExpandoBridge();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -245,7 +213,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _link.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -255,7 +223,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getHoverText() {
-		return _link.getHoverText();
+		return model.getHoverText();
 	}
 
 	/**
@@ -266,7 +234,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getHoverText(java.util.Locale locale) {
-		return _link.getHoverText(locale);
+		return model.getHoverText(locale);
 	}
 
 	/**
@@ -278,7 +246,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getHoverText(java.util.Locale locale, boolean useDefault) {
-		return _link.getHoverText(locale, useDefault);
+		return model.getHoverText(locale, useDefault);
 	}
 
 	/**
@@ -289,7 +257,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getHoverText(String languageId) {
-		return _link.getHoverText(languageId);
+		return model.getHoverText(languageId);
 	}
 
 	/**
@@ -301,17 +269,17 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getHoverText(String languageId, boolean useDefault) {
-		return _link.getHoverText(languageId, useDefault);
+		return model.getHoverText(languageId, useDefault);
 	}
 
 	@Override
 	public String getHoverTextCurrentLanguageId() {
-		return _link.getHoverTextCurrentLanguageId();
+		return model.getHoverTextCurrentLanguageId();
 	}
 
 	@Override
 	public String getHoverTextCurrentValue() {
-		return _link.getHoverTextCurrentValue();
+		return model.getHoverTextCurrentValue();
 	}
 
 	/**
@@ -321,7 +289,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getHoverTextMap() {
-		return _link.getHoverTextMap();
+		return model.getHoverTextMap();
 	}
 
 	/**
@@ -331,7 +299,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public Date getLastPublishDate() {
-		return _link.getLastPublishDate();
+		return model.getLastPublishDate();
 	}
 
 	/**
@@ -341,7 +309,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public long getLinkId() {
-		return _link.getLinkId();
+		return model.getLinkId();
 	}
 
 	/**
@@ -349,7 +317,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public eu.strasbourg.service.link.model.Link getLiveVersion() {
-		return _link.getLiveVersion();
+		return model.getLiveVersion();
 	}
 
 	/**
@@ -359,7 +327,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _link.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -369,12 +337,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _link.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _link.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -384,7 +347,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public int getStatus() {
-		return _link.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -394,7 +357,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _link.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -404,7 +367,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _link.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -414,7 +377,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _link.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -424,7 +387,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _link.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -434,7 +397,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getTitle() {
-		return _link.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -445,7 +408,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale) {
-		return _link.getTitle(locale);
+		return model.getTitle(locale);
 	}
 
 	/**
@@ -457,7 +420,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale, boolean useDefault) {
-		return _link.getTitle(locale, useDefault);
+		return model.getTitle(locale, useDefault);
 	}
 
 	/**
@@ -468,7 +431,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getTitle(String languageId) {
-		return _link.getTitle(languageId);
+		return model.getTitle(languageId);
 	}
 
 	/**
@@ -480,17 +443,17 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getTitle(String languageId, boolean useDefault) {
-		return _link.getTitle(languageId, useDefault);
+		return model.getTitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getTitleCurrentLanguageId() {
-		return _link.getTitleCurrentLanguageId();
+		return model.getTitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getTitleCurrentValue() {
-		return _link.getTitleCurrentValue();
+		return model.getTitleCurrentValue();
 	}
 
 	/**
@@ -500,7 +463,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getTitleMap() {
-		return _link.getTitleMap();
+		return model.getTitleMap();
 	}
 
 	/**
@@ -510,7 +473,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getURL() {
-		return _link.getURL();
+		return model.getURL();
 	}
 
 	/**
@@ -521,7 +484,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getURL(java.util.Locale locale) {
-		return _link.getURL(locale);
+		return model.getURL(locale);
 	}
 
 	/**
@@ -533,7 +496,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getURL(java.util.Locale locale, boolean useDefault) {
-		return _link.getURL(locale, useDefault);
+		return model.getURL(locale, useDefault);
 	}
 
 	/**
@@ -544,7 +507,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getURL(String languageId) {
-		return _link.getURL(languageId);
+		return model.getURL(languageId);
 	}
 
 	/**
@@ -556,17 +519,17 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getURL(String languageId, boolean useDefault) {
-		return _link.getURL(languageId, useDefault);
+		return model.getURL(languageId, useDefault);
 	}
 
 	@Override
 	public String getURLCurrentLanguageId() {
-		return _link.getURLCurrentLanguageId();
+		return model.getURLCurrentLanguageId();
 	}
 
 	@Override
 	public String getURLCurrentValue() {
-		return _link.getURLCurrentValue();
+		return model.getURLCurrentValue();
 	}
 
 	/**
@@ -576,7 +539,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getURLMap() {
-		return _link.getURLMap();
+		return model.getURLMap();
 	}
 
 	/**
@@ -586,7 +549,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public long getUserId() {
-		return _link.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -596,7 +559,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getUserName() {
-		return _link.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -606,7 +569,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _link.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -616,12 +579,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public String getUuid() {
-		return _link.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _link.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -631,12 +589,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _link.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _link.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -646,7 +599,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _link.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -656,12 +609,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _link.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _link.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -671,7 +619,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _link.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -681,7 +629,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _link.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -691,12 +639,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _link.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _link.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -706,7 +649,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public boolean isPending() {
-		return _link.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -716,19 +659,19 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _link.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_link.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_link.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -736,12 +679,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_link.prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_link.setCachedModel(cachedModel);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -751,7 +689,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_link.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -761,24 +699,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_link.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_link.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_link.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_link.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -788,7 +709,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_link.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -798,7 +719,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setHoverText(String hoverText) {
-		_link.setHoverText(hoverText);
+		model.setHoverText(hoverText);
 	}
 
 	/**
@@ -809,7 +730,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setHoverText(String hoverText, java.util.Locale locale) {
-		_link.setHoverText(hoverText, locale);
+		model.setHoverText(hoverText, locale);
 	}
 
 	/**
@@ -824,12 +745,12 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 		String hoverText, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_link.setHoverText(hoverText, locale, defaultLocale);
+		model.setHoverText(hoverText, locale, defaultLocale);
 	}
 
 	@Override
 	public void setHoverTextCurrentLanguageId(String languageId) {
-		_link.setHoverTextCurrentLanguageId(languageId);
+		model.setHoverTextCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -839,7 +760,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setHoverTextMap(Map<java.util.Locale, String> hoverTextMap) {
-		_link.setHoverTextMap(hoverTextMap);
+		model.setHoverTextMap(hoverTextMap);
 	}
 
 	/**
@@ -853,7 +774,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 		Map<java.util.Locale, String> hoverTextMap,
 		java.util.Locale defaultLocale) {
 
-		_link.setHoverTextMap(hoverTextMap, defaultLocale);
+		model.setHoverTextMap(hoverTextMap, defaultLocale);
 	}
 
 	/**
@@ -863,7 +784,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
-		_link.setLastPublishDate(lastPublishDate);
+		model.setLastPublishDate(lastPublishDate);
 	}
 
 	/**
@@ -873,7 +794,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setLinkId(long linkId) {
-		_link.setLinkId(linkId);
+		model.setLinkId(linkId);
 	}
 
 	/**
@@ -883,12 +804,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_link.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_link.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -898,12 +814,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_link.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_link.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -913,7 +824,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_link.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -923,7 +834,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_link.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -933,7 +844,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_link.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -943,7 +854,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_link.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -953,7 +864,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_link.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -963,7 +874,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_link.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -974,7 +885,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setTitle(String title, java.util.Locale locale) {
-		_link.setTitle(title, locale);
+		model.setTitle(title, locale);
 	}
 
 	/**
@@ -988,12 +899,12 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	public void setTitle(
 		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_link.setTitle(title, locale, defaultLocale);
+		model.setTitle(title, locale, defaultLocale);
 	}
 
 	@Override
 	public void setTitleCurrentLanguageId(String languageId) {
-		_link.setTitleCurrentLanguageId(languageId);
+		model.setTitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1003,7 +914,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
-		_link.setTitleMap(titleMap);
+		model.setTitleMap(titleMap);
 	}
 
 	/**
@@ -1017,7 +928,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 		Map<java.util.Locale, String> titleMap,
 		java.util.Locale defaultLocale) {
 
-		_link.setTitleMap(titleMap, defaultLocale);
+		model.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**
@@ -1027,7 +938,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setURL(String URL) {
-		_link.setURL(URL);
+		model.setURL(URL);
 	}
 
 	/**
@@ -1038,7 +949,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setURL(String URL, java.util.Locale locale) {
-		_link.setURL(URL, locale);
+		model.setURL(URL, locale);
 	}
 
 	/**
@@ -1052,12 +963,12 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	public void setURL(
 		String URL, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_link.setURL(URL, locale, defaultLocale);
+		model.setURL(URL, locale, defaultLocale);
 	}
 
 	@Override
 	public void setURLCurrentLanguageId(String languageId) {
-		_link.setURLCurrentLanguageId(languageId);
+		model.setURLCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1067,7 +978,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setURLMap(Map<java.util.Locale, String> URLMap) {
-		_link.setURLMap(URLMap);
+		model.setURLMap(URLMap);
 	}
 
 	/**
@@ -1080,7 +991,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	public void setURLMap(
 		Map<java.util.Locale, String> URLMap, java.util.Locale defaultLocale) {
 
-		_link.setURLMap(URLMap, defaultLocale);
+		model.setURLMap(URLMap, defaultLocale);
 	}
 
 	/**
@@ -1090,7 +1001,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_link.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -1100,7 +1011,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_link.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -1110,7 +1021,7 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_link.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1120,80 +1031,22 @@ public class LinkWrapper implements Link, ModelWrapper<Link> {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_link.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.link.model.Link> toCacheModel() {
-
-		return _link.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.link.model.Link toEscapedModel() {
-		return new LinkWrapper(_link.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _link.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.link.model.Link toUnescapedModel() {
-		return new LinkWrapper(_link.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _link.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof LinkWrapper)) {
-			return false;
-		}
-
-		LinkWrapper linkWrapper = (LinkWrapper)object;
-
-		if (Objects.equals(_link, linkWrapper._link)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _link.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Link getWrappedModel() {
-		return _link;
+	protected LinkWrapper wrap(Link link) {
+		return new LinkWrapper(link);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _link.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _link.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_link.resetOriginalValues();
-	}
-
-	private final Link _link;
 
 }

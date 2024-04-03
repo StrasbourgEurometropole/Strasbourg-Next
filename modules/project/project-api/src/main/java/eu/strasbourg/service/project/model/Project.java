@@ -1,24 +1,15 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.annotation.ImplementationClassName;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.Accessor;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The extended model interface for the Project service. Represents a row in the &quot;project_Project&quot; database table, with each column mapped to a property of this class.
@@ -59,7 +50,8 @@ public interface Project extends PersistedModel, ProjectModel {
 	/**
 	 * Retourne la liste des follower au projet
 	 */
-	public java.util.List<ProjectFollowed> getProjectFollower();
+	public java.util.List<eu.strasbourg.service.project.model.ProjectFollowed>
+		getProjectFollower();
 
 	/**
 	 * Retourne le nombre de follower au projet
@@ -79,7 +71,8 @@ public interface Project extends PersistedModel, ProjectModel {
 	/**
 	 * Retourne la liste des lieux placit liés au projet
 	 */
-	public java.util.List<PlacitPlace> getPlacitPlaces();
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
+		getPlacitPlaces();
 
 	/**
 	 * Retourne les noms des lieux placit au projet
@@ -140,7 +133,8 @@ public interface Project extends PersistedModel, ProjectModel {
 	/**
 	 * Retourne la liste des entrées timelines du projet
 	 */
-	public java.util.List<ProjectTimeline> getProjectTimelines();
+	public java.util.List<eu.strasbourg.service.project.model.ProjectTimeline>
+		getProjectTimelines();
 
 	public String getProjectStatus(java.util.Locale locale);
 
@@ -158,9 +152,11 @@ public interface Project extends PersistedModel, ProjectModel {
 	/**
 	 * Retourne la liste des participations du projet
 	 */
-	public java.util.List<Participation> getParticipations();
+	public java.util.List<eu.strasbourg.service.project.model.Participation>
+		getParticipations();
 
-	public java.util.List<Petition> getPetitions();
+	public java.util.List<eu.strasbourg.service.project.model.Petition>
+		getPetitions();
 
 	/**
 	 * Retourne la liste des évènements du projet

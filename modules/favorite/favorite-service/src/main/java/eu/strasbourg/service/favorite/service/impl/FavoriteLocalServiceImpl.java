@@ -14,9 +14,6 @@
 
 package eu.strasbourg.service.favorite.service.impl;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -24,6 +21,9 @@ import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
 import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
 import eu.strasbourg.service.favorite.service.base.FavoriteLocalServiceBaseImpl;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The implementation of the favorite local service.
@@ -140,5 +140,17 @@ public class FavoriteLocalServiceImpl extends FavoriteLocalServiceBaseImpl {
 	@Override
 	public List<Favorite> getByTypeIdAndEntityIdAndPublikUserIdAndContent(long type, long entityId, String publikUserId, String content) {
 		return this.favoritePersistence.findByTypeIdAndEntityIdAndPublikUserIdAndContent(type,entityId,publikUserId,content);
+	}
+
+	/**
+	 * Retourne si l'entité est un favori
+	 */
+	@Override
+	public boolean isFavorite(long entityId, long typeId, String publikUserId) {
+		if(publikUserId == null || publikUserId.isEmpty()) {
+			return false;
+		}
+		List<Favorite> favorites = this.favoritePersistence.findByTypeIdAndEntityIdAndPublikUserIdAndContent(typeId, entityId, publikUserId, null);
+		return !favorites.isEmpty();
 	}
 }

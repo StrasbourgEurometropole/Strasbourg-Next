@@ -1,4 +1,5 @@
 /*global tarteaucitron */
+/* min ready */
 tarteaucitron.lang = {
 
     "middleBarHead": "☝ 🍪",
@@ -37,15 +38,16 @@ tarteaucitron.lang = {
     "title": "Panèl de gestion dels cookies",
     "cookieDetail": "Detalh dels cookies",
     "ourSite": "sus nòstre site",
-    "newWindow": "(novèla fenèstra)",
+    "modalWindow": "(fenèstra de dialòg)",
+    "newWindow": "(fenèstra novèla)",
     "allowAll": "Autorizar totes los cookies",
     "denyAll": "Interdire totes los cookies",
 
     "icon": "Cookies",
     
     "fallback": "es desactivat.",
-    "allowed": "allowed",
-    "disallowed": "disallowed",
+    "allowed": "autorizat",
+    "disallowed": "interdit",
 
     "ads": {
         "title": "Regias publicitàrias",
@@ -53,7 +55,7 @@ tarteaucitron.lang = {
     },
     "analytic": {
         "title": "Mesura d'audiéncia",
-        "details": "Los servicis de mesura d'audiénce permeton de generar d'estatisticas de frequentacion utilas per melhorar lo site."
+        "details": "Los servicis de mesura d'audiéncia permeton de generar d'estatisticas de frequentacion utilas per melhorar lo site."
     },
     "social": {
         "title": "Malhums socials",

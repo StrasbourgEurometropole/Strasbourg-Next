@@ -1,0 +1,5 @@
+Bundle-Name: news-home-web
+Bundle-SymbolicName: eu.strasbourg.portlet.news_home
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.portlet.news_home.constants
+Web-ContextPath: /news-home

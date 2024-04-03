@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<root>
+    <parent>parent-rep</parent><!--obligatoire -->
+    <suf>suffixe</suf><!--obligatoire -->
+    <skipStructure>parent-structure-rep-to-skip1,parent-structure-rep-to-skip2</skipStructure><!--facultatif -->
+</root>

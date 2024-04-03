@@ -14,29 +14,10 @@
 
 package eu.strasbourg.service.video.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.video.service.base.VideoGalleryServiceBaseImpl;
 
 /**
- * The implementation of the video gallery remote service.
- *
- * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.video.service.VideoGalleryService} interface.
- *
- * <p>
- * This is a remote service. Methods of this service are expected to have security checks based on the propagated JAAS credentials because this service can be accessed remotely.
- * </p>
- *
  * @author BenjaminBini
- * @see VideoGalleryServiceBaseImpl
- * @see eu.strasbourg.service.video.service.VideoGalleryServiceUtil
  */
-@ProviderType
 public class VideoGalleryServiceImpl extends VideoGalleryServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link eu.strasbourg.service.video.service.VideoGalleryServiceUtil} to access the video gallery remote service.
-	 */
 }

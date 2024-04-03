@@ -1,10 +1,7 @@
 dependencies {
-	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
-	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+	compileOnly group: 'javax.mail', name: 'javax.mail-api', version: '1.6.2'
+	compileInclude group: "org.apache.commons", name: "commons-text", version: "1.11.0"
+	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 
-	compileOnly group: "com.liferay", name: "com.liferay.dynamic.data.mapping.api"
-	compileOnly group: "javax.mail", name: "mail", version: '1.4.7'
-	compileInclude group: "org.apache.commons", name: "commons-text", version: "1.10.0"
-
-	compile project (':modules:utils')
+	implementation project (':modules:utils')
 }

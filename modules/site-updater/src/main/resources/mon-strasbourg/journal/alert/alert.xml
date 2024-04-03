@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Alerte</name>
+        <key>2154391</key>
+        <definition>alert-structure.json</definition>
+        <layout>alert-layout.json</layout>
+    </structure>
+    <template>
+        <name>Alerte</name>
+        <key>2154451</key>
+        <script>alert.ftl</script>
+    </template>
+</root>

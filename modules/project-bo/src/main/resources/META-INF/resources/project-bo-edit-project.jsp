@@ -10,17 +10,17 @@
 <liferay-portlet:actionURL name="deleteProject" var="deleteProjectURL">
 	<portlet:param name="cmd" value="deleteProject" />
 	<portlet:param name="tab" value="projects" />
+	<portlet:param name="mvcPath" value="/project-bo-view-projects.jsp" />
 	<portlet:param name="projectId" value="${not empty dc.project ? dc.project.projectId : ''}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveProject" varImpl="saveProjectURL">
-	<portlet:param name="cmd" value="saveProject" />
 	<portlet:param name="tab" value="projects" />
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
 	<%-- Composant : definit la liste des messages d'erreur 
 	(voir methode "validate" dans le saveAction de l'entite) --%>
@@ -34,7 +34,7 @@
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.project}" model="<%=Project.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 		
 			<%-- Champ : (cache) PK de l'entite --%>
 			<aui:input name="projectId" type="hidden" />
@@ -44,10 +44,24 @@
 
 				<%-- Champ : Titre --%>
 				<aui:input name="title" required="true" />
-				
-				<%-- Champ : Description --%>
-				<aui:input name="description" required="true" />
-				
+
+				<aui:input name="description" label="required-description" />
+				<!-- Hack pour ajouter une validation sur la description -->
+				<div class="has-error">
+					<aui:input type="hidden" name="descriptionValidatorInputHelper" value="placeholder">
+						<aui:validator name="custom" errorMessage="requested-description-error">
+							function (val, fieldNode, ruleValue) {
+							var validate = $('#_eu_strasbourg_portlet_project_ProjectBOPortlet_description_fr_FR').val().length > 0;
+							if (!validate) {
+							$("#_eu_strasbourg_portlet_project_ProjectBOPortlet_descriptionEditorContainer").get(0).scrollIntoView();
+							event.preventDefault();
+							}
+							return validate;
+							}
+						</aui:validator>
+					</aui:input>
+				</div>
+
 				<%-- Selecteur : Image interne ou externe ? --%>
 				<label><input type="radio" value="internalImage" name="imageType" 
 					<c:if test="${(not empty dc.project.imageId and dc.project.imageId gt 0) or empty dc.project.externalImageURL }">checked</c:if>> Image interne</label><br>
@@ -100,7 +114,7 @@
 				<aui:input name="duration" required="false" />
 				
 				<%-- Champ : Liste des partenaires --%>
-				<aui:input name="partners" required="false" />
+				<aui:input name="partners" />
 				
 			</aui:fieldset>
 			
@@ -157,19 +171,20 @@
 			<aui:fieldset collapsed="<%=true%>" collapsible="<%=true%>" label="categorization">
 				
 				<%-- Champ : Selection des categories (gere par le portail dans l'onglet "Categories" du BO) --%>
-				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
-				
+				<liferay-asset:asset-categories-selector
+						className="<%= Project.class.getName() %>"
+						classPK="${dc.project.projectId}"/>
 				<%-- Hack pour ajouter une validation sur les vocabulaires obligatoires --%>
 				<div class="has-error">
 					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
 							function (val, fieldNode, ruleValue) {
 								var validated = true;
-								var fields = document.querySelectorAll('.categories-selectors > .field-content');
+								var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
 								for (var i = 0; i < fields.length; i++) {
 									fieldContent = fields[i];
-								    if ($(fieldContent).find('.icon-asterisk').length > 0
-								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+								    if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
+								    	&& $(fieldContent).find('input[type="hidden"]').length == 0) {
 								    	validated = false;
 		                                event.preventDefault();
 								    	break;
@@ -182,7 +197,9 @@
 				</div>
 				
 				<%-- Champ : Selection des etiquettes (gere par le portail dans l'onglet "Etiquettes" du BO) --%>
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= Project.class.getName() %>"
+						classPK="${dc.project.projectId}"/>
 
 			</aui:fieldset>
 			
@@ -237,7 +254,7 @@
 
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
 		<aui:button-row>
@@ -261,7 +278,7 @@
 			</c:if>
 
 			<%-- Composant : bouton de retour a la liste des entites --%>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 			
 		</aui:button-row>
 

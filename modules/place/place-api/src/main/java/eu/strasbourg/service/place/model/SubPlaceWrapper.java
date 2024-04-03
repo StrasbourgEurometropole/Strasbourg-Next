@@ -1,29 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,20 +21,12 @@ import java.util.Objects;
  * @see SubPlace
  * @generated
  */
-public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
+public class SubPlaceWrapper
+	extends BaseModelWrapper<SubPlace>
+	implements ModelWrapper<SubPlace>, SubPlace {
 
 	public SubPlaceWrapper(SubPlace subPlace) {
-		_subPlace = subPlace;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return SubPlace.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return SubPlace.class.getName();
+		super(subPlace);
 	}
 
 	@Override
@@ -125,23 +104,18 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	}
 
 	@Override
-	public Object clone() {
-		return new SubPlaceWrapper((SubPlace)_subPlace.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.place.model.SubPlace subPlace) {
-		return _subPlace.compareTo(subPlace);
+	public SubPlace cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _subPlace.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _subPlace.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -149,7 +123,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public eu.strasbourg.service.place.model.Period getDefaultPeriod() {
-		return _subPlace.getDefaultPeriod();
+		return model.getDefaultPeriod();
 	}
 
 	/**
@@ -159,7 +133,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public String getDescription() {
-		return _subPlace.getDescription();
+		return model.getDescription();
 	}
 
 	/**
@@ -170,7 +144,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale) {
-		return _subPlace.getDescription(locale);
+		return model.getDescription(locale);
 	}
 
 	/**
@@ -182,7 +156,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale, boolean useDefault) {
-		return _subPlace.getDescription(locale, useDefault);
+		return model.getDescription(locale, useDefault);
 	}
 
 	/**
@@ -193,7 +167,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public String getDescription(String languageId) {
-		return _subPlace.getDescription(languageId);
+		return model.getDescription(languageId);
 	}
 
 	/**
@@ -205,17 +179,17 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public String getDescription(String languageId, boolean useDefault) {
-		return _subPlace.getDescription(languageId, useDefault);
+		return model.getDescription(languageId, useDefault);
 	}
 
 	@Override
 	public String getDescriptionCurrentLanguageId() {
-		return _subPlace.getDescriptionCurrentLanguageId();
+		return model.getDescriptionCurrentLanguageId();
 	}
 
 	@Override
 	public String getDescriptionCurrentValue() {
-		return _subPlace.getDescriptionCurrentValue();
+		return model.getDescriptionCurrentValue();
 	}
 
 	/**
@@ -225,12 +199,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getDescriptionMap() {
-		return _subPlace.getDescriptionMap();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _subPlace.getExpandoBridge();
+		return model.getDescriptionMap();
 	}
 
 	/**
@@ -243,7 +212,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 		 java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>>
 			getFollowingWeekSchedules(Date startDate, java.util.Locale locale) {
 
-		return _subPlace.getFollowingWeekSchedules(startDate, locale);
+		return model.getFollowingWeekSchedules(startDate, locale);
 	}
 
 	/**
@@ -256,7 +225,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 		 java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>>
 			getHoraire(Date dateJour, java.util.Locale locale) {
 
-		return _subPlace.getHoraire(dateJour, locale);
+		return model.getHoraire(dateJour, locale);
 	}
 
 	/**
@@ -266,7 +235,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public String getName() {
-		return _subPlace.getName();
+		return model.getName();
 	}
 
 	/**
@@ -277,7 +246,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public String getName(java.util.Locale locale) {
-		return _subPlace.getName(locale);
+		return model.getName(locale);
 	}
 
 	/**
@@ -289,7 +258,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public String getName(java.util.Locale locale, boolean useDefault) {
-		return _subPlace.getName(locale, useDefault);
+		return model.getName(locale, useDefault);
 	}
 
 	/**
@@ -300,7 +269,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public String getName(String languageId) {
-		return _subPlace.getName(languageId);
+		return model.getName(languageId);
 	}
 
 	/**
@@ -312,17 +281,17 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public String getName(String languageId, boolean useDefault) {
-		return _subPlace.getName(languageId, useDefault);
+		return model.getName(languageId, useDefault);
 	}
 
 	@Override
 	public String getNameCurrentLanguageId() {
-		return _subPlace.getNameCurrentLanguageId();
+		return model.getNameCurrentLanguageId();
 	}
 
 	@Override
 	public String getNameCurrentValue() {
-		return _subPlace.getNameCurrentValue();
+		return model.getNameCurrentValue();
 	}
 
 	/**
@@ -332,7 +301,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getNameMap() {
-		return _subPlace.getNameMap();
+		return model.getNameMap();
 	}
 
 	/**
@@ -342,7 +311,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	public java.util.List<eu.strasbourg.service.place.model.Period>
 		getNonDefaultPeriod() {
 
-		return _subPlace.getNonDefaultPeriod();
+		return model.getNonDefaultPeriod();
 	}
 
 	/**
@@ -350,7 +319,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public eu.strasbourg.service.place.model.Place getParentPlace() {
-		return _subPlace.getParentPlace();
+		return model.getParentPlace();
 	}
 
 	/**
@@ -360,7 +329,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	public java.util.List<eu.strasbourg.service.place.model.Period>
 		getPeriods() {
 
-		return _subPlace.getPeriods();
+		return model.getPeriods();
 	}
 
 	/**
@@ -370,7 +339,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	public eu.strasbourg.service.place.model.Place getPlaceByPlaceId(
 		long placeId) {
 
-		return _subPlace.getPlaceByPlaceId(placeId);
+		return model.getPlaceByPlaceId(placeId);
 	}
 
 	/**
@@ -380,7 +349,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public long getPlaceId() {
-		return _subPlace.getPlaceId();
+		return model.getPlaceId();
 	}
 
 	/**
@@ -390,12 +359,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _subPlace.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _subPlace.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -405,7 +369,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	public java.util.List<eu.strasbourg.service.place.model.PublicHoliday>
 		getPublicHolidays() {
 
-		return _subPlace.getPublicHolidays();
+		return model.getPublicHolidays();
 	}
 
 	/**
@@ -415,7 +379,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	public java.util.List<eu.strasbourg.service.place.model.ScheduleException>
 		getScheduleExceptions() {
 
-		return _subPlace.getScheduleExceptions();
+		return model.getScheduleExceptions();
 	}
 
 	/**
@@ -425,7 +389,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public int getStatus() {
-		return _subPlace.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -435,7 +399,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _subPlace.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -445,7 +409,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _subPlace.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -455,7 +419,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _subPlace.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -465,7 +429,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _subPlace.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -475,7 +439,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public long getSubPlaceId() {
-		return _subPlace.getSubPlaceId();
+		return model.getSubPlaceId();
 	}
 
 	/**
@@ -489,7 +453,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 			getSubPlaceSchedule(
 				Date date, int daysCount, java.util.Locale locale) {
 
-		return _subPlace.getSubPlaceSchedule(date, daysCount, locale);
+		return model.getSubPlaceSchedule(date, daysCount, locale);
 	}
 
 	/**
@@ -500,14 +464,14 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 		getSubPlaceSchedule(
 			java.util.GregorianCalendar jourSemaine, java.util.Locale locale) {
 
-		return _subPlace.getSubPlaceSchedule(jourSemaine, locale);
+		return model.getSubPlaceSchedule(jourSemaine, locale);
 	}
 
 	/**
 	 * Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
 	 * de la semaine en cours
 	 *
-	 * @param surPériode
+	 * @param surPeriode
 	 (false = horaires d'une journée uniquement , true = horaires
 	 sur une semaine)
 	 */
@@ -517,7 +481,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 			java.util.GregorianCalendar premierJour, Boolean surPeriode,
 			java.util.Locale locale) {
 
-		return _subPlace.getSubPlaceScheduleException(
+		return model.getSubPlaceScheduleException(
 			premierJour, surPeriode, locale);
 	}
 
@@ -530,7 +494,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 		getSubPlaceScheduleExceptionFreeMarker(
 			Date dateDeb, Boolean surPeriode, java.util.Locale locale) {
 
-		return _subPlace.getSubPlaceScheduleExceptionFreeMarker(
+		return model.getSubPlaceScheduleExceptionFreeMarker(
 			dateDeb, surPeriode, locale);
 	}
 
@@ -541,12 +505,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public String getUuid() {
-		return _subPlace.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _subPlace.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -556,12 +515,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _subPlace.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _subPlace.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -571,7 +525,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _subPlace.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -581,12 +535,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _subPlace.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _subPlace.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -596,7 +545,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _subPlace.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -606,7 +555,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _subPlace.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -616,12 +565,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _subPlace.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _subPlace.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -631,7 +575,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public boolean isPending() {
-		return _subPlace.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -641,19 +585,19 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _subPlace.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_subPlace.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_subPlace.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -661,12 +605,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_subPlace.prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_subPlace.setCachedModel(cachedModel);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -676,7 +615,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public void setDescription(String description) {
-		_subPlace.setDescription(description);
+		model.setDescription(description);
 	}
 
 	/**
@@ -687,7 +626,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public void setDescription(String description, java.util.Locale locale) {
-		_subPlace.setDescription(description, locale);
+		model.setDescription(description, locale);
 	}
 
 	/**
@@ -702,12 +641,12 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 		String description, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_subPlace.setDescription(description, locale, defaultLocale);
+		model.setDescription(description, locale, defaultLocale);
 	}
 
 	@Override
 	public void setDescriptionCurrentLanguageId(String languageId) {
-		_subPlace.setDescriptionCurrentLanguageId(languageId);
+		model.setDescriptionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -719,7 +658,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	public void setDescriptionMap(
 		Map<java.util.Locale, String> descriptionMap) {
 
-		_subPlace.setDescriptionMap(descriptionMap);
+		model.setDescriptionMap(descriptionMap);
 	}
 
 	/**
@@ -733,24 +672,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 		Map<java.util.Locale, String> descriptionMap,
 		java.util.Locale defaultLocale) {
 
-		_subPlace.setDescriptionMap(descriptionMap, defaultLocale);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_subPlace.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_subPlace.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_subPlace.setExpandoBridgeAttributes(serviceContext);
+		model.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	/**
@@ -760,7 +682,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public void setName(String name) {
-		_subPlace.setName(name);
+		model.setName(name);
 	}
 
 	/**
@@ -771,7 +693,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public void setName(String name, java.util.Locale locale) {
-		_subPlace.setName(name, locale);
+		model.setName(name, locale);
 	}
 
 	/**
@@ -785,12 +707,12 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	public void setName(
 		String name, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_subPlace.setName(name, locale, defaultLocale);
+		model.setName(name, locale, defaultLocale);
 	}
 
 	@Override
 	public void setNameCurrentLanguageId(String languageId) {
-		_subPlace.setNameCurrentLanguageId(languageId);
+		model.setNameCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -800,7 +722,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public void setNameMap(Map<java.util.Locale, String> nameMap) {
-		_subPlace.setNameMap(nameMap);
+		model.setNameMap(nameMap);
 	}
 
 	/**
@@ -813,12 +735,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	public void setNameMap(
 		Map<java.util.Locale, String> nameMap, java.util.Locale defaultLocale) {
 
-		_subPlace.setNameMap(nameMap, defaultLocale);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_subPlace.setNew(n);
+		model.setNameMap(nameMap, defaultLocale);
 	}
 
 	/**
@@ -828,7 +745,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public void setPlaceId(long placeId) {
-		_subPlace.setPlaceId(placeId);
+		model.setPlaceId(placeId);
 	}
 
 	/**
@@ -838,12 +755,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_subPlace.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_subPlace.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -853,7 +765,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_subPlace.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -863,7 +775,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_subPlace.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -873,7 +785,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_subPlace.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -883,7 +795,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_subPlace.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -893,7 +805,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_subPlace.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -903,7 +815,7 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public void setSubPlaceId(long subPlaceId) {
-		_subPlace.setSubPlaceId(subPlaceId);
+		model.setSubPlaceId(subPlaceId);
 	}
 
 	/**
@@ -913,75 +825,17 @@ public class SubPlaceWrapper implements ModelWrapper<SubPlace>, SubPlace {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_subPlace.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.place.model.SubPlace> toCacheModel() {
-
-		return _subPlace.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.SubPlace toEscapedModel() {
-		return new SubPlaceWrapper(_subPlace.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _subPlace.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.SubPlace toUnescapedModel() {
-		return new SubPlaceWrapper(_subPlace.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _subPlace.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof SubPlaceWrapper)) {
-			return false;
-		}
-
-		SubPlaceWrapper subPlaceWrapper = (SubPlaceWrapper)object;
-
-		if (Objects.equals(_subPlace, subPlaceWrapper._subPlace)) {
-			return true;
-		}
-
-		return false;
+	protected SubPlaceWrapper wrap(SubPlace subPlace) {
+		return new SubPlaceWrapper(subPlace);
 	}
-
-	@Override
-	public SubPlace getWrappedModel() {
-		return _subPlace;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _subPlace.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _subPlace.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_subPlace.resetOriginalValues();
-	}
-
-	private final SubPlace _subPlace;
 
 }

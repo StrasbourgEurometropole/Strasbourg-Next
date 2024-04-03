@@ -1,20 +1,12 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.video.service;
 
 import com.liferay.portal.kernel.service.ServiceWrapper;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 /**
  * Provides a wrapper for {@link VideoLocalService}.
@@ -25,6 +17,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  */
 public class VideoLocalServiceWrapper
 	implements ServiceWrapper<VideoLocalService>, VideoLocalService {
+
+	public VideoLocalServiceWrapper() {
+		this(null);
+	}
 
 	public VideoLocalServiceWrapper(VideoLocalService videoLocalService) {
 		_videoLocalService = videoLocalService;
@@ -48,28 +44,28 @@ public class VideoLocalServiceWrapper
 	}
 
 	@Override
-	public void addVideoGalleryVideo(long galleryId, long videoId) {
-		_videoLocalService.addVideoGalleryVideo(galleryId, videoId);
+	public boolean addVideoGalleryVideo(long galleryId, long videoId) {
+		return _videoLocalService.addVideoGalleryVideo(galleryId, videoId);
 	}
 
 	@Override
-	public void addVideoGalleryVideo(
+	public boolean addVideoGalleryVideo(
 		long galleryId, eu.strasbourg.service.video.model.Video video) {
 
-		_videoLocalService.addVideoGalleryVideo(galleryId, video);
+		return _videoLocalService.addVideoGalleryVideo(galleryId, video);
 	}
 
 	@Override
-	public void addVideoGalleryVideos(
+	public boolean addVideoGalleryVideos(
 		long galleryId,
 		java.util.List<eu.strasbourg.service.video.model.Video> videos) {
 
-		_videoLocalService.addVideoGalleryVideos(galleryId, videos);
+		return _videoLocalService.addVideoGalleryVideos(galleryId, videos);
 	}
 
 	@Override
-	public void addVideoGalleryVideos(long galleryId, long[] videoIds) {
-		_videoLocalService.addVideoGalleryVideos(galleryId, videoIds);
+	public boolean addVideoGalleryVideos(long galleryId, long[] videoIds) {
+		return _videoLocalService.addVideoGalleryVideos(galleryId, videoIds);
 	}
 
 	/**
@@ -86,6 +82,17 @@ public class VideoLocalServiceWrapper
 	@Override
 	public void clearVideoGalleryVideos(long galleryId) {
 		_videoLocalService.clearVideoGalleryVideos(galleryId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _videoLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -179,6 +186,18 @@ public class VideoLocalServiceWrapper
 	@Override
 	public void deleteVideoGalleryVideos(long galleryId, long[] videoIds) {
 		_videoLocalService.deleteVideoGalleryVideos(galleryId, videoIds);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _videoLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _videoLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override
@@ -594,6 +613,11 @@ public class VideoLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _videoLocalService.updateVideo(video, sc);
+	}
+
+	@Override
+	public BasePersistence<?> getBasePersistence() {
+		return _videoLocalService.getBasePersistence();
 	}
 
 	@Override

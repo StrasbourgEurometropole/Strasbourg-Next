@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Signalement</name>
+        <key>104414189</key>
+        <definition>report-url-structure.json</definition>
+        <layout>report-url-layout.json</layout>
+    </structure>
+</root>

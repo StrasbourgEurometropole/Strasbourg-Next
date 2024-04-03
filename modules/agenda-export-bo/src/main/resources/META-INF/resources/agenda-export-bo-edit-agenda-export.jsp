@@ -3,20 +3,17 @@
 <c:set var="agendaExport" value="${dc.agendaExport}" />
 <c:set var="toExport" value="${dc.toExport}" />
 
-<liferay-portlet:renderURL varImpl="agendaExportsURL">
-	<portlet:param name="tab" value="agendaExports" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteAgendaExport" var="deleteAgendaExportURL">
 	<portlet:param name="cmd" value="deleteAgendaExport" />
 	<portlet:param name="tab" value="agendaExports" />
 	<portlet:param name="agendaExportId"
 		value="${not empty agendaExport ? agendaExport.agendaExportId : ''}" />
+    <portlet:param name="mvcPath" value="/agenda-export-bo-view-agenda-export.jsp" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveAgendaExport" varImpl="saveAgendaExportURL">
-	<portlet:param name="cmd" value="saveAgendaExport" />
 	<portlet:param name="tab" value="agendaExports" />
+    <portlet:param name="backURL" value="${param.backURL}" />
 	<portlet:param name="agendaExportId"
 		value="${not empty agendaExport ? agendaExport.agendaExportId : ''}" />
 </liferay-portlet:actionURL>
@@ -24,11 +21,11 @@
 <liferay-portlet:resourceURL var="exportAgendaExportURL" id="exportAgendaExport">
 </liferay-portlet:resourceURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
     <aui:form action="${(toExport eq true) ? dc.cleanResourceURL(exportAgendaExportURL) : saveAgendaExportURL}" method="POST" name="fm">
 
 		<aui:model-context bean="${agendaExport}" model="<%=AgendaExport.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+        <div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="agendaExportId" type="hidden" />
 
 			<aui:fieldset collapsed="false" collapsible="true"
@@ -98,7 +95,10 @@
            </aui:fieldset>
 
            <aui:fieldset collapsed="true" collapsible="true" label="Tags">
-               <aui:input name="tags" type="assetTags" />
+               <liferay-asset:asset-tags-selector
+                       className="<%= AgendaExport.class.getName() %>"
+                       classPK="${dc.agendaExport.agendaExportId}"
+               />
            </aui:fieldset>
 
             <%--
@@ -277,7 +277,7 @@
                 </div>
             </aui:fieldset>
 
-		</aui:fieldset-group>
+        </div></div>
 
 		<aui:button-row>
             <c:if test="${toExport ne true}">
@@ -301,7 +301,7 @@
             <c:if test="${toExport eq true}">
                 <aui:button id="export-btn-submit" cssClass="btn-lg" type="submit" value="eu.export"/>
             </c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 	</aui:form>
 </div>

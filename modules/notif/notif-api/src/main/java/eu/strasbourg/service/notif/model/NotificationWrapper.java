@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notif.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +23,11 @@ import java.util.Objects;
  * @generated
  */
 public class NotificationWrapper
+	extends BaseModelWrapper<Notification>
 	implements ModelWrapper<Notification>, Notification {
 
 	public NotificationWrapper(Notification notification) {
-		_notification = notification;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Notification.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Notification.class.getName();
+		super(notification);
 	}
 
 	@Override
@@ -295,20 +273,13 @@ public class NotificationWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new NotificationWrapper((Notification)_notification.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.notif.model.Notification notification) {
-
-		return _notification.compareTo(notification);
+	public Notification cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _notification.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -318,7 +289,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getBroadcastChannels() {
-		return _notification.getBroadcastChannels();
+		return model.getBroadcastChannels();
 	}
 
 	/**
@@ -328,7 +299,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public Date getBroadcastDate() {
-		return _notification.getBroadcastDate();
+		return model.getBroadcastDate();
 	}
 
 	/**
@@ -338,7 +309,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _notification.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -348,7 +319,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getContent() {
-		return _notification.getContent();
+		return model.getContent();
 	}
 
 	/**
@@ -359,7 +330,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getContent(java.util.Locale locale) {
-		return _notification.getContent(locale);
+		return model.getContent(locale);
 	}
 
 	/**
@@ -371,7 +342,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getContent(java.util.Locale locale, boolean useDefault) {
-		return _notification.getContent(locale, useDefault);
+		return model.getContent(locale, useDefault);
 	}
 
 	/**
@@ -382,7 +353,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getContent(String languageId) {
-		return _notification.getContent(languageId);
+		return model.getContent(languageId);
 	}
 
 	/**
@@ -394,17 +365,17 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getContent(String languageId, boolean useDefault) {
-		return _notification.getContent(languageId, useDefault);
+		return model.getContent(languageId, useDefault);
 	}
 
 	@Override
 	public String getContentCurrentLanguageId() {
-		return _notification.getContentCurrentLanguageId();
+		return model.getContentCurrentLanguageId();
 	}
 
 	@Override
 	public String getContentCurrentValue() {
-		return _notification.getContentCurrentValue();
+		return model.getContentCurrentValue();
 	}
 
 	/**
@@ -414,7 +385,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getContentMap() {
-		return _notification.getContentMap();
+		return model.getContentMap();
 	}
 
 	/**
@@ -424,12 +395,12 @@ public class NotificationWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _notification.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _notification.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -439,7 +410,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public long getDistrict() {
-		return _notification.getDistrict();
+		return model.getDistrict();
 	}
 
 	/**
@@ -449,12 +420,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public Date getEndDate() {
-		return _notification.getEndDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _notification.getExpandoBridge();
+		return model.getEndDate();
 	}
 
 	/**
@@ -464,7 +430,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _notification.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -474,7 +440,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public int getIsAlert() {
-		return _notification.getIsAlert();
+		return model.getIsAlert();
 	}
 
 	/**
@@ -484,7 +450,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public Boolean getIsSend() {
-		return _notification.getIsSend();
+		return model.getIsSend();
 	}
 
 	/**
@@ -494,7 +460,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getLabelUrl() {
-		return _notification.getLabelUrl();
+		return model.getLabelUrl();
 	}
 
 	/**
@@ -505,7 +471,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getLabelUrl(java.util.Locale locale) {
-		return _notification.getLabelUrl(locale);
+		return model.getLabelUrl(locale);
 	}
 
 	/**
@@ -517,7 +483,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getLabelUrl(java.util.Locale locale, boolean useDefault) {
-		return _notification.getLabelUrl(locale, useDefault);
+		return model.getLabelUrl(locale, useDefault);
 	}
 
 	/**
@@ -528,7 +494,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getLabelUrl(String languageId) {
-		return _notification.getLabelUrl(languageId);
+		return model.getLabelUrl(languageId);
 	}
 
 	/**
@@ -540,17 +506,17 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getLabelUrl(String languageId, boolean useDefault) {
-		return _notification.getLabelUrl(languageId, useDefault);
+		return model.getLabelUrl(languageId, useDefault);
 	}
 
 	@Override
 	public String getLabelUrlCurrentLanguageId() {
-		return _notification.getLabelUrlCurrentLanguageId();
+		return model.getLabelUrlCurrentLanguageId();
 	}
 
 	@Override
 	public String getLabelUrlCurrentValue() {
-		return _notification.getLabelUrlCurrentValue();
+		return model.getLabelUrlCurrentValue();
 	}
 
 	/**
@@ -560,7 +526,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getLabelUrlMap() {
-		return _notification.getLabelUrlMap();
+		return model.getLabelUrlMap();
 	}
 
 	/**
@@ -570,7 +536,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public long getMessageId() {
-		return _notification.getMessageId();
+		return model.getMessageId();
 	}
 
 	/**
@@ -580,7 +546,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _notification.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -590,7 +556,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public long getNatureId() {
-		return _notification.getNatureId();
+		return model.getNatureId();
 	}
 
 	/**
@@ -600,7 +566,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public long getNotificationId() {
-		return _notification.getNotificationId();
+		return model.getNotificationId();
 	}
 
 	/**
@@ -610,12 +576,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _notification.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _notification.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -625,7 +586,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public long getSendStatusCsmap() {
-		return _notification.getSendStatusCsmap();
+		return model.getSendStatusCsmap();
 	}
 
 	/**
@@ -635,7 +596,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public long getSendStatusMail() {
-		return _notification.getSendStatusMail();
+		return model.getSendStatusMail();
 	}
 
 	/**
@@ -645,7 +606,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public long getSendStatusMonst() {
-		return _notification.getSendStatusMonst();
+		return model.getSendStatusMonst();
 	}
 
 	/**
@@ -655,7 +616,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public long getSendStatusSegur() {
-		return _notification.getSendStatusSegur();
+		return model.getSendStatusSegur();
 	}
 
 	/**
@@ -665,7 +626,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public long getSendStatusTwitter() {
-		return _notification.getSendStatusTwitter();
+		return model.getSendStatusTwitter();
 	}
 
 	/**
@@ -675,7 +636,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public long getServiceId() {
-		return _notification.getServiceId();
+		return model.getServiceId();
 	}
 
 	/**
@@ -685,7 +646,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public Date getStartDate() {
-		return _notification.getStartDate();
+		return model.getStartDate();
 	}
 
 	/**
@@ -695,7 +656,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _notification.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -705,7 +666,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _notification.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -715,7 +676,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _notification.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -725,7 +686,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _notification.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -735,7 +696,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _notification.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -745,7 +706,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getSubtitle() {
-		return _notification.getSubtitle();
+		return model.getSubtitle();
 	}
 
 	/**
@@ -756,7 +717,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getSubtitle(java.util.Locale locale) {
-		return _notification.getSubtitle(locale);
+		return model.getSubtitle(locale);
 	}
 
 	/**
@@ -768,7 +729,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getSubtitle(java.util.Locale locale, boolean useDefault) {
-		return _notification.getSubtitle(locale, useDefault);
+		return model.getSubtitle(locale, useDefault);
 	}
 
 	/**
@@ -779,7 +740,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getSubtitle(String languageId) {
-		return _notification.getSubtitle(languageId);
+		return model.getSubtitle(languageId);
 	}
 
 	/**
@@ -791,17 +752,17 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getSubtitle(String languageId, boolean useDefault) {
-		return _notification.getSubtitle(languageId, useDefault);
+		return model.getSubtitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getSubtitleCurrentLanguageId() {
-		return _notification.getSubtitleCurrentLanguageId();
+		return model.getSubtitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getSubtitleCurrentValue() {
-		return _notification.getSubtitleCurrentValue();
+		return model.getSubtitleCurrentValue();
 	}
 
 	/**
@@ -811,7 +772,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getSubtitleMap() {
-		return _notification.getSubtitleMap();
+		return model.getSubtitleMap();
 	}
 
 	/**
@@ -821,7 +782,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getTitle() {
-		return _notification.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -832,7 +793,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale) {
-		return _notification.getTitle(locale);
+		return model.getTitle(locale);
 	}
 
 	/**
@@ -844,7 +805,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale, boolean useDefault) {
-		return _notification.getTitle(locale, useDefault);
+		return model.getTitle(locale, useDefault);
 	}
 
 	/**
@@ -855,7 +816,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getTitle(String languageId) {
-		return _notification.getTitle(languageId);
+		return model.getTitle(languageId);
 	}
 
 	/**
@@ -867,17 +828,17 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getTitle(String languageId, boolean useDefault) {
-		return _notification.getTitle(languageId, useDefault);
+		return model.getTitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getTitleCurrentLanguageId() {
-		return _notification.getTitleCurrentLanguageId();
+		return model.getTitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getTitleCurrentValue() {
-		return _notification.getTitleCurrentValue();
+		return model.getTitleCurrentValue();
 	}
 
 	/**
@@ -887,7 +848,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getTitleMap() {
-		return _notification.getTitleMap();
+		return model.getTitleMap();
 	}
 
 	/**
@@ -897,7 +858,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public long getTypeBroadcast() {
-		return _notification.getTypeBroadcast();
+		return model.getTypeBroadcast();
 	}
 
 	/**
@@ -907,7 +868,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getUrl() {
-		return _notification.getUrl();
+		return model.getUrl();
 	}
 
 	/**
@@ -918,7 +879,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getUrl(java.util.Locale locale) {
-		return _notification.getUrl(locale);
+		return model.getUrl(locale);
 	}
 
 	/**
@@ -930,7 +891,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getUrl(java.util.Locale locale, boolean useDefault) {
-		return _notification.getUrl(locale, useDefault);
+		return model.getUrl(locale, useDefault);
 	}
 
 	/**
@@ -941,7 +902,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getUrl(String languageId) {
-		return _notification.getUrl(languageId);
+		return model.getUrl(languageId);
 	}
 
 	/**
@@ -953,17 +914,17 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getUrl(String languageId, boolean useDefault) {
-		return _notification.getUrl(languageId, useDefault);
+		return model.getUrl(languageId, useDefault);
 	}
 
 	@Override
 	public String getUrlCurrentLanguageId() {
-		return _notification.getUrlCurrentLanguageId();
+		return model.getUrlCurrentLanguageId();
 	}
 
 	@Override
 	public String getUrlCurrentValue() {
-		return _notification.getUrlCurrentValue();
+		return model.getUrlCurrentValue();
 	}
 
 	/**
@@ -973,7 +934,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getUrlMap() {
-		return _notification.getUrlMap();
+		return model.getUrlMap();
 	}
 
 	/**
@@ -983,7 +944,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _notification.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -993,7 +954,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _notification.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -1003,7 +964,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _notification.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -1013,12 +974,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _notification.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _notification.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -1028,12 +984,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _notification.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _notification.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -1043,7 +994,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _notification.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -1053,12 +1004,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _notification.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _notification.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -1068,7 +1014,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _notification.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -1078,7 +1024,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _notification.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -1088,12 +1034,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _notification.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _notification.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -1103,7 +1044,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _notification.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -1113,19 +1054,19 @@ public class NotificationWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _notification.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_notification.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_notification.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -1133,7 +1074,7 @@ public class NotificationWrapper
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_notification.prepareLocalizedFieldsForImport(defaultImportLocale);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -1143,7 +1084,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setBroadcastChannels(String broadcastChannels) {
-		_notification.setBroadcastChannels(broadcastChannels);
+		model.setBroadcastChannels(broadcastChannels);
 	}
 
 	/**
@@ -1153,12 +1094,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setBroadcastDate(Date broadcastDate) {
-		_notification.setBroadcastDate(broadcastDate);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_notification.setCachedModel(cachedModel);
+		model.setBroadcastDate(broadcastDate);
 	}
 
 	/**
@@ -1168,7 +1104,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_notification.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -1178,7 +1114,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setContent(String content) {
-		_notification.setContent(content);
+		model.setContent(content);
 	}
 
 	/**
@@ -1189,7 +1125,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setContent(String content, java.util.Locale locale) {
-		_notification.setContent(content, locale);
+		model.setContent(content, locale);
 	}
 
 	/**
@@ -1204,12 +1140,12 @@ public class NotificationWrapper
 		String content, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_notification.setContent(content, locale, defaultLocale);
+		model.setContent(content, locale, defaultLocale);
 	}
 
 	@Override
 	public void setContentCurrentLanguageId(String languageId) {
-		_notification.setContentCurrentLanguageId(languageId);
+		model.setContentCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1219,7 +1155,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setContentMap(Map<java.util.Locale, String> contentMap) {
-		_notification.setContentMap(contentMap);
+		model.setContentMap(contentMap);
 	}
 
 	/**
@@ -1233,7 +1169,7 @@ public class NotificationWrapper
 		Map<java.util.Locale, String> contentMap,
 		java.util.Locale defaultLocale) {
 
-		_notification.setContentMap(contentMap, defaultLocale);
+		model.setContentMap(contentMap, defaultLocale);
 	}
 
 	/**
@@ -1243,7 +1179,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_notification.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -1253,7 +1189,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setDistrict(long district) {
-		_notification.setDistrict(district);
+		model.setDistrict(district);
 	}
 
 	/**
@@ -1263,24 +1199,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setEndDate(Date endDate) {
-		_notification.setEndDate(endDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_notification.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_notification.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_notification.setExpandoBridgeAttributes(serviceContext);
+		model.setEndDate(endDate);
 	}
 
 	/**
@@ -1290,7 +1209,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_notification.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -1300,7 +1219,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setIsAlert(int isAlert) {
-		_notification.setIsAlert(isAlert);
+		model.setIsAlert(isAlert);
 	}
 
 	/**
@@ -1310,7 +1229,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setIsSend(Boolean isSend) {
-		_notification.setIsSend(isSend);
+		model.setIsSend(isSend);
 	}
 
 	/**
@@ -1320,7 +1239,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setLabelUrl(String labelUrl) {
-		_notification.setLabelUrl(labelUrl);
+		model.setLabelUrl(labelUrl);
 	}
 
 	/**
@@ -1331,7 +1250,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setLabelUrl(String labelUrl, java.util.Locale locale) {
-		_notification.setLabelUrl(labelUrl, locale);
+		model.setLabelUrl(labelUrl, locale);
 	}
 
 	/**
@@ -1346,12 +1265,12 @@ public class NotificationWrapper
 		String labelUrl, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_notification.setLabelUrl(labelUrl, locale, defaultLocale);
+		model.setLabelUrl(labelUrl, locale, defaultLocale);
 	}
 
 	@Override
 	public void setLabelUrlCurrentLanguageId(String languageId) {
-		_notification.setLabelUrlCurrentLanguageId(languageId);
+		model.setLabelUrlCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1361,7 +1280,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setLabelUrlMap(Map<java.util.Locale, String> labelUrlMap) {
-		_notification.setLabelUrlMap(labelUrlMap);
+		model.setLabelUrlMap(labelUrlMap);
 	}
 
 	/**
@@ -1375,7 +1294,7 @@ public class NotificationWrapper
 		Map<java.util.Locale, String> labelUrlMap,
 		java.util.Locale defaultLocale) {
 
-		_notification.setLabelUrlMap(labelUrlMap, defaultLocale);
+		model.setLabelUrlMap(labelUrlMap, defaultLocale);
 	}
 
 	/**
@@ -1385,7 +1304,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setMessageId(long messageId) {
-		_notification.setMessageId(messageId);
+		model.setMessageId(messageId);
 	}
 
 	/**
@@ -1395,7 +1314,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_notification.setModifiedDate(modifiedDate);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -1405,12 +1324,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setNatureId(long natureId) {
-		_notification.setNatureId(natureId);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_notification.setNew(n);
+		model.setNatureId(natureId);
 	}
 
 	/**
@@ -1420,7 +1334,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setNotificationId(long notificationId) {
-		_notification.setNotificationId(notificationId);
+		model.setNotificationId(notificationId);
 	}
 
 	/**
@@ -1430,12 +1344,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_notification.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_notification.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -1445,7 +1354,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setSendStatusCsmap(long sendStatusCsmap) {
-		_notification.setSendStatusCsmap(sendStatusCsmap);
+		model.setSendStatusCsmap(sendStatusCsmap);
 	}
 
 	/**
@@ -1455,7 +1364,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setSendStatusMail(long sendStatusMail) {
-		_notification.setSendStatusMail(sendStatusMail);
+		model.setSendStatusMail(sendStatusMail);
 	}
 
 	/**
@@ -1465,7 +1374,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setSendStatusMonst(long sendStatusMonst) {
-		_notification.setSendStatusMonst(sendStatusMonst);
+		model.setSendStatusMonst(sendStatusMonst);
 	}
 
 	/**
@@ -1475,7 +1384,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setSendStatusSegur(long sendStatusSegur) {
-		_notification.setSendStatusSegur(sendStatusSegur);
+		model.setSendStatusSegur(sendStatusSegur);
 	}
 
 	/**
@@ -1485,7 +1394,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setSendStatusTwitter(long sendStatusTwitter) {
-		_notification.setSendStatusTwitter(sendStatusTwitter);
+		model.setSendStatusTwitter(sendStatusTwitter);
 	}
 
 	/**
@@ -1495,7 +1404,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setServiceId(long serviceId) {
-		_notification.setServiceId(serviceId);
+		model.setServiceId(serviceId);
 	}
 
 	/**
@@ -1505,7 +1414,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setStartDate(Date startDate) {
-		_notification.setStartDate(startDate);
+		model.setStartDate(startDate);
 	}
 
 	/**
@@ -1515,7 +1424,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_notification.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -1525,7 +1434,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_notification.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -1535,7 +1444,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_notification.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -1545,7 +1454,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_notification.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -1555,7 +1464,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_notification.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -1565,7 +1474,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setSubtitle(String subtitle) {
-		_notification.setSubtitle(subtitle);
+		model.setSubtitle(subtitle);
 	}
 
 	/**
@@ -1576,7 +1485,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setSubtitle(String subtitle, java.util.Locale locale) {
-		_notification.setSubtitle(subtitle, locale);
+		model.setSubtitle(subtitle, locale);
 	}
 
 	/**
@@ -1591,12 +1500,12 @@ public class NotificationWrapper
 		String subtitle, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_notification.setSubtitle(subtitle, locale, defaultLocale);
+		model.setSubtitle(subtitle, locale, defaultLocale);
 	}
 
 	@Override
 	public void setSubtitleCurrentLanguageId(String languageId) {
-		_notification.setSubtitleCurrentLanguageId(languageId);
+		model.setSubtitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1606,7 +1515,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setSubtitleMap(Map<java.util.Locale, String> subtitleMap) {
-		_notification.setSubtitleMap(subtitleMap);
+		model.setSubtitleMap(subtitleMap);
 	}
 
 	/**
@@ -1620,7 +1529,7 @@ public class NotificationWrapper
 		Map<java.util.Locale, String> subtitleMap,
 		java.util.Locale defaultLocale) {
 
-		_notification.setSubtitleMap(subtitleMap, defaultLocale);
+		model.setSubtitleMap(subtitleMap, defaultLocale);
 	}
 
 	/**
@@ -1630,7 +1539,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setTitle(String title) {
-		_notification.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -1641,7 +1550,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setTitle(String title, java.util.Locale locale) {
-		_notification.setTitle(title, locale);
+		model.setTitle(title, locale);
 	}
 
 	/**
@@ -1655,12 +1564,12 @@ public class NotificationWrapper
 	public void setTitle(
 		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_notification.setTitle(title, locale, defaultLocale);
+		model.setTitle(title, locale, defaultLocale);
 	}
 
 	@Override
 	public void setTitleCurrentLanguageId(String languageId) {
-		_notification.setTitleCurrentLanguageId(languageId);
+		model.setTitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1670,7 +1579,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
-		_notification.setTitleMap(titleMap);
+		model.setTitleMap(titleMap);
 	}
 
 	/**
@@ -1684,7 +1593,7 @@ public class NotificationWrapper
 		Map<java.util.Locale, String> titleMap,
 		java.util.Locale defaultLocale) {
 
-		_notification.setTitleMap(titleMap, defaultLocale);
+		model.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**
@@ -1694,7 +1603,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setTypeBroadcast(long typeBroadcast) {
-		_notification.setTypeBroadcast(typeBroadcast);
+		model.setTypeBroadcast(typeBroadcast);
 	}
 
 	/**
@@ -1704,7 +1613,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setUrl(String url) {
-		_notification.setUrl(url);
+		model.setUrl(url);
 	}
 
 	/**
@@ -1715,7 +1624,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setUrl(String url, java.util.Locale locale) {
-		_notification.setUrl(url, locale);
+		model.setUrl(url, locale);
 	}
 
 	/**
@@ -1729,12 +1638,12 @@ public class NotificationWrapper
 	public void setUrl(
 		String url, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_notification.setUrl(url, locale, defaultLocale);
+		model.setUrl(url, locale, defaultLocale);
 	}
 
 	@Override
 	public void setUrlCurrentLanguageId(String languageId) {
-		_notification.setUrlCurrentLanguageId(languageId);
+		model.setUrlCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1744,7 +1653,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setUrlMap(Map<java.util.Locale, String> urlMap) {
-		_notification.setUrlMap(urlMap);
+		model.setUrlMap(urlMap);
 	}
 
 	/**
@@ -1757,7 +1666,7 @@ public class NotificationWrapper
 	public void setUrlMap(
 		Map<java.util.Locale, String> urlMap, java.util.Locale defaultLocale) {
 
-		_notification.setUrlMap(urlMap, defaultLocale);
+		model.setUrlMap(urlMap, defaultLocale);
 	}
 
 	/**
@@ -1767,7 +1676,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_notification.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -1777,7 +1686,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_notification.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -1787,7 +1696,7 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_notification.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1797,80 +1706,22 @@ public class NotificationWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_notification.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.notif.model.Notification> toCacheModel() {
-
-		return _notification.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.notif.model.Notification toEscapedModel() {
-		return new NotificationWrapper(_notification.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _notification.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.notif.model.Notification toUnescapedModel() {
-		return new NotificationWrapper(_notification.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _notification.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof NotificationWrapper)) {
-			return false;
-		}
-
-		NotificationWrapper notificationWrapper = (NotificationWrapper)object;
-
-		if (Objects.equals(_notification, notificationWrapper._notification)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _notification.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Notification getWrappedModel() {
-		return _notification;
+	protected NotificationWrapper wrap(Notification notification) {
+		return new NotificationWrapper(notification);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _notification.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _notification.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_notification.resetOriginalValues();
-	}
-
-	private final Notification _notification;
 
 }

@@ -1,11 +1,17 @@
 package eu.strasbourg.utils;
 
+import com.liferay.asset.category.property.service.AssetCategoryPropertyLocalServiceUtil;
+import com.liferay.asset.entry.rel.model.AssetEntryAssetCategoryRel;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.commerce.product.constants.CPAttachmentFileEntryConstants;
+import com.liferay.commerce.product.model.CPAttachmentFileEntry;
+import com.liferay.commerce.product.service.CPAttachmentFileEntryServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -21,13 +27,10 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.utils.constants.VocabularyNames;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -230,6 +233,32 @@ public class AssetVocabularyHelper {
 		} catch (Exception e) {
 			return "";
 		}
+	}
+
+	/**
+	 * Retourne l'image de la catégorie passée en paramètre avec son titre
+	 * null si l'image n'existe pas
+	 * @note Les images des catégories sont stockées via le CPAttachmentFileEntry
+	 */
+	static CPAttachmentFileEntry getCategoryImage(long categoryId, String title) {
+		try {
+			List<CPAttachmentFileEntry> entries = CPAttachmentFileEntryServiceUtil.getCPAttachmentFileEntries(
+					PortalUtil.getClassNameId(AssetCategory.class),
+					categoryId,
+					CPAttachmentFileEntryConstants.TYPE_IMAGE,
+					WorkflowConstants.STATUS_ANY,
+					0,
+					100
+			);
+			for (CPAttachmentFileEntry entry : entries) {
+				if (entry.getTitle(Locale.FRANCE).equals(title)) {
+					return entry;
+				}
+			}
+		} catch (Exception e) {
+			return null;
+		}
+		return null;
 	}
 
 	/**
@@ -460,7 +489,7 @@ public class AssetVocabularyHelper {
 	 * @return
 	 */
 	public static void addCategoryToAssetEntry(AssetCategory category, AssetEntry entry) {
-		AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(
+		AssetEntryAssetCategoryRelLocalServiceUtil.addAssetEntryAssetCategoryRel(
 				entry.getEntryId(), category.getCategoryId());
 	}
 
@@ -469,7 +498,7 @@ public class AssetVocabularyHelper {
 	 * @return
 	 */
 	public static void removeCategoryToAssetEntry(AssetCategory category, AssetEntry entry) {
-		AssetCategoryLocalServiceUtil.deleteAssetEntryAssetCategory(
+		AssetEntryAssetCategoryRelLocalServiceUtil.deleteAssetEntryAssetCategoryRel(
 				entry.getEntryId(), category.getCategoryId());
 	}
 
@@ -861,6 +890,50 @@ public class AssetVocabularyHelper {
 		}
 		return assetCategory;
 	}
+	/**
+	 * Créer pour remplacer la fct Deprecated AssetEntryLocalServiceUtil.hasAssetCategoryAssetEntry,
+	 * et qui permet de vérifier s'il y a un lien entre assetEntry et l'assetCategorie
+	 *
+	 */
+	public static boolean hasAssetCategoryAssetEntry(long assetEntryId,long assetCategoryId){
+		List<AssetEntryAssetCategoryRel> assetEntryAssetCategoryRels=AssetEntryAssetCategoryRelLocalServiceUtil
+				.getAssetEntryAssetCategoryRelsByAssetEntryId(assetEntryId);
+		return assetEntryAssetCategoryRels.stream().filter(a -> a.getAssetCategoryId() == assetCategoryId).count() > 0;
+	}
+
+
+	/**
+	 * Récupère une liste d'objets AssetEntry publiés associés à la catégorie d'actifs spécifiée.
+	 *
+	 * @param assetCategory La catégorie d'actifs pour laquelle récupérer les AssetEntry associés.
+	 * @return Une liste d'objets AssetEntry publiés associés à la catégorie d'actifs spécifiée.
+	 * @throws PortalException Si une erreur se produit lors de la récupération des entrées d'actifs.
+	 */
+	public static List<AssetEntry> getAssetEntriesByAssetCategory(AssetCategory assetCategory) throws PortalException {
+		List<AssetEntry> entries = AssetEntryAssetCategoryRelLocalServiceUtil
+				.getAssetEntryAssetCategoryRelsByAssetCategoryId(assetCategory.getCategoryId())
+				.parallelStream()
+				.map(AssetEntryAssetCategoryRel::getAssetEntryId)
+				.map(AssetEntryLocalServiceUtil::fetchAssetEntry)
+				.filter(Objects::nonNull)
+				.collect(Collectors.toList());
+
+		return entries;
+	}
+
 
 	private static Log _log = LogFactoryUtil.getLog("AssetVocabularyHelper");
+
+	// remove duplicate by identifying its id
+	public static List<AssetCategory> removeDuplicateCategories(List<AssetCategory> assetCategories) {
+		List<AssetCategory> result = new ArrayList<>();
+		Set<Long> ids = new HashSet<>();
+		for (AssetCategory assetCategory : assetCategories) {
+			if (!ids.contains(assetCategory.getCategoryId())) {
+				result.add(assetCategory);
+				ids.add(assetCategory.getCategoryId());
+			}
+		}
+		return result;
+	}
 }

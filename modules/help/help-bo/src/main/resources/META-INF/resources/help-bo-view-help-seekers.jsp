@@ -1,54 +1,35 @@
 <%@ include file="/help-bo-init.jsp"%>
-
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <%-- URL : definit le lien avec les parametres de recherche des entites--%>
 <liferay-portlet:renderURL varImpl="helpSeekersURL">
 	<portlet:param name="tab" value="helpSeekers" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
-	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
+	<portlet:param name="mvcPath" value="/help-bo-view-help-seekers.jsp" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
 
 <%-- Composant : barre de filtres et de gestion des entite --%>
-<liferay-frontend:management-bar includeCheckBox="false" searchContainerId="helpSeekersSearchContainer">
-
-	<%-- Composant : partie filtres et selection --%>
-	<liferay-frontend:management-bar-filters>
-		<c:if test="${fn:length(dc.vocabularies) > 0}">
-			<li><a>Filtrer par :</a></li>
-		</c:if>
-		<c:forEach var="vocabulary" items="${dc.vocabularies}">
-			<liferay-frontend:management-bar-filter
-				managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}"
-				value="${dc.getVocabularyFilterLabel(vocabulary)}" />
-		</c:forEach>
-
-		<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
-			orderByType="${dc.orderByType}"
-			orderColumns='<%= new String[] {"last-name", "first-name", "email", "request-create-date", "nb-requests"} %>'
-			portletURL="${helpSeekersURL}" />
-	</liferay-frontend:management-bar-filters>
-
-</liferay-frontend:management-bar>
+<clay:management-toolbar
+		managementToolbarDisplayContext="${managementDC}"
+/>
 
 <%-- Composant : tableau de visualisation des entites --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
-	    <aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="helpSeekersSearchContainer" searchContainer="${dc.searchContainer}">
-
-			<liferay-ui:search-container-results results="${dc.helpSeekers}" />
 
 			<liferay-ui:search-container-row
                 className="eu.strasbourg.portlet.help.context.ViewHelpSeekersDisplayContext.HelpSeeker" modelVar="helpSeeker"
-                keyProperty="publikUser.publikUserLiferayId" rowIdProperty="publikUserLiferayId" escapedModel="true">
+                keyProperty="publikUser.publikUserLiferayId" escapedModel="true">
 
                 <%-- URL : definit le lien vers la page de consultation des demandes d'aide --%>
                 <liferay-portlet:renderURL varImpl="viewSeekerHelpRequestsURL">
                     <portlet:param name="cmd" value="viewSeekerHelpRequests" />
                     <portlet:param name="helpSeekerId" value="${helpSeeker.publikUser.publikId}" />
-                    <portlet:param name="returnURL" value="${helpSeekersURL}" />
+                    <portlet:param name="backURL" value="${helpSeekersURL}" />
                     <portlet:param name="mvcPath" value="/help-bo-view-seeker-help-requests.jsp" />
+					<portlet:param name="tab" value="helpSeekers" />
                 </liferay-portlet:renderURL>
 
                 <%-- Colonne : Nom --%>
@@ -81,35 +62,12 @@
                     href="${viewSeekerHelpRequestsURL}" name="last-request-date" truncate="true" orderable="true"
                     value="${formattedLastRequestDate}" />
 
-				<%-- URL : definit le lien vers la page de consultation des demandes d'aide --%>
-				<liferay-portlet:renderURL varImpl="editHelpSeekerURL">
-					<portlet:param name="cmd" value="editHelpSeeker" />
-					<portlet:param name="helpSeekerId" value="${helpSeeker.publikUser.publikUserLiferayId}" />
-					<portlet:param name="returnURL" value="${dc.currentURL}" />
-					<portlet:param name="mvcPath" value="/oidc-bo-edit-publikuser.jsp" />
-				</liferay-portlet:renderURL>
                 <%-- Colonne : Actions possibles --%>
                 <liferay-ui:search-container-column-text>
-                    <liferay-ui:icon-menu markupView="lexicon" showWhenSingleIcon="true">
-                        <liferay-ui:icon message="view-help-requests" url="${viewSeekerHelpRequestsURL}" />
-
-						<%--
-						<c:set value="${helpSeeker.publikUser.publikUserLiferayId}" var="publikId" />
-						<c:if test="${dc.hasPermissionOIDC('EDIT_PUBLIKUSER') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon message="view-user-profil" url="${dc.getPublikUserEditURL(publikId)}" />
-						</c:if>
-						--%>
-
-						<%-- Suppression des justificatifs de l'etudiant --%>
-						<liferay-portlet:actionURL name="deleteStudentCardImages" var="deleteStudentCardImagesURL">
-							<portlet:param name="cmd" value="deleteStudentCardImages" />
-							<portlet:param name="tab" value="helpSeekers" />
-							<portlet:param name="studentPublikId" value="${helpSeeker.publikUser.publikId}" />
-						</liferay-portlet:actionURL>
-						<c:if test="${dc.hasPermission('EDIT_HELP_REQUEST') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-							<liferay-ui:icon-delete confirmation="delete-student-ids-confirm" message="${helpSeeker.imagesCount}" url="${deleteStudentCardImagesURL}" />
-						</c:if>
-                    </liferay-ui:icon-menu>
+					<clay:dropdown-actions
+							aria-label="<liferay-ui:message key='show-actions' />"
+							dropdownItems="${dc.getActionsHelpSeeker(helpSeeker).getActionDropdownItems(helpSeeker.imagesCount)}"
+					/>
                 </liferay-ui:search-container-column-text>
 
 			</liferay-ui:search-container-row>
@@ -120,3 +78,48 @@
 		</liferay-ui:search-container>
 	</aui:form>
 </div>
+<aui:script>
+    var form = document.querySelector("[name='<portlet:namespace />fm']");
+    var json = '{"desiredItemSelectorReturnTypes":"infoitem","itemSubtype":null,"itemType":"com.liferay.asset.kernel.model.AssetCategory","mimeTypes":null,"multiSelection":true,"refererClassPK":"0","status":0}';
+
+    function getCategoriesByVocabulary(vocabularyId, vocabularyName, categoriesId) {
+        const portletURL = location.protocol + '//' + location.host + location.pathname + "/-/select/com.liferay.item.selector.criteria.info.item.criterion.InfoItemItemSelectorCriterion/<portlet:namespace />selectCategory";
+        const url = Liferay.Util.PortletURL.createPortletURL(portletURL, {
+            p_p_id: 'com_liferay_item_selector_web_portlet_ItemSelectorPortlet',
+            '0_json': json,
+            p_p_lifecycle: 0,
+            p_p_state: "pop_up",
+            selectedCategories: categoriesId,
+            selectedCategoryIds: categoriesId,
+            singleSelect : false,
+            showAddCategoryButton: true,
+            vocabularyIds: vocabularyId,
+        });
+
+        Liferay.Util.openSelectionModal(
+            {
+                onSelect: function (selectedItem) {
+                    if (selectedItem) {
+                        var url = "${filterSelectionURL}";
+                        if(!url.includes("filterCategoriesIdByVocabulariesName"))
+                            url += "&<portlet:namespace />filterCategoriesIdByVocabulariesName=";
+                        if(url.includes(encodeURIComponent(vocabularyName).replaceAll("%20","+").replaceAll("'","%27")+'__')){
+                            const regex = encodeURIComponent(vocabularyName).replaceAll("%20","\\+").replaceAll("'","%27") + "(.(?<!___))*___";
+                            const re = new RegExp(regex, 'gi');
+                            url = url.replace(re,"");
+                        }
+                        for(index in Object.keys(selectedItem)){
+                            var selection = selectedItem[Object.keys(selectedItem)[index]];
+                            url += encodeURIComponent(vocabularyName) + '__' + encodeURIComponent(selection.title) + '__' + selection.categoryId + '___';
+                        }
+                        submitForm(form, url);
+                    }
+                },
+                selectEventName: '<portlet:namespace />selectCategory',
+                title: vocabularyName,
+                multiple: true,
+                url: url
+            }
+        )
+    }
+</aui:script>

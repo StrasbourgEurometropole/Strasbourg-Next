@@ -1,12 +1,12 @@
 package eu.strasbourg.portlet.edition.panel;
 
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.application.list.BasePanelApp;
 import com.liferay.application.list.PanelApp;
 import com.liferay.application.list.constants.PanelCategoryKeys;
-
+import com.liferay.portal.kernel.model.Portlet;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 @Component(
     immediate = true,
@@ -21,4 +21,14 @@ public class EditionBOPanelApp extends BasePanelApp {
 	public String getPortletId() {
 		return StrasbourgPortletKeys.EDITION_BO;
 	}
+
+	@Override
+	public Portlet getPortlet() {
+		return _portlet;
+	}
+
+	@Reference(
+			target = "(javax.portlet.name=" + StrasbourgPortletKeys.EDITION_BO + ")"
+	)
+	private Portlet _portlet;
 }

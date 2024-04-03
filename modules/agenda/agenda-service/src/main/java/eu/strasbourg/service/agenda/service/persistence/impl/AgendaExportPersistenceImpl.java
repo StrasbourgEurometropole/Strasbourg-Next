@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,30 +19,30 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.exception.NoSuchAgendaExportException;
 import eu.strasbourg.service.agenda.model.AgendaExport;
+import eu.strasbourg.service.agenda.model.AgendaExportTable;
 import eu.strasbourg.service.agenda.model.impl.AgendaExportImpl;
 import eu.strasbourg.service.agenda.model.impl.AgendaExportModelImpl;
 import eu.strasbourg.service.agenda.service.persistence.AgendaExportPersistence;
+import eu.strasbourg.service.agenda.service.persistence.AgendaExportUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -252,10 +244,6 @@ public class AgendaExportPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -604,8 +592,6 @@ public class AgendaExportPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -763,11 +749,6 @@ public class AgendaExportPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -856,8 +837,6 @@ public class AgendaExportPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1058,10 +1037,6 @@ public class AgendaExportPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1442,8 +1417,6 @@ public class AgendaExportPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1615,10 +1588,6 @@ public class AgendaExportPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1944,8 +1913,6 @@ public class AgendaExportPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2112,10 +2079,6 @@ public class AgendaExportPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2442,8 +2405,6 @@ public class AgendaExportPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2625,10 +2586,6 @@ public class AgendaExportPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2983,8 +2940,6 @@ public class AgendaExportPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3006,21 +2961,14 @@ public class AgendaExportPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(AgendaExport.class);
+
+		setModelImplClass(AgendaExportImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(AgendaExportTable.INSTANCE);
 	}
 
 	/**
@@ -3031,16 +2979,15 @@ public class AgendaExportPersistenceImpl
 	@Override
 	public void cacheResult(AgendaExport agendaExport) {
 		entityCache.putResult(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED, AgendaExportImpl.class,
-			agendaExport.getPrimaryKey(), agendaExport);
+			AgendaExportImpl.class, agendaExport.getPrimaryKey(), agendaExport);
 
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {agendaExport.getUuid(), agendaExport.getGroupId()},
 			agendaExport);
-
-		agendaExport.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the agenda exports in the entity cache if it is enabled.
@@ -3049,16 +2996,19 @@ public class AgendaExportPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<AgendaExport> agendaExports) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (agendaExports.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (AgendaExport agendaExport : agendaExports) {
 			if (entityCache.getResult(
-					AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
 					AgendaExportImpl.class, agendaExport.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(agendaExport);
-			}
-			else {
-				agendaExport.resetOriginalValues();
 			}
 		}
 	}
@@ -3074,9 +3024,7 @@ public class AgendaExportPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(AgendaExportImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(AgendaExportImpl.class);
 	}
 
 	/**
@@ -3088,39 +3036,22 @@ public class AgendaExportPersistenceImpl
 	 */
 	@Override
 	public void clearCache(AgendaExport agendaExport) {
-		entityCache.removeResult(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED, AgendaExportImpl.class,
-			agendaExport.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((AgendaExportModelImpl)agendaExport, true);
+		entityCache.removeResult(AgendaExportImpl.class, agendaExport);
 	}
 
 	@Override
 	public void clearCache(List<AgendaExport> agendaExports) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (AgendaExport agendaExport : agendaExports) {
-			entityCache.removeResult(
-				AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-				AgendaExportImpl.class, agendaExport.getPrimaryKey());
-
-			clearUniqueFindersCache((AgendaExportModelImpl)agendaExport, true);
+			entityCache.removeResult(AgendaExportImpl.class, agendaExport);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(AgendaExportImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-				AgendaExportImpl.class, primaryKey);
+			entityCache.removeResult(AgendaExportImpl.class, primaryKey);
 		}
 	}
 
@@ -3131,36 +3062,9 @@ public class AgendaExportPersistenceImpl
 			agendaExportModelImpl.getUuid(), agendaExportModelImpl.getGroupId()
 		};
 
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, agendaExportModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		AgendaExportModelImpl agendaExportModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				agendaExportModelImpl.getUuid(),
-				agendaExportModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((agendaExportModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				agendaExportModelImpl.getOriginalUuid(),
-				agendaExportModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+			_finderPathFetchByUUID_G, args, agendaExportModelImpl);
 	}
 
 	/**
@@ -3303,24 +3207,24 @@ public class AgendaExportPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (agendaExport.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				agendaExport.setCreateDate(now);
+				agendaExport.setCreateDate(date);
 			}
 			else {
-				agendaExport.setCreateDate(serviceContext.getCreateDate(now));
+				agendaExport.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!agendaExportModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				agendaExport.setModifiedDate(now);
+				agendaExport.setModifiedDate(date);
 			}
 			else {
 				agendaExport.setModifiedDate(
-					serviceContext.getModifiedDate(now));
+					serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -3329,10 +3233,8 @@ public class AgendaExportPersistenceImpl
 		try {
 			session = openSession();
 
-			if (agendaExport.isNew()) {
+			if (isNew) {
 				session.save(agendaExport);
-
-				agendaExport.setNew(false);
 			}
 			else {
 				agendaExport = (AgendaExport)session.merge(agendaExport);
@@ -3345,165 +3247,14 @@ public class AgendaExportPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!AgendaExportModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {agendaExportModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				agendaExportModelImpl.getUuid(),
-				agendaExportModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {agendaExportModelImpl.getStatus()};
-
-			finderCache.removeResult(_finderPathCountByStatus, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByStatus, args);
-
-			args = new Object[] {agendaExportModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {
-				agendaExportModelImpl.getGroupId(),
-				agendaExportModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByGroupIdAndStatus, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupIdAndStatus, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((agendaExportModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					agendaExportModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {agendaExportModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((agendaExportModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					agendaExportModelImpl.getOriginalUuid(),
-					agendaExportModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					agendaExportModelImpl.getUuid(),
-					agendaExportModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((agendaExportModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByStatus.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					agendaExportModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByStatus, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStatus, args);
-
-				args = new Object[] {agendaExportModelImpl.getStatus()};
-
-				finderCache.removeResult(_finderPathCountByStatus, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStatus, args);
-			}
-
-			if ((agendaExportModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					agendaExportModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {agendaExportModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((agendaExportModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupIdAndStatus.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					agendaExportModelImpl.getOriginalGroupId(),
-					agendaExportModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByGroupIdAndStatus, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupIdAndStatus, args);
-
-				args = new Object[] {
-					agendaExportModelImpl.getGroupId(),
-					agendaExportModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByGroupIdAndStatus, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupIdAndStatus, args);
-			}
-		}
-
 		entityCache.putResult(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED, AgendaExportImpl.class,
-			agendaExport.getPrimaryKey(), agendaExport, false);
+			AgendaExportImpl.class, agendaExportModelImpl, false, true);
 
-		clearUniqueFindersCache(agendaExportModelImpl, false);
 		cacheUniqueFindersCache(agendaExportModelImpl);
+
+		if (isNew) {
+			agendaExport.setNew(false);
+		}
 
 		agendaExport.resetOriginalValues();
 
@@ -3552,161 +3303,12 @@ public class AgendaExportPersistenceImpl
 	/**
 	 * Returns the agenda export with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the agenda export
-	 * @return the agenda export, or <code>null</code> if a agenda export with the primary key could not be found
-	 */
-	@Override
-	public AgendaExport fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED, AgendaExportImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		AgendaExport agendaExport = (AgendaExport)serializable;
-
-		if (agendaExport == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				agendaExport = (AgendaExport)session.get(
-					AgendaExportImpl.class, primaryKey);
-
-				if (agendaExport != null) {
-					cacheResult(agendaExport);
-				}
-				else {
-					entityCache.putResult(
-						AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-						AgendaExportImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-					AgendaExportImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return agendaExport;
-	}
-
-	/**
-	 * Returns the agenda export with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param agendaExportId the primary key of the agenda export
 	 * @return the agenda export, or <code>null</code> if a agenda export with the primary key could not be found
 	 */
 	@Override
 	public AgendaExport fetchByPrimaryKey(long agendaExportId) {
 		return fetchByPrimaryKey((Serializable)agendaExportId);
-	}
-
-	@Override
-	public Map<Serializable, AgendaExport> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, AgendaExport> map =
-			new HashMap<Serializable, AgendaExport>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			AgendaExport agendaExport = fetchByPrimaryKey(primaryKey);
-
-			if (agendaExport != null) {
-				map.put(primaryKey, agendaExport);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-				AgendaExportImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (AgendaExport)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_AGENDAEXPORT_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (AgendaExport agendaExport : (List<AgendaExport>)query.list()) {
-				map.put(agendaExport.getPrimaryKeyObj(), agendaExport);
-
-				cacheResult(agendaExport);
-
-				uncachedPrimaryKeys.remove(agendaExport.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-					AgendaExportImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3833,10 +3435,6 @@ public class AgendaExportPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3882,9 +3480,6 @@ public class AgendaExportPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3901,6 +3496,21 @@ public class AgendaExportPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "agendaExportId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_AGENDAEXPORT;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return AgendaExportModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -3909,158 +3519,131 @@ public class AgendaExportPersistenceImpl
 	 * Initializes the agenda export persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			AgendaExportModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			AgendaExportModelImpl.UUID_COLUMN_BITMASK |
-			AgendaExportModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			AgendaExportModelImpl.UUID_COLUMN_BITMASK |
-			AgendaExportModelImpl.COMPANYID_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByStatus = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStatus",
 			new String[] {
 				Integer.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"status"}, true);
 
 		_finderPathWithoutPaginationFindByStatus = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStatus",
-			new String[] {Integer.class.getName()},
-			AgendaExportModelImpl.STATUS_COLUMN_BITMASK);
+			new String[] {Integer.class.getName()}, new String[] {"status"},
+			true);
 
 		_finderPathCountByStatus = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStatus",
-			new String[] {Integer.class.getName()});
+			new String[] {Integer.class.getName()}, new String[] {"status"},
+			false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			AgendaExportModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
 
 		_finderPathWithPaginationFindByGroupIdAndStatus = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupIdAndStatus",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId", "status"}, true);
 
 		_finderPathWithoutPaginationFindByGroupIdAndStatus = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, AgendaExportImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupIdAndStatus",
 			new String[] {Long.class.getName(), Integer.class.getName()},
-			AgendaExportModelImpl.GROUPID_COLUMN_BITMASK |
-			AgendaExportModelImpl.STATUS_COLUMN_BITMASK);
+			new String[] {"groupId", "status"}, true);
 
 		_finderPathCountByGroupIdAndStatus = new FinderPath(
-			AgendaExportModelImpl.ENTITY_CACHE_ENABLED,
-			AgendaExportModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByGroupIdAndStatus",
-			new String[] {Long.class.getName(), Integer.class.getName()});
+			new String[] {Long.class.getName(), Integer.class.getName()},
+			new String[] {"groupId", "status"}, false);
+
+		AgendaExportUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		AgendaExportUtil.setPersistence(null);
+
 		entityCache.removeCache(AgendaExportImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -4071,9 +3654,6 @@ public class AgendaExportPersistenceImpl
 
 	private static final String _SQL_SELECT_AGENDAEXPORT =
 		"SELECT agendaExport FROM AgendaExport agendaExport";
-
-	private static final String _SQL_SELECT_AGENDAEXPORT_WHERE_PKS_IN =
-		"SELECT agendaExport FROM AgendaExport agendaExport WHERE agendaExportId IN (";
 
 	private static final String _SQL_SELECT_AGENDAEXPORT_WHERE =
 		"SELECT agendaExport FROM AgendaExport agendaExport WHERE ";
@@ -4097,5 +3677,10 @@ public class AgendaExportPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

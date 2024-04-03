@@ -3,34 +3,16 @@ package eu.strasbourg.portlet.activity.display.context;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
-
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import javax.portlet.PortletURL;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
+import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.portlet.activity.configuration.SearchActivityConfiguration;
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityCourse;
@@ -46,6 +28,19 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.Pager;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.group.GroupHelper;
+
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SearchActivityDisplayContext {
 
@@ -66,8 +61,8 @@ public class SearchActivityDisplayContext {
 		this.response = response;
 		this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		try {
-			configuration = this.themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(SearchActivityConfiguration.class);
+			configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchActivityConfiguration.class, themeDisplay);
+
 		} catch (ConfigurationException e) {
 			log.error(e);
 		}
@@ -80,6 +75,13 @@ public class SearchActivityDisplayContext {
 				themeDisplay.getCompanyGroupId());
 	}
 
+	public String getLayoutTitle() {
+		String title = this.themeDisplay.getLayout().getTitle(themeDisplay.getLocale());
+		// title is xml, so we need to extract the text from title tag
+		title = HtmlUtil.stripHtml(title);
+		return title;
+	}
+
 	public Map<String, Object> getTemplateContextObjects(Activity activity) {
 
 		Map<String, Object> contextObjects = new HashMap<String, Object>();
@@ -87,8 +89,7 @@ public class SearchActivityDisplayContext {
 		// Friendly URL des page de détail
 		SearchActivityConfiguration configuration = null;
 		try {
-			configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(SearchActivityConfiguration.class);
+			configuration =  ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchActivityConfiguration.class, themeDisplay);
 		} catch (ConfigurationException e) {
 			log.error(e);
 		}
@@ -354,8 +355,7 @@ public class SearchActivityDisplayContext {
 			searchContainer = new SearchContainer<Map.Entry<Activity, List<ActivityCourse>>>(request, iteratorURL, null,
 					"no-entries-were-found");
 			searchContainer.setDelta(this.getDelta());
-			searchContainer.setTotal(this.getResultCount());
-			searchContainer.setResults(results);
+			searchContainer.setResultsAndTotal(()->results,this.getResultCount());
 		}
 		return searchContainer;
 	}
@@ -377,6 +377,24 @@ public class SearchActivityDisplayContext {
 	public Pager getPager() {
 		return new Pager(this.getSearchContainer().getTotal(), (int) this.getDelta(),
 				this.getSearchContainer().getCur());
+	}
+
+	/**
+	 * Retourne le titre du portlet configuré dans la configuration Look And
+	 * Feel s'il existe et si "utiliser le titre personnalisé" est coché, sinon
+	 * à partir de la clé de traduction passée en paramètre
+	 */
+	public String getPortletTitle(String key) {
+		String titleFromLanguageKey = LanguageUtil.get(PortalUtil.getHttpServletRequest(this.request), key);
+		String useCustomPortletPreference = this.request.getPreferences().getValue("portletSetupUseCustomTitle",
+				"false");
+		boolean useCustomPortlet = GetterUtil.get(useCustomPortletPreference, false);
+		if (useCustomPortlet) {
+			String preferenceKey = "portletSetupTitle_" + this.themeDisplay.getLocale().toString();
+			return this.request.getPreferences().getValue(preferenceKey, titleFromLanguageKey);
+		} else {
+			return titleFromLanguageKey;
+		}
 	}
 
 	/**

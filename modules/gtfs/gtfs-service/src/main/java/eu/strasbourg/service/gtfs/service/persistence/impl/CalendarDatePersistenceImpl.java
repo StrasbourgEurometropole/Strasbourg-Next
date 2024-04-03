@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,32 +16,32 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchCalendarDateException;
 import eu.strasbourg.service.gtfs.model.CalendarDate;
+import eu.strasbourg.service.gtfs.model.CalendarDateTable;
 import eu.strasbourg.service.gtfs.model.impl.CalendarDateImpl;
 import eu.strasbourg.service.gtfs.model.impl.CalendarDateModelImpl;
 import eu.strasbourg.service.gtfs.service.persistence.CalendarDatePersistence;
+import eu.strasbourg.service.gtfs.service.persistence.CalendarDateUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.sql.Timestamp;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -251,10 +243,6 @@ public class CalendarDatePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -603,8 +591,6 @@ public class CalendarDatePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -791,10 +777,6 @@ public class CalendarDatePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1149,8 +1131,6 @@ public class CalendarDatePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1332,10 +1312,6 @@ public class CalendarDatePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1680,8 +1656,6 @@ public class CalendarDatePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1705,21 +1679,14 @@ public class CalendarDatePersistenceImpl
 		dbColumnNames.put("id", "id_");
 		dbColumnNames.put("date", "date_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(CalendarDate.class);
+
+		setModelImplClass(CalendarDateImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(CalendarDateTable.INSTANCE);
 	}
 
 	/**
@@ -1730,11 +1697,10 @@ public class CalendarDatePersistenceImpl
 	@Override
 	public void cacheResult(CalendarDate calendarDate) {
 		entityCache.putResult(
-			CalendarDateModelImpl.ENTITY_CACHE_ENABLED, CalendarDateImpl.class,
-			calendarDate.getPrimaryKey(), calendarDate);
-
-		calendarDate.resetOriginalValues();
+			CalendarDateImpl.class, calendarDate.getPrimaryKey(), calendarDate);
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the calendar dates in the entity cache if it is enabled.
@@ -1743,16 +1709,19 @@ public class CalendarDatePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<CalendarDate> calendarDates) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (calendarDates.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (CalendarDate calendarDate : calendarDates) {
 			if (entityCache.getResult(
-					CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
 					CalendarDateImpl.class, calendarDate.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(calendarDate);
-			}
-			else {
-				calendarDate.resetOriginalValues();
 			}
 		}
 	}
@@ -1768,9 +1737,7 @@ public class CalendarDatePersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(CalendarDateImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(CalendarDateImpl.class);
 	}
 
 	/**
@@ -1782,35 +1749,22 @@ public class CalendarDatePersistenceImpl
 	 */
 	@Override
 	public void clearCache(CalendarDate calendarDate) {
-		entityCache.removeResult(
-			CalendarDateModelImpl.ENTITY_CACHE_ENABLED, CalendarDateImpl.class,
-			calendarDate.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(CalendarDateImpl.class, calendarDate);
 	}
 
 	@Override
 	public void clearCache(List<CalendarDate> calendarDates) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (CalendarDate calendarDate : calendarDates) {
-			entityCache.removeResult(
-				CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
-				CalendarDateImpl.class, calendarDate.getPrimaryKey());
+			entityCache.removeResult(CalendarDateImpl.class, calendarDate);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(CalendarDateImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
-				CalendarDateImpl.class, primaryKey);
+			entityCache.removeResult(CalendarDateImpl.class, primaryKey);
 		}
 	}
 
@@ -1952,10 +1906,8 @@ public class CalendarDatePersistenceImpl
 		try {
 			session = openSession();
 
-			if (calendarDate.isNew()) {
+			if (isNew) {
 				session.save(calendarDate);
-
-				calendarDate.setNew(false);
 			}
 			else {
 				calendarDate = (CalendarDate)session.merge(calendarDate);
@@ -1968,96 +1920,12 @@ public class CalendarDatePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!CalendarDateModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {calendarDateModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {calendarDateModelImpl.getService_id()};
-
-			finderCache.removeResult(_finderPathCountByServiceId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByServiceId, args);
-
-			args = new Object[] {calendarDateModelImpl.getDate()};
-
-			finderCache.removeResult(_finderPathCountByDate, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByDate, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((calendarDateModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					calendarDateModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {calendarDateModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((calendarDateModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByServiceId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					calendarDateModelImpl.getOriginalService_id()
-				};
-
-				finderCache.removeResult(_finderPathCountByServiceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByServiceId, args);
-
-				args = new Object[] {calendarDateModelImpl.getService_id()};
-
-				finderCache.removeResult(_finderPathCountByServiceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByServiceId, args);
-			}
-
-			if ((calendarDateModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByDate.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					calendarDateModelImpl.getOriginalDate()
-				};
-
-				finderCache.removeResult(_finderPathCountByDate, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByDate, args);
-
-				args = new Object[] {calendarDateModelImpl.getDate()};
-
-				finderCache.removeResult(_finderPathCountByDate, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByDate, args);
-			}
-		}
-
 		entityCache.putResult(
-			CalendarDateModelImpl.ENTITY_CACHE_ENABLED, CalendarDateImpl.class,
-			calendarDate.getPrimaryKey(), calendarDate, false);
+			CalendarDateImpl.class, calendarDateModelImpl, false, true);
+
+		if (isNew) {
+			calendarDate.setNew(false);
+		}
 
 		calendarDate.resetOriginalValues();
 
@@ -2106,161 +1974,12 @@ public class CalendarDatePersistenceImpl
 	/**
 	 * Returns the calendar date with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the calendar date
-	 * @return the calendar date, or <code>null</code> if a calendar date with the primary key could not be found
-	 */
-	@Override
-	public CalendarDate fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			CalendarDateModelImpl.ENTITY_CACHE_ENABLED, CalendarDateImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		CalendarDate calendarDate = (CalendarDate)serializable;
-
-		if (calendarDate == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				calendarDate = (CalendarDate)session.get(
-					CalendarDateImpl.class, primaryKey);
-
-				if (calendarDate != null) {
-					cacheResult(calendarDate);
-				}
-				else {
-					entityCache.putResult(
-						CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
-						CalendarDateImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
-					CalendarDateImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return calendarDate;
-	}
-
-	/**
-	 * Returns the calendar date with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param id the primary key of the calendar date
 	 * @return the calendar date, or <code>null</code> if a calendar date with the primary key could not be found
 	 */
 	@Override
 	public CalendarDate fetchByPrimaryKey(long id) {
 		return fetchByPrimaryKey((Serializable)id);
-	}
-
-	@Override
-	public Map<Serializable, CalendarDate> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, CalendarDate> map =
-			new HashMap<Serializable, CalendarDate>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			CalendarDate calendarDate = fetchByPrimaryKey(primaryKey);
-
-			if (calendarDate != null) {
-				map.put(primaryKey, calendarDate);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
-				CalendarDateImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (CalendarDate)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_CALENDARDATE_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (CalendarDate calendarDate : (List<CalendarDate>)query.list()) {
-				map.put(calendarDate.getPrimaryKeyObj(), calendarDate);
-
-				cacheResult(calendarDate);
-
-				uncachedPrimaryKeys.remove(calendarDate.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
-					CalendarDateImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2387,10 +2106,6 @@ public class CalendarDatePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2436,9 +2151,6 @@ public class CalendarDatePersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2455,6 +2167,21 @@ public class CalendarDatePersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "id_";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_CALENDARDATE;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return CalendarDateModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2463,97 +2190,80 @@ public class CalendarDatePersistenceImpl
 	 * Initializes the calendar date persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
-			CalendarDateModelImpl.FINDER_CACHE_ENABLED, CalendarDateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
-			CalendarDateModelImpl.FINDER_CACHE_ENABLED, CalendarDateImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
-			CalendarDateModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
-			CalendarDateModelImpl.FINDER_CACHE_ENABLED, CalendarDateImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
-			CalendarDateModelImpl.FINDER_CACHE_ENABLED, CalendarDateImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			CalendarDateModelImpl.UUID_COLUMN_BITMASK |
-			CalendarDateModelImpl.SERVICE_ID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
-			CalendarDateModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathWithPaginationFindByServiceId = new FinderPath(
-			CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
-			CalendarDateModelImpl.FINDER_CACHE_ENABLED, CalendarDateImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByServiceId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"service_id"}, true);
 
 		_finderPathWithoutPaginationFindByServiceId = new FinderPath(
-			CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
-			CalendarDateModelImpl.FINDER_CACHE_ENABLED, CalendarDateImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByServiceId",
-			new String[] {String.class.getName()},
-			CalendarDateModelImpl.SERVICE_ID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"service_id"},
+			true);
 
 		_finderPathCountByServiceId = new FinderPath(
-			CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
-			CalendarDateModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByServiceId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"service_id"},
+			false);
 
 		_finderPathWithPaginationFindByDate = new FinderPath(
-			CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
-			CalendarDateModelImpl.FINDER_CACHE_ENABLED, CalendarDateImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByDate",
 			new String[] {
 				Date.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"date_"}, true);
 
 		_finderPathWithoutPaginationFindByDate = new FinderPath(
-			CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
-			CalendarDateModelImpl.FINDER_CACHE_ENABLED, CalendarDateImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByDate",
-			new String[] {Date.class.getName()},
-			CalendarDateModelImpl.DATE_COLUMN_BITMASK |
-			CalendarDateModelImpl.SERVICE_ID_COLUMN_BITMASK);
+			new String[] {Date.class.getName()}, new String[] {"date_"}, true);
 
 		_finderPathCountByDate = new FinderPath(
-			CalendarDateModelImpl.ENTITY_CACHE_ENABLED,
-			CalendarDateModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDate",
-			new String[] {Date.class.getName()});
+			new String[] {Date.class.getName()}, new String[] {"date_"}, false);
+
+		CalendarDateUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		CalendarDateUtil.setPersistence(null);
+
 		entityCache.removeCache(CalendarDateImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -2562,7 +2272,7 @@ public class CalendarDatePersistenceImpl
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
 
-	private Long _getTime(Date date) {
+	private static Long _getTime(Date date) {
 		if (date == null) {
 			return null;
 		}
@@ -2572,9 +2282,6 @@ public class CalendarDatePersistenceImpl
 
 	private static final String _SQL_SELECT_CALENDARDATE =
 		"SELECT calendarDate FROM CalendarDate calendarDate";
-
-	private static final String _SQL_SELECT_CALENDARDATE_WHERE_PKS_IN =
-		"SELECT calendarDate FROM CalendarDate calendarDate WHERE id_ IN (";
 
 	private static final String _SQL_SELECT_CALENDARDATE_WHERE =
 		"SELECT calendarDate FROM CalendarDate calendarDate WHERE ";
@@ -2598,5 +2305,10 @@ public class CalendarDatePersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "id", "date"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

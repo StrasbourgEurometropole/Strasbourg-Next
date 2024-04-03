@@ -81,7 +81,8 @@ public class FelecWebServiceClient {
 				.getJSONObject("cwsTabElecRetour");
 			felecResponse = new FelecResponse(jsonResponse);
 		} catch (Exception ex) {
-			_log.error(ex.getMessage(), ex);
+			_log.error("Error while fetching Felec: " +ex.getMessage());
+			felecResponse = new FelecResponse();
 		}
 
 		return felecResponse;

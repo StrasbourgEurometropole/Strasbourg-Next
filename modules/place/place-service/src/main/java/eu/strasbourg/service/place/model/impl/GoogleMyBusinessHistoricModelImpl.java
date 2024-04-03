@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.model.impl;
@@ -17,8 +8,11 @@ package eu.strasbourg.service.place.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.User;
@@ -26,9 +20,12 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
@@ -36,16 +33,20 @@ import eu.strasbourg.service.place.model.GoogleMyBusinessHistoricModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -127,27 +128,47 @@ public class GoogleMyBusinessHistoricModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.place.model.GoogleMyBusinessHistoric"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.place.model.GoogleMyBusinessHistoric"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.place.model.GoogleMyBusinessHistoric"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GOOGLEMYBUSINESSHISTORICID_COLUMN_BITMASK = 8L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -206,9 +227,6 @@ public class GoogleMyBusinessHistoricModelImpl
 				attributeGetterFunction.apply((GoogleMyBusinessHistoric)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -234,554 +252,170 @@ public class GoogleMyBusinessHistoricModelImpl
 	public Map<String, Function<GoogleMyBusinessHistoric, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<GoogleMyBusinessHistoric, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, GoogleMyBusinessHistoric>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			GoogleMyBusinessHistoric.class.getClassLoader(),
-			GoogleMyBusinessHistoric.class, ModelWrapper.class);
+		private static final Map
+			<String, Function<GoogleMyBusinessHistoric, Object>>
+				_attributeGetterFunctions;
 
-		try {
-			Constructor<GoogleMyBusinessHistoric> constructor =
-				(Constructor<GoogleMyBusinessHistoric>)
-					proxyClass.getConstructor(InvocationHandler.class);
+		static {
+			Map<String, Function<GoogleMyBusinessHistoric, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<GoogleMyBusinessHistoric, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put(
+				"uuid", GoogleMyBusinessHistoric::getUuid);
+			attributeGetterFunctions.put(
+				"googleMyBusinessHistoricId",
+				GoogleMyBusinessHistoric::getGoogleMyBusinessHistoricId);
+			attributeGetterFunctions.put(
+				"groupId", GoogleMyBusinessHistoric::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", GoogleMyBusinessHistoric::getCompanyId);
+			attributeGetterFunctions.put(
+				"userId", GoogleMyBusinessHistoric::getUserId);
+			attributeGetterFunctions.put(
+				"userName", GoogleMyBusinessHistoric::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", GoogleMyBusinessHistoric::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", GoogleMyBusinessHistoric::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate",
+				GoogleMyBusinessHistoric::getLastPublishDate);
+			attributeGetterFunctions.put(
+				"status", GoogleMyBusinessHistoric::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", GoogleMyBusinessHistoric::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName",
+				GoogleMyBusinessHistoric::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", GoogleMyBusinessHistoric::getStatusDate);
+			attributeGetterFunctions.put(
+				"result", GoogleMyBusinessHistoric::getResult);
+			attributeGetterFunctions.put(
+				"operations", GoogleMyBusinessHistoric::getOperations);
+			attributeGetterFunctions.put(
+				"errorDescription",
+				GoogleMyBusinessHistoric::getErrorDescription);
+			attributeGetterFunctions.put(
+				"errorStackTrace",
+				GoogleMyBusinessHistoric::getErrorStackTrace);
+			attributeGetterFunctions.put(
+				"startDate", GoogleMyBusinessHistoric::getStartDate);
+			attributeGetterFunctions.put(
+				"finishDate", GoogleMyBusinessHistoric::getFinishDate);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<GoogleMyBusinessHistoric, Object>>
-		_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<GoogleMyBusinessHistoric, Object>>
-			_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map
+			<String, BiConsumer<GoogleMyBusinessHistoric, Object>>
+				_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<GoogleMyBusinessHistoric, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<GoogleMyBusinessHistoric, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<GoogleMyBusinessHistoric, String>)
+					GoogleMyBusinessHistoric::setUuid);
+			attributeSetterBiConsumers.put(
+				"googleMyBusinessHistoricId",
+				(BiConsumer<GoogleMyBusinessHistoric, Long>)
+					GoogleMyBusinessHistoric::setGoogleMyBusinessHistoricId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<GoogleMyBusinessHistoric, Long>)
+					GoogleMyBusinessHistoric::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<GoogleMyBusinessHistoric, Long>)
+					GoogleMyBusinessHistoric::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<GoogleMyBusinessHistoric, Long>)
+					GoogleMyBusinessHistoric::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<GoogleMyBusinessHistoric, String>)
+					GoogleMyBusinessHistoric::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<GoogleMyBusinessHistoric, Date>)
+					GoogleMyBusinessHistoric::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<GoogleMyBusinessHistoric, Date>)
+					GoogleMyBusinessHistoric::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<GoogleMyBusinessHistoric, Date>)
+					GoogleMyBusinessHistoric::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<GoogleMyBusinessHistoric, Integer>)
+					GoogleMyBusinessHistoric::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<GoogleMyBusinessHistoric, Long>)
+					GoogleMyBusinessHistoric::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<GoogleMyBusinessHistoric, String>)
+					GoogleMyBusinessHistoric::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<GoogleMyBusinessHistoric, Date>)
+					GoogleMyBusinessHistoric::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"result",
+				(BiConsumer<GoogleMyBusinessHistoric, Integer>)
+					GoogleMyBusinessHistoric::setResult);
+			attributeSetterBiConsumers.put(
+				"operations",
+				(BiConsumer<GoogleMyBusinessHistoric, String>)
+					GoogleMyBusinessHistoric::setOperations);
+			attributeSetterBiConsumers.put(
+				"errorDescription",
+				(BiConsumer<GoogleMyBusinessHistoric, String>)
+					GoogleMyBusinessHistoric::setErrorDescription);
+			attributeSetterBiConsumers.put(
+				"errorStackTrace",
+				(BiConsumer<GoogleMyBusinessHistoric, String>)
+					GoogleMyBusinessHistoric::setErrorStackTrace);
+			attributeSetterBiConsumers.put(
+				"startDate",
+				(BiConsumer<GoogleMyBusinessHistoric, Date>)
+					GoogleMyBusinessHistoric::setStartDate);
+			attributeSetterBiConsumers.put(
+				"finishDate",
+				(BiConsumer<GoogleMyBusinessHistoric, Date>)
+					GoogleMyBusinessHistoric::setFinishDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<GoogleMyBusinessHistoric, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<GoogleMyBusinessHistoric, Object>>();
-		Map<String, BiConsumer<GoogleMyBusinessHistoric, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<GoogleMyBusinessHistoric, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object uuidObject) {
-
-					googleMyBusinessHistoric.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"googleMyBusinessHistoricId",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.
-						getGoogleMyBusinessHistoricId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"googleMyBusinessHistoricId",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object googleMyBusinessHistoricIdObject) {
-
-					googleMyBusinessHistoric.setGoogleMyBusinessHistoricId(
-						(Long)googleMyBusinessHistoricIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object groupIdObject) {
-
-					googleMyBusinessHistoric.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object companyIdObject) {
-
-					googleMyBusinessHistoric.setCompanyId(
-						(Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object userIdObject) {
-
-					googleMyBusinessHistoric.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object userNameObject) {
-
-					googleMyBusinessHistoric.setUserName(
-						(String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object createDateObject) {
-
-					googleMyBusinessHistoric.setCreateDate(
-						(Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object modifiedDateObject) {
-
-					googleMyBusinessHistoric.setModifiedDate(
-						(Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.getLastPublishDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object lastPublishDateObject) {
-
-					googleMyBusinessHistoric.setLastPublishDate(
-						(Date)lastPublishDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object statusObject) {
-
-					googleMyBusinessHistoric.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object statusByUserIdObject) {
-
-					googleMyBusinessHistoric.setStatusByUserId(
-						(Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object statusByUserNameObject) {
-
-					googleMyBusinessHistoric.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object statusDateObject) {
-
-					googleMyBusinessHistoric.setStatusDate(
-						(Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"result",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.getResult();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"result",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object resultObject) {
-
-					googleMyBusinessHistoric.setResult((Integer)resultObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"operations",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.getOperations();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"operations",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object operationsObject) {
-
-					googleMyBusinessHistoric.setOperations(
-						(String)operationsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"errorDescription",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.getErrorDescription();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"errorDescription",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object errorDescriptionObject) {
-
-					googleMyBusinessHistoric.setErrorDescription(
-						(String)errorDescriptionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"errorStackTrace",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.getErrorStackTrace();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"errorStackTrace",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object errorStackTraceObject) {
-
-					googleMyBusinessHistoric.setErrorStackTrace(
-						(String)errorStackTraceObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"startDate",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.getStartDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"startDate",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object startDateObject) {
-
-					googleMyBusinessHistoric.setStartDate(
-						(Date)startDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"finishDate",
-			new Function<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public Object apply(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric) {
-
-					return googleMyBusinessHistoric.getFinishDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"finishDate",
-			new BiConsumer<GoogleMyBusinessHistoric, Object>() {
-
-				@Override
-				public void accept(
-					GoogleMyBusinessHistoric googleMyBusinessHistoric,
-					Object finishDateObject) {
-
-					googleMyBusinessHistoric.setFinishDate(
-						(Date)finishDateObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -796,17 +430,20 @@ public class GoogleMyBusinessHistoricModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -816,7 +453,9 @@ public class GoogleMyBusinessHistoricModelImpl
 
 	@Override
 	public void setGoogleMyBusinessHistoricId(long googleMyBusinessHistoricId) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_googleMyBusinessHistoricId = googleMyBusinessHistoricId;
 	}
@@ -828,19 +467,20 @@ public class GoogleMyBusinessHistoricModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -850,19 +490,21 @@ public class GoogleMyBusinessHistoricModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -872,6 +514,10 @@ public class GoogleMyBusinessHistoricModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -903,6 +549,10 @@ public class GoogleMyBusinessHistoricModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -913,6 +563,10 @@ public class GoogleMyBusinessHistoricModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -929,6 +583,10 @@ public class GoogleMyBusinessHistoricModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -939,6 +597,10 @@ public class GoogleMyBusinessHistoricModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -949,6 +611,10 @@ public class GoogleMyBusinessHistoricModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -959,6 +625,10 @@ public class GoogleMyBusinessHistoricModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -990,6 +660,10 @@ public class GoogleMyBusinessHistoricModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1000,6 +674,10 @@ public class GoogleMyBusinessHistoricModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1010,6 +688,10 @@ public class GoogleMyBusinessHistoricModelImpl
 
 	@Override
 	public void setResult(int result) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_result = result;
 	}
 
@@ -1024,8 +706,104 @@ public class GoogleMyBusinessHistoricModelImpl
 	}
 
 	@Override
+	public String getOperations(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getOperations(languageId);
+	}
+
+	@Override
+	public String getOperations(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getOperations(languageId, useDefault);
+	}
+
+	@Override
+	public String getOperations(String languageId) {
+		return LocalizationUtil.getLocalization(getOperations(), languageId);
+	}
+
+	@Override
+	public String getOperations(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getOperations(), languageId, useDefault);
+	}
+
+	@Override
+	public String getOperationsCurrentLanguageId() {
+		return _operationsCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getOperationsCurrentValue() {
+		Locale locale = getLocale(_operationsCurrentLanguageId);
+
+		return getOperations(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getOperationsMap() {
+		return LocalizationUtil.getLocalizationMap(getOperations());
+	}
+
+	@Override
 	public void setOperations(String operations) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_operations = operations;
+	}
+
+	@Override
+	public void setOperations(String operations, Locale locale) {
+		setOperations(operations, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setOperations(
+		String operations, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(operations)) {
+			setOperations(
+				LocalizationUtil.updateLocalization(
+					getOperations(), "Operations", operations, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setOperations(
+				LocalizationUtil.removeLocalization(
+					getOperations(), "Operations", languageId));
+		}
+	}
+
+	@Override
+	public void setOperationsCurrentLanguageId(String languageId) {
+		_operationsCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setOperationsMap(Map<Locale, String> operationsMap) {
+		setOperationsMap(operationsMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setOperationsMap(
+		Map<Locale, String> operationsMap, Locale defaultLocale) {
+
+		if (operationsMap == null) {
+			return;
+		}
+
+		setOperations(
+			LocalizationUtil.updateLocalization(
+				operationsMap, getOperations(), "Operations",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -1039,8 +817,109 @@ public class GoogleMyBusinessHistoricModelImpl
 	}
 
 	@Override
+	public String getErrorDescription(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getErrorDescription(languageId);
+	}
+
+	@Override
+	public String getErrorDescription(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getErrorDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getErrorDescription(String languageId) {
+		return LocalizationUtil.getLocalization(
+			getErrorDescription(), languageId);
+	}
+
+	@Override
+	public String getErrorDescription(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getErrorDescription(), languageId, useDefault);
+	}
+
+	@Override
+	public String getErrorDescriptionCurrentLanguageId() {
+		return _errorDescriptionCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getErrorDescriptionCurrentValue() {
+		Locale locale = getLocale(_errorDescriptionCurrentLanguageId);
+
+		return getErrorDescription(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getErrorDescriptionMap() {
+		return LocalizationUtil.getLocalizationMap(getErrorDescription());
+	}
+
+	@Override
 	public void setErrorDescription(String errorDescription) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_errorDescription = errorDescription;
+	}
+
+	@Override
+	public void setErrorDescription(String errorDescription, Locale locale) {
+		setErrorDescription(
+			errorDescription, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setErrorDescription(
+		String errorDescription, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(errorDescription)) {
+			setErrorDescription(
+				LocalizationUtil.updateLocalization(
+					getErrorDescription(), "ErrorDescription", errorDescription,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setErrorDescription(
+				LocalizationUtil.removeLocalization(
+					getErrorDescription(), "ErrorDescription", languageId));
+		}
+	}
+
+	@Override
+	public void setErrorDescriptionCurrentLanguageId(String languageId) {
+		_errorDescriptionCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setErrorDescriptionMap(
+		Map<Locale, String> errorDescriptionMap) {
+
+		setErrorDescriptionMap(
+			errorDescriptionMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setErrorDescriptionMap(
+		Map<Locale, String> errorDescriptionMap, Locale defaultLocale) {
+
+		if (errorDescriptionMap == null) {
+			return;
+		}
+
+		setErrorDescription(
+			LocalizationUtil.updateLocalization(
+				errorDescriptionMap, getErrorDescription(), "ErrorDescription",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -1054,8 +933,106 @@ public class GoogleMyBusinessHistoricModelImpl
 	}
 
 	@Override
+	public String getErrorStackTrace(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getErrorStackTrace(languageId);
+	}
+
+	@Override
+	public String getErrorStackTrace(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getErrorStackTrace(languageId, useDefault);
+	}
+
+	@Override
+	public String getErrorStackTrace(String languageId) {
+		return LocalizationUtil.getLocalization(
+			getErrorStackTrace(), languageId);
+	}
+
+	@Override
+	public String getErrorStackTrace(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getErrorStackTrace(), languageId, useDefault);
+	}
+
+	@Override
+	public String getErrorStackTraceCurrentLanguageId() {
+		return _errorStackTraceCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getErrorStackTraceCurrentValue() {
+		Locale locale = getLocale(_errorStackTraceCurrentLanguageId);
+
+		return getErrorStackTrace(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getErrorStackTraceMap() {
+		return LocalizationUtil.getLocalizationMap(getErrorStackTrace());
+	}
+
+	@Override
 	public void setErrorStackTrace(String errorStackTrace) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_errorStackTrace = errorStackTrace;
+	}
+
+	@Override
+	public void setErrorStackTrace(String errorStackTrace, Locale locale) {
+		setErrorStackTrace(
+			errorStackTrace, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setErrorStackTrace(
+		String errorStackTrace, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(errorStackTrace)) {
+			setErrorStackTrace(
+				LocalizationUtil.updateLocalization(
+					getErrorStackTrace(), "ErrorStackTrace", errorStackTrace,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setErrorStackTrace(
+				LocalizationUtil.removeLocalization(
+					getErrorStackTrace(), "ErrorStackTrace", languageId));
+		}
+	}
+
+	@Override
+	public void setErrorStackTraceCurrentLanguageId(String languageId) {
+		_errorStackTraceCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setErrorStackTraceMap(Map<Locale, String> errorStackTraceMap) {
+		setErrorStackTraceMap(errorStackTraceMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setErrorStackTraceMap(
+		Map<Locale, String> errorStackTraceMap, Locale defaultLocale) {
+
+		if (errorStackTraceMap == null) {
+			return;
+		}
+
+		setErrorStackTrace(
+			LocalizationUtil.updateLocalization(
+				errorStackTraceMap, getErrorStackTrace(), "ErrorStackTrace",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -1065,6 +1042,10 @@ public class GoogleMyBusinessHistoricModelImpl
 
 	@Override
 	public void setStartDate(Date startDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_startDate = startDate;
 	}
 
@@ -1075,6 +1056,10 @@ public class GoogleMyBusinessHistoricModelImpl
 
 	@Override
 	public void setFinishDate(Date finishDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_finishDate = finishDate;
 	}
 
@@ -1166,6 +1151,26 @@ public class GoogleMyBusinessHistoricModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1181,6 +1186,119 @@ public class GoogleMyBusinessHistoricModelImpl
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> operationsMap = getOperationsMap();
+
+		for (Map.Entry<Locale, String> entry : operationsMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> errorDescriptionMap = getErrorDescriptionMap();
+
+		for (Map.Entry<Locale, String> entry : errorDescriptionMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> errorStackTraceMap = getErrorStackTraceMap();
+
+		for (Map.Entry<Locale, String> entry : errorStackTraceMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(
+			new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getOperations();
+
+		if (xml == null) {
+			return "";
+		}
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(
+			getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(
+			GoogleMyBusinessHistoric.class.getName(), getPrimaryKey(),
+			defaultLocale, availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String operations = getOperations(defaultLocale);
+
+		if (Validator.isNull(operations)) {
+			setOperations(getOperations(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setOperations(
+				getOperations(defaultLocale), defaultLocale, defaultLocale);
+		}
+
+		String errorDescription = getErrorDescription(defaultLocale);
+
+		if (Validator.isNull(errorDescription)) {
+			setErrorDescription(
+				getErrorDescription(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setErrorDescription(
+				getErrorDescription(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
+
+		String errorStackTrace = getErrorStackTrace(defaultLocale);
+
+		if (Validator.isNull(errorStackTrace)) {
+			setErrorStackTrace(
+				getErrorStackTrace(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setErrorStackTrace(
+				getErrorStackTrace(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
 	}
 
 	@Override
@@ -1225,6 +1343,53 @@ public class GoogleMyBusinessHistoricModelImpl
 		googleMyBusinessHistoricImpl.setFinishDate(getFinishDate());
 
 		googleMyBusinessHistoricImpl.resetOriginalValues();
+
+		return googleMyBusinessHistoricImpl;
+	}
+
+	@Override
+	public GoogleMyBusinessHistoric cloneWithOriginalValues() {
+		GoogleMyBusinessHistoricImpl googleMyBusinessHistoricImpl =
+			new GoogleMyBusinessHistoricImpl();
+
+		googleMyBusinessHistoricImpl.setUuid(
+			this.<String>getColumnOriginalValue("uuid_"));
+		googleMyBusinessHistoricImpl.setGoogleMyBusinessHistoricId(
+			this.<Long>getColumnOriginalValue("googleMyBusinessHistoricId"));
+		googleMyBusinessHistoricImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		googleMyBusinessHistoricImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		googleMyBusinessHistoricImpl.setUserId(
+			this.<Long>getColumnOriginalValue("userId"));
+		googleMyBusinessHistoricImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		googleMyBusinessHistoricImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		googleMyBusinessHistoricImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		googleMyBusinessHistoricImpl.setLastPublishDate(
+			this.<Date>getColumnOriginalValue("lastPublishDate"));
+		googleMyBusinessHistoricImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		googleMyBusinessHistoricImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		googleMyBusinessHistoricImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		googleMyBusinessHistoricImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		googleMyBusinessHistoricImpl.setResult(
+			this.<Integer>getColumnOriginalValue("result"));
+		googleMyBusinessHistoricImpl.setOperations(
+			this.<String>getColumnOriginalValue("operations"));
+		googleMyBusinessHistoricImpl.setErrorDescription(
+			this.<String>getColumnOriginalValue("errorDescription"));
+		googleMyBusinessHistoricImpl.setErrorStackTrace(
+			this.<String>getColumnOriginalValue("errorStackTrace"));
+		googleMyBusinessHistoricImpl.setStartDate(
+			this.<Date>getColumnOriginalValue("startDate"));
+		googleMyBusinessHistoricImpl.setFinishDate(
+			this.<Date>getColumnOriginalValue("finishDate"));
 
 		return googleMyBusinessHistoricImpl;
 	}
@@ -1284,11 +1449,19 @@ public class GoogleMyBusinessHistoricModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1296,25 +1469,11 @@ public class GoogleMyBusinessHistoricModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		GoogleMyBusinessHistoricModelImpl googleMyBusinessHistoricModelImpl =
-			this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		googleMyBusinessHistoricModelImpl._originalUuid =
-			googleMyBusinessHistoricModelImpl._uuid;
+		_setModifiedDate = false;
 
-		googleMyBusinessHistoricModelImpl._originalGroupId =
-			googleMyBusinessHistoricModelImpl._groupId;
-
-		googleMyBusinessHistoricModelImpl._setOriginalGroupId = false;
-
-		googleMyBusinessHistoricModelImpl._originalCompanyId =
-			googleMyBusinessHistoricModelImpl._companyId;
-
-		googleMyBusinessHistoricModelImpl._setOriginalCompanyId = false;
-
-		googleMyBusinessHistoricModelImpl._setModifiedDate = false;
-
-		googleMyBusinessHistoricModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1459,7 +1618,7 @@ public class GoogleMyBusinessHistoricModelImpl
 			attributeGetterFunctions = getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1470,10 +1629,27 @@ public class GoogleMyBusinessHistoricModelImpl
 			Function<GoogleMyBusinessHistoric, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(
-				attributeGetterFunction.apply((GoogleMyBusinessHistoric)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply(
+				(GoogleMyBusinessHistoric)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1486,56 +1662,20 @@ public class GoogleMyBusinessHistoricModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<GoogleMyBusinessHistoric, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<GoogleMyBusinessHistoric, Object>>
-				entry : attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<GoogleMyBusinessHistoric, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(
-				attributeGetterFunction.apply((GoogleMyBusinessHistoric)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function
 			<InvocationHandler, GoogleMyBusinessHistoric>
 				_escapedModelProxyProviderFunction =
-					_getProxyProviderFunction();
+					ProxyUtil.getProxyProviderFunction(
+						GoogleMyBusinessHistoric.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _googleMyBusinessHistoricId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1548,10 +1688,128 @@ public class GoogleMyBusinessHistoricModelImpl
 	private Date _statusDate;
 	private int _result;
 	private String _operations;
+	private String _operationsCurrentLanguageId;
 	private String _errorDescription;
+	private String _errorDescriptionCurrentLanguageId;
 	private String _errorStackTrace;
+	private String _errorStackTraceCurrentLanguageId;
 	private Date _startDate;
 	private Date _finishDate;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<GoogleMyBusinessHistoric, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((GoogleMyBusinessHistoric)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put(
+			"googleMyBusinessHistoricId", _googleMyBusinessHistoricId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("lastPublishDate", _lastPublishDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("result", _result);
+		_columnOriginalValues.put("operations", _operations);
+		_columnOriginalValues.put("errorDescription", _errorDescription);
+		_columnOriginalValues.put("errorStackTrace", _errorStackTrace);
+		_columnOriginalValues.put("startDate", _startDate);
+		_columnOriginalValues.put("finishDate", _finishDate);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("googleMyBusinessHistoricId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("lastPublishDate", 256L);
+
+		columnBitmasks.put("status", 512L);
+
+		columnBitmasks.put("statusByUserId", 1024L);
+
+		columnBitmasks.put("statusByUserName", 2048L);
+
+		columnBitmasks.put("statusDate", 4096L);
+
+		columnBitmasks.put("result", 8192L);
+
+		columnBitmasks.put("operations", 16384L);
+
+		columnBitmasks.put("errorDescription", 32768L);
+
+		columnBitmasks.put("errorStackTrace", 65536L);
+
+		columnBitmasks.put("startDate", 131072L);
+
+		columnBitmasks.put("finishDate", 262144L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private GoogleMyBusinessHistoric _escapedModel;
 

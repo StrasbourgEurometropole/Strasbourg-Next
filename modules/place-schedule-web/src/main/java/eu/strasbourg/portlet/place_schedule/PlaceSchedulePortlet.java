@@ -6,6 +6,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
@@ -23,11 +24,22 @@ import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
-import javax.portlet.*;
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -50,8 +62,7 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 			Locale locale = themeDisplay.getLocale();
 
-			PlaceScheduleConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(PlaceScheduleConfiguration.class);
+			PlaceScheduleConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(PlaceScheduleConfiguration.class, themeDisplay);
 
 			String template = configuration.template();
 
@@ -99,8 +110,13 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 
 				}
 			}
+			GregorianCalendar lastDay = new GregorianCalendar();
+			lastDay.setTime(jourChoisi.getTime());
+			lastDay.add(Calendar.DAY_OF_MONTH, 4);
 			request.setAttribute("jourChoisi", jourChoisi.getTime());
-			request.setAttribute("jourChoisiFormate", DateHelper.displayShortDate(jourChoisi.getTime(), locale));
+			request.setAttribute("lastDay", lastDay.getTime());
+			request.setAttribute("lastDayFormate", DateHelper.displayLongDate(lastDay.getTime(), locale));
+			request.setAttribute("jourChoisiFormate", DateHelper.displayLongDate(jourChoisi.getTime(), locale));
 			request.setAttribute("selectedDate", jourChoisi.getTime());
 			GregorianCalendar selectedCalendar = new GregorianCalendar();
 			selectedCalendar.setTime(jourChoisi.getTime());

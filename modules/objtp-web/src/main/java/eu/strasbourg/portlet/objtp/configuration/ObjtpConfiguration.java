@@ -20,5 +20,11 @@ public interface ObjtpConfiguration {
 	
 	@Meta.AD(name="categoryCodes", deflt = "", required = false)
 	public String categoryCodes();
+
+	@Meta.AD(name="urlDeclareLost", deflt = "", required = false)
+	public String urlDeclareLost();
+
+	@Meta.AD(name="urlGuideHowTo", deflt = "", required = false)
+	public String urlGuideHowTo();
 	
 }

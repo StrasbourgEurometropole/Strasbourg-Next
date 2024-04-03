@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.gtfs.model.CacheAlertJSON;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for CacheAlertJSON. This utility wraps
@@ -48,9 +47,8 @@ public class CacheAlertJSONLocalServiceUtil {
 	 * @param cacheAlertJSON the cache alert json
 	 * @return the cache alert json that was added
 	 */
-	public static eu.strasbourg.service.gtfs.model.CacheAlertJSON
-		addCacheAlertJSON(
-			eu.strasbourg.service.gtfs.model.CacheAlertJSON cacheAlertJSON) {
+	public static CacheAlertJSON addCacheAlertJSON(
+		CacheAlertJSON cacheAlertJSON) {
 
 		return getService().addCacheAlertJSON(cacheAlertJSON);
 	}
@@ -61,10 +59,18 @@ public class CacheAlertJSONLocalServiceUtil {
 	 * @param cacheId the primary key for the new cache alert json
 	 * @return the new cache alert json
 	 */
-	public static eu.strasbourg.service.gtfs.model.CacheAlertJSON
-		createCacheAlertJSON(long cacheId) {
-
+	public static CacheAlertJSON createCacheAlertJSON(long cacheId) {
 		return getService().createCacheAlertJSON(cacheId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -77,9 +83,8 @@ public class CacheAlertJSONLocalServiceUtil {
 	 * @param cacheAlertJSON the cache alert json
 	 * @return the cache alert json that was removed
 	 */
-	public static eu.strasbourg.service.gtfs.model.CacheAlertJSON
-		deleteCacheAlertJSON(
-			eu.strasbourg.service.gtfs.model.CacheAlertJSON cacheAlertJSON) {
+	public static CacheAlertJSON deleteCacheAlertJSON(
+		CacheAlertJSON cacheAlertJSON) {
 
 		return getService().deleteCacheAlertJSON(cacheAlertJSON);
 	}
@@ -95,9 +100,8 @@ public class CacheAlertJSONLocalServiceUtil {
 	 * @return the cache alert json that was removed
 	 * @throws PortalException if a cache alert json with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.CacheAlertJSON
-			deleteCacheAlertJSON(long cacheId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CacheAlertJSON deleteCacheAlertJSON(long cacheId)
+		throws PortalException {
 
 		return getService().deleteCacheAlertJSON(cacheId);
 	}
@@ -105,17 +109,22 @@ public class CacheAlertJSONLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -125,9 +134,7 @@ public class CacheAlertJSONLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -143,9 +150,8 @@ public class CacheAlertJSONLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -163,10 +169,9 @@ public class CacheAlertJSONLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -178,9 +183,7 @@ public class CacheAlertJSONLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -192,15 +195,13 @@ public class CacheAlertJSONLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.gtfs.model.CacheAlertJSON
-		fetchCacheAlertJSON(long cacheId) {
-
+	public static CacheAlertJSON fetchCacheAlertJSON(long cacheId) {
 		return getService().fetchCacheAlertJSON(cacheId);
 	}
 
@@ -217,9 +218,8 @@ public class CacheAlertJSONLocalServiceUtil {
 	 * @return the cache alert json
 	 * @throws PortalException if a cache alert json with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.CacheAlertJSON
-			getCacheAlertJSON(long cacheId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CacheAlertJSON getCacheAlertJSON(long cacheId)
+		throws PortalException {
 
 		return getService().getCacheAlertJSON(cacheId);
 	}
@@ -235,10 +235,7 @@ public class CacheAlertJSONLocalServiceUtil {
 	 * @param end the upper bound of the range of cache alert jsons (not inclusive)
 	 * @return the range of cache alert jsons
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.gtfs.model.CacheAlertJSON> getCacheAlertJSONs(
-			int start, int end) {
-
+	public static List<CacheAlertJSON> getCacheAlertJSONs(int start, int end) {
 		return getService().getCacheAlertJSONs(start, end);
 	}
 
@@ -270,9 +267,8 @@ public class CacheAlertJSONLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -287,9 +283,8 @@ public class CacheAlertJSONLocalServiceUtil {
 	 * @param cacheAlertJSON the cache alert json
 	 * @return the cache alert json that was updated
 	 */
-	public static eu.strasbourg.service.gtfs.model.CacheAlertJSON
-		updateCacheAlertJSON(
-			eu.strasbourg.service.gtfs.model.CacheAlertJSON cacheAlertJSON) {
+	public static CacheAlertJSON updateCacheAlertJSON(
+		CacheAlertJSON cacheAlertJSON) {
 
 		return getService().updateCacheAlertJSON(cacheAlertJSON);
 	}
@@ -302,27 +297,13 @@ public class CacheAlertJSONLocalServiceUtil {
 	}
 
 	public static CacheAlertJSONLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<CacheAlertJSONLocalService, CacheAlertJSONLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			CacheAlertJSONLocalService.class);
-
-		ServiceTracker<CacheAlertJSONLocalService, CacheAlertJSONLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<CacheAlertJSONLocalService, CacheAlertJSONLocalService>(
-						bundle.getBundleContext(),
-						CacheAlertJSONLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(CacheAlertJSONLocalService service) {
+		_service = service;
 	}
+
+	private static volatile CacheAlertJSONLocalService _service;
 
 }

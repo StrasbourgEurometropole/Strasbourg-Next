@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +23,11 @@ import java.util.Objects;
  * @generated
  */
 public class BudgetParticipatifWrapper
+	extends BaseModelWrapper<BudgetParticipatif>
 	implements BudgetParticipatif, ModelWrapper<BudgetParticipatif> {
 
 	public BudgetParticipatifWrapper(BudgetParticipatif budgetParticipatif) {
-		_budgetParticipatif = budgetParticipatif;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return BudgetParticipatif.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return BudgetParticipatif.class.getName();
+		super(budgetParticipatif);
 	}
 
 	@Override
@@ -338,17 +316,8 @@ public class BudgetParticipatifWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new BudgetParticipatifWrapper(
-			(BudgetParticipatif)_budgetParticipatif.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.project.model.BudgetParticipatif
-			budgetParticipatif) {
-
-		return _budgetParticipatif.compareTo(budgetParticipatif);
+	public BudgetParticipatif cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -358,7 +327,7 @@ public class BudgetParticipatifWrapper
 	public java.util.List<eu.strasbourg.service.comment.model.Comment>
 		getApprovedComments() {
 
-		return _budgetParticipatif.getApprovedComments();
+		return model.getApprovedComments();
 	}
 
 	/**
@@ -366,7 +335,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _budgetParticipatif.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -374,7 +343,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getAuthor() {
-		return _budgetParticipatif.getAuthor();
+		return model.getAuthor();
 	}
 
 	/**
@@ -382,7 +351,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getAuthorImageURL() {
-		return _budgetParticipatif.getAuthorImageURL();
+		return model.getAuthorImageURL();
 	}
 
 	/**
@@ -392,26 +361,31 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public eu.strasbourg.service.oidc.model.PublikUser getAuthorPublikUser() {
-		return _budgetParticipatif.getAuthorPublikUser();
+		return model.getAuthorPublikUser();
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return model.getAvailableLanguageIds();
 	}
 
 	@Override
 	public String getBPbuttonMessageState(
 		javax.servlet.http.HttpServletRequest request) {
 
-		return _budgetParticipatif.getBPbuttonMessageState(request);
+		return model.getBPbuttonMessageState(request);
 	}
 
 	@Override
 	public String getBPMessageState(
 		javax.servlet.http.HttpServletRequest request) {
 
-		return _budgetParticipatif.getBPMessageState(request);
+		return model.getBPMessageState(request);
 	}
 
 	@Override
 	public int getBPState() {
-		return _budgetParticipatif.getBPState();
+		return model.getBPState();
 	}
 
 	/**
@@ -421,7 +395,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getBudget() {
-		return _budgetParticipatif.getBudget();
+		return model.getBudget();
 	}
 
 	/**
@@ -431,7 +405,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public long getBudgetParticipatifId() {
-		return _budgetParticipatif.getBudgetParticipatifId();
+		return model.getBudgetParticipatifId();
 	}
 
 	/**
@@ -441,7 +415,7 @@ public class BudgetParticipatifWrapper
 	public eu.strasbourg.service.project.constants.ParticiperCategories
 		getBudgetParticipatifStatus() {
 
-		return _budgetParticipatif.getBudgetParticipatifStatus();
+		return model.getBudgetParticipatifStatus();
 	}
 
 	/**
@@ -451,17 +425,17 @@ public class BudgetParticipatifWrapper
 	public com.liferay.asset.kernel.model.AssetCategory
 		getBudgetParticipatifStatusCategory() {
 
-		return _budgetParticipatif.getBudgetParticipatifStatusCategory();
+		return model.getBudgetParticipatifStatusCategory();
 	}
 
 	@Override
 	public String getBudgetParticipatifStatusCategoryColor() {
-		return _budgetParticipatif.getBudgetParticipatifStatusCategoryColor();
+		return model.getBudgetParticipatifStatusCategoryColor();
 	}
 
 	@Override
 	public String getBudgetParticipatifStatusTitle(java.util.Locale locale) {
-		return _budgetParticipatif.getBudgetParticipatifStatusTitle(locale);
+		return model.getBudgetParticipatifStatusTitle(locale);
 	}
 
 	/**
@@ -471,7 +445,7 @@ public class BudgetParticipatifWrapper
 	public java.util.List<eu.strasbourg.service.project.model.ProjectTimeline>
 		getBudgetParticipatifTimelines() {
 
-		return _budgetParticipatif.getBudgetParticipatifTimelines();
+		return model.getBudgetParticipatifTimelines();
 	}
 
 	/**
@@ -481,7 +455,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public long getBudgetPhaseId() {
-		return _budgetParticipatif.getBudgetPhaseId();
+		return model.getBudgetPhaseId();
 	}
 
 	/**
@@ -493,7 +467,7 @@ public class BudgetParticipatifWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _budgetParticipatif.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -505,7 +479,7 @@ public class BudgetParticipatifWrapper
 	public java.util.List
 		<eu.strasbourg.service.project.model.BudgetParticipatif> getChilds() {
 
-		return _budgetParticipatif.getChilds();
+		return model.getChilds();
 	}
 
 	/**
@@ -515,7 +489,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getCitoyenAdresse() {
-		return _budgetParticipatif.getCitoyenAdresse();
+		return model.getCitoyenAdresse();
 	}
 
 	/**
@@ -525,7 +499,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public Date getCitoyenBirthday() {
-		return _budgetParticipatif.getCitoyenBirthday();
+		return model.getCitoyenBirthday();
 	}
 
 	/**
@@ -535,7 +509,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getCitoyenCity() {
-		return _budgetParticipatif.getCitoyenCity();
+		return model.getCitoyenCity();
 	}
 
 	/**
@@ -545,7 +519,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getCitoyenEmail() {
-		return _budgetParticipatif.getCitoyenEmail();
+		return model.getCitoyenEmail();
 	}
 
 	/**
@@ -555,7 +529,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getCitoyenFirstname() {
-		return _budgetParticipatif.getCitoyenFirstname();
+		return model.getCitoyenFirstname();
 	}
 
 	/**
@@ -565,7 +539,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getCitoyenLastname() {
-		return _budgetParticipatif.getCitoyenLastname();
+		return model.getCitoyenLastname();
 	}
 
 	/**
@@ -575,7 +549,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getCitoyenMobile() {
-		return _budgetParticipatif.getCitoyenMobile();
+		return model.getCitoyenMobile();
 	}
 
 	/**
@@ -585,7 +559,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getCitoyenPhone() {
-		return _budgetParticipatif.getCitoyenPhone();
+		return model.getCitoyenPhone();
 	}
 
 	/**
@@ -595,7 +569,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public long getCitoyenPostalCode() {
-		return _budgetParticipatif.getCitoyenPostalCode();
+		return model.getCitoyenPostalCode();
 	}
 
 	/**
@@ -607,7 +581,7 @@ public class BudgetParticipatifWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCityCategories() {
 
-		return _budgetParticipatif.getCityCategories();
+		return model.getCityCategories();
 	}
 
 	/**
@@ -617,7 +591,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _budgetParticipatif.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -627,7 +601,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _budgetParticipatif.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -637,7 +611,78 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getCrushComment() {
-		return _budgetParticipatif.getCrushComment();
+		return model.getCrushComment();
+	}
+
+	/**
+	 * Returns the localized crush comment of this budget participatif in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized crush comment of this budget participatif
+	 */
+	@Override
+	public String getCrushComment(java.util.Locale locale) {
+		return model.getCrushComment(locale);
+	}
+
+	/**
+	 * Returns the localized crush comment of this budget participatif in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized crush comment of this budget participatif. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getCrushComment(java.util.Locale locale, boolean useDefault) {
+		return model.getCrushComment(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized crush comment of this budget participatif in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized crush comment of this budget participatif
+	 */
+	@Override
+	public String getCrushComment(String languageId) {
+		return model.getCrushComment(languageId);
+	}
+
+	/**
+	 * Returns the localized crush comment of this budget participatif in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized crush comment of this budget participatif
+	 */
+	@Override
+	public String getCrushComment(String languageId, boolean useDefault) {
+		return model.getCrushComment(languageId, useDefault);
+	}
+
+	@Override
+	public String getCrushCommentCurrentLanguageId() {
+		return model.getCrushCommentCurrentLanguageId();
+	}
+
+	@Override
+	public String getCrushCommentCurrentValue() {
+		return model.getCrushCommentCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized crush comments of this budget participatif.
+	 *
+	 * @return the locales and localized crush comments of this budget participatif
+	 */
+	@Override
+	public Map<java.util.Locale, String> getCrushCommentMap() {
+		return model.getCrushCommentMap();
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -647,7 +692,73 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getDescription() {
-		return _budgetParticipatif.getDescription();
+		return model.getDescription();
+	}
+
+	/**
+	 * Returns the localized description of this budget participatif in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized description of this budget participatif
+	 */
+	@Override
+	public String getDescription(java.util.Locale locale) {
+		return model.getDescription(locale);
+	}
+
+	/**
+	 * Returns the localized description of this budget participatif in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this budget participatif. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getDescription(java.util.Locale locale, boolean useDefault) {
+		return model.getDescription(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized description of this budget participatif in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized description of this budget participatif
+	 */
+	@Override
+	public String getDescription(String languageId) {
+		return model.getDescription(languageId);
+	}
+
+	/**
+	 * Returns the localized description of this budget participatif in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this budget participatif
+	 */
+	@Override
+	public String getDescription(String languageId, boolean useDefault) {
+		return model.getDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getDescriptionCurrentLanguageId() {
+		return model.getDescriptionCurrentLanguageId();
+	}
+
+	@Override
+	public String getDescriptionCurrentValue() {
+		return model.getDescriptionCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized descriptions of this budget participatif.
+	 *
+	 * @return the locales and localized descriptions of this budget participatif
+	 */
+	@Override
+	public Map<java.util.Locale, String> getDescriptionMap() {
+		return model.getDescriptionMap();
 	}
 
 	/**
@@ -659,7 +770,7 @@ public class BudgetParticipatifWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getDistrictCategories() {
 
-		return _budgetParticipatif.getDistrictCategories();
+		return model.getDistrictCategories();
 	}
 
 	/**
@@ -669,12 +780,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getDistrictLabel(java.util.Locale locale) {
-		return _budgetParticipatif.getDistrictLabel(locale);
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _budgetParticipatif.getExpandoBridge();
+		return model.getDistrictLabel(locale);
 	}
 
 	/**
@@ -684,7 +790,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getFilesIds() {
-		return _budgetParticipatif.getFilesIds();
+		return model.getFilesIds();
 	}
 
 	/**
@@ -692,7 +798,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public java.util.List<String> getFilesURLs() {
-		return _budgetParticipatif.getFilesURLs();
+		return model.getFilesURLs();
 	}
 
 	/**
@@ -702,7 +808,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _budgetParticipatif.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -712,7 +818,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public boolean getHasCopyright() {
-		return _budgetParticipatif.getHasCopyright();
+		return model.getHasCopyright();
 	}
 
 	/**
@@ -722,7 +828,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public long getImageId() {
-		return _budgetParticipatif.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -732,7 +838,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public long getImageTimeline() {
-		return _budgetParticipatif.getImageTimeline();
+		return model.getImageTimeline();
 	}
 
 	/**
@@ -740,7 +846,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getImageTimelineURL() {
-		return _budgetParticipatif.getImageTimelineURL();
+		return model.getImageTimelineURL();
 	}
 
 	/**
@@ -748,7 +854,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getImageURL() {
-		return _budgetParticipatif.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -758,7 +864,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getInTheNameOf() {
-		return _budgetParticipatif.getInTheNameOf();
+		return model.getInTheNameOf();
 	}
 
 	/**
@@ -768,7 +874,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public boolean getIsCrush() {
-		return _budgetParticipatif.getIsCrush();
+		return model.getIsCrush();
 	}
 
 	/**
@@ -778,7 +884,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _budgetParticipatif.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -788,7 +894,73 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getMotif() {
-		return _budgetParticipatif.getMotif();
+		return model.getMotif();
+	}
+
+	/**
+	 * Returns the localized motif of this budget participatif in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized motif of this budget participatif
+	 */
+	@Override
+	public String getMotif(java.util.Locale locale) {
+		return model.getMotif(locale);
+	}
+
+	/**
+	 * Returns the localized motif of this budget participatif in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized motif of this budget participatif. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getMotif(java.util.Locale locale, boolean useDefault) {
+		return model.getMotif(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized motif of this budget participatif in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized motif of this budget participatif
+	 */
+	@Override
+	public String getMotif(String languageId) {
+		return model.getMotif(languageId);
+	}
+
+	/**
+	 * Returns the localized motif of this budget participatif in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized motif of this budget participatif
+	 */
+	@Override
+	public String getMotif(String languageId, boolean useDefault) {
+		return model.getMotif(languageId, useDefault);
+	}
+
+	@Override
+	public String getMotifCurrentLanguageId() {
+		return model.getMotifCurrentLanguageId();
+	}
+
+	@Override
+	public String getMotifCurrentValue() {
+		return model.getMotifCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized motifs of this budget participatif.
+	 *
+	 * @return the locales and localized motifs of this budget participatif
+	 */
+	@Override
+	public Map<java.util.Locale, String> getMotifMap() {
+		return model.getMotifMap();
 	}
 
 	/**
@@ -796,7 +968,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public int getNbApprovedComments() {
-		return _budgetParticipatif.getNbApprovedComments();
+		return model.getNbApprovedComments();
 	}
 
 	/**
@@ -804,7 +976,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public int getNbSupportOfUser(String publikUserId) {
-		return _budgetParticipatif.getNbSupportOfUser(publikUserId);
+		return model.getNbSupportOfUser(publikUserId);
 	}
 
 	/**
@@ -812,8 +984,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public int getNbSupportOfUserInActivePhase(String publikUserId) {
-		return _budgetParticipatif.getNbSupportOfUserInActivePhase(
-			publikUserId);
+		return model.getNbSupportOfUserInActivePhase(publikUserId);
 	}
 
 	/**
@@ -821,7 +992,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public long getNbSupports() {
-		return _budgetParticipatif.getNbSupports();
+		return model.getNbSupports();
 	}
 
 	/**
@@ -831,7 +1002,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getNbSupportsBoard() {
-		return _budgetParticipatif.getNbSupportsBoard();
+		return model.getNbSupportsBoard();
 	}
 
 	/**
@@ -841,7 +1012,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public double getOpacityImage() {
-		return _budgetParticipatif.getOpacityImage();
+		return model.getOpacityImage();
 	}
 
 	/**
@@ -851,7 +1022,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public eu.strasbourg.service.project.model.BudgetParticipatif getParent() {
-		return _budgetParticipatif.getParent();
+		return model.getParent();
 	}
 
 	/**
@@ -861,12 +1032,12 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public long getParentId() {
-		return _budgetParticipatif.getParentId();
+		return model.getParentId();
 	}
 
 	@Override
 	public eu.strasbourg.service.project.model.BudgetPhase getPhase() {
-		return _budgetParticipatif.getPhase();
+		return model.getPhase();
 	}
 
 	/**
@@ -874,12 +1045,12 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getPhaseCategory() {
-		return _budgetParticipatif.getPhaseCategory();
+		return model.getPhaseCategory();
 	}
 
 	@Override
 	public String getPhaseTitleLabel() {
-		return _budgetParticipatif.getPhaseTitleLabel();
+		return model.getPhaseTitleLabel();
 	}
 
 	/**
@@ -889,7 +1060,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getPlaceTextArea() {
-		return _budgetParticipatif.getPlaceTextArea();
+		return model.getPlaceTextArea();
 	}
 
 	/**
@@ -899,7 +1070,7 @@ public class BudgetParticipatifWrapper
 	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
 		getPlacitPlaces() {
 
-		return _budgetParticipatif.getPlacitPlaces();
+		return model.getPlacitPlaces();
 	}
 
 	/**
@@ -909,17 +1080,12 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _budgetParticipatif.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _budgetParticipatif.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	@Override
 	public int getPriorityOrder() {
-		return _budgetParticipatif.getPriorityOrder();
+		return model.getPriorityOrder();
 	}
 
 	/**
@@ -927,7 +1093,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
-		return _budgetParticipatif.getProjectCategory();
+		return model.getProjectCategory();
 	}
 
 	/**
@@ -935,12 +1101,12 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getProjectName() {
-		return _budgetParticipatif.getProjectName();
+		return model.getProjectName();
 	}
 
 	@Override
 	public String getPublicationDateFr() {
-		return _budgetParticipatif.getPublicationDateFr();
+		return model.getPublicationDateFr();
 	}
 
 	/**
@@ -950,7 +1116,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getPublikId() {
-		return _budgetParticipatif.getPublikId();
+		return model.getPublikId();
 	}
 
 	/**
@@ -960,7 +1126,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _budgetParticipatif.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -970,7 +1136,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _budgetParticipatif.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -980,7 +1146,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _budgetParticipatif.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -990,7 +1156,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _budgetParticipatif.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -1000,7 +1166,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _budgetParticipatif.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -1018,7 +1184,7 @@ public class BudgetParticipatifWrapper
 			throws com.liferay.portal.kernel.exception.PortalException,
 				   com.liferay.portal.kernel.search.SearchException {
 
-		return _budgetParticipatif.getSuggestions(request, nbSuggestions);
+		return model.getSuggestions(request, nbSuggestions);
 	}
 
 	/**
@@ -1028,7 +1194,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getSummary() {
-		return _budgetParticipatif.getSummary();
+		return model.getSummary();
 	}
 
 	/**
@@ -1040,7 +1206,7 @@ public class BudgetParticipatifWrapper
 	public java.util.List<eu.strasbourg.service.project.model.BudgetSupport>
 		getSupports() {
 
-		return _budgetParticipatif.getSupports();
+		return model.getSupports();
 	}
 
 	/**
@@ -1050,7 +1216,7 @@ public class BudgetParticipatifWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTerritoryCategories() {
 
-		return _budgetParticipatif.getTerritoryCategories();
+		return model.getTerritoryCategories();
 	}
 
 	/**
@@ -1060,7 +1226,7 @@ public class BudgetParticipatifWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getThematicCategories() {
 
-		return _budgetParticipatif.getThematicCategories();
+		return model.getThematicCategories();
 	}
 
 	/**
@@ -1068,7 +1234,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getThematicCategory() {
-		return _budgetParticipatif.getThematicCategory();
+		return model.getThematicCategory();
 	}
 
 	/**
@@ -1076,7 +1242,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getThematicsLabel(java.util.Locale locale) {
-		return _budgetParticipatif.getThematicsLabel(locale);
+		return model.getThematicsLabel(locale);
 	}
 
 	/**
@@ -1086,7 +1252,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getTitle() {
-		return _budgetParticipatif.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -1096,7 +1262,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _budgetParticipatif.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -1106,7 +1272,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _budgetParticipatif.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -1116,7 +1282,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _budgetParticipatif.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -1126,7 +1292,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _budgetParticipatif.getUuid();
+		return model.getUuid();
 	}
 
 	/**
@@ -1136,7 +1302,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public String getVideoUrl() {
-		return _budgetParticipatif.getVideoUrl();
+		return model.getVideoUrl();
 	}
 
 	/**
@@ -1146,7 +1312,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public boolean hasBeenEvaluated() {
-		return _budgetParticipatif.hasBeenEvaluated();
+		return model.hasBeenEvaluated();
 	}
 
 	/**
@@ -1154,12 +1320,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public boolean hasBeenVoted() {
-		return _budgetParticipatif.hasBeenVoted();
-	}
-
-	@Override
-	public int hashCode() {
-		return _budgetParticipatif.hashCode();
+		return model.hasBeenVoted();
 	}
 
 	/**
@@ -1169,12 +1330,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _budgetParticipatif.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _budgetParticipatif.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -1184,7 +1340,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _budgetParticipatif.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -1194,7 +1350,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _budgetParticipatif.isDraft();
+		return model.isDraft();
 	}
 
 	/**
@@ -1202,12 +1358,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public boolean isEditable() {
-		return _budgetParticipatif.isEditable();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _budgetParticipatif.isEscapedModel();
+		return model.isEditable();
 	}
 
 	/**
@@ -1217,7 +1368,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _budgetParticipatif.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -1227,7 +1378,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public boolean isHasCopyright() {
-		return _budgetParticipatif.isHasCopyright();
+		return model.isHasCopyright();
 	}
 
 	/**
@@ -1237,7 +1388,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _budgetParticipatif.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -1247,7 +1398,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _budgetParticipatif.isIncomplete();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -1257,12 +1408,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public boolean isIsCrush() {
-		return _budgetParticipatif.isIsCrush();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _budgetParticipatif.isNew();
+		return model.isIsCrush();
 	}
 
 	/**
@@ -1270,7 +1416,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public boolean isNotDoable() {
-		return _budgetParticipatif.isNotDoable();
+		return model.isNotDoable();
 	}
 
 	/**
@@ -1280,7 +1426,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _budgetParticipatif.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -1290,7 +1436,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _budgetParticipatif.isScheduled();
+		return model.isScheduled();
 	}
 
 	/**
@@ -1298,12 +1444,27 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public boolean isVotable() {
-		return _budgetParticipatif.isVotable();
+		return model.isVotable();
 	}
 
 	@Override
 	public void persist() {
-		_budgetParticipatif.persist();
+		model.persist();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+			java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -1319,7 +1480,7 @@ public class BudgetParticipatifWrapper
 		eu.strasbourg.service.project.constants.ParticiperCategories status,
 		long groupID) {
 
-		_budgetParticipatif.setBPStatus(budgetParticipatif, status, groupID);
+		model.setBPStatus(budgetParticipatif, status, groupID);
 	}
 
 	/**
@@ -1329,7 +1490,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setBudget(String budget) {
-		_budgetParticipatif.setBudget(budget);
+		model.setBudget(budget);
 	}
 
 	/**
@@ -1339,7 +1500,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setBudgetParticipatifId(long budgetParticipatifId) {
-		_budgetParticipatif.setBudgetParticipatifId(budgetParticipatifId);
+		model.setBudgetParticipatifId(budgetParticipatifId);
 	}
 
 	/**
@@ -1349,12 +1510,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setBudgetPhaseId(long budgetPhaseId) {
-		_budgetParticipatif.setBudgetPhaseId(budgetPhaseId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_budgetParticipatif.setCachedModel(cachedModel);
+		model.setBudgetPhaseId(budgetPhaseId);
 	}
 
 	/**
@@ -1364,7 +1520,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setCitoyenAdresse(String citoyenAdresse) {
-		_budgetParticipatif.setCitoyenAdresse(citoyenAdresse);
+		model.setCitoyenAdresse(citoyenAdresse);
 	}
 
 	/**
@@ -1374,7 +1530,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setCitoyenBirthday(Date citoyenBirthday) {
-		_budgetParticipatif.setCitoyenBirthday(citoyenBirthday);
+		model.setCitoyenBirthday(citoyenBirthday);
 	}
 
 	/**
@@ -1384,7 +1540,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setCitoyenCity(String citoyenCity) {
-		_budgetParticipatif.setCitoyenCity(citoyenCity);
+		model.setCitoyenCity(citoyenCity);
 	}
 
 	/**
@@ -1394,7 +1550,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setCitoyenEmail(String citoyenEmail) {
-		_budgetParticipatif.setCitoyenEmail(citoyenEmail);
+		model.setCitoyenEmail(citoyenEmail);
 	}
 
 	/**
@@ -1404,7 +1560,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setCitoyenFirstname(String citoyenFirstname) {
-		_budgetParticipatif.setCitoyenFirstname(citoyenFirstname);
+		model.setCitoyenFirstname(citoyenFirstname);
 	}
 
 	/**
@@ -1414,7 +1570,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setCitoyenLastname(String citoyenLastname) {
-		_budgetParticipatif.setCitoyenLastname(citoyenLastname);
+		model.setCitoyenLastname(citoyenLastname);
 	}
 
 	/**
@@ -1424,7 +1580,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setCitoyenMobile(String citoyenMobile) {
-		_budgetParticipatif.setCitoyenMobile(citoyenMobile);
+		model.setCitoyenMobile(citoyenMobile);
 	}
 
 	/**
@@ -1434,7 +1590,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setCitoyenPhone(String citoyenPhone) {
-		_budgetParticipatif.setCitoyenPhone(citoyenPhone);
+		model.setCitoyenPhone(citoyenPhone);
 	}
 
 	/**
@@ -1444,7 +1600,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setCitoyenPostalCode(long citoyenPostalCode) {
-		_budgetParticipatif.setCitoyenPostalCode(citoyenPostalCode);
+		model.setCitoyenPostalCode(citoyenPostalCode);
 	}
 
 	/**
@@ -1454,7 +1610,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_budgetParticipatif.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -1464,7 +1620,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_budgetParticipatif.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -1474,7 +1630,64 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setCrushComment(String crushComment) {
-		_budgetParticipatif.setCrushComment(crushComment);
+		model.setCrushComment(crushComment);
+	}
+
+	/**
+	 * Sets the localized crush comment of this budget participatif in the language.
+	 *
+	 * @param crushComment the localized crush comment of this budget participatif
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setCrushComment(String crushComment, java.util.Locale locale) {
+		model.setCrushComment(crushComment, locale);
+	}
+
+	/**
+	 * Sets the localized crush comment of this budget participatif in the language, and sets the default locale.
+	 *
+	 * @param crushComment the localized crush comment of this budget participatif
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setCrushComment(
+		String crushComment, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setCrushComment(crushComment, locale, defaultLocale);
+	}
+
+	@Override
+	public void setCrushCommentCurrentLanguageId(String languageId) {
+		model.setCrushCommentCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized crush comments of this budget participatif from the map of locales and localized crush comments.
+	 *
+	 * @param crushCommentMap the locales and localized crush comments of this budget participatif
+	 */
+	@Override
+	public void setCrushCommentMap(
+		Map<java.util.Locale, String> crushCommentMap) {
+
+		model.setCrushCommentMap(crushCommentMap);
+	}
+
+	/**
+	 * Sets the localized crush comments of this budget participatif from the map of locales and localized crush comments, and sets the default locale.
+	 *
+	 * @param crushCommentMap the locales and localized crush comments of this budget participatif
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setCrushCommentMap(
+		Map<java.util.Locale, String> crushCommentMap,
+		java.util.Locale defaultLocale) {
+
+		model.setCrushCommentMap(crushCommentMap, defaultLocale);
 	}
 
 	/**
@@ -1484,24 +1697,64 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setDescription(String description) {
-		_budgetParticipatif.setDescription(description);
+		model.setDescription(description);
+	}
+
+	/**
+	 * Sets the localized description of this budget participatif in the language.
+	 *
+	 * @param description the localized description of this budget participatif
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setDescription(String description, java.util.Locale locale) {
+		model.setDescription(description, locale);
+	}
+
+	/**
+	 * Sets the localized description of this budget participatif in the language, and sets the default locale.
+	 *
+	 * @param description the localized description of this budget participatif
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setDescription(
+		String description, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setDescription(description, locale, defaultLocale);
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_budgetParticipatif.setExpandoBridgeAttributes(baseModel);
+	public void setDescriptionCurrentLanguageId(String languageId) {
+		model.setDescriptionCurrentLanguageId(languageId);
 	}
 
+	/**
+	 * Sets the localized descriptions of this budget participatif from the map of locales and localized descriptions.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this budget participatif
+	 */
 	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_budgetParticipatif.setExpandoBridgeAttributes(expandoBridge);
+	public void setDescriptionMap(
+		Map<java.util.Locale, String> descriptionMap) {
+
+		model.setDescriptionMap(descriptionMap);
 	}
 
+	/**
+	 * Sets the localized descriptions of this budget participatif from the map of locales and localized descriptions, and sets the default locale.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this budget participatif
+	 * @param defaultLocale the default locale
+	 */
 	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_budgetParticipatif.setExpandoBridgeAttributes(serviceContext);
+	public void setDescriptionMap(
+		Map<java.util.Locale, String> descriptionMap,
+		java.util.Locale defaultLocale) {
+
+		model.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	/**
@@ -1511,7 +1764,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setFilesIds(String filesIds) {
-		_budgetParticipatif.setFilesIds(filesIds);
+		model.setFilesIds(filesIds);
 	}
 
 	/**
@@ -1521,7 +1774,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_budgetParticipatif.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -1531,7 +1784,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setHasCopyright(boolean hasCopyright) {
-		_budgetParticipatif.setHasCopyright(hasCopyright);
+		model.setHasCopyright(hasCopyright);
 	}
 
 	/**
@@ -1541,7 +1794,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setImageId(long imageId) {
-		_budgetParticipatif.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -1551,7 +1804,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setImageTimeline(long imageTimeline) {
-		_budgetParticipatif.setImageTimeline(imageTimeline);
+		model.setImageTimeline(imageTimeline);
 	}
 
 	/**
@@ -1561,7 +1814,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setInTheNameOf(String inTheNameOf) {
-		_budgetParticipatif.setInTheNameOf(inTheNameOf);
+		model.setInTheNameOf(inTheNameOf);
 	}
 
 	/**
@@ -1571,7 +1824,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setIsCrush(boolean isCrush) {
-		_budgetParticipatif.setIsCrush(isCrush);
+		model.setIsCrush(isCrush);
 	}
 
 	/**
@@ -1581,7 +1834,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_budgetParticipatif.setModifiedDate(modifiedDate);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -1591,12 +1844,61 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setMotif(String motif) {
-		_budgetParticipatif.setMotif(motif);
+		model.setMotif(motif);
+	}
+
+	/**
+	 * Sets the localized motif of this budget participatif in the language.
+	 *
+	 * @param motif the localized motif of this budget participatif
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setMotif(String motif, java.util.Locale locale) {
+		model.setMotif(motif, locale);
+	}
+
+	/**
+	 * Sets the localized motif of this budget participatif in the language, and sets the default locale.
+	 *
+	 * @param motif the localized motif of this budget participatif
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setMotif(
+		String motif, java.util.Locale locale, java.util.Locale defaultLocale) {
+
+		model.setMotif(motif, locale, defaultLocale);
 	}
 
 	@Override
-	public void setNew(boolean n) {
-		_budgetParticipatif.setNew(n);
+	public void setMotifCurrentLanguageId(String languageId) {
+		model.setMotifCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized motifs of this budget participatif from the map of locales and localized motifs.
+	 *
+	 * @param motifMap the locales and localized motifs of this budget participatif
+	 */
+	@Override
+	public void setMotifMap(Map<java.util.Locale, String> motifMap) {
+		model.setMotifMap(motifMap);
+	}
+
+	/**
+	 * Sets the localized motifs of this budget participatif from the map of locales and localized motifs, and sets the default locale.
+	 *
+	 * @param motifMap the locales and localized motifs of this budget participatif
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setMotifMap(
+		Map<java.util.Locale, String> motifMap,
+		java.util.Locale defaultLocale) {
+
+		model.setMotifMap(motifMap, defaultLocale);
 	}
 
 	/**
@@ -1606,7 +1908,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setOpacityImage(double opacityImage) {
-		_budgetParticipatif.setOpacityImage(opacityImage);
+		model.setOpacityImage(opacityImage);
 	}
 
 	/**
@@ -1616,7 +1918,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setParentId(long parentId) {
-		_budgetParticipatif.setParentId(parentId);
+		model.setParentId(parentId);
 	}
 
 	/**
@@ -1626,7 +1928,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setPlaceTextArea(String placeTextArea) {
-		_budgetParticipatif.setPlaceTextArea(placeTextArea);
+		model.setPlaceTextArea(placeTextArea);
 	}
 
 	/**
@@ -1636,12 +1938,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_budgetParticipatif.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_budgetParticipatif.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -1651,7 +1948,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setPublikId(String publikId) {
-		_budgetParticipatif.setPublikId(publikId);
+		model.setPublikId(publikId);
 	}
 
 	/**
@@ -1661,7 +1958,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_budgetParticipatif.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -1671,7 +1968,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_budgetParticipatif.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -1681,7 +1978,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_budgetParticipatif.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -1691,7 +1988,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_budgetParticipatif.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -1701,7 +1998,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_budgetParticipatif.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -1711,7 +2008,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setSummary(String summary) {
-		_budgetParticipatif.setSummary(summary);
+		model.setSummary(summary);
 	}
 
 	/**
@@ -1721,7 +2018,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setTitle(String title) {
-		_budgetParticipatif.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -1731,7 +2028,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_budgetParticipatif.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -1741,7 +2038,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_budgetParticipatif.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -1751,7 +2048,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_budgetParticipatif.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1761,7 +2058,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_budgetParticipatif.setUuid(uuid);
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -1771,23 +2068,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setVideoUrl(String videoUrl) {
-		_budgetParticipatif.setVideoUrl(videoUrl);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.project.model.BudgetParticipatif>
-			toCacheModel() {
-
-		return _budgetParticipatif.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.BudgetParticipatif
-		toEscapedModel() {
-
-		return new BudgetParticipatifWrapper(
-			_budgetParticipatif.toEscapedModel());
+		model.setVideoUrl(videoUrl);
 	}
 
 	/**
@@ -1797,75 +2078,24 @@ public class BudgetParticipatifWrapper
 	public com.liferay.portal.kernel.json.JSONObject toJSON(
 		String publikUserId) {
 
-		return _budgetParticipatif.toJSON(publikUserId);
-	}
-
-	@Override
-	public String toString() {
-		return _budgetParticipatif.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.BudgetParticipatif
-		toUnescapedModel() {
-
-		return new BudgetParticipatifWrapper(
-			_budgetParticipatif.toUnescapedModel());
+		return model.toJSON(publikUserId);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _budgetParticipatif.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof BudgetParticipatifWrapper)) {
-			return false;
-		}
-
-		BudgetParticipatifWrapper budgetParticipatifWrapper =
-			(BudgetParticipatifWrapper)object;
-
-		if (Objects.equals(
-				_budgetParticipatif,
-				budgetParticipatifWrapper._budgetParticipatif)) {
-
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _budgetParticipatif.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public BudgetParticipatif getWrappedModel() {
-		return _budgetParticipatif;
-	}
+	protected BudgetParticipatifWrapper wrap(
+		BudgetParticipatif budgetParticipatif) {
 
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _budgetParticipatif.isEntityCacheEnabled();
+		return new BudgetParticipatifWrapper(budgetParticipatif);
 	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _budgetParticipatif.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_budgetParticipatif.resetOriginalValues();
-	}
-
-	private final BudgetParticipatif _budgetParticipatif;
 
 }

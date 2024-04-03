@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.edition.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
@@ -31,34 +23,35 @@ import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.service.persistence.impl.TableMapper;
 import com.liferay.portal.kernel.service.persistence.impl.TableMapperFactory;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.edition.exception.NoSuchEditionGalleryException;
 import eu.strasbourg.service.edition.model.EditionGallery;
+import eu.strasbourg.service.edition.model.EditionGalleryTable;
 import eu.strasbourg.service.edition.model.impl.EditionGalleryImpl;
 import eu.strasbourg.service.edition.model.impl.EditionGalleryModelImpl;
 import eu.strasbourg.service.edition.service.persistence.EditionGalleryPersistence;
+import eu.strasbourg.service.edition.service.persistence.EditionGalleryUtil;
 import eu.strasbourg.service.edition.service.persistence.EditionPersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.sql.Timestamp;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -260,10 +253,6 @@ public class EditionGalleryPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -615,8 +604,6 @@ public class EditionGalleryPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -774,11 +761,6 @@ public class EditionGalleryPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -867,8 +849,6 @@ public class EditionGalleryPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1069,10 +1049,6 @@ public class EditionGalleryPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1455,8 +1431,6 @@ public class EditionGalleryPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1641,10 +1615,6 @@ public class EditionGalleryPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1997,8 +1967,6 @@ public class EditionGalleryPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2170,10 +2138,6 @@ public class EditionGalleryPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2501,8 +2465,6 @@ public class EditionGalleryPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2617,7 +2579,8 @@ public class EditionGalleryPersistenceImpl
 			if ((list != null) && !list.isEmpty()) {
 				for (EditionGallery editionGallery : list) {
 					if ((publicationDate.getTime() <=
-							editionGallery.getPublicationDate().getTime()) ||
+							editionGallery.getPublicationDate(
+							).getTime()) ||
 						(status != editionGallery.getStatus())) {
 
 						list = null;
@@ -2691,10 +2654,6 @@ public class EditionGalleryPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3082,8 +3041,6 @@ public class EditionGalleryPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3111,21 +3068,14 @@ public class EditionGalleryPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(EditionGallery.class);
+
+		setModelImplClass(EditionGalleryImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(EditionGalleryTable.INSTANCE);
 	}
 
 	/**
@@ -3136,7 +3086,6 @@ public class EditionGalleryPersistenceImpl
 	@Override
 	public void cacheResult(EditionGallery editionGallery) {
 		entityCache.putResult(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
 			EditionGalleryImpl.class, editionGallery.getPrimaryKey(),
 			editionGallery);
 
@@ -3146,9 +3095,9 @@ public class EditionGalleryPersistenceImpl
 				editionGallery.getUuid(), editionGallery.getGroupId()
 			},
 			editionGallery);
-
-		editionGallery.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the edition galleries in the entity cache if it is enabled.
@@ -3157,16 +3106,20 @@ public class EditionGalleryPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<EditionGallery> editionGalleries) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (editionGalleries.size() >
+				 _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (EditionGallery editionGallery : editionGalleries) {
 			if (entityCache.getResult(
-					EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
 					EditionGalleryImpl.class, editionGallery.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(editionGallery);
-			}
-			else {
-				editionGallery.resetOriginalValues();
 			}
 		}
 	}
@@ -3182,9 +3135,7 @@ public class EditionGalleryPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(EditionGalleryImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(EditionGalleryImpl.class);
 	}
 
 	/**
@@ -3196,40 +3147,22 @@ public class EditionGalleryPersistenceImpl
 	 */
 	@Override
 	public void clearCache(EditionGallery editionGallery) {
-		entityCache.removeResult(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryImpl.class, editionGallery.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((EditionGalleryModelImpl)editionGallery, true);
+		entityCache.removeResult(EditionGalleryImpl.class, editionGallery);
 	}
 
 	@Override
 	public void clearCache(List<EditionGallery> editionGalleries) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (EditionGallery editionGallery : editionGalleries) {
-			entityCache.removeResult(
-				EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-				EditionGalleryImpl.class, editionGallery.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(EditionGalleryModelImpl)editionGallery, true);
+			entityCache.removeResult(EditionGalleryImpl.class, editionGallery);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(EditionGalleryImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-				EditionGalleryImpl.class, primaryKey);
+			entityCache.removeResult(EditionGalleryImpl.class, primaryKey);
 		}
 	}
 
@@ -3241,36 +3174,9 @@ public class EditionGalleryPersistenceImpl
 			editionGalleryModelImpl.getGroupId()
 		};
 
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, editionGalleryModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		EditionGalleryModelImpl editionGalleryModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				editionGalleryModelImpl.getUuid(),
-				editionGalleryModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((editionGalleryModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				editionGalleryModelImpl.getOriginalUuid(),
-				editionGalleryModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+			_finderPathFetchByUUID_G, args, editionGalleryModelImpl);
 	}
 
 	/**
@@ -3417,24 +3323,25 @@ public class EditionGalleryPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (editionGallery.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				editionGallery.setCreateDate(now);
+				editionGallery.setCreateDate(date);
 			}
 			else {
-				editionGallery.setCreateDate(serviceContext.getCreateDate(now));
+				editionGallery.setCreateDate(
+					serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!editionGalleryModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				editionGallery.setModifiedDate(now);
+				editionGallery.setModifiedDate(date);
 			}
 			else {
 				editionGallery.setModifiedDate(
-					serviceContext.getModifiedDate(now));
+					serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -3443,10 +3350,8 @@ public class EditionGalleryPersistenceImpl
 		try {
 			session = openSession();
 
-			if (editionGallery.isNew()) {
+			if (isNew) {
 				session.save(editionGallery);
-
-				editionGallery.setNew(false);
 			}
 			else {
 				editionGallery = (EditionGallery)session.merge(editionGallery);
@@ -3459,132 +3364,14 @@ public class EditionGalleryPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!EditionGalleryModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {editionGalleryModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				editionGalleryModelImpl.getUuid(),
-				editionGalleryModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {editionGalleryModelImpl.getTitle()};
-
-			finderCache.removeResult(_finderPathCountBytitle, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindBytitle, args);
-
-			args = new Object[] {editionGalleryModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((editionGalleryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					editionGalleryModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {editionGalleryModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((editionGalleryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					editionGalleryModelImpl.getOriginalUuid(),
-					editionGalleryModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					editionGalleryModelImpl.getUuid(),
-					editionGalleryModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((editionGalleryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindBytitle.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					editionGalleryModelImpl.getOriginalTitle()
-				};
-
-				finderCache.removeResult(_finderPathCountBytitle, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindBytitle, args);
-
-				args = new Object[] {editionGalleryModelImpl.getTitle()};
-
-				finderCache.removeResult(_finderPathCountBytitle, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindBytitle, args);
-			}
-
-			if ((editionGalleryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					editionGalleryModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {editionGalleryModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-		}
-
 		entityCache.putResult(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryImpl.class, editionGallery.getPrimaryKey(),
-			editionGallery, false);
+			EditionGalleryImpl.class, editionGalleryModelImpl, false, true);
 
-		clearUniqueFindersCache(editionGalleryModelImpl, false);
 		cacheUniqueFindersCache(editionGalleryModelImpl);
+
+		if (isNew) {
+			editionGallery.setNew(false);
+		}
 
 		editionGallery.resetOriginalValues();
 
@@ -3633,163 +3420,12 @@ public class EditionGalleryPersistenceImpl
 	/**
 	 * Returns the edition gallery with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the edition gallery
-	 * @return the edition gallery, or <code>null</code> if a edition gallery with the primary key could not be found
-	 */
-	@Override
-	public EditionGallery fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		EditionGallery editionGallery = (EditionGallery)serializable;
-
-		if (editionGallery == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				editionGallery = (EditionGallery)session.get(
-					EditionGalleryImpl.class, primaryKey);
-
-				if (editionGallery != null) {
-					cacheResult(editionGallery);
-				}
-				else {
-					entityCache.putResult(
-						EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-						EditionGalleryImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-					EditionGalleryImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return editionGallery;
-	}
-
-	/**
-	 * Returns the edition gallery with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param galleryId the primary key of the edition gallery
 	 * @return the edition gallery, or <code>null</code> if a edition gallery with the primary key could not be found
 	 */
 	@Override
 	public EditionGallery fetchByPrimaryKey(long galleryId) {
 		return fetchByPrimaryKey((Serializable)galleryId);
-	}
-
-	@Override
-	public Map<Serializable, EditionGallery> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, EditionGallery> map =
-			new HashMap<Serializable, EditionGallery>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			EditionGallery editionGallery = fetchByPrimaryKey(primaryKey);
-
-			if (editionGallery != null) {
-				map.put(primaryKey, editionGallery);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-				EditionGalleryImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (EditionGallery)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_EDITIONGALLERY_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (EditionGallery editionGallery :
-					(List<EditionGallery>)query.list()) {
-
-				map.put(editionGallery.getPrimaryKeyObj(), editionGallery);
-
-				cacheResult(editionGallery);
-
-				uncachedPrimaryKeys.remove(editionGallery.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-					EditionGalleryImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3917,10 +3553,6 @@ public class EditionGalleryPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3966,9 +3598,6 @@ public class EditionGalleryPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -4094,17 +3723,18 @@ public class EditionGalleryPersistenceImpl
 	 *
 	 * @param pk the primary key of the edition gallery
 	 * @param editionPK the primary key of the edition
+	 * @return <code>true</code> if an association between the edition gallery and the edition was added; <code>false</code> if they were already associated
 	 */
 	@Override
-	public void addEdition(long pk, long editionPK) {
+	public boolean addEdition(long pk, long editionPK) {
 		EditionGallery editionGallery = fetchByPrimaryKey(pk);
 
 		if (editionGallery == null) {
-			editionGalleryToEditionTableMapper.addTableMapping(
+			return editionGalleryToEditionTableMapper.addTableMapping(
 				CompanyThreadLocal.getCompanyId(), pk, editionPK);
 		}
 		else {
-			editionGalleryToEditionTableMapper.addTableMapping(
+			return editionGalleryToEditionTableMapper.addTableMapping(
 				editionGallery.getCompanyId(), pk, editionPK);
 		}
 	}
@@ -4114,19 +3744,20 @@ public class EditionGalleryPersistenceImpl
 	 *
 	 * @param pk the primary key of the edition gallery
 	 * @param edition the edition
+	 * @return <code>true</code> if an association between the edition gallery and the edition was added; <code>false</code> if they were already associated
 	 */
 	@Override
-	public void addEdition(
+	public boolean addEdition(
 		long pk, eu.strasbourg.service.edition.model.Edition edition) {
 
 		EditionGallery editionGallery = fetchByPrimaryKey(pk);
 
 		if (editionGallery == null) {
-			editionGalleryToEditionTableMapper.addTableMapping(
+			return editionGalleryToEditionTableMapper.addTableMapping(
 				CompanyThreadLocal.getCompanyId(), pk, edition.getPrimaryKey());
 		}
 		else {
-			editionGalleryToEditionTableMapper.addTableMapping(
+			return editionGalleryToEditionTableMapper.addTableMapping(
 				editionGallery.getCompanyId(), pk, edition.getPrimaryKey());
 		}
 	}
@@ -4136,9 +3767,10 @@ public class EditionGalleryPersistenceImpl
 	 *
 	 * @param pk the primary key of the edition gallery
 	 * @param editionPKs the primary keys of the editions
+	 * @return <code>true</code> if at least one association between the edition gallery and the editions was added; <code>false</code> if they were all already associated
 	 */
 	@Override
-	public void addEditions(long pk, long[] editionPKs) {
+	public boolean addEditions(long pk, long[] editionPKs) {
 		long companyId = 0;
 
 		EditionGallery editionGallery = fetchByPrimaryKey(pk);
@@ -4150,8 +3782,14 @@ public class EditionGalleryPersistenceImpl
 			companyId = editionGallery.getCompanyId();
 		}
 
-		editionGalleryToEditionTableMapper.addTableMappings(
+		long[] addedKeys = editionGalleryToEditionTableMapper.addTableMappings(
 			companyId, pk, editionPKs);
+
+		if (addedKeys.length > 0) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -4159,12 +3797,13 @@ public class EditionGalleryPersistenceImpl
 	 *
 	 * @param pk the primary key of the edition gallery
 	 * @param editions the editions
+	 * @return <code>true</code> if at least one association between the edition gallery and the editions was added; <code>false</code> if they were all already associated
 	 */
 	@Override
-	public void addEditions(
+	public boolean addEditions(
 		long pk, List<eu.strasbourg.service.edition.model.Edition> editions) {
 
-		addEditions(
+		return addEditions(
 			pk,
 			ListUtil.toLongArray(
 				editions,
@@ -4306,6 +3945,21 @@ public class EditionGalleryPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "galleryId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_EDITIONGALLERY;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return EditionGalleryModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -4314,167 +3968,133 @@ public class EditionGalleryPersistenceImpl
 	 * Initializes the edition gallery persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		editionGalleryToEditionTableMapper = TableMapperFactory.getTableMapper(
 			"edition_EditionToEditionGallery", "companyId", "galleryId",
 			"editionId", this, editionPersistence);
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryModelImpl.FINDER_CACHE_ENABLED,
-			EditionGalleryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryModelImpl.FINDER_CACHE_ENABLED,
-			EditionGalleryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryModelImpl.FINDER_CACHE_ENABLED,
-			EditionGalleryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryModelImpl.FINDER_CACHE_ENABLED,
-			EditionGalleryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUuid", new String[] {String.class.getName()},
-			EditionGalleryModelImpl.UUID_COLUMN_BITMASK |
-			EditionGalleryModelImpl.TITLE_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryModelImpl.FINDER_CACHE_ENABLED,
-			EditionGalleryImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			EditionGalleryModelImpl.UUID_COLUMN_BITMASK |
-			EditionGalleryModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryModelImpl.FINDER_CACHE_ENABLED,
-			EditionGalleryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid_C",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryModelImpl.FINDER_CACHE_ENABLED,
-			EditionGalleryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUuid_C",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			EditionGalleryModelImpl.UUID_COLUMN_BITMASK |
-			EditionGalleryModelImpl.COMPANYID_COLUMN_BITMASK |
-			EditionGalleryModelImpl.TITLE_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindBytitle = new FinderPath(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryModelImpl.FINDER_CACHE_ENABLED,
-			EditionGalleryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findBytitle",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBytitle",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"title"}, true);
 
 		_finderPathWithoutPaginationFindBytitle = new FinderPath(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryModelImpl.FINDER_CACHE_ENABLED,
-			EditionGalleryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findBytitle", new String[] {String.class.getName()},
-			EditionGalleryModelImpl.TITLE_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBytitle",
+			new String[] {String.class.getName()}, new String[] {"title"},
+			true);
 
 		_finderPathCountBytitle = new FinderPath(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBytitle",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"title"},
+			false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryModelImpl.FINDER_CACHE_ENABLED,
-			EditionGalleryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByGroupId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryModelImpl.FINDER_CACHE_ENABLED,
-			EditionGalleryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByGroupId", new String[] {Long.class.getName()},
-			EditionGalleryModelImpl.GROUPID_COLUMN_BITMASK |
-			EditionGalleryModelImpl.TITLE_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-			EditionGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
 
 		_finderPathWithPaginationFindByPublicationDateAndStatus =
 			new FinderPath(
-				EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-				EditionGalleryModelImpl.FINDER_CACHE_ENABLED,
-				EditionGalleryImpl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByPublicationDateAndStatus",
 				new String[] {
 					Date.class.getName(), Integer.class.getName(),
 					Integer.class.getName(), Integer.class.getName(),
 					OrderByComparator.class.getName()
-				});
+				},
+				new String[] {"publicationDate", "status"}, true);
 
 		_finderPathWithPaginationCountByPublicationDateAndStatus =
 			new FinderPath(
-				EditionGalleryModelImpl.ENTITY_CACHE_ENABLED,
-				EditionGalleryModelImpl.FINDER_CACHE_ENABLED, Long.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"countByPublicationDateAndStatus",
-				new String[] {Date.class.getName(), Integer.class.getName()});
+				new String[] {Date.class.getName(), Integer.class.getName()},
+				new String[] {"publicationDate", "status"}, false);
+
+		EditionGalleryUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		EditionGalleryUtil.setPersistence(null);
+
 		entityCache.removeCache(EditionGalleryImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		TableMapperFactory.removeTableMapper("edition_EditionToEditionGallery");
 	}
@@ -4492,7 +4112,7 @@ public class EditionGalleryPersistenceImpl
 		<EditionGallery, eu.strasbourg.service.edition.model.Edition>
 			editionGalleryToEditionTableMapper;
 
-	private Long _getTime(Date date) {
+	private static Long _getTime(Date date) {
 		if (date == null) {
 			return null;
 		}
@@ -4502,9 +4122,6 @@ public class EditionGalleryPersistenceImpl
 
 	private static final String _SQL_SELECT_EDITIONGALLERY =
 		"SELECT editionGallery FROM EditionGallery editionGallery";
-
-	private static final String _SQL_SELECT_EDITIONGALLERY_WHERE_PKS_IN =
-		"SELECT editionGallery FROM EditionGallery editionGallery WHERE galleryId IN (";
 
 	private static final String _SQL_SELECT_EDITIONGALLERY_WHERE =
 		"SELECT editionGallery FROM EditionGallery editionGallery WHERE ";
@@ -4528,5 +4145,10 @@ public class EditionGalleryPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

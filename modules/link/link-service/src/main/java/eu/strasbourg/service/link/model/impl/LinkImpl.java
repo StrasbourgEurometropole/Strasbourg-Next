@@ -14,18 +14,17 @@
 
 package eu.strasbourg.service.link.model.impl;
 
-import java.util.List;
-
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.link.model.Link;
 import eu.strasbourg.service.link.service.LinkLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+
+import java.util.List;
 
 /**
  * The extended model implementation for the Link service. Represents a row in

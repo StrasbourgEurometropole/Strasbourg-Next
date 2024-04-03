@@ -10,14 +10,14 @@
 
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${savePlaceCategoriesURL}" method="post" name="fm" onSubmit="submitForm(event);">
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.placeCategories}" model="<%=PlaceCategories.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 
             <%-- Champ : (cache) PK de l'entite --%>
             <aui:input name="placeCategoriesId" type="hidden" />
@@ -27,10 +27,10 @@
 
                 <p style="font-style:italic"><liferay-ui:message key="csmap.bo.place.categories.select" /></p>
 
-                <liferay-ui:asset-categories-selector
+                <liferay-asset:asset-categories-selector
                     className="${dc.className}"
                     hiddenInput="Vocabulary"
-                    curCategoryIds="${dc.placeCategories.getCategoriesIds()}" />
+                    categoryIds="${dc.placeCategories.getCategoriesIds()}" />
 
             </aui:fieldset>
 
@@ -42,7 +42,7 @@
                 <p><liferay-ui:message key="csmap.bo.place.picto" /></p>
             </aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
 		<aui:button-row>

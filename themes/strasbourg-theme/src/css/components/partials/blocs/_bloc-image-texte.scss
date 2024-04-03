@@ -1,0 +1,50 @@
+.st-bloc-image-texte {
+	.st-container {
+		display: grid;
+		grid-template-areas: "text image";
+		grid-template-columns: repeat(2, minmax(10px, 1fr));
+		gap: var(--grid-gap);
+		align-items: start;
+
+		@include tablet-landscape {
+			grid-gap: 20px;
+		}
+
+		.st-col-text {
+			grid-area: text;
+
+			@include mobile {
+				padding-bottom: var(--grid-gap);
+			}
+		}
+
+		.st-col-image {
+			position: relative;
+			grid-area: image;
+		}
+
+		.st-image {
+			img {
+				width: 100%;
+				border-radius: $border-radius;
+			}
+		}
+
+
+		// -- modifiers
+		// Texte à droite et photo à gauche -> inversion par rapport au DOM
+		&.st--text-right {
+			grid-template-areas: "image text";
+		}
+
+		// Toujours image en premier et texte aligné à gauche sur mobile
+		&.st--text-right,
+		&.st--text-left {
+			@include mobile {
+				grid-template-areas: "image"
+								 	 "text";
+				grid-template-columns: minmax(10px, 1fr);
+			}
+		}
+	}
+}

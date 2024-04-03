@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.agenda.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author BenjaminBini
  */
-@ProviderType
 public class NoSuchHistoricException extends NoSuchModelException {
 
 	public NoSuchHistoricException() {
@@ -30,12 +27,12 @@ public class NoSuchHistoricException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchHistoricException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchHistoricException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchHistoricException(Throwable cause) {
-		super(cause);
+	public NoSuchHistoricException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

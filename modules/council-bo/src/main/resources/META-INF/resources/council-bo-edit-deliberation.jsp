@@ -10,7 +10,8 @@
 <%-- URL : definit le lien menant vers la suppression de l'entite --%>
 <liferay-portlet:actionURL name="deleteDeliberation" var="deleteDeliberationURL">
 	<portlet:param name="cmd" value="deleteDeliberation" />
-	<portlet:param name="tab" value="deliberations" />
+    <portlet:param name="tab" value="deliberations" />
+    <portlet:param name="mvcPath" value="/council-bo-view-deliberations.jsp" />
 	<portlet:param name="deliberationId"
 	    value="${not empty dc.deliberation ? dc.deliberation.deliberationId : ''}" />
 </liferay-portlet:actionURL>
@@ -21,17 +22,17 @@
 	<portlet:param name="tab" value="deliberations" />
 	<portlet:param name="deliberationId"
 	    value="${not empty dc.deliberation ? dc.deliberation.deliberationId : ''}" />
+    <portlet:param name="mvcPath" value="/council-bo-view-deliberations.jsp" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveDeliberation" varImpl="saveDeliberationURL">
-	<portlet:param name="cmd" value="saveDeliberation" />
 	<portlet:param name="tab" value="deliberations" />
 </liferay-portlet:actionURL>
 
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
 	<liferay-ui:error key="title-error" message="title-error" />
@@ -44,7 +45,7 @@
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.deliberation}" model="<%=Deliberation.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+        <div class="sheet"><div class="panel-group panel-group-flush">
 
 			<%-- Champ : (cache) PK de l'entite --%>
 			<aui:input name="deliberationId" type="hidden" />
@@ -175,19 +176,20 @@
             <aui:fieldset collapsed="<%=true%>" cssClass="hidden" collapsible="<%=true%>" label="categorization">
 
                 <%-- Champ : Selection des categories (gere par le portail dans l'onglet "Categories" du BO) --%>
-                <aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
-
+                <liferay-asset:asset-categories-selector
+                        className="<%= Deliberation.class.getName() %>"
+                        classPK="${dc.deliberation.deliberationId}"/>
                 <%-- Hack pour ajouter une validation sur les vocabulaires obligatoires --%>
                 <div class="has-error">
                     <aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
                         <aui:validator name="custom" errorMessage="requested-vocabularies-error">
                             function (val, fieldNode, ruleValue) {
                                 var validated = true;
-                                var fields = document.querySelectorAll('.categories-selectors > .field-content');
+                                var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
                                 for (var i = 0; i < fields.length; i++) {
                                     fieldContent = fields[i];
-                                    if ($(fieldContent).find('.icon-asterisk').length > 0
-                                        && $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+                                    if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
+                                        && $(fieldContent).find('input[type="hidden"]').length == 0) {
                                         validated = false;
                                         break;
                                     }
@@ -199,7 +201,7 @@
                 </div>
             </aui:fieldset>
 
-		</aui:fieldset-group>
+        </div></div>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
 		<aui:button-row>
@@ -221,7 +223,7 @@
             </c:if>
 
 			<%-- Composant : bouton de retour a la liste des entites --%>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 
 		</aui:button-row>
 

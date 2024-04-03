@@ -38,6 +38,7 @@ create table activity_ActivityCourse (
 	price TEXT null,
 	activityId LONG,
 	organizerId LONG,
+	duration INTEGER,
 	imageId LONG,
 	imageIds VARCHAR(75) null,
 	videosIds VARCHAR(75) null,

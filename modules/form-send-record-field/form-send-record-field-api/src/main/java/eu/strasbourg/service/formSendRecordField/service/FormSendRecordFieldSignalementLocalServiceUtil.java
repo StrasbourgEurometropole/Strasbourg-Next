@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.formSendRecordField.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for FormSendRecordFieldSignalement. This utility wraps
@@ -48,10 +47,9 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	 * @param formSendRecordFieldSignalement the form send record field signalement
 	 * @return the form send record field signalement that was added
 	 */
-	public static eu.strasbourg.service.formSendRecordField.model.
-		FormSendRecordFieldSignalement addFormSendRecordFieldSignalement(
-			eu.strasbourg.service.formSendRecordField.model.
-				FormSendRecordFieldSignalement formSendRecordFieldSignalement) {
+	public static FormSendRecordFieldSignalement
+		addFormSendRecordFieldSignalement(
+			FormSendRecordFieldSignalement formSendRecordFieldSignalement) {
 
 		return getService().addFormSendRecordFieldSignalement(
 			formSendRecordFieldSignalement);
@@ -63,9 +61,8 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	 * @param signalementId the primary key for the new form send record field signalement
 	 * @return the new form send record field signalement
 	 */
-	public static eu.strasbourg.service.formSendRecordField.model.
-		FormSendRecordFieldSignalement createFormSendRecordFieldSignalement(
-			long signalementId) {
+	public static FormSendRecordFieldSignalement
+		createFormSendRecordFieldSignalement(long signalementId) {
 
 		return getService().createFormSendRecordFieldSignalement(signalementId);
 	}
@@ -77,12 +74,22 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	 * @return le signalement.
 	 * @throws PortalException l'exception.
 	 */
-	public static eu.strasbourg.service.formSendRecordField.model.
-		FormSendRecordFieldSignalement createFormSendRecordFieldSignalement(
+	public static FormSendRecordFieldSignalement
+			createFormSendRecordFieldSignalement(
 				com.liferay.portal.kernel.service.ServiceContext sc)
-			throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createFormSendRecordFieldSignalement(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -95,10 +102,9 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	 * @param formSendRecordFieldSignalement the form send record field signalement
 	 * @return the form send record field signalement that was removed
 	 */
-	public static eu.strasbourg.service.formSendRecordField.model.
-		FormSendRecordFieldSignalement deleteFormSendRecordFieldSignalement(
-			eu.strasbourg.service.formSendRecordField.model.
-				FormSendRecordFieldSignalement formSendRecordFieldSignalement) {
+	public static FormSendRecordFieldSignalement
+		deleteFormSendRecordFieldSignalement(
+			FormSendRecordFieldSignalement formSendRecordFieldSignalement) {
 
 		return getService().deleteFormSendRecordFieldSignalement(
 			formSendRecordFieldSignalement);
@@ -115,10 +121,9 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	 * @return the form send record field signalement that was removed
 	 * @throws PortalException if a form send record field signalement with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.formSendRecordField.model.
-		FormSendRecordFieldSignalement deleteFormSendRecordFieldSignalement(
-				long signalementId)
-			throws com.liferay.portal.kernel.exception.PortalException {
+	public static FormSendRecordFieldSignalement
+			deleteFormSendRecordFieldSignalement(long signalementId)
+		throws PortalException {
 
 		return getService().deleteFormSendRecordFieldSignalement(signalementId);
 	}
@@ -126,17 +131,22 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -146,9 +156,7 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -164,9 +172,8 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -184,10 +191,9 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -199,9 +205,7 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -213,15 +217,14 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.formSendRecordField.model.
-		FormSendRecordFieldSignalement fetchFormSendRecordFieldSignalement(
-			long signalementId) {
+	public static FormSendRecordFieldSignalement
+		fetchFormSendRecordFieldSignalement(long signalementId) {
 
 		return getService().fetchFormSendRecordFieldSignalement(signalementId);
 	}
@@ -233,19 +236,16 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching form send record field signalement, or <code>null</code> if a matching form send record field signalement could not be found
 	 */
-	public static eu.strasbourg.service.formSendRecordField.model.
-		FormSendRecordFieldSignalement
-			fetchFormSendRecordFieldSignalementByUuidAndGroupId(
-				String uuid, long groupId) {
+	public static FormSendRecordFieldSignalement
+		fetchFormSendRecordFieldSignalementByUuidAndGroupId(
+			String uuid, long groupId) {
 
 		return getService().fetchFormSendRecordFieldSignalementByUuidAndGroupId(
 			uuid, groupId);
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.formSendRecordField.model.
-			FormSendRecordFieldSignalement> findByFormSendRecordFieldId(
-				long formSendRecordFieldId) {
+	public static List<FormSendRecordFieldSignalement>
+		findByFormSendRecordFieldId(long formSendRecordFieldId) {
 
 		return getService().findByFormSendRecordFieldId(formSendRecordFieldId);
 	}
@@ -256,9 +256,8 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.formSendRecordField.model.
-			FormSendRecordFieldSignalement> getByGroupId(long groupId) {
+	public static List<FormSendRecordFieldSignalement> getByGroupId(
+		long groupId) {
 
 		return getService().getByGroupId(groupId);
 	}
@@ -266,9 +265,8 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	/**
 	 * Retourne tous les signalementsd'une réponse à un formulaire d'un utilisateur
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.formSendRecordField.model.
-			FormSendRecordFieldSignalement> getByPublikId(String publikId) {
+	public static List<FormSendRecordFieldSignalement> getByPublikId(
+		String publikId) {
 
 		return getService().getByPublikId(publikId);
 	}
@@ -288,10 +286,9 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	 * @return the form send record field signalement
 	 * @throws PortalException if a form send record field signalement with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.formSendRecordField.model.
-		FormSendRecordFieldSignalement getFormSendRecordFieldSignalement(
-				long signalementId)
-			throws com.liferay.portal.kernel.exception.PortalException {
+	public static FormSendRecordFieldSignalement
+			getFormSendRecordFieldSignalement(long signalementId)
+		throws PortalException {
 
 		return getService().getFormSendRecordFieldSignalement(signalementId);
 	}
@@ -304,11 +301,10 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	 * @return the matching form send record field signalement
 	 * @throws PortalException if a matching form send record field signalement could not be found
 	 */
-	public static eu.strasbourg.service.formSendRecordField.model.
-		FormSendRecordFieldSignalement
-				getFormSendRecordFieldSignalementByUuidAndGroupId(
-					String uuid, long groupId)
-			throws com.liferay.portal.kernel.exception.PortalException {
+	public static FormSendRecordFieldSignalement
+			getFormSendRecordFieldSignalementByUuidAndGroupId(
+				String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getFormSendRecordFieldSignalementByUuidAndGroupId(
 			uuid, groupId);
@@ -325,10 +321,8 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	 * @param end the upper bound of the range of form send record field signalements (not inclusive)
 	 * @return the range of form send record field signalements
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.formSendRecordField.model.
-			FormSendRecordFieldSignalement> getFormSendRecordFieldSignalements(
-				int start, int end) {
+	public static List<FormSendRecordFieldSignalement>
+		getFormSendRecordFieldSignalements(int start, int end) {
 
 		return getService().getFormSendRecordFieldSignalements(start, end);
 	}
@@ -340,11 +334,9 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching form send record field signalements, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.formSendRecordField.model.
-			FormSendRecordFieldSignalement>
-				getFormSendRecordFieldSignalementsByUuidAndCompanyId(
-					String uuid, long companyId) {
+	public static List<FormSendRecordFieldSignalement>
+		getFormSendRecordFieldSignalementsByUuidAndCompanyId(
+			String uuid, long companyId) {
 
 		return getService().
 			getFormSendRecordFieldSignalementsByUuidAndCompanyId(
@@ -361,14 +353,11 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching form send record field signalements, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.formSendRecordField.model.
-			FormSendRecordFieldSignalement>
-				getFormSendRecordFieldSignalementsByUuidAndCompanyId(
-					String uuid, long companyId, int start, int end,
-					com.liferay.portal.kernel.util.OrderByComparator
-						<eu.strasbourg.service.formSendRecordField.model.
-							FormSendRecordFieldSignalement> orderByComparator) {
+	public static List<FormSendRecordFieldSignalement>
+		getFormSendRecordFieldSignalementsByUuidAndCompanyId(
+			String uuid, long companyId, int start, int end,
+			OrderByComparator<FormSendRecordFieldSignalement>
+				orderByComparator) {
 
 		return getService().
 			getFormSendRecordFieldSignalementsByUuidAndCompanyId(
@@ -403,9 +392,8 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -420,51 +408,34 @@ public class FormSendRecordFieldSignalementLocalServiceUtil {
 	 * @param formSendRecordFieldSignalement the form send record field signalement
 	 * @return the form send record field signalement that was updated
 	 */
-	public static eu.strasbourg.service.formSendRecordField.model.
-		FormSendRecordFieldSignalement updateFormSendRecordFieldSignalement(
-			eu.strasbourg.service.formSendRecordField.model.
-				FormSendRecordFieldSignalement formSendRecordFieldSignalement) {
+	public static FormSendRecordFieldSignalement
+		updateFormSendRecordFieldSignalement(
+			FormSendRecordFieldSignalement formSendRecordFieldSignalement) {
 
 		return getService().updateFormSendRecordFieldSignalement(
 			formSendRecordFieldSignalement);
 	}
 
-	public static eu.strasbourg.service.formSendRecordField.model.
-		FormSendRecordFieldSignalement updateFormSendRecordFieldSignalement(
-				eu.strasbourg.service.formSendRecordField.model.
-					FormSendRecordFieldSignalement signalement,
+	public static FormSendRecordFieldSignalement
+			updateFormSendRecordFieldSignalement(
+				FormSendRecordFieldSignalement signalement,
 				com.liferay.portal.kernel.service.ServiceContext sc)
-			throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().updateFormSendRecordFieldSignalement(
 			signalement, sc);
 	}
 
 	public static FormSendRecordFieldSignalementLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<FormSendRecordFieldSignalementLocalService,
-		 FormSendRecordFieldSignalementLocalService> _serviceTracker;
+	public static void setService(
+		FormSendRecordFieldSignalementLocalService service) {
 
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			FormSendRecordFieldSignalementLocalService.class);
-
-		ServiceTracker
-			<FormSendRecordFieldSignalementLocalService,
-			 FormSendRecordFieldSignalementLocalService> serviceTracker =
-				new ServiceTracker
-					<FormSendRecordFieldSignalementLocalService,
-					 FormSendRecordFieldSignalementLocalService>(
-						 bundle.getBundleContext(),
-						 FormSendRecordFieldSignalementLocalService.class,
-						 null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+		_service = service;
 	}
+
+	private static volatile FormSendRecordFieldSignalementLocalService _service;
 
 }

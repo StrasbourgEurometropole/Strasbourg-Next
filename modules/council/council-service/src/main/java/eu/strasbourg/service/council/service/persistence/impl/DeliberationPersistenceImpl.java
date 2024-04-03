@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,30 +19,29 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
-import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.council.exception.NoSuchDeliberationException;
 import eu.strasbourg.service.council.model.Deliberation;
+import eu.strasbourg.service.council.model.DeliberationTable;
 import eu.strasbourg.service.council.model.impl.DeliberationImpl;
 import eu.strasbourg.service.council.model.impl.DeliberationModelImpl;
 import eu.strasbourg.service.council.service.persistence.DeliberationPersistence;
+import eu.strasbourg.service.council.service.persistence.DeliberationUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -181,7 +172,7 @@ public class DeliberationPersistenceImpl
 		List<Deliberation> list = null;
 
 		if (useFinderCache) {
-			list = (List<Deliberation>)finderCache.getResult(
+			list = (List<Deliberation>)dummyFinderCache.getResult(
 				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
@@ -248,14 +239,10 @@ public class DeliberationPersistenceImpl
 				cacheResult(list);
 
 				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
+					dummyFinderCache.putResult(finderPath, finderArgs, list);
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -566,7 +553,8 @@ public class DeliberationPersistenceImpl
 
 		Object[] finderArgs = new Object[] {uuid};
 
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+		Long count = (Long)dummyFinderCache.getResult(
+			finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(2);
@@ -601,11 +589,9 @@ public class DeliberationPersistenceImpl
 
 				count = (Long)query.uniqueResult();
 
-				finderCache.putResult(finderPath, finderArgs, count);
+				dummyFinderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -697,7 +683,7 @@ public class DeliberationPersistenceImpl
 		Object result = null;
 
 		if (useFinderCache) {
-			result = finderCache.getResult(
+			result = dummyFinderCache.getResult(
 				_finderPathFetchByUUID_G, finderArgs, this);
 		}
 
@@ -750,7 +736,7 @@ public class DeliberationPersistenceImpl
 
 				if (list.isEmpty()) {
 					if (useFinderCache) {
-						finderCache.putResult(
+						dummyFinderCache.putResult(
 							_finderPathFetchByUUID_G, finderArgs, list);
 					}
 				}
@@ -763,11 +749,6 @@ public class DeliberationPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -814,7 +795,8 @@ public class DeliberationPersistenceImpl
 
 		Object[] finderArgs = new Object[] {uuid, groupId};
 
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+		Long count = (Long)dummyFinderCache.getResult(
+			finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(3);
@@ -853,11 +835,9 @@ public class DeliberationPersistenceImpl
 
 				count = (Long)query.uniqueResult();
 
-				finderCache.putResult(finderPath, finderArgs, count);
+				dummyFinderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -981,7 +961,7 @@ public class DeliberationPersistenceImpl
 		List<Deliberation> list = null;
 
 		if (useFinderCache) {
-			list = (List<Deliberation>)finderCache.getResult(
+			list = (List<Deliberation>)dummyFinderCache.getResult(
 				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
@@ -1054,14 +1034,10 @@ public class DeliberationPersistenceImpl
 				cacheResult(list);
 
 				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
+					dummyFinderCache.putResult(finderPath, finderArgs, list);
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1400,7 +1376,8 @@ public class DeliberationPersistenceImpl
 
 		Object[] finderArgs = new Object[] {uuid, companyId};
 
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+		Long count = (Long)dummyFinderCache.getResult(
+			finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(3);
@@ -1439,11 +1416,9 @@ public class DeliberationPersistenceImpl
 
 				count = (Long)query.uniqueResult();
 
-				finderCache.putResult(finderPath, finderArgs, count);
+				dummyFinderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1561,7 +1536,7 @@ public class DeliberationPersistenceImpl
 		List<Deliberation> list = null;
 
 		if (useFinderCache) {
-			list = (List<Deliberation>)finderCache.getResult(
+			list = (List<Deliberation>)dummyFinderCache.getResult(
 				finderPath, finderArgs, this);
 
 			if ((list != null) && !list.isEmpty()) {
@@ -1619,14 +1594,10 @@ public class DeliberationPersistenceImpl
 				cacheResult(list);
 
 				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
+					dummyFinderCache.putResult(finderPath, finderArgs, list);
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1933,7 +1904,8 @@ public class DeliberationPersistenceImpl
 
 		Object[] finderArgs = new Object[] {councilSessionId};
 
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+		Long count = (Long)dummyFinderCache.getResult(
+			finderPath, finderArgs, this);
 
 		if (count == null) {
 			StringBundler sb = new StringBundler(2);
@@ -1957,11 +1929,9 @@ public class DeliberationPersistenceImpl
 
 				count = (Long)query.uniqueResult();
 
-				finderCache.putResult(finderPath, finderArgs, count);
+				dummyFinderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1982,21 +1952,14 @@ public class DeliberationPersistenceImpl
 		dbColumnNames.put("uuid", "uuid_");
 		dbColumnNames.put("order", "order_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Deliberation.class);
+
+		setModelImplClass(DeliberationImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(DeliberationTable.INSTANCE);
 	}
 
 	/**
@@ -2006,17 +1969,16 @@ public class DeliberationPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(Deliberation deliberation) {
-		entityCache.putResult(
-			DeliberationModelImpl.ENTITY_CACHE_ENABLED, DeliberationImpl.class,
-			deliberation.getPrimaryKey(), deliberation);
+		dummyEntityCache.putResult(
+			DeliberationImpl.class, deliberation.getPrimaryKey(), deliberation);
 
-		finderCache.putResult(
+		dummyFinderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {deliberation.getUuid(), deliberation.getGroupId()},
 			deliberation);
-
-		deliberation.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the deliberations in the entity cache if it is enabled.
@@ -2025,16 +1987,19 @@ public class DeliberationPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Deliberation> deliberations) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (deliberations.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Deliberation deliberation : deliberations) {
-			if (entityCache.getResult(
-					DeliberationModelImpl.ENTITY_CACHE_ENABLED,
+			if (dummyEntityCache.getResult(
 					DeliberationImpl.class, deliberation.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(deliberation);
-			}
-			else {
-				deliberation.resetOriginalValues();
 			}
 		}
 	}
@@ -2048,11 +2013,9 @@ public class DeliberationPersistenceImpl
 	 */
 	@Override
 	public void clearCache() {
-		entityCache.clearCache(DeliberationImpl.class);
+		dummyEntityCache.clearCache(DeliberationImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		dummyFinderCache.clearCache(DeliberationImpl.class);
 	}
 
 	/**
@@ -2064,39 +2027,22 @@ public class DeliberationPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Deliberation deliberation) {
-		entityCache.removeResult(
-			DeliberationModelImpl.ENTITY_CACHE_ENABLED, DeliberationImpl.class,
-			deliberation.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((DeliberationModelImpl)deliberation, true);
+		dummyEntityCache.removeResult(DeliberationImpl.class, deliberation);
 	}
 
 	@Override
 	public void clearCache(List<Deliberation> deliberations) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Deliberation deliberation : deliberations) {
-			entityCache.removeResult(
-				DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-				DeliberationImpl.class, deliberation.getPrimaryKey());
-
-			clearUniqueFindersCache((DeliberationModelImpl)deliberation, true);
+			dummyEntityCache.removeResult(DeliberationImpl.class, deliberation);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		dummyFinderCache.clearCache(DeliberationImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-				DeliberationImpl.class, primaryKey);
+			dummyEntityCache.removeResult(DeliberationImpl.class, primaryKey);
 		}
 	}
 
@@ -2107,36 +2053,10 @@ public class DeliberationPersistenceImpl
 			deliberationModelImpl.getUuid(), deliberationModelImpl.getGroupId()
 		};
 
-		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, deliberationModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		DeliberationModelImpl deliberationModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				deliberationModelImpl.getUuid(),
-				deliberationModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((deliberationModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				deliberationModelImpl.getOriginalUuid(),
-				deliberationModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+		dummyFinderCache.putResult(
+			_finderPathCountByUUID_G, args, Long.valueOf(1));
+		dummyFinderCache.putResult(
+			_finderPathFetchByUUID_G, args, deliberationModelImpl);
 	}
 
 	/**
@@ -2279,24 +2199,24 @@ public class DeliberationPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (deliberation.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				deliberation.setCreateDate(now);
+				deliberation.setCreateDate(date);
 			}
 			else {
-				deliberation.setCreateDate(serviceContext.getCreateDate(now));
+				deliberation.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!deliberationModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				deliberation.setModifiedDate(now);
+				deliberation.setModifiedDate(date);
 			}
 			else {
 				deliberation.setModifiedDate(
-					serviceContext.getModifiedDate(now));
+					serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -2305,10 +2225,8 @@ public class DeliberationPersistenceImpl
 		try {
 			session = openSession();
 
-			if (deliberation.isNew()) {
+			if (isNew) {
 				session.save(deliberation);
-
-				deliberation.setNew(false);
 			}
 			else {
 				deliberation = (Deliberation)session.merge(deliberation);
@@ -2321,110 +2239,14 @@ public class DeliberationPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		dummyEntityCache.putResult(
+			DeliberationImpl.class, deliberationModelImpl, false, true);
 
-		if (!DeliberationModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {deliberationModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				deliberationModelImpl.getUuid(),
-				deliberationModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {deliberationModelImpl.getCouncilSessionId()};
-
-			finderCache.removeResult(_finderPathCountByCouncilSessionId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByCouncilSessionId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((deliberationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					deliberationModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {deliberationModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((deliberationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					deliberationModelImpl.getOriginalUuid(),
-					deliberationModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					deliberationModelImpl.getUuid(),
-					deliberationModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((deliberationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCouncilSessionId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					deliberationModelImpl.getOriginalCouncilSessionId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByCouncilSessionId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCouncilSessionId, args);
-
-				args = new Object[] {
-					deliberationModelImpl.getCouncilSessionId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByCouncilSessionId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCouncilSessionId, args);
-			}
-		}
-
-		entityCache.putResult(
-			DeliberationModelImpl.ENTITY_CACHE_ENABLED, DeliberationImpl.class,
-			deliberation.getPrimaryKey(), deliberation, false);
-
-		clearUniqueFindersCache(deliberationModelImpl, false);
 		cacheUniqueFindersCache(deliberationModelImpl);
+
+		if (isNew) {
+			deliberation.setNew(false);
+		}
 
 		deliberation.resetOriginalValues();
 
@@ -2473,161 +2295,12 @@ public class DeliberationPersistenceImpl
 	/**
 	 * Returns the deliberation with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the deliberation
-	 * @return the deliberation, or <code>null</code> if a deliberation with the primary key could not be found
-	 */
-	@Override
-	public Deliberation fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			DeliberationModelImpl.ENTITY_CACHE_ENABLED, DeliberationImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Deliberation deliberation = (Deliberation)serializable;
-
-		if (deliberation == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				deliberation = (Deliberation)session.get(
-					DeliberationImpl.class, primaryKey);
-
-				if (deliberation != null) {
-					cacheResult(deliberation);
-				}
-				else {
-					entityCache.putResult(
-						DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-						DeliberationImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-					DeliberationImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return deliberation;
-	}
-
-	/**
-	 * Returns the deliberation with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param deliberationId the primary key of the deliberation
 	 * @return the deliberation, or <code>null</code> if a deliberation with the primary key could not be found
 	 */
 	@Override
 	public Deliberation fetchByPrimaryKey(long deliberationId) {
 		return fetchByPrimaryKey((Serializable)deliberationId);
-	}
-
-	@Override
-	public Map<Serializable, Deliberation> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Deliberation> map =
-			new HashMap<Serializable, Deliberation>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Deliberation deliberation = fetchByPrimaryKey(primaryKey);
-
-			if (deliberation != null) {
-				map.put(primaryKey, deliberation);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-				DeliberationImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Deliberation)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_DELIBERATION_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Deliberation deliberation : (List<Deliberation>)query.list()) {
-				map.put(deliberation.getPrimaryKeyObj(), deliberation);
-
-				cacheResult(deliberation);
-
-				uncachedPrimaryKeys.remove(deliberation.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-					DeliberationImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2712,7 +2385,7 @@ public class DeliberationPersistenceImpl
 		List<Deliberation> list = null;
 
 		if (useFinderCache) {
-			list = (List<Deliberation>)finderCache.getResult(
+			list = (List<Deliberation>)dummyFinderCache.getResult(
 				finderPath, finderArgs, this);
 		}
 
@@ -2750,14 +2423,10 @@ public class DeliberationPersistenceImpl
 				cacheResult(list);
 
 				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
+					dummyFinderCache.putResult(finderPath, finderArgs, list);
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2786,7 +2455,7 @@ public class DeliberationPersistenceImpl
 	 */
 	@Override
 	public int countAll() {
-		Long count = (Long)finderCache.getResult(
+		Long count = (Long)dummyFinderCache.getResult(
 			_finderPathCountAll, FINDER_ARGS_EMPTY, this);
 
 		if (count == null) {
@@ -2799,13 +2468,10 @@ public class DeliberationPersistenceImpl
 
 				count = (Long)query.uniqueResult();
 
-				finderCache.putResult(
+				dummyFinderCache.putResult(
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2822,6 +2488,21 @@ public class DeliberationPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return dummyEntityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "deliberationId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_DELIBERATION;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return DeliberationModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2830,127 +2511,97 @@ public class DeliberationPersistenceImpl
 	 * Initializes the deliberation persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-			DeliberationModelImpl.FINDER_CACHE_ENABLED, DeliberationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-			DeliberationModelImpl.FINDER_CACHE_ENABLED, DeliberationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-			DeliberationModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-			DeliberationModelImpl.FINDER_CACHE_ENABLED, DeliberationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-			DeliberationModelImpl.FINDER_CACHE_ENABLED, DeliberationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			DeliberationModelImpl.UUID_COLUMN_BITMASK |
-			DeliberationModelImpl.TITLE_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-			DeliberationModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-			DeliberationModelImpl.FINDER_CACHE_ENABLED, DeliberationImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			DeliberationModelImpl.UUID_COLUMN_BITMASK |
-			DeliberationModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-			DeliberationModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-			DeliberationModelImpl.FINDER_CACHE_ENABLED, DeliberationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-			DeliberationModelImpl.FINDER_CACHE_ENABLED, DeliberationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			DeliberationModelImpl.UUID_COLUMN_BITMASK |
-			DeliberationModelImpl.COMPANYID_COLUMN_BITMASK |
-			DeliberationModelImpl.TITLE_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-			DeliberationModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByCouncilSessionId = new FinderPath(
-			DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-			DeliberationModelImpl.FINDER_CACHE_ENABLED, DeliberationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCouncilSessionId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"councilSessionId"}, true);
 
 		_finderPathWithoutPaginationFindByCouncilSessionId = new FinderPath(
-			DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-			DeliberationModelImpl.FINDER_CACHE_ENABLED, DeliberationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCouncilSessionId",
 			new String[] {Long.class.getName()},
-			DeliberationModelImpl.COUNCILSESSIONID_COLUMN_BITMASK |
-			DeliberationModelImpl.TITLE_COLUMN_BITMASK);
+			new String[] {"councilSessionId"}, true);
 
 		_finderPathCountByCouncilSessionId = new FinderPath(
-			DeliberationModelImpl.ENTITY_CACHE_ENABLED,
-			DeliberationModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByCouncilSessionId", new String[] {Long.class.getName()});
+			"countByCouncilSessionId", new String[] {Long.class.getName()},
+			new String[] {"councilSessionId"}, false);
+
+		DeliberationUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		entityCache.removeCache(DeliberationImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		DeliberationUtil.setPersistence(null);
+
+		dummyEntityCache.removeCache(DeliberationImpl.class.getName());
 	}
-
-	@ServiceReference(type = EntityCache.class)
-	protected EntityCache entityCache;
-
-	@ServiceReference(type = FinderCache.class)
-	protected FinderCache finderCache;
 
 	private static final String _SQL_SELECT_DELIBERATION =
 		"SELECT deliberation FROM Deliberation deliberation";
-
-	private static final String _SQL_SELECT_DELIBERATION_WHERE_PKS_IN =
-		"SELECT deliberation FROM Deliberation deliberation WHERE deliberationId IN (";
 
 	private static final String _SQL_SELECT_DELIBERATION_WHERE =
 		"SELECT deliberation FROM Deliberation deliberation WHERE ";
@@ -2974,5 +2625,10 @@ public class DeliberationPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "order"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return dummyFinderCache;
+	}
 
 }

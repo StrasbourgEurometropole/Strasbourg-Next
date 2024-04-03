@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.model.impl;
@@ -17,6 +8,7 @@ package eu.strasbourg.service.place.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -32,27 +24,24 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.PlaceModel;
-import eu.strasbourg.service.place.model.PlaceSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -212,139 +201,26 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.place.model.Place"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.place.model.Place"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
 		eu.strasbourg.service.place.service.util.PropsUtil.get(
 			"value.object.column.bitmask.enabled.eu.strasbourg.service.place.model.Place"),
 		true);
-
-	public static final long SIGID_COLUMN_BITMASK = 1L;
-
-	public static final long COMPANYID_COLUMN_BITMASK = 2L;
-
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
-
-	public static final long NAME_COLUMN_BITMASK = 8L;
-
-	public static final long PRICEID_COLUMN_BITMASK = 16L;
-
-	public static final long UUID_COLUMN_BITMASK = 32L;
-
-	public static final long PLACEID_COLUMN_BITMASK = 64L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Place toModel(PlaceSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Place model = new PlaceImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setPlaceId(soapModel.getPlaceId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setLastPublishDate(soapModel.getLastPublishDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setSIGid(soapModel.getSIGid());
-		model.setName(soapModel.getName());
-		model.setAddressComplement(soapModel.getAddressComplement());
-		model.setAddressStreet(soapModel.getAddressStreet());
-		model.setAddressDistribution(soapModel.getAddressDistribution());
-		model.setAddressZipCode(soapModel.getAddressZipCode());
-		model.setAddressCountry(soapModel.getAddressCountry());
-		model.setMercatorX(soapModel.getMercatorX());
-		model.setMercatorY(soapModel.getMercatorY());
-		model.setRGF93X(soapModel.getRGF93X());
-		model.setRGF93Y(soapModel.getRGF93Y());
-		model.setLocationId(soapModel.getLocationId());
-		model.setAlias(soapModel.getAlias());
-		model.setPresentation(soapModel.getPresentation());
-		model.setServiceAndActivities(soapModel.getServiceAndActivities());
-		model.setCharacteristics(soapModel.getCharacteristics());
-		model.setSubjectToPublicHoliday(soapModel.isSubjectToPublicHoliday());
-		model.setExceptionalSchedule(soapModel.getExceptionalSchedule());
-		model.setDisplayEvents(soapModel.isDisplayEvents());
-		model.setAdditionalInformation(soapModel.getAdditionalInformation());
-		model.setContenuTooltipCarto(soapModel.getContenuTooltipCarto());
-		model.setHasURLSchedule(soapModel.isHasURLSchedule());
-		model.setScheduleLinkName(soapModel.getScheduleLinkName());
-		model.setScheduleLinkURL(soapModel.getScheduleLinkURL());
-		model.setPhone(soapModel.getPhone());
-		model.setMail(soapModel.getMail());
-		model.setSiteURL(soapModel.getSiteURL());
-		model.setSiteLabel(soapModel.getSiteLabel());
-		model.setFacebookURL(soapModel.getFacebookURL());
-		model.setFacebookLabel(soapModel.getFacebookLabel());
-		model.setInstagramURL(soapModel.getInstagramURL());
-		model.setInstagramLabel(soapModel.getInstagramLabel());
-		model.setAccesMap(soapModel.getAccesMap());
-		model.setAccess(soapModel.getAccess());
-		model.setAccessForDisabled(soapModel.getAccessForDisabled());
-		model.setAccessForBlind(soapModel.getAccessForBlind());
-		model.setAccessForDeaf(soapModel.getAccessForDeaf());
-		model.setAccessForWheelchair(soapModel.getAccessForWheelchair());
-		model.setAccessForElder(soapModel.getAccessForElder());
-		model.setAccessForDeficient(soapModel.getAccessForDeficient());
-		model.setRTEnabled(soapModel.getRTEnabled());
-		model.setRTType(soapModel.getRTType());
-		model.setRTExternalId(soapModel.getRTExternalId());
-		model.setRTAvailable(soapModel.getRTAvailable());
-		model.setRTOccupation(soapModel.getRTOccupation());
-		model.setRTCapacity(soapModel.getRTCapacity());
-		model.setRTStatus(soapModel.getRTStatus());
-		model.setRTLastUpdate(soapModel.getRTLastUpdate());
-		model.setImageId(soapModel.getImageId());
-		model.setImageWidth(soapModel.getImageWidth());
-		model.setImageHeight(soapModel.getImageHeight());
-		model.setImageIds(soapModel.getImageIds());
-		model.setVideosIds(soapModel.getVideosIds());
-		model.setPriceId(soapModel.getPriceId());
-		model.setDocumentsIds(soapModel.getDocumentsIds());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Place> toModels(PlaceSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Place> models = new ArrayList<Place>(soapModels.length);
-
-		for (PlaceSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.place.service.util.PropsUtil.get(
@@ -400,9 +276,6 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 				attributeName, attributeGetterFunction.apply((Place)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -424,1446 +297,317 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	}
 
 	public Map<String, Function<Place, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Place, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Place>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Place.class.getClassLoader(), Place.class, ModelWrapper.class);
+		private static final Map<String, Function<Place, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Place> constructor =
-				(Constructor<Place>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Place, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Place, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Place::getUuid);
+			attributeGetterFunctions.put("placeId", Place::getPlaceId);
+			attributeGetterFunctions.put("groupId", Place::getGroupId);
+			attributeGetterFunctions.put("companyId", Place::getCompanyId);
+			attributeGetterFunctions.put("userId", Place::getUserId);
+			attributeGetterFunctions.put("userName", Place::getUserName);
+			attributeGetterFunctions.put("createDate", Place::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Place::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", Place::getLastPublishDate);
+			attributeGetterFunctions.put("status", Place::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Place::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Place::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Place::getStatusDate);
+			attributeGetterFunctions.put("SIGid", Place::getSIGid);
+			attributeGetterFunctions.put("name", Place::getName);
+			attributeGetterFunctions.put(
+				"addressComplement", Place::getAddressComplement);
+			attributeGetterFunctions.put(
+				"addressStreet", Place::getAddressStreet);
+			attributeGetterFunctions.put(
+				"addressDistribution", Place::getAddressDistribution);
+			attributeGetterFunctions.put(
+				"addressZipCode", Place::getAddressZipCode);
+			attributeGetterFunctions.put(
+				"addressCountry", Place::getAddressCountry);
+			attributeGetterFunctions.put("mercatorX", Place::getMercatorX);
+			attributeGetterFunctions.put("mercatorY", Place::getMercatorY);
+			attributeGetterFunctions.put("RGF93X", Place::getRGF93X);
+			attributeGetterFunctions.put("RGF93Y", Place::getRGF93Y);
+			attributeGetterFunctions.put("locationId", Place::getLocationId);
+			attributeGetterFunctions.put("alias", Place::getAlias);
+			attributeGetterFunctions.put(
+				"presentation", Place::getPresentation);
+			attributeGetterFunctions.put(
+				"serviceAndActivities", Place::getServiceAndActivities);
+			attributeGetterFunctions.put(
+				"characteristics", Place::getCharacteristics);
+			attributeGetterFunctions.put(
+				"subjectToPublicHoliday", Place::getSubjectToPublicHoliday);
+			attributeGetterFunctions.put(
+				"exceptionalSchedule", Place::getExceptionalSchedule);
+			attributeGetterFunctions.put(
+				"displayEvents", Place::getDisplayEvents);
+			attributeGetterFunctions.put(
+				"additionalInformation", Place::getAdditionalInformation);
+			attributeGetterFunctions.put(
+				"contenuTooltipCarto", Place::getContenuTooltipCarto);
+			attributeGetterFunctions.put(
+				"hasURLSchedule", Place::getHasURLSchedule);
+			attributeGetterFunctions.put(
+				"scheduleLinkName", Place::getScheduleLinkName);
+			attributeGetterFunctions.put(
+				"scheduleLinkURL", Place::getScheduleLinkURL);
+			attributeGetterFunctions.put("phone", Place::getPhone);
+			attributeGetterFunctions.put("mail", Place::getMail);
+			attributeGetterFunctions.put("siteURL", Place::getSiteURL);
+			attributeGetterFunctions.put("siteLabel", Place::getSiteLabel);
+			attributeGetterFunctions.put("facebookURL", Place::getFacebookURL);
+			attributeGetterFunctions.put(
+				"facebookLabel", Place::getFacebookLabel);
+			attributeGetterFunctions.put(
+				"instagramURL", Place::getInstagramURL);
+			attributeGetterFunctions.put(
+				"instagramLabel", Place::getInstagramLabel);
+			attributeGetterFunctions.put("accesMap", Place::getAccesMap);
+			attributeGetterFunctions.put("access", Place::getAccess);
+			attributeGetterFunctions.put(
+				"accessForDisabled", Place::getAccessForDisabled);
+			attributeGetterFunctions.put(
+				"accessForBlind", Place::getAccessForBlind);
+			attributeGetterFunctions.put(
+				"accessForDeaf", Place::getAccessForDeaf);
+			attributeGetterFunctions.put(
+				"accessForWheelchair", Place::getAccessForWheelchair);
+			attributeGetterFunctions.put(
+				"accessForElder", Place::getAccessForElder);
+			attributeGetterFunctions.put(
+				"accessForDeficient", Place::getAccessForDeficient);
+			attributeGetterFunctions.put("RTEnabled", Place::getRTEnabled);
+			attributeGetterFunctions.put("RTType", Place::getRTType);
+			attributeGetterFunctions.put(
+				"RTExternalId", Place::getRTExternalId);
+			attributeGetterFunctions.put("RTAvailable", Place::getRTAvailable);
+			attributeGetterFunctions.put(
+				"RTOccupation", Place::getRTOccupation);
+			attributeGetterFunctions.put("RTCapacity", Place::getRTCapacity);
+			attributeGetterFunctions.put("RTStatus", Place::getRTStatus);
+			attributeGetterFunctions.put(
+				"RTLastUpdate", Place::getRTLastUpdate);
+			attributeGetterFunctions.put("imageId", Place::getImageId);
+			attributeGetterFunctions.put("imageWidth", Place::getImageWidth);
+			attributeGetterFunctions.put("imageHeight", Place::getImageHeight);
+			attributeGetterFunctions.put("imageIds", Place::getImageIds);
+			attributeGetterFunctions.put("videosIds", Place::getVideosIds);
+			attributeGetterFunctions.put("priceId", Place::getPriceId);
+			attributeGetterFunctions.put(
+				"documentsIds", Place::getDocumentsIds);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Place, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Place, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Place, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Place, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Place, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Place, String>)Place::setUuid);
+			attributeSetterBiConsumers.put(
+				"placeId", (BiConsumer<Place, Long>)Place::setPlaceId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Place, Long>)Place::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId", (BiConsumer<Place, Long>)Place::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Place, Long>)Place::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName", (BiConsumer<Place, String>)Place::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate", (BiConsumer<Place, Date>)Place::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Place, Date>)Place::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<Place, Date>)Place::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Place, Integer>)Place::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Place, Long>)Place::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Place, String>)Place::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate", (BiConsumer<Place, Date>)Place::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"SIGid", (BiConsumer<Place, String>)Place::setSIGid);
+			attributeSetterBiConsumers.put(
+				"name", (BiConsumer<Place, String>)Place::setName);
+			attributeSetterBiConsumers.put(
+				"addressComplement",
+				(BiConsumer<Place, String>)Place::setAddressComplement);
+			attributeSetterBiConsumers.put(
+				"addressStreet",
+				(BiConsumer<Place, String>)Place::setAddressStreet);
+			attributeSetterBiConsumers.put(
+				"addressDistribution",
+				(BiConsumer<Place, String>)Place::setAddressDistribution);
+			attributeSetterBiConsumers.put(
+				"addressZipCode",
+				(BiConsumer<Place, String>)Place::setAddressZipCode);
+			attributeSetterBiConsumers.put(
+				"addressCountry",
+				(BiConsumer<Place, String>)Place::setAddressCountry);
+			attributeSetterBiConsumers.put(
+				"mercatorX", (BiConsumer<Place, String>)Place::setMercatorX);
+			attributeSetterBiConsumers.put(
+				"mercatorY", (BiConsumer<Place, String>)Place::setMercatorY);
+			attributeSetterBiConsumers.put(
+				"RGF93X", (BiConsumer<Place, String>)Place::setRGF93X);
+			attributeSetterBiConsumers.put(
+				"RGF93Y", (BiConsumer<Place, String>)Place::setRGF93Y);
+			attributeSetterBiConsumers.put(
+				"locationId", (BiConsumer<Place, String>)Place::setLocationId);
+			attributeSetterBiConsumers.put(
+				"alias", (BiConsumer<Place, String>)Place::setAlias);
+			attributeSetterBiConsumers.put(
+				"presentation",
+				(BiConsumer<Place, String>)Place::setPresentation);
+			attributeSetterBiConsumers.put(
+				"serviceAndActivities",
+				(BiConsumer<Place, String>)Place::setServiceAndActivities);
+			attributeSetterBiConsumers.put(
+				"characteristics",
+				(BiConsumer<Place, String>)Place::setCharacteristics);
+			attributeSetterBiConsumers.put(
+				"subjectToPublicHoliday",
+				(BiConsumer<Place, Boolean>)Place::setSubjectToPublicHoliday);
+			attributeSetterBiConsumers.put(
+				"exceptionalSchedule",
+				(BiConsumer<Place, String>)Place::setExceptionalSchedule);
+			attributeSetterBiConsumers.put(
+				"displayEvents",
+				(BiConsumer<Place, Boolean>)Place::setDisplayEvents);
+			attributeSetterBiConsumers.put(
+				"additionalInformation",
+				(BiConsumer<Place, String>)Place::setAdditionalInformation);
+			attributeSetterBiConsumers.put(
+				"contenuTooltipCarto",
+				(BiConsumer<Place, String>)Place::setContenuTooltipCarto);
+			attributeSetterBiConsumers.put(
+				"hasURLSchedule",
+				(BiConsumer<Place, Boolean>)Place::setHasURLSchedule);
+			attributeSetterBiConsumers.put(
+				"scheduleLinkName",
+				(BiConsumer<Place, String>)Place::setScheduleLinkName);
+			attributeSetterBiConsumers.put(
+				"scheduleLinkURL",
+				(BiConsumer<Place, String>)Place::setScheduleLinkURL);
+			attributeSetterBiConsumers.put(
+				"phone", (BiConsumer<Place, String>)Place::setPhone);
+			attributeSetterBiConsumers.put(
+				"mail", (BiConsumer<Place, String>)Place::setMail);
+			attributeSetterBiConsumers.put(
+				"siteURL", (BiConsumer<Place, String>)Place::setSiteURL);
+			attributeSetterBiConsumers.put(
+				"siteLabel", (BiConsumer<Place, String>)Place::setSiteLabel);
+			attributeSetterBiConsumers.put(
+				"facebookURL",
+				(BiConsumer<Place, String>)Place::setFacebookURL);
+			attributeSetterBiConsumers.put(
+				"facebookLabel",
+				(BiConsumer<Place, String>)Place::setFacebookLabel);
+			attributeSetterBiConsumers.put(
+				"instagramURL",
+				(BiConsumer<Place, String>)Place::setInstagramURL);
+			attributeSetterBiConsumers.put(
+				"instagramLabel",
+				(BiConsumer<Place, String>)Place::setInstagramLabel);
+			attributeSetterBiConsumers.put(
+				"accesMap", (BiConsumer<Place, String>)Place::setAccesMap);
+			attributeSetterBiConsumers.put(
+				"access", (BiConsumer<Place, String>)Place::setAccess);
+			attributeSetterBiConsumers.put(
+				"accessForDisabled",
+				(BiConsumer<Place, String>)Place::setAccessForDisabled);
+			attributeSetterBiConsumers.put(
+				"accessForBlind",
+				(BiConsumer<Place, Boolean>)Place::setAccessForBlind);
+			attributeSetterBiConsumers.put(
+				"accessForDeaf",
+				(BiConsumer<Place, Boolean>)Place::setAccessForDeaf);
+			attributeSetterBiConsumers.put(
+				"accessForWheelchair",
+				(BiConsumer<Place, Boolean>)Place::setAccessForWheelchair);
+			attributeSetterBiConsumers.put(
+				"accessForElder",
+				(BiConsumer<Place, Boolean>)Place::setAccessForElder);
+			attributeSetterBiConsumers.put(
+				"accessForDeficient",
+				(BiConsumer<Place, Boolean>)Place::setAccessForDeficient);
+			attributeSetterBiConsumers.put(
+				"RTEnabled", (BiConsumer<Place, Boolean>)Place::setRTEnabled);
+			attributeSetterBiConsumers.put(
+				"RTType", (BiConsumer<Place, String>)Place::setRTType);
+			attributeSetterBiConsumers.put(
+				"RTExternalId",
+				(BiConsumer<Place, String>)Place::setRTExternalId);
+			attributeSetterBiConsumers.put(
+				"RTAvailable", (BiConsumer<Place, Long>)Place::setRTAvailable);
+			attributeSetterBiConsumers.put(
+				"RTOccupation",
+				(BiConsumer<Place, Long>)Place::setRTOccupation);
+			attributeSetterBiConsumers.put(
+				"RTCapacity", (BiConsumer<Place, Long>)Place::setRTCapacity);
+			attributeSetterBiConsumers.put(
+				"RTStatus", (BiConsumer<Place, String>)Place::setRTStatus);
+			attributeSetterBiConsumers.put(
+				"RTLastUpdate",
+				(BiConsumer<Place, Date>)Place::setRTLastUpdate);
+			attributeSetterBiConsumers.put(
+				"imageId", (BiConsumer<Place, Long>)Place::setImageId);
+			attributeSetterBiConsumers.put(
+				"imageWidth", (BiConsumer<Place, Integer>)Place::setImageWidth);
+			attributeSetterBiConsumers.put(
+				"imageHeight",
+				(BiConsumer<Place, Integer>)Place::setImageHeight);
+			attributeSetterBiConsumers.put(
+				"imageIds", (BiConsumer<Place, String>)Place::setImageIds);
+			attributeSetterBiConsumers.put(
+				"videosIds", (BiConsumer<Place, String>)Place::setVideosIds);
+			attributeSetterBiConsumers.put(
+				"priceId", (BiConsumer<Place, Long>)Place::setPriceId);
+			attributeSetterBiConsumers.put(
+				"documentsIds",
+				(BiConsumer<Place, String>)Place::setDocumentsIds);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<Place, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Place, Object>>();
-		Map<String, BiConsumer<Place, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Place, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object uuidObject) {
-					place.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"placeId",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getPlaceId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"placeId",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object placeIdObject) {
-					place.setPlaceId((Long)placeIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object groupIdObject) {
-					place.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object companyIdObject) {
-					place.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object userIdObject) {
-					place.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object userNameObject) {
-					place.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object createDateObject) {
-					place.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object modifiedDateObject) {
-					place.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getLastPublishDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object lastPublishDateObject) {
-					place.setLastPublishDate((Date)lastPublishDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object statusObject) {
-					place.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object statusByUserIdObject) {
-					place.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object statusByUserNameObject) {
-					place.setStatusByUserName((String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object statusDateObject) {
-					place.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"SIGid",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getSIGid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"SIGid",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object SIGidObject) {
-					place.setSIGid((String)SIGidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"name",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object nameObject) {
-					place.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"addressComplement",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getAddressComplement();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"addressComplement",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(
-					Place place, Object addressComplementObject) {
-
-					place.setAddressComplement((String)addressComplementObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"addressStreet",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getAddressStreet();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"addressStreet",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object addressStreetObject) {
-					place.setAddressStreet((String)addressStreetObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"addressDistribution",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getAddressDistribution();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"addressDistribution",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(
-					Place place, Object addressDistributionObject) {
-
-					place.setAddressDistribution(
-						(String)addressDistributionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"addressZipCode",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getAddressZipCode();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"addressZipCode",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object addressZipCodeObject) {
-					place.setAddressZipCode((String)addressZipCodeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"addressCountry",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getAddressCountry();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"addressCountry",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object addressCountryObject) {
-					place.setAddressCountry((String)addressCountryObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"mercatorX",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getMercatorX();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"mercatorX",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object mercatorXObject) {
-					place.setMercatorX((String)mercatorXObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"mercatorY",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getMercatorY();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"mercatorY",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object mercatorYObject) {
-					place.setMercatorY((String)mercatorYObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"RGF93X",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getRGF93X();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"RGF93X",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object RGF93XObject) {
-					place.setRGF93X((String)RGF93XObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"RGF93Y",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getRGF93Y();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"RGF93Y",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object RGF93YObject) {
-					place.setRGF93Y((String)RGF93YObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"locationId",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getLocationId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"locationId",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object locationIdObject) {
-					place.setLocationId((String)locationIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"alias",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getAlias();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"alias",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object aliasObject) {
-					place.setAlias((String)aliasObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"presentation",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getPresentation();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"presentation",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object presentationObject) {
-					place.setPresentation((String)presentationObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"serviceAndActivities",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getServiceAndActivities();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"serviceAndActivities",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(
-					Place place, Object serviceAndActivitiesObject) {
-
-					place.setServiceAndActivities(
-						(String)serviceAndActivitiesObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"characteristics",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getCharacteristics();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"characteristics",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object characteristicsObject) {
-					place.setCharacteristics((String)characteristicsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"subjectToPublicHoliday",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getSubjectToPublicHoliday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"subjectToPublicHoliday",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(
-					Place place, Object subjectToPublicHolidayObject) {
-
-					place.setSubjectToPublicHoliday(
-						(Boolean)subjectToPublicHolidayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"exceptionalSchedule",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getExceptionalSchedule();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"exceptionalSchedule",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(
-					Place place, Object exceptionalScheduleObject) {
-
-					place.setExceptionalSchedule(
-						(String)exceptionalScheduleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"displayEvents",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getDisplayEvents();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"displayEvents",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object displayEventsObject) {
-					place.setDisplayEvents((Boolean)displayEventsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"additionalInformation",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getAdditionalInformation();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"additionalInformation",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(
-					Place place, Object additionalInformationObject) {
-
-					place.setAdditionalInformation(
-						(String)additionalInformationObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"contenuTooltipCarto",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getContenuTooltipCarto();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"contenuTooltipCarto",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(
-					Place place, Object contenuTooltipCartoObject) {
-
-					place.setContenuTooltipCarto(
-						(String)contenuTooltipCartoObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"hasURLSchedule",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getHasURLSchedule();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"hasURLSchedule",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object hasURLScheduleObject) {
-					place.setHasURLSchedule((Boolean)hasURLScheduleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"scheduleLinkName",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getScheduleLinkName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"scheduleLinkName",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object scheduleLinkNameObject) {
-					place.setScheduleLinkName((String)scheduleLinkNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"scheduleLinkURL",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getScheduleLinkURL();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"scheduleLinkURL",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object scheduleLinkURLObject) {
-					place.setScheduleLinkURL((String)scheduleLinkURLObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"phone",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getPhone();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"phone",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object phoneObject) {
-					place.setPhone((String)phoneObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"mail",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getMail();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"mail",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object mailObject) {
-					place.setMail((String)mailObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"siteURL",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getSiteURL();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"siteURL",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object siteURLObject) {
-					place.setSiteURL((String)siteURLObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"siteLabel",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getSiteLabel();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"siteLabel",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object siteLabelObject) {
-					place.setSiteLabel((String)siteLabelObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"facebookURL",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getFacebookURL();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"facebookURL",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object facebookURLObject) {
-					place.setFacebookURL((String)facebookURLObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"facebookLabel",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getFacebookLabel();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"facebookLabel",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object facebookLabelObject) {
-					place.setFacebookLabel((String)facebookLabelObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"instagramURL",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getInstagramURL();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"instagramURL",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object instagramURLObject) {
-					place.setInstagramURL((String)instagramURLObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"instagramLabel",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getInstagramLabel();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"instagramLabel",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object instagramLabelObject) {
-					place.setInstagramLabel((String)instagramLabelObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"accesMap",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getAccesMap();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"accesMap",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object accesMapObject) {
-					place.setAccesMap((String)accesMapObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"access",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getAccess();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"access",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object accessObject) {
-					place.setAccess((String)accessObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"accessForDisabled",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getAccessForDisabled();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"accessForDisabled",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(
-					Place place, Object accessForDisabledObject) {
-
-					place.setAccessForDisabled((String)accessForDisabledObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"accessForBlind",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getAccessForBlind();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"accessForBlind",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object accessForBlindObject) {
-					place.setAccessForBlind((Boolean)accessForBlindObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"accessForDeaf",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getAccessForDeaf();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"accessForDeaf",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object accessForDeafObject) {
-					place.setAccessForDeaf((Boolean)accessForDeafObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"accessForWheelchair",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getAccessForWheelchair();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"accessForWheelchair",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(
-					Place place, Object accessForWheelchairObject) {
-
-					place.setAccessForWheelchair(
-						(Boolean)accessForWheelchairObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"accessForElder",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getAccessForElder();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"accessForElder",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object accessForElderObject) {
-					place.setAccessForElder((Boolean)accessForElderObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"accessForDeficient",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getAccessForDeficient();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"accessForDeficient",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(
-					Place place, Object accessForDeficientObject) {
-
-					place.setAccessForDeficient(
-						(Boolean)accessForDeficientObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"RTEnabled",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getRTEnabled();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"RTEnabled",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object RTEnabledObject) {
-					place.setRTEnabled((Boolean)RTEnabledObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"RTType",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getRTType();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"RTType",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object RTTypeObject) {
-					place.setRTType((String)RTTypeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"RTExternalId",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getRTExternalId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"RTExternalId",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object RTExternalIdObject) {
-					place.setRTExternalId((String)RTExternalIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"RTAvailable",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getRTAvailable();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"RTAvailable",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object RTAvailableObject) {
-					place.setRTAvailable((Long)RTAvailableObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"RTOccupation",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getRTOccupation();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"RTOccupation",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object RTOccupationObject) {
-					place.setRTOccupation((Long)RTOccupationObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"RTCapacity",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getRTCapacity();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"RTCapacity",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object RTCapacityObject) {
-					place.setRTCapacity((Long)RTCapacityObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"RTStatus",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getRTStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"RTStatus",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object RTStatusObject) {
-					place.setRTStatus((String)RTStatusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"RTLastUpdate",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getRTLastUpdate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"RTLastUpdate",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object RTLastUpdateObject) {
-					place.setRTLastUpdate((Date)RTLastUpdateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageId",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getImageId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"imageId",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object imageIdObject) {
-					place.setImageId((Long)imageIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageWidth",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getImageWidth();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"imageWidth",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object imageWidthObject) {
-					place.setImageWidth((Integer)imageWidthObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageHeight",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getImageHeight();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"imageHeight",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object imageHeightObject) {
-					place.setImageHeight((Integer)imageHeightObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageIds",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getImageIds();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"imageIds",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object imageIdsObject) {
-					place.setImageIds((String)imageIdsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"videosIds",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getVideosIds();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"videosIds",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object videosIdsObject) {
-					place.setVideosIds((String)videosIdsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"priceId",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getPriceId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"priceId",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object priceIdObject) {
-					place.setPriceId((Long)priceIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"documentsIds",
-			new Function<Place, Object>() {
-
-				@Override
-				public Object apply(Place place) {
-					return place.getDocumentsIds();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"documentsIds",
-			new BiConsumer<Place, Object>() {
-
-				@Override
-				public void accept(Place place, Object documentsIdsObject) {
-					place.setDocumentsIds((String)documentsIdsObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -1879,17 +623,20 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -1900,6 +647,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setPlaceId(long placeId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_placeId = placeId;
 	}
 
@@ -1911,19 +662,20 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -1934,19 +686,21 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -1957,6 +711,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -1989,6 +747,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -2000,6 +762,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -2017,6 +783,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -2028,6 +798,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -2039,6 +813,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -2050,6 +828,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -2082,6 +864,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -2093,6 +879,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -2109,17 +899,20 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setSIGid(String SIGid) {
-		_columnBitmask |= SIGID_COLUMN_BITMASK;
-
-		if (_originalSIGid == null) {
-			_originalSIGid = _SIGid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_SIGid = SIGid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalSIGid() {
-		return GetterUtil.getString(_originalSIGid);
+		return getColumnOriginalValue("SIGid");
 	}
 
 	@JSON
@@ -2135,17 +928,20 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask |= NAME_COLUMN_BITMASK;
-
-		if (_originalName == null) {
-			_originalName = _name;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_name = name;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalName() {
-		return GetterUtil.getString(_originalName);
+		return getColumnOriginalValue("name");
 	}
 
 	@JSON
@@ -2161,6 +957,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setAddressComplement(String addressComplement) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_addressComplement = addressComplement;
 	}
 
@@ -2177,6 +977,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setAddressStreet(String addressStreet) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_addressStreet = addressStreet;
 	}
 
@@ -2193,6 +997,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setAddressDistribution(String addressDistribution) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_addressDistribution = addressDistribution;
 	}
 
@@ -2209,6 +1017,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setAddressZipCode(String addressZipCode) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_addressZipCode = addressZipCode;
 	}
 
@@ -2225,6 +1037,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setAddressCountry(String addressCountry) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_addressCountry = addressCountry;
 	}
 
@@ -2241,6 +1057,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setMercatorX(String mercatorX) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mercatorX = mercatorX;
 	}
 
@@ -2257,6 +1077,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setMercatorY(String mercatorY) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mercatorY = mercatorY;
 	}
 
@@ -2273,6 +1097,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setRGF93X(String RGF93X) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_RGF93X = RGF93X;
 	}
 
@@ -2289,6 +1117,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setRGF93Y(String RGF93Y) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_RGF93Y = RGF93Y;
 	}
 
@@ -2305,6 +1137,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setLocationId(String locationId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_locationId = locationId;
 	}
 
@@ -2364,6 +1200,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setAlias(String alias) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_alias = alias;
 	}
 
@@ -2469,6 +1309,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setPresentation(String presentation) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_presentation = presentation;
 	}
 
@@ -2580,6 +1424,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setServiceAndActivities(String serviceAndActivities) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_serviceAndActivities = serviceAndActivities;
 	}
 
@@ -2697,6 +1545,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setCharacteristics(String characteristics) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_characteristics = characteristics;
 	}
 
@@ -2764,6 +1616,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setSubjectToPublicHoliday(boolean subjectToPublicHoliday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_subjectToPublicHoliday = subjectToPublicHoliday;
 	}
 
@@ -2826,6 +1682,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setExceptionalSchedule(String exceptionalSchedule) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_exceptionalSchedule = exceptionalSchedule;
 	}
 
@@ -2899,6 +1759,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setDisplayEvents(boolean displayEvents) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_displayEvents = displayEvents;
 	}
 
@@ -2961,6 +1825,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setAdditionalInformation(String additionalInformation) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_additionalInformation = additionalInformation;
 	}
 
@@ -3080,6 +1948,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setContenuTooltipCarto(String contenuTooltipCarto) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_contenuTooltipCarto = contenuTooltipCarto;
 	}
 
@@ -3153,6 +2025,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setHasURLSchedule(boolean hasURLSchedule) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_hasURLSchedule = hasURLSchedule;
 	}
 
@@ -3213,6 +2089,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setScheduleLinkName(String scheduleLinkName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_scheduleLinkName = scheduleLinkName;
 	}
 
@@ -3326,6 +2206,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setScheduleLinkURL(String scheduleLinkURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_scheduleLinkURL = scheduleLinkURL;
 	}
 
@@ -3392,6 +2276,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setPhone(String phone) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_phone = phone;
 	}
 
@@ -3408,6 +2296,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setMail(String mail) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mail = mail;
 	}
 
@@ -3467,6 +2359,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setSiteURL(String siteURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_siteURL = siteURL;
 	}
 
@@ -3575,6 +2471,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setSiteLabel(String siteLabel) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_siteLabel = siteLabel;
 	}
 
@@ -3683,6 +2583,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setFacebookURL(String facebookURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_facebookURL = facebookURL;
 	}
 
@@ -3791,6 +2695,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setFacebookLabel(String facebookLabel) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_facebookLabel = facebookLabel;
 	}
 
@@ -3899,6 +2807,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setInstagramURL(String instagramURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_instagramURL = instagramURL;
 	}
 
@@ -4008,6 +2920,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setInstagramLabel(String instagramLabel) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_instagramLabel = instagramLabel;
 	}
 
@@ -4116,6 +3032,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setAccesMap(String accesMap) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_accesMap = accesMap;
 	}
 
@@ -4224,6 +3144,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setAccess(String access) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_access = access;
 	}
 
@@ -4331,6 +3255,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setAccessForDisabled(String accessForDisabled) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_accessForDisabled = accessForDisabled;
 	}
 
@@ -4395,6 +3323,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setAccessForBlind(Boolean accessForBlind) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_accessForBlind = accessForBlind;
 	}
 
@@ -4406,6 +3338,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setAccessForDeaf(Boolean accessForDeaf) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_accessForDeaf = accessForDeaf;
 	}
 
@@ -4417,6 +3353,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setAccessForWheelchair(Boolean accessForWheelchair) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_accessForWheelchair = accessForWheelchair;
 	}
 
@@ -4428,6 +3368,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setAccessForElder(Boolean accessForElder) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_accessForElder = accessForElder;
 	}
 
@@ -4439,6 +3383,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setAccessForDeficient(Boolean accessForDeficient) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_accessForDeficient = accessForDeficient;
 	}
 
@@ -4450,6 +3398,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setRTEnabled(Boolean RTEnabled) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_RTEnabled = RTEnabled;
 	}
 
@@ -4466,6 +3418,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setRTType(String RTType) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_RTType = RTType;
 	}
 
@@ -4482,6 +3438,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setRTExternalId(String RTExternalId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_RTExternalId = RTExternalId;
 	}
 
@@ -4493,6 +3453,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setRTAvailable(long RTAvailable) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_RTAvailable = RTAvailable;
 	}
 
@@ -4504,6 +3468,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setRTOccupation(long RTOccupation) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_RTOccupation = RTOccupation;
 	}
 
@@ -4515,6 +3483,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setRTCapacity(long RTCapacity) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_RTCapacity = RTCapacity;
 	}
 
@@ -4531,6 +3503,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setRTStatus(String RTStatus) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_RTStatus = RTStatus;
 	}
 
@@ -4542,6 +3518,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setRTLastUpdate(Date RTLastUpdate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_RTLastUpdate = RTLastUpdate;
 	}
 
@@ -4553,6 +3533,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setImageId(long imageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageId = imageId;
 	}
 
@@ -4564,6 +3548,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setImageWidth(Integer imageWidth) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageWidth = imageWidth;
 	}
 
@@ -4575,6 +3563,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setImageHeight(Integer imageHeight) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageHeight = imageHeight;
 	}
 
@@ -4591,6 +3583,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setImageIds(String imageIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageIds = imageIds;
 	}
 
@@ -4607,6 +3603,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setVideosIds(String videosIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_videosIds = videosIds;
 	}
 
@@ -4618,19 +3618,20 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setPriceId(long priceId) {
-		_columnBitmask |= PRICEID_COLUMN_BITMASK;
-
-		if (!_setOriginalPriceId) {
-			_setOriginalPriceId = true;
-
-			_originalPriceId = _priceId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_priceId = priceId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalPriceId() {
-		return _originalPriceId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("priceId"));
 	}
 
 	@JSON
@@ -4646,6 +3647,10 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void setDocumentsIds(String documentsIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_documentsIds = documentsIds;
 	}
 
@@ -4733,10 +3738,6 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		else {
 			return false;
 		}
-	}
-
-	public long getColumnBitmask() {
-		return _columnBitmask;
 	}
 
 	@Override
@@ -5303,6 +4304,128 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	}
 
 	@Override
+	public Place cloneWithOriginalValues() {
+		PlaceImpl placeImpl = new PlaceImpl();
+
+		placeImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		placeImpl.setPlaceId(this.<Long>getColumnOriginalValue("placeId"));
+		placeImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		placeImpl.setCompanyId(this.<Long>getColumnOriginalValue("companyId"));
+		placeImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		placeImpl.setUserName(this.<String>getColumnOriginalValue("userName"));
+		placeImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		placeImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		placeImpl.setLastPublishDate(
+			this.<Date>getColumnOriginalValue("lastPublishDate"));
+		placeImpl.setStatus(this.<Integer>getColumnOriginalValue("status"));
+		placeImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		placeImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		placeImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		placeImpl.setSIGid(this.<String>getColumnOriginalValue("SIGid"));
+		placeImpl.setName(this.<String>getColumnOriginalValue("name"));
+		placeImpl.setAddressComplement(
+			this.<String>getColumnOriginalValue("addressComplement"));
+		placeImpl.setAddressStreet(
+			this.<String>getColumnOriginalValue("addressStreet"));
+		placeImpl.setAddressDistribution(
+			this.<String>getColumnOriginalValue("addressDistribution"));
+		placeImpl.setAddressZipCode(
+			this.<String>getColumnOriginalValue("addressZipCode"));
+		placeImpl.setAddressCountry(
+			this.<String>getColumnOriginalValue("addressCountry"));
+		placeImpl.setMercatorX(
+			this.<String>getColumnOriginalValue("mercatorX"));
+		placeImpl.setMercatorY(
+			this.<String>getColumnOriginalValue("mercatorY"));
+		placeImpl.setRGF93X(this.<String>getColumnOriginalValue("RGF93X"));
+		placeImpl.setRGF93Y(this.<String>getColumnOriginalValue("RGF93Y"));
+		placeImpl.setLocationId(
+			this.<String>getColumnOriginalValue("locationId"));
+		placeImpl.setAlias(this.<String>getColumnOriginalValue("alias_"));
+		placeImpl.setPresentation(
+			this.<String>getColumnOriginalValue("presentation"));
+		placeImpl.setServiceAndActivities(
+			this.<String>getColumnOriginalValue("serviceAndActivities"));
+		placeImpl.setCharacteristics(
+			this.<String>getColumnOriginalValue("characteristics"));
+		placeImpl.setSubjectToPublicHoliday(
+			this.<Boolean>getColumnOriginalValue("subjectToPublicHoliday"));
+		placeImpl.setExceptionalSchedule(
+			this.<String>getColumnOriginalValue("exceptionalSchedule"));
+		placeImpl.setDisplayEvents(
+			this.<Boolean>getColumnOriginalValue("displayEvents"));
+		placeImpl.setAdditionalInformation(
+			this.<String>getColumnOriginalValue("additionalInformation"));
+		placeImpl.setContenuTooltipCarto(
+			this.<String>getColumnOriginalValue("contenuTooltipCarto"));
+		placeImpl.setHasURLSchedule(
+			this.<Boolean>getColumnOriginalValue("hasURLSchedule"));
+		placeImpl.setScheduleLinkName(
+			this.<String>getColumnOriginalValue("scheduleLinkName"));
+		placeImpl.setScheduleLinkURL(
+			this.<String>getColumnOriginalValue("scheduleLinkURL"));
+		placeImpl.setPhone(this.<String>getColumnOriginalValue("phone"));
+		placeImpl.setMail(this.<String>getColumnOriginalValue("mail"));
+		placeImpl.setSiteURL(this.<String>getColumnOriginalValue("siteURL"));
+		placeImpl.setSiteLabel(
+			this.<String>getColumnOriginalValue("siteLabel"));
+		placeImpl.setFacebookURL(
+			this.<String>getColumnOriginalValue("facebookURL"));
+		placeImpl.setFacebookLabel(
+			this.<String>getColumnOriginalValue("facebookLabel"));
+		placeImpl.setInstagramURL(
+			this.<String>getColumnOriginalValue("instagramURL"));
+		placeImpl.setInstagramLabel(
+			this.<String>getColumnOriginalValue("instagramLabel"));
+		placeImpl.setAccesMap(this.<String>getColumnOriginalValue("accesMap"));
+		placeImpl.setAccess(this.<String>getColumnOriginalValue("access_"));
+		placeImpl.setAccessForDisabled(
+			this.<String>getColumnOriginalValue("accessForDisabled"));
+		placeImpl.setAccessForBlind(
+			this.<Boolean>getColumnOriginalValue("accessForBlind"));
+		placeImpl.setAccessForDeaf(
+			this.<Boolean>getColumnOriginalValue("accessForDeaf"));
+		placeImpl.setAccessForWheelchair(
+			this.<Boolean>getColumnOriginalValue("accessForWheelchair"));
+		placeImpl.setAccessForElder(
+			this.<Boolean>getColumnOriginalValue("accessForElder"));
+		placeImpl.setAccessForDeficient(
+			this.<Boolean>getColumnOriginalValue("accessForDeficient"));
+		placeImpl.setRTEnabled(
+			this.<Boolean>getColumnOriginalValue("RTEnabled"));
+		placeImpl.setRTType(this.<String>getColumnOriginalValue("RTType"));
+		placeImpl.setRTExternalId(
+			this.<String>getColumnOriginalValue("RTExternalId"));
+		placeImpl.setRTAvailable(
+			this.<Long>getColumnOriginalValue("RTAvailable"));
+		placeImpl.setRTOccupation(
+			this.<Long>getColumnOriginalValue("RTOccupation"));
+		placeImpl.setRTCapacity(
+			this.<Long>getColumnOriginalValue("RTCapacity"));
+		placeImpl.setRTStatus(this.<String>getColumnOriginalValue("RTStatus"));
+		placeImpl.setRTLastUpdate(
+			this.<Date>getColumnOriginalValue("RTLastUpdate"));
+		placeImpl.setImageId(this.<Long>getColumnOriginalValue("imageId"));
+		placeImpl.setImageWidth(
+			this.<Integer>getColumnOriginalValue("imageWidth"));
+		placeImpl.setImageHeight(
+			this.<Integer>getColumnOriginalValue("imageHeight"));
+		placeImpl.setImageIds(this.<String>getColumnOriginalValue("imageIds"));
+		placeImpl.setVideosIds(
+			this.<String>getColumnOriginalValue("videosIds"));
+		placeImpl.setPriceId(this.<Long>getColumnOriginalValue("priceId"));
+		placeImpl.setDocumentsIds(
+			this.<String>getColumnOriginalValue("documentsIds"));
+
+		return placeImpl;
+	}
+
+	@Override
 	public int compareTo(Place place) {
 		long primaryKey = place.getPrimaryKey();
 
@@ -5344,11 +4467,19 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -5356,29 +4487,9 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@Override
 	public void resetOriginalValues() {
-		PlaceModelImpl placeModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		placeModelImpl._originalUuid = placeModelImpl._uuid;
-
-		placeModelImpl._originalGroupId = placeModelImpl._groupId;
-
-		placeModelImpl._setOriginalGroupId = false;
-
-		placeModelImpl._originalCompanyId = placeModelImpl._companyId;
-
-		placeModelImpl._setOriginalCompanyId = false;
-
-		placeModelImpl._setModifiedDate = false;
-
-		placeModelImpl._originalSIGid = placeModelImpl._SIGid;
-
-		placeModelImpl._originalName = placeModelImpl._name;
-
-		placeModelImpl._originalPriceId = placeModelImpl._priceId;
-
-		placeModelImpl._setOriginalPriceId = false;
-
-		placeModelImpl._columnBitmask = 0;
+		_setModifiedDate = false;
 	}
 
 	@Override
@@ -5853,7 +4964,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -5863,9 +4974,26 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			String attributeName = entry.getKey();
 			Function<Place, Object> attributeGetterFunction = entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Place)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Place)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -5878,52 +5006,19 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Place, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Place, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Place, Object> attributeGetterFunction = entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Place)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Place>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Place.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _placeId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -5935,9 +5030,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _SIGid;
-	private String _originalSIGid;
 	private String _name;
-	private String _originalName;
 	private String _addressComplement;
 	private String _addressStreet;
 	private String _addressDistribution;
@@ -6011,10 +5104,124 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	private String _imageIds;
 	private String _videosIds;
 	private long _priceId;
-	private long _originalPriceId;
-	private boolean _setOriginalPriceId;
 	private String _documentsIds;
-	private long _columnBitmask;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Place, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Place)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("placeId", _placeId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("lastPublishDate", _lastPublishDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("SIGid", _SIGid);
+		_columnOriginalValues.put("name", _name);
+		_columnOriginalValues.put("addressComplement", _addressComplement);
+		_columnOriginalValues.put("addressStreet", _addressStreet);
+		_columnOriginalValues.put("addressDistribution", _addressDistribution);
+		_columnOriginalValues.put("addressZipCode", _addressZipCode);
+		_columnOriginalValues.put("addressCountry", _addressCountry);
+		_columnOriginalValues.put("mercatorX", _mercatorX);
+		_columnOriginalValues.put("mercatorY", _mercatorY);
+		_columnOriginalValues.put("RGF93X", _RGF93X);
+		_columnOriginalValues.put("RGF93Y", _RGF93Y);
+		_columnOriginalValues.put("locationId", _locationId);
+		_columnOriginalValues.put("alias_", _alias);
+		_columnOriginalValues.put("presentation", _presentation);
+		_columnOriginalValues.put(
+			"serviceAndActivities", _serviceAndActivities);
+		_columnOriginalValues.put("characteristics", _characteristics);
+		_columnOriginalValues.put(
+			"subjectToPublicHoliday", _subjectToPublicHoliday);
+		_columnOriginalValues.put("exceptionalSchedule", _exceptionalSchedule);
+		_columnOriginalValues.put("displayEvents", _displayEvents);
+		_columnOriginalValues.put(
+			"additionalInformation", _additionalInformation);
+		_columnOriginalValues.put("contenuTooltipCarto", _contenuTooltipCarto);
+		_columnOriginalValues.put("hasURLSchedule", _hasURLSchedule);
+		_columnOriginalValues.put("scheduleLinkName", _scheduleLinkName);
+		_columnOriginalValues.put("scheduleLinkURL", _scheduleLinkURL);
+		_columnOriginalValues.put("phone", _phone);
+		_columnOriginalValues.put("mail", _mail);
+		_columnOriginalValues.put("siteURL", _siteURL);
+		_columnOriginalValues.put("siteLabel", _siteLabel);
+		_columnOriginalValues.put("facebookURL", _facebookURL);
+		_columnOriginalValues.put("facebookLabel", _facebookLabel);
+		_columnOriginalValues.put("instagramURL", _instagramURL);
+		_columnOriginalValues.put("instagramLabel", _instagramLabel);
+		_columnOriginalValues.put("accesMap", _accesMap);
+		_columnOriginalValues.put("access_", _access);
+		_columnOriginalValues.put("accessForDisabled", _accessForDisabled);
+		_columnOriginalValues.put("accessForBlind", _accessForBlind);
+		_columnOriginalValues.put("accessForDeaf", _accessForDeaf);
+		_columnOriginalValues.put("accessForWheelchair", _accessForWheelchair);
+		_columnOriginalValues.put("accessForElder", _accessForElder);
+		_columnOriginalValues.put("accessForDeficient", _accessForDeficient);
+		_columnOriginalValues.put("RTEnabled", _RTEnabled);
+		_columnOriginalValues.put("RTType", _RTType);
+		_columnOriginalValues.put("RTExternalId", _RTExternalId);
+		_columnOriginalValues.put("RTAvailable", _RTAvailable);
+		_columnOriginalValues.put("RTOccupation", _RTOccupation);
+		_columnOriginalValues.put("RTCapacity", _RTCapacity);
+		_columnOriginalValues.put("RTStatus", _RTStatus);
+		_columnOriginalValues.put("RTLastUpdate", _RTLastUpdate);
+		_columnOriginalValues.put("imageId", _imageId);
+		_columnOriginalValues.put("imageWidth", _imageWidth);
+		_columnOriginalValues.put("imageHeight", _imageHeight);
+		_columnOriginalValues.put("imageIds", _imageIds);
+		_columnOriginalValues.put("videosIds", _videosIds);
+		_columnOriginalValues.put("priceId", _priceId);
+		_columnOriginalValues.put("documentsIds", _documentsIds);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("alias_", "alias");
+		attributeNames.put("access_", "access");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
 	private Place _escapedModel;
 
 }

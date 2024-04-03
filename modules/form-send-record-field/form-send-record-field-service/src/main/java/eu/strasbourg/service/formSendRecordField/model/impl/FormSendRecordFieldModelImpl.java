@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.formSendRecordField.model.impl;
@@ -17,8 +8,11 @@ package eu.strasbourg.service.formSendRecordField.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.User;
@@ -26,9 +20,12 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordField;
@@ -36,16 +33,20 @@ import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -125,35 +126,71 @@ public class FormSendRecordFieldModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.formSendRecordField.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.formSendRecordField.model.FormSendRecordField"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.formSendRecordField.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.formSendRecordField.model.FormSendRecordField"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.formSendRecordField.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.formSendRecordField.model.FormSendRecordField"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ASSETENTRYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long CONTENTID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long INSTANCEID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 64L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long FORMSENDRECORDFIELDID_COLUMN_BITMASK = 128L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -212,9 +249,6 @@ public class FormSendRecordFieldModelImpl
 				attributeGetterFunction.apply((FormSendRecordField)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -239,459 +273,152 @@ public class FormSendRecordFieldModelImpl
 	public Map<String, Function<FormSendRecordField, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<FormSendRecordField, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, FormSendRecordField>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			FormSendRecordField.class.getClassLoader(),
-			FormSendRecordField.class, ModelWrapper.class);
+		private static final Map<String, Function<FormSendRecordField, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<FormSendRecordField> constructor =
-				(Constructor<FormSendRecordField>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<FormSendRecordField, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<FormSendRecordField, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", FormSendRecordField::getUuid);
+			attributeGetterFunctions.put(
+				"formSendRecordFieldId",
+				FormSendRecordField::getFormSendRecordFieldId);
+			attributeGetterFunctions.put(
+				"groupId", FormSendRecordField::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", FormSendRecordField::getCompanyId);
+			attributeGetterFunctions.put(
+				"userId", FormSendRecordField::getUserId);
+			attributeGetterFunctions.put(
+				"userName", FormSendRecordField::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", FormSendRecordField::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", FormSendRecordField::getModifiedDate);
+			attributeGetterFunctions.put(
+				"status", FormSendRecordField::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", FormSendRecordField::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", FormSendRecordField::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", FormSendRecordField::getStatusDate);
+			attributeGetterFunctions.put(
+				"response", FormSendRecordField::getResponse);
+			attributeGetterFunctions.put(
+				"assetEntryId", FormSendRecordField::getAssetEntryId);
+			attributeGetterFunctions.put(
+				"contentId", FormSendRecordField::getContentId);
+			attributeGetterFunctions.put(
+				"instanceId", FormSendRecordField::getInstanceId);
+			attributeGetterFunctions.put(
+				"responseUserId", FormSendRecordField::getResponseUserId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<FormSendRecordField, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<FormSendRecordField, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map
+			<String, BiConsumer<FormSendRecordField, Object>>
+				_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<FormSendRecordField, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<FormSendRecordField, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<FormSendRecordField, String>)
+					FormSendRecordField::setUuid);
+			attributeSetterBiConsumers.put(
+				"formSendRecordFieldId",
+				(BiConsumer<FormSendRecordField, Long>)
+					FormSendRecordField::setFormSendRecordFieldId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<FormSendRecordField, Long>)
+					FormSendRecordField::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<FormSendRecordField, Long>)
+					FormSendRecordField::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<FormSendRecordField, Long>)
+					FormSendRecordField::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<FormSendRecordField, String>)
+					FormSendRecordField::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<FormSendRecordField, Date>)
+					FormSendRecordField::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<FormSendRecordField, Date>)
+					FormSendRecordField::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<FormSendRecordField, Integer>)
+					FormSendRecordField::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<FormSendRecordField, Long>)
+					FormSendRecordField::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<FormSendRecordField, String>)
+					FormSendRecordField::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<FormSendRecordField, Date>)
+					FormSendRecordField::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"response",
+				(BiConsumer<FormSendRecordField, String>)
+					FormSendRecordField::setResponse);
+			attributeSetterBiConsumers.put(
+				"assetEntryId",
+				(BiConsumer<FormSendRecordField, Long>)
+					FormSendRecordField::setAssetEntryId);
+			attributeSetterBiConsumers.put(
+				"contentId",
+				(BiConsumer<FormSendRecordField, Long>)
+					FormSendRecordField::setContentId);
+			attributeSetterBiConsumers.put(
+				"instanceId",
+				(BiConsumer<FormSendRecordField, String>)
+					FormSendRecordField::setInstanceId);
+			attributeSetterBiConsumers.put(
+				"responseUserId",
+				(BiConsumer<FormSendRecordField, Long>)
+					FormSendRecordField::setResponseUserId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<FormSendRecordField, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<FormSendRecordField, Object>>();
-		Map<String, BiConsumer<FormSendRecordField, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<FormSendRecordField, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<FormSendRecordField, Object>() {
-
-				@Override
-				public Object apply(FormSendRecordField formSendRecordField) {
-					return formSendRecordField.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<FormSendRecordField, Object>() {
-
-				@Override
-				public void accept(
-					FormSendRecordField formSendRecordField,
-					Object uuidObject) {
-
-					formSendRecordField.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"formSendRecordFieldId",
-			new Function<FormSendRecordField, Object>() {
-
-				@Override
-				public Object apply(FormSendRecordField formSendRecordField) {
-					return formSendRecordField.getFormSendRecordFieldId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"formSendRecordFieldId",
-			new BiConsumer<FormSendRecordField, Object>() {
-
-				@Override
-				public void accept(
-					FormSendRecordField formSendRecordField,
-					Object formSendRecordFieldIdObject) {
-
-					formSendRecordField.setFormSendRecordFieldId(
-						(Long)formSendRecordFieldIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<FormSendRecordField, Object>() {
-
-				@Override
-				public Object apply(FormSendRecordField formSendRecordField) {
-					return formSendRecordField.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<FormSendRecordField, Object>() {
-
-				@Override
-				public void accept(
-					FormSendRecordField formSendRecordField,
-					Object groupIdObject) {
-
-					formSendRecordField.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<FormSendRecordField, Object>() {
-
-				@Override
-				public Object apply(FormSendRecordField formSendRecordField) {
-					return formSendRecordField.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<FormSendRecordField, Object>() {
-
-				@Override
-				public void accept(
-					FormSendRecordField formSendRecordField,
-					Object companyIdObject) {
-
-					formSendRecordField.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<FormSendRecordField, Object>() {
-
-				@Override
-				public Object apply(FormSendRecordField formSendRecordField) {
-					return formSendRecordField.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<FormSendRecordField, Object>() {
-
-				@Override
-				public void accept(
-					FormSendRecordField formSendRecordField,
-					Object userIdObject) {
-
-					formSendRecordField.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<FormSendRecordField, Object>() {
-
-				@Override
-				public Object apply(FormSendRecordField formSendRecordField) {
-					return formSendRecordField.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<FormSendRecordField, Object>() {
-
-				@Override
-				public void accept(
-					FormSendRecordField formSendRecordField,
-					Object userNameObject) {
-
-					formSendRecordField.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<FormSendRecordField, Object>() {
-
-				@Override
-				public Object apply(FormSendRecordField formSendRecordField) {
-					return formSendRecordField.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<FormSendRecordField, Object>() {
-
-				@Override
-				public void accept(
-					FormSendRecordField formSendRecordField,
-					Object createDateObject) {
-
-					formSendRecordField.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<FormSendRecordField, Object>() {
-
-				@Override
-				public Object apply(FormSendRecordField formSendRecordField) {
-					return formSendRecordField.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<FormSendRecordField, Object>() {
-
-				@Override
-				public void accept(
-					FormSendRecordField formSendRecordField,
-					Object modifiedDateObject) {
-
-					formSendRecordField.setModifiedDate(
-						(Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<FormSendRecordField, Object>() {
-
-				@Override
-				public Object apply(FormSendRecordField formSendRecordField) {
-					return formSendRecordField.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<FormSendRecordField, Object>() {
-
-				@Override
-				public void accept(
-					FormSendRecordField formSendRecordField,
-					Object statusObject) {
-
-					formSendRecordField.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<FormSendRecordField, Object>() {
-
-				@Override
-				public Object apply(FormSendRecordField formSendRecordField) {
-					return formSendRecordField.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<FormSendRecordField, Object>() {
-
-				@Override
-				public void accept(
-					FormSendRecordField formSendRecordField,
-					Object statusByUserIdObject) {
-
-					formSendRecordField.setStatusByUserId(
-						(Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<FormSendRecordField, Object>() {
-
-				@Override
-				public Object apply(FormSendRecordField formSendRecordField) {
-					return formSendRecordField.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<FormSendRecordField, Object>() {
-
-				@Override
-				public void accept(
-					FormSendRecordField formSendRecordField,
-					Object statusByUserNameObject) {
-
-					formSendRecordField.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<FormSendRecordField, Object>() {
-
-				@Override
-				public Object apply(FormSendRecordField formSendRecordField) {
-					return formSendRecordField.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<FormSendRecordField, Object>() {
-
-				@Override
-				public void accept(
-					FormSendRecordField formSendRecordField,
-					Object statusDateObject) {
-
-					formSendRecordField.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"response",
-			new Function<FormSendRecordField, Object>() {
-
-				@Override
-				public Object apply(FormSendRecordField formSendRecordField) {
-					return formSendRecordField.getResponse();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"response",
-			new BiConsumer<FormSendRecordField, Object>() {
-
-				@Override
-				public void accept(
-					FormSendRecordField formSendRecordField,
-					Object responseObject) {
-
-					formSendRecordField.setResponse((String)responseObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"assetEntryId",
-			new Function<FormSendRecordField, Object>() {
-
-				@Override
-				public Object apply(FormSendRecordField formSendRecordField) {
-					return formSendRecordField.getAssetEntryId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"assetEntryId",
-			new BiConsumer<FormSendRecordField, Object>() {
-
-				@Override
-				public void accept(
-					FormSendRecordField formSendRecordField,
-					Object assetEntryIdObject) {
-
-					formSendRecordField.setAssetEntryId(
-						(Long)assetEntryIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"contentId",
-			new Function<FormSendRecordField, Object>() {
-
-				@Override
-				public Object apply(FormSendRecordField formSendRecordField) {
-					return formSendRecordField.getContentId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"contentId",
-			new BiConsumer<FormSendRecordField, Object>() {
-
-				@Override
-				public void accept(
-					FormSendRecordField formSendRecordField,
-					Object contentIdObject) {
-
-					formSendRecordField.setContentId((Long)contentIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"instanceId",
-			new Function<FormSendRecordField, Object>() {
-
-				@Override
-				public Object apply(FormSendRecordField formSendRecordField) {
-					return formSendRecordField.getInstanceId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"instanceId",
-			new BiConsumer<FormSendRecordField, Object>() {
-
-				@Override
-				public void accept(
-					FormSendRecordField formSendRecordField,
-					Object instanceIdObject) {
-
-					formSendRecordField.setInstanceId((String)instanceIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"responseUserId",
-			new Function<FormSendRecordField, Object>() {
-
-				@Override
-				public Object apply(FormSendRecordField formSendRecordField) {
-					return formSendRecordField.getResponseUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"responseUserId",
-			new BiConsumer<FormSendRecordField, Object>() {
-
-				@Override
-				public void accept(
-					FormSendRecordField formSendRecordField,
-					Object responseUserIdObject) {
-
-					formSendRecordField.setResponseUserId(
-						(Long)responseUserIdObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -706,17 +433,20 @@ public class FormSendRecordFieldModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -726,6 +456,10 @@ public class FormSendRecordFieldModelImpl
 
 	@Override
 	public void setFormSendRecordFieldId(long formSendRecordFieldId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_formSendRecordFieldId = formSendRecordFieldId;
 	}
 
@@ -736,19 +470,20 @@ public class FormSendRecordFieldModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -758,19 +493,21 @@ public class FormSendRecordFieldModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -780,6 +517,10 @@ public class FormSendRecordFieldModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -811,6 +552,10 @@ public class FormSendRecordFieldModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -821,6 +566,10 @@ public class FormSendRecordFieldModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -837,6 +586,10 @@ public class FormSendRecordFieldModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -847,19 +600,21 @@ public class FormSendRecordFieldModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("status"));
 	}
 
 	@Override
@@ -869,6 +624,10 @@ public class FormSendRecordFieldModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -900,6 +659,10 @@ public class FormSendRecordFieldModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -910,6 +673,10 @@ public class FormSendRecordFieldModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -924,8 +691,104 @@ public class FormSendRecordFieldModelImpl
 	}
 
 	@Override
+	public String getResponse(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getResponse(languageId);
+	}
+
+	@Override
+	public String getResponse(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getResponse(languageId, useDefault);
+	}
+
+	@Override
+	public String getResponse(String languageId) {
+		return LocalizationUtil.getLocalization(getResponse(), languageId);
+	}
+
+	@Override
+	public String getResponse(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getResponse(), languageId, useDefault);
+	}
+
+	@Override
+	public String getResponseCurrentLanguageId() {
+		return _responseCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getResponseCurrentValue() {
+		Locale locale = getLocale(_responseCurrentLanguageId);
+
+		return getResponse(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getResponseMap() {
+		return LocalizationUtil.getLocalizationMap(getResponse());
+	}
+
+	@Override
 	public void setResponse(String response) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_response = response;
+	}
+
+	@Override
+	public void setResponse(String response, Locale locale) {
+		setResponse(response, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setResponse(
+		String response, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(response)) {
+			setResponse(
+				LocalizationUtil.updateLocalization(
+					getResponse(), "Response", response, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setResponse(
+				LocalizationUtil.removeLocalization(
+					getResponse(), "Response", languageId));
+		}
+	}
+
+	@Override
+	public void setResponseCurrentLanguageId(String languageId) {
+		_responseCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setResponseMap(Map<Locale, String> responseMap) {
+		setResponseMap(responseMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setResponseMap(
+		Map<Locale, String> responseMap, Locale defaultLocale) {
+
+		if (responseMap == null) {
+			return;
+		}
+
+		setResponse(
+			LocalizationUtil.updateLocalization(
+				responseMap, getResponse(), "Response",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -935,19 +798,21 @@ public class FormSendRecordFieldModelImpl
 
 	@Override
 	public void setAssetEntryId(long assetEntryId) {
-		_columnBitmask |= ASSETENTRYID_COLUMN_BITMASK;
-
-		if (!_setOriginalAssetEntryId) {
-			_setOriginalAssetEntryId = true;
-
-			_originalAssetEntryId = _assetEntryId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_assetEntryId = assetEntryId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalAssetEntryId() {
-		return _originalAssetEntryId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("assetEntryId"));
 	}
 
 	@Override
@@ -957,19 +822,21 @@ public class FormSendRecordFieldModelImpl
 
 	@Override
 	public void setContentId(long contentId) {
-		_columnBitmask |= CONTENTID_COLUMN_BITMASK;
-
-		if (!_setOriginalContentId) {
-			_setOriginalContentId = true;
-
-			_originalContentId = _contentId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_contentId = contentId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalContentId() {
-		return _originalContentId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("contentId"));
 	}
 
 	@Override
@@ -984,17 +851,20 @@ public class FormSendRecordFieldModelImpl
 
 	@Override
 	public void setInstanceId(String instanceId) {
-		_columnBitmask |= INSTANCEID_COLUMN_BITMASK;
-
-		if (_originalInstanceId == null) {
-			_originalInstanceId = _instanceId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_instanceId = instanceId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalInstanceId() {
-		return GetterUtil.getString(_originalInstanceId);
+		return getColumnOriginalValue("instanceId");
 	}
 
 	@Override
@@ -1004,6 +874,10 @@ public class FormSendRecordFieldModelImpl
 
 	@Override
 	public void setResponseUserId(long responseUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_responseUserId = responseUserId;
 	}
 
@@ -1110,6 +984,26 @@ public class FormSendRecordFieldModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1125,6 +1019,73 @@ public class FormSendRecordFieldModelImpl
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> responseMap = getResponseMap();
+
+		for (Map.Entry<Locale, String> entry : responseMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(
+			new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getResponse();
+
+		if (xml == null) {
+			return "";
+		}
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(
+			getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(
+			FormSendRecordField.class.getName(), getPrimaryKey(), defaultLocale,
+			availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String response = getResponse(defaultLocale);
+
+		if (Validator.isNull(response)) {
+			setResponse(getResponse(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setResponse(
+				getResponse(defaultLocale), defaultLocale, defaultLocale);
+		}
 	}
 
 	@Override
@@ -1172,6 +1133,49 @@ public class FormSendRecordFieldModelImpl
 	}
 
 	@Override
+	public FormSendRecordField cloneWithOriginalValues() {
+		FormSendRecordFieldImpl formSendRecordFieldImpl =
+			new FormSendRecordFieldImpl();
+
+		formSendRecordFieldImpl.setUuid(
+			this.<String>getColumnOriginalValue("uuid_"));
+		formSendRecordFieldImpl.setFormSendRecordFieldId(
+			this.<Long>getColumnOriginalValue("formSendRecordFieldId"));
+		formSendRecordFieldImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		formSendRecordFieldImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		formSendRecordFieldImpl.setUserId(
+			this.<Long>getColumnOriginalValue("userId"));
+		formSendRecordFieldImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		formSendRecordFieldImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		formSendRecordFieldImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		formSendRecordFieldImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		formSendRecordFieldImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		formSendRecordFieldImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		formSendRecordFieldImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		formSendRecordFieldImpl.setResponse(
+			this.<String>getColumnOriginalValue("response"));
+		formSendRecordFieldImpl.setAssetEntryId(
+			this.<Long>getColumnOriginalValue("assetEntryId"));
+		formSendRecordFieldImpl.setContentId(
+			this.<Long>getColumnOriginalValue("contentId"));
+		formSendRecordFieldImpl.setInstanceId(
+			this.<String>getColumnOriginalValue("instanceId"));
+		formSendRecordFieldImpl.setResponseUserId(
+			this.<Long>getColumnOriginalValue("responseUserId"));
+
+		return formSendRecordFieldImpl;
+	}
+
+	@Override
 	public int compareTo(FormSendRecordField formSendRecordField) {
 		long primaryKey = formSendRecordField.getPrimaryKey();
 
@@ -1213,11 +1217,19 @@ public class FormSendRecordFieldModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1225,42 +1237,11 @@ public class FormSendRecordFieldModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		FormSendRecordFieldModelImpl formSendRecordFieldModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		formSendRecordFieldModelImpl._originalUuid =
-			formSendRecordFieldModelImpl._uuid;
+		_setModifiedDate = false;
 
-		formSendRecordFieldModelImpl._originalGroupId =
-			formSendRecordFieldModelImpl._groupId;
-
-		formSendRecordFieldModelImpl._setOriginalGroupId = false;
-
-		formSendRecordFieldModelImpl._originalCompanyId =
-			formSendRecordFieldModelImpl._companyId;
-
-		formSendRecordFieldModelImpl._setOriginalCompanyId = false;
-
-		formSendRecordFieldModelImpl._setModifiedDate = false;
-
-		formSendRecordFieldModelImpl._originalStatus =
-			formSendRecordFieldModelImpl._status;
-
-		formSendRecordFieldModelImpl._setOriginalStatus = false;
-
-		formSendRecordFieldModelImpl._originalAssetEntryId =
-			formSendRecordFieldModelImpl._assetEntryId;
-
-		formSendRecordFieldModelImpl._setOriginalAssetEntryId = false;
-
-		formSendRecordFieldModelImpl._originalContentId =
-			formSendRecordFieldModelImpl._contentId;
-
-		formSendRecordFieldModelImpl._setOriginalContentId = false;
-
-		formSendRecordFieldModelImpl._originalInstanceId =
-			formSendRecordFieldModelImpl._instanceId;
-
-		formSendRecordFieldModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1364,7 +1345,7 @@ public class FormSendRecordFieldModelImpl
 			attributeGetterFunctions = getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1375,9 +1356,27 @@ public class FormSendRecordFieldModelImpl
 			Function<FormSendRecordField, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((FormSendRecordField)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply(
+				(FormSendRecordField)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1390,74 +1389,143 @@ public class FormSendRecordFieldModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<FormSendRecordField, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<FormSendRecordField, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<FormSendRecordField, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((FormSendRecordField)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, FormSendRecordField>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					FormSendRecordField.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _formSendRecordFieldId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _response;
+	private String _responseCurrentLanguageId;
 	private long _assetEntryId;
-	private long _originalAssetEntryId;
-	private boolean _setOriginalAssetEntryId;
 	private long _contentId;
-	private long _originalContentId;
-	private boolean _setOriginalContentId;
 	private String _instanceId;
-	private String _originalInstanceId;
 	private long _responseUserId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<FormSendRecordField, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((FormSendRecordField)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put(
+			"formSendRecordFieldId", _formSendRecordFieldId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("response", _response);
+		_columnOriginalValues.put("assetEntryId", _assetEntryId);
+		_columnOriginalValues.put("contentId", _contentId);
+		_columnOriginalValues.put("instanceId", _instanceId);
+		_columnOriginalValues.put("responseUserId", _responseUserId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("formSendRecordFieldId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("response", 4096L);
+
+		columnBitmasks.put("assetEntryId", 8192L);
+
+		columnBitmasks.put("contentId", 16384L);
+
+		columnBitmasks.put("instanceId", 32768L);
+
+		columnBitmasks.put("responseUserId", 65536L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private FormSendRecordField _escapedModel;
 

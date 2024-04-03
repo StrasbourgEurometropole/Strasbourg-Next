@@ -1,0 +1,671 @@
+
+// Styles pour la classe btn, btn et btn-primary.
+.st-page-wrapper .st-btn {
+	@include create-outline();
+	@include inline-flex-center;
+	max-width: 100%;
+	padding: 16px 60px;
+	@include ft($f_txt, $s_link, 600, $c_main, 1);
+	@include letter-spacing(25);
+	text-align: center;
+	background-color: $c_sub;
+	border: 1px solid transparent;
+	border-radius: $border-radius;
+	@include transition(color, background-color, border-color);
+
+	@include mobile {
+		padding: 15px 30px;
+		min-height: 40px;
+		font-size: $s_link_small;
+	}
+	@include mobile-small {
+		padding: 12px 10px;
+		min-height: 40px;
+	}
+
+	@include can-hover {
+		color: $c_main;
+		background-color: $c_white;
+	}
+
+	&:focus-visible {
+		@include create-outline();
+	}
+
+	&[disabled],
+	&[aria-disabled="true"] {
+		opacity: 0.25;
+		pointer-events: none;
+	}
+
+	& + .st-btn {
+		@include mobile {
+			margin-top: 10px;
+		}
+	}
+
+
+
+	// Btn secondaire
+	&.st--btn-secondary {
+		color: $c_white;
+		background-color: $c_main;
+		border: 1px solid $c_sub;
+
+		@include can-hover {
+			color: $c_main;
+			border-color: transparent;
+		}
+	}
+
+	// Version avec fond transparent
+	&.st--btn-secondary-ghost {
+		color: $c_white;
+		background-color: initial;
+		border: 1px solid $c_sub;
+
+		@include can-hover {
+			color: $c_main;
+			border-color: transparent;
+		}
+	}
+
+	// Btn version largeur du parent
+	&.st--btn-full-width {
+		width: 100%;
+	}
+
+
+
+	// Btn format petit
+	&.st--btn-xs {
+		font-size: $s_link_small;
+		padding: 11px 30px;
+	}
+
+	&.st--btn-small-padding {
+		padding-left: 20px;
+		padding-right: 20px;
+
+		@include mobile {
+			padding-left: 20px;
+			padding-right: 20px;
+		}
+	}
+
+	&.st--align-right {
+		display: flex;
+		margin-left: auto;
+		width: max-content;
+	}
+
+	// Btn des filtres
+	&.st--btn-filtres {
+		padding-left: 30px;
+		padding-right: 30px;
+
+		.st-filter-counter {
+			font-weight: 300;
+			margin-left: 5px;
+
+			&:empty {
+				display: none;
+			}
+		}
+	}
+
+	// Btn version largeur du parent sur mobile
+	&.st--btn-full-width-mobile {
+		@include mobile {
+			width: 100%;
+		}
+	}
+
+	// Btn de position
+	&.st--btn-position {
+		padding: 14px 20px;
+		background-color: transparent;
+		border-color: rgba($c_white, 0.25);
+		color: $c_white;
+
+		&:before {
+			@include icomoon($st-icon-cible);
+			color: $c_sub;
+			font-size: 18px;
+			margin-right: 15px;
+		}
+
+		@include can-hover {
+			color: $c_main;
+		}
+	}
+
+	// Btn footer
+	&.st--btn-footer {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+}
+
+// Styles pour les boutons et les dots utilisés dans les sliders et dans la pagination
+.st-page-wrapper .st-btn-arrow {
+	position: relative;
+	z-index: z-index('btn-slider');
+	@include inline-flex-center;
+	width: 30px;
+	height: 30px;
+	font-size: 0;
+	background-color: $c_white;
+	border: 1px solid transparent;
+	border-radius: $border-radius-small;
+	@include transition(background-color, opacity);
+
+	&:before {
+		@include icomoon();
+		font-size: 10px;
+		color: rgba($c_black, 0.75);
+		@include transition(color);
+	}
+
+	@include can-hover {
+		&:not([disabled]) {
+			background-color: $c_sub;
+
+			&:before {
+				color: $c_main;
+			}
+		}
+	}
+
+	&[disabled],
+	&[aria-disabled="true"] {
+		opacity: 0.25;
+		pointer-events: none;
+	}
+
+	// -- modifiers
+	&.st--prev:before {
+		content: $st-icon-arrow-left;
+	}
+
+	&.st--next:before {
+		content: $st-icon-arrow-right;
+	}
+
+	&.st--up:before {
+		content: $st-icon-arrow-up;
+	}
+
+	&.st--down:before {
+		content: $st-icon-arrow-down;
+	}
+
+	&.st--btn-arrow-xs {
+		width: 20px;
+		height: 20px;
+
+		&:before {
+			font-size: 7px;
+		}
+	}
+
+	&.st--btn-outline {
+		border-color: rgba($c_white, 0.25);
+		background-color: $c_main;
+		@include transition(background-color, border-color);
+
+		&:before {
+			color: $c_white;
+		}
+
+		@include can-hover {
+			border-color: transparent;
+		}
+	}
+}
+
+.st-page-wrapper .st-btn-text-arrow {
+	@include create-outline;
+	display: inline-flex;
+	align-items: center;
+	padding: 13px 20px;
+	@include ft($f_txt, $s_link, 600, $c_white, 1);
+	@include letter-spacing(25);
+	border: 1px solid $c_sub;
+	border-radius: $border-radius;
+	@include transition(color, background-color, border-color);
+
+	@include mobile {
+		padding: 11px 20px;
+		font-size: 12px;
+		justify-content: space-between;
+	}
+
+	@include can-hover {
+		color: $c_main;
+		background-color: $c_white;
+		border-color: $c_white;
+
+		[class^="st-icon-"], [class*=" st-icon-"] {
+			color: $c_main;
+			border-color: $c_main;
+		}
+	}
+
+	[class^="st-icon-"], [class*=" st-icon-"] {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		width: 20px;
+		height: 20px;
+		margin-left: 20px;
+		border: 1px solid rgba($c_white, 0.25);
+		border-radius: $border-radius-small;
+		color: $c_white;
+		font-size: 8px;
+		@include transition(color, background-color, border-color);
+
+		@include mobile {
+			margin-left: 10px;
+		}
+	}
+}
+
+
+.st-page-wrapper .st-nav-dots {
+	display: flex;
+	align-items: center;
+
+	li + li {
+		margin-left: 10px;
+
+		@include mobile {
+			margin-left: 8px;
+		}
+	}
+
+	button {
+		@include create-outline;
+		position: relative;
+		@include inline-flex-center();
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		border: 1px solid transparent;
+		@include transition(background-color, border-color);
+
+		@include mobile {
+			width: 8px;
+			height: 8px;
+		}
+
+		&:not([aria-selected=true]) {
+			background-color: transparent;
+			border-color: $c_white;
+		}
+
+		&[aria-selected=true] {
+			background-color: $c_white;
+		}
+
+		@include can-hover {
+			background-color: $c_sub;
+			border-color: $c_sub;
+		}
+	}
+}
+
+.st-page-wrapper .st-btn-play {
+	@include create-outline;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	background-color: $c_sub;
+	@include transition(background-color);
+
+	@include mobile {
+		width: 44px;
+		height: 44px;
+	}
+
+	@include can-hover {
+		background-color: $c_white;
+	}
+
+	[class^="st-icon-"], [class*=" st-icon-"] {
+		font-size: 15px;
+		color: $c_main;
+		transform: translateX(2px);
+	}
+}
+
+.st-page-wrapper .st-btn-compte {
+	@include create-outline;
+	display: inline-flex;
+	align-items: center;
+	padding: 11px 20px;
+	@include ft($f_txt, $s_link, 600, $c_white, 1);
+	@include letter-spacing(25);
+	border: 1px solid $c_sub;
+	border-radius: $border-radius;
+	@include transition(color, background-color, border-color);
+
+	@include can-hover {
+		color: $c_main;
+		background-color: $c_white;
+		border-color: $c_white;
+
+		[class^="st-icon-"], [class*=" st-icon-"] {
+			color: $c_main;
+		}
+	}
+
+	[class^="st-icon-"], [class*=" st-icon-"] {
+		margin-right: 10px;
+		color: $c_sub;
+		font-size: 20px;
+	}
+}
+
+
+// Bouton d'ajout aux favoris sur les cards
+.st-page-wrapper .st-btn-favorite-card {
+	@include create-outline;
+	@include inline-flex-center;
+	font-size: 0;
+	width: 36px;
+	height: 36px;
+
+	@include can-hover {
+		&:after {
+			color: $c_sub;
+		}
+	}
+
+	&:after {
+		@include icomoon($st-icon-favorite);
+		color: $c_white;
+		font-size: 16px;
+		@include transition(color);
+	}
+
+	&.st-is-favorite {
+		&:after {
+			color: $c_sub;
+			content: $st-icon-favorite-full;
+		}
+	}
+}
+
+
+// Bouton d'ajout aux favoris sur les barres en sticky
+.st-page-wrapper .st-btn-favorite-sticky {
+	@include create-outline;
+	@include inline-flex-center;
+	max-width: 100%;
+	padding: 16px 20px;
+	@include ft($f_txt, $s_link, 600, $c_white, 1);
+	@include letter-spacing(25);
+	text-align: center;
+	border: 1px solid rgba($c_white, 0.25);
+	border-radius: $border-radius;
+	@include transition(color, background-color);
+
+	@include can-hover {
+		color: $c_main;
+		background-color: $c_sub;
+
+		&:after {
+			color: $c_main;
+		}
+	}
+
+	&:after {
+		@include icomoon($st-icon-favorite);
+		color: $c_sub;
+		font-size: 16px;
+		margin-left: 15px;
+		@include transition(color);
+	}
+
+	@include mobile {
+		@include favorites-only-icon();
+	}
+
+	&.st-is-favorite {
+		&:after {
+			content: $st-icon-favorite-full;
+		}
+	}
+
+	&.st--only-icon {
+		@include favorites-only-icon();
+	}
+}
+
+
+.st-page-wrapper .st-btn-close {
+	@include create-outline;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 30px;
+	height: 30px;
+	color: $c_main;
+	background-color: $c_pink;
+	border-radius: $border-radius-small;
+	@include transition(background-color);
+
+	@include mobile {
+		width: 44px;
+		height: 44px;
+		border-radius: $border-radius;
+	}
+
+	@include can-hover {
+		background-color: $c_white;
+	}
+
+	&:before {
+		@include icomoon($st-icon-close);
+		font-size: 12px;
+
+		@include mobile {
+			font-size: 12px;
+		}
+	}
+}
+
+
+.st-page-wrapper .st-btn-icon {
+	@include create-outline;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	font-size: 16px;
+	border: 1px solid $c_sub;
+	border-radius: $border-radius;
+	@include transition(background-color, border-color);
+
+	@include mobile {
+		width: 44px;
+		height: 44px;
+	}
+
+	[class^="st-icon-"], [class*=" st-icon-"] {
+		color: $c_white;
+	}
+
+	@include can-hover {
+		background-color: $c_sub;
+		border-color: $c_sub;
+
+		[class^="st-icon-"], [class*=" st-icon-"] {
+			color: $c_main;
+		}
+	}
+
+
+	// -- modifiers
+	&.st-btn-icon--white {
+		border: 1px solid rgba($c_white, 0.25);
+
+		@include mobile {
+			width: 36px;
+			height: 36px;
+			font-size: 14px;
+		}
+
+		@include can-hover {
+			background-color: initial;
+			border-color: $c_sub;
+
+			[class^="st-icon-"], [class*=" st-icon-"] {
+				color: $c_white;
+			}
+		}
+	}
+
+	&.st-btn-icon--small {
+		width: 40px;
+		height: 40px;
+		background-color: $c_main;
+
+		@include can-hover {
+			background-color: $c_white;
+			border-color: $c_white;
+		}
+	}
+
+	&.st-btn-icon--bg-sub {
+		width: 44px;
+		height: 44px;
+		background-color: $c_sub;
+
+		@include mobile {
+			width: 36px;
+			height: 36px;
+			font-size: 14px;
+		}
+
+		[class^="st-icon-"], [class*=" st-icon-"] {
+			color: $c_greydark;
+		}
+
+		@include can-hover {
+			background-color: $c_white;
+			border-color: $c_white;
+
+			[class^="st-icon-"], [class*=" st-icon-"] {
+				color: $c_main;
+			}
+		}
+	}
+}
+
+.st-page-wrapper button.st-btn-menu {
+	@include create-outline;
+	display: flex;
+	align-items: center;
+	height: 80px;
+	padding: 30px;
+	@include ft($f_txt, 14px, 600, $c_main, 1);
+	@include letter-spacing(25);
+	text-transform: uppercase;
+	background-color: $c_sub;
+	border-radius: $border-radius-small;
+	@include transition(background-color);
+
+	@include can-hover {
+		background-color: $c_white;
+
+		.st-btn-menu__line {
+			&:nth-of-type(2) {
+				width: 100%;
+			}
+		}
+	}
+
+	.st-btn-menu__icon {
+		display: block;
+		width: 24px;
+		height: 14px;
+		margin-right: 32px;
+	}
+
+	.st-btn-menu__line {
+		display: block;
+		width: 100%;
+		height: 2px;
+		background-color: $c_main;
+
+		&:nth-of-type(2) {
+			width: calc(100% - 6px);
+			@include transition(width);
+		}
+
+		& + .st-btn-menu__line {
+			margin-top: 4px;
+		}
+	}
+}
+
+
+.st-page-wrapper .st-btn-reset-filters {
+	display: inline-flex;
+	align-items: center;
+	text-align: left;
+	padding: 5px 20px 5px 0;
+	@include ft('', 14px, 300, $c_txt, 1);
+	@include letter-spacing(25);
+	@include transition(color);
+
+	@include mobile {
+		font-size: 11px;
+	}
+
+	@include can-hover {
+		color: $c_white;
+	}
+
+	&:before {
+		@include icomoon($st-icon-trash);
+		font-size: 16px;
+		margin-right: 8px;
+	}
+}
+
+
+.st-page-wrapper .select-lang {
+	@include reset-select;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	@include ft('', 14px, 600, $c_white, 1);
+	@include letter-spacing(25);
+	text-align: center;
+	text-align-last: center; // fix iphone
+	border: 1px solid rgba($c_white, 0.25);
+	border-radius: $border-radius;
+	@include transition(color);
+
+	@include can-hover {
+		color: $c_sub;
+	}
+}
+
+.st-page-wrapper .st-skip-map {
+	&:focus,
+	&:active {
+		position: relative !important;
+		z-index: 10;
+		padding: 11px 30px !important;
+	}
+}

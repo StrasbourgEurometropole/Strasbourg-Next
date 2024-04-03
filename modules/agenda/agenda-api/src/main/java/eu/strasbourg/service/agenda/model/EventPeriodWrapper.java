@@ -1,29 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,11 @@ import java.util.Objects;
  * @generated
  */
 public class EventPeriodWrapper
+	extends BaseModelWrapper<EventPeriod>
 	implements EventPeriod, ModelWrapper<EventPeriod> {
 
 	public EventPeriodWrapper(EventPeriod eventPeriod) {
-		_eventPeriod = eventPeriod;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return EventPeriod.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return EventPeriod.class.getName();
+		super(eventPeriod);
 	}
 
 	@Override
@@ -112,20 +90,13 @@ public class EventPeriodWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new EventPeriodWrapper((EventPeriod)_eventPeriod.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.agenda.model.EventPeriod eventPeriod) {
-
-		return _eventPeriod.compareTo(eventPeriod);
+	public EventPeriod cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _eventPeriod.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -135,24 +106,24 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public long getCampaignEventId() {
-		return _eventPeriod.getCampaignEventId();
+		return model.getCampaignEventId();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _eventPeriod.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	@Override
 	public String getDisplay(java.util.Locale locale) {
-		return _eventPeriod.getDisplay(locale);
+		return model.getDisplay(locale);
 	}
 
 	@Override
 	public String getDisplay(
 		java.util.Locale locale, boolean dispYear, boolean dispShortMonth) {
 
-		return _eventPeriod.getDisplay(locale, dispYear, dispShortMonth);
+		return model.getDisplay(locale, dispYear, dispShortMonth);
 	}
 
 	/**
@@ -162,7 +133,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public Date getEndDate() {
-		return _eventPeriod.getEndDate();
+		return model.getEndDate();
 	}
 
 	/**
@@ -172,7 +143,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public long getEventId() {
-		return _eventPeriod.getEventId();
+		return model.getEventId();
 	}
 
 	/**
@@ -182,12 +153,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public long getEventPeriodId() {
-		return _eventPeriod.getEventPeriodId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _eventPeriod.getExpandoBridge();
+		return model.getEventPeriodId();
 	}
 
 	/**
@@ -197,12 +163,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _eventPeriod.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _eventPeriod.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -212,7 +173,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public Date getStartDate() {
-		return _eventPeriod.getStartDate();
+		return model.getStartDate();
 	}
 
 	/**
@@ -222,7 +183,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public String getTimeDetail() {
-		return _eventPeriod.getTimeDetail();
+		return model.getTimeDetail();
 	}
 
 	/**
@@ -233,7 +194,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public String getTimeDetail(java.util.Locale locale) {
-		return _eventPeriod.getTimeDetail(locale);
+		return model.getTimeDetail(locale);
 	}
 
 	/**
@@ -245,7 +206,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public String getTimeDetail(java.util.Locale locale, boolean useDefault) {
-		return _eventPeriod.getTimeDetail(locale, useDefault);
+		return model.getTimeDetail(locale, useDefault);
 	}
 
 	/**
@@ -256,7 +217,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public String getTimeDetail(String languageId) {
-		return _eventPeriod.getTimeDetail(languageId);
+		return model.getTimeDetail(languageId);
 	}
 
 	/**
@@ -268,17 +229,17 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public String getTimeDetail(String languageId, boolean useDefault) {
-		return _eventPeriod.getTimeDetail(languageId, useDefault);
+		return model.getTimeDetail(languageId, useDefault);
 	}
 
 	@Override
 	public String getTimeDetailCurrentLanguageId() {
-		return _eventPeriod.getTimeDetailCurrentLanguageId();
+		return model.getTimeDetailCurrentLanguageId();
 	}
 
 	@Override
 	public String getTimeDetailCurrentValue() {
-		return _eventPeriod.getTimeDetailCurrentValue();
+		return model.getTimeDetailCurrentValue();
 	}
 
 	/**
@@ -288,7 +249,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getTimeDetailMap() {
-		return _eventPeriod.getTimeDetailMap();
+		return model.getTimeDetailMap();
 	}
 
 	/**
@@ -298,39 +259,19 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _eventPeriod.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _eventPeriod.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _eventPeriod.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _eventPeriod.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _eventPeriod.isNew();
+		return model.getUuid();
 	}
 
 	@Override
 	public void persist() {
-		_eventPeriod.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_eventPeriod.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -338,12 +279,7 @@ public class EventPeriodWrapper
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_eventPeriod.prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_eventPeriod.setCachedModel(cachedModel);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -353,7 +289,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public void setCampaignEventId(long campaignEventId) {
-		_eventPeriod.setCampaignEventId(campaignEventId);
+		model.setCampaignEventId(campaignEventId);
 	}
 
 	/**
@@ -363,7 +299,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public void setEndDate(Date endDate) {
-		_eventPeriod.setEndDate(endDate);
+		model.setEndDate(endDate);
 	}
 
 	/**
@@ -373,7 +309,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public void setEventId(long eventId) {
-		_eventPeriod.setEventId(eventId);
+		model.setEventId(eventId);
 	}
 
 	/**
@@ -383,29 +319,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public void setEventPeriodId(long eventPeriodId) {
-		_eventPeriod.setEventPeriodId(eventPeriodId);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_eventPeriod.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_eventPeriod.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_eventPeriod.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_eventPeriod.setNew(n);
+		model.setEventPeriodId(eventPeriodId);
 	}
 
 	/**
@@ -415,12 +329,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_eventPeriod.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_eventPeriod.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -430,7 +339,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public void setStartDate(Date startDate) {
-		_eventPeriod.setStartDate(startDate);
+		model.setStartDate(startDate);
 	}
 
 	/**
@@ -440,7 +349,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public void setTimeDetail(String timeDetail) {
-		_eventPeriod.setTimeDetail(timeDetail);
+		model.setTimeDetail(timeDetail);
 	}
 
 	/**
@@ -451,7 +360,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public void setTimeDetail(String timeDetail, java.util.Locale locale) {
-		_eventPeriod.setTimeDetail(timeDetail, locale);
+		model.setTimeDetail(timeDetail, locale);
 	}
 
 	/**
@@ -466,12 +375,12 @@ public class EventPeriodWrapper
 		String timeDetail, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_eventPeriod.setTimeDetail(timeDetail, locale, defaultLocale);
+		model.setTimeDetail(timeDetail, locale, defaultLocale);
 	}
 
 	@Override
 	public void setTimeDetailCurrentLanguageId(String languageId) {
-		_eventPeriod.setTimeDetailCurrentLanguageId(languageId);
+		model.setTimeDetailCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -481,7 +390,7 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public void setTimeDetailMap(Map<java.util.Locale, String> timeDetailMap) {
-		_eventPeriod.setTimeDetailMap(timeDetailMap);
+		model.setTimeDetailMap(timeDetailMap);
 	}
 
 	/**
@@ -495,7 +404,7 @@ public class EventPeriodWrapper
 		Map<java.util.Locale, String> timeDetailMap,
 		java.util.Locale defaultLocale) {
 
-		_eventPeriod.setTimeDetailMap(timeDetailMap, defaultLocale);
+		model.setTimeDetailMap(timeDetailMap, defaultLocale);
 	}
 
 	/**
@@ -505,75 +414,17 @@ public class EventPeriodWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_eventPeriod.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.agenda.model.EventPeriod> toCacheModel() {
-
-		return _eventPeriod.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.EventPeriod toEscapedModel() {
-		return new EventPeriodWrapper(_eventPeriod.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _eventPeriod.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.EventPeriod toUnescapedModel() {
-		return new EventPeriodWrapper(_eventPeriod.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _eventPeriod.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof EventPeriodWrapper)) {
-			return false;
-		}
-
-		EventPeriodWrapper eventPeriodWrapper = (EventPeriodWrapper)object;
-
-		if (Objects.equals(_eventPeriod, eventPeriodWrapper._eventPeriod)) {
-			return true;
-		}
-
-		return false;
+	protected EventPeriodWrapper wrap(EventPeriod eventPeriod) {
+		return new EventPeriodWrapper(eventPeriod);
 	}
-
-	@Override
-	public EventPeriod getWrappedModel() {
-		return _eventPeriod;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _eventPeriod.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _eventPeriod.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_eventPeriod.resetOriginalValues();
-	}
-
-	private final EventPeriod _eventPeriod;
 
 }

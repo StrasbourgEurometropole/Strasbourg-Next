@@ -1,28 +1,15 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notif.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,20 +21,11 @@ import java.util.Objects;
  * @generated
  */
 public class NatureNotifWrapper
+	extends BaseModelWrapper<NatureNotif>
 	implements ModelWrapper<NatureNotif>, NatureNotif {
 
 	public NatureNotifWrapper(NatureNotif natureNotif) {
-		_natureNotif = natureNotif;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return NatureNotif.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return NatureNotif.class.getName();
+		super(natureNotif);
 	}
 
 	@Override
@@ -83,30 +61,18 @@ public class NatureNotifWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new NatureNotifWrapper((NatureNotif)_natureNotif.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.notif.model.NatureNotif natureNotif) {
-
-		return _natureNotif.compareTo(natureNotif);
+	public NatureNotif cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _natureNotif.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _natureNotif.getDefaultLanguageId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _natureNotif.getExpandoBridge();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -116,7 +82,7 @@ public class NatureNotifWrapper
 	 */
 	@Override
 	public String getName() {
-		return _natureNotif.getName();
+		return model.getName();
 	}
 
 	/**
@@ -127,7 +93,7 @@ public class NatureNotifWrapper
 	 */
 	@Override
 	public String getName(java.util.Locale locale) {
-		return _natureNotif.getName(locale);
+		return model.getName(locale);
 	}
 
 	/**
@@ -139,7 +105,7 @@ public class NatureNotifWrapper
 	 */
 	@Override
 	public String getName(java.util.Locale locale, boolean useDefault) {
-		return _natureNotif.getName(locale, useDefault);
+		return model.getName(locale, useDefault);
 	}
 
 	/**
@@ -150,7 +116,7 @@ public class NatureNotifWrapper
 	 */
 	@Override
 	public String getName(String languageId) {
-		return _natureNotif.getName(languageId);
+		return model.getName(languageId);
 	}
 
 	/**
@@ -162,17 +128,17 @@ public class NatureNotifWrapper
 	 */
 	@Override
 	public String getName(String languageId, boolean useDefault) {
-		return _natureNotif.getName(languageId, useDefault);
+		return model.getName(languageId, useDefault);
 	}
 
 	@Override
 	public String getNameCurrentLanguageId() {
-		return _natureNotif.getNameCurrentLanguageId();
+		return model.getNameCurrentLanguageId();
 	}
 
 	@Override
 	public String getNameCurrentValue() {
-		return _natureNotif.getNameCurrentValue();
+		return model.getNameCurrentValue();
 	}
 
 	/**
@@ -182,7 +148,7 @@ public class NatureNotifWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getNameMap() {
-		return _natureNotif.getNameMap();
+		return model.getNameMap();
 	}
 
 	/**
@@ -192,7 +158,7 @@ public class NatureNotifWrapper
 	 */
 	@Override
 	public long getNatureId() {
-		return _natureNotif.getNatureId();
+		return model.getNatureId();
 	}
 
 	/**
@@ -202,12 +168,7 @@ public class NatureNotifWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _natureNotif.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _natureNotif.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -217,39 +178,19 @@ public class NatureNotifWrapper
 	 */
 	@Override
 	public long getServiceId() {
-		return _natureNotif.getServiceId();
-	}
-
-	@Override
-	public int hashCode() {
-		return _natureNotif.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _natureNotif.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _natureNotif.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _natureNotif.isNew();
+		return model.getServiceId();
 	}
 
 	@Override
 	public void persist() {
-		_natureNotif.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_natureNotif.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -257,29 +198,7 @@ public class NatureNotifWrapper
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_natureNotif.prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_natureNotif.setCachedModel(cachedModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_natureNotif.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_natureNotif.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_natureNotif.setExpandoBridgeAttributes(serviceContext);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -289,7 +208,7 @@ public class NatureNotifWrapper
 	 */
 	@Override
 	public void setName(String name) {
-		_natureNotif.setName(name);
+		model.setName(name);
 	}
 
 	/**
@@ -300,7 +219,7 @@ public class NatureNotifWrapper
 	 */
 	@Override
 	public void setName(String name, java.util.Locale locale) {
-		_natureNotif.setName(name, locale);
+		model.setName(name, locale);
 	}
 
 	/**
@@ -314,12 +233,12 @@ public class NatureNotifWrapper
 	public void setName(
 		String name, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_natureNotif.setName(name, locale, defaultLocale);
+		model.setName(name, locale, defaultLocale);
 	}
 
 	@Override
 	public void setNameCurrentLanguageId(String languageId) {
-		_natureNotif.setNameCurrentLanguageId(languageId);
+		model.setNameCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -329,7 +248,7 @@ public class NatureNotifWrapper
 	 */
 	@Override
 	public void setNameMap(Map<java.util.Locale, String> nameMap) {
-		_natureNotif.setNameMap(nameMap);
+		model.setNameMap(nameMap);
 	}
 
 	/**
@@ -342,7 +261,7 @@ public class NatureNotifWrapper
 	public void setNameMap(
 		Map<java.util.Locale, String> nameMap, java.util.Locale defaultLocale) {
 
-		_natureNotif.setNameMap(nameMap, defaultLocale);
+		model.setNameMap(nameMap, defaultLocale);
 	}
 
 	/**
@@ -352,12 +271,7 @@ public class NatureNotifWrapper
 	 */
 	@Override
 	public void setNatureId(long natureId) {
-		_natureNotif.setNatureId(natureId);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_natureNotif.setNew(n);
+		model.setNatureId(natureId);
 	}
 
 	/**
@@ -367,12 +281,7 @@ public class NatureNotifWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_natureNotif.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_natureNotif.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -382,75 +291,17 @@ public class NatureNotifWrapper
 	 */
 	@Override
 	public void setServiceId(long serviceId) {
-		_natureNotif.setServiceId(serviceId);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.notif.model.NatureNotif> toCacheModel() {
-
-		return _natureNotif.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.notif.model.NatureNotif toEscapedModel() {
-		return new NatureNotifWrapper(_natureNotif.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _natureNotif.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.notif.model.NatureNotif toUnescapedModel() {
-		return new NatureNotifWrapper(_natureNotif.toUnescapedModel());
+		model.setServiceId(serviceId);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _natureNotif.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof NatureNotifWrapper)) {
-			return false;
-		}
-
-		NatureNotifWrapper natureNotifWrapper = (NatureNotifWrapper)object;
-
-		if (Objects.equals(_natureNotif, natureNotifWrapper._natureNotif)) {
-			return true;
-		}
-
-		return false;
+	protected NatureNotifWrapper wrap(NatureNotif natureNotif) {
+		return new NatureNotifWrapper(natureNotif);
 	}
-
-	@Override
-	public NatureNotif getWrappedModel() {
-		return _natureNotif;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _natureNotif.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _natureNotif.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_natureNotif.resetOriginalValues();
-	}
-
-	private final NatureNotif _natureNotif;
 
 }

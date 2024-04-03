@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notif.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,28 +19,28 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.notif.exception.NoSuchServiceNotifException;
 import eu.strasbourg.service.notif.model.ServiceNotif;
+import eu.strasbourg.service.notif.model.ServiceNotifTable;
 import eu.strasbourg.service.notif.model.impl.ServiceNotifImpl;
 import eu.strasbourg.service.notif.model.impl.ServiceNotifModelImpl;
 import eu.strasbourg.service.notif.service.persistence.ServiceNotifPersistence;
+import eu.strasbourg.service.notif.service.persistence.ServiceNotifUtil;
 
 import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -244,10 +236,6 @@ public class ServiceNotifPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -589,7 +577,7 @@ public class ServiceNotifPersistenceImpl
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ServiceNotifModelImpl</code>.
 	 * </p>
 	 *
-	 * @param organisationId the organisation ID
+	 * @param organisationIds the organisation IDs
 	 * @param start the lower bound of the range of service notifs
 	 * @param end the upper bound of the range of service notifs (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -606,9 +594,7 @@ public class ServiceNotifPersistenceImpl
 			organisationIds = new long[0];
 		}
 		else if (organisationIds.length > 1) {
-			organisationIds = ArrayUtil.unique(organisationIds);
-
-			Arrays.sort(organisationIds);
+			organisationIds = ArrayUtil.sortedUnique(organisationIds);
 		}
 
 		if (organisationIds.length == 1) {
@@ -701,12 +687,6 @@ public class ServiceNotifPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathWithPaginationFindByOrganisationIds,
-						finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -772,8 +752,6 @@ public class ServiceNotifPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -796,9 +774,7 @@ public class ServiceNotifPersistenceImpl
 			organisationIds = new long[0];
 		}
 		else if (organisationIds.length > 1) {
-			organisationIds = ArrayUtil.unique(organisationIds);
-
-			Arrays.sort(organisationIds);
+			organisationIds = ArrayUtil.sortedUnique(organisationIds);
 		}
 
 		Object[] finderArgs = new Object[] {StringUtil.merge(organisationIds)};
@@ -842,10 +818,6 @@ public class ServiceNotifPersistenceImpl
 					count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathWithPaginationCountByOrganisationIds,
-					finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1008,11 +980,6 @@ public class ServiceNotifPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByTopic, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1095,8 +1062,6 @@ public class ServiceNotifPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1115,6 +1080,11 @@ public class ServiceNotifPersistenceImpl
 
 	public ServiceNotifPersistenceImpl() {
 		setModelClass(ServiceNotif.class);
+
+		setModelImplClass(ServiceNotifImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(ServiceNotifTable.INSTANCE);
 	}
 
 	/**
@@ -1125,15 +1095,14 @@ public class ServiceNotifPersistenceImpl
 	@Override
 	public void cacheResult(ServiceNotif serviceNotif) {
 		entityCache.putResult(
-			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED, ServiceNotifImpl.class,
-			serviceNotif.getPrimaryKey(), serviceNotif);
+			ServiceNotifImpl.class, serviceNotif.getPrimaryKey(), serviceNotif);
 
 		finderCache.putResult(
 			_finderPathFetchByTopic,
 			new Object[] {serviceNotif.getCsmapTopic()}, serviceNotif);
-
-		serviceNotif.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the service notifs in the entity cache if it is enabled.
@@ -1142,16 +1111,19 @@ public class ServiceNotifPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<ServiceNotif> serviceNotifs) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (serviceNotifs.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (ServiceNotif serviceNotif : serviceNotifs) {
 			if (entityCache.getResult(
-					ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
 					ServiceNotifImpl.class, serviceNotif.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(serviceNotif);
-			}
-			else {
-				serviceNotif.resetOriginalValues();
 			}
 		}
 	}
@@ -1167,9 +1139,7 @@ public class ServiceNotifPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(ServiceNotifImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ServiceNotifImpl.class);
 	}
 
 	/**
@@ -1181,39 +1151,22 @@ public class ServiceNotifPersistenceImpl
 	 */
 	@Override
 	public void clearCache(ServiceNotif serviceNotif) {
-		entityCache.removeResult(
-			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED, ServiceNotifImpl.class,
-			serviceNotif.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((ServiceNotifModelImpl)serviceNotif, true);
+		entityCache.removeResult(ServiceNotifImpl.class, serviceNotif);
 	}
 
 	@Override
 	public void clearCache(List<ServiceNotif> serviceNotifs) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (ServiceNotif serviceNotif : serviceNotifs) {
-			entityCache.removeResult(
-				ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
-				ServiceNotifImpl.class, serviceNotif.getPrimaryKey());
-
-			clearUniqueFindersCache((ServiceNotifModelImpl)serviceNotif, true);
+			entityCache.removeResult(ServiceNotifImpl.class, serviceNotif);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ServiceNotifImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
-				ServiceNotifImpl.class, primaryKey);
+			entityCache.removeResult(ServiceNotifImpl.class, primaryKey);
 		}
 	}
 
@@ -1222,34 +1175,9 @@ public class ServiceNotifPersistenceImpl
 
 		Object[] args = new Object[] {serviceNotifModelImpl.getCsmapTopic()};
 
+		finderCache.putResult(_finderPathCountByTopic, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByTopic, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByTopic, args, serviceNotifModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		ServiceNotifModelImpl serviceNotifModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				serviceNotifModelImpl.getCsmapTopic()
-			};
-
-			finderCache.removeResult(_finderPathCountByTopic, args);
-			finderCache.removeResult(_finderPathFetchByTopic, args);
-		}
-
-		if ((serviceNotifModelImpl.getColumnBitmask() &
-			 _finderPathFetchByTopic.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				serviceNotifModelImpl.getOriginalCsmapTopic()
-			};
-
-			finderCache.removeResult(_finderPathCountByTopic, args);
-			finderCache.removeResult(_finderPathFetchByTopic, args);
-		}
+			_finderPathFetchByTopic, args, serviceNotifModelImpl);
 	}
 
 	/**
@@ -1380,24 +1308,24 @@ public class ServiceNotifPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (serviceNotif.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				serviceNotif.setCreateDate(now);
+				serviceNotif.setCreateDate(date);
 			}
 			else {
-				serviceNotif.setCreateDate(serviceContext.getCreateDate(now));
+				serviceNotif.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!serviceNotifModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				serviceNotif.setModifiedDate(now);
+				serviceNotif.setModifiedDate(date);
 			}
 			else {
 				serviceNotif.setModifiedDate(
-					serviceContext.getModifiedDate(now));
+					serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -1406,10 +1334,8 @@ public class ServiceNotifPersistenceImpl
 		try {
 			session = openSession();
 
-			if (serviceNotif.isNew()) {
+			if (isNew) {
 				session.save(serviceNotif);
-
-				serviceNotif.setNew(false);
 			}
 			else {
 				serviceNotif = (ServiceNotif)session.merge(serviceNotif);
@@ -1422,53 +1348,14 @@ public class ServiceNotifPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!ServiceNotifModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				serviceNotifModelImpl.getOrganisationId()
-			};
-
-			finderCache.removeResult(_finderPathCountByOrganisationIds, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByOrganisationIds, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((serviceNotifModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByOrganisationIds.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					serviceNotifModelImpl.getOriginalOrganisationId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByOrganisationIds, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByOrganisationIds, args);
-
-				args = new Object[] {serviceNotifModelImpl.getOrganisationId()};
-
-				finderCache.removeResult(
-					_finderPathCountByOrganisationIds, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByOrganisationIds, args);
-			}
-		}
-
 		entityCache.putResult(
-			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED, ServiceNotifImpl.class,
-			serviceNotif.getPrimaryKey(), serviceNotif, false);
+			ServiceNotifImpl.class, serviceNotifModelImpl, false, true);
 
-		clearUniqueFindersCache(serviceNotifModelImpl, false);
 		cacheUniqueFindersCache(serviceNotifModelImpl);
+
+		if (isNew) {
+			serviceNotif.setNew(false);
+		}
 
 		serviceNotif.resetOriginalValues();
 
@@ -1517,161 +1404,12 @@ public class ServiceNotifPersistenceImpl
 	/**
 	 * Returns the service notif with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the service notif
-	 * @return the service notif, or <code>null</code> if a service notif with the primary key could not be found
-	 */
-	@Override
-	public ServiceNotif fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED, ServiceNotifImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		ServiceNotif serviceNotif = (ServiceNotif)serializable;
-
-		if (serviceNotif == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				serviceNotif = (ServiceNotif)session.get(
-					ServiceNotifImpl.class, primaryKey);
-
-				if (serviceNotif != null) {
-					cacheResult(serviceNotif);
-				}
-				else {
-					entityCache.putResult(
-						ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
-						ServiceNotifImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
-					ServiceNotifImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return serviceNotif;
-	}
-
-	/**
-	 * Returns the service notif with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param serviceId the primary key of the service notif
 	 * @return the service notif, or <code>null</code> if a service notif with the primary key could not be found
 	 */
 	@Override
 	public ServiceNotif fetchByPrimaryKey(long serviceId) {
 		return fetchByPrimaryKey((Serializable)serviceId);
-	}
-
-	@Override
-	public Map<Serializable, ServiceNotif> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, ServiceNotif> map =
-			new HashMap<Serializable, ServiceNotif>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			ServiceNotif serviceNotif = fetchByPrimaryKey(primaryKey);
-
-			if (serviceNotif != null) {
-				map.put(primaryKey, serviceNotif);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
-				ServiceNotifImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (ServiceNotif)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_SERVICENOTIF_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (ServiceNotif serviceNotif : (List<ServiceNotif>)query.list()) {
-				map.put(serviceNotif.getPrimaryKeyObj(), serviceNotif);
-
-				cacheResult(serviceNotif);
-
-				uncachedPrimaryKeys.remove(serviceNotif.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
-					ServiceNotifImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1798,10 +1536,6 @@ public class ServiceNotifPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1847,9 +1581,6 @@ public class ServiceNotifPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1861,6 +1592,21 @@ public class ServiceNotifPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "serviceId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_SERVICENOTIF;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return ServiceNotifModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1869,71 +1615,61 @@ public class ServiceNotifPersistenceImpl
 	 * Initializes the service notif persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
-			ServiceNotifModelImpl.FINDER_CACHE_ENABLED, ServiceNotifImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
-			ServiceNotifModelImpl.FINDER_CACHE_ENABLED, ServiceNotifImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
-			ServiceNotifModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByOrganisationIds = new FinderPath(
-			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
-			ServiceNotifModelImpl.FINDER_CACHE_ENABLED, ServiceNotifImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByOrganisationIds",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"organisationId"}, true);
 
 		_finderPathWithoutPaginationFindByOrganisationIds = new FinderPath(
-			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
-			ServiceNotifModelImpl.FINDER_CACHE_ENABLED, ServiceNotifImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByOrganisationIds",
 			new String[] {Long.class.getName()},
-			ServiceNotifModelImpl.ORGANISATIONID_COLUMN_BITMASK |
-			ServiceNotifModelImpl.NAME_COLUMN_BITMASK);
+			new String[] {"organisationId"}, true);
 
 		_finderPathCountByOrganisationIds = new FinderPath(
-			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
-			ServiceNotifModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByOrganisationIds",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()},
+			new String[] {"organisationId"}, false);
 
 		_finderPathWithPaginationCountByOrganisationIds = new FinderPath(
-			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
-			ServiceNotifModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByOrganisationIds",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()},
+			new String[] {"organisationId"}, false);
 
 		_finderPathFetchByTopic = new FinderPath(
-			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
-			ServiceNotifModelImpl.FINDER_CACHE_ENABLED, ServiceNotifImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByTopic",
-			new String[] {String.class.getName()},
-			ServiceNotifModelImpl.CSMAPTOPIC_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"csmapTopic"},
+			true);
 
 		_finderPathCountByTopic = new FinderPath(
-			ServiceNotifModelImpl.ENTITY_CACHE_ENABLED,
-			ServiceNotifModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTopic",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"csmapTopic"},
+			false);
+
+		ServiceNotifUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		ServiceNotifUtil.setPersistence(null);
+
 		entityCache.removeCache(ServiceNotifImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1944,9 +1680,6 @@ public class ServiceNotifPersistenceImpl
 
 	private static final String _SQL_SELECT_SERVICENOTIF =
 		"SELECT serviceNotif FROM ServiceNotif serviceNotif";
-
-	private static final String _SQL_SELECT_SERVICENOTIF_WHERE_PKS_IN =
-		"SELECT serviceNotif FROM ServiceNotif serviceNotif WHERE serviceId IN (";
 
 	private static final String _SQL_SELECT_SERVICENOTIF_WHERE =
 		"SELECT serviceNotif FROM ServiceNotif serviceNotif WHERE ";
@@ -1967,5 +1700,10 @@ public class ServiceNotifPersistenceImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ServiceNotifPersistenceImpl.class);
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

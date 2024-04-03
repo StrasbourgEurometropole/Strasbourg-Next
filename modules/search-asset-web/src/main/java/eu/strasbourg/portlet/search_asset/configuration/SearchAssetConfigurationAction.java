@@ -9,6 +9,7 @@ import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMTemplate;
 import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ClassName;
@@ -218,8 +219,8 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			setPreference(actionRequest, "searchForm", searchForm);
 
 			// Préfiltre catégories
-			String prefilterCategoriesIds = ParamUtil.getString(actionRequest,
-				"prefilterCategoriesIds");
+			String prefilterCategoriesIds = String.join(",", ParamUtil.getStringValues(actionRequest,
+				"prefilterCategoriesIds"));
 			// On enregistre les ids des catégories sous forme de String
 			// On sépare les catégories d'un même vocabulaire par des virgules
 			// et les vocabulaires par des points-virgules
@@ -309,9 +310,7 @@ public class SearchAssetConfigurationAction extends DefaultConfigurationAction {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
-			SearchAssetConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-					SearchAssetConfiguration.class);
+			SearchAssetConfiguration configuration =  ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssetConfiguration.class, themeDisplay);
 
 			// Liste tous les types possibles d'asset
 			// On ne prend que ceux qui commencent par "eu.strasbourg"

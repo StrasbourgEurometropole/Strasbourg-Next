@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.oidc.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Brian Wing Shun Chan
  */
-@ProviderType
 public class NoSuchPublikUserException extends NoSuchModelException {
 
 	public NoSuchPublikUserException() {
@@ -30,12 +27,12 @@ public class NoSuchPublikUserException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchPublikUserException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchPublikUserException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchPublikUserException(Throwable cause) {
-		super(cause);
+	public NoSuchPublikUserException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

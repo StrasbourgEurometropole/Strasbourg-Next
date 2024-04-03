@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.agenda.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author BenjaminBini
  */
-@ProviderType
 public class NoSuchAgendaExportException extends NoSuchModelException {
 
 	public NoSuchAgendaExportException() {
@@ -30,12 +27,12 @@ public class NoSuchAgendaExportException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchAgendaExportException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchAgendaExportException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchAgendaExportException(Throwable cause) {
-		super(cause);
+	public NoSuchAgendaExportException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

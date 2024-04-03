@@ -50,28 +50,22 @@
 
       instance._videoTPL = new CKEDITOR.template(TPL_VIDEO);
 
-      editor.addCommand("videoselector", {
+      editor.addCommand('videoselector', {
         canUndo: false,
-        exec: function(editor, callback) {
-          var onSelectedVideoChangeFn = AUI().bind(
-            "_onSelectedVideoChange",
-            instance,
-            editor,
-            callback
+        exec(editor, callback) {
+          const onSelectedVideoChangeFn = AUI().bind(
+              '_onSelectedVideoChange',
+              instance,
+              editor,
+              callback
           );
 
-          instance._getItemSelectorDialog(
-            editor,
-            editor.config.videobrowserVideoBrowseUrl,
-            function(itemSelectorDialog) {
-              itemSelectorDialog.once(
-                "selectedItemChange",
-                onSelectedVideoChangeFn
-              );
-              itemSelectorDialog.open();
-            }
+          instance._openSelectionModal(
+              editor,
+              editor.config.videobrowserVideoBrowseUrl,
+              onSelectedVideoChangeFn
           );
-        }
+        },
       });
 
       if (editor.ui.addButton) {
@@ -127,39 +121,18 @@
       }
     },
 
-    _getItemSelectorDialog: function(editor, url, callback) {
-      var instance = this;
-
-      var eventName = editor.name + "selectItem";
-
-      var itemSelectorDialog = instance._itemSelectorDialog;
-
-      if (itemSelectorDialog) {
-        itemSelectorDialog.set("eventName", eventName);
-        itemSelectorDialog.set("url", url);
-        itemSelectorDialog.set("zIndex", CKEDITOR.getNextZIndex());
-
-        callback(itemSelectorDialog);
-      } else {
-        AUI().use("liferay-item-selector-dialog", function(A) {
-          itemSelectorDialog = new A.LiferayItemSelectorDialog({
-            eventName: eventName,
-            url: url,
-            zIndex: CKEDITOR.getNextZIndex(),
-            title: "Sélectionnez une vidéo"
-          });
-
-          instance._itemSelectorDialog = itemSelectorDialog;
-
-          callback(itemSelectorDialog);
-        });
-      }
+    _openSelectionModal(editor, url, callback) {
+      Liferay.Util.openSelectionModal({
+        onSelect: callback,
+        selectEventName: editor.name + 'selectItem',
+        title: Liferay.Language.get('select-item'),
+        url,
+        zIndex: CKEDITOR.getNextZIndex(),
+      });
     },
 
-    _onSelectedVideoChange: function(editor, callback, event) {
+    _onSelectedVideoChange: function(editor, callback, selectedItem) {
       var instance = this;
-
-      var selectedItem = event.newVal;
 
       if (selectedItem && selectedItem.entityId > 0) {
         Liferay.Service(

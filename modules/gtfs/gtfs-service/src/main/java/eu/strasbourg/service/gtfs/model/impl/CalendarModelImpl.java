@@ -1,21 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -23,16 +15,16 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.gtfs.model.Calendar;
 import eu.strasbourg.service.gtfs.model.CalendarModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -40,6 +32,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -108,27 +101,46 @@ public class CalendarModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.gtfs.model.Calendar"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.gtfs.model.Calendar"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.Calendar"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long END_DATE_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long SERVICE_ID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long START_DATE_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 8L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -186,9 +198,6 @@ public class CalendarModelImpl
 				attributeName, attributeGetterFunction.apply((Calendar)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -213,299 +222,86 @@ public class CalendarModelImpl
 	public Map<String, Function<Calendar, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Calendar, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Calendar>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Calendar.class.getClassLoader(), Calendar.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<Calendar, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Calendar> constructor =
-				(Constructor<Calendar>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Calendar, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Calendar, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Calendar::getUuid);
+			attributeGetterFunctions.put("id", Calendar::getId);
+			attributeGetterFunctions.put("service_id", Calendar::getService_id);
+			attributeGetterFunctions.put("monday", Calendar::getMonday);
+			attributeGetterFunctions.put("tuesday", Calendar::getTuesday);
+			attributeGetterFunctions.put("wednesday", Calendar::getWednesday);
+			attributeGetterFunctions.put("thursday", Calendar::getThursday);
+			attributeGetterFunctions.put("friday", Calendar::getFriday);
+			attributeGetterFunctions.put("saturday", Calendar::getSaturday);
+			attributeGetterFunctions.put("sunday", Calendar::getSunday);
+			attributeGetterFunctions.put("start_date", Calendar::getStart_date);
+			attributeGetterFunctions.put("end_date", Calendar::getEnd_date);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Calendar, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Calendar, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<Calendar, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Calendar, Object>>();
-		Map<String, BiConsumer<Calendar, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Calendar, ?>>();
+		private static final Map<String, BiConsumer<Calendar, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Calendar, Object>() {
+		static {
+			Map<String, BiConsumer<Calendar, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Calendar, ?>>();
 
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getUuid();
-				}
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Calendar, String>)Calendar::setUuid);
+			attributeSetterBiConsumers.put(
+				"id", (BiConsumer<Calendar, Long>)Calendar::setId);
+			attributeSetterBiConsumers.put(
+				"service_id",
+				(BiConsumer<Calendar, String>)Calendar::setService_id);
+			attributeSetterBiConsumers.put(
+				"monday", (BiConsumer<Calendar, Boolean>)Calendar::setMonday);
+			attributeSetterBiConsumers.put(
+				"tuesday", (BiConsumer<Calendar, Boolean>)Calendar::setTuesday);
+			attributeSetterBiConsumers.put(
+				"wednesday",
+				(BiConsumer<Calendar, Boolean>)Calendar::setWednesday);
+			attributeSetterBiConsumers.put(
+				"thursday",
+				(BiConsumer<Calendar, Boolean>)Calendar::setThursday);
+			attributeSetterBiConsumers.put(
+				"friday", (BiConsumer<Calendar, Boolean>)Calendar::setFriday);
+			attributeSetterBiConsumers.put(
+				"saturday",
+				(BiConsumer<Calendar, Boolean>)Calendar::setSaturday);
+			attributeSetterBiConsumers.put(
+				"sunday", (BiConsumer<Calendar, Boolean>)Calendar::setSunday);
+			attributeSetterBiConsumers.put(
+				"start_date",
+				(BiConsumer<Calendar, Date>)Calendar::setStart_date);
+			attributeSetterBiConsumers.put(
+				"end_date", (BiConsumer<Calendar, Date>)Calendar::setEnd_date);
 
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Calendar, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(Calendar calendar, Object uuidObject) {
-					calendar.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"id",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"id",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object idObject) {
-					calendar.setId((Long)idObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"service_id",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getService_id();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"service_id",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object service_idObject) {
-					calendar.setService_id((String)service_idObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"monday",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getMonday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"monday",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object mondayObject) {
-					calendar.setMonday((Boolean)mondayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"tuesday",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getTuesday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"tuesday",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object tuesdayObject) {
-					calendar.setTuesday((Boolean)tuesdayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"wednesday",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getWednesday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"wednesday",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object wednesdayObject) {
-					calendar.setWednesday((Boolean)wednesdayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"thursday",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getThursday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"thursday",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object thursdayObject) {
-					calendar.setThursday((Boolean)thursdayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"friday",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getFriday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"friday",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object fridayObject) {
-					calendar.setFriday((Boolean)fridayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"saturday",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getSaturday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"saturday",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object saturdayObject) {
-					calendar.setSaturday((Boolean)saturdayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"sunday",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getSunday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"sunday",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object sundayObject) {
-					calendar.setSunday((Boolean)sundayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"start_date",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getStart_date();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"start_date",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object start_dateObject) {
-					calendar.setStart_date((Date)start_dateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"end_date",
-			new Function<Calendar, Object>() {
-
-				@Override
-				public Object apply(Calendar calendar) {
-					return calendar.getEnd_date();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"end_date",
-			new BiConsumer<Calendar, Object>() {
-
-				@Override
-				public void accept(Calendar calendar, Object end_dateObject) {
-					calendar.setEnd_date((Date)end_dateObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -520,17 +316,20 @@ public class CalendarModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -540,6 +339,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setId(long id) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_id = id;
 	}
 
@@ -555,17 +358,20 @@ public class CalendarModelImpl
 
 	@Override
 	public void setService_id(String service_id) {
-		_columnBitmask = -1L;
-
-		if (_originalService_id == null) {
-			_originalService_id = _service_id;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_service_id = service_id;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalService_id() {
-		return GetterUtil.getString(_originalService_id);
+		return getColumnOriginalValue("service_id");
 	}
 
 	@Override
@@ -580,6 +386,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setMonday(boolean monday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_monday = monday;
 	}
 
@@ -595,6 +405,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setTuesday(boolean tuesday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_tuesday = tuesday;
 	}
 
@@ -610,6 +424,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setWednesday(boolean wednesday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_wednesday = wednesday;
 	}
 
@@ -625,6 +443,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setThursday(boolean thursday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_thursday = thursday;
 	}
 
@@ -640,6 +462,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setFriday(boolean friday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_friday = friday;
 	}
 
@@ -655,6 +481,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setSaturday(boolean saturday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_saturday = saturday;
 	}
 
@@ -670,6 +500,10 @@ public class CalendarModelImpl
 
 	@Override
 	public void setSunday(boolean sunday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_sunday = sunday;
 	}
 
@@ -680,17 +514,20 @@ public class CalendarModelImpl
 
 	@Override
 	public void setStart_date(Date start_date) {
-		_columnBitmask |= START_DATE_COLUMN_BITMASK;
-
-		if (_originalStart_date == null) {
-			_originalStart_date = _start_date;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_start_date = start_date;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalStart_date() {
-		return _originalStart_date;
+		return getColumnOriginalValue("start_date");
 	}
 
 	@Override
@@ -700,20 +537,43 @@ public class CalendarModelImpl
 
 	@Override
 	public void setEnd_date(Date end_date) {
-		_columnBitmask |= END_DATE_COLUMN_BITMASK;
-
-		if (_originalEnd_date == null) {
-			_originalEnd_date = _end_date;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_end_date = end_date;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalEnd_date() {
-		return _originalEnd_date;
+		return getColumnOriginalValue("end_date");
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -768,6 +628,32 @@ public class CalendarModelImpl
 	}
 
 	@Override
+	public Calendar cloneWithOriginalValues() {
+		CalendarImpl calendarImpl = new CalendarImpl();
+
+		calendarImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		calendarImpl.setId(this.<Long>getColumnOriginalValue("id_"));
+		calendarImpl.setService_id(
+			this.<String>getColumnOriginalValue("service_id"));
+		calendarImpl.setMonday(this.<Boolean>getColumnOriginalValue("monday"));
+		calendarImpl.setTuesday(
+			this.<Boolean>getColumnOriginalValue("tuesday"));
+		calendarImpl.setWednesday(
+			this.<Boolean>getColumnOriginalValue("wednesday"));
+		calendarImpl.setThursday(
+			this.<Boolean>getColumnOriginalValue("thursday"));
+		calendarImpl.setFriday(this.<Boolean>getColumnOriginalValue("friday"));
+		calendarImpl.setSaturday(
+			this.<Boolean>getColumnOriginalValue("saturday"));
+		calendarImpl.setSunday(this.<Boolean>getColumnOriginalValue("sunday"));
+		calendarImpl.setStart_date(
+			this.<Date>getColumnOriginalValue("start_date"));
+		calendarImpl.setEnd_date(this.<Date>getColumnOriginalValue("end_date"));
+
+		return calendarImpl;
+	}
+
+	@Override
 	public int compareTo(Calendar calendar) {
 		int value = 0;
 
@@ -807,11 +693,19 @@ public class CalendarModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -819,17 +713,9 @@ public class CalendarModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CalendarModelImpl calendarModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		calendarModelImpl._originalUuid = calendarModelImpl._uuid;
-
-		calendarModelImpl._originalService_id = calendarModelImpl._service_id;
-
-		calendarModelImpl._originalStart_date = calendarModelImpl._start_date;
-
-		calendarModelImpl._originalEnd_date = calendarModelImpl._end_date;
-
-		calendarModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -895,7 +781,7 @@ public class CalendarModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -906,9 +792,26 @@ public class CalendarModelImpl
 			Function<Calendar, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Calendar)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Calendar)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -921,49 +824,18 @@ public class CalendarModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Calendar, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Calendar, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Calendar, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Calendar)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Calendar>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Calendar.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _id;
 	private String _service_id;
-	private String _originalService_id;
 	private boolean _monday;
 	private boolean _tuesday;
 	private boolean _wednesday;
@@ -972,9 +844,101 @@ public class CalendarModelImpl
 	private boolean _saturday;
 	private boolean _sunday;
 	private Date _start_date;
-	private Date _originalStart_date;
 	private Date _end_date;
-	private Date _originalEnd_date;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Calendar, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Calendar)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("id_", _id);
+		_columnOriginalValues.put("service_id", _service_id);
+		_columnOriginalValues.put("monday", _monday);
+		_columnOriginalValues.put("tuesday", _tuesday);
+		_columnOriginalValues.put("wednesday", _wednesday);
+		_columnOriginalValues.put("thursday", _thursday);
+		_columnOriginalValues.put("friday", _friday);
+		_columnOriginalValues.put("saturday", _saturday);
+		_columnOriginalValues.put("sunday", _sunday);
+		_columnOriginalValues.put("start_date", _start_date);
+		_columnOriginalValues.put("end_date", _end_date);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("id_", "id");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("id_", 2L);
+
+		columnBitmasks.put("service_id", 4L);
+
+		columnBitmasks.put("monday", 8L);
+
+		columnBitmasks.put("tuesday", 16L);
+
+		columnBitmasks.put("wednesday", 32L);
+
+		columnBitmasks.put("thursday", 64L);
+
+		columnBitmasks.put("friday", 128L);
+
+		columnBitmasks.put("saturday", 256L);
+
+		columnBitmasks.put("sunday", 512L);
+
+		columnBitmasks.put("start_date", 1024L);
+
+		columnBitmasks.put("end_date", 2048L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Calendar _escapedModel;
 

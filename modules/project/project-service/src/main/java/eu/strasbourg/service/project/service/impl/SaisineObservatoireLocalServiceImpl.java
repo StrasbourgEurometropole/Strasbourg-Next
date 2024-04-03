@@ -14,10 +14,13 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -46,6 +49,7 @@ import eu.strasbourg.service.project.service.base.SaisineObservatoireLocalServic
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.FriendlyURLs;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Reference;
 
 import java.util.Comparator;
 import java.util.List;
@@ -205,10 +209,8 @@ public class SaisineObservatoireLocalServiceImpl
 
         if (entry != null) {
             // Delete the link with categories
-            for (long categoryId : entry.getCategoryIds()) {
-                this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-                        categoryId, entry.getEntryId());
-            }
+            AssetEntryAssetCategoryRelLocalServiceUtil.
+                    deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
             // Delete the link with tags
             long[] tagIds = AssetEntryLocalServiceUtil
@@ -221,7 +223,7 @@ public class SaisineObservatoireLocalServiceImpl
             }
 
             // Supprime lien avec les autres entries
-            List<AssetLink> links = this.assetLinkLocalService
+            List<AssetLink> links = AssetLinkLocalServiceUtil
                     .getLinks(entry.getEntryId());
             if (links != null && !links.isEmpty()) {
                 for (AssetLink link : links) {
@@ -337,4 +339,12 @@ public class SaisineObservatoireLocalServiceImpl
             return temp.stream().limit(3).collect(Collectors.toList());
         }
     }
+
+    @Override
+    public List<SaisineObservatoire> getByPublikUserID(String publikId){
+        return saisineObservatoirePersistence.findByPublikId(publikId);
+    }
+
+    @Reference
+    private AssetLinkLocalService assetLinkLocalService;
 }

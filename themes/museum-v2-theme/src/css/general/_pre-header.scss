@@ -9,10 +9,16 @@
         }
 
         .pre-header-inner{
-            padding: 0 130px 0 20px;
+            padding: 0 100px 0 20px;
+            display: flex;
+    
+            @include RWD(tablet_landscape){
+                padding-right: 130px;
+            }
 
             .strasbourg-eu-logo {
                 display: inline-block;
+                margin-right: auto;
 
                 img {
                     width: 128px;
@@ -22,120 +28,74 @@
 
             .portlet-journal-content {
                 margin-top: -1px;
-                float: right;
 
                 .accessibility-menu {
-                    margin: -1px -18px 0 0;
+                    display: flex;
                     list-style: none;
                     padding: 0;
+                    margin: 0;
+                    line-height: 0;
                     
-                    .access-item:not(.language):hover {
+                    .access-item:hover {
                         background: rgba(255, 255, 255, 0.07);
-                    }
-                    
-                    > li {
-                        float: left;
-                        position: relative;
-                        margin: 0;
-                        padding: 0;
                     }
 
                     li.access-item {
+                        display: inline-block;
                         border-left: 1px solid #5e5e5e;
                     
                         a {
                             display: table-cell;
                             vertical-align: middle;
-                            padding: 10px 13px 8px 13px;
+                            padding: 0 13px;
                             height: 40px;
                             @include ft($proximaNova, 0.875rem, 400, white, 1.25rem, "");
                             text-decoration: none;
                         }
-
-                        .language-menu {
-                            position: relative;
-
-                            @include RWD(tablet_landscape){
-                                padding: 0 10px;
-                            }
-
-                            .active-language {
-                                padding-bottom: 10px;
-
-                                @include RWD(tablet_landscape){
-                                    display: none;
-                                }
-                                
-                            }
-
-                            &.open ul {
-                                display: block;
-                                z-index: 100;
-                            }
-
-                            ul {
-                                display: none;
-                                @include positionAbsolute(1, "", (top: 40px, right: 0));
-                                background: $color_txt;
-                                border-top: 1px solid #5e5e5e;
-                                width: 100%;
-                                list-style: none;
-                                padding: 0;
-                                margin: 0;
-                                vertical-align: top;
-
-                                @include RWD(tablet_landscape){
-                                    display: block;
-                                    position: static;
-                                    border-top: 0;
-                                }
+                    }
+                }
+            }
                     
-                                > li {
-                                    float: left;
-                                    position: relative;
-                                    margin: 0;
-                                    padding: 0;
-                                }
-                            
-                                li {
-                                    float: none;
-                                    width: 100%;
-                                    text-align: center;
+            .access-item.language {
+                border-left: 1px solid #5e5e5e;          
 
-                                    @include RWD(tablet_landscape){
-                                        float: left;
-                                        width: auto;
-                                    }
-
-                                    a {
-                                        display: block;
-                                        width: 100%;
-                                        height: auto;
-                                        padding: 5px 5px 4px 5px;
-                                        color: #999999;
+                .language-menu {
+                    padding: 0 0 0 10px;
+    
+                    ul {
+                        display: flex;
+                        list-style: none;
+                        padding: 0;
+                        margin: 0;
+                        line-height: 0;
             
-                                        @include RWD(tablet_landscape){
-                                            display: table-cell;
-                                            vertical-align: middle;
-                                            padding: 10px 5px 8px 5px;
-                                            height: 39px;
-                                        }
-
-                                        &:hover {
-                                            color: white;
-                                        }
-                                    }
-
-                                    &.active a {
-                                        color: white;
-                                    }
+                        li {    
+                            display: inline-block;
+            
+                            a {
+                                display: table-cell;
+                                vertical-align: middle;
+                                padding: 0 5px;
+                                height: 40px;
+                                @include ft($proximaNova, 0.875rem, 400, #999999, 1.25rem, "");
+                                text-decoration: none;
+                                fill: #999999;
+    
+                                &:hover {
+                                    color: white;
+                                    fill: white;
                                 }
                             }
-
-                            a:hover{
-                                text-decoration: none;
+    
+                            &.active a {
+                                color: white;
+                                fill: white;
                             }
                         }
+                    }
+    
+                    a:hover{
+                        text-decoration: none;
                     }
                 }
             }

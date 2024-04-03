@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.search.log.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -23,25 +15,24 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.search.log.exception.NoSuchSearchLogException;
 import eu.strasbourg.service.search.log.model.SearchLog;
+import eu.strasbourg.service.search.log.model.SearchLogTable;
 import eu.strasbourg.service.search.log.model.impl.SearchLogImpl;
 import eu.strasbourg.service.search.log.model.impl.SearchLogModelImpl;
 import eu.strasbourg.service.search.log.service.persistence.SearchLogPersistence;
+import eu.strasbourg.service.search.log.service.persistence.SearchLogUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -82,21 +73,14 @@ public class SearchLogPersistenceImpl
 
 		dbColumnNames.put("date", "date_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(SearchLog.class);
+
+		setModelImplClass(SearchLogImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(SearchLogTable.INSTANCE);
 	}
 
 	/**
@@ -107,11 +91,10 @@ public class SearchLogPersistenceImpl
 	@Override
 	public void cacheResult(SearchLog searchLog) {
 		entityCache.putResult(
-			SearchLogModelImpl.ENTITY_CACHE_ENABLED, SearchLogImpl.class,
-			searchLog.getPrimaryKey(), searchLog);
-
-		searchLog.resetOriginalValues();
+			SearchLogImpl.class, searchLog.getPrimaryKey(), searchLog);
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the search logs in the entity cache if it is enabled.
@@ -120,15 +103,18 @@ public class SearchLogPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<SearchLog> searchLogs) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (searchLogs.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (SearchLog searchLog : searchLogs) {
 			if (entityCache.getResult(
-					SearchLogModelImpl.ENTITY_CACHE_ENABLED,
 					SearchLogImpl.class, searchLog.getPrimaryKey()) == null) {
 
 				cacheResult(searchLog);
-			}
-			else {
-				searchLog.resetOriginalValues();
 			}
 		}
 	}
@@ -144,9 +130,7 @@ public class SearchLogPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(SearchLogImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(SearchLogImpl.class);
 	}
 
 	/**
@@ -158,35 +142,22 @@ public class SearchLogPersistenceImpl
 	 */
 	@Override
 	public void clearCache(SearchLog searchLog) {
-		entityCache.removeResult(
-			SearchLogModelImpl.ENTITY_CACHE_ENABLED, SearchLogImpl.class,
-			searchLog.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(SearchLogImpl.class, searchLog);
 	}
 
 	@Override
 	public void clearCache(List<SearchLog> searchLogs) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (SearchLog searchLog : searchLogs) {
-			entityCache.removeResult(
-				SearchLogModelImpl.ENTITY_CACHE_ENABLED, SearchLogImpl.class,
-				searchLog.getPrimaryKey());
+			entityCache.removeResult(SearchLogImpl.class, searchLog);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(SearchLogImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				SearchLogModelImpl.ENTITY_CACHE_ENABLED, SearchLogImpl.class,
-				primaryKey);
+			entityCache.removeResult(SearchLogImpl.class, primaryKey);
 		}
 	}
 
@@ -298,10 +269,8 @@ public class SearchLogPersistenceImpl
 		try {
 			session = openSession();
 
-			if (searchLog.isNew()) {
+			if (isNew) {
 				session.save(searchLog);
-
-				searchLog.setNew(false);
 			}
 			else {
 				searchLog = (SearchLog)session.merge(searchLog);
@@ -314,17 +283,11 @@ public class SearchLogPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(SearchLogImpl.class, searchLog, false, true);
 
 		if (isNew) {
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+			searchLog.setNew(false);
 		}
-
-		entityCache.putResult(
-			SearchLogModelImpl.ENTITY_CACHE_ENABLED, SearchLogImpl.class,
-			searchLog.getPrimaryKey(), searchLog, false);
 
 		searchLog.resetOriginalValues();
 
@@ -373,161 +336,12 @@ public class SearchLogPersistenceImpl
 	/**
 	 * Returns the search log with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the search log
-	 * @return the search log, or <code>null</code> if a search log with the primary key could not be found
-	 */
-	@Override
-	public SearchLog fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			SearchLogModelImpl.ENTITY_CACHE_ENABLED, SearchLogImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		SearchLog searchLog = (SearchLog)serializable;
-
-		if (searchLog == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				searchLog = (SearchLog)session.get(
-					SearchLogImpl.class, primaryKey);
-
-				if (searchLog != null) {
-					cacheResult(searchLog);
-				}
-				else {
-					entityCache.putResult(
-						SearchLogModelImpl.ENTITY_CACHE_ENABLED,
-						SearchLogImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					SearchLogModelImpl.ENTITY_CACHE_ENABLED,
-					SearchLogImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return searchLog;
-	}
-
-	/**
-	 * Returns the search log with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param searchLogId the primary key of the search log
 	 * @return the search log, or <code>null</code> if a search log with the primary key could not be found
 	 */
 	@Override
 	public SearchLog fetchByPrimaryKey(long searchLogId) {
 		return fetchByPrimaryKey((Serializable)searchLogId);
-	}
-
-	@Override
-	public Map<Serializable, SearchLog> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, SearchLog> map =
-			new HashMap<Serializable, SearchLog>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			SearchLog searchLog = fetchByPrimaryKey(primaryKey);
-
-			if (searchLog != null) {
-				map.put(primaryKey, searchLog);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				SearchLogModelImpl.ENTITY_CACHE_ENABLED, SearchLogImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (SearchLog)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_SEARCHLOG_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (SearchLog searchLog : (List<SearchLog>)query.list()) {
-				map.put(searchLog.getPrimaryKeyObj(), searchLog);
-
-				cacheResult(searchLog);
-
-				uncachedPrimaryKeys.remove(searchLog.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					SearchLogModelImpl.ENTITY_CACHE_ENABLED,
-					SearchLogImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -654,10 +468,6 @@ public class SearchLogPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -703,9 +513,6 @@ public class SearchLogPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -722,6 +529,21 @@ public class SearchLogPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "searchLogId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_SEARCHLOG;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return SearchLogModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -730,29 +552,28 @@ public class SearchLogPersistenceImpl
 	 * Initializes the search log persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			SearchLogModelImpl.ENTITY_CACHE_ENABLED,
-			SearchLogModelImpl.FINDER_CACHE_ENABLED, SearchLogImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			SearchLogModelImpl.ENTITY_CACHE_ENABLED,
-			SearchLogModelImpl.FINDER_CACHE_ENABLED, SearchLogImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			SearchLogModelImpl.ENTITY_CACHE_ENABLED,
-			SearchLogModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
+
+		SearchLogUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		SearchLogUtil.setPersistence(null);
+
 		entityCache.removeCache(SearchLogImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -763,9 +584,6 @@ public class SearchLogPersistenceImpl
 
 	private static final String _SQL_SELECT_SEARCHLOG =
 		"SELECT searchLog FROM SearchLog searchLog";
-
-	private static final String _SQL_SELECT_SEARCHLOG_WHERE_PKS_IN =
-		"SELECT searchLog FROM SearchLog searchLog WHERE searchLogId IN (";
 
 	private static final String _SQL_COUNT_SEARCHLOG =
 		"SELECT COUNT(searchLog) FROM SearchLog searchLog";
@@ -780,5 +598,10 @@ public class SearchLogPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"date"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

@@ -1,20 +1,12 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.edition.service;
 
 import com.liferay.portal.kernel.service.ServiceWrapper;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 /**
  * Provides a wrapper for {@link EditionLocalService}.
@@ -25,6 +17,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
  */
 public class EditionLocalServiceWrapper
 	implements EditionLocalService, ServiceWrapper<EditionLocalService> {
+
+	public EditionLocalServiceWrapper() {
+		this(null);
+	}
 
 	public EditionLocalServiceWrapper(EditionLocalService editionLocalService) {
 		_editionLocalService = editionLocalService;
@@ -48,28 +44,34 @@ public class EditionLocalServiceWrapper
 	}
 
 	@Override
-	public void addEditionGalleryEdition(
+	public boolean addEditionGalleryEdition(
 		long galleryId, eu.strasbourg.service.edition.model.Edition edition) {
 
-		_editionLocalService.addEditionGalleryEdition(galleryId, edition);
+		return _editionLocalService.addEditionGalleryEdition(
+			galleryId, edition);
 	}
 
 	@Override
-	public void addEditionGalleryEdition(long galleryId, long editionId) {
-		_editionLocalService.addEditionGalleryEdition(galleryId, editionId);
+	public boolean addEditionGalleryEdition(long galleryId, long editionId) {
+		return _editionLocalService.addEditionGalleryEdition(
+			galleryId, editionId);
 	}
 
 	@Override
-	public void addEditionGalleryEditions(
+	public boolean addEditionGalleryEditions(
 		long galleryId,
 		java.util.List<eu.strasbourg.service.edition.model.Edition> editions) {
 
-		_editionLocalService.addEditionGalleryEditions(galleryId, editions);
+		return _editionLocalService.addEditionGalleryEditions(
+			galleryId, editions);
 	}
 
 	@Override
-	public void addEditionGalleryEditions(long galleryId, long[] editionIds) {
-		_editionLocalService.addEditionGalleryEditions(galleryId, editionIds);
+	public boolean addEditionGalleryEditions(
+		long galleryId, long[] editionIds) {
+
+		return _editionLocalService.addEditionGalleryEditions(
+			galleryId, editionIds);
 	}
 
 	/**
@@ -110,6 +112,17 @@ public class EditionLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _editionLocalService.createEdition(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _editionLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -185,6 +198,18 @@ public class EditionLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _editionLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _editionLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _editionLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override
@@ -609,6 +634,11 @@ public class EditionLocalServiceWrapper
 
 		return _editionLocalService.updateStatus(
 			userId, entryId, status, sc, workflowContext);
+	}
+
+	@Override
+	public BasePersistence<?> getBasePersistence() {
+		return _editionLocalService.getBasePersistence();
 	}
 
 	@Override

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.model.impl;
@@ -17,6 +8,7 @@ package eu.strasbourg.service.council.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -29,27 +21,25 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.model.DeliberationModel;
-import eu.strasbourg.service.council.model.DeliberationSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -134,89 +124,54 @@ public class DeliberationModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.council.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.council.model.Deliberation"),
-		false);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.council.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.council.model.Deliberation"),
-		false);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.council.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.council.model.Deliberation"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COUNCILSESSIONID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TITLE_COLUMN_BITMASK = 16L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Deliberation toModel(DeliberationSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Deliberation model = new DeliberationImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setDeliberationId(soapModel.getDeliberationId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setTitle(soapModel.getTitle());
-		model.setOrder(soapModel.getOrder());
-		model.setStage(soapModel.getStage());
-		model.setCountOfficialsVoting(soapModel.getCountOfficialsVoting());
-		model.setCountOfficialsActive(soapModel.getCountOfficialsActive());
-		model.setQuorum(soapModel.getQuorum());
-		model.setBeginningVoteDate(soapModel.getBeginningVoteDate());
-		model.setEndVoteDate(soapModel.getEndVoteDate());
-		model.setCouncilSessionId(soapModel.getCouncilSessionId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Deliberation> toModels(DeliberationSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Deliberation> models = new ArrayList<Deliberation>(
-			soapModels.length);
-
-		for (DeliberationSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.council.service.util.ServiceProps.get(
@@ -274,9 +229,6 @@ public class DeliberationModelImpl
 				attributeGetterFunction.apply((Deliberation)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -301,528 +253,150 @@ public class DeliberationModelImpl
 	public Map<String, Function<Deliberation, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Deliberation, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Deliberation>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Deliberation.class.getClassLoader(), Deliberation.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<Deliberation, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Deliberation> constructor =
-				(Constructor<Deliberation>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Deliberation, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<Deliberation, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Deliberation::getUuid);
+			attributeGetterFunctions.put(
+				"deliberationId", Deliberation::getDeliberationId);
+			attributeGetterFunctions.put("groupId", Deliberation::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", Deliberation::getCompanyId);
+			attributeGetterFunctions.put("userId", Deliberation::getUserId);
+			attributeGetterFunctions.put("userName", Deliberation::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", Deliberation::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Deliberation::getModifiedDate);
+			attributeGetterFunctions.put("status", Deliberation::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Deliberation::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Deliberation::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", Deliberation::getStatusDate);
+			attributeGetterFunctions.put("title", Deliberation::getTitle);
+			attributeGetterFunctions.put("order", Deliberation::getOrder);
+			attributeGetterFunctions.put("stage", Deliberation::getStage);
+			attributeGetterFunctions.put(
+				"countOfficialsVoting", Deliberation::getCountOfficialsVoting);
+			attributeGetterFunctions.put(
+				"countOfficialsActive", Deliberation::getCountOfficialsActive);
+			attributeGetterFunctions.put("quorum", Deliberation::getQuorum);
+			attributeGetterFunctions.put(
+				"beginningVoteDate", Deliberation::getBeginningVoteDate);
+			attributeGetterFunctions.put(
+				"endVoteDate", Deliberation::getEndVoteDate);
+			attributeGetterFunctions.put(
+				"councilSessionId", Deliberation::getCouncilSessionId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Deliberation, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Deliberation, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Deliberation, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Deliberation, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<Deliberation, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<Deliberation, String>)Deliberation::setUuid);
+			attributeSetterBiConsumers.put(
+				"deliberationId",
+				(BiConsumer<Deliberation, Long>)
+					Deliberation::setDeliberationId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<Deliberation, Long>)Deliberation::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Deliberation, Long>)Deliberation::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<Deliberation, Long>)Deliberation::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Deliberation, String>)Deliberation::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Deliberation, Date>)Deliberation::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Deliberation, Date>)Deliberation::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<Deliberation, Integer>)Deliberation::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Deliberation, Long>)
+					Deliberation::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Deliberation, String>)
+					Deliberation::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Deliberation, Date>)Deliberation::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<Deliberation, String>)Deliberation::setTitle);
+			attributeSetterBiConsumers.put(
+				"order",
+				(BiConsumer<Deliberation, Integer>)Deliberation::setOrder);
+			attributeSetterBiConsumers.put(
+				"stage",
+				(BiConsumer<Deliberation, String>)Deliberation::setStage);
+			attributeSetterBiConsumers.put(
+				"countOfficialsVoting",
+				(BiConsumer<Deliberation, Integer>)
+					Deliberation::setCountOfficialsVoting);
+			attributeSetterBiConsumers.put(
+				"countOfficialsActive",
+				(BiConsumer<Deliberation, Integer>)
+					Deliberation::setCountOfficialsActive);
+			attributeSetterBiConsumers.put(
+				"quorum",
+				(BiConsumer<Deliberation, Integer>)Deliberation::setQuorum);
+			attributeSetterBiConsumers.put(
+				"beginningVoteDate",
+				(BiConsumer<Deliberation, Date>)
+					Deliberation::setBeginningVoteDate);
+			attributeSetterBiConsumers.put(
+				"endVoteDate",
+				(BiConsumer<Deliberation, Date>)Deliberation::setEndVoteDate);
+			attributeSetterBiConsumers.put(
+				"councilSessionId",
+				(BiConsumer<Deliberation, Long>)
+					Deliberation::setCouncilSessionId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<Deliberation, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Deliberation, Object>>();
-		Map<String, BiConsumer<Deliberation, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Deliberation, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object uuidObject) {
-
-					deliberation.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"deliberationId",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getDeliberationId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"deliberationId",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object deliberationIdObject) {
-
-					deliberation.setDeliberationId((Long)deliberationIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object groupIdObject) {
-
-					deliberation.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object companyIdObject) {
-
-					deliberation.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object userIdObject) {
-
-					deliberation.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object userNameObject) {
-
-					deliberation.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object createDateObject) {
-
-					deliberation.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object modifiedDateObject) {
-
-					deliberation.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object statusObject) {
-
-					deliberation.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object statusByUserIdObject) {
-
-					deliberation.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object statusByUserNameObject) {
-
-					deliberation.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object statusDateObject) {
-
-					deliberation.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getTitle();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object titleObject) {
-
-					deliberation.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"order",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getOrder();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"order",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object orderObject) {
-
-					deliberation.setOrder((Integer)orderObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"stage",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getStage();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"stage",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object stageObject) {
-
-					deliberation.setStage((String)stageObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"countOfficialsVoting",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getCountOfficialsVoting();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"countOfficialsVoting",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation,
-					Object countOfficialsVotingObject) {
-
-					deliberation.setCountOfficialsVoting(
-						(Integer)countOfficialsVotingObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"countOfficialsActive",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getCountOfficialsActive();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"countOfficialsActive",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation,
-					Object countOfficialsActiveObject) {
-
-					deliberation.setCountOfficialsActive(
-						(Integer)countOfficialsActiveObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"quorum",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getQuorum();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"quorum",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object quorumObject) {
-
-					deliberation.setQuorum((Integer)quorumObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"beginningVoteDate",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getBeginningVoteDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"beginningVoteDate",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object beginningVoteDateObject) {
-
-					deliberation.setBeginningVoteDate(
-						(Date)beginningVoteDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"endVoteDate",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getEndVoteDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"endVoteDate",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object endVoteDateObject) {
-
-					deliberation.setEndVoteDate((Date)endVoteDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"councilSessionId",
-			new Function<Deliberation, Object>() {
-
-				@Override
-				public Object apply(Deliberation deliberation) {
-					return deliberation.getCouncilSessionId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"councilSessionId",
-			new BiConsumer<Deliberation, Object>() {
-
-				@Override
-				public void accept(
-					Deliberation deliberation, Object councilSessionIdObject) {
-
-					deliberation.setCouncilSessionId(
-						(Long)councilSessionIdObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -838,17 +412,20 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -859,6 +436,10 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setDeliberationId(long deliberationId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_deliberationId = deliberationId;
 	}
 
@@ -870,19 +451,20 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -893,19 +475,21 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -916,6 +500,10 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -948,6 +536,10 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -959,6 +551,10 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -976,6 +572,10 @@ public class DeliberationModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -987,6 +587,10 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -998,6 +602,10 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1030,6 +638,10 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1041,6 +653,10 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1057,7 +673,9 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setTitle(String title) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_title = title;
 	}
@@ -1070,6 +688,10 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setOrder(int order) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_order = order;
 	}
 
@@ -1086,6 +708,10 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setStage(String stage) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_stage = stage;
 	}
 
@@ -1097,6 +723,10 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setCountOfficialsVoting(int countOfficialsVoting) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_countOfficialsVoting = countOfficialsVoting;
 	}
 
@@ -1108,6 +738,10 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setCountOfficialsActive(int countOfficialsActive) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_countOfficialsActive = countOfficialsActive;
 	}
 
@@ -1119,6 +753,10 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setQuorum(int quorum) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_quorum = quorum;
 	}
 
@@ -1130,6 +768,10 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setBeginningVoteDate(Date beginningVoteDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_beginningVoteDate = beginningVoteDate;
 	}
 
@@ -1141,6 +783,10 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setEndVoteDate(Date endVoteDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_endVoteDate = endVoteDate;
 	}
 
@@ -1152,19 +798,21 @@ public class DeliberationModelImpl
 
 	@Override
 	public void setCouncilSessionId(long councilSessionId) {
-		_columnBitmask |= COUNCILSESSIONID_COLUMN_BITMASK;
-
-		if (!_setOriginalCouncilSessionId) {
-			_setOriginalCouncilSessionId = true;
-
-			_originalCouncilSessionId = _councilSessionId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_councilSessionId = councilSessionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCouncilSessionId() {
-		return _originalCouncilSessionId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("councilSessionId"));
 	}
 
 	@Override
@@ -1254,6 +902,26 @@ public class DeliberationModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1317,6 +985,52 @@ public class DeliberationModelImpl
 	}
 
 	@Override
+	public Deliberation cloneWithOriginalValues() {
+		DeliberationImpl deliberationImpl = new DeliberationImpl();
+
+		deliberationImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		deliberationImpl.setDeliberationId(
+			this.<Long>getColumnOriginalValue("deliberationId"));
+		deliberationImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		deliberationImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		deliberationImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		deliberationImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		deliberationImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		deliberationImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		deliberationImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		deliberationImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		deliberationImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		deliberationImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		deliberationImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		deliberationImpl.setOrder(
+			this.<Integer>getColumnOriginalValue("order_"));
+		deliberationImpl.setStage(this.<String>getColumnOriginalValue("stage"));
+		deliberationImpl.setCountOfficialsVoting(
+			this.<Integer>getColumnOriginalValue("countOfficialsVoting"));
+		deliberationImpl.setCountOfficialsActive(
+			this.<Integer>getColumnOriginalValue("countOfficialsActive"));
+		deliberationImpl.setQuorum(
+			this.<Integer>getColumnOriginalValue("quorum"));
+		deliberationImpl.setBeginningVoteDate(
+			this.<Date>getColumnOriginalValue("beginningVoteDate"));
+		deliberationImpl.setEndVoteDate(
+			this.<Date>getColumnOriginalValue("endVoteDate"));
+		deliberationImpl.setCouncilSessionId(
+			this.<Long>getColumnOriginalValue("councilSessionId"));
+
+		return deliberationImpl;
+	}
+
+	@Override
 	public int compareTo(Deliberation deliberation) {
 		int value = 0;
 
@@ -1356,11 +1070,19 @@ public class DeliberationModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1368,27 +1090,11 @@ public class DeliberationModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		DeliberationModelImpl deliberationModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		deliberationModelImpl._originalUuid = deliberationModelImpl._uuid;
+		_setModifiedDate = false;
 
-		deliberationModelImpl._originalGroupId = deliberationModelImpl._groupId;
-
-		deliberationModelImpl._setOriginalGroupId = false;
-
-		deliberationModelImpl._originalCompanyId =
-			deliberationModelImpl._companyId;
-
-		deliberationModelImpl._setOriginalCompanyId = false;
-
-		deliberationModelImpl._setModifiedDate = false;
-
-		deliberationModelImpl._originalCouncilSessionId =
-			deliberationModelImpl._councilSessionId;
-
-		deliberationModelImpl._setOriginalCouncilSessionId = false;
-
-		deliberationModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1513,7 +1219,7 @@ public class DeliberationModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1524,9 +1230,26 @@ public class DeliberationModelImpl
 			Function<Deliberation, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Deliberation)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Deliberation)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1539,53 +1262,19 @@ public class DeliberationModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Deliberation, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Deliberation, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Deliberation, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Deliberation)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Deliberation>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Deliberation.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _deliberationId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1604,8 +1293,129 @@ public class DeliberationModelImpl
 	private Date _beginningVoteDate;
 	private Date _endVoteDate;
 	private long _councilSessionId;
-	private long _originalCouncilSessionId;
-	private boolean _setOriginalCouncilSessionId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Deliberation, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Deliberation)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("deliberationId", _deliberationId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("order_", _order);
+		_columnOriginalValues.put("stage", _stage);
+		_columnOriginalValues.put(
+			"countOfficialsVoting", _countOfficialsVoting);
+		_columnOriginalValues.put(
+			"countOfficialsActive", _countOfficialsActive);
+		_columnOriginalValues.put("quorum", _quorum);
+		_columnOriginalValues.put("beginningVoteDate", _beginningVoteDate);
+		_columnOriginalValues.put("endVoteDate", _endVoteDate);
+		_columnOriginalValues.put("councilSessionId", _councilSessionId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("order_", "order");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("deliberationId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("title", 4096L);
+
+		columnBitmasks.put("order_", 8192L);
+
+		columnBitmasks.put("stage", 16384L);
+
+		columnBitmasks.put("countOfficialsVoting", 32768L);
+
+		columnBitmasks.put("countOfficialsActive", 65536L);
+
+		columnBitmasks.put("quorum", 131072L);
+
+		columnBitmasks.put("beginningVoteDate", 262144L);
+
+		columnBitmasks.put("endVoteDate", 524288L);
+
+		columnBitmasks.put("councilSessionId", 1048576L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Deliberation _escapedModel;
 

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>POI simple</name>
+        <key>281820269</key>
+        <definition>poi-simple-structure.json</definition>
+        <layout>poi-simple-layout.json</layout>
+    </structure>
+</root>

@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.project.model.Petition;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for Petition. This utility wraps
@@ -48,10 +48,18 @@ public class PetitionLocalServiceUtil {
 	 * @param petition the petition
 	 * @return the petition that was added
 	 */
-	public static eu.strasbourg.service.project.model.Petition addPetition(
-		eu.strasbourg.service.project.model.Petition petition) {
-
+	public static Petition addPetition(Petition petition) {
 		return getService().addPetition(petition);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -60,18 +68,16 @@ public class PetitionLocalServiceUtil {
 	 * @param petitionId the primary key for the new petition
 	 * @return the new petition
 	 */
-	public static eu.strasbourg.service.project.model.Petition createPetition(
-		long petitionId) {
-
+	public static Petition createPetition(long petitionId) {
 		return getService().createPetition(petitionId);
 	}
 
 	/**
 	 * Crée une participation vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.project.model.Petition createPetition(
+	public static Petition createPetition(
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createPetition(sc);
 	}
@@ -79,10 +85,9 @@ public class PetitionLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -98,9 +103,8 @@ public class PetitionLocalServiceUtil {
 	 * @return the petition that was removed
 	 * @throws PortalException if a petition with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Petition deletePetition(
-			long petitionId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Petition deletePetition(long petitionId)
+		throws PortalException {
 
 		return getService().deletePetition(petitionId);
 	}
@@ -115,15 +119,19 @@ public class PetitionLocalServiceUtil {
 	 * @param petition the petition
 	 * @return the petition that was removed
 	 */
-	public static eu.strasbourg.service.project.model.Petition deletePetition(
-		eu.strasbourg.service.project.model.Petition petition) {
-
+	public static Petition deletePetition(Petition petition) {
 		return getService().deletePetition(petition);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -133,9 +141,7 @@ public class PetitionLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -151,9 +157,8 @@ public class PetitionLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -171,10 +176,9 @@ public class PetitionLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -186,9 +190,7 @@ public class PetitionLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -200,15 +202,13 @@ public class PetitionLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.project.model.Petition fetchPetition(
-		long petitionId) {
-
+	public static Petition fetchPetition(long petitionId) {
 		return getService().fetchPetition(petitionId);
 	}
 
@@ -219,14 +219,14 @@ public class PetitionLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching petition, or <code>null</code> if a matching petition could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Petition
-		fetchPetitionByUuidAndGroupId(String uuid, long groupId) {
+	public static Petition fetchPetitionByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchPetitionByUuidAndGroupId(uuid, groupId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.project.model.Petition>
-		findByKeyword(String keyword, long groupId, int start, int end) {
+	public static List<Petition> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -247,7 +247,7 @@ public class PetitionLocalServiceUtil {
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à une petition
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -256,15 +256,11 @@ public class PetitionLocalServiceUtil {
 	/**
 	 * Retourne tous les petitions d'un groupe
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Petition>
-		getByGroupId(long groupId) {
-
+	public static List<Petition> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.project.model.Petition>
-		getByPublikUserID(String publikId) {
-
+	public static List<Petition> getByPublikUserID(String publikId) {
 		return getService().getByPublikUserID(publikId);
 	}
 
@@ -295,9 +291,8 @@ public class PetitionLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -309,21 +304,16 @@ public class PetitionLocalServiceUtil {
 	 * @return the petition
 	 * @throws PortalException if a petition with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Petition getPetition(
-			long petitionId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Petition getPetition(long petitionId) throws PortalException {
 		return getService().getPetition(petitionId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.project.model.Petition>
-		getPetitionByPublikUserID(String publikId) {
-
+	public static List<Petition> getPetitionByPublikUserID(String publikId) {
 		return getService().getPetitionByPublikUserID(publikId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.project.model.Petition>
-		getPetitionBySignatairePublikId(String publikId) {
+	public static List<Petition> getPetitionBySignatairePublikId(
+		String publikId) {
 
 		return getService().getPetitionBySignatairePublikId(publikId);
 	}
@@ -336,9 +326,9 @@ public class PetitionLocalServiceUtil {
 	 * @return the matching petition
 	 * @throws PortalException if a matching petition could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Petition
-			getPetitionByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Petition getPetitionByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getPetitionByUuidAndGroupId(uuid, groupId);
 	}
@@ -354,9 +344,7 @@ public class PetitionLocalServiceUtil {
 	 * @param end the upper bound of the range of petitions (not inclusive)
 	 * @return the range of petitions
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Petition>
-		getPetitions(int start, int end) {
-
+	public static List<Petition> getPetitions(int start, int end) {
 		return getService().getPetitions(start, end);
 	}
 
@@ -367,8 +355,8 @@ public class PetitionLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching petitions, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Petition>
-		getPetitionsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Petition> getPetitionsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getPetitionsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -383,12 +371,9 @@ public class PetitionLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching petitions, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Petition>
-		getPetitionsByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.project.model.Petition>
-					orderByComparator) {
+	public static List<Petition> getPetitionsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Petition> orderByComparator) {
 
 		return getService().getPetitionsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -406,15 +391,11 @@ public class PetitionLocalServiceUtil {
 	/**
 	 * Retourne tous les petitions publiées d'un groupe
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Petition>
-		getPublishedByGroupId(long groupId) {
-
+	public static List<Petition> getPublishedByGroupId(long groupId) {
 		return getService().getPublishedByGroupId(groupId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.project.model.Petition>
-		getTheMostCommented(long groupId) {
-
+	public static List<Petition> getTheMostCommented(long groupId) {
 		return getService().getTheMostCommented(groupId);
 	}
 
@@ -423,40 +404,31 @@ public class PetitionLocalServiceUtil {
 	 *
 	 * @return
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Petition>
-		getTheMostSigned(long groupId) {
-
+	public static List<Petition> getTheMostSigned(long groupId) {
 		return getService().getTheMostSigned(groupId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.project.model.Petition>
-		getTheThreeLessSigned(long groupId) {
-
+	public static List<Petition> getTheThreeLessSigned(long groupId) {
 		return getService().getTheThreeLessSigned(groupId);
 	}
 
 	/**
 	 * @return
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Petition>
-		getTheThreeMostSigned(long groupId) {
-
+	public static List<Petition> getTheThreeMostSigned(long groupId) {
 		return getService().getTheThreeMostSigned(groupId);
 	}
 
 	/**
 	 * Supprime une petition
 	 */
-	public static eu.strasbourg.service.project.model.Petition removePetition(
-			long petitionId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Petition removePetition(long petitionId)
+		throws PortalException {
 
 		return getService().removePetition(petitionId);
 	}
 
-	public static void updateAllPetitionsStatus()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static void updateAllPetitionsStatus() throws PortalException {
 		getService().updateAllPetitionsStatus();
 	}
 
@@ -470,25 +442,23 @@ public class PetitionLocalServiceUtil {
 	 * @param petition the petition
 	 * @return the petition that was updated
 	 */
-	public static eu.strasbourg.service.project.model.Petition updatePetition(
-		eu.strasbourg.service.project.model.Petition petition) {
-
+	public static Petition updatePetition(Petition petition) {
 		return getService().updatePetition(petition);
 	}
 
-	public static eu.strasbourg.service.project.model.Petition updatePetition(
-			eu.strasbourg.service.project.model.Petition petition,
+	public static Petition updatePetition(
+			Petition petition,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().updatePetition(petition, sc);
 	}
 
-	public static eu.strasbourg.service.project.model.Petition updateStatus(
+	public static Petition updateStatus(
 			long userId, long petitionId, int status,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, petitionId, status, serviceContext, workflowContext);
@@ -497,32 +467,20 @@ public class PetitionLocalServiceUtil {
 	/**
 	 * Met à jour le statut du petition "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.project.model.Petition petition, int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(Petition petition, int status)
+		throws PortalException {
 
 		getService().updateStatus(petition, status);
 	}
 
 	public static PetitionLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<PetitionLocalService, PetitionLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(PetitionLocalService.class);
-
-		ServiceTracker<PetitionLocalService, PetitionLocalService>
-			serviceTracker =
-				new ServiceTracker<PetitionLocalService, PetitionLocalService>(
-					bundle.getBundleContext(), PetitionLocalService.class,
-					null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(PetitionLocalService service) {
+		_service = service;
 	}
+
+	private static volatile PetitionLocalService _service;
 
 }

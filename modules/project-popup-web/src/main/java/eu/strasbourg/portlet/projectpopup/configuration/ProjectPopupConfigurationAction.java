@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.projectpopup.configuration;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
@@ -82,8 +83,7 @@ public class ProjectPopupConfigurationAction extends DefaultConfigurationAction 
         try{
             ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
-            ProjectPopupConfiguration configuration = themeDisplay.getPortletDisplay()
-                    .getPortletInstanceConfiguration(ProjectPopupConfiguration.class);
+            ProjectPopupConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(ProjectPopupConfiguration.class, themeDisplay);
 
             // Ce flag permet de savoir si une configuration du portlet a déjà
             // été enregistrée

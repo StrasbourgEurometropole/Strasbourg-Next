@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -25,10 +17,12 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
@@ -36,19 +30,18 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchDirectionException;
 import eu.strasbourg.service.gtfs.model.Direction;
+import eu.strasbourg.service.gtfs.model.DirectionTable;
 import eu.strasbourg.service.gtfs.model.impl.DirectionImpl;
 import eu.strasbourg.service.gtfs.model.impl.DirectionModelImpl;
 import eu.strasbourg.service.gtfs.service.persistence.DirectionPersistence;
+import eu.strasbourg.service.gtfs.service.persistence.DirectionUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -249,10 +242,6 @@ public class DirectionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -601,8 +590,6 @@ public class DirectionPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -760,11 +747,6 @@ public class DirectionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -853,8 +835,6 @@ public class DirectionPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1055,10 +1035,6 @@ public class DirectionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1437,8 +1413,6 @@ public class DirectionPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1611,10 +1585,6 @@ public class DirectionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1938,8 +1908,6 @@ public class DirectionPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2095,11 +2063,6 @@ public class DirectionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByTripId, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2182,8 +2145,6 @@ public class DirectionPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2365,10 +2326,6 @@ public class DirectionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2718,8 +2675,6 @@ public class DirectionPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2902,10 +2857,6 @@ public class DirectionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3255,8 +3206,6 @@ public class DirectionPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3278,21 +3227,14 @@ public class DirectionPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Direction.class);
+
+		setModelImplClass(DirectionImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(DirectionTable.INSTANCE);
 	}
 
 	/**
@@ -3303,8 +3245,7 @@ public class DirectionPersistenceImpl
 	@Override
 	public void cacheResult(Direction direction) {
 		entityCache.putResult(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED, DirectionImpl.class,
-			direction.getPrimaryKey(), direction);
+			DirectionImpl.class, direction.getPrimaryKey(), direction);
 
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
@@ -3314,9 +3255,9 @@ public class DirectionPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByTripId, new Object[] {direction.getTripId()},
 			direction);
-
-		direction.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the directions in the entity cache if it is enabled.
@@ -3325,15 +3266,18 @@ public class DirectionPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Direction> directions) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (directions.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Direction direction : directions) {
 			if (entityCache.getResult(
-					DirectionModelImpl.ENTITY_CACHE_ENABLED,
 					DirectionImpl.class, direction.getPrimaryKey()) == null) {
 
 				cacheResult(direction);
-			}
-			else {
-				direction.resetOriginalValues();
 			}
 		}
 	}
@@ -3349,9 +3293,7 @@ public class DirectionPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(DirectionImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(DirectionImpl.class);
 	}
 
 	/**
@@ -3363,39 +3305,22 @@ public class DirectionPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Direction direction) {
-		entityCache.removeResult(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED, DirectionImpl.class,
-			direction.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((DirectionModelImpl)direction, true);
+		entityCache.removeResult(DirectionImpl.class, direction);
 	}
 
 	@Override
 	public void clearCache(List<Direction> directions) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Direction direction : directions) {
-			entityCache.removeResult(
-				DirectionModelImpl.ENTITY_CACHE_ENABLED, DirectionImpl.class,
-				direction.getPrimaryKey());
-
-			clearUniqueFindersCache((DirectionModelImpl)direction, true);
+			entityCache.removeResult(DirectionImpl.class, direction);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(DirectionImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				DirectionModelImpl.ENTITY_CACHE_ENABLED, DirectionImpl.class,
-				primaryKey);
+			entityCache.removeResult(DirectionImpl.class, primaryKey);
 		}
 	}
 
@@ -3406,60 +3331,15 @@ public class DirectionPersistenceImpl
 			directionModelImpl.getUuid(), directionModelImpl.getGroupId()
 		};
 
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, directionModelImpl, false);
+			_finderPathFetchByUUID_G, args, directionModelImpl);
 
 		args = new Object[] {directionModelImpl.getTripId()};
 
+		finderCache.putResult(_finderPathCountByTripId, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByTripId, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByTripId, args, directionModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		DirectionModelImpl directionModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				directionModelImpl.getUuid(), directionModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((directionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				directionModelImpl.getOriginalUuid(),
-				directionModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {directionModelImpl.getTripId()};
-
-			finderCache.removeResult(_finderPathCountByTripId, args);
-			finderCache.removeResult(_finderPathFetchByTripId, args);
-		}
-
-		if ((directionModelImpl.getColumnBitmask() &
-			 _finderPathFetchByTripId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				directionModelImpl.getOriginalTripId()
-			};
-
-			finderCache.removeResult(_finderPathCountByTripId, args);
-			finderCache.removeResult(_finderPathFetchByTripId, args);
-		}
+			_finderPathFetchByTripId, args, directionModelImpl);
 	}
 
 	/**
@@ -3600,10 +3480,8 @@ public class DirectionPersistenceImpl
 		try {
 			session = openSession();
 
-			if (direction.isNew()) {
+			if (isNew) {
 				session.save(direction);
-
-				direction.setNew(false);
 			}
 			else {
 				direction = (Direction)session.merge(direction);
@@ -3616,155 +3494,14 @@ public class DirectionPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!DirectionModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {directionModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				directionModelImpl.getUuid(), directionModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {directionModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {directionModelImpl.getStopId()};
-
-			finderCache.removeResult(_finderPathCountByStopId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByStopId, args);
-
-			args = new Object[] {directionModelImpl.getRouteId()};
-
-			finderCache.removeResult(_finderPathCountByRouteId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByRouteId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((directionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					directionModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {directionModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((directionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					directionModelImpl.getOriginalUuid(),
-					directionModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					directionModelImpl.getUuid(),
-					directionModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((directionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					directionModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {directionModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((directionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByStopId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					directionModelImpl.getOriginalStopId()
-				};
-
-				finderCache.removeResult(_finderPathCountByStopId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStopId, args);
-
-				args = new Object[] {directionModelImpl.getStopId()};
-
-				finderCache.removeResult(_finderPathCountByStopId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStopId, args);
-			}
-
-			if ((directionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByRouteId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					directionModelImpl.getOriginalRouteId()
-				};
-
-				finderCache.removeResult(_finderPathCountByRouteId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByRouteId, args);
-
-				args = new Object[] {directionModelImpl.getRouteId()};
-
-				finderCache.removeResult(_finderPathCountByRouteId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByRouteId, args);
-			}
-		}
-
 		entityCache.putResult(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED, DirectionImpl.class,
-			direction.getPrimaryKey(), direction, false);
+			DirectionImpl.class, directionModelImpl, false, true);
 
-		clearUniqueFindersCache(directionModelImpl, false);
 		cacheUniqueFindersCache(directionModelImpl);
+
+		if (isNew) {
+			direction.setNew(false);
+		}
 
 		direction.resetOriginalValues();
 
@@ -3813,161 +3550,12 @@ public class DirectionPersistenceImpl
 	/**
 	 * Returns the direction with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the direction
-	 * @return the direction, or <code>null</code> if a direction with the primary key could not be found
-	 */
-	@Override
-	public Direction fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED, DirectionImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Direction direction = (Direction)serializable;
-
-		if (direction == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				direction = (Direction)session.get(
-					DirectionImpl.class, primaryKey);
-
-				if (direction != null) {
-					cacheResult(direction);
-				}
-				else {
-					entityCache.putResult(
-						DirectionModelImpl.ENTITY_CACHE_ENABLED,
-						DirectionImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					DirectionModelImpl.ENTITY_CACHE_ENABLED,
-					DirectionImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return direction;
-	}
-
-	/**
-	 * Returns the direction with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param directionId the primary key of the direction
 	 * @return the direction, or <code>null</code> if a direction with the primary key could not be found
 	 */
 	@Override
 	public Direction fetchByPrimaryKey(long directionId) {
 		return fetchByPrimaryKey((Serializable)directionId);
-	}
-
-	@Override
-	public Map<Serializable, Direction> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Direction> map =
-			new HashMap<Serializable, Direction>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Direction direction = fetchByPrimaryKey(primaryKey);
-
-			if (direction != null) {
-				map.put(primaryKey, direction);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				DirectionModelImpl.ENTITY_CACHE_ENABLED, DirectionImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Direction)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_DIRECTION_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Direction direction : (List<Direction>)query.list()) {
-				map.put(direction.getPrimaryKeyObj(), direction);
-
-				cacheResult(direction);
-
-				uncachedPrimaryKeys.remove(direction.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					DirectionModelImpl.ENTITY_CACHE_ENABLED,
-					DirectionImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -4094,10 +3682,6 @@ public class DirectionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -4143,9 +3727,6 @@ public class DirectionPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -4162,6 +3743,21 @@ public class DirectionPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "directionId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_DIRECTION;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return DirectionModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -4170,168 +3766,139 @@ public class DirectionPersistenceImpl
 	 * Initializes the direction persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			DirectionModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			DirectionModelImpl.UUID_COLUMN_BITMASK |
-			DirectionModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			DirectionModelImpl.UUID_COLUMN_BITMASK |
-			DirectionModelImpl.COMPANYID_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			DirectionModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
 
 		_finderPathFetchByTripId = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByTripId",
-			new String[] {String.class.getName()},
-			DirectionModelImpl.TRIPID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"tripId"},
+			true);
 
 		_finderPathCountByTripId = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTripId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"tripId"},
+			false);
 
 		_finderPathWithPaginationFindByStopId = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStopId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"stopId"}, true);
 
 		_finderPathWithoutPaginationFindByStopId = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStopId",
-			new String[] {String.class.getName()},
-			DirectionModelImpl.STOPID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"stopId"},
+			true);
 
 		_finderPathCountByStopId = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStopId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"stopId"},
+			false);
 
 		_finderPathWithPaginationFindByRouteId = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByRouteId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"routeId"}, true);
 
 		_finderPathWithoutPaginationFindByRouteId = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, DirectionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByRouteId",
-			new String[] {String.class.getName()},
-			DirectionModelImpl.ROUTEID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"routeId"},
+			true);
 
 		_finderPathCountByRouteId = new FinderPath(
-			DirectionModelImpl.ENTITY_CACHE_ENABLED,
-			DirectionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRouteId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"routeId"},
+			false);
+
+		DirectionUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		DirectionUtil.setPersistence(null);
+
 		entityCache.removeCache(DirectionImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -4342,9 +3909,6 @@ public class DirectionPersistenceImpl
 
 	private static final String _SQL_SELECT_DIRECTION =
 		"SELECT direction FROM Direction direction";
-
-	private static final String _SQL_SELECT_DIRECTION_WHERE_PKS_IN =
-		"SELECT direction FROM Direction direction WHERE directionId IN (";
 
 	private static final String _SQL_SELECT_DIRECTION_WHERE =
 		"SELECT direction FROM Direction direction WHERE ";
@@ -4368,5 +3932,10 @@ public class DirectionPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

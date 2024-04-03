@@ -1,6 +1,8 @@
 package eu.strasbourg.portlet.twitter.configuration;
 
-import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
+import com.liferay.portal.kernel.cache.PortalCacheHelperUtil;
+import com.liferay.portal.kernel.cache.PortalCacheManagerNames;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -39,10 +41,10 @@ public class TwitterConfigurationAction extends DefaultConfigurationAction {
 		setPreference(actionRequest, "tweetCount", tweetCount);
 		
 		// On vide le cache
-		MultiVMPoolUtil.getPortalCache("twitter_cache").remove(twitterAccount);
-		MultiVMPoolUtil.getPortalCache("twitter_cache")
-			.remove(twitterAccount + "_last_update");
-
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,
+				"twitter_cache").remove(twitterAccount);
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM,
+						"twitter_cache").remove(twitterAccount + "_last_update");
 		super.processAction(portletConfig, actionRequest, actionResponse);
 	}
 
@@ -53,9 +55,7 @@ public class TwitterConfigurationAction extends DefaultConfigurationAction {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
-			TwitterConfiguration configuration = themeDisplay
-				.getPortletDisplay()
-				.getPortletInstanceConfiguration(TwitterConfiguration.class);
+			TwitterConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(TwitterConfiguration.class, themeDisplay);
 
 			request.setAttribute("twitterAccount", configuration.twitterAccount());
 			request.setAttribute("tweetCount", configuration.tweetCount());

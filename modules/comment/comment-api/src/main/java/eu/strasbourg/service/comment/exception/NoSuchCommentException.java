@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.comment.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Romain Vergnais
  */
-@ProviderType
 public class NoSuchCommentException extends NoSuchModelException {
 
 	public NoSuchCommentException() {
@@ -30,12 +27,12 @@ public class NoSuchCommentException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchCommentException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchCommentException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchCommentException(Throwable cause) {
-		super(cause);
+	public NoSuchCommentException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

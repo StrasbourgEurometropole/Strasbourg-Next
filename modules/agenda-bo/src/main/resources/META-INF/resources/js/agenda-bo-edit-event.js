@@ -24,8 +24,6 @@ jQuery(function() {
 		$('.' + classOfDivToHide + ' .image-thumbnail').remove();
 		setConditionalValidators();
 	});
-	
-	Liferay.on('allPortletsReady', setConditionalValidators);
 
 	$(":submit").on('click', function(e) {
         allValidate = true;
@@ -64,12 +62,10 @@ jQuery(function() {
 					rules[namespace + 'maxGauge'].required = true;
                     rules[namespace + 'registrationStartDate'].required = true;
                     rules[namespace + 'registrationEndDate'].required = true;
-                    registrationDiv.style.display = "block";
                 } else {
 					rules[namespace + 'maxGauge'].required = false;
                     rules[namespace + 'registrationStartDate'].required = false;
                     rules[namespace + 'registrationEndDate'].required = false;
-                    registrationDiv.style.display = "none";
                 }
 			}
 		});
@@ -283,6 +279,11 @@ jQuery(function() {
 var registrationTrue = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[0];
 var registrationFalse = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[1];
 var registrationDiv = document.getElementById("registrationDiv");
+if(registrationTrue.checked){
+	registrationDiv.style.display = "block";
+} else {
+	registrationDiv.style.display = "none";
+}
 registrationTrue.onchange = function(){
     var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
     rules[namespace + 'maxGauge'].required = true;

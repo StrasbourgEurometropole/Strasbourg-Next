@@ -95,6 +95,11 @@ public class LayoutHelperImpl implements LayoutHelperService {
 		return StrasbourgPropsUtil.getPublikProfileURL();
 	}
 
+	@Override
+	public List<NavItem> filterLayouts(List<NavItem> navItems, String categoryName) {
+		return LayoutHelper.filterLayouts(navItems, categoryName);
+	}
+
     @Override
     public String getDashboardURL() {
         return StrasbourgPropsUtil.getDashboardURL();

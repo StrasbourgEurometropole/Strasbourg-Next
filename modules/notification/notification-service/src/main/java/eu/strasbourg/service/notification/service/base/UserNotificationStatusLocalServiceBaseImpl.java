@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notification.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -27,12 +19,13 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
-import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
@@ -43,6 +36,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.notification.model.UserNotificationStatus;
 import eu.strasbourg.service.notification.service.UserNotificationStatusLocalService;
+import eu.strasbourg.service.notification.service.UserNotificationStatusLocalServiceUtil;
 import eu.strasbourg.service.notification.service.persistence.NotificationPersistence;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPersistence;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationStatusPK;
@@ -73,7 +67,7 @@ public abstract class UserNotificationStatusLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>UserNotificationStatusLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.notification.service.UserNotificationStatusLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>UserNotificationStatusLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>UserNotificationStatusLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -148,6 +142,18 @@ public abstract class UserNotificationStatusLocalServiceBaseImpl
 		UserNotificationStatus userNotificationStatus) {
 
 		return userNotificationStatusPersistence.remove(userNotificationStatus);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return userNotificationStatusPersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -314,13 +320,30 @@ public abstract class UserNotificationStatusLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return userNotificationStatusPersistence.create(
+			(UserNotificationStatusPK)primaryKeyObj);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement UserNotificationStatusLocalServiceImpl#deleteUserNotificationStatus(UserNotificationStatus) to avoid orphaned data");
+		}
 
 		return userNotificationStatusLocalService.deleteUserNotificationStatus(
 			(UserNotificationStatus)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<UserNotificationStatus> getBasePersistence() {
 		return userNotificationStatusPersistence;
 	}
@@ -698,14 +721,12 @@ public abstract class UserNotificationStatusLocalServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		persistedModelLocalServiceRegistry.register(
-			"eu.strasbourg.service.notification.model.UserNotificationStatus",
+		UserNotificationStatusLocalServiceUtil.setService(
 			userNotificationStatusLocalService);
 	}
 
 	public void destroy() {
-		persistedModelLocalServiceRegistry.unregister(
-			"eu.strasbourg.service.notification.model.UserNotificationStatus");
+		UserNotificationStatusLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -819,8 +840,7 @@ public abstract class UserNotificationStatusLocalServiceBaseImpl
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
 
-	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
-	protected PersistedModelLocalServiceRegistry
-		persistedModelLocalServiceRegistry;
+	private static final Log _log = LogFactoryUtil.getLog(
+		UserNotificationStatusLocalServiceBaseImpl.class);
 
 }

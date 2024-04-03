@@ -1,20 +1,12 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service;
 
 import com.liferay.portal.kernel.service.ServiceWrapper;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 /**
  * Provides a wrapper for {@link ManifestationLocalService}.
@@ -27,6 +19,10 @@ public class ManifestationLocalServiceWrapper
 	implements ManifestationLocalService,
 			   ServiceWrapper<ManifestationLocalService> {
 
+	public ManifestationLocalServiceWrapper() {
+		this(null);
+	}
+
 	public ManifestationLocalServiceWrapper(
 		ManifestationLocalService manifestationLocalService) {
 
@@ -34,33 +30,35 @@ public class ManifestationLocalServiceWrapper
 	}
 
 	@Override
-	public void addEventManifestation(long eventId, long manifestationId) {
-		_manifestationLocalService.addEventManifestation(
+	public boolean addEventManifestation(long eventId, long manifestationId) {
+		return _manifestationLocalService.addEventManifestation(
 			eventId, manifestationId);
 	}
 
 	@Override
-	public void addEventManifestation(
+	public boolean addEventManifestation(
 		long eventId,
 		eu.strasbourg.service.agenda.model.Manifestation manifestation) {
 
-		_manifestationLocalService.addEventManifestation(
+		return _manifestationLocalService.addEventManifestation(
 			eventId, manifestation);
 	}
 
 	@Override
-	public void addEventManifestations(
+	public boolean addEventManifestations(
 		long eventId,
 		java.util.List<eu.strasbourg.service.agenda.model.Manifestation>
 			manifestations) {
 
-		_manifestationLocalService.addEventManifestations(
+		return _manifestationLocalService.addEventManifestations(
 			eventId, manifestations);
 	}
 
 	@Override
-	public void addEventManifestations(long eventId, long[] manifestationIds) {
-		_manifestationLocalService.addEventManifestations(
+	public boolean addEventManifestations(
+		long eventId, long[] manifestationIds) {
+
+		return _manifestationLocalService.addEventManifestations(
 			eventId, manifestationIds);
 	}
 
@@ -119,6 +117,17 @@ public class ManifestationLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _manifestationLocalService.createManifestation(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _manifestationLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	@Override
@@ -209,6 +218,18 @@ public class ManifestationLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _manifestationLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _manifestationLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _manifestationLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override
@@ -659,6 +680,11 @@ public class ManifestationLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		_manifestationLocalService.updateStatus(manifestation, status);
+	}
+
+	@Override
+	public BasePersistence<?> getBasePersistence() {
+		return _manifestationLocalService.getBasePersistence();
 	}
 
 	@Override

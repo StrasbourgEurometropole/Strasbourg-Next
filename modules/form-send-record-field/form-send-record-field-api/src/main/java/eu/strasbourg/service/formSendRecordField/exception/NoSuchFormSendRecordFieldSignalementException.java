@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.formSendRecordField.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Angélique Zunino
  */
-@ProviderType
 public class NoSuchFormSendRecordFieldSignalementException extends NoSuchModelException {
 
 	public NoSuchFormSendRecordFieldSignalementException() {
@@ -30,12 +27,12 @@ public class NoSuchFormSendRecordFieldSignalementException extends NoSuchModelEx
 		super(msg);
 	}
 
-	public NoSuchFormSendRecordFieldSignalementException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchFormSendRecordFieldSignalementException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchFormSendRecordFieldSignalementException(Throwable cause) {
-		super(cause);
+	public NoSuchFormSendRecordFieldSignalementException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,11 @@ import java.util.Objects;
  * @see Arret
  * @generated
  */
-public class ArretWrapper implements Arret, ModelWrapper<Arret> {
+public class ArretWrapper
+	extends BaseModelWrapper<Arret> implements Arret, ModelWrapper<Arret> {
 
 	public ArretWrapper(Arret arret) {
-		_arret = arret;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Arret.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Arret.class.getName();
+		super(arret);
 	}
 
 	@Override
@@ -189,13 +167,8 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	}
 
 	@Override
-	public Object clone() {
-		return new ArretWrapper((Arret)_arret.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.gtfs.model.Arret arret) {
-		return _arret.compareTo(arret);
+	public Arret cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -203,7 +176,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.gtfs.model.Alert> getAlerts() {
-		return _arret.getAlerts();
+		return model.getAlerts();
 	}
 
 	/**
@@ -213,7 +186,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	public java.util.List<eu.strasbourg.service.gtfs.model.Alert>
 		getAlertsActives() {
 
-		return _arret.getAlertsActives();
+		return model.getAlertsActives();
 	}
 
 	/**
@@ -223,7 +196,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public long getArretId() {
-		return _arret.getArretId();
+		return model.getArretId();
 	}
 
 	/**
@@ -233,7 +206,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	public java.util.List<com.liferay.portal.kernel.json.JSONObject>
 		getArretRealTime() {
 
-		return _arret.getArretRealTime();
+		return model.getArretRealTime();
 	}
 
 	/**
@@ -241,7 +214,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _arret.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -252,7 +225,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _arret.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -262,7 +235,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public String getCode() {
-		return _arret.getCode();
+		return model.getCode();
 	}
 
 	/**
@@ -272,7 +245,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _arret.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -280,7 +253,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public long getCountAlertsActives() {
-		return _arret.getCountAlertsActives();
+		return model.getCountAlertsActives();
 	}
 
 	/**
@@ -290,7 +263,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _arret.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -300,7 +273,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	public java.util.List<eu.strasbourg.service.gtfs.model.Direction>
 		getDirections() {
 
-		return _arret.getDirections();
+		return model.getDirections();
 	}
 
 	/**
@@ -308,12 +281,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public Map<String, String[]> getDirectionsUniques() {
-		return _arret.getDirectionsUniques();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _arret.getExpandoBridge();
+		return model.getDirectionsUniques();
 	}
 
 	/**
@@ -323,7 +291,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(
 		long groupId, java.util.Locale locale) {
 
-		return _arret.getGeoJSON(groupId, locale);
+		return model.getGeoJSON(groupId, locale);
 	}
 
 	/**
@@ -333,7 +301,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _arret.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -343,7 +311,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public String getLatitude() {
-		return _arret.getLatitude();
+		return model.getLatitude();
 	}
 
 	/**
@@ -353,7 +321,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public String getLongitude() {
-		return _arret.getLongitude();
+		return model.getLongitude();
 	}
 
 	/**
@@ -363,7 +331,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _arret.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -373,12 +341,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _arret.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _arret.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -388,7 +351,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public int getStatus() {
-		return _arret.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -398,7 +361,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _arret.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -408,7 +371,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _arret.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -418,7 +381,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _arret.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -428,7 +391,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _arret.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -438,7 +401,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public String getStopId() {
-		return _arret.getStopId();
+		return model.getStopId();
 	}
 
 	/**
@@ -448,7 +411,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public String getTitle() {
-		return _arret.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -458,7 +421,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public int getType() {
-		return _arret.getType();
+		return model.getType();
 	}
 
 	/**
@@ -466,7 +429,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public String getTypeText() {
-		return _arret.getTypeText();
+		return model.getTypeText();
 	}
 
 	/**
@@ -476,7 +439,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public long getUserId() {
-		return _arret.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -486,7 +449,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public String getUserName() {
-		return _arret.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -496,7 +459,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _arret.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -506,12 +469,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public String getUuid() {
-		return _arret.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _arret.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -521,12 +479,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _arret.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _arret.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -536,7 +489,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _arret.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -546,12 +499,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _arret.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _arret.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -561,7 +509,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _arret.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -571,7 +519,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _arret.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -581,12 +529,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _arret.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _arret.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -596,7 +539,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public boolean isPending() {
-		return _arret.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -606,12 +549,12 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _arret.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_arret.persist();
+		model.persist();
 	}
 
 	/**
@@ -621,12 +564,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setArretId(long arretId) {
-		_arret.setArretId(arretId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_arret.setCachedModel(cachedModel);
+		model.setArretId(arretId);
 	}
 
 	/**
@@ -636,7 +574,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setCode(String code) {
-		_arret.setCode(code);
+		model.setCode(code);
 	}
 
 	/**
@@ -646,7 +584,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_arret.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -656,24 +594,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_arret.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_arret.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_arret.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_arret.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -683,7 +604,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_arret.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -693,7 +614,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setLatitude(String latitude) {
-		_arret.setLatitude(latitude);
+		model.setLatitude(latitude);
 	}
 
 	/**
@@ -703,7 +624,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setLongitude(String longitude) {
-		_arret.setLongitude(longitude);
+		model.setLongitude(longitude);
 	}
 
 	/**
@@ -713,12 +634,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_arret.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_arret.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -728,12 +644,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_arret.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_arret.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -743,7 +654,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_arret.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -753,7 +664,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_arret.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -763,7 +674,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_arret.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -773,7 +684,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_arret.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -783,7 +694,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_arret.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -793,7 +704,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setStopId(String stopId) {
-		_arret.setStopId(stopId);
+		model.setStopId(stopId);
 	}
 
 	/**
@@ -803,7 +714,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_arret.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -813,7 +724,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setType(int type) {
-		_arret.setType(type);
+		model.setType(type);
 	}
 
 	/**
@@ -823,7 +734,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_arret.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -833,7 +744,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_arret.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -843,7 +754,7 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_arret.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -853,80 +764,22 @@ public class ArretWrapper implements Arret, ModelWrapper<Arret> {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_arret.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.gtfs.model.Arret> toCacheModel() {
-
-		return _arret.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Arret toEscapedModel() {
-		return new ArretWrapper(_arret.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _arret.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Arret toUnescapedModel() {
-		return new ArretWrapper(_arret.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _arret.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof ArretWrapper)) {
-			return false;
-		}
-
-		ArretWrapper arretWrapper = (ArretWrapper)object;
-
-		if (Objects.equals(_arret, arretWrapper._arret)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _arret.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Arret getWrappedModel() {
-		return _arret;
+	protected ArretWrapper wrap(Arret arret) {
+		return new ArretWrapper(arret);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _arret.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _arret.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_arret.resetOriginalValues();
-	}
-
-	private final Arret _arret;
 
 }

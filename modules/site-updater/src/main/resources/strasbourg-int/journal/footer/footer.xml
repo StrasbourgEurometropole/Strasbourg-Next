@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<root>
+    <structure>
+        <key>4903734</key>
+        <name>Footer</name>
+        <definition>footer-definition.json</definition>
+        <layout>footer-layout.json</layout>
+    </structure>
+    <template>
+        <key>4903783</key>
+        <name>Footer</name>
+        <script>footer.ftl</script>
+    </template>
+</root>

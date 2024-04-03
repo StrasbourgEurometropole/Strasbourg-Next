@@ -8,6 +8,7 @@ import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -39,8 +40,10 @@ import eu.strasbourg.service.search.log.model.SearchLog;
 import eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.Pager;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.SearchHelperV2;
 import eu.strasbourg.utils.StringHelper;
+import eu.strasbourg.utils.display.context.BaseDisplayContext;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.util.tracker.ServiceTracker;
@@ -52,26 +55,18 @@ import javax.portlet.ResourceURL;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"deprecation", "unused"})
-public class SearchAssetDisplayContext {
+public class SearchAssetDisplayContext extends BaseDisplayContext {
 
 	public SearchAssetDisplayContext(RenderRequest request, RenderResponse response) throws PortalException {
 
-		this._response = response;
-		this._request = request;
-		this._themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
+		super(request, response);
 		this.initSearchContainer();
 		if (!getConfigurationData().isHideResultsBeforeSearch() || this.isUserSearch()
 				|| ParamUtil.getBoolean(this._request, "paginate")) {
@@ -466,8 +461,7 @@ public class SearchAssetDisplayContext {
 
 	public SearchAssetConfiguration getConfiguration() throws ConfigurationException {
 		if (this._configuration == null) {
-			this._configuration = this._themeDisplay.getPortletDisplay().getPortletInstanceConfiguration(
-					SearchAssetConfiguration.class);
+			this._configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssetConfiguration.class, _themeDisplay);
 		}
 		return this._configuration;
 	}
@@ -533,14 +527,20 @@ public class SearchAssetDisplayContext {
 						procedureEntry.setDescription(String.valueOf(fields.get("description").getValue()));
 						procedureEntry.setClassName("Procedure");
 						results.add(procedureEntry);
+					}else{
+						String entryNotFound = "assetEntry introuvable = ";
+						for (Map.Entry mapentry : fields.entrySet()) {
+							entryNotFound += mapentry.getKey() + " : " + mapentry.getValue();
+						}
+						_log.debug(entryNotFound);
 					}
 				}
 			}
-			this.getSearchContainer().setTotal((int) this._searchHits.getTotalHits());
+			this.getSearchContainer().setResultsAndTotal(()->results, (int) this._searchHits.getTotalHits());
 		}
 
 		this._entries = results;
-		this._entriesCount = this._entries.size();
+		this._entriesCount = (int) this._searchHits.getTotalHits();
 	}
 
 	/**
@@ -594,6 +594,7 @@ public class SearchAssetDisplayContext {
 			return titleFromLanguageKey;
 		}
 	}
+
 
 	/**
 	 * Retourne true si les champs dates doivent être affichés
@@ -763,12 +764,18 @@ public class SearchAssetDisplayContext {
 	}
 
 	public Map<String, Object> getTemplateContextObjects(AssetEntry entry) {
+		return getTemplateContextObjects(entry, Date.from(Instant.now()));
+	}
+
+
+	public Map<String, Object> getTemplateContextObjects(AssetEntry entry, Date displayDate) {
 		Map<String, Object> contextObjects = new HashMap<>();
 		if (entry.getAssetRenderer() != null) {
 			contextObjects.put("entry", entry.getAssetRenderer().getAssetObject());
 
 			boolean isFeatured = this.isEntryFeatured(entry);
 			contextObjects.put("isFeatured", isFeatured);
+			contextObjects.put("displayDate", displayDate);
 		}
 		return contextObjects;
 	}
@@ -931,6 +938,14 @@ public class SearchAssetDisplayContext {
 		return getConfigurationData().isDisplaySorting();
 	}
 
+	public String getVocabularyDisplayType(AssetVocabulary vocabulary) throws ConfigurationException {
+		HashMap<String, String> vocabularyIdsMap = getConfigurationData().getVocabulariesControlTypesMap();
+		if (Validator.isNotNull(vocabularyIdsMap)) {
+			return vocabularyIdsMap.get(String.valueOf(vocabulary.getVocabularyId()));
+		}
+		return null;
+	}
+
 	/**
 	 * Retourne true si le filtre sur les types d'asset est autorisé
 	 */
@@ -1001,7 +1016,9 @@ public class SearchAssetDisplayContext {
 	 * Retourne l'URL de la page d'accueil
 	 */
 	public String getHomeURL() {
-		if (this._themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname() != null
+		String virtualHostName= PortalHelper.getVirtualHostname(this._themeDisplay.getScopeGroup(),
+				this._themeDisplay.getLanguageId());
+		if (Validator.isNotNull(virtualHostName)
 				|| this._themeDisplay.getScopeGroup().isStagingGroup()) {
 			return "/web" + this._themeDisplay.getScopeGroup().getFriendlyURL() + "/";
 		} else {
@@ -1036,10 +1053,6 @@ public class SearchAssetDisplayContext {
 	}
 
 	private static Log _log = LogFactoryUtil.getLog(SearchAssetDisplayContext.class);
-
-	private final RenderRequest _request;
-	private final RenderResponse _response;
-	private final ThemeDisplay _themeDisplay;
 	private SearchAssetConfiguration _configuration;
 	private ConfigurationData _configurationData;
 
@@ -1048,6 +1061,7 @@ public class SearchAssetDisplayContext {
 	private SearchContainer<AssetEntry> _searchContainer;
 	private List<AssetEntry> _entries;
 	private List<AssetVocabulary> _vocabularies;
+	private LinkedHashMap<String, String> _sortFieldsAndTypes;
 	private String _keywords;
 	private List<Long[]> _filterCategoriesIds;
 	private String _filterCategoriesIdString;

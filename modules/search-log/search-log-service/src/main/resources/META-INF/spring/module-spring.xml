@@ -9,5 +9,6 @@
 >
 	<bean class="eu.strasbourg.service.search.log.service.impl.SearchLogLocalServiceImpl" id="eu.strasbourg.service.search.log.service.SearchLogLocalService" />
 	<bean class="eu.strasbourg.service.search.log.service.impl.SearchLogServiceImpl" id="eu.strasbourg.service.search.log.service.SearchLogService" />
-	<bean class="eu.strasbourg.service.search.log.service.persistence.impl.SearchLogPersistenceImpl" id="eu.strasbourg.service.search.log.service.persistence.SearchLogPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.search.log.service.persistence.impl.SearchLogModelArgumentsResolver" id="eu.strasbourg.service.search.log.service.persistence.impl.SearchLogModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.search.log.service.persistence.impl.SearchLogPersistenceImpl" id="eu.strasbourg.service.search.log.service.persistence.SearchLogPersistence" />
 </beans>

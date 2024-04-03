@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.1.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_1_0.dtd">
-
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.4.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_4_0.dtd">
 <service-builder database-name-max-length="63" package-path="eu.strasbourg.service.formSendRecordField">
     <author>Angélique Zunino</author>
 	<namespace>formSendRecordField</namespace>
@@ -27,7 +26,7 @@
         <column name="statusDate" type="Date" />
 
         <!-- main fields -->
-        <column name="response" type="String" />
+        <column name="response" type="String" localized="true" />
 
         <!-- Links with other entities -->
         <column name="assetEntryId" type="long" />
@@ -97,7 +96,7 @@
         </finder>
 
         <!-- References -->
-        <reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+        <!-- References AssetLink Placeholder -->
         <reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
         <reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 

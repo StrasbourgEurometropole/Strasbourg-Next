@@ -1,6 +1,8 @@
 package eu.strasbourg.portlet.event_viewer;
 
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -14,7 +16,6 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -47,6 +48,7 @@ import java.util.stream.Collectors;
 
 @Component(
 	immediate = true,
+		configurationPid = "eu.strasbourg.portlet.event_viewer.configuration.EventViewerConfiguration",
 	property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=true",
 		"com.liferay.portlet.css-class-wrapper=event-viewer-portlet",
@@ -72,9 +74,8 @@ public class EventViewerPortlet extends MVCPortlet {
 		this.themeDisplay = (ThemeDisplay) request
 			.getAttribute(WebKeys.THEME_DISPLAY);
 		try {
-			this.configuration = this.themeDisplay.getPortletDisplay()
-				.getPortletInstanceConfiguration(
-					EventViewerConfiguration.class);
+			this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(EventViewerConfiguration.class, themeDisplay);
+
 		} catch (ConfigurationException e) {
 			log.error(e);
 		}
@@ -175,8 +176,8 @@ public class EventViewerPortlet extends MVCPortlet {
 		Locale locale = this.themeDisplay.getLocale();
 
 		// Pagination et ordre
-		int start = -1;
-		int end = -1;
+		int start = 0;
+		int end = (int) this.configuration.delta();
 		String sortField = dateFieldName;
 		boolean isSortDesc = false;
 

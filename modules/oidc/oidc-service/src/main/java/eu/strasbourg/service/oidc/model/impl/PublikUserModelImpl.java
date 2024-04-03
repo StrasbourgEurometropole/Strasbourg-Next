@@ -1,23 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.oidc.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.User;
@@ -25,24 +19,31 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.model.PublikUserModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -126,25 +127,41 @@ public class PublikUserModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.oidc.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.oidc.model.PublikUser"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.oidc.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.oidc.model.PublikUser"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.oidc.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.oidc.model.PublikUser"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLIKID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long LASTNAME_COLUMN_BITMASK = 4L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -202,9 +219,6 @@ public class PublikUserModelImpl
 				attributeName, attributeGetterFunction.apply((PublikUser)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -229,541 +243,144 @@ public class PublikUserModelImpl
 	public Map<String, Function<PublikUser, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<PublikUser, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, PublikUser>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			PublikUser.class.getClassLoader(), PublikUser.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<PublikUser, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<PublikUser> constructor =
-				(Constructor<PublikUser>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<PublikUser, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<PublikUser, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", PublikUser::getUuid);
+			attributeGetterFunctions.put(
+				"publikUserLiferayId", PublikUser::getPublikUserLiferayId);
+			attributeGetterFunctions.put(
+				"createDate", PublikUser::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", PublikUser::getModifiedDate);
+			attributeGetterFunctions.put("userId", PublikUser::getUserId);
+			attributeGetterFunctions.put("userName", PublikUser::getUserName);
+			attributeGetterFunctions.put("publikId", PublikUser::getPublikId);
+			attributeGetterFunctions.put(
+				"accessToken", PublikUser::getAccessToken);
+			attributeGetterFunctions.put("firstName", PublikUser::getFirstName);
+			attributeGetterFunctions.put("lastName", PublikUser::getLastName);
+			attributeGetterFunctions.put("email", PublikUser::getEmail);
+			attributeGetterFunctions.put("mapConfig", PublikUser::getMapConfig);
+			attributeGetterFunctions.put(
+				"displayConfig", PublikUser::getDisplayConfig);
+			attributeGetterFunctions.put(
+				"pactSignature", PublikUser::getPactSignature);
+			attributeGetterFunctions.put(
+				"banishDate", PublikUser::getBanishDate);
+			attributeGetterFunctions.put(
+				"banishDescription", PublikUser::getBanishDescription);
+			attributeGetterFunctions.put("imageURL", PublikUser::getImageURL);
+			attributeGetterFunctions.put(
+				"pactDisplay", PublikUser::getPactDisplay);
+			attributeGetterFunctions.put("csmapJSON", PublikUser::getCsmapJSON);
+			attributeGetterFunctions.put(
+				"modifiedDateJSON", PublikUser::getModifiedDateJSON);
+			attributeGetterFunctions.put("topicsFCM", PublikUser::getTopicsFCM);
+			attributeGetterFunctions.put(
+				"lastUpdateTimeTopics", PublikUser::getLastUpdateTimeTopics);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<PublikUser, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<PublikUser, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<PublikUser, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<PublikUser, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<PublikUser, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<PublikUser, String>)PublikUser::setUuid);
+			attributeSetterBiConsumers.put(
+				"publikUserLiferayId",
+				(BiConsumer<PublikUser, Long>)
+					PublikUser::setPublikUserLiferayId);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<PublikUser, Date>)PublikUser::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<PublikUser, Date>)PublikUser::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<PublikUser, Long>)PublikUser::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<PublikUser, String>)PublikUser::setUserName);
+			attributeSetterBiConsumers.put(
+				"publikId",
+				(BiConsumer<PublikUser, String>)PublikUser::setPublikId);
+			attributeSetterBiConsumers.put(
+				"accessToken",
+				(BiConsumer<PublikUser, String>)PublikUser::setAccessToken);
+			attributeSetterBiConsumers.put(
+				"firstName",
+				(BiConsumer<PublikUser, String>)PublikUser::setFirstName);
+			attributeSetterBiConsumers.put(
+				"lastName",
+				(BiConsumer<PublikUser, String>)PublikUser::setLastName);
+			attributeSetterBiConsumers.put(
+				"email", (BiConsumer<PublikUser, String>)PublikUser::setEmail);
+			attributeSetterBiConsumers.put(
+				"mapConfig",
+				(BiConsumer<PublikUser, String>)PublikUser::setMapConfig);
+			attributeSetterBiConsumers.put(
+				"displayConfig",
+				(BiConsumer<PublikUser, String>)PublikUser::setDisplayConfig);
+			attributeSetterBiConsumers.put(
+				"pactSignature",
+				(BiConsumer<PublikUser, Date>)PublikUser::setPactSignature);
+			attributeSetterBiConsumers.put(
+				"banishDate",
+				(BiConsumer<PublikUser, Date>)PublikUser::setBanishDate);
+			attributeSetterBiConsumers.put(
+				"banishDescription",
+				(BiConsumer<PublikUser, String>)
+					PublikUser::setBanishDescription);
+			attributeSetterBiConsumers.put(
+				"imageURL",
+				(BiConsumer<PublikUser, String>)PublikUser::setImageURL);
+			attributeSetterBiConsumers.put(
+				"pactDisplay",
+				(BiConsumer<PublikUser, Boolean>)PublikUser::setPactDisplay);
+			attributeSetterBiConsumers.put(
+				"csmapJSON",
+				(BiConsumer<PublikUser, String>)PublikUser::setCsmapJSON);
+			attributeSetterBiConsumers.put(
+				"modifiedDateJSON",
+				(BiConsumer<PublikUser, Date>)PublikUser::setModifiedDateJSON);
+			attributeSetterBiConsumers.put(
+				"topicsFCM",
+				(BiConsumer<PublikUser, String>)PublikUser::setTopicsFCM);
+			attributeSetterBiConsumers.put(
+				"lastUpdateTimeTopics",
+				(BiConsumer<PublikUser, Long>)
+					PublikUser::setLastUpdateTimeTopics);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<PublikUser, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<PublikUser, Object>>();
-		Map<String, BiConsumer<PublikUser, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<PublikUser, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(PublikUser publikUser, Object uuidObject) {
-					publikUser.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publikUserLiferayId",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getPublikUserLiferayId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"publikUserLiferayId",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object publikUserLiferayIdObject) {
-
-					publikUser.setPublikUserLiferayId(
-						(Long)publikUserLiferayIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object createDateObject) {
-
-					publikUser.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object modifiedDateObject) {
-
-					publikUser.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(PublikUser publikUser, Object userIdObject) {
-					publikUser.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object userNameObject) {
-
-					publikUser.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publikId",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getPublikId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"publikId",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object publikIdObject) {
-
-					publikUser.setPublikId((String)publikIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"accessToken",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getAccessToken();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"accessToken",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object accessTokenObject) {
-
-					publikUser.setAccessToken((String)accessTokenObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"firstName",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getFirstName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"firstName",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object firstNameObject) {
-
-					publikUser.setFirstName((String)firstNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastName",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getLastName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"lastName",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object lastNameObject) {
-
-					publikUser.setLastName((String)lastNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"email",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getEmail();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"email",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(PublikUser publikUser, Object emailObject) {
-					publikUser.setEmail((String)emailObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"mapConfig",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getMapConfig();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"mapConfig",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object mapConfigObject) {
-
-					publikUser.setMapConfig((String)mapConfigObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"displayConfig",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getDisplayConfig();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"displayConfig",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object displayConfigObject) {
-
-					publikUser.setDisplayConfig((String)displayConfigObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"pactSignature",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getPactSignature();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"pactSignature",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object pactSignatureObject) {
-
-					publikUser.setPactSignature((Date)pactSignatureObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"banishDate",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getBanishDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"banishDate",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object banishDateObject) {
-
-					publikUser.setBanishDate((Date)banishDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"banishDescription",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getBanishDescription();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"banishDescription",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object banishDescriptionObject) {
-
-					publikUser.setBanishDescription(
-						(String)banishDescriptionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageURL",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getImageURL();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"imageURL",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object imageURLObject) {
-
-					publikUser.setImageURL((String)imageURLObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"pactDisplay",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getPactDisplay();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"pactDisplay",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object pactDisplayObject) {
-
-					publikUser.setPactDisplay((Boolean)pactDisplayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"csmapJSON",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getCsmapJSON();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"csmapJSON",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object csmapJSONObject) {
-
-					publikUser.setCsmapJSON((String)csmapJSONObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDateJSON",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getModifiedDateJSON();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDateJSON",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object modifiedDateJSONObject) {
-
-					publikUser.setModifiedDateJSON(
-						(Date)modifiedDateJSONObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"topicsFCM",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getTopicsFCM();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"topicsFCM",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object topicsFCMObject) {
-
-					publikUser.setTopicsFCM((String)topicsFCMObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastUpdateTimeTopics",
-			new Function<PublikUser, Object>() {
-
-				@Override
-				public Object apply(PublikUser publikUser) {
-					return publikUser.getLastUpdateTimeTopics();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"lastUpdateTimeTopics",
-			new BiConsumer<PublikUser, Object>() {
-
-				@Override
-				public void accept(
-					PublikUser publikUser, Object lastUpdateTimeTopicsObject) {
-
-					publikUser.setLastUpdateTimeTopics(
-						(Long)lastUpdateTimeTopicsObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -778,17 +395,20 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -798,6 +418,10 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setPublikUserLiferayId(long publikUserLiferayId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_publikUserLiferayId = publikUserLiferayId;
 	}
 
@@ -808,6 +432,10 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -824,6 +452,10 @@ public class PublikUserModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -834,6 +466,10 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -865,6 +501,10 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -880,17 +520,20 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setPublikId(String publikId) {
-		_columnBitmask |= PUBLIKID_COLUMN_BITMASK;
-
-		if (_originalPublikId == null) {
-			_originalPublikId = _publikId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publikId = publikId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPublikId() {
-		return GetterUtil.getString(_originalPublikId);
+		return getColumnOriginalValue("publikId");
 	}
 
 	@Override
@@ -905,6 +548,10 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setAccessToken(String accessToken) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_accessToken = accessToken;
 	}
 
@@ -920,6 +567,10 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setFirstName(String firstName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_firstName = firstName;
 	}
 
@@ -935,7 +586,9 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setLastName(String lastName) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_lastName = lastName;
 	}
@@ -952,6 +605,10 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setEmail(String email) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_email = email;
 	}
 
@@ -967,6 +624,10 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setMapConfig(String mapConfig) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mapConfig = mapConfig;
 	}
 
@@ -982,6 +643,10 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setDisplayConfig(String displayConfig) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_displayConfig = displayConfig;
 	}
 
@@ -992,6 +657,10 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setPactSignature(Date pactSignature) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_pactSignature = pactSignature;
 	}
 
@@ -1002,6 +671,10 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setBanishDate(Date banishDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_banishDate = banishDate;
 	}
 
@@ -1016,8 +689,108 @@ public class PublikUserModelImpl
 	}
 
 	@Override
+	public String getBanishDescription(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getBanishDescription(languageId);
+	}
+
+	@Override
+	public String getBanishDescription(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getBanishDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getBanishDescription(String languageId) {
+		return LocalizationUtil.getLocalization(
+			getBanishDescription(), languageId);
+	}
+
+	@Override
+	public String getBanishDescription(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getBanishDescription(), languageId, useDefault);
+	}
+
+	@Override
+	public String getBanishDescriptionCurrentLanguageId() {
+		return _banishDescriptionCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getBanishDescriptionCurrentValue() {
+		Locale locale = getLocale(_banishDescriptionCurrentLanguageId);
+
+		return getBanishDescription(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getBanishDescriptionMap() {
+		return LocalizationUtil.getLocalizationMap(getBanishDescription());
+	}
+
+	@Override
 	public void setBanishDescription(String banishDescription) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_banishDescription = banishDescription;
+	}
+
+	@Override
+	public void setBanishDescription(String banishDescription, Locale locale) {
+		setBanishDescription(
+			banishDescription, locale, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setBanishDescription(
+		String banishDescription, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(banishDescription)) {
+			setBanishDescription(
+				LocalizationUtil.updateLocalization(
+					getBanishDescription(), "BanishDescription",
+					banishDescription, languageId, defaultLanguageId));
+		}
+		else {
+			setBanishDescription(
+				LocalizationUtil.removeLocalization(
+					getBanishDescription(), "BanishDescription", languageId));
+		}
+	}
+
+	@Override
+	public void setBanishDescriptionCurrentLanguageId(String languageId) {
+		_banishDescriptionCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setBanishDescriptionMap(
+		Map<Locale, String> banishDescriptionMap) {
+
+		setBanishDescriptionMap(banishDescriptionMap, LocaleUtil.getDefault());
+	}
+
+	@Override
+	public void setBanishDescriptionMap(
+		Map<Locale, String> banishDescriptionMap, Locale defaultLocale) {
+
+		if (banishDescriptionMap == null) {
+			return;
+		}
+
+		setBanishDescription(
+			LocalizationUtil.updateLocalization(
+				banishDescriptionMap, getBanishDescription(),
+				"BanishDescription", LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@Override
@@ -1032,6 +805,10 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setImageURL(String imageURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageURL = imageURL;
 	}
 
@@ -1047,6 +824,10 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setPactDisplay(boolean pactDisplay) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_pactDisplay = pactDisplay;
 	}
 
@@ -1062,6 +843,10 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setCsmapJSON(String csmapJSON) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_csmapJSON = csmapJSON;
 	}
 
@@ -1072,6 +857,10 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setModifiedDateJSON(Date modifiedDateJSON) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDateJSON = modifiedDateJSON;
 	}
 
@@ -1087,6 +876,10 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setTopicsFCM(String topicsFCM) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_topicsFCM = topicsFCM;
 	}
 
@@ -1097,10 +890,34 @@ public class PublikUserModelImpl
 
 	@Override
 	public void setLastUpdateTimeTopics(long lastUpdateTimeTopics) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastUpdateTimeTopics = lastUpdateTimeTopics;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1115,6 +932,77 @@ public class PublikUserModelImpl
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> banishDescriptionMap = getBanishDescriptionMap();
+
+		for (Map.Entry<Locale, String> entry :
+				banishDescriptionMap.entrySet()) {
+
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(
+			new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getBanishDescription();
+
+		if (xml == null) {
+			return "";
+		}
+
+		Locale defaultLocale = LocaleUtil.getDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(
+			getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(
+			PublikUser.class.getName(), getPrimaryKey(), defaultLocale,
+			availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+
+		Locale defaultLocale = LocaleUtil.getDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String banishDescription = getBanishDescription(defaultLocale);
+
+		if (Validator.isNull(banishDescription)) {
+			setBanishDescription(
+				getBanishDescription(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setBanishDescription(
+				getBanishDescription(defaultLocale), defaultLocale,
+				defaultLocale);
+		}
 	}
 
 	@Override
@@ -1165,6 +1053,55 @@ public class PublikUserModelImpl
 	}
 
 	@Override
+	public PublikUser cloneWithOriginalValues() {
+		PublikUserImpl publikUserImpl = new PublikUserImpl();
+
+		publikUserImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		publikUserImpl.setPublikUserLiferayId(
+			this.<Long>getColumnOriginalValue("publikUserLiferayId"));
+		publikUserImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		publikUserImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		publikUserImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		publikUserImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		publikUserImpl.setPublikId(
+			this.<String>getColumnOriginalValue("publikId"));
+		publikUserImpl.setAccessToken(
+			this.<String>getColumnOriginalValue("accessToken"));
+		publikUserImpl.setFirstName(
+			this.<String>getColumnOriginalValue("firstName"));
+		publikUserImpl.setLastName(
+			this.<String>getColumnOriginalValue("lastName"));
+		publikUserImpl.setEmail(this.<String>getColumnOriginalValue("email"));
+		publikUserImpl.setMapConfig(
+			this.<String>getColumnOriginalValue("mapConfig"));
+		publikUserImpl.setDisplayConfig(
+			this.<String>getColumnOriginalValue("displayConfig"));
+		publikUserImpl.setPactSignature(
+			this.<Date>getColumnOriginalValue("pactSignature"));
+		publikUserImpl.setBanishDate(
+			this.<Date>getColumnOriginalValue("banishDate"));
+		publikUserImpl.setBanishDescription(
+			this.<String>getColumnOriginalValue("banishDescription"));
+		publikUserImpl.setImageURL(
+			this.<String>getColumnOriginalValue("imageURL"));
+		publikUserImpl.setPactDisplay(
+			this.<Boolean>getColumnOriginalValue("pactDisplay"));
+		publikUserImpl.setCsmapJSON(
+			this.<String>getColumnOriginalValue("csmapJSON"));
+		publikUserImpl.setModifiedDateJSON(
+			this.<Date>getColumnOriginalValue("modifiedDateJSON"));
+		publikUserImpl.setTopicsFCM(
+			this.<String>getColumnOriginalValue("topicsFCM"));
+		publikUserImpl.setLastUpdateTimeTopics(
+			this.<Long>getColumnOriginalValue("lastUpdateTimeTopics"));
+
+		return publikUserImpl;
+	}
+
+	@Override
 	public int compareTo(PublikUser publikUser) {
 		int value = 0;
 
@@ -1204,11 +1141,19 @@ public class PublikUserModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1216,15 +1161,11 @@ public class PublikUserModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		PublikUserModelImpl publikUserModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		publikUserModelImpl._originalUuid = publikUserModelImpl._uuid;
+		_setModifiedDate = false;
 
-		publikUserModelImpl._setModifiedDate = false;
-
-		publikUserModelImpl._originalPublikId = publikUserModelImpl._publikId;
-
-		publikUserModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1397,7 +1338,7 @@ public class PublikUserModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1408,9 +1349,26 @@ public class PublikUserModelImpl
 			Function<PublikUser, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((PublikUser)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((PublikUser)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1423,46 +1381,16 @@ public class PublikUserModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<PublikUser, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<PublikUser, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<PublikUser, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((PublikUser)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, PublikUser>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					PublikUser.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _publikUserLiferayId;
 	private Date _createDate;
 	private Date _modifiedDate;
@@ -1470,7 +1398,6 @@ public class PublikUserModelImpl
 	private long _userId;
 	private String _userName;
 	private String _publikId;
-	private String _originalPublikId;
 	private String _accessToken;
 	private String _firstName;
 	private String _lastName;
@@ -1480,12 +1407,137 @@ public class PublikUserModelImpl
 	private Date _pactSignature;
 	private Date _banishDate;
 	private String _banishDescription;
+	private String _banishDescriptionCurrentLanguageId;
 	private String _imageURL;
 	private boolean _pactDisplay;
 	private String _csmapJSON;
 	private Date _modifiedDateJSON;
 	private String _topicsFCM;
 	private long _lastUpdateTimeTopics;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<PublikUser, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((PublikUser)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("publikUserLiferayId", _publikUserLiferayId);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("publikId", _publikId);
+		_columnOriginalValues.put("accessToken", _accessToken);
+		_columnOriginalValues.put("firstName", _firstName);
+		_columnOriginalValues.put("lastName", _lastName);
+		_columnOriginalValues.put("email", _email);
+		_columnOriginalValues.put("mapConfig", _mapConfig);
+		_columnOriginalValues.put("displayConfig", _displayConfig);
+		_columnOriginalValues.put("pactSignature", _pactSignature);
+		_columnOriginalValues.put("banishDate", _banishDate);
+		_columnOriginalValues.put("banishDescription", _banishDescription);
+		_columnOriginalValues.put("imageURL", _imageURL);
+		_columnOriginalValues.put("pactDisplay", _pactDisplay);
+		_columnOriginalValues.put("csmapJSON", _csmapJSON);
+		_columnOriginalValues.put("modifiedDateJSON", _modifiedDateJSON);
+		_columnOriginalValues.put("topicsFCM", _topicsFCM);
+		_columnOriginalValues.put(
+			"lastUpdateTimeTopics", _lastUpdateTimeTopics);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("publikUserLiferayId", 2L);
+
+		columnBitmasks.put("createDate", 4L);
+
+		columnBitmasks.put("modifiedDate", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("publikId", 64L);
+
+		columnBitmasks.put("accessToken", 128L);
+
+		columnBitmasks.put("firstName", 256L);
+
+		columnBitmasks.put("lastName", 512L);
+
+		columnBitmasks.put("email", 1024L);
+
+		columnBitmasks.put("mapConfig", 2048L);
+
+		columnBitmasks.put("displayConfig", 4096L);
+
+		columnBitmasks.put("pactSignature", 8192L);
+
+		columnBitmasks.put("banishDate", 16384L);
+
+		columnBitmasks.put("banishDescription", 32768L);
+
+		columnBitmasks.put("imageURL", 65536L);
+
+		columnBitmasks.put("pactDisplay", 131072L);
+
+		columnBitmasks.put("csmapJSON", 262144L);
+
+		columnBitmasks.put("modifiedDateJSON", 524288L);
+
+		columnBitmasks.put("topicsFCM", 1048576L);
+
+		columnBitmasks.put("lastUpdateTimeTopics", 2097152L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private PublikUser _escapedModel;
 

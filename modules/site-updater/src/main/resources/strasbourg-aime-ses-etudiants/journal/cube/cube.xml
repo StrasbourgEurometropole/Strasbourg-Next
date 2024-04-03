@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Cube</name>
+        <key>898371</key>
+        <definition>cube-structure.json</definition>
+        <layout>cube-layout.json</layout>
+    </structure>
+    <template>
+        <name>Cube</name>
+        <key>898391</key>
+        <script>cube.ftl</script>
+    </template>
+</root>

@@ -3,7 +3,10 @@ package eu.strasbourg.service.council.upgrade;
 import com.liferay.portal.upgrade.registry.UpgradeStepRegistrator;
 import org.osgi.service.component.annotations.Component;
 
-@Component(immediate = true, service = {UpgradeRegistrator.class, UpgradeStepRegistrator.class})
+@Component(
+        immediate = true,
+        service = {UpgradeRegistrator.class, UpgradeStepRegistrator.class}
+)
 public class UpgradeRegistrator implements UpgradeStepRegistrator {
 
     @Override

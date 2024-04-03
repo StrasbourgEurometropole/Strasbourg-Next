@@ -1,30 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.service.persistence;
-
-import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.place.exception.NoSuchPublicHolidayException;
 import eu.strasbourg.service.place.model.PublicHoliday;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the public holiday service.
@@ -46,45 +32,42 @@ public interface PublicHolidayPersistence
 	 *
 	 * Never modify or reference this interface directly. Always use {@link PublicHolidayUtil} to access the public holiday persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, PublicHoliday> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
-	 * Returns all the public holidaies where uuid = &#63;.
+	 * Returns all the public holidays where uuid = &#63;.
 	 *
 	 * @param uuid the uuid
-	 * @return the matching public holidaies
+	 * @return the matching public holidays
 	 */
 	public java.util.List<PublicHoliday> findByUuid(String uuid);
 
 	/**
-	 * Returns a range of all the public holidaies where uuid = &#63;.
+	 * Returns a range of all the public holidays where uuid = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
 	 * @param uuid the uuid
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
-	 * @return the range of matching public holidaies
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
+	 * @return the range of matching public holidays
 	 */
 	public java.util.List<PublicHoliday> findByUuid(
 		String uuid, int start, int end);
 
 	/**
-	 * Returns an ordered range of all the public holidaies where uuid = &#63;.
+	 * Returns an ordered range of all the public holidays where uuid = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
 	 * @param uuid the uuid
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching public holidaies
+	 * @return the ordered range of matching public holidays
 	 */
 	public java.util.List<PublicHoliday> findByUuid(
 		String uuid, int start, int end,
@@ -92,18 +75,18 @@ public interface PublicHolidayPersistence
 			orderByComparator);
 
 	/**
-	 * Returns an ordered range of all the public holidaies where uuid = &#63;.
+	 * Returns an ordered range of all the public holidays where uuid = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
 	 * @param uuid the uuid
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching public holidaies
+	 * @return the ordered range of matching public holidays
 	 */
 	public java.util.List<PublicHoliday> findByUuid(
 		String uuid, int start, int end,
@@ -164,7 +147,7 @@ public interface PublicHolidayPersistence
 			orderByComparator);
 
 	/**
-	 * Returns the public holidaies before and after the current public holiday in the ordered set where uuid = &#63;.
+	 * Returns the public holidays before and after the current public holiday in the ordered set where uuid = &#63;.
 	 *
 	 * @param publicHolidayId the primary key of the current public holiday
 	 * @param uuid the uuid
@@ -179,55 +162,55 @@ public interface PublicHolidayPersistence
 		throws NoSuchPublicHolidayException;
 
 	/**
-	 * Removes all the public holidaies where uuid = &#63; from the database.
+	 * Removes all the public holidays where uuid = &#63; from the database.
 	 *
 	 * @param uuid the uuid
 	 */
 	public void removeByUuid(String uuid);
 
 	/**
-	 * Returns the number of public holidaies where uuid = &#63;.
+	 * Returns the number of public holidays where uuid = &#63;.
 	 *
 	 * @param uuid the uuid
-	 * @return the number of matching public holidaies
+	 * @return the number of matching public holidays
 	 */
 	public int countByUuid(String uuid);
 
 	/**
-	 * Returns all the public holidaies where recurrent = &#63;.
+	 * Returns all the public holidays where recurrent = &#63;.
 	 *
 	 * @param recurrent the recurrent
-	 * @return the matching public holidaies
+	 * @return the matching public holidays
 	 */
 	public java.util.List<PublicHoliday> findByRecurrent(boolean recurrent);
 
 	/**
-	 * Returns a range of all the public holidaies where recurrent = &#63;.
+	 * Returns a range of all the public holidays where recurrent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
 	 * @param recurrent the recurrent
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
-	 * @return the range of matching public holidaies
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
+	 * @return the range of matching public holidays
 	 */
 	public java.util.List<PublicHoliday> findByRecurrent(
 		boolean recurrent, int start, int end);
 
 	/**
-	 * Returns an ordered range of all the public holidaies where recurrent = &#63;.
+	 * Returns an ordered range of all the public holidays where recurrent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
 	 * @param recurrent the recurrent
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching public holidaies
+	 * @return the ordered range of matching public holidays
 	 */
 	public java.util.List<PublicHoliday> findByRecurrent(
 		boolean recurrent, int start, int end,
@@ -235,18 +218,18 @@ public interface PublicHolidayPersistence
 			orderByComparator);
 
 	/**
-	 * Returns an ordered range of all the public holidaies where recurrent = &#63;.
+	 * Returns an ordered range of all the public holidays where recurrent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
 	 * @param recurrent the recurrent
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching public holidaies
+	 * @return the ordered range of matching public holidays
 	 */
 	public java.util.List<PublicHoliday> findByRecurrent(
 		boolean recurrent, int start, int end,
@@ -307,7 +290,7 @@ public interface PublicHolidayPersistence
 			orderByComparator);
 
 	/**
-	 * Returns the public holidaies before and after the current public holiday in the ordered set where recurrent = &#63;.
+	 * Returns the public holidays before and after the current public holiday in the ordered set where recurrent = &#63;.
 	 *
 	 * @param publicHolidayId the primary key of the current public holiday
 	 * @param recurrent the recurrent
@@ -322,17 +305,17 @@ public interface PublicHolidayPersistence
 		throws NoSuchPublicHolidayException;
 
 	/**
-	 * Removes all the public holidaies where recurrent = &#63; from the database.
+	 * Removes all the public holidays where recurrent = &#63; from the database.
 	 *
 	 * @param recurrent the recurrent
 	 */
 	public void removeByRecurrent(boolean recurrent);
 
 	/**
-	 * Returns the number of public holidaies where recurrent = &#63;.
+	 * Returns the number of public holidays where recurrent = &#63;.
 	 *
 	 * @param recurrent the recurrent
-	 * @return the number of matching public holidaies
+	 * @return the number of matching public holidays
 	 */
 	public int countByRecurrent(boolean recurrent);
 
@@ -344,11 +327,11 @@ public interface PublicHolidayPersistence
 	public void cacheResult(PublicHoliday publicHoliday);
 
 	/**
-	 * Caches the public holidaies in the entity cache if it is enabled.
+	 * Caches the public holidays in the entity cache if it is enabled.
 	 *
-	 * @param publicHolidaies the public holidaies
+	 * @param publicHolidays the public holidays
 	 */
-	public void cacheResult(java.util.List<PublicHoliday> publicHolidaies);
+	public void cacheResult(java.util.List<PublicHoliday> publicHolidays);
 
 	/**
 	 * Creates a new public holiday with the primary key. Does not add the public holiday to the database.
@@ -389,36 +372,36 @@ public interface PublicHolidayPersistence
 	public PublicHoliday fetchByPrimaryKey(long publicHolidayId);
 
 	/**
-	 * Returns all the public holidaies.
+	 * Returns all the public holidays.
 	 *
-	 * @return the public holidaies
+	 * @return the public holidays
 	 */
 	public java.util.List<PublicHoliday> findAll();
 
 	/**
-	 * Returns a range of all the public holidaies.
+	 * Returns a range of all the public holidays.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
-	 * @return the range of public holidaies
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
+	 * @return the range of public holidays
 	 */
 	public java.util.List<PublicHoliday> findAll(int start, int end);
 
 	/**
-	 * Returns an ordered range of all the public holidaies.
+	 * Returns an ordered range of all the public holidays.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of public holidaies
+	 * @return the ordered range of public holidays
 	 */
 	public java.util.List<PublicHoliday> findAll(
 		int start, int end,
@@ -426,17 +409,17 @@ public interface PublicHolidayPersistence
 			orderByComparator);
 
 	/**
-	 * Returns an ordered range of all the public holidaies.
+	 * Returns an ordered range of all the public holidays.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of public holidaies
+	 * @return the ordered range of public holidays
 	 */
 	public java.util.List<PublicHoliday> findAll(
 		int start, int end,
@@ -445,18 +428,15 @@ public interface PublicHolidayPersistence
 		boolean useFinderCache);
 
 	/**
-	 * Removes all the public holidaies from the database.
+	 * Removes all the public holidays from the database.
 	 */
 	public void removeAll();
 
 	/**
-	 * Returns the number of public holidaies.
+	 * Returns the number of public holidays.
 	 *
-	 * @return the number of public holidaies
+	 * @return the number of public holidays
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

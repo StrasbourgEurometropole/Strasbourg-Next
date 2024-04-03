@@ -7,6 +7,7 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -39,7 +40,12 @@ import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
 import eu.strasbourg.service.opendata.geo.district.OpenDataGeoDistrictService;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import eu.strasbourg.utils.*;
+import eu.strasbourg.utils.AssetPublisherTemplateHelper;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.JournalArticleHelper;
+import eu.strasbourg.utils.PortalHelper;
+import eu.strasbourg.utils.PublikApiClient;
+import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Reference;
 
@@ -79,8 +85,8 @@ public class MyDistrictDisplayContext {
         this.adictService = adict;
         this.openDataGeoDistrictService = openDataGeoDistrictService;
         try {
-            this.configuration = themeDisplay.getPortletDisplay()
-                    .getPortletInstanceConfiguration(MyDistrictConfiguration.class);
+            this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(MyDistrictConfiguration.class, themeDisplay);
+
         } catch (ConfigurationException e) {
             _log.error(e.getMessage(), e);
         }
@@ -91,12 +97,12 @@ public class MyDistrictDisplayContext {
     }
 
     public String getVirtualHostName() {
-        return themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname();
+        return PortalHelper.getVirtualHostname(themeDisplay.getScopeGroup(),themeDisplay.getLanguageId());
     }
 
     public String getVirtualStrasbourgHostName() {
         Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(this.themeDisplay.getCompanyId(), "/strasbourg.eu");
-        return group.getPublicLayoutSet().getVirtualHostname();
+        return PortalHelper.getVirtualHostname(group,themeDisplay.getLanguageId());
     }
 
     // Récupération de l'id utilisateur

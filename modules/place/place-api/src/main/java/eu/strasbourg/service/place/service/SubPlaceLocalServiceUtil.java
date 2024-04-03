@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.place.model.SubPlace;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for SubPlace. This utility wraps
@@ -48,10 +48,18 @@ public class SubPlaceLocalServiceUtil {
 	 * @param subPlace the sub place
 	 * @return the sub place that was added
 	 */
-	public static eu.strasbourg.service.place.model.SubPlace addSubPlace(
-		eu.strasbourg.service.place.model.SubPlace subPlace) {
-
+	public static SubPlace addSubPlace(SubPlace subPlace) {
 		return getService().addSubPlace(subPlace);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -60,18 +68,16 @@ public class SubPlaceLocalServiceUtil {
 	 * @param subPlaceId the primary key for the new sub place
 	 * @return the new sub place
 	 */
-	public static eu.strasbourg.service.place.model.SubPlace createSubPlace(
-		long subPlaceId) {
-
+	public static SubPlace createSubPlace(long subPlaceId) {
 		return getService().createSubPlace(subPlaceId);
 	}
 
 	/**
 	 * Crée un sous-lieu vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.place.model.SubPlace createSubPlace(
+	public static SubPlace createSubPlace(
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createSubPlace(sc);
 	}
@@ -79,10 +85,9 @@ public class SubPlaceLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -98,9 +103,8 @@ public class SubPlaceLocalServiceUtil {
 	 * @return the sub place that was removed
 	 * @throws PortalException if a sub place with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.place.model.SubPlace deleteSubPlace(
-			long subPlaceId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static SubPlace deleteSubPlace(long subPlaceId)
+		throws PortalException {
 
 		return getService().deleteSubPlace(subPlaceId);
 	}
@@ -115,15 +119,19 @@ public class SubPlaceLocalServiceUtil {
 	 * @param subPlace the sub place
 	 * @return the sub place that was removed
 	 */
-	public static eu.strasbourg.service.place.model.SubPlace deleteSubPlace(
-		eu.strasbourg.service.place.model.SubPlace subPlace) {
-
+	public static SubPlace deleteSubPlace(SubPlace subPlace) {
 		return getService().deleteSubPlace(subPlace);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -133,9 +141,7 @@ public class SubPlaceLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -151,9 +157,8 @@ public class SubPlaceLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -171,10 +176,9 @@ public class SubPlaceLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -186,9 +190,7 @@ public class SubPlaceLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -200,23 +202,21 @@ public class SubPlaceLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.place.model.SubPlace fetchSubPlace(
-		long subPlaceId) {
-
+	public static SubPlace fetchSubPlace(long subPlaceId) {
 		return getService().fetchSubPlace(subPlaceId);
 	}
 
 	/**
 	 * Lance une recherche par mots-clés
 	 */
-	public static java.util.List<eu.strasbourg.service.place.model.SubPlace>
-		findByKeyword(String keyword, int start, int end) {
+	public static List<SubPlace> findByKeyword(
+		String keyword, int start, int end) {
 
 		return getService().findByKeyword(keyword, start, end);
 	}
@@ -237,9 +237,7 @@ public class SubPlaceLocalServiceUtil {
 	/**
 	 * Retourne les SubPlace rattachés à un lieu
 	 */
-	public static java.util.List<eu.strasbourg.service.place.model.SubPlace>
-		getByPlaceId(long placeId) {
-
+	public static List<SubPlace> getByPlaceId(long placeId) {
 		return getService().getByPlaceId(placeId);
 	}
 
@@ -262,9 +260,8 @@ public class SubPlaceLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -276,10 +273,7 @@ public class SubPlaceLocalServiceUtil {
 	 * @return the sub place
 	 * @throws PortalException if a sub place with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.place.model.SubPlace getSubPlace(
-			long subPlaceId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static SubPlace getSubPlace(long subPlaceId) throws PortalException {
 		return getService().getSubPlace(subPlaceId);
 	}
 
@@ -294,9 +288,7 @@ public class SubPlaceLocalServiceUtil {
 	 * @param end the upper bound of the range of sub places (not inclusive)
 	 * @return the range of sub places
 	 */
-	public static java.util.List<eu.strasbourg.service.place.model.SubPlace>
-		getSubPlaces(int start, int end) {
-
+	public static List<SubPlace> getSubPlaces(int start, int end) {
 		return getService().getSubPlaces(start, end);
 	}
 
@@ -312,9 +304,8 @@ public class SubPlaceLocalServiceUtil {
 	/**
 	 * Supprime un sous-lieu
 	 */
-	public static eu.strasbourg.service.place.model.SubPlace removeSubPlace(
-			long subPlaceId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static SubPlace removeSubPlace(long subPlaceId)
+		throws PortalException {
 
 		return getService().removeSubPlace(subPlaceId);
 	}
@@ -322,11 +313,11 @@ public class SubPlaceLocalServiceUtil {
 	/**
 	 * Met à jour le statut du sous-lieu par le framework workflow
 	 */
-	public static eu.strasbourg.service.place.model.SubPlace updateStatus(
+	public static SubPlace updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
@@ -335,10 +326,8 @@ public class SubPlaceLocalServiceUtil {
 	/**
 	 * Met à jour le statut du sous-lieu "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			long userId, eu.strasbourg.service.place.model.SubPlace subPlace,
-			int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(long userId, SubPlace subPlace, int status)
+		throws PortalException {
 
 		getService().updateStatus(userId, subPlace, status);
 	}
@@ -353,42 +342,29 @@ public class SubPlaceLocalServiceUtil {
 	 * @param subPlace the sub place
 	 * @return the sub place that was updated
 	 */
-	public static eu.strasbourg.service.place.model.SubPlace updateSubPlace(
-		eu.strasbourg.service.place.model.SubPlace subPlace) {
-
+	public static SubPlace updateSubPlace(SubPlace subPlace) {
 		return getService().updateSubPlace(subPlace);
 	}
 
 	/**
 	 * Met à jour un sous-lieu et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.place.model.SubPlace updateSubPlace(
-			eu.strasbourg.service.place.model.SubPlace subPlace,
+	public static SubPlace updateSubPlace(
+			SubPlace subPlace,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().updateSubPlace(subPlace, sc);
 	}
 
 	public static SubPlaceLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<SubPlaceLocalService, SubPlaceLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(SubPlaceLocalService.class);
-
-		ServiceTracker<SubPlaceLocalService, SubPlaceLocalService>
-			serviceTracker =
-				new ServiceTracker<SubPlaceLocalService, SubPlaceLocalService>(
-					bundle.getBundleContext(), SubPlaceLocalService.class,
-					null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(SubPlaceLocalService service) {
+		_service = service;
 	}
+
+	private static volatile SubPlaceLocalService _service;
 
 }

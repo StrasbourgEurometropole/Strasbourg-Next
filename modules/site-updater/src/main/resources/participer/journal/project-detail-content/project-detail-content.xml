@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Projet - contenu détail</name>
+        <key>2532124</key>
+        <definition>project-detail-content-structure.json</definition>
+        <layout>project-detail-content-layout.json</layout>
+    </structure>
+    <template>
+        <name>Projet - contenu détail</name>
+        <key>2532231</key>
+        <script>project-detail-content.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

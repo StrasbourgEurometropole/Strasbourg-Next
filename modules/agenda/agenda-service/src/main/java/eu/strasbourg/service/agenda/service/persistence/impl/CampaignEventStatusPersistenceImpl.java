@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,29 +16,29 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.exception.NoSuchCampaignEventStatusException;
 import eu.strasbourg.service.agenda.model.CampaignEventStatus;
+import eu.strasbourg.service.agenda.model.CampaignEventStatusTable;
 import eu.strasbourg.service.agenda.model.impl.CampaignEventStatusImpl;
 import eu.strasbourg.service.agenda.model.impl.CampaignEventStatusModelImpl;
 import eu.strasbourg.service.agenda.service.persistence.CampaignEventStatusPersistence;
+import eu.strasbourg.service.agenda.service.persistence.CampaignEventStatusUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -250,10 +242,6 @@ public class CampaignEventStatusPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -609,8 +597,6 @@ public class CampaignEventStatusPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -789,10 +775,6 @@ public class CampaignEventStatusPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1129,8 +1111,6 @@ public class CampaignEventStatusPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1152,21 +1132,14 @@ public class CampaignEventStatusPersistenceImpl
 		dbColumnNames.put("comment", "comment_");
 		dbColumnNames.put("date", "date_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(CampaignEventStatus.class);
+
+		setModelImplClass(CampaignEventStatusImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(CampaignEventStatusTable.INSTANCE);
 	}
 
 	/**
@@ -1177,12 +1150,11 @@ public class CampaignEventStatusPersistenceImpl
 	@Override
 	public void cacheResult(CampaignEventStatus campaignEventStatus) {
 		entityCache.putResult(
-			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
 			CampaignEventStatusImpl.class, campaignEventStatus.getPrimaryKey(),
 			campaignEventStatus);
-
-		campaignEventStatus.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the campaign event statuses in the entity cache if it is enabled.
@@ -1191,16 +1163,20 @@ public class CampaignEventStatusPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<CampaignEventStatus> campaignEventStatuses) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (campaignEventStatuses.size() >
+				 _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (CampaignEventStatus campaignEventStatus : campaignEventStatuses) {
 			if (entityCache.getResult(
-					CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
 					CampaignEventStatusImpl.class,
 					campaignEventStatus.getPrimaryKey()) == null) {
 
 				cacheResult(campaignEventStatus);
-			}
-			else {
-				campaignEventStatus.resetOriginalValues();
 			}
 		}
 	}
@@ -1216,9 +1192,7 @@ public class CampaignEventStatusPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(CampaignEventStatusImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(CampaignEventStatusImpl.class);
 	}
 
 	/**
@@ -1231,35 +1205,23 @@ public class CampaignEventStatusPersistenceImpl
 	@Override
 	public void clearCache(CampaignEventStatus campaignEventStatus) {
 		entityCache.removeResult(
-			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusImpl.class, campaignEventStatus.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+			CampaignEventStatusImpl.class, campaignEventStatus);
 	}
 
 	@Override
 	public void clearCache(List<CampaignEventStatus> campaignEventStatuses) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (CampaignEventStatus campaignEventStatus : campaignEventStatuses) {
 			entityCache.removeResult(
-				CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-				CampaignEventStatusImpl.class,
-				campaignEventStatus.getPrimaryKey());
+				CampaignEventStatusImpl.class, campaignEventStatus);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(CampaignEventStatusImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-				CampaignEventStatusImpl.class, primaryKey);
+			entityCache.removeResult(CampaignEventStatusImpl.class, primaryKey);
 		}
 	}
 
@@ -1409,10 +1371,8 @@ public class CampaignEventStatusPersistenceImpl
 		try {
 			session = openSession();
 
-			if (campaignEventStatus.isNew()) {
+			if (isNew) {
 				session.save(campaignEventStatus);
-
-				campaignEventStatus.setNew(false);
 			}
 			else {
 				campaignEventStatus = (CampaignEventStatus)session.merge(
@@ -1426,80 +1386,13 @@ public class CampaignEventStatusPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!CampaignEventStatusModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				campaignEventStatusModelImpl.getUuid()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				campaignEventStatusModelImpl.getCampaignEventId()
-			};
-
-			finderCache.removeResult(_finderPathCountByCampaignEventId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByCampaignEventId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((campaignEventStatusModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					campaignEventStatusModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {campaignEventStatusModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((campaignEventStatusModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCampaignEventId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					campaignEventStatusModelImpl.getOriginalCampaignEventId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByCampaignEventId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCampaignEventId, args);
-
-				args = new Object[] {
-					campaignEventStatusModelImpl.getCampaignEventId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByCampaignEventId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCampaignEventId, args);
-			}
-		}
-
 		entityCache.putResult(
-			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusImpl.class, campaignEventStatus.getPrimaryKey(),
-			campaignEventStatus, false);
+			CampaignEventStatusImpl.class, campaignEventStatusModelImpl, false,
+			true);
+
+		if (isNew) {
+			campaignEventStatus.setNew(false);
+		}
 
 		campaignEventStatus.resetOriginalValues();
 
@@ -1548,168 +1441,12 @@ public class CampaignEventStatusPersistenceImpl
 	/**
 	 * Returns the campaign event status with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the campaign event status
-	 * @return the campaign event status, or <code>null</code> if a campaign event status with the primary key could not be found
-	 */
-	@Override
-	public CampaignEventStatus fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		CampaignEventStatus campaignEventStatus =
-			(CampaignEventStatus)serializable;
-
-		if (campaignEventStatus == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				campaignEventStatus = (CampaignEventStatus)session.get(
-					CampaignEventStatusImpl.class, primaryKey);
-
-				if (campaignEventStatus != null) {
-					cacheResult(campaignEventStatus);
-				}
-				else {
-					entityCache.putResult(
-						CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-						CampaignEventStatusImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-					CampaignEventStatusImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return campaignEventStatus;
-	}
-
-	/**
-	 * Returns the campaign event status with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param statusId the primary key of the campaign event status
 	 * @return the campaign event status, or <code>null</code> if a campaign event status with the primary key could not be found
 	 */
 	@Override
 	public CampaignEventStatus fetchByPrimaryKey(long statusId) {
 		return fetchByPrimaryKey((Serializable)statusId);
-	}
-
-	@Override
-	public Map<Serializable, CampaignEventStatus> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, CampaignEventStatus> map =
-			new HashMap<Serializable, CampaignEventStatus>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			CampaignEventStatus campaignEventStatus = fetchByPrimaryKey(
-				primaryKey);
-
-			if (campaignEventStatus != null) {
-				map.put(primaryKey, campaignEventStatus);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-				CampaignEventStatusImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (CampaignEventStatus)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_CAMPAIGNEVENTSTATUS_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (CampaignEventStatus campaignEventStatus :
-					(List<CampaignEventStatus>)query.list()) {
-
-				map.put(
-					campaignEventStatus.getPrimaryKeyObj(),
-					campaignEventStatus);
-
-				cacheResult(campaignEventStatus);
-
-				uncachedPrimaryKeys.remove(
-					campaignEventStatus.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-					CampaignEventStatusImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1838,10 +1575,6 @@ public class CampaignEventStatusPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1888,9 +1621,6 @@ public class CampaignEventStatusPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1907,6 +1637,21 @@ public class CampaignEventStatusPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "statusId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_CAMPAIGNEVENTSTATUS;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return CampaignEventStatusModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1915,79 +1660,64 @@ public class CampaignEventStatusPersistenceImpl
 	 * Initializes the campaign event status persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED,
-			CampaignEventStatusImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED,
-			CampaignEventStatusImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED,
-			CampaignEventStatusImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED,
-			CampaignEventStatusImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			CampaignEventStatusModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathWithPaginationFindByCampaignEventId = new FinderPath(
-			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED,
-			CampaignEventStatusImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCampaignEventId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"campaignEventId"}, true);
 
 		_finderPathWithoutPaginationFindByCampaignEventId = new FinderPath(
-			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED,
-			CampaignEventStatusImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCampaignEventId",
 			new String[] {Long.class.getName()},
-			CampaignEventStatusModelImpl.CAMPAIGNEVENTID_COLUMN_BITMASK);
+			new String[] {"campaignEventId"}, true);
 
 		_finderPathCountByCampaignEventId = new FinderPath(
-			CampaignEventStatusModelImpl.ENTITY_CACHE_ENABLED,
-			CampaignEventStatusModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCampaignEventId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()},
+			new String[] {"campaignEventId"}, false);
+
+		CampaignEventStatusUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		CampaignEventStatusUtil.setPersistence(null);
+
 		entityCache.removeCache(CampaignEventStatusImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1998,9 +1728,6 @@ public class CampaignEventStatusPersistenceImpl
 
 	private static final String _SQL_SELECT_CAMPAIGNEVENTSTATUS =
 		"SELECT campaignEventStatus FROM CampaignEventStatus campaignEventStatus";
-
-	private static final String _SQL_SELECT_CAMPAIGNEVENTSTATUS_WHERE_PKS_IN =
-		"SELECT campaignEventStatus FROM CampaignEventStatus campaignEventStatus WHERE statusId IN (";
 
 	private static final String _SQL_SELECT_CAMPAIGNEVENTSTATUS_WHERE =
 		"SELECT campaignEventStatus FROM CampaignEventStatus campaignEventStatus WHERE ";
@@ -2024,5 +1751,10 @@ public class CampaignEventStatusPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "comment", "date"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

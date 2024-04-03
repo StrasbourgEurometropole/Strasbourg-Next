@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.objtp.model.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -22,26 +14,24 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.objtp.model.FoundObject;
 import eu.strasbourg.service.objtp.model.FoundObjectModel;
-import eu.strasbourg.service.objtp.model.FoundObjectSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -98,66 +88,36 @@ public class FoundObjectModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.objtp.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.objtp.model.FoundObject"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.objtp.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.objtp.model.FoundObject"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.objtp.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.objtp.model.FoundObject"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long CATEGORYCODE_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long DATE_COLUMN_BITMASK = 2L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static FoundObject toModel(FoundObjectSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		FoundObject model = new FoundObjectImpl();
-
-		model.setNumber(soapModel.getNumber());
-		model.setDate(soapModel.getDate());
-		model.setImageUrl(soapModel.getImageUrl());
-		model.setCategoryCode(soapModel.getCategoryCode());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<FoundObject> toModels(FoundObjectSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<FoundObject> models = new ArrayList<FoundObject>(
-			soapModels.length);
-
-		for (FoundObjectSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.objtp.service.util.ServiceProps.get(
@@ -215,9 +175,6 @@ public class FoundObjectModelImpl
 				attributeGetterFunction.apply((FoundObject)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -242,145 +199,62 @@ public class FoundObjectModelImpl
 	public Map<String, Function<FoundObject, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<FoundObject, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, FoundObject>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			FoundObject.class.getClassLoader(), FoundObject.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<FoundObject, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<FoundObject> constructor =
-				(Constructor<FoundObject>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<FoundObject, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<FoundObject, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("number", FoundObject::getNumber);
+			attributeGetterFunctions.put("date", FoundObject::getDate);
+			attributeGetterFunctions.put("imageUrl", FoundObject::getImageUrl);
+			attributeGetterFunctions.put(
+				"categoryCode", FoundObject::getCategoryCode);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<FoundObject, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<FoundObject, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<FoundObject, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<FoundObject, Object>>();
-		Map<String, BiConsumer<FoundObject, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<FoundObject, ?>>();
+		private static final Map<String, BiConsumer<FoundObject, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"number",
-			new Function<FoundObject, Object>() {
+		static {
+			Map<String, BiConsumer<FoundObject, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<FoundObject, ?>>();
 
-				@Override
-				public Object apply(FoundObject foundObject) {
-					return foundObject.getNumber();
-				}
+			attributeSetterBiConsumers.put(
+				"number",
+				(BiConsumer<FoundObject, String>)FoundObject::setNumber);
+			attributeSetterBiConsumers.put(
+				"date", (BiConsumer<FoundObject, Date>)FoundObject::setDate);
+			attributeSetterBiConsumers.put(
+				"imageUrl",
+				(BiConsumer<FoundObject, String>)FoundObject::setImageUrl);
+			attributeSetterBiConsumers.put(
+				"categoryCode",
+				(BiConsumer<FoundObject, String>)FoundObject::setCategoryCode);
 
-			});
-		attributeSetterBiConsumers.put(
-			"number",
-			new BiConsumer<FoundObject, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(
-					FoundObject foundObject, Object numberObject) {
-
-					foundObject.setNumber((String)numberObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"date",
-			new Function<FoundObject, Object>() {
-
-				@Override
-				public Object apply(FoundObject foundObject) {
-					return foundObject.getDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"date",
-			new BiConsumer<FoundObject, Object>() {
-
-				@Override
-				public void accept(FoundObject foundObject, Object dateObject) {
-					foundObject.setDate((Date)dateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageUrl",
-			new Function<FoundObject, Object>() {
-
-				@Override
-				public Object apply(FoundObject foundObject) {
-					return foundObject.getImageUrl();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"imageUrl",
-			new BiConsumer<FoundObject, Object>() {
-
-				@Override
-				public void accept(
-					FoundObject foundObject, Object imageUrlObject) {
-
-					foundObject.setImageUrl((String)imageUrlObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"categoryCode",
-			new Function<FoundObject, Object>() {
-
-				@Override
-				public Object apply(FoundObject foundObject) {
-					return foundObject.getCategoryCode();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"categoryCode",
-			new BiConsumer<FoundObject, Object>() {
-
-				@Override
-				public void accept(
-					FoundObject foundObject, Object categoryCodeObject) {
-
-					foundObject.setCategoryCode((String)categoryCodeObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -396,6 +270,10 @@ public class FoundObjectModelImpl
 
 	@Override
 	public void setNumber(String number) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_number = number;
 	}
 
@@ -407,7 +285,9 @@ public class FoundObjectModelImpl
 
 	@Override
 	public void setDate(Date date) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_date = date;
 	}
@@ -425,6 +305,10 @@ public class FoundObjectModelImpl
 
 	@Override
 	public void setImageUrl(String imageUrl) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageUrl = imageUrl;
 	}
 
@@ -441,20 +325,43 @@ public class FoundObjectModelImpl
 
 	@Override
 	public void setCategoryCode(String categoryCode) {
-		_columnBitmask |= CATEGORYCODE_COLUMN_BITMASK;
-
-		if (_originalCategoryCode == null) {
-			_originalCategoryCode = _categoryCode;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_categoryCode = categoryCode;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalCategoryCode() {
-		return GetterUtil.getString(_originalCategoryCode);
+		return getColumnOriginalValue("categoryCode");
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -483,6 +390,21 @@ public class FoundObjectModelImpl
 		foundObjectImpl.setCategoryCode(getCategoryCode());
 
 		foundObjectImpl.resetOriginalValues();
+
+		return foundObjectImpl;
+	}
+
+	@Override
+	public FoundObject cloneWithOriginalValues() {
+		FoundObjectImpl foundObjectImpl = new FoundObjectImpl();
+
+		foundObjectImpl.setNumber(
+			this.<String>getColumnOriginalValue("number_"));
+		foundObjectImpl.setDate(this.<Date>getColumnOriginalValue("date_"));
+		foundObjectImpl.setImageUrl(
+			this.<String>getColumnOriginalValue("imageUrl"));
+		foundObjectImpl.setCategoryCode(
+			this.<String>getColumnOriginalValue("categoryCode"));
 
 		return foundObjectImpl;
 	}
@@ -527,11 +449,19 @@ public class FoundObjectModelImpl
 		return getPrimaryKey().hashCode();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -539,12 +469,9 @@ public class FoundObjectModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		FoundObjectModelImpl foundObjectModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		foundObjectModelImpl._originalCategoryCode =
-			foundObjectModelImpl._categoryCode;
-
-		foundObjectModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -594,7 +521,7 @@ public class FoundObjectModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -605,9 +532,26 @@ public class FoundObjectModelImpl
 			Function<FoundObject, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((FoundObject)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((FoundObject)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -620,41 +564,12 @@ public class FoundObjectModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<FoundObject, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<FoundObject, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<FoundObject, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((FoundObject)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, FoundObject>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					FoundObject.class, ModelWrapper.class);
 
 	}
 
@@ -662,7 +577,76 @@ public class FoundObjectModelImpl
 	private Date _date;
 	private String _imageUrl;
 	private String _categoryCode;
-	private String _originalCategoryCode;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<FoundObject, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((FoundObject)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("number_", _number);
+		_columnOriginalValues.put("date_", _date);
+		_columnOriginalValues.put("imageUrl", _imageUrl);
+		_columnOriginalValues.put("categoryCode", _categoryCode);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("number_", "number");
+		attributeNames.put("date_", "date");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("number_", 1L);
+
+		columnBitmasks.put("date_", 2L);
+
+		columnBitmasks.put("imageUrl", 4L);
+
+		columnBitmasks.put("categoryCode", 8L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private FoundObject _escapedModel;
 

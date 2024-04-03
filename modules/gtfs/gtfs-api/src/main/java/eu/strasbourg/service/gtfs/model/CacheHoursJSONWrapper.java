@@ -1,29 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,11 @@ import java.util.Objects;
  * @generated
  */
 public class CacheHoursJSONWrapper
+	extends BaseModelWrapper<CacheHoursJSON>
 	implements CacheHoursJSON, ModelWrapper<CacheHoursJSON> {
 
 	public CacheHoursJSONWrapper(CacheHoursJSON cacheHoursJSON) {
-		_cacheHoursJSON = cacheHoursJSON;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return CacheHoursJSON.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return CacheHoursJSON.class.getName();
+		super(cacheHoursJSON);
 	}
 
 	@Override
@@ -105,16 +83,8 @@ public class CacheHoursJSONWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new CacheHoursJSONWrapper(
-			(CacheHoursJSON)_cacheHoursJSON.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.gtfs.model.CacheHoursJSON cacheHoursJSON) {
-
-		return _cacheHoursJSON.compareTo(cacheHoursJSON);
+	public CacheHoursJSON cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -124,12 +94,7 @@ public class CacheHoursJSONWrapper
 	 */
 	@Override
 	public Date getCreationDate() {
-		return _cacheHoursJSON.getCreationDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _cacheHoursJSON.getExpandoBridge();
+		return model.getCreationDate();
 	}
 
 	/**
@@ -139,7 +104,7 @@ public class CacheHoursJSONWrapper
 	 */
 	@Override
 	public String getJsonHour() {
-		return _cacheHoursJSON.getJsonHour();
+		return model.getJsonHour();
 	}
 
 	/**
@@ -149,7 +114,7 @@ public class CacheHoursJSONWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _cacheHoursJSON.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -161,12 +126,7 @@ public class CacheHoursJSONWrapper
 	public eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
 		getPrimaryKey() {
 
-		return _cacheHoursJSON.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _cacheHoursJSON.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -176,7 +136,7 @@ public class CacheHoursJSONWrapper
 	 */
 	@Override
 	public String getStopCode() {
-		return _cacheHoursJSON.getStopCode();
+		return model.getStopCode();
 	}
 
 	/**
@@ -186,7 +146,7 @@ public class CacheHoursJSONWrapper
 	 */
 	@Override
 	public int getType() {
-		return _cacheHoursJSON.getType();
+		return model.getType();
 	}
 
 	/**
@@ -196,37 +156,12 @@ public class CacheHoursJSONWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _cacheHoursJSON.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _cacheHoursJSON.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _cacheHoursJSON.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _cacheHoursJSON.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _cacheHoursJSON.isNew();
+		return model.getUuid();
 	}
 
 	@Override
 	public void persist() {
-		_cacheHoursJSON.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_cacheHoursJSON.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -236,24 +171,7 @@ public class CacheHoursJSONWrapper
 	 */
 	@Override
 	public void setCreationDate(Date creationDate) {
-		_cacheHoursJSON.setCreationDate(creationDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_cacheHoursJSON.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_cacheHoursJSON.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_cacheHoursJSON.setExpandoBridgeAttributes(serviceContext);
+		model.setCreationDate(creationDate);
 	}
 
 	/**
@@ -263,7 +181,7 @@ public class CacheHoursJSONWrapper
 	 */
 	@Override
 	public void setJsonHour(String jsonHour) {
-		_cacheHoursJSON.setJsonHour(jsonHour);
+		model.setJsonHour(jsonHour);
 	}
 
 	/**
@@ -273,12 +191,7 @@ public class CacheHoursJSONWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_cacheHoursJSON.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_cacheHoursJSON.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -291,12 +204,7 @@ public class CacheHoursJSONWrapper
 		eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
 			primaryKey) {
 
-		_cacheHoursJSON.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_cacheHoursJSON.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -306,7 +214,7 @@ public class CacheHoursJSONWrapper
 	 */
 	@Override
 	public void setStopCode(String stopCode) {
-		_cacheHoursJSON.setStopCode(stopCode);
+		model.setStopCode(stopCode);
 	}
 
 	/**
@@ -316,7 +224,7 @@ public class CacheHoursJSONWrapper
 	 */
 	@Override
 	public void setType(int type) {
-		_cacheHoursJSON.setType(type);
+		model.setType(type);
 	}
 
 	/**
@@ -326,78 +234,17 @@ public class CacheHoursJSONWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_cacheHoursJSON.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.gtfs.model.CacheHoursJSON> toCacheModel() {
-
-		return _cacheHoursJSON.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.CacheHoursJSON toEscapedModel() {
-		return new CacheHoursJSONWrapper(_cacheHoursJSON.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _cacheHoursJSON.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.CacheHoursJSON toUnescapedModel() {
-		return new CacheHoursJSONWrapper(_cacheHoursJSON.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _cacheHoursJSON.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof CacheHoursJSONWrapper)) {
-			return false;
-		}
-
-		CacheHoursJSONWrapper cacheHoursJSONWrapper =
-			(CacheHoursJSONWrapper)object;
-
-		if (Objects.equals(
-				_cacheHoursJSON, cacheHoursJSONWrapper._cacheHoursJSON)) {
-
-			return true;
-		}
-
-		return false;
+	protected CacheHoursJSONWrapper wrap(CacheHoursJSON cacheHoursJSON) {
+		return new CacheHoursJSONWrapper(cacheHoursJSON);
 	}
-
-	@Override
-	public CacheHoursJSON getWrappedModel() {
-		return _cacheHoursJSON;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _cacheHoursJSON.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _cacheHoursJSON.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_cacheHoursJSON.resetOriginalValues();
-	}
-
-	private final CacheHoursJSON _cacheHoursJSON;
 
 }

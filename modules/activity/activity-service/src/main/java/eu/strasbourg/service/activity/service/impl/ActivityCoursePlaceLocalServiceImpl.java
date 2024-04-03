@@ -14,11 +14,7 @@
 
 package eu.strasbourg.service.activity.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
-
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -37,11 +33,15 @@ import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.activity.model.ActivityCoursePlace;
 import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
 import eu.strasbourg.service.activity.service.base.ActivityCoursePlaceLocalServiceBaseImpl;
+import org.osgi.annotation.versioning.ProviderType;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the activityCoursePlace local service.
@@ -49,7 +49,7 @@ import eu.strasbourg.service.activity.service.base.ActivityCoursePlaceLocalServi
  * <p>
  * All custom service methods should be put in this class. Whenever methods are
  * added, rerun ServiceBuilder to copy their definitions into the
- * {@link eu.strasbourg.service.activityCoursePlace.service.ActivityCoursePlaceLocalService}
+ * {@link eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalService}
  * interface.
  *
  * <p>
@@ -60,7 +60,7 @@ import eu.strasbourg.service.activity.service.base.ActivityCoursePlaceLocalServi
  *
  * @author Brian Wing Shun Chan
  * @see ActivityCoursePlaceLocalServiceBaseImpl
- * @see eu.strasbourg.service.activityCoursePlace.service.ActivityCoursePlaceLocalServiceUtil
+ * @see eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalServiceUtil
  */
 @ProviderType
 public class ActivityCoursePlaceLocalServiceImpl
@@ -164,10 +164,8 @@ public class ActivityCoursePlaceLocalServiceImpl
 
 		if (entry != null) {
 			// Supprime le lien avec les catégories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-					categoryId, entry.getEntryId());
-			}
+			AssetEntryAssetCategoryRelLocalServiceUtil.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Supprime le lien avec les tags
 			long[] tagIds = AssetEntryLocalServiceUtil
@@ -327,5 +325,4 @@ public class ActivityCoursePlaceLocalServiceImpl
 		return activityCoursePlacePersistence.findWithDynamicQuery(dynamicQuery,
 			-1, -1);
 	}
-
 }

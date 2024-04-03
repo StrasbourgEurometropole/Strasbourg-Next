@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
@@ -17,7 +8,9 @@ package eu.strasbourg.service.project.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -27,29 +20,33 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.model.PetitionModel;
-import eu.strasbourg.service.project.model.PetitionSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -163,109 +160,60 @@ public class PetitionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.project.model.Petition"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.project.model.Petition"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.project.model.Petition"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLIKID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TITLE_COLUMN_BITMASK = 32L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Petition toModel(PetitionSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Petition model = new PetitionImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setPetitionId(soapModel.getPetitionId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setTitle(soapModel.getTitle());
-		model.setSummary(soapModel.getSummary());
-		model.setDescription(soapModel.getDescription());
-		model.setPlaceTextArea(soapModel.getPlaceTextArea());
-		model.setFilesDownload(soapModel.getFilesDownload());
-		model.setPublicationDate(soapModel.getPublicationDate());
-		model.setExpirationDate(soapModel.getExpirationDate());
-		model.setExtensionDate(soapModel.getExtensionDate());
-		model.setQuotaSignature(soapModel.getQuotaSignature());
-		model.setInTheNameOf(soapModel.getInTheNameOf());
-		model.setPetitionnaireLastname(soapModel.getPetitionnaireLastname());
-		model.setPetitionnaireFirstname(soapModel.getPetitionnaireFirstname());
-		model.setPetitionnaireBirthday(soapModel.getPetitionnaireBirthday());
-		model.setPetitionnaireAdresse(soapModel.getPetitionnaireAdresse());
-		model.setPetitionnairePostalCode(
-			soapModel.getPetitionnairePostalCode());
-		model.setPetitionnaireCity(soapModel.getPetitionnaireCity());
-		model.setPetitionnairePhone(soapModel.getPetitionnairePhone());
-		model.setPetitionnaireEmail(soapModel.getPetitionnaireEmail());
-		model.setIsSupported(soapModel.isIsSupported());
-		model.setSupportedBy(soapModel.getSupportedBy());
-		model.setVideoUrl(soapModel.getVideoUrl());
-		model.setExternalImageURL(soapModel.getExternalImageURL());
-		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
-		model.setMediaChoice(soapModel.isMediaChoice());
-		model.setPublikId(soapModel.getPublikId());
-		model.setImageId(soapModel.getImageId());
-		model.setFilesIds(soapModel.getFilesIds());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Petition> toModels(PetitionSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Petition> models = new ArrayList<Petition>(soapModels.length);
-
-		for (PetitionSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.project.service.util.PropsUtil.get(
@@ -322,9 +270,6 @@ public class PetitionModelImpl
 				attributeName, attributeGetterFunction.apply((Petition)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -349,898 +294,224 @@ public class PetitionModelImpl
 	public Map<String, Function<Petition, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Petition, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Petition>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Petition.class.getClassLoader(), Petition.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<Petition, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Petition> constructor =
-				(Constructor<Petition>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Petition, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Petition, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Petition::getUuid);
+			attributeGetterFunctions.put("petitionId", Petition::getPetitionId);
+			attributeGetterFunctions.put("groupId", Petition::getGroupId);
+			attributeGetterFunctions.put("companyId", Petition::getCompanyId);
+			attributeGetterFunctions.put("userId", Petition::getUserId);
+			attributeGetterFunctions.put("userName", Petition::getUserName);
+			attributeGetterFunctions.put("createDate", Petition::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Petition::getModifiedDate);
+			attributeGetterFunctions.put("status", Petition::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Petition::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Petition::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Petition::getStatusDate);
+			attributeGetterFunctions.put("title", Petition::getTitle);
+			attributeGetterFunctions.put("summary", Petition::getSummary);
+			attributeGetterFunctions.put(
+				"description", Petition::getDescription);
+			attributeGetterFunctions.put(
+				"placeTextArea", Petition::getPlaceTextArea);
+			attributeGetterFunctions.put(
+				"filesDownload", Petition::getFilesDownload);
+			attributeGetterFunctions.put(
+				"publicationDate", Petition::getPublicationDate);
+			attributeGetterFunctions.put(
+				"expirationDate", Petition::getExpirationDate);
+			attributeGetterFunctions.put(
+				"extensionDate", Petition::getExtensionDate);
+			attributeGetterFunctions.put(
+				"quotaSignature", Petition::getQuotaSignature);
+			attributeGetterFunctions.put(
+				"inTheNameOf", Petition::getInTheNameOf);
+			attributeGetterFunctions.put(
+				"petitionnaireLastname", Petition::getPetitionnaireLastname);
+			attributeGetterFunctions.put(
+				"petitionnaireFirstname", Petition::getPetitionnaireFirstname);
+			attributeGetterFunctions.put(
+				"petitionnaireBirthday", Petition::getPetitionnaireBirthday);
+			attributeGetterFunctions.put(
+				"petitionnaireAdresse", Petition::getPetitionnaireAdresse);
+			attributeGetterFunctions.put(
+				"petitionnairePostalCode",
+				Petition::getPetitionnairePostalCode);
+			attributeGetterFunctions.put(
+				"petitionnaireCity", Petition::getPetitionnaireCity);
+			attributeGetterFunctions.put(
+				"petitionnairePhone", Petition::getPetitionnairePhone);
+			attributeGetterFunctions.put(
+				"petitionnaireEmail", Petition::getPetitionnaireEmail);
+			attributeGetterFunctions.put(
+				"isSupported", Petition::getIsSupported);
+			attributeGetterFunctions.put(
+				"supportedBy", Petition::getSupportedBy);
+			attributeGetterFunctions.put("videoUrl", Petition::getVideoUrl);
+			attributeGetterFunctions.put(
+				"externalImageURL", Petition::getExternalImageURL);
+			attributeGetterFunctions.put(
+				"externalImageCopyright", Petition::getExternalImageCopyright);
+			attributeGetterFunctions.put(
+				"mediaChoice", Petition::getMediaChoice);
+			attributeGetterFunctions.put("publikId", Petition::getPublikId);
+			attributeGetterFunctions.put("imageId", Petition::getImageId);
+			attributeGetterFunctions.put("filesIds", Petition::getFilesIds);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Petition, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Petition, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Petition, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Petition, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Petition, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Petition, String>)Petition::setUuid);
+			attributeSetterBiConsumers.put(
+				"petitionId",
+				(BiConsumer<Petition, Long>)Petition::setPetitionId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Petition, Long>)Petition::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Petition, Long>)Petition::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Petition, Long>)Petition::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Petition, String>)Petition::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Petition, Date>)Petition::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Petition, Date>)Petition::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Petition, Integer>)Petition::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Petition, Long>)Petition::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Petition, String>)Petition::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Petition, Date>)Petition::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Petition, String>)Petition::setTitle);
+			attributeSetterBiConsumers.put(
+				"summary", (BiConsumer<Petition, String>)Petition::setSummary);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<Petition, String>)Petition::setDescription);
+			attributeSetterBiConsumers.put(
+				"placeTextArea",
+				(BiConsumer<Petition, String>)Petition::setPlaceTextArea);
+			attributeSetterBiConsumers.put(
+				"filesDownload",
+				(BiConsumer<Petition, String>)Petition::setFilesDownload);
+			attributeSetterBiConsumers.put(
+				"publicationDate",
+				(BiConsumer<Petition, Date>)Petition::setPublicationDate);
+			attributeSetterBiConsumers.put(
+				"expirationDate",
+				(BiConsumer<Petition, Date>)Petition::setExpirationDate);
+			attributeSetterBiConsumers.put(
+				"extensionDate",
+				(BiConsumer<Petition, Date>)Petition::setExtensionDate);
+			attributeSetterBiConsumers.put(
+				"quotaSignature",
+				(BiConsumer<Petition, Long>)Petition::setQuotaSignature);
+			attributeSetterBiConsumers.put(
+				"inTheNameOf",
+				(BiConsumer<Petition, String>)Petition::setInTheNameOf);
+			attributeSetterBiConsumers.put(
+				"petitionnaireLastname",
+				(BiConsumer<Petition, String>)
+					Petition::setPetitionnaireLastname);
+			attributeSetterBiConsumers.put(
+				"petitionnaireFirstname",
+				(BiConsumer<Petition, String>)
+					Petition::setPetitionnaireFirstname);
+			attributeSetterBiConsumers.put(
+				"petitionnaireBirthday",
+				(BiConsumer<Petition, Date>)Petition::setPetitionnaireBirthday);
+			attributeSetterBiConsumers.put(
+				"petitionnaireAdresse",
+				(BiConsumer<Petition, String>)
+					Petition::setPetitionnaireAdresse);
+			attributeSetterBiConsumers.put(
+				"petitionnairePostalCode",
+				(BiConsumer<Petition, Long>)
+					Petition::setPetitionnairePostalCode);
+			attributeSetterBiConsumers.put(
+				"petitionnaireCity",
+				(BiConsumer<Petition, String>)Petition::setPetitionnaireCity);
+			attributeSetterBiConsumers.put(
+				"petitionnairePhone",
+				(BiConsumer<Petition, String>)Petition::setPetitionnairePhone);
+			attributeSetterBiConsumers.put(
+				"petitionnaireEmail",
+				(BiConsumer<Petition, String>)Petition::setPetitionnaireEmail);
+			attributeSetterBiConsumers.put(
+				"isSupported",
+				(BiConsumer<Petition, Boolean>)Petition::setIsSupported);
+			attributeSetterBiConsumers.put(
+				"supportedBy",
+				(BiConsumer<Petition, String>)Petition::setSupportedBy);
+			attributeSetterBiConsumers.put(
+				"videoUrl",
+				(BiConsumer<Petition, String>)Petition::setVideoUrl);
+			attributeSetterBiConsumers.put(
+				"externalImageURL",
+				(BiConsumer<Petition, String>)Petition::setExternalImageURL);
+			attributeSetterBiConsumers.put(
+				"externalImageCopyright",
+				(BiConsumer<Petition, String>)
+					Petition::setExternalImageCopyright);
+			attributeSetterBiConsumers.put(
+				"mediaChoice",
+				(BiConsumer<Petition, Boolean>)Petition::setMediaChoice);
+			attributeSetterBiConsumers.put(
+				"publikId",
+				(BiConsumer<Petition, String>)Petition::setPublikId);
+			attributeSetterBiConsumers.put(
+				"imageId", (BiConsumer<Petition, Long>)Petition::setImageId);
+			attributeSetterBiConsumers.put(
+				"filesIds",
+				(BiConsumer<Petition, String>)Petition::setFilesIds);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<Petition, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Petition, Object>>();
-		Map<String, BiConsumer<Petition, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Petition, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(Petition petition, Object uuidObject) {
-					petition.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"petitionId",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getPetitionId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"petitionId",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(Petition petition, Object petitionIdObject) {
-					petition.setPetitionId((Long)petitionIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(Petition petition, Object groupIdObject) {
-					petition.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(Petition petition, Object companyIdObject) {
-					petition.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(Petition petition, Object userIdObject) {
-					petition.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(Petition petition, Object userNameObject) {
-					petition.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(Petition petition, Object createDateObject) {
-					petition.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object modifiedDateObject) {
-
-					petition.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(Petition petition, Object statusObject) {
-					petition.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object statusByUserIdObject) {
-
-					petition.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object statusByUserNameObject) {
-
-					petition.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(Petition petition, Object statusDateObject) {
-					petition.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getTitle();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(Petition petition, Object titleObject) {
-					petition.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"summary",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getSummary();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"summary",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(Petition petition, Object summaryObject) {
-					petition.setSummary((String)summaryObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getDescription();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"description",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object descriptionObject) {
-
-					petition.setDescription((String)descriptionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"placeTextArea",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getPlaceTextArea();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"placeTextArea",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object placeTextAreaObject) {
-
-					petition.setPlaceTextArea((String)placeTextAreaObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"filesDownload",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getFilesDownload();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"filesDownload",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object filesDownloadObject) {
-
-					petition.setFilesDownload((String)filesDownloadObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publicationDate",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getPublicationDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"publicationDate",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object publicationDateObject) {
-
-					petition.setPublicationDate((Date)publicationDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"expirationDate",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getExpirationDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"expirationDate",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object expirationDateObject) {
-
-					petition.setExpirationDate((Date)expirationDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"extensionDate",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getExtensionDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"extensionDate",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object extensionDateObject) {
-
-					petition.setExtensionDate((Date)extensionDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"quotaSignature",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getQuotaSignature();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"quotaSignature",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object quotaSignatureObject) {
-
-					petition.setQuotaSignature((Long)quotaSignatureObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"inTheNameOf",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getInTheNameOf();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"inTheNameOf",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object inTheNameOfObject) {
-
-					petition.setInTheNameOf((String)inTheNameOfObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"petitionnaireLastname",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getPetitionnaireLastname();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"petitionnaireLastname",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object petitionnaireLastnameObject) {
-
-					petition.setPetitionnaireLastname(
-						(String)petitionnaireLastnameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"petitionnaireFirstname",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getPetitionnaireFirstname();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"petitionnaireFirstname",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object petitionnaireFirstnameObject) {
-
-					petition.setPetitionnaireFirstname(
-						(String)petitionnaireFirstnameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"petitionnaireBirthday",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getPetitionnaireBirthday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"petitionnaireBirthday",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object petitionnaireBirthdayObject) {
-
-					petition.setPetitionnaireBirthday(
-						(Date)petitionnaireBirthdayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"petitionnaireAdresse",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getPetitionnaireAdresse();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"petitionnaireAdresse",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object petitionnaireAdresseObject) {
-
-					petition.setPetitionnaireAdresse(
-						(String)petitionnaireAdresseObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"petitionnairePostalCode",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getPetitionnairePostalCode();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"petitionnairePostalCode",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object petitionnairePostalCodeObject) {
-
-					petition.setPetitionnairePostalCode(
-						(Long)petitionnairePostalCodeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"petitionnaireCity",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getPetitionnaireCity();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"petitionnaireCity",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object petitionnaireCityObject) {
-
-					petition.setPetitionnaireCity(
-						(String)petitionnaireCityObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"petitionnairePhone",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getPetitionnairePhone();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"petitionnairePhone",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object petitionnairePhoneObject) {
-
-					petition.setPetitionnairePhone(
-						(String)petitionnairePhoneObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"petitionnaireEmail",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getPetitionnaireEmail();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"petitionnaireEmail",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object petitionnaireEmailObject) {
-
-					petition.setPetitionnaireEmail(
-						(String)petitionnaireEmailObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"isSupported",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getIsSupported();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"isSupported",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object isSupportedObject) {
-
-					petition.setIsSupported((Boolean)isSupportedObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"supportedBy",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getSupportedBy();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"supportedBy",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object supportedByObject) {
-
-					petition.setSupportedBy((String)supportedByObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"videoUrl",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getVideoUrl();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"videoUrl",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(Petition petition, Object videoUrlObject) {
-					petition.setVideoUrl((String)videoUrlObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"externalImageURL",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getExternalImageURL();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"externalImageURL",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object externalImageURLObject) {
-
-					petition.setExternalImageURL(
-						(String)externalImageURLObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"externalImageCopyright",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getExternalImageCopyright();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"externalImageCopyright",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object externalImageCopyrightObject) {
-
-					petition.setExternalImageCopyright(
-						(String)externalImageCopyrightObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"mediaChoice",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getMediaChoice();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"mediaChoice",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(
-					Petition petition, Object mediaChoiceObject) {
-
-					petition.setMediaChoice((Boolean)mediaChoiceObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publikId",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getPublikId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"publikId",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(Petition petition, Object publikIdObject) {
-					petition.setPublikId((String)publikIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageId",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getImageId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"imageId",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(Petition petition, Object imageIdObject) {
-					petition.setImageId((Long)imageIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"filesIds",
-			new Function<Petition, Object>() {
-
-				@Override
-				public Object apply(Petition petition) {
-					return petition.getFilesIds();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"filesIds",
-			new BiConsumer<Petition, Object>() {
-
-				@Override
-				public void accept(Petition petition, Object filesIdsObject) {
-					petition.setFilesIds((String)filesIdsObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -1256,17 +527,20 @@ public class PetitionModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -1277,6 +551,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setPetitionId(long petitionId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_petitionId = petitionId;
 	}
 
@@ -1288,19 +566,20 @@ public class PetitionModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -1311,19 +590,21 @@ public class PetitionModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -1334,6 +615,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -1366,6 +651,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -1377,6 +666,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -1394,6 +687,10 @@ public class PetitionModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -1405,19 +702,21 @@ public class PetitionModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -1428,6 +727,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1460,6 +763,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1471,6 +778,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1487,7 +798,9 @@ public class PetitionModelImpl
 
 	@Override
 	public void setTitle(String title) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_title = title;
 	}
@@ -1505,6 +818,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setSummary(String summary) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_summary = summary;
 	}
 
@@ -1520,8 +837,104 @@ public class PetitionModelImpl
 	}
 
 	@Override
+	public String getDescription(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDescription(languageId);
+	}
+
+	@Override
+	public String getDescription(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getDescription(String languageId) {
+		return LocalizationUtil.getLocalization(getDescription(), languageId);
+	}
+
+	@Override
+	public String getDescription(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getDescription(), languageId, useDefault);
+	}
+
+	@Override
+	public String getDescriptionCurrentLanguageId() {
+		return _descriptionCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getDescriptionCurrentValue() {
+		Locale locale = getLocale(_descriptionCurrentLanguageId);
+
+		return getDescription(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getDescriptionMap() {
+		return LocalizationUtil.getLocalizationMap(getDescription());
+	}
+
+	@Override
 	public void setDescription(String description) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
+	}
+
+	@Override
+	public void setDescription(String description, Locale locale) {
+		setDescription(description, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setDescription(
+		String description, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(description)) {
+			setDescription(
+				LocalizationUtil.updateLocalization(
+					getDescription(), "Description", description, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setDescription(
+				LocalizationUtil.removeLocalization(
+					getDescription(), "Description", languageId));
+		}
+	}
+
+	@Override
+	public void setDescriptionCurrentLanguageId(String languageId) {
+		_descriptionCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setDescriptionMap(Map<Locale, String> descriptionMap) {
+		setDescriptionMap(descriptionMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setDescriptionMap(
+		Map<Locale, String> descriptionMap, Locale defaultLocale) {
+
+		if (descriptionMap == null) {
+			return;
+		}
+
+		setDescription(
+			LocalizationUtil.updateLocalization(
+				descriptionMap, getDescription(), "Description",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -1537,6 +950,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setPlaceTextArea(String placeTextArea) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_placeTextArea = placeTextArea;
 	}
 
@@ -1553,6 +970,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setFilesDownload(String filesDownload) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_filesDownload = filesDownload;
 	}
 
@@ -1564,6 +985,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setPublicationDate(Date publicationDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_publicationDate = publicationDate;
 	}
 
@@ -1575,6 +1000,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setExpirationDate(Date expirationDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_expirationDate = expirationDate;
 	}
 
@@ -1586,6 +1015,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setExtensionDate(Date extensionDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_extensionDate = extensionDate;
 	}
 
@@ -1597,6 +1030,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setQuotaSignature(long quotaSignature) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_quotaSignature = quotaSignature;
 	}
 
@@ -1613,6 +1050,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setInTheNameOf(String inTheNameOf) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_inTheNameOf = inTheNameOf;
 	}
 
@@ -1629,6 +1070,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setPetitionnaireLastname(String petitionnaireLastname) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_petitionnaireLastname = petitionnaireLastname;
 	}
 
@@ -1645,6 +1090,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setPetitionnaireFirstname(String petitionnaireFirstname) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_petitionnaireFirstname = petitionnaireFirstname;
 	}
 
@@ -1656,6 +1105,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setPetitionnaireBirthday(Date petitionnaireBirthday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_petitionnaireBirthday = petitionnaireBirthday;
 	}
 
@@ -1672,6 +1125,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setPetitionnaireAdresse(String petitionnaireAdresse) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_petitionnaireAdresse = petitionnaireAdresse;
 	}
 
@@ -1683,6 +1140,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setPetitionnairePostalCode(long petitionnairePostalCode) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_petitionnairePostalCode = petitionnairePostalCode;
 	}
 
@@ -1699,6 +1160,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setPetitionnaireCity(String petitionnaireCity) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_petitionnaireCity = petitionnaireCity;
 	}
 
@@ -1715,6 +1180,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setPetitionnairePhone(String petitionnairePhone) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_petitionnairePhone = petitionnairePhone;
 	}
 
@@ -1731,6 +1200,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setPetitionnaireEmail(String petitionnaireEmail) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_petitionnaireEmail = petitionnaireEmail;
 	}
 
@@ -1748,6 +1221,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setIsSupported(boolean isSupported) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_isSupported = isSupported;
 	}
 
@@ -1764,6 +1241,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setSupportedBy(String supportedBy) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_supportedBy = supportedBy;
 	}
 
@@ -1780,6 +1261,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setVideoUrl(String videoUrl) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_videoUrl = videoUrl;
 	}
 
@@ -1796,6 +1281,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setExternalImageURL(String externalImageURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_externalImageURL = externalImageURL;
 	}
 
@@ -1812,6 +1301,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setExternalImageCopyright(String externalImageCopyright) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_externalImageCopyright = externalImageCopyright;
 	}
 
@@ -1829,6 +1322,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setMediaChoice(boolean mediaChoice) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mediaChoice = mediaChoice;
 	}
 
@@ -1845,17 +1342,20 @@ public class PetitionModelImpl
 
 	@Override
 	public void setPublikId(String publikId) {
-		_columnBitmask |= PUBLIKID_COLUMN_BITMASK;
-
-		if (_originalPublikId == null) {
-			_originalPublikId = _publikId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publikId = publikId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPublikId() {
-		return GetterUtil.getString(_originalPublikId);
+		return getColumnOriginalValue("publikId");
 	}
 
 	@JSON
@@ -1866,6 +1366,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setImageId(long imageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageId = imageId;
 	}
 
@@ -1882,6 +1386,10 @@ public class PetitionModelImpl
 
 	@Override
 	public void setFilesIds(String filesIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_filesIds = filesIds;
 	}
 
@@ -1972,6 +1480,26 @@ public class PetitionModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1986,6 +1514,74 @@ public class PetitionModelImpl
 		ExpandoBridge expandoBridge = getExpandoBridge();
 
 		expandoBridge.setAttributes(serviceContext);
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		Set<String> availableLanguageIds = new TreeSet<String>();
+
+		Map<Locale, String> descriptionMap = getDescriptionMap();
+
+		for (Map.Entry<Locale, String> entry : descriptionMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		return availableLanguageIds.toArray(
+			new String[availableLanguageIds.size()]);
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		String xml = getDescription();
+
+		if (xml == null) {
+			return "";
+		}
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		return LocalizationUtil.getDefaultLanguageId(xml, defaultLocale);
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport() throws LocaleException {
+		Locale defaultLocale = LocaleUtil.fromLanguageId(
+			getDefaultLanguageId());
+
+		Locale[] availableLocales = LocaleUtil.fromLanguageIds(
+			getAvailableLanguageIds());
+
+		Locale defaultImportLocale = LocalizationUtil.getDefaultImportLocale(
+			Petition.class.getName(), getPrimaryKey(), defaultLocale,
+			availableLocales);
+
+		prepareLocalizedFieldsForImport(defaultImportLocale);
+	}
+
+	@Override
+	@SuppressWarnings("unused")
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException {
+
+		Locale defaultLocale = LocaleUtil.getSiteDefault();
+
+		String modelDefaultLanguageId = getDefaultLanguageId();
+
+		String description = getDescription(defaultLocale);
+
+		if (Validator.isNull(description)) {
+			setDescription(
+				getDescription(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setDescription(
+				getDescription(defaultLocale), defaultLocale, defaultLocale);
+		}
 	}
 
 	@Override
@@ -2053,6 +1649,85 @@ public class PetitionModelImpl
 	}
 
 	@Override
+	public Petition cloneWithOriginalValues() {
+		PetitionImpl petitionImpl = new PetitionImpl();
+
+		petitionImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		petitionImpl.setPetitionId(
+			this.<Long>getColumnOriginalValue("petitionId"));
+		petitionImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		petitionImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		petitionImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		petitionImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		petitionImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		petitionImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		petitionImpl.setStatus(this.<Integer>getColumnOriginalValue("status"));
+		petitionImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		petitionImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		petitionImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		petitionImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		petitionImpl.setSummary(this.<String>getColumnOriginalValue("summary"));
+		petitionImpl.setDescription(
+			this.<String>getColumnOriginalValue("description"));
+		petitionImpl.setPlaceTextArea(
+			this.<String>getColumnOriginalValue("placeTextArea"));
+		petitionImpl.setFilesDownload(
+			this.<String>getColumnOriginalValue("filesDownload"));
+		petitionImpl.setPublicationDate(
+			this.<Date>getColumnOriginalValue("publicationDate"));
+		petitionImpl.setExpirationDate(
+			this.<Date>getColumnOriginalValue("expirationDate"));
+		petitionImpl.setExtensionDate(
+			this.<Date>getColumnOriginalValue("extensionDate"));
+		petitionImpl.setQuotaSignature(
+			this.<Long>getColumnOriginalValue("quotaSignature"));
+		petitionImpl.setInTheNameOf(
+			this.<String>getColumnOriginalValue("inTheNameOf"));
+		petitionImpl.setPetitionnaireLastname(
+			this.<String>getColumnOriginalValue("petitionnaireLastname"));
+		petitionImpl.setPetitionnaireFirstname(
+			this.<String>getColumnOriginalValue("petitionnaireFirstname"));
+		petitionImpl.setPetitionnaireBirthday(
+			this.<Date>getColumnOriginalValue("petitionnaireBirthday"));
+		petitionImpl.setPetitionnaireAdresse(
+			this.<String>getColumnOriginalValue("petitionnaireAdresse"));
+		petitionImpl.setPetitionnairePostalCode(
+			this.<Long>getColumnOriginalValue("petitionnairePostalCode"));
+		petitionImpl.setPetitionnaireCity(
+			this.<String>getColumnOriginalValue("petitionnaireCity"));
+		petitionImpl.setPetitionnairePhone(
+			this.<String>getColumnOriginalValue("petitionnairePhone"));
+		petitionImpl.setPetitionnaireEmail(
+			this.<String>getColumnOriginalValue("petitionnaireEmail"));
+		petitionImpl.setIsSupported(
+			this.<Boolean>getColumnOriginalValue("isSupported"));
+		petitionImpl.setSupportedBy(
+			this.<String>getColumnOriginalValue("supportedBy"));
+		petitionImpl.setVideoUrl(
+			this.<String>getColumnOriginalValue("videoUrl"));
+		petitionImpl.setExternalImageURL(
+			this.<String>getColumnOriginalValue("externalImageURL"));
+		petitionImpl.setExternalImageCopyright(
+			this.<String>getColumnOriginalValue("externalImageCopyright"));
+		petitionImpl.setMediaChoice(
+			this.<Boolean>getColumnOriginalValue("mediaChoice"));
+		petitionImpl.setPublikId(
+			this.<String>getColumnOriginalValue("publikId"));
+		petitionImpl.setImageId(this.<Long>getColumnOriginalValue("imageId"));
+		petitionImpl.setFilesIds(
+			this.<String>getColumnOriginalValue("filesIds"));
+
+		return petitionImpl;
+	}
+
+	@Override
 	public int compareTo(Petition petition) {
 		int value = 0;
 
@@ -2092,11 +1767,19 @@ public class PetitionModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -2104,27 +1787,11 @@ public class PetitionModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		PetitionModelImpl petitionModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		petitionModelImpl._originalUuid = petitionModelImpl._uuid;
+		_setModifiedDate = false;
 
-		petitionModelImpl._originalGroupId = petitionModelImpl._groupId;
-
-		petitionModelImpl._setOriginalGroupId = false;
-
-		petitionModelImpl._originalCompanyId = petitionModelImpl._companyId;
-
-		petitionModelImpl._setOriginalCompanyId = false;
-
-		petitionModelImpl._setModifiedDate = false;
-
-		petitionModelImpl._originalStatus = petitionModelImpl._status;
-
-		petitionModelImpl._setOriginalStatus = false;
-
-		petitionModelImpl._originalPublikId = petitionModelImpl._publikId;
-
-		petitionModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -2409,7 +2076,7 @@ public class PetitionModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -2420,9 +2087,26 @@ public class PetitionModelImpl
 			Function<Petition, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Petition)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Petition)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -2435,67 +2119,32 @@ public class PetitionModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Petition, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Petition, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Petition, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Petition)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Petition>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Petition.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _petitionId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _title;
 	private String _summary;
 	private String _description;
+	private String _descriptionCurrentLanguageId;
 	private String _placeTextArea;
 	private String _filesDownload;
 	private Date _publicationDate;
@@ -2518,9 +2167,188 @@ public class PetitionModelImpl
 	private String _externalImageCopyright;
 	private boolean _mediaChoice;
 	private String _publikId;
-	private String _originalPublikId;
 	private long _imageId;
 	private String _filesIds;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Petition, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Petition)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("petitionId", _petitionId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("summary", _summary);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("placeTextArea", _placeTextArea);
+		_columnOriginalValues.put("filesDownload", _filesDownload);
+		_columnOriginalValues.put("publicationDate", _publicationDate);
+		_columnOriginalValues.put("expirationDate", _expirationDate);
+		_columnOriginalValues.put("extensionDate", _extensionDate);
+		_columnOriginalValues.put("quotaSignature", _quotaSignature);
+		_columnOriginalValues.put("inTheNameOf", _inTheNameOf);
+		_columnOriginalValues.put(
+			"petitionnaireLastname", _petitionnaireLastname);
+		_columnOriginalValues.put(
+			"petitionnaireFirstname", _petitionnaireFirstname);
+		_columnOriginalValues.put(
+			"petitionnaireBirthday", _petitionnaireBirthday);
+		_columnOriginalValues.put(
+			"petitionnaireAdresse", _petitionnaireAdresse);
+		_columnOriginalValues.put(
+			"petitionnairePostalCode", _petitionnairePostalCode);
+		_columnOriginalValues.put("petitionnaireCity", _petitionnaireCity);
+		_columnOriginalValues.put("petitionnairePhone", _petitionnairePhone);
+		_columnOriginalValues.put("petitionnaireEmail", _petitionnaireEmail);
+		_columnOriginalValues.put("isSupported", _isSupported);
+		_columnOriginalValues.put("supportedBy", _supportedBy);
+		_columnOriginalValues.put("videoUrl", _videoUrl);
+		_columnOriginalValues.put("externalImageURL", _externalImageURL);
+		_columnOriginalValues.put(
+			"externalImageCopyright", _externalImageCopyright);
+		_columnOriginalValues.put("mediaChoice", _mediaChoice);
+		_columnOriginalValues.put("publikId", _publikId);
+		_columnOriginalValues.put("imageId", _imageId);
+		_columnOriginalValues.put("filesIds", _filesIds);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("petitionId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("title", 4096L);
+
+		columnBitmasks.put("summary", 8192L);
+
+		columnBitmasks.put("description", 16384L);
+
+		columnBitmasks.put("placeTextArea", 32768L);
+
+		columnBitmasks.put("filesDownload", 65536L);
+
+		columnBitmasks.put("publicationDate", 131072L);
+
+		columnBitmasks.put("expirationDate", 262144L);
+
+		columnBitmasks.put("extensionDate", 524288L);
+
+		columnBitmasks.put("quotaSignature", 1048576L);
+
+		columnBitmasks.put("inTheNameOf", 2097152L);
+
+		columnBitmasks.put("petitionnaireLastname", 4194304L);
+
+		columnBitmasks.put("petitionnaireFirstname", 8388608L);
+
+		columnBitmasks.put("petitionnaireBirthday", 16777216L);
+
+		columnBitmasks.put("petitionnaireAdresse", 33554432L);
+
+		columnBitmasks.put("petitionnairePostalCode", 67108864L);
+
+		columnBitmasks.put("petitionnaireCity", 134217728L);
+
+		columnBitmasks.put("petitionnairePhone", 268435456L);
+
+		columnBitmasks.put("petitionnaireEmail", 536870912L);
+
+		columnBitmasks.put("isSupported", 1073741824L);
+
+		columnBitmasks.put("supportedBy", 2147483648L);
+
+		columnBitmasks.put("videoUrl", 4294967296L);
+
+		columnBitmasks.put("externalImageURL", 8589934592L);
+
+		columnBitmasks.put("externalImageCopyright", 17179869184L);
+
+		columnBitmasks.put("mediaChoice", 34359738368L);
+
+		columnBitmasks.put("publikId", 68719476736L);
+
+		columnBitmasks.put("imageId", 137438953472L);
+
+		columnBitmasks.put("filesIds", 274877906944L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Petition _escapedModel;
 

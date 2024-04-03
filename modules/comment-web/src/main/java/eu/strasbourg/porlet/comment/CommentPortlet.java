@@ -1,11 +1,12 @@
 package eu.strasbourg.porlet.comment;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -75,7 +76,8 @@ import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
 		"javax.portlet.init-param.view-template=/comments-view.jsp",
 		"javax.portlet.name=" + StrasbourgPortletKeys.COMMENT_WEB,
         "javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user"
+		"javax.portlet.security-role-ref=power-user,user",
+			"javax.portlet.version=3.0"
 	},
     service = Portlet.class
 )
@@ -99,8 +101,7 @@ public class CommentPortlet extends MVCPortlet {
 
 		try {
 			// Récupération de la configuration du portlet
-			CommentConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(CommentConfiguration.class);
+			CommentConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(CommentConfiguration.class, themeDisplay);
 
 			// Récupération du paramètre de tri des commentaires
 			String orderBy = configuration.orderBy();
@@ -221,7 +222,8 @@ public class CommentPortlet extends MVCPortlet {
 						comment.setLevel(1);
 					}
 
-					_commentLocalService.addComment(comment);
+					_commentLocalService.updateComment(comment, sc);
+
 
 				} else { // Modification d'un commentaire
 					comment = _commentLocalService.getComment(editCommentId);
@@ -286,8 +288,9 @@ public class CommentPortlet extends MVCPortlet {
         // Ajout des inforamtions du signalement
         signalement.setPublikId(userPublikId);
         signalement.setCommentId(commentId);
-        
-        AssetCategoryLocalServiceUtil.addAssetEntryAssetCategory(signalement.getSignalementId(), categoryId);
+
+		AssetEntryAssetCategoryRelLocalServiceUtil
+				.addAssetEntryAssetCategoryRel(signalement.getSignalementId(), categoryId);
         SignalementLocalServiceUtil.updateSignalement(signalement,sc);
         
         response.sendRedirect(redirectURL  + "#" + commentId);
@@ -503,4 +506,5 @@ public class CommentPortlet extends MVCPortlet {
 	private CommentLocalService _commentLocalService;
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
+
 }

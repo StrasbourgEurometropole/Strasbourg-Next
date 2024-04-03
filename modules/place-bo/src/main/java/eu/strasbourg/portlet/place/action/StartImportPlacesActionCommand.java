@@ -111,11 +111,16 @@ public class StartImportPlacesActionCommand implements MVCActionCommand {
 					String line = br.readLine();
 					String[] chaine = line.split(";");
 
-					if (chaine.length == 14 && chaine[0].equals("Identifiant_Lieu_SIG")
-							&& chaine[1].equals("Alias_Lieu_SIG") && chaine[2].equals("Identifiant_Categorie_SIG")
-							&& chaine[3].equals("Complement_Adresse") && chaine[4].equals("Voie")
-							&& chaine[5].equals("Mentions_Distribution") && chaine[6].equals("Code_Postal")
-							&& chaine[7].equals("Ville") && chaine[8].equals("Pays")
+					if (chaine.length == 14
+							&& chaine[0].equals("Identifiant_Lieu_SIG")
+							&& chaine[1].equals("Alias_Lieu_SIG")
+							&& chaine[2].equals("Identifiant_Categorie_SIG")
+							&& chaine[3].equals("Complement_Adresse")
+							&& chaine[4].equals("Voie")
+							&& chaine[5].equals("Mentions_Distribution")
+							&& chaine[6].equals("Code_Postal")
+							&& chaine[7].equals("Ville")
+							&& chaine[8].equals("Pays")
 							&& chaine[9].equals("Coordonnees_SIG_Mercator_X")
 							&& chaine[10].equals("Coordonnees_SIG_Mercator_Y")
 							&& chaine[11].equals("Coordonnees_SIG_RGF93_X")

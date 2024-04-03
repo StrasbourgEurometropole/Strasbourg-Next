@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.portal.kernel.servlet.taglib.ui.LanguageEntry</className>
+    <template>
+        <script>language selector.ftl</script>
+        <name>Sélecteur de langue</name>
+        <key>6009976</key>
+    </template>
+</root>

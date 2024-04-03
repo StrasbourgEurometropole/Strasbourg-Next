@@ -8,34 +8,48 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 >
 	<bean class="eu.strasbourg.service.gtfs.service.impl.AgencyLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.AgencyLocalService" />
-	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.AgencyPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.AgencyPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.AgencyModelArgumentsResolver" id="eu.strasbourg.service.gtfs.service.persistence.impl.AgencyModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.AgencyPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.AgencyPersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.AlertLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.AlertLocalService" />
-	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.AlertPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.AlertPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.AlertModelArgumentsResolver" id="eu.strasbourg.service.gtfs.service.persistence.impl.AlertModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.AlertPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.AlertPersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.ArretLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.ArretLocalService" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.ArretServiceImpl" id="eu.strasbourg.service.gtfs.service.ArretService" />
-	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.ArretPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.ArretPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.ArretModelArgumentsResolver" id="eu.strasbourg.service.gtfs.service.persistence.impl.ArretModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.ArretPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.ArretPersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.CacheAlertJSONLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.CacheAlertJSONLocalService" />
-	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CacheAlertJSONPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.CacheAlertJSONPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CacheAlertJSONModelArgumentsResolver" id="eu.strasbourg.service.gtfs.service.persistence.impl.CacheAlertJSONModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CacheAlertJSONPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.CacheAlertJSONPersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.CacheHoursJSONLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.CacheHoursJSONLocalService" />
-	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CacheHoursJSONPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CacheHoursJSONModelArgumentsResolver" id="eu.strasbourg.service.gtfs.service.persistence.impl.CacheHoursJSONModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CacheHoursJSONPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.CalendarLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.CalendarLocalService" />
-	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CalendarPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.CalendarPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CalendarModelArgumentsResolver" id="eu.strasbourg.service.gtfs.service.persistence.impl.CalendarModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CalendarPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.CalendarPersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.CalendarDateLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.CalendarDateLocalService" />
-	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CalendarDatePersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.CalendarDatePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CalendarDateModelArgumentsResolver" id="eu.strasbourg.service.gtfs.service.persistence.impl.CalendarDateModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.CalendarDatePersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.CalendarDatePersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.DirectionLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.DirectionLocalService" />
-	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.DirectionPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.DirectionPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.DirectionModelArgumentsResolver" id="eu.strasbourg.service.gtfs.service.persistence.impl.DirectionModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.DirectionPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.DirectionPersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.ImportHistoricLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.ImportHistoricLocalService" />
-	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.ImportHistoricPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.ImportHistoricPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.ImportHistoricModelArgumentsResolver" id="eu.strasbourg.service.gtfs.service.persistence.impl.ImportHistoricModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.ImportHistoricPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.ImportHistoricPersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.LigneLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.LigneLocalService" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.LigneServiceImpl" id="eu.strasbourg.service.gtfs.service.LigneService" />
-	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.LignePersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.LignePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.LigneModelArgumentsResolver" id="eu.strasbourg.service.gtfs.service.persistence.impl.LigneModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.LignePersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.LignePersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.RouteLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.RouteLocalService" />
-	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.RoutePersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.RoutePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.RouteModelArgumentsResolver" id="eu.strasbourg.service.gtfs.service.persistence.impl.RouteModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.RoutePersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.RoutePersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.StopLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.StopLocalService" />
-	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.StopPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.StopPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.StopModelArgumentsResolver" id="eu.strasbourg.service.gtfs.service.persistence.impl.StopModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.StopPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.StopPersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.StopTimeLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.StopTimeLocalService" />
-	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.StopTimePersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.StopTimePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.StopTimeModelArgumentsResolver" id="eu.strasbourg.service.gtfs.service.persistence.impl.StopTimeModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.StopTimePersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.StopTimePersistence" />
 	<bean class="eu.strasbourg.service.gtfs.service.impl.TripLocalServiceImpl" id="eu.strasbourg.service.gtfs.service.TripLocalService" />
-	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.TripPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.TripPersistence" parent="basePersistence" />
-	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.TripFinderImpl" id="eu.strasbourg.service.gtfs.service.persistence.TripFinder" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.TripModelArgumentsResolver" id="eu.strasbourg.service.gtfs.service.persistence.impl.TripModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.TripPersistenceImpl" id="eu.strasbourg.service.gtfs.service.persistence.TripPersistence" />
+	<bean class="eu.strasbourg.service.gtfs.service.persistence.impl.TripFinderImpl" id="eu.strasbourg.service.gtfs.service.persistence.TripFinder" />
 </beans>

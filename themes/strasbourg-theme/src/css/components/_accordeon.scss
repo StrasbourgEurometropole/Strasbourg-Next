@@ -1,0 +1,152 @@
+.st-accordeon {
+	position: relative;
+	text-align: left;
+	margin: auto;
+	border: 1px solid $c_sub;
+
+	@include tablet-portrait {
+		margin: 0;
+	}
+
+	&:nth-of-type(even) {
+		border-top: none;
+		border-bottom: none;
+	}
+
+	&:last-of-type {
+		border-bottom: 1px solid $c_sub;
+
+		&.st-open {
+			border-bottom: none;
+		}
+	}
+
+	.st-title-accordeon {
+		@include reset-appearance;
+		@include ft($f_txt, $s_small_title, 700, $c_txt, 1.2);
+		position: relative;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		width: 100%;
+		min-height: 95px;
+		padding: 35px 0;
+		text-align: left;
+		background: none;
+		@include transition(color, background-color);
+
+		@include mobile {
+			font-size: 14px;
+			line-height: 1.14;
+		}
+
+		[class^="st-icon-"], [class*=" st-icon-"] {
+			color: $c_sub;
+			font-size: 40px;
+			position: absolute;
+			left: 30px;
+
+			@include mobile {
+				font-size: 20px;
+				left: 20px;
+			}
+		}
+
+		.st-container-custom {
+			max-width: none;
+			padding-left: 95px;
+			padding-right: 95px;
+			margin: 0 auto;
+
+			@include mobile {
+				padding-left: 55px;
+				padding-right: 55px;
+			}
+		}
+
+		&:before {
+			@include icomoon($st-icon-plus);
+			font-size: 20px;
+			color: $c_black;
+			position: absolute;
+			right: 40px;
+
+			@include mobile {
+				right: 20px;
+			}
+		}
+
+		span {
+			flex-grow: 1;
+			max-width: 70%;
+		}
+	}
+
+
+	.st-item {
+		position: relative;
+		max-height: 0;
+		overflow: hidden;
+		font-size: 0;
+
+		&.st-container-custom {
+			max-width: none;
+			padding-left: 95px;
+			margin: 0 auto;
+
+			@include mobile {
+				padding-left: 20px;
+				padding-right: 20px;
+			}
+		}
+
+		> * {
+			position: relative;
+			margin-top: 40px !important;
+			margin-bottom: 40px !important;
+
+			@include mobile {
+				margin-bottom: 40px !important;
+			}
+
+			.st-title {
+				@include mobile {
+					font-size: 25px;
+					line-height: 0.8;
+				}
+			}
+		}
+	}
+
+	.st-strate {
+		padding: 0;
+	}
+
+	&.st-open {
+		border: none;
+		border-bottom: 1px solid $c_sub;
+
+		.st-title-accordeon {
+			color: $c_white;
+			background-color: $c_sub;
+
+			[class^="st-icon-"], [class*=" st-icon-"] {
+				color: $c_white;
+			}
+
+			&:before {
+				@include icomoon($st-icon-minus);
+				color: $c_white;
+			}
+		}
+
+	}
+
+	@include can-hover {
+		.st-title-accordeon {
+			&:before {
+				box-shadow: 0 0 0 0px rgba(227, 5, 20, 0.35);
+			}
+		}
+	}
+}

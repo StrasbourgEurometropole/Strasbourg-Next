@@ -1,26 +1,18 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.model.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.council.model.Vote;
 import eu.strasbourg.service.council.model.VoteModel;
@@ -28,9 +20,9 @@ import eu.strasbourg.service.council.service.persistence.VotePK;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -38,6 +30,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -99,29 +92,52 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.council.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.council.model.Vote"),
-		false);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.council.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.council.model.Vote"),
-		false);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.council.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.council.model.Vote"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long DELIBERATIONID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long OFFICIALID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 16L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -179,9 +195,6 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 				attributeName, attributeGetterFunction.apply((Vote)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -203,221 +216,73 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 	}
 
 	public Map<String, Function<Vote, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Vote, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Vote>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Vote.class.getClassLoader(), Vote.class, ModelWrapper.class);
+		private static final Map<String, Function<Vote, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Vote> constructor =
-				(Constructor<Vote>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Vote, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Vote, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Vote::getUuid);
+			attributeGetterFunctions.put("officialId", Vote::getOfficialId);
+			attributeGetterFunctions.put(
+				"deliberationId", Vote::getDeliberationId);
+			attributeGetterFunctions.put("groupId", Vote::getGroupId);
+			attributeGetterFunctions.put("companyId", Vote::getCompanyId);
+			attributeGetterFunctions.put("createDate", Vote::getCreateDate);
+			attributeGetterFunctions.put("result", Vote::getResult);
+			attributeGetterFunctions.put(
+				"officialProcurationId", Vote::getOfficialProcurationId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Vote, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Vote, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<Vote, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Vote, Object>>();
-		Map<String, BiConsumer<Vote, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Vote, ?>>();
+		private static final Map<String, BiConsumer<Vote, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Vote, Object>() {
+		static {
+			Map<String, BiConsumer<Vote, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Vote, ?>>();
 
-				@Override
-				public Object apply(Vote vote) {
-					return vote.getUuid();
-				}
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Vote, String>)Vote::setUuid);
+			attributeSetterBiConsumers.put(
+				"officialId", (BiConsumer<Vote, Long>)Vote::setOfficialId);
+			attributeSetterBiConsumers.put(
+				"deliberationId",
+				(BiConsumer<Vote, Long>)Vote::setDeliberationId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Vote, Long>)Vote::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId", (BiConsumer<Vote, Long>)Vote::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"createDate", (BiConsumer<Vote, Date>)Vote::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"result", (BiConsumer<Vote, String>)Vote::setResult);
+			attributeSetterBiConsumers.put(
+				"officialProcurationId",
+				(BiConsumer<Vote, Long>)Vote::setOfficialProcurationId);
 
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Vote, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(Vote vote, Object uuidObject) {
-					vote.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"officialId",
-			new Function<Vote, Object>() {
-
-				@Override
-				public Object apply(Vote vote) {
-					return vote.getOfficialId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"officialId",
-			new BiConsumer<Vote, Object>() {
-
-				@Override
-				public void accept(Vote vote, Object officialIdObject) {
-					vote.setOfficialId((Long)officialIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"deliberationId",
-			new Function<Vote, Object>() {
-
-				@Override
-				public Object apply(Vote vote) {
-					return vote.getDeliberationId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"deliberationId",
-			new BiConsumer<Vote, Object>() {
-
-				@Override
-				public void accept(Vote vote, Object deliberationIdObject) {
-					vote.setDeliberationId((Long)deliberationIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Vote, Object>() {
-
-				@Override
-				public Object apply(Vote vote) {
-					return vote.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Vote, Object>() {
-
-				@Override
-				public void accept(Vote vote, Object groupIdObject) {
-					vote.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Vote, Object>() {
-
-				@Override
-				public Object apply(Vote vote) {
-					return vote.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Vote, Object>() {
-
-				@Override
-				public void accept(Vote vote, Object companyIdObject) {
-					vote.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Vote, Object>() {
-
-				@Override
-				public Object apply(Vote vote) {
-					return vote.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Vote, Object>() {
-
-				@Override
-				public void accept(Vote vote, Object createDateObject) {
-					vote.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"result",
-			new Function<Vote, Object>() {
-
-				@Override
-				public Object apply(Vote vote) {
-					return vote.getResult();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"result",
-			new BiConsumer<Vote, Object>() {
-
-				@Override
-				public void accept(Vote vote, Object resultObject) {
-					vote.setResult((String)resultObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"officialProcurationId",
-			new Function<Vote, Object>() {
-
-				@Override
-				public Object apply(Vote vote) {
-					return vote.getOfficialProcurationId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"officialProcurationId",
-			new BiConsumer<Vote, Object>() {
-
-				@Override
-				public void accept(
-					Vote vote, Object officialProcurationIdObject) {
-
-					vote.setOfficialProcurationId(
-						(Long)officialProcurationIdObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -432,17 +297,20 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -452,19 +320,21 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 	@Override
 	public void setOfficialId(long officialId) {
-		_columnBitmask |= OFFICIALID_COLUMN_BITMASK;
-
-		if (!_setOriginalOfficialId) {
-			_setOriginalOfficialId = true;
-
-			_originalOfficialId = _officialId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_officialId = officialId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalOfficialId() {
-		return _originalOfficialId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("officialId"));
 	}
 
 	@Override
@@ -474,19 +344,21 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 	@Override
 	public void setDeliberationId(long deliberationId) {
-		_columnBitmask = -1L;
-
-		if (!_setOriginalDeliberationId) {
-			_setOriginalDeliberationId = true;
-
-			_originalDeliberationId = _deliberationId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_deliberationId = deliberationId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalDeliberationId() {
-		return _originalDeliberationId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("deliberationId"));
 	}
 
 	@Override
@@ -496,19 +368,20 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -518,19 +391,21 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -540,6 +415,10 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -555,6 +434,10 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 	@Override
 	public void setResult(String result) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_result = result;
 	}
 
@@ -565,10 +448,34 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 	@Override
 	public void setOfficialProcurationId(long officialProcurationId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_officialProcurationId = officialProcurationId;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -601,6 +508,24 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		voteImpl.setOfficialProcurationId(getOfficialProcurationId());
 
 		voteImpl.resetOriginalValues();
+
+		return voteImpl;
+	}
+
+	@Override
+	public Vote cloneWithOriginalValues() {
+		VoteImpl voteImpl = new VoteImpl();
+
+		voteImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		voteImpl.setOfficialId(this.<Long>getColumnOriginalValue("officialId"));
+		voteImpl.setDeliberationId(
+			this.<Long>getColumnOriginalValue("deliberationId"));
+		voteImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		voteImpl.setCompanyId(this.<Long>getColumnOriginalValue("companyId"));
+		voteImpl.setCreateDate(this.<Date>getColumnOriginalValue("createDate"));
+		voteImpl.setResult(this.<String>getColumnOriginalValue("result"));
+		voteImpl.setOfficialProcurationId(
+			this.<Long>getColumnOriginalValue("officialProcurationId"));
 
 		return voteImpl;
 	}
@@ -655,11 +580,19 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		return getPrimaryKey().hashCode();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -667,27 +600,9 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 
 	@Override
 	public void resetOriginalValues() {
-		VoteModelImpl voteModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		voteModelImpl._originalUuid = voteModelImpl._uuid;
-
-		voteModelImpl._originalOfficialId = voteModelImpl._officialId;
-
-		voteModelImpl._setOriginalOfficialId = false;
-
-		voteModelImpl._originalDeliberationId = voteModelImpl._deliberationId;
-
-		voteModelImpl._setOriginalDeliberationId = false;
-
-		voteModelImpl._originalGroupId = voteModelImpl._groupId;
-
-		voteModelImpl._setOriginalGroupId = false;
-
-		voteModelImpl._originalCompanyId = voteModelImpl._companyId;
-
-		voteModelImpl._setOriginalCompanyId = false;
-
-		voteModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -740,7 +655,7 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -750,9 +665,26 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 			String attributeName = entry.getKey();
 			Function<Vote, Object> attributeGetterFunction = entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Vote)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Vote)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -765,60 +697,105 @@ public class VoteModelImpl extends BaseModelImpl<Vote> implements VoteModel {
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Vote, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Vote, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Vote, Object> attributeGetterFunction = entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Vote)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Vote>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Vote.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _officialId;
-	private long _originalOfficialId;
-	private boolean _setOriginalOfficialId;
 	private long _deliberationId;
-	private long _originalDeliberationId;
-	private boolean _setOriginalDeliberationId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private Date _createDate;
 	private String _result;
 	private long _officialProcurationId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Vote, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Vote)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("officialId", _officialId);
+		_columnOriginalValues.put("deliberationId", _deliberationId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("result", _result);
+		_columnOriginalValues.put(
+			"officialProcurationId", _officialProcurationId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("officialId", 2L);
+
+		columnBitmasks.put("deliberationId", 4L);
+
+		columnBitmasks.put("groupId", 8L);
+
+		columnBitmasks.put("companyId", 16L);
+
+		columnBitmasks.put("createDate", 32L);
+
+		columnBitmasks.put("result", 64L);
+
+		columnBitmasks.put("officialProcurationId", 128L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Vote _escapedModel;
 

@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.council.action;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
@@ -123,7 +124,7 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
             //Récupère les anciennes catégories liées au statut pour les effacer (on veut qu'un seul abonnement à une catégorie de statut, celui en cours)
             List<AssetCategory> existingStageCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(deliberation.getAssetEntry(), "Statut");
             for (AssetCategory existingCat : existingStageCategories) {
-                AssetEntryLocalServiceUtil.deleteAssetCategoryAssetEntry(existingCat.getCategoryId(), deliberation.getAssetEntry().getEntryId());
+                AssetEntryAssetCategoryRelLocalServiceUtil.deleteAssetEntryAssetCategoryRel(existingCat.getCategoryId(), deliberation.getAssetEntry().getEntryId());
             }
         }
         AssetCategory stageCategory = AssetVocabularyHelper.getCategory(deliberation.getStage(), themeDisplay.getScopeGroupId());
@@ -148,9 +149,7 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         }
 
         // Post / Redirect / Get si tout est bon
-        PortletURL renderURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
-        renderURL.setParameter("tab", request.getParameter("tab"));
-        response.sendRedirect(renderURL.toString());
+        response.setRenderParameter("mvcPath", "/council-bo-view-deliberations.jsp");
     }
 
     /**
@@ -183,9 +182,8 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
         PortalUtil.copyRequestParameters(request, response);
 
         PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
-        returnURL.setParameter("tab", request.getParameter("tab"));
-
-        response.setRenderParameter("returnURL", returnURL.toString());
+        response.setRenderParameter("backURL", returnURL.toString());
+        response.setRenderParameter("cmd", "saveDeliberation");
         response.setRenderParameter("mvcPath", "/council-bo-edit-deliberation.jsp");
     }
 }
