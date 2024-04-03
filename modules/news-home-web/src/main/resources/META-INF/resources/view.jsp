@@ -49,7 +49,7 @@
 
                                             <figure class="st-figure st-fit-cover" role="group">
                                                 <picture>
-                                                    <img alt="" loading="lazy" src="${(newsItemAlaUne.topLevelImageURL != '' && newsItemAlaUne.topLevelImageURL != null) ? newsItemAlaUne.topLevelImageURL : newsItemAlaUne.imageURL}">
+                                                    <img alt="" loading="lazy" src="${(newsItem.topLevelImageURL != '' && newsItem.topLevelImageURL != null) ? newsItem.topLevelImageURL : newsItem.imageURL}">
                                                 </picture>
                                             </figure>
                                         </div>
