@@ -23,7 +23,7 @@ import java.util.Date;
 /**
  * Synchronise les horaires des lieux
  */
-@Component(immediate = true, service = SynchronisePlaceToGMB.class)
+@Component(immediate = true, service = SchedulerJobConfiguration.class)
 public class SynchronisePlaceToGMB
         implements SchedulerJobConfiguration {
 
