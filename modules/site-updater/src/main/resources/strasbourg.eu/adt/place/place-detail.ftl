@@ -148,7 +148,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                             </#if>
                         </#if>
                     </h2>
-                    <#if entry.isOpenNow() && occupationState != "NOT_AVAILABLE" && occupationState != "CLOSED" >
+                    <#if entry.isOpenNow() && occupationState != "NOT_AVAILABLE" && occupationState != "CLOSED" && occupationState != "DISABLED"  && occupationState.occupation??>
                         <div class="st-top-bar__content">
                             <p class="st-frequentation">
                                 <#if isSwimmingPool || isIceRink>
