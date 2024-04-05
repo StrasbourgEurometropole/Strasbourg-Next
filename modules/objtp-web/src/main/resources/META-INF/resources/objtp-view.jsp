@@ -50,7 +50,7 @@
 								<div class="st-image">
 									<figure class="st-figure st-fit-cover" role="group">
 										<picture>
-											<img class="objtp-picture" src="${object.imageUrl}&imagePreview=1" title="${legend}"></img>
+											<img class="objtp-picture" src="${object.imageUrl}?imagePreview=1" title="${legend}"></img>
 										</picture>
 									</figure>
 								</div>
