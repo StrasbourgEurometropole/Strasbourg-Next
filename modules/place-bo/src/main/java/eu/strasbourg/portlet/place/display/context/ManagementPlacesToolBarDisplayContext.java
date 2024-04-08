@@ -10,13 +10,15 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.display.context.ManagementBaseToolBarDisplayContext;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,8 +43,8 @@ public class ManagementPlacesToolBarDisplayContext extends ManagementBaseToolBar
 
     /**
      * Dans la liste de vocabulaire, on regarde si le User a un type de lieu en category (pour limiter l'accès aux fiches lieu)
-     * Si c'est le cas on l'empêche d'avoir le filtre par "Type de lieu"
-     * Si pas de catégorie sur le Uer, on a accès au vocabulaire à filtrer
+     * Si c'est le cas on l'empêche d'avoir des filtres
+     * Si pas de catégorie sur le User, on a accès aux vocabulaires à filtrer
      * @return Liste des vocabulaires sur lesquels on veut filtrer
      */
     @Override
@@ -51,19 +53,26 @@ public class ManagementPlacesToolBarDisplayContext extends ManagementBaseToolBar
             ThemeDisplay themeDisplay =
                     (ThemeDisplay) httpServletRequest.getAttribute(
                             WebKeys.THEME_DISPLAY);
+            AssetVocabulary typeDeLieuVocab = AssetVocabularyHelper.getVocabulary("Type de lieu", GroupLocalServiceUtil.fetchCompanyGroup(PortalUtil.getDefaultCompanyId()).getGroupId());
             List<AssetCategory> categoriesUser = AssetCategoryLocalServiceUtil.getCategories(User.class.getName(), themeDisplay.getUserId());
-            List<Long> vocabIdUser = new ArrayList<>();
+            boolean isFiltreDisplay = true;
             for (AssetCategory assetCategory : categoriesUser) {
-                vocabIdUser.add(assetCategory.getVocabularyId());
+                if(typeDeLieuVocab.getVocabularyId() == assetCategory.getVocabularyId()) {
+                    isFiltreDisplay = false;
+                }
             }
-            long companyGroupId = themeDisplay.getCompanyGroupId();
-            long classNameId = ClassNameLocalServiceUtil.getClassNameId(Place.class);
-            long scopeGroupId = themeDisplay.getScopeGroupId();
-            _vocabularies = AssetVocabularyLocalServiceUtil
-                    .getAssetVocabularies(-1, -1).stream()
-                    .filter(v -> (v.getGroupId() == companyGroupId || v.getGroupId() == scopeGroupId) && LongStream.of(v.getSelectedClassNameIds())
-                            .anyMatch(c -> c == classNameId) && !vocabIdUser.contains(v.getVocabularyId()))
-                    .collect(Collectors.toList());
+            if (isFiltreDisplay) {
+                long companyGroupId = themeDisplay.getCompanyGroupId();
+                long classNameId = ClassNameLocalServiceUtil.getClassNameId(Place.class);
+                long scopeGroupId = themeDisplay.getScopeGroupId();
+                _vocabularies = AssetVocabularyLocalServiceUtil
+                        .getAssetVocabularies(-1, -1).stream()
+                        .filter(v -> (v.getGroupId() == companyGroupId || v.getGroupId() == scopeGroupId) && LongStream.of(v.getSelectedClassNameIds())
+                                .anyMatch(c -> c == classNameId))
+                        .collect(Collectors.toList());
+            } else {
+                _vocabularies = new ArrayList<>();
+            }
         }
 
         return _vocabularies;
