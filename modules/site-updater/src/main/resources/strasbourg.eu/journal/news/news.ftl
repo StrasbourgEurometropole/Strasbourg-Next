@@ -14,7 +14,7 @@
 <#assign imageUrl="" />
 <!-- image -->
 <#if thumbnail.getData()?has_content>
-    <#assign imageUrl=themeDisplay.getPortalURL() + thumbnail.getData()?replace('@', "" )?replace('cdn_hostroot_path', "" ) />
+    <#assign imageUrl=thumbnail.getData()?replace('@', "" )?replace('cdn_hostroot_path', "" ) />
 </#if>
 <#assign journalArticleLocalService=serviceLocator.findService("com.liferay.journal.service.JournalArticleLocalService")>
 <#assign journalArticle=journalArticleLocalService.getArticle(groupId, .vars['reserved-article-id'].data)>
