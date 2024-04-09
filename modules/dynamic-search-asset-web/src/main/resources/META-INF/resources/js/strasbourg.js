@@ -336,7 +336,8 @@ function populateList(data) {
     addClickEventToFavoriteButtons();
 
     // remonte le scroll en haut
-    resultList.querySelector("li").scrollIntoView(false);
+    if(resultList.querySelector("li") != undefined)
+        resultList.querySelector("li").scrollIntoView(false);
 }
 
 var searchInput = document.getElementById('recherche-input');
