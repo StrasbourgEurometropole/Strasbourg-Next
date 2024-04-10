@@ -143,11 +143,27 @@
                                                 <c:choose>
                                                     <c:when test="${piscine or patinoire}">
                                                         <c:set var="occupationState" value="${place.getRealTime('1')}" />
-                                                        <fmt:formatNumber type = "number" value = "${occupationState.occupationLabel}"/>
+                                                        <c:catch var="isNumber">
+                                                            <fmt:formatNumber var="occupationLabel" type = "number" value = "${occupationState.occupationLabel}"/>
+                                                        </c:catch>
+                                                        <c:if test="${isNumber == null}">
+                                                            ${occupationLabel}
+                                                        </c:if>
+                                                        <c:if test="${isNumber != null}">
+                                                            ${occupationState.occupationLabel}
+                                                        </c:if>
                                                     </c:when>
                                                     <c:when test="${parking}">
                                                         <c:set var="occupationState" value="${place.getRealTime('2')}" />
-                                                        <fmt:formatNumber type = "number" value = "${occupationState.available}"/>
+                                                        <c:catch var="isNumber">
+                                                            <fmt:formatNumber var="available" type = "number" value = "${occupationState.available}"/>
+                                                        </c:catch>
+                                                        <c:if test="${isNumber == null}">
+                                                            ${available}
+                                                        </c:if>
+                                                        <c:if test="${isNumber != null}">
+                                                            ${occupationState.available}
+                                                        </c:if>
                                                     </c:when>
                                                     <c:when test="${mairie}">
                                                         <c:set var="occupationState" value="${place.getRealTime('3')}" />

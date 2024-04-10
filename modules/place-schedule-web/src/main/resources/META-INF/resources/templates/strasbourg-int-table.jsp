@@ -178,13 +178,30 @@
 										<c:set var="occupationState" value="${place.getRealTime('1')}" />
 										<td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
 											<div class="crowded-amount ${occupationState.cssClass}">
-												<fmt:formatNumber type = "number" value = "${occupationState.occupationLabel}"/>
+												<c:catch var="isNumber">
+													<fmt:formatNumber var="occupationLabel" type = "number" value = "${occupationState.occupationLabel}"/>
+												</c:catch>
+												<c:if test="${isNumber == null}">
+													${occupationLabel}
+												</c:if>
+												<c:if test="${isNumber != null}">
+													${occupationState.occupationLabel}
+												</c:if>
 											</div>
 											<div class="crowded-label">
 												<liferay-ui:message key="${occupationState.label}" />
 											</div>
 											<div class="crowded-label">
-												<liferay-ui:message key="eu.place.total-capacity" /> <fmt:formatNumber type = "number" value = "${occupationState.capacity}"/>
+												<liferay-ui:message key="eu.place.total-capacity" />
+												<c:catch var="isNumber">
+													<fmt:formatNumber var="capacity" type = "number" value = "${occupationState.capacity}"/>
+												</c:catch>
+												<c:if test="${isNumber == null}">
+													${capacity}
+												</c:if>
+												<c:if test="${isNumber != null}">
+													${occupationState.capacity}
+												</c:if>
 											</div>
 										</td>
 									</c:if>
@@ -192,7 +209,15 @@
 										<c:set var="occupationState" value="${place.getRealTime('2')}" />
 										<td rowspan="${place.getSubPlaces().size() + 2}" class="occupation-state" >
 											<div class="crowded-amount ${occupationState.cssClass}">
-												<fmt:formatNumber type = "number" value = "${occupationState.available}"/>
+												<c:catch var="isNumber">
+													<fmt:formatNumber var="available" type = "number" value = "${occupationState.available}"/>
+												</c:catch>
+												<c:if test="${isNumber == null}">
+													${available}
+												</c:if>
+												<c:if test="${isNumber != null}">
+													${occupationState.available}
+												</c:if>
 											</div>
 											<div class="crowded-label">
 												<liferay-ui:message key="${occupationState.label}" />

@@ -78,13 +78,29 @@
 							<div class="crowded-amount ${occupationState.cssClass}" <c:if test="${isMairie}">style="font-size: 1.5rem"</c:if>>
 								<c:choose>
 									<c:when test="${isSwimmingPool or isIceRink}">
-										<fmt:formatNumber type = "number" value = "${occupationState.occupation}"/>
+										<c:catch var="isNumber">
+											<fmt:formatNumber var="occupation" type = "number" value = "${occupationState.occupation}"/>
+										</c:catch>
+										<c:if test="${isNumber == null}">
+											${occupation}
+										</c:if>
+										<c:if test="${isNumber != null}">
+											${occupationState.occupation}
+										</c:if>
 									</c:when>
 									<c:when test="${isMairie}">
 										${occupationState.occupationLabel}
 									</c:when>
 									<c:when test="${isParking}">
-										<fmt:formatNumber type = "number" value = "${occupationState.available}"/>
+										<c:catch var="isNumber">
+											<fmt:formatNumber var="available" type = "number" value = "${occupationState.available}"/>
+										</c:catch>
+										<c:if test="${isNumber == null}">
+											${available}
+										</c:if>
+										<c:if test="${isNumber != null}">
+											${occupationState.available}
+										</c:if>
 									</c:when>
 								</c:choose>
 							</div>
@@ -108,8 +124,26 @@
 											<liferay-ui:message key="${occupationState.label}" />
 										</c:when>
 									    <c:when test="${isParking}">
-											<liferay-ui:message key="eu.place.available-spots" /> <fmt:formatNumber type = "number" value = "${occupationState.available}"/>
-											- <liferay-ui:message key="parking-total-capacity" /> <fmt:formatNumber type = "number" value = "${occupationState.capacity}"/>
+											<liferay-ui:message key="eu.place.available-spots" />
+											<c:catch var="isNumber">
+												<fmt:formatNumber var="available" type = "number" value = "${occupationState.available}"/>
+											</c:catch>
+											<c:if test="${isNumber == null}">
+												${available}
+											</c:if>
+											<c:if test="${isNumber != null}">
+												${occupationState.available}
+											</c:if>
+											- <liferay-ui:message key="parking-total-capacity" />
+											<c:catch var="isNumber">
+												<fmt:formatNumber var="capacity" type = "number" value = "${occupationState.capacity}"/>
+											</c:catch>
+											<c:if test="${isNumber == null}">
+												${capacity}
+											</c:if>
+											<c:if test="${isNumber != null}">
+												${occupationState.capacity}
+											</c:if>
 										</c:when>
 									</c:choose>
 								</span>
