@@ -342,7 +342,7 @@ function populateList(data) {
 
 var searchInput = document.getElementById('recherche-input');
 var typingTimer;
-var doneTypingInterval = 300;
+var doneTypingInterval = 500;
 
 searchInput.addEventListener('input', function () {
     clearTimeout(typingTimer);
