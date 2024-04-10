@@ -579,7 +579,9 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	private String getImageURL(long fileEntryId){
 		if(Validator.isNotNull(fileEntryId)) {
 			FileEntry fileEntry = FileEntryUtil.fetchByPrimaryKey(fileEntryId);
-			return fileEntryHelperService.getClosestSizeImageURL(fileEntry, 100);
+			if(Validator.isNotNull(fileEntry)) {
+				return fileEntryHelperService.getClosestSizeImageURL(fileEntry, 100);
+			}
 		}
 		return "";
 	}
