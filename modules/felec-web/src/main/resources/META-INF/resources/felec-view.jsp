@@ -3,10 +3,7 @@
 <%-- Action URL du formulaire --%>
 <portlet:actionURL var="searchURL" />
 <header class="st-small-header st-header-recherche-defunt st-wrapper st-wrapper-small">
-    <h1 class="st-h1"><liferay-ui:message key="eu.felec.find.vote"/></h1>
-    <liferay-portlet:runtime
-            portletName="com_liferay_site_navigation_breadcrumb_web_portlet_SiteNavigationBreadcrumbPortlet"
-            instanceId="breadcrumb-generic" />
+    <h2 class="st-h2"><liferay-ui:message key="eu.felec.find.vote"/></h2>
 </header>
 
 <div class="st-wrapper st-wrapper-small st-form-defunt">
@@ -22,24 +19,24 @@
 
             <div class="st-group-field st-col-6@t-small">
                 <label for="name"><liferay-ui:message key="felec.name" /> <span class="st-field-required">*</span></label>
-                <input id="name" type="text" placeholder="<liferay-ui:message key="felec.name" />" value="${param.name}" autocomplete="family-name" name="<portlet:namespace />name" aria-required="true">
+                <input id="name" name="<portlet:namespace />name" type="text" value="${param.name}" placeholder="<liferay-ui:message key="felec.name" />" autocomplete="family-name" aria-required="true">
             </div>
 
             <div class="st-group-field st-col-6@t-small">
                 <label for="firstname"><liferay-ui:message key="felec.firstname" /> <span class="st-field-required">*</span></label>
-                <input id="firstname" name="<portlet:namespace />firstname" type="text" placeholder="<liferay-ui:message key="felec.firstname" />" value="${param.firstname}" autocomplete="given-name">
+                <input id="firstname" name="<portlet:namespace />firstname" type="text" value="${param.firstname}" placeholder="<liferay-ui:message key="felec.firstname" />" autocomplete="given-name" aria-required="true">
             </div>
 
             <div class="st-group-field st-col-6@t-small">
-                <label for="birthdate"><liferay-ui:message key="felec.birthdate" /></label>
+                <label for="birthdate"><liferay-ui:message key="felec.birthdate" /> <span class="st-field-required">*</span></label>
                 <div class="st-field-date">
-                    <input id="birthdate" type="date" name="<portlet:namespace />birthdate" value="${param.birthdate}">
+                    <input id="birthdate" name="<portlet:namespace />birthdate" type="date" value="${param.birthdate}" aria-required="true">
                 </div>
             </div>
 
             <div class="st-group-field st-col-6@t-small">
-                <label for="birthplace"><liferay-ui:message key="felec.birthplace" /></label>
-                <input id="birthplace" type="text" name="<portlet:namespace />birthplace"  placeholder="<liferay-ui:message key="felec.birthplace" />"  value="${param.birthplace}" autocomplete="address-level2">
+                <label for="birthplace"><liferay-ui:message key="felec.birthplace" /> <span class="st-field-required">*</span></label>
+                <input id="birthplace" name="<portlet:namespace />birthplace"  type="text" value="${param.birthplace}" placeholder="<liferay-ui:message key="felec.birthplace" />"  autocomplete="address-level2" aria-required="true">
             </div>
 
             <div class="st-col-6@t-small">
