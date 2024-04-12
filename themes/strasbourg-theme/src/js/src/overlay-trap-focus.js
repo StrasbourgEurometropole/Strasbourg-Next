@@ -64,7 +64,7 @@
             }
 
             setTimeout(() => {
-                firstFocusableElement.focus();
+                //firstFocusableElement.focus();
 
                 // trapping focus inside the dialog
                 overlay.addEventListener('keydown', onKeyDown);
