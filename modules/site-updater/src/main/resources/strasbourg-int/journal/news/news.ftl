@@ -16,7 +16,7 @@
 <#assign imageUrl = ""/>
 <!-- image -->
 <#if thumbnail.getData()?has_content>
-    <#assign imageUrl = themeDisplay.getPortalURL() + thumbnail.getData()?replace('@', "")?replace('cdn_hostroot_path', "") />
+    <#assign imageUrl = thumbnail.getData()?replace('@', "")?replace('cdn_hostroot_path', "") />
 </#if>
 
 <#-- Liste des infos a partager -->
