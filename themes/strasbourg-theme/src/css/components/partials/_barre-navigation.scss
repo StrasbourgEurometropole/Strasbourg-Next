@@ -136,9 +136,15 @@
 			}
 
 			// Réduction de la barre de nav
-			.st-is-scrolled & .st-btn-compte {
-				padding-top: 11px;
-				padding-bottom: 11px;
+			.st-is-scrolled & {
+				.st-btn-compte {
+					padding-top: 11px;
+					padding-bottom: 11px;
+				}
+
+				.st-btn-logout {
+					height: 44px;
+				}
 			}
 		}
 	}

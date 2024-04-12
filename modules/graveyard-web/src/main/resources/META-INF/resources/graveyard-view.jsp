@@ -169,14 +169,7 @@
         <div class="st-listing-results">
     <span class="st-results" role="status">
          <c:choose>
-             <c:when test="${dc.graveyard.count == '0'}">
-                 <liferay-ui:message key="no-tot"/>
-                 <a href="${dc.contactURL}" target="_blank"
-                    title="<liferay-ui:message key="graveyard.contact" /> (<liferay-ui:message key="eu.new-window" />)">
-                                            <liferay-ui:message key="graveyard.contact"/>
-                                        </a>
-             </c:when>
-             <c:when test="${dc.graveyard.count == '1'}">
+             <c:when test="${dc.graveyard.count lt 2}">
                  ${dc.searchContainer.total} <liferay-ui:message key="graveyard.result"/>
              </c:when>
              <c:otherwise>
@@ -198,6 +191,13 @@
                 </div>
             </div>
         </div>
+        <c:if test="${dc.graveyard.count == '0'}">
+            <liferay-ui:message key="no-tot"/>
+            <a href="${dc.contactURL}" target="_blank"
+               title="<liferay-ui:message key="graveyard.contact" /> (<liferay-ui:message key="eu.new-window" />)">
+                <liferay-ui:message key="graveyard.contact"/>
+            </a>
+        </c:if>
         <c:if test="${dc.searchContainer.total gt 0}">
             <!-- Liste des résultats -->
             <aui:form method="post" name="fm">
