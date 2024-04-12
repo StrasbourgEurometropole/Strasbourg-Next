@@ -289,6 +289,9 @@
                             <aui:option value="bib-sae-agenda" selected="${dc.configurationData.searchForm eq 'bib-sae-agenda'}">
                                 <liferay-ui:message key="eu.search.asset.web.configuration.template.bib-sae-agenda" />
                             </aui:option>
+                            <aui:option value="strasbourg-int-generic" selected="${dc.configurationData.searchForm eq 'strasbourg-int-generic'}">
+                                <liferay-ui:message key="eu.search.asset.web.configuration.template.strasbourg-int-generic" />
+                            </aui:option>
                             <aui:option value="strasbourg-agenda" selected="${dc.configurationData.searchForm eq 'strasbourg-agenda'}">
                                 <liferay-ui:message key="eu.search.asset.web.configuration.template.strasbourg-agenda" />
                             </aui:option>
