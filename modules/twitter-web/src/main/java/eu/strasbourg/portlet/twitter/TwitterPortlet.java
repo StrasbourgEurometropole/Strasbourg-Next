@@ -16,7 +16,7 @@ import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 
 @Component(
 	immediate = true,
@@ -55,9 +55,10 @@ public class TwitterPortlet extends MVCPortlet {
 			long tweetCount = configuration.tweetCount();
 			renderRequest.setAttribute("tweetCount", tweetCount);
 
-			List<Tweet> tweets = TwitterUtil.getUserTimeline(twitterAccount,
-				(int)tweetCount);
-			renderRequest.setAttribute("tweets", tweets);
+//			List<Tweet> tweets = TwitterUtil.getUserTimeline(twitterAccount,
+//				(int)tweetCount);
+//			renderRequest.setAttribute("tweets", tweets);
+			renderRequest.setAttribute("tweets", new ArrayList<>());
 
 		} catch (ConfigurationException e) {
 			log.error(e);
