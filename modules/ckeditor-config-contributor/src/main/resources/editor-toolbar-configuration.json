@@ -71,13 +71,5 @@
   ],
   [
     'Source'
-  ],
-  '/',
-  [
-    'KeyNumbers',
-    'Quote',
-    'LinkBlock',
-    'BlockFileSelector',
-    'VideoSelector'
   ]
 ]
