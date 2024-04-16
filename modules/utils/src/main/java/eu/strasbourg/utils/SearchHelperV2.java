@@ -359,7 +359,7 @@ public class SearchHelperV2{
 			keywordQuery.addShouldQueryClauses(contentQuery);
 
 			// Fuzzy sur catégorie
-			MatchQuery categoryKeywordQuery = queries.match(Field.ASSET_CATEGORY_TITLES, keywords);
+			MatchQuery categoryKeywordQuery = queries.match(Field.ASSET_CATEGORY_TITLES + '_' + locale, keywords);
 			categoryKeywordQuery.setOperator(Operator.OR);
 			// categoryKeywordQuery.setFuzziness(10f);
 			categoryKeywordQuery.setPrefixLength(0);
