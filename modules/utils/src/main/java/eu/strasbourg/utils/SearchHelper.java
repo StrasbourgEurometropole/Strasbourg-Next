@@ -744,7 +744,7 @@ public class SearchHelper {
 				keywordQuery.add(contentQuery, BooleanClauseOccur.SHOULD);
 
 				// Fuzzy sur catégorie
-				MatchQuery categoryKeywordQuery = new MatchQuery(Field.ASSET_CATEGORY_TITLES, keywords);
+				MatchQuery categoryKeywordQuery = new MatchQuery(Field.ASSET_CATEGORY_TITLES + '_' + locale, keywords);
 				// titleQuery.setFuzziness(new Float(10));
 				keywordQuery.add(categoryKeywordQuery, BooleanClauseOccur.SHOULD);
 
@@ -1082,7 +1082,7 @@ public class SearchHelper {
 				keywordQuery.add(contentQuery, BooleanClauseOccur.SHOULD);
 
 				// Fuzzy sur catégorie
-				MatchQuery categoryKeywordQuery = new MatchQuery(Field.ASSET_CATEGORY_TITLES, keywords);
+				MatchQuery categoryKeywordQuery = new MatchQuery(Field.ASSET_CATEGORY_TITLES + '_' + locale, keywords);
 				// titleQuery.setFuzziness(new Float(10));
 				keywordQuery.add(categoryKeywordQuery, BooleanClauseOccur.SHOULD);
 
