@@ -25,9 +25,10 @@ function updateDescription(clickedElement) {
 		var elementFooter = overlayDiv.querySelector(".st-overlay__footer")
 		// Remove existing booking button
 		elementFooter.querySelector(".st-btn-icon.st-btn-icon--white")?.remove()
-		elementFooter.insertAdjacentHTML("afterbegin", `<a href="${bookingURL}" class="st-btn-icon st-btn-icon--white" title="Biletterie">
+		elementFooter.insertAdjacentHTML("afterbegin",
+		`<a href="${bookingURL}" class="st-btn-icon st-btn-icon--white" title="`+ Liferay.Language.get("eu.ticket-office") + `">
                 <span class="st-icon-ticket" aria-hidden="true"></span>
-                <span class="st-sr-only">Billeterie</span>
+                <span class="st-sr-only">` + Liferay.Language.get("eu.ticket-office") + `</span>
             </a>`)
 	}
 
