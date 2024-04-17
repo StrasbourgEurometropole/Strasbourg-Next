@@ -569,8 +569,10 @@ body:not(.no-hover) .st-page-wrapper .login-container button{
 
 .st-page-wrapper {
   .col-12 {
-    padding-left: 0;
-    padding-right: 0;
+    @include mobile {
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
 }
 
