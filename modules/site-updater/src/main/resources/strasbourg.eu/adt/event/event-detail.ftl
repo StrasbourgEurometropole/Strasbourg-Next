@@ -278,29 +278,29 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             </#if>
                             <#if entry.accessForDeaf>
                                 <li>
-                                            <span class="st-icon-handicap" aria-hidden="true"
-                                                  title="<@liferay_ui.message key='eu.access-for-deaf' />"></span>
+                                    <span class="st-icon-handi-auditif" aria-hidden="true"
+                                          title="<@liferay_ui.message key='eu.access-for-deaf' />"></span>
                                     <span class="st-sr-only"><@liferay_ui.message key='eu.access-for-deaf' /></span>
                                 </li>
                             </#if>
                             <#if entry.accessForBlind>
                                 <li>
-                                            <span class="st-icon-handicap-vision" aria-hidden="true"
-                                                  title="<@liferay_ui.message key='eu.access-for-blind' />"></span>
+                                    <span class="st-icon-handicap-vision" aria-hidden="true"
+                                          title="<@liferay_ui.message key='eu.access-for-blind' />"></span>
                                     <span class="st-sr-only"><@liferay_ui.message key='eu.access-for-blind' /></span>
                                 </li>
                             </#if>
                             <#if entry.accessForDeficient>
                                 <li>
-                                            <span class="st-icon-handicap" aria-hidden="true"
-                                                  title="<@liferay_ui.message key='eu.access-for-deficient' />"></span>
+                                    <span class="st-icon-handi-mental" aria-hidden="true"
+                                          title="<@liferay_ui.message key='eu.access-for-deficient' />"></span>
                                     <span class="st-sr-only"><@liferay_ui.message key='eu.access-for-deficient' /></span>
                                 </li>
                             </#if>
                             <#if entry.accessForElder>
                                 <li>
-                                            <span class="st-icon-personnes-agees" aria-hidden="true"
-                                                  title="<@liferay_ui.message key='eu.access-for-elder' />"></span>
+                                    <span class="st-icon-personnes-agees" aria-hidden="true"
+                                          title="<@liferay_ui.message key='eu.access-for-elder' />"></span>
                                     <span class="st-sr-only"><@liferay_ui.message key='eu.access-for-elder' /></span>
                                 </li>
                             </#if>
