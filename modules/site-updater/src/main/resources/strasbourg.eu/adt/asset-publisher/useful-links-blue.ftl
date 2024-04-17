@@ -2,7 +2,7 @@
 <#setting locale=locale />
 <#assign portletHelper=serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 <div class="st-bloc st-bloc-infos-complementaires st-wrapper st--has-margin">
-    <div class="st-container">
+    <div>
         <div class="st-component st-component-type-2">
             <h2 class="st-h2 st-title">
                 ${portletHelper.getPortletTitle('eu.useful-links', renderRequest)}
