@@ -39,7 +39,7 @@
     </#if>
 
   </script>
-  <div class="seu">
+  <div class="seu" >
     
     <#if isHome>
       <header class="seu-header" id="th-header">
@@ -50,7 +50,7 @@
       <@subnavigation "seu"/>
     </header>
 
-    <main>
+    <main id="content">
       <!--Banner-->
       <#if isHome>
         <#include "${full_templates_path}/home_banner.ftl" />

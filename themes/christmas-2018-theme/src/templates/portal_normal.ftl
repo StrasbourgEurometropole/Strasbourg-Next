@@ -178,7 +178,7 @@
             <#include "${full_templates_path}/experientiel.ftl" />
         </#if>
     </header>
-    <div class="main">
+    <div class="main" id="content">
        
             <#if selectable>
                 <@liferay_util["include"] page=content_include />

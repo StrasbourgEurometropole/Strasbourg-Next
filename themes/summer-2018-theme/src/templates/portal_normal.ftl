@@ -140,7 +140,7 @@
             </div>
             <#include "${full_templates_path}/navigation.ftl" />
         </header>
-        <main>
+        <main id="content">
             <#if selectable>
                 <@liferay_util["include"] page=content_include />
             <#else>

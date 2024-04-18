@@ -43,7 +43,7 @@
 <div id="ops-wrapper">
 	<#include "${full_templates_path}/nav_top.ftl" />
 
-	<main>
+	<main id="content">
 		<h1 class="hide-accessible">${the_title}</h1>
 
 		<#if selectable>

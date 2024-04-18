@@ -217,7 +217,7 @@
       </header>
       <!-- End header -->
 
-      <div class="content">
+      <div class="content" id="content">
         <section class="">
             <#if selectable>
               <@liferay_util["include"] page=content_include />

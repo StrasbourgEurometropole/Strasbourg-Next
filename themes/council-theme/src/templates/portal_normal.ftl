@@ -57,7 +57,7 @@
     </#if>
 
   </script>
-  <div class="seu">
+  <div class="seu" id="content">
 
 
     <header class="seu-header scrolled scrolled-hp">
