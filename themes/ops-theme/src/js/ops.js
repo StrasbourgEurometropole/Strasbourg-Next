@@ -4901,7 +4901,7 @@ var thFacettes = {
                     e.stopPropagation();
                     $(this).html('');
                     thFacettes.states[facetteName] = '';
-                    facetteName.removeAttr('checked');
+                    facetteName.prop('checked', false);
                 });
             },250);
 

@@ -173,16 +173,18 @@
             </div>
         </section>
 
-        <main id="main">
-            <#if selectable>
-                <@liferay_util["include"] page=content_include />
-            <#else>
-                ${portletDisplay.recycle()}
-                ${portletDisplay.setTitle(the_title)}
-                <@liferay_theme["wrap-portlet"] page="portlet.ftl">
+        <main id="main" >
+            <div id="content">
+                <#if selectable>
                     <@liferay_util["include"] page=content_include />
-                </@>
-            </#if>
+                <#else>
+                    ${portletDisplay.recycle()}
+                    ${portletDisplay.setTitle(the_title)}
+                    <@liferay_theme["wrap-portlet"] page="portlet.ftl">
+                        <@liferay_util["include"] page=content_include />
+                    </@>
+                </#if>
+            </div>
         </main>
 
         <footer id="footer">

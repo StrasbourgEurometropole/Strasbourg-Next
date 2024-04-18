@@ -325,23 +325,24 @@ function populateList(data) {
         resultList.insertAdjacentHTML('beforeend', vignette);
     });
 
-    // permet de donner le focus aux résultats
+    // permet d'ajouter les résultats au éléments focussables
     onOverlayOpen('st-overlay-search');
 
-    setTimeout(() => {
+    /*setTimeout(() => {
         // Focus sur le champ de recherche
         document.querySelector("#recherche-input").focus();
-    }, 150);
+    }, 150);*/
 
     addClickEventToFavoriteButtons();
 
     // remonte le scroll en haut
-    resultList.querySelector("li").scrollIntoView(false);
+    if(resultList.querySelector("li") != undefined)
+        resultList.querySelector("li").scrollIntoView(false);
 }
 
 var searchInput = document.getElementById('recherche-input');
 var typingTimer;
-var doneTypingInterval = 300;
+var doneTypingInterval = 500;
 
 searchInput.addEventListener('input', function () {
     clearTimeout(typingTimer);

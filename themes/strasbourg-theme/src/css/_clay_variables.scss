@@ -67,6 +67,16 @@ $table-bg: transparent;
 $table-border-color: rgba(255,255,255,.25);
 $table-head-bg: #2ad783;
 
+$c-table: () !default;
+$c-table: map-merge(
+                (
+                        th: (
+                                background-color: $table-head-bg,
+                        )
+                ),
+                $c-table
+);
+
 $c-table-thead: () !default;
 $c-table-thead: map-merge(
                 (

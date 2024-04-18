@@ -54,7 +54,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
         <div class="st-container-right">
             <ul class="st-liens-rapides">
                 <li>
-                    <a href="#horaire" class="st-btn-icon st-btn-icon--white" target="_blank" rel="noopener"
+                    <a href="#horaire" class="st-btn-icon st-btn-icon--white" rel="noopener"
                        title="Horaires">
                         <span class="st-icon-clock" aria-hidden="true"></span>
                         <span class="st-sr-only">Horaires</span>
@@ -211,133 +211,80 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
             <h2 class="st-h2 st-bloc-sit-title">
                 <@liferay_ui.message key="eu.times" />
             </h2>
-            <div class="st-container">
-                <div class="st-slider-tablist st-js-slider-tablist splide" role="tablist">
-                    <div class="splide__track">
-                        <ul class="splide__list">
-                            <li class="splide__slide">
-                                <button class="st-slider-tablist__button" id="tab-button-1" type="button" role="tab"
-                                        aria-selected="true" aria-controls="tabpanel-1">
-                                    <span class="st-title"><@liferay_ui.message key="eu.place.next-days" /></span>
-                                </button>
-                            </li>
-                            <#if entry.defaultPeriod?has_content>
-                                <li class="splide__slide">
-                                    <button class="st-slider-tablist__button"
-                                            id="tab-button-${entry.defaultPeriod.getPeriodId()}" type="button" role="tab"
-                                            aria-selected="true"
-                                            aria-controls="tabpanel-${entry.defaultPeriod.getPeriodId()}">
-                                        <span class="st-title">${entry.defaultPeriod.getName(locale)}</span>
-                                    </button>
-                                </li>
-                            </#if>
-
-                            <!-- Autres periodes -->
-                            <#list entry.nonDefaultPeriods as period>
-                                <li class="splide__slide">
-                                    <button class="st-slider-tablist__button" id="tab-button-${period.getPeriodId()}"
-                                            type="button" role="tab" aria-selected="true"
-                                            aria-controls="tabpanel-${period.getPeriodId()}">
-                                        <span class="st-title">${period.getName(locale)}</span>
-                                        <span class="st-surtitre-cat">${period.getDisplay(locale)}</span>
-                                    </button>
-                                </li>
-
-                            </#list>
-
-                        </ul>
-                    </div>
-                    <div class="splide__arrows st-nav-arrows">
-                        <button
-                                class="splide__arrow splide__arrow--prev st-btn-arrow st--prev"></button>
-                        <button
-                                class="splide__arrow splide__arrow--next st-btn-arrow st--next"></button>
-                    </div>
+            <#if entry.hasURLSchedule>
+                <div class="st-bottom-part st-text-styles">
+                    <a href="${entry.getScheduleLinkURL(locale)}" target="_blank"
+                       title="${entry.getScheduleLinkName(locale)}" class="st-btn st--btn-secondary st--btn-full-width">
+                        ${entry.getScheduleLinkName(locale)}
+                    </a>
                 </div>
-                <div class="st-tabpanels">
+            </#if>
+            <#if !entry.hasURLSchedule>
+                <div class="st-container">
+                    <div class="st-slider-tablist st-js-slider-tablist splide" role="tablist">
+                        <div class="splide__track">
+                            <ul class="splide__list">
+                                <li class="splide__slide">
+                                    <button class="st-slider-tablist__button" id="tab-button-1" type="button" role="tab"
+                                            aria-selected="true" aria-controls="tabpanel-1">
+                                        <span class="st-title"><@liferay_ui.message key="eu.place.next-days" /></span>
+                                    </button>
+                                </li>
+                                <#if entry.defaultPeriod?has_content>
+                                    <li class="splide__slide">
+                                        <button class="st-slider-tablist__button"
+                                                id="tab-button-${entry.defaultPeriod.getPeriodId()}" type="button" role="tab"
+                                                aria-selected="true"
+                                                aria-controls="tabpanel-${entry.defaultPeriod.getPeriodId()}">
+                                            <span class="st-title">${entry.defaultPeriod.getName(locale)}</span>
+                                        </button>
+                                    </li>
+                                </#if>
 
-                    <div class="st-tabpanel" id="tabpanel-1" role="tabpanel" tabindex="0" aria-labelledby="tab-button-1">
-                        <#if entry.publishedSubPlaces?has_content>
-                            <h3 class="st-subplaces">${entry.getAlias(locale)}</h3>
-                        </#if>
-
-
-                        <ul class="st-list-rows st-basic-grid st-col-2@t-small">
-                            <#assign daySchedulesMap=entry.getFollowingWeekSchedules(.now,
-                            locale) />
-                            <#assign hasException=false />
-                            <#list daySchedulesMap?keys as day>
-                                <!-- Correctif car suite a une modif on n'envoie plus une liste vide mais null, donc erreur freemarker -->
-                                <#if daySchedulesMap[day]?size !=1 ||
-                                (daySchedulesMap[day]?size==1 &&
-                                daySchedulesMap[day][0]?? &&
-                                daySchedulesMap[day][0]?has_content)>
-
-                                    <li class="st-item-row">
-                                        <p class="st-title">${day}</p>
-                                        <div class="st-info st-u-color-secondary">
-                                            <#list daySchedulesMap[day] as schedule>
-                                                <#if schedule.isException() ||
-                                                schedule.isPublicHoliday()>
-                                                    <#assign hasException=true />
-                                                    <#assign hasAnyException=true />
-                                                <#else>
-                                                    <#assign hasException=false />
-                                                </#if>
-                                                <#if schedule.isClosed()>
-                                                    <p class="st-ouverture st--closed st-u-color-pink">
-                                                        <@liferay_ui.message
-                                                        key="eu.closed" />
-                                                    </p>
-                                                <#elseif schedule.isAlwaysOpen()>
-                                                    <p class="st-ouverture">
-                                                        <@liferay_ui.message
-                                                        key="always-open" />
-                                                    </p>
-                                                <#else>
-                                                    <#list schedule.openingTimes as
-                                                    openingTime>
-                                                        <p>
-                                                            ${openingTime.first} -
-                                                            ${openingTime.second}
-                                                            <#if hasException>
-                                                                <span
-                                                                        class="st-symbol">*</span>
-                                                            </#if>
-                                                        </p>
-                                                        <#if
-                                                        schedule.comments[openingTime?index]?has_content>
-                                                            <p class="st-note">
-                                                                ${schedule.comments[openingTime?index]}
-                                                            </p>
-                                                        </#if>
-
-                                                    </#list>
-                                                </#if>
-                                            </#list>
-
-                                        </div>
+                                <!-- Autres periodes -->
+                                <#list entry.nonDefaultPeriods as period>
+                                    <li class="splide__slide">
+                                        <button class="st-slider-tablist__button" id="tab-button-${period.getPeriodId()}"
+                                                type="button" role="tab" aria-selected="true"
+                                                aria-controls="tabpanel-${period.getPeriodId()}">
+                                            <span class="st-title">${period.getName(locale)}</span>
+                                            <span class="st-surtitre-cat">${period.getDisplay(locale)}</span>
+                                        </button>
                                     </li>
 
-                                </#if>
-                            </#list>
-                        </ul>
-                        <!-- Jours suivants pour les sous-lieux -->
-                        <#list entry.publishedSubPlaces as subPlace>
-                            <h3 class="st-subplaces mt-4">${subPlace.getName(locale)}</h3>
+                                </#list>
+
+                            </ul>
+                        </div>
+                        <div class="splide__arrows st-nav-arrows">
+                            <button
+                                    class="splide__arrow splide__arrow--prev st-btn-arrow st--prev"></button>
+                            <button
+                                    class="splide__arrow splide__arrow--next st-btn-arrow st--next"></button>
+                        </div>
+                    </div>
+                    <div class="st-tabpanels">
+
+                        <div class="st-tabpanel" id="tabpanel-1" role="tabpanel" tabindex="0" aria-labelledby="tab-button-1">
+                            <#if entry.publishedSubPlaces?has_content>
+                                <h3 class="st-subplaces">${entry.getAlias(locale)}</h3>
+                            </#if>
+
+
                             <ul class="st-list-rows st-basic-grid st-col-2@t-small">
-                                <#assign
-                                daySchedulesMap=subPlace.getFollowingWeekSchedules(.now,
+                                <#assign daySchedulesMap=entry.getFollowingWeekSchedules(.now,
                                 locale) />
+                                <#assign hasException=false />
                                 <#list daySchedulesMap?keys as day>
                                     <!-- Correctif car suite a une modif on n'envoie plus une liste vide mais null, donc erreur freemarker -->
                                     <#if daySchedulesMap[day]?size !=1 ||
                                     (daySchedulesMap[day]?size==1 &&
                                     daySchedulesMap[day][0]?? &&
                                     daySchedulesMap[day][0]?has_content)>
+
                                         <li class="st-item-row">
                                             <p class="st-title">${day}</p>
-                                            <div class="st-info  st-u-color-secondary">
+                                            <div class="st-info st-u-color-secondary">
                                                 <#list daySchedulesMap[day] as schedule>
                                                     <#if schedule.isException() ||
                                                     schedule.isPublicHoliday()>
@@ -357,11 +304,10 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                                             key="always-open" />
                                                         </p>
                                                     <#else>
-                                                        <#list schedule.openingTimes
-                                                        as openingTime>
+                                                        <#list schedule.openingTimes as
+                                                        openingTime>
                                                             <p>
-                                                                ${openingTime.first}
-                                                                -
+                                                                ${openingTime.first} -
                                                                 ${openingTime.second}
                                                                 <#if hasException>
                                                                     <span
@@ -377,117 +323,170 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
                                                         </#list>
                                                     </#if>
-
                                                 </#list>
+
                                             </div>
                                         </li>
+
                                     </#if>
                                 </#list>
                             </ul>
-                        </#list>
-                        <#if hasAnyException?has_content && hasAnyException>
-                            <!-- Message pour exceptions -->
-                            <p class="st-note">
-                                <@liferay_ui.message
-                                key="eu.place.look-at-exceptionnal-schedule" />
-                            </p>
+                            <!-- Jours suivants pour les sous-lieux -->
+                            <#list entry.publishedSubPlaces as subPlace>
+                                <h3 class="st-subplaces mt-4">${subPlace.getName(locale)}</h3>
+                                <ul class="st-list-rows st-basic-grid st-col-2@t-small">
+                                    <#assign
+                                    daySchedulesMap=subPlace.getFollowingWeekSchedules(.now,
+                                    locale) />
+                                    <#list daySchedulesMap?keys as day>
+                                        <!-- Correctif car suite a une modif on n'envoie plus une liste vide mais null, donc erreur freemarker -->
+                                        <#if daySchedulesMap[day]?size !=1 ||
+                                        (daySchedulesMap[day]?size==1 &&
+                                        daySchedulesMap[day][0]?? &&
+                                        daySchedulesMap[day][0]?has_content)>
+                                            <li class="st-item-row">
+                                                <p class="st-title">${day}</p>
+                                                <div class="st-info  st-u-color-secondary">
+                                                    <#list daySchedulesMap[day] as schedule>
+                                                        <#if schedule.isException() ||
+                                                        schedule.isPublicHoliday()>
+                                                            <#assign hasException=true />
+                                                            <#assign hasAnyException=true />
+                                                        <#else>
+                                                            <#assign hasException=false />
+                                                        </#if>
+                                                        <#if schedule.isClosed()>
+                                                            <p class="st-ouverture st--closed st-u-color-pink">
+                                                                <@liferay_ui.message
+                                                                key="eu.closed" />
+                                                            </p>
+                                                        <#elseif schedule.isAlwaysOpen()>
+                                                            <p class="st-ouverture">
+                                                                <@liferay_ui.message
+                                                                key="always-open" />
+                                                            </p>
+                                                        <#else>
+                                                            <#list schedule.openingTimes
+                                                            as openingTime>
+                                                                <p>
+                                                                    ${openingTime.first}
+                                                                    -
+                                                                    ${openingTime.second}
+                                                                    <#if hasException>
+                                                                        <span
+                                                                                class="st-symbol">*</span>
+                                                                    </#if>
+                                                                </p>
+                                                                <#if
+                                                                schedule.comments[openingTime?index]?has_content>
+                                                                    <p class="st-note">
+                                                                        ${schedule.comments[openingTime?index]}
+                                                                    </p>
+                                                                </#if>
+
+                                                            </#list>
+                                                        </#if>
+
+                                                    </#list>
+                                                </div>
+                                            </li>
+                                        </#if>
+                                    </#list>
+                                </ul>
+                            </#list>
+                            <#if hasAnyException?has_content && hasAnyException>
+                                <!-- Message pour exceptions -->
+                                <p class="st-note">
+                                    <@liferay_ui.message
+                                    key="eu.place.look-at-exceptionnal-schedule" />
+                                </p>
+                            </#if>
+
+                        </div>
+
+                        <!-- Periode par defaut -->
+                        <#if entry.defaultPeriod?has_content>
+                            <div class="st-tabpanel st-is-hidden" id="tabpanel-${entry.defaultPeriod.getPeriodId()}" role="tabpanel" tabindex="0"
+                                 aria-labelledby="tab-button-${entry.defaultPeriod.getPeriodId()}">
+                                <#if entry.publishedSubPlaces?has_content>
+                                    <h3 class="st-subplaces">${entry.getAlias(locale)}</h3>
+                                </#if>
+                                <ul class="st-list-rows st-basic-grid st-col-2@t-small">
+                                    <#assign
+                                    weekSchedules=entry.defaultPeriod.getWeekSchedule() />
+                                    <#assign day=0 />
+                                    <#list weekSchedules as schedule>
+                                        <@showTime day schedule hasException />
+                                        <#assign day=day + 1 />
+                                    </#list>
+                                </ul>
+                                <!-- Periode par defaut pour les sous-lieux -->
+                                <#list entry.publishedSubPlaces as subPlace>
+                                    <h3 class="st-subplaces">${subPlace.getName(locale)}</h3>
+                                    <ul class="st-list-rows st-basic-grid st-col-2@t-small">
+                                        <#assign
+                                        weekSchedules=subPlace.defaultPeriod.getWeekSchedule(subPlace.subPlaceId) />
+                                        <#assign day=0 />
+                                        <#list weekSchedules as schedule>
+                                            <@showTime day schedule hasException />
+                                            <#assign day=day + 1 />
+                                        </#list>
+                                    </ul>
+                                </#list>
+                                <#if hasAnyException?has_content && hasAnyException>
+                                    <!-- Message pour exceptions -->
+                                    <p class="st-note">
+                                        <@liferay_ui.message
+                                        key="eu.place.look-at-exceptionnal-schedule" />
+                                    </p>
+                                </#if>
+
+                            </div>
                         </#if>
 
+                        <!-- Autres periodes -->
+                        <#list entry.nonDefaultPeriods as period>
+                            <div class="st-tabpanel st-is-hidden" id="tabpanel-${period.getPeriodId()}" role="tabpanel" tabindex="0"
+                                 aria-labelledby="tab-button-${period.getPeriodId()}">
+                                <#if entry.publishedSubPlaces?has_content>
+                                    <h3 class="st-subplaces">${entry.getAlias(locale)}</h3>
+                                </#if>
+
+                                <ul class="st-list-rows st-basic-grid st-col-2@t-small">
+                                    <#assign weekSchedules=period.getWeekSchedule() />
+                                    <#assign day=0 />
+                                    <#list weekSchedules as schedule>
+                                        <@showTime day schedule hasException />
+                                        <#assign day=day + 1 />
+                                    </#list>
+                                </ul>
+                                <!-- Periode par defaut pour les sous-lieux -->
+                                <#list entry.publishedSubPlaces as subPlace>
+                                    <h3 class="st-subplaces">${subPlace.getName(locale)}</h3>
+                                    <ul class="st-list-rows st-basic-grid st-col-2@t-small">
+                                        <#assign
+                                        weekSchedules=subPlace.defaultPeriod.getWeekSchedule(subPlace.subPlaceId) />
+                                        <#assign day=0 />
+                                        <#list weekSchedules as schedule>
+                                            <@showTime day schedule hasException />
+                                            <#assign day=day + 1 />
+                                        </#list>
+                                    </ul>
+                                </#list>
+                                <#if hasAnyException?has_content && hasAnyException>
+                                    <!-- Message pour exceptions -->
+                                    <p class="st-note">
+                                        <@liferay_ui.message
+                                        key="eu.place.look-at-exceptionnal-schedule" />
+                                    </p>
+                                </#if>
+                            </div>
+
+
+                        </#list>
+                        </ul>
                     </div>
-
-                    <!-- Periode par defaut -->
-                    <#if entry.defaultPeriod?has_content>
-                        <div class="st-tabpanel st-is-hidden" id="tabpanel-${entry.defaultPeriod.getPeriodId()}" role="tabpanel" tabindex="0"
-                             aria-labelledby="tab-button-${entry.defaultPeriod.getPeriodId()}">
-                            <#if entry.publishedSubPlaces?has_content>
-                                <h3 class="st-subplaces">${entry.getAlias(locale)}</h3>
-                            </#if>
-                            <ul class="st-list-rows st-basic-grid st-col-2@t-small">
-                                <#assign
-                                weekSchedules=entry.defaultPeriod.getWeekSchedule() />
-                                <#assign day=0 />
-                                <#list weekSchedules as schedule>
-                                    <@showTime day schedule hasException />
-                                    <#assign day=day + 1 />
-                                </#list>
-                            </ul>
-                            <!-- Periode par defaut pour les sous-lieux -->
-                            <#list entry.publishedSubPlaces as subPlace>
-                                <h3 class="st-subplaces">${subPlace.getName(locale)}</h3>
-                                <ul class="st-list-rows st-basic-grid st-col-2@t-small">
-                                    <#assign
-                                    weekSchedules=subPlace.defaultPeriod.getWeekSchedule(subPlace.subPlaceId) />
-                                    <#assign day=0 />
-                                    <#list weekSchedules as schedule>
-                                        <@showTime day schedule hasException />
-                                        <#assign day=day + 1 />
-                                    </#list>
-                                </ul>
-                            </#list>
-                            <#if hasAnyException?has_content && hasAnyException>
-                                <!-- Message pour exceptions -->
-                                <p class="st-note">
-                                    <@liferay_ui.message
-                                    key="eu.place.look-at-exceptionnal-schedule" />
-                                </p>
-                            </#if>
-
-                        </div>
-                    </#if>
-
-                    <!-- Autres periodes -->
-                    <#list entry.nonDefaultPeriods as period>
-                        <div class="st-tabpanel st-is-hidden" id="tabpanel-${period.getPeriodId()}" role="tabpanel" tabindex="0"
-                             aria-labelledby="tab-button-${period.getPeriodId()}">
-                            <#if entry.publishedSubPlaces?has_content>
-                                <h3 class="st-subplaces">${entry.getAlias(locale)}</h3>
-                            </#if>
-
-                            <ul class="st-list-rows st-basic-grid st-col-2@t-small">
-                                <#assign weekSchedules=period.getWeekSchedule() />
-                                <#assign day=0 />
-                                <#list weekSchedules as schedule>
-                                    <@showTime day schedule hasException />
-                                    <#assign day=day + 1 />
-                                </#list>
-                            </ul>
-                            <!-- Periode par defaut pour les sous-lieux -->
-                            <#list entry.publishedSubPlaces as subPlace>
-                                <h3 class="st-subplaces">${subPlace.getName(locale)}</h3>
-                                <ul class="st-list-rows st-basic-grid st-col-2@t-small">
-                                    <#assign
-                                    weekSchedules=subPlace.defaultPeriod.getWeekSchedule(subPlace.subPlaceId) />
-                                    <#assign day=0 />
-                                    <#list weekSchedules as schedule>
-                                        <@showTime day schedule hasException />
-                                        <#assign day=day + 1 />
-                                    </#list>
-                                </ul>
-                            </#list>
-                            <#if hasAnyException?has_content && hasAnyException>
-                                <!-- Message pour exceptions -->
-                                <p class="st-note">
-                                    <@liferay_ui.message
-                                    key="eu.place.look-at-exceptionnal-schedule" />
-                                </p>
-                            </#if>
-                        </div>
-
-
-                    </#list>
-                    </ul>
-                </div>
-                <div>
-                    <#if entry.hasURLSchedule>
-                        <a href="${entry.getScheduleLinkURL(locale)}" target="_blank"
-                           title="${entry.getScheduleLinkName(locale)}">
-                            <button class="st-btn st--btn-secondary st--btn-full-width">
-                                ${entry.getScheduleLinkName(locale)}
-                            </button>
-                        </a>
-                    </#if>
-                </div>
-                <div class="st-bottom-part st-text-styles">
+                    <div class="st-bottom-part st-text-styles">
                     <#if entry.hasScheduleTable()>
                         <#assign
                         assetVocabularyHelper=serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
@@ -569,8 +568,8 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
                     </#if>
                 </div>
-
-            </div>
+                </div>
+            </#if>
 
         </div>
     </#if>

@@ -91,7 +91,7 @@
 			</script> 
 		</header>
 
-		<div id="content">
+		<div id="content" >
 			<section class="ariane">
 	            <div class="center">
 	                <div class="fil-ariane">

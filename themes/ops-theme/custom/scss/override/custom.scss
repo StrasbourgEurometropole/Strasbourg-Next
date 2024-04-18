@@ -395,3 +395,13 @@ input#_com_liferay_login_web_portlet_LoginPortlet_captchaText,input#_com_liferay
 .radio input[type='radio'], .radio-inline input[type='radio'], .checkbox input[type='checkbox'], .checkbox-inline input[type='checkbox'] {
     margin-left: -20px !important;
 }
+
+/* hack liferay 7.4 */
+.hide-accessible {
+	clip: rect(0 0 0 0) !important;
+	position: absolute !important;
+	-webkit-transform: scale(0);
+	-webkit-transform-origin-x: 0;
+	-webkit-transform-origin-y: 0;
+	*position: fixed !important;
+	_position: absolute !important; }

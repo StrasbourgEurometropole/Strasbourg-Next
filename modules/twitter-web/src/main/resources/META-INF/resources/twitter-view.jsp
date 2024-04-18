@@ -48,12 +48,12 @@
                 </div>
 			</div>
 		</section>
-		<script src="//twemoji.maxcdn.com/twemoji.min.js"></script>
+		<!-- <script src="//twemoji.maxcdn.com/twemoji.min.js"></script>
 		<script>
 			var tweetSection = document.querySelector('#twitter');
 			twemoji.parse(tweetSection, {
 				size: "16x16"
 			});
-		</script>	
+		</script>	-->
 	</c:otherwise>
 </c:choose>

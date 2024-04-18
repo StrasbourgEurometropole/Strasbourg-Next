@@ -133,7 +133,8 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			GregorianCalendar next = new GregorianCalendar();
 			previous.setTime(jourSemaine.getTime());
 			next.setTime(jourSemaine.getTime());
-			int lengthOfWeek = configuration.template() != null && configuration.template().equals("strasbourg-table")
+			int lengthOfWeek = configuration.template() != null &&
+					(configuration.template().equals("strasbourg-table") || configuration.template().equals("strasbourg-int-table"))
 					? 5 : 7;
 			previous.add(Calendar.DAY_OF_YEAR, -lengthOfWeek);
 			next.add(Calendar.DAY_OF_YEAR, lengthOfWeek);
@@ -142,8 +143,7 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 
 			// récupère les jours de la semaine voulue
 			List<String[]> week = new ArrayList<String[]>();
-			int delta = configuration.template() != null && (configuration.template().equals("strasbourg-table") || configuration.template().equals("default")) ? 0
-					: -jourSemaine.get(GregorianCalendar.DAY_OF_WEEK) + 2;
+			int delta = 0;
 			jourSemaine.add(Calendar.DAY_OF_MONTH, delta);
 			List<Date> weekDates = new ArrayList<Date>(); // Liste des jours à afficher en front
 			for (int jour = 0; jour < lengthOfWeek; jour++) {

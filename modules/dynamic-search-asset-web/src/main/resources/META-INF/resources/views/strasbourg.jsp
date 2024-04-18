@@ -11,7 +11,7 @@ title="Overlay" />
     <button class="st-btn-close" data-overlay-close="st-overlay-search" aria-label="<liferay-ui:message key='eu.closed' />"></button>
 
     <div class="st-overlay__inner">
-        <form action="#" class="st-overlay__header">
+        <form action="#" class="st-overlay__header" onsubmit="return false;">
                 <div class="st-overlay__header-row1 st-wrapper">
                     <div class="st-input-search-wrapper">
                         <input id="recherche-input" class="st-input-search st-js-input-search"  type="search" placeholder="Votre recherche" aria-label="Votre recherche">
