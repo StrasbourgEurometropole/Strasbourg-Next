@@ -81,7 +81,7 @@ public class SubPlaceActionDropdownItemsProvider {
             dropdownItem.setHref(
                     PortletURLBuilder.createRenderURL(_response)
                             .setMVCPath("/place-bo-edit-subplace.jsp")
-                            .setCMD("editPrice")
+                            .setCMD("editSubPlace")
                             .setBackURL(_themeDisplay.getURLCurrent())
                             .setParameter("tab", "subPlaces")
                             .setParameter("subPlaceId", _subPlace.getSubPlaceId())

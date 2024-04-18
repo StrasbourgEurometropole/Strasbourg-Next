@@ -82,7 +82,7 @@ public class PublicHolidayActionDropdownItemsProvider {
             dropdownItem.setHref(
                     PortletURLBuilder.createRenderURL(_response)
                             .setMVCPath("/place-bo-edit-public-holiday.jsp")
-                            .setCMD("editPrice")
+                            .setCMD("editPublicHoliday")
                             .setBackURL(_themeDisplay.getURLCurrent())
                             .setParameter("tab", "publicHolidays")
                             .setParameter("publicHolidayId", _publicHoliday.getPublicHolidayId())
