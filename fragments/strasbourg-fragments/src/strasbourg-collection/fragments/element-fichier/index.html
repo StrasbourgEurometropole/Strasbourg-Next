@@ -1,18 +1,20 @@
 [#setting locale = locale /]
+
+[#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") /]
 [#if configuration.fileSelector.fileEntryId?has_content]
-<a href="${configuration.fileSelector.fileEntryId}" class="st-lien" download="">
+<a href="${fileEntryHelper.getFileEntryURL(configuration.fileSelector.fileEntryId?number)}" class="st-lien" download="">
   <p class="st-title-lien">
     ${configuration.fileSelector.title}
   </p>
   [#if configuration.displayStyle == "complete"]
   <div class="st-lien-content">
     <p class="st-type">(${configuration.fileSelector.extension?upper_case} - ${(configuration.fileSelector.size?number/1024)?floor?round?string.number} Ko)</p>
-    <p class="st-text">[@liferay_ui.message key='eu.download' /]</p>
+    <p class="st-text">Télécharger</p>
   </div>
   [#else]
   <p class="st-text">
     <span class="st-type">(${configuration.fileSelector.extension?upper_case} - ${(configuration.fileSelector.size?number/1024?round?string.number)} Ko)</span>
-    [@liferay_ui.message key='eu.download' /]
+    Télécharger
   </p>
   [/#if]
 </a>
@@ -21,7 +23,7 @@
 <li class="st-lien-container">
   <a href="#" class="st-lien">
     <p class="st-title-lien" >
-      [@liferay_ui.message key='eu.select-file' /]...
+      Veuillez selectionner une fichier...
     </p>
   </a>
   [/#if]
