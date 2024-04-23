@@ -483,13 +483,7 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 				contentBox : '#date-fields',
 				fieldIndexes : namespace + 'shedulesExceptionsIndexes',
 				namespace : namespace,
-				url : getscheduleExceptionRowJSPURL,
-				on: {
-					clone(event) {
-						console.log(event)
-						debugger;
-					},
-				},
+				url : getscheduleExceptionRowJSPURL
 			}).render();
 		}
 	});
