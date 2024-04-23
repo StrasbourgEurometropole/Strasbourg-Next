@@ -329,7 +329,7 @@ jQuery(function() {
 				.querySelectorAll('#date-fields .schedule-label');
 		var periods = [];
 
-		// Gitlab 39036 : affichage d'un message d'erreur si plus de 10 exceptions
+		// Gitlab 39036 : affichage d'un message d'erreur si plus de 25 exceptions
 		if(scheduleLabels.length > 25) {
 			$('#date-fields .place-schedule-max-exception').show();
 			if(allValidate){
