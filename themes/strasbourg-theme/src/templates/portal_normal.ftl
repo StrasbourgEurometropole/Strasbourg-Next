@@ -19,7 +19,7 @@
     <#include "${full_templates_path}/seo.ftl" />
 </head>
 
-<body class="${css_class}" id="content">
+<body class="${css_class}" id="wrapper">
 
 <@liferay_util["include"] page=body_top_include />
 <@liferay.control_menu />
@@ -27,7 +27,7 @@
 
 
 
-<div class="st-page-wrapper" id="wrapper">
+<div class="st-page-wrapper" id="content">
     <a href="#main-content" class="st-skip-link st-btn">Aller au contenu</a>
     <#if selectable>
         <@liferay_util["include"] page=content_include />
