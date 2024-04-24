@@ -16,7 +16,6 @@
 				{
                     "name": "displayStyle",
                     "label": "Style d'affichage",
-                    "description": "number-of-features",
                     "type": "select",
                     "dataType": "string",
                     "typeOptions": {

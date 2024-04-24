@@ -1,8 +1,12 @@
+[#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") /]
+
 [#setting locale = locale /]
 [#if configuration.fileSelector.fileEntryId?has_content]
-<a href="${configuration.fileSelector.fileEntryId}" class="st-lien" download="">
+[#assign url = fileEntryHelper.getFileEntryURL(configuration.fileSelector.fileEntryId?number) /]
+[#assign title = fileEntryHelper.getFileTitle(configuration.fileSelector.fileEntryId?number, locale) /]
+<a href="${url}" class="st-lien" download="">
   <p class="st-title-lien">
-    ${configuration.fileSelector.title}
+    ${title}
   </p>
   [#if configuration.displayStyle == "complete"]
   <div class="st-lien-content">
