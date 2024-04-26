@@ -465,7 +465,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                     <h3 class="st-subplaces">${subPlace.getName(locale)}</h3>
                                     <ul class="st-list-rows st-basic-grid st-col-2@t-small">
                                         <#assign
-                                        weekSchedules=subPlace.defaultPeriod.getWeekSchedule(subPlace.subPlaceId) />
+                                        weekSchedules=period.getWeekSchedule(subPlace.subPlaceId) />
                                         <#assign day=0 />
                                         <#list weekSchedules as schedule>
                                             <@showTime day schedule hasException />
