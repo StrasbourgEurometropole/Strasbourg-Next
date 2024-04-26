@@ -1,5 +1,5 @@
 dependencies {
-	compileInclude group: 'com.itextpdf', name: 'html2pdf', version: '5.0.2'
+	compileInclude group: 'com.itextpdf', name: 'html2pdf', version: '5.0.3'
 
 	compileOnly group: "jstl", name: "jstl"
 

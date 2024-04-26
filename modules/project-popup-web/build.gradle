@@ -1,7 +1,7 @@
 dependencies {
 	compileOnly group: 'javax.mail', name: 'javax.mail-api', version: '1.6.2'
-	compileOnly group: "jstl", name: "jstl"
 	compileInclude group: 'org.apache.commons', name: 'commons-lang3', version: '3.14.0'
+	compileOnly group: "jstl", name: "jstl"
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 
 	implementation project (':modules:utils')

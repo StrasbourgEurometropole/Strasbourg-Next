@@ -1,6 +1,6 @@
 dependencies {
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
-	compileInclude group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.4.3.Final'
+	compileInclude group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.5.0.Final'
 
 
 	compileOnly project (':modules:utils')
