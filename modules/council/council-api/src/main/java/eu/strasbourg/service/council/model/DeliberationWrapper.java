@@ -209,7 +209,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public String getAmendement() {
-		return _deliberation.getAmendement();
+		return model.getAmendement();
 	}
 
 	/**
@@ -604,7 +604,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setAmendement(String amendement) {
-		_deliberation.setAmendement(amendement);
+		model.setAmendement(amendement);
 	}
 
 	/**
