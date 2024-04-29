@@ -149,7 +149,7 @@ public class ViewDeliberationsDisplayContext extends ViewBaseDisplayContext<Deli
             case "status":
                 return "status_sortable";
             case "order":
-                return "order_sortable";
+                return "orderAmendement_String_sortable";
             default:
                 return "modified_sortable";
         }
