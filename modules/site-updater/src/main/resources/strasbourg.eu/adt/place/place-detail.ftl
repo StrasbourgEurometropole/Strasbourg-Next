@@ -699,7 +699,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                     <#assign i++>
                 </#list>
             </ul>
-            <a href="${strasbourg.homeURL()}agenda?idSIGPlace=${entry.getSIGid()}"
+            <a href="${strasbourg.homeURL()}agenda?toDate=${.now?date?string["dd/MM"]}/${.now?date?string["yyyy"]?number + 1}&idSIGPlace=${entry.getSIGid()}"
                class="st-btn st--btn-secondary"> <@liferay_ui.message key="sae.all-events" /></a>
         </div>
     </#if>

@@ -109,8 +109,7 @@ $(document).ready(function(){
 
 
 	if(idSIGPlace != null && idSIGPlace != "") {
-		 var placeSelect = $('select[name=idSIGPlace]');
-		var placeSelectBarre = $('select#place-selectBarre');
+		 var placeSelects = $('select.select-place');
 		 
 		 Liferay.Service(
 		  '/place.place/get-place-by-id-sig',
@@ -119,8 +118,7 @@ $(document).ready(function(){
 		  },function(data) {
 				 // create the option and append to Select2
 				 var option = new Option(data.name.fr_FR, data.idSurfs, true, true);
-				 placeSelect.append(option);
-				 placeSelectBarre.append(option);
+				 placeSelects.append(option);
 				 initPlaceSelect();
 			 }
 
