@@ -287,6 +287,17 @@
                     <aui:fieldset collapsed="false" collapsible="true"
                         label="period-time" id="period-time">
 
+						<div class="place-schedule-max-period" style="display: none">
+
+
+							<clay:alert
+									displayType="danger"
+									title="Erreur"
+							>
+							<liferay-ui:message key="max-period-reached" />
+						</clay:alert>
+						</div>
+
                         <aui:input name="periodsIndexes" type="hidden" />
 
                         <div>
@@ -375,6 +386,16 @@
                         label="exceptional-schedule">
 
                         <div id="date-fields">
+							<div class="place-schedule-max-exception" style="display: none">
+								<clay:alert
+										displayType="danger"
+										title="Erreur"
+								>
+									<liferay-ui:message key="max-except-schedule-reached" />
+								</clay:alert>
+							</div>
+
+
                             <c:if test="${empty dc.place.scheduleExceptions}">
                                 <div class="lfr-form-row lfr-form-row-inline">
                                     <div class="row-fields">
