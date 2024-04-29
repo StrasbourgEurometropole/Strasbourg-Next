@@ -2,6 +2,12 @@
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
+<%
+	themeDisplay.getRequest().setAttribute("javax.portlet.request", renderRequest.getAttribute("javax.portlet.request"));
+	themeDisplay.getRequest().setAttribute("javax.portlet.response", renderRequest.getAttribute("javax.portlet.response"));
+	themeDisplay.getRequest().setAttribute("javax.portlet.config", renderRequest.getAttribute("javax.portlet.config"));
+%>
+
 <main class="seu-container">
 	<c:if test="${not empty dc.getPortletTitle('')}">
 		<h1>${dc.getPortletTitle('')}</h1>
