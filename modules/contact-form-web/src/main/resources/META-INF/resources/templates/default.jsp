@@ -26,8 +26,7 @@
 			<p class="st-text-mandatory"><liferay-ui:message key="eu.required-field-star" /></p>
 
 			<div class="st-group-field st-col-6@t-small">
-				<label for="lastName"><liferay-ui:message key="contact.lastname" /> <span class="st-field-required"
-																						  aria-hidden="true">*</span></label>
+				<label for="lastName"><liferay-ui:message key="contact.lastname" /> <span class="st-field-required">*</span></label>
 				<input type="text" id="lastName" name="lastName" value="${param.lastName}" aria-required="true" autocomplete="family-name">
 			</div>
 
