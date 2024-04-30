@@ -147,13 +147,26 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 				hasError = true;
 			}
 			// Champs vides
-			if (Validator.isNull(email) || Validator.isNull(firstName) || Validator.isNull(email)
-					|| Validator.isNull(lastName) || Validator.isNull(message)) { 
-				SessionErrors.add(request, "all-fields-required");
+			// Check each field individually and add specific errors
+			if (Validator.isNull(email)) {
+				SessionErrors.add(request, "email-required-error");
 				hasError = true;
 			}
+			if (Validator.isNull(firstName)) {
+				SessionErrors.add(request, "first-name-required-error");
+				hasError = true;
+			}
+			if (Validator.isNull(lastName)) {
+				SessionErrors.add(request, "last-name-required-error");
+				hasError = true;
+			}
+			if (Validator.isNull(message)) {
+				SessionErrors.add(request, "message-required-error");
+				hasError = true;
+			}
+
 			// Mail invalide
-			if (!Validator.isEmailAddress(email)) {
+			if (!Validator.isEmailAddress(email) && !Validator.isNull(email)) {
 				SessionErrors.add(request, "invalid-mail");
 				hasError = true;
 			}

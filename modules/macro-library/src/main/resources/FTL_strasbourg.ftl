@@ -173,8 +173,11 @@
                     <span class="st-surtitre-cat"><@liferay_ui.message key="eu.contact" /></span>
                 </div>
                 <div class="st-grid-fields st-grid-12">
-                    <@strasbourg.alertError key="all-fields-required" message="eu.all-fields-required" />
                     <@strasbourg.alertError key="invalid-mail" message="eu.invalid-mail" />
+                    <@strasbourg.alertError key="email-required-error" message="eu.email-required-error" />
+                    <@strasbourg.alertError key="last-name-required-error" message="eu.last-name-required-error" />
+                    <@strasbourg.alertError key="first-name-required-error" message="eu.first-name-required-error" />
+                    <@strasbourg.alertError key="message-required-error" message="eu.message-required-error" />
                     <@strasbourg.alertError key="recaptcha-error" message="eu.recaptcha-error" />
                     <@strasbourg.alertInfo key="mail-success-with-copy" message="eu.form-success-with-copy" />
                     <@strasbourg.alertInfo key="mail-success" message="eu.form-success" />
