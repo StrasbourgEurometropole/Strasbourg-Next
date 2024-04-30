@@ -30,7 +30,7 @@
             <div class="st-group-field st-col-6@t-small">
                 <label for="birthdate"><liferay-ui:message key="felec.birthdate" /> <span class="st-field-required">*</span></label>
                 <div class="st-field-date">
-                    <input id="birthdate" name="<portlet:namespace />birthdate" type="date" value="${param.birthdate}" aria-required="true">
+                    <input id="birthdate" name="<portlet:namespace />birthdate" type="date" autocomplete="bday" value="${param.birthdate}" aria-required="true">
                 </div>
             </div>
 
