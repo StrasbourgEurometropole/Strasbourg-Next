@@ -51,7 +51,7 @@
             </li>
         </#list>
     </ul>
-    <a href="${strasbourg.homeURL()}agenda" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta"  aria-hidden="true" tabindex="-1">
+    <a href="${strasbourg.homeURL()}agenda" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta">
         <@liferay_ui.message key="eu.all-events" />
     </a>
 </div>
