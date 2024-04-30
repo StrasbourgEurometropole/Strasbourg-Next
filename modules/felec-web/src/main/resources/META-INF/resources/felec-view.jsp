@@ -41,7 +41,7 @@
 
             <div class="st-col-6@t-small">
                 <liferay-portlet:renderURL var="cancelURL" />
-                <button class="st-btn st--btn-full-width-mobile" onclick="window.location.href = '${cancelURL}'"><liferay-ui:message key="cancel" /></button>
+                <a class="st-btn st--btn-full-width-mobile" href="${cancelURL}"><liferay-ui:message key="cancel" /></a>
             </div>
 
             <div class="st-col-6@t-small st-btn-submit-wrapper">
