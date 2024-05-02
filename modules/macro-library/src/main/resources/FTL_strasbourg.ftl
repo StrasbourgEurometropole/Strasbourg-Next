@@ -22,14 +22,14 @@
     <#return value>
 </#function>
 
-<#macro addImage fileEntryId defaultFile="default.jpg" maxWidth=2000 showLegende=true showCopyright=true isFigure=true>
+<#macro addImage fileEntryId defaultFile="default.jpg" maxWidth=2000 showLegende=true showCopyright=true isFigure=true showAlt=true>
     <#if  fileEntryId?has_content && fileEntryId?number != 0>
         <#local copyright = getCopyright(fileEntryId) />
         <#local legend = getLegend(fileEntryId) />
         <figure class="<#if isFigure>st-figure</#if> st-fit-cover"
                 <#if !(legend?has_content && showLegende) && !(copyright?has_content && showCopyright)> role="group"</#if>
             <#if (legend?has_content && showLegende) || (copyright?has_content && showCopyright)>aria-label="${copyright} ${legend}"</#if>>
-            <@strasbourg.getImageByFileEntry fileEntryId=fileEntryId?number maxWidth=maxWidth defaultFile=defaultFile />
+            <@strasbourg.getImageByFileEntry fileEntryId=fileEntryId?number maxWidth=maxWidth defaultFile=defaultFile showAlt=showAlt />
             <#if (legend?has_content && showLegende) || (copyright?has_content && showCopyright)>
                 <figcaption>
                     <#if legend?has_content && showLegende>
@@ -97,18 +97,25 @@
     </#if>
 </#function>
 
-<#macro getImage imageNode showLegende=true showCopyright=true isFigure=true maxWidth=2000 >
+<#macro getImage imageNode showLegende=true showCopyright=true isFigure=true maxWidth=2000 showAlt=true>
     <#local fileEntryIdString = imageNode.getAttribute("fileEntryId")>
-    <@strasbourg.addImage fileEntryId=fileEntryIdString?number showLegende=showLegende showCopyright=showCopyright isFigure=isFigure maxWidth=maxWidth />
+    <@strasbourg.addImage fileEntryId=fileEntryIdString?number showLegende=showLegende showCopyright=showCopyright isFigure=isFigure maxWidth=maxWidth showAlt=showAlt />
 </#macro>
 
-<#macro getImageByFileEntry fileEntryId maxWidth defaultFile>
+<#macro getImageByFileEntry fileEntryId maxWidth defaultFile showAlt=true>
     <#assign dlAppServiceUtil = serviceLocator.findService("com.liferay.document.library.kernel.service.DLAppService")>
     <#attempt>
         <#assign file = dlAppServiceUtil.getFileEntry(fileEntryId?number)>
         <#if  maxWidth != 2000>
             <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
-            <img alt="${file.getDescription()}" loading="lazy" src="${fileEntryHelper.getClosestSizeImageURL(file, maxWidth)}" />
+            <img
+                    <#if showAlt>
+                         alt="${file.getDescription()}"
+                      <#else>
+                          alt=""
+                    </#if>
+
+                    loading="lazy" src="${fileEntryHelper.getClosestSizeImageURL(file, maxWidth)}" />
         <#else>
             <@adaptive_media_image["img"] fileVersion=file.getFileVersion() />
         </#if>

@@ -4,7 +4,7 @@
         <div class="st-wrapper st-wrapper-small">
             <h2 class="st-h2"><@liferay.language key="galaxie" /></h2>
             <div class="st-slider-container">
-                <div class="splide__arrows st-nav-arrows st-hide-until@mobile">
+                <div class="splide__arrows st-nav-arrows">
                     <button class="splide__arrow splide__arrow--prev st-btn-arrow st--prev"></button>
                     <button class="splide__arrow splide__arrow--next st-btn-arrow st--next"></button>
                 </div>
@@ -16,7 +16,7 @@
                                     <a href="<#if (cur_GalaxiesFieldset.ExternalLinkText.getData())??>${cur_GalaxiesFieldset.ExternalLinkText.getData()}<#else>${cur_GalaxiesFieldset.InternalLink.getFriendlyUrl()}</#if>"
                                        class="st-container">
                                         <#if (cur_GalaxiesFieldset.ImagePicto.getData())?? && cur_GalaxiesFieldset.ImagePicto.getData() !="">
-                                            <@strasbourg.getImage imageNode=cur_GalaxiesFieldset.ImagePicto showLegende=false showCopyright=false maxWidth=100  />
+                                            <@strasbourg.getImage imageNode=cur_GalaxiesFieldset.ImagePicto showLegende=false showCopyright=false maxWidth=100 showAlt=false />
                                         </#if>
                                         <#if cur_GalaxiesFieldset.NomText.getData()?has_content>
                                             <span class="st-tooltip-logo">
