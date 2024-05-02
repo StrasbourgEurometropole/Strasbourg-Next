@@ -2,7 +2,7 @@
      role="group">
     <div class="st-wrapper st-wrapper-small st-bloc-slider-focus__top">
         <h2 class="st-h2 st-title">Diaporamas</h2>
-        <div class="splide__arrows st-nav-arrows st-hide-until@mobile">
+        <div class="splide__arrows st-nav-arrows">
             <button class="splide__arrow splide__arrow--prev st-btn-arrow st--prev"></button>
             <button class="splide__arrow splide__arrow--next st-btn-arrow st--next"></button>
         </div>

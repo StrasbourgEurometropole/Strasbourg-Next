@@ -40,7 +40,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <div class="st-wrapper st-bloc-galerie__inner">
                 <#if photos.getSiblings()?has_content>
                 <div class="st-slider-container">
-                    <div class="splide__arrows st-nav-arrows st-hide-until@mobile">
+                    <div class="splide__arrows st-nav-arrows">
                         <button class="splide__arrow splide__arrow--prev st-btn-arrow st--prev"></button>
                         <button class="splide__arrow splide__arrow--next st-btn-arrow st--next"></button>
                     </div>
