@@ -2,12 +2,6 @@
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
-<%
-	themeDisplay.getRequest().setAttribute("javax.portlet.request", renderRequest.getAttribute("javax.portlet.request"));
-	themeDisplay.getRequest().setAttribute("javax.portlet.response", renderRequest.getAttribute("javax.portlet.response"));
-	themeDisplay.getRequest().setAttribute("javax.portlet.config", renderRequest.getAttribute("javax.portlet.config"));
-%>
-
 <div class="search-asset-portlet-page">
 	<div class="search-asset-form">
 		<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form">
