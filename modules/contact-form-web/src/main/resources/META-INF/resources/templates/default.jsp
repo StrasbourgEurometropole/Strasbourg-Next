@@ -41,8 +41,8 @@
 			</div>
 
 			<div class="st-group-field">
-				<label for="demande"><liferay-ui:message key="contact.request" /></label>
-				<textarea rows="8" id="demande" name="content"
+				<label for="demande"><liferay-ui:message key="contact.request" /> <span class="st-field-required">*</span></label>
+				<textarea rows="8" id="demande" name="content" aria-required="true"
 						  placeholder="<liferay-ui:message key="enter-your-text" />">${param.content}</textarea>
 			</div>
 
