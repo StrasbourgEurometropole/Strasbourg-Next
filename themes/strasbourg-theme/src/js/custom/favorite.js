@@ -45,7 +45,7 @@ function toggleFavorite(element, isLegacy = false) {
                     if (obj['error'] == 'notConnected') {
                         createConfirmationDialog(Liferay.Language.get('log-in-to-add-favorite'), "", Liferay.Language.get('eu.login'), Liferay.Language.get('eu.cancel'), function() {
                             window.location = window.loginURL;
-                        });
+                        },true);
                     }
                     else {
                         console.error(obj['error']);
@@ -68,7 +68,7 @@ function toggleFavorite(element, isLegacy = false) {
                         if (obj['error'] == 'notConnected') {
                             createConfirmationDialog(Liferay.Language.get('log-in-to-add-favorite'), "", Liferay.Language.get('eu.login'), Liferay.Language.get('eu.cancel'), function() {
                                 window.location = window.loginURL;
-                            });
+                            },true);
                         }
                         else {
                             console.error(obj['error']);
