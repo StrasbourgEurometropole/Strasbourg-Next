@@ -16,6 +16,8 @@
 package eu.strasbourg.portlet.activity.action;
 
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
@@ -194,7 +196,7 @@ public class SaveAssociationActionCommand extends BaseMVCActionCommand {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			_log.error(e);
 		}
 
 
@@ -230,4 +232,6 @@ public class SaveAssociationActionCommand extends BaseMVCActionCommand {
 
 		_practiceLocalService = practiceLocalService;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }
