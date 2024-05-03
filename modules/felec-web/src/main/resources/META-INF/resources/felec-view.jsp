@@ -10,10 +10,19 @@
     <aui:form name="fm" action="${searchURL}" cssClass="form-styles">
         <div class="st-grid-fields st-grid-12">
 
-            <!-- Messages d'erreur -->
-            <liferay-ui:error key="all-fields-required" message="all-fields-required"  />
-            <liferay-ui:error key="date-not-valid" message="date-not-valid"  />
-            <liferay-ui:error key="invalid-characters" message="invalid-characters"  />
+            <c:if test="${dc.hasError()}">
+                <p><liferay-ui:message key="form-has-error" /></p>
+                <ul class="st-alert-form st--has-error my-2">
+                        ${dc.getAlertError("name-required", "name-required", "name")}
+                        ${dc.getAlertError("first-name-required", "first-name-required", "firstname")}
+                        ${dc.getAlertError("birthplace-required", "birthplace-required", "birthplace")}
+                        ${dc.getAlertError("birthdate-required", "birthdate-required", "birthdate")}
+                        ${dc.getAlertError("invalid-character-in-name", "invalid-character-in-name", "name")}
+                        ${dc.getAlertError("invalid-character-in-first-name", "invalid-character-in-first-name", "firstname")}
+                        ${dc.getAlertError("invalid-character-in-birthplace", "invalid-character-in-birthplace", "birthplace")}
+                        ${dc.getAlertError("date-not-valid", "date-not-valid", "birthdate")}
+                </ul>
+            </c:if>
 
             <p class="st-text-mandatory">Tous les champs sont obligatoires</p>
 
