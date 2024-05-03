@@ -1,5 +1,13 @@
 @import "style";
 
+body {
+  .alert {
+    .close {
+      color: black;
+    }
+  }
+}
+
 @mixin st-btn() {
   @include create-outline();
   @include inline-flex-center;
