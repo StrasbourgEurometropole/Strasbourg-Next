@@ -40,7 +40,7 @@
         </a>
         <div class="st-hide st-description">
             <#if entry.fonctionCity?has_content>
-                <div class="st-container">
+                <div class="st-container st-text-styles">
                     <h3 class="st-title-small">
                         ${entry.getName(entry.fonctionCity, locale)}
                     </h3>
@@ -52,7 +52,7 @@
                 </div>
             </#if>
             <#if entry.fonctionEurometropole?has_content>
-                <div class="st-container">
+                <div class="st-container st-text-styles">
                     <h3 class="st-title-small">
                         ${entry.getName(entry.fonctionEurometropole, locale)}
                         <#if entry.fonctionTown?has_content>,
