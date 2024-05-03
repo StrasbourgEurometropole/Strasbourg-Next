@@ -13,14 +13,19 @@
 <c:if test="${not param.mailSent}">
 	<liferay-portlet:actionURL name="contact" var="contactURL" />
 	<form action="${contactURL}" method="post" class="form-styles">
-		${dc.getAlertError("lastname-error", "lastname-error", "lastName")}
-		${dc.getAlertError("firstname-error", "firstname-error", "firstName")}
-		${dc.getAlertError("email-error", "email-error", "emailFrom")}
-		${dc.getAlertError("invalid-mail-error", "eu.invalid-mail-error", "emailFrom")}
-		${dc.getAlertError("content-error", "content-error", "demande")}
-		${dc.getAlertError("recaptcha-error", "eu.recaptcha-error", "recaptcha-contact-form")}
+		<c:if test="${dc.hasError()}">
+			<p><liferay-ui:message key="form-has-error" /></p>
+			<ul class="st-alert-form st--has-error my-2">
+					${dc.getAlertError("lastname-error", "lastname-error", "lastName")}
+					${dc.getAlertError("firstname-error", "firstname-error", "firstName")}
+					${dc.getAlertError("email-error", "email-error", "emailFrom")}
+					${dc.getAlertError("invalid-mail-error", "eu.invalid-mail-error", "emailFrom")}
+					${dc.getAlertError("content-error", "content-error", "demande")}
+					${dc.getAlertError("recaptcha-error", "eu.recaptcha-error", "recaptcha-contact-form")}
+					${dc.getAlertError("unknown-error", "eu.unknown-error", "")}
+			</ul>
+		</c:if>
 
-		${dc.getAlertError("unknown-error", "eu.unknown-error", "")}
 
 		<div class="st-grid-fields st-grid-12">
 			<p class="st-text-mandatory"><liferay-ui:message key="eu.required-field-star" /></p>

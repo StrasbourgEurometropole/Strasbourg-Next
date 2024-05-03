@@ -124,12 +124,28 @@
     </#attempt>
 </#macro>
 
-<#macro alertError key message>
-    <#assign multiSessionErrors = staticUtil["com.liferay.portal.kernel.servlet.MultiSessionErrors"]>
+<#macro alertError key message fieldId="">
+    <#assign multiSessionErrors = staticUtil["com.liferay.portal.kernel.servlet.SessionErrors"]>
     <#if multiSessionErrors.contains(renderRequest, key)>
-        <p class="st-alert-form st--has-error"><@liferay_ui.message key=message /></p>
+        <li>
+            <p class="st-alert-form__content">
+                <a href="#${fieldId}"><@liferay_ui.message key=message /></a>
+            </p>
+        </li>
+
     </#if>
 </#macro>
+
+<#macro hasError>
+    <#assign multiSessionErrors = staticUtil["com.liferay.portal.kernel.servlet.SessionErrors"]>
+    <#if !multiSessionErrors.isEmpty(renderRequest)>
+        <p><@liferay_ui.message key="form-has-error" /></p>
+        <ul class="st-alert-form st--has-error">
+            <#nested />
+        </ul>
+        </#if>
+</#macro>
+
 
 <#macro alertInfo key message>
     <#assign sessionMessage = staticUtil["com.liferay.portal.kernel.servlet.SessionMessages"]>
@@ -180,12 +196,15 @@
                     <span class="st-surtitre-cat"><@liferay_ui.message key="eu.contact" /></span>
                 </div>
                 <div class="st-grid-fields st-grid-12">
-                    <@strasbourg.alertError key="invalid-mail" message="eu.invalid-mail" />
-                    <@strasbourg.alertError key="email-required-error" message="eu.email-required-error" />
-                    <@strasbourg.alertError key="last-name-required-error" message="eu.last-name-required-error" />
-                    <@strasbourg.alertError key="first-name-required-error" message="eu.first-name-required-error" />
-                    <@strasbourg.alertError key="message-required-error" message="eu.message-required-error" />
+                    <@strasbourg.hasError>
+                    <@strasbourg.alertError key="invalid-mail" message="eu.invalid-mail" fieldId="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_email"/>
+                    <@strasbourg.alertError key="email-required-error" message="eu.email-required-error" fieldId="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_email"/>
+                    <@strasbourg.alertError key="last-name-required-error" message="eu.last-name-required-error" fieldId="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_lastName"/>
+                    <@strasbourg.alertError key="first-name-required-error" message="eu.first-name-required-error" fieldId="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_firstName"/>
+                    <@strasbourg.alertError key="message-required-error" message="eu.message-required-error" fieldId="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_message"/>
                     <@strasbourg.alertError key="recaptcha-error" message="eu.recaptcha-error" />
+                    </@strasbourg.hasError>
+
                     <@strasbourg.alertInfo key="mail-success-with-copy" message="eu.form-success-with-copy" />
                     <@strasbourg.alertInfo key="mail-success" message="eu.form-success" />
 
