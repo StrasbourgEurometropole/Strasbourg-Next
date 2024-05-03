@@ -242,7 +242,7 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 		request.setAttribute("message", message);
 		request.setAttribute("notificationEmail", notificationEmail);
 
-		return false;
+		return true;
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
