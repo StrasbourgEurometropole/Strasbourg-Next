@@ -236,15 +236,6 @@ public class SearchAssetPortlet extends MVCPortlet {
                 attributes.remove(td.getPpid());
             });
 
-            // Temp fix for actionURL
-            // FIXME: remove when LPS-200157 is fixed
-            // https://issues.liferay.com/browse/LPS-200157
-// Removed temporaily because it breaks the portlet configuration
-//            if(renderRequest.getAttribute("javax.portlet.request") instanceof RenderRequest) {
-//                themeDisplay.getRequest().setAttribute("javax.portlet.request", renderRequest.getAttribute("javax.portlet.request"));
-//                themeDisplay.getRequest().setAttribute("javax.portlet.response", renderRequest.getAttribute("javax.portlet.response"));
-//                themeDisplay.getRequest().setAttribute("javax.portlet.config", renderRequest.getAttribute("javax.portlet.config"));
-//            }
 
             // vérifie si on veut les entités échues
             renderRequest.setAttribute("isDueEntity", configuration.defaultSortField().equals("endDate_Number_sortable"));
