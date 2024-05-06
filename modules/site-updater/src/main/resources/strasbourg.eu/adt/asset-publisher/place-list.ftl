@@ -20,9 +20,9 @@
                     <div class="st-card-container">
                         <a href="${strasbourg.homeURL()}lieu/-/entity/sig/${place.getSIGid()}/${place.getNormalizedAlias(locale)}" class="st-card st--card-horizontal st--with-gradient <#if place.getImageId() == 0 || !place.getImageURL()?has_content>st--with-icon</#if>">
                             <div class="st-caption">
-                                <p class="st-title-card">
+                                <h3 class="st-title-card">
                                     ${place.getAlias(locale)}
-                                </p>
+                                </h3>
                                 <p class="st-surtitre-cat">
                                     ${place.getTypeLabel(locale)}
                                 </p>

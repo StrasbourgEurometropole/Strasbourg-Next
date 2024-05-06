@@ -40,7 +40,7 @@
                             <div class="st-card-container">
                                 <a  href="${viewURL}" class="st-card st-card-actu">
                                     <div class="st-caption">
-                                        <p class="st-title-card">${title}</p>
+                                        <h3 class="st-title-card">${title}</h3>
                                         <p class="st-surtitre-cat">${newsTypes?map(news -> news.getTitle(locale))?join(', ')}</p>
                                     </div>
                                     <div class="st-image">

@@ -35,7 +35,7 @@
                             <div class="st-card-container">
                                 <a href="${viewURL}" class="st-card ">
                                     <div class="st-caption">
-                                        <p class="st-title-card">${title}</p>
+                                        <h3 class="st-title-card">${title}</h3>
                                         <p class="st-text">${chapo}</p>
                                     </div>
                                     <div class="st-image">
