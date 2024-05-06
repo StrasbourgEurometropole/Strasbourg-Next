@@ -19,7 +19,7 @@
                                             <@strasbourg.getImage imageNode=cur_GalaxiesFieldset.ImagePicto showLegende=false showCopyright=false maxWidth=100 showAlt=false />
                                         </#if>
                                         <#if cur_GalaxiesFieldset.NomText.getData()?has_content>
-                                            <span class="st-tooltip-logo">
+                                            <span class="st-tooltip-logo" aria-hidden="true" >
                                                 ${cur_GalaxiesFieldset.NomText.getData()}
                                             </span>
                                             <span class="st-sr-only">
