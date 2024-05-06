@@ -94,7 +94,7 @@
             <ul class="splide__pagination st-nav-dots"></ul>
 
             <a href="${dc.getLink()}" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta">
-                <liferay-ui:message key="eu.news.all-news" /></a>
+                <liferay-ui:message key="eu.news.last-news" /></a>
         </div>
     </div>
 </div>
