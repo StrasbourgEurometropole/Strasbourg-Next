@@ -37,6 +37,7 @@ jQuery(function() {
     subSpecialitiesSelectBarre.change(onSubSpecialitiesChange);
 
     function onDomainChange() {
+        console.log("onDomainChange")
         if($(this).val() != ""){
             // on initialise le select des spécialités
             Liferay.Service(
@@ -63,6 +64,12 @@ jQuery(function() {
                     });
                     // on affiche les spécialités
                     specialityWidgetBarre.show();
+
+                    // on déclenche le changement pour le select
+                    specialitiesSelect.trigger( "change" );
+                    specialitiesSelectBarre.trigger( "change" );
+
+
                 })
             // on cache les autres select
             subSpecialityWidget.hide();
@@ -82,6 +89,7 @@ jQuery(function() {
     }
 
     function onSpecialitiesChange() {
+        console.log("onSpecialitiesChange")
         if($(this).val() != ""){
             // on initialise le select des sous-spécialités
             Liferay.Service(
@@ -103,7 +111,13 @@ jQuery(function() {
                     }else{
                         // on cache les sous-spécialités
                         subSpecialityWidget.hide();
+                        // on met à jour la valeur du select
+                        subSpecialitiesSelect.val("");
+
+
                     }
+                    // on déclenche le changement pour le select
+                    subSpecialitiesSelect.trigger( "change" );
 
                     //DO THE SAME FOR THE BARRE
                     // on réinistialise les sous-spécialités
@@ -120,7 +134,12 @@ jQuery(function() {
                     else{
                         // on cache les sous-spécialités
                         subSpecialityWidgetBarre.hide();
+                        // on met à jour la valeur du select
+                        subSpecialityWidgetBarre.val("");
+
                     }
+                    // on déclenche le changement pour le select
+                    subSpecialityWidgetBarre.trigger( "change" );
                 });
 
             // on cache les autres select
@@ -131,12 +150,24 @@ jQuery(function() {
             subSpecialityWidget.hide();
             subSubSpecialityWidget.hide();
 
+            // on réinistialise les sous-spécialités
+            subSpecialitiesSelect.empty();
+            subSpecialityWidget.find('.customSelectInner').text("");
+            subSpecialitiesSelect.append('<option class="" value="">Tout afficher</option>');
+
+            subSpecialitiesSelectBarre.empty();
+            subSpecialityWidgetBarre.find('.customSelectInner').text("");
+            subSpecialitiesSelectBarre.append('<option class="" value="">Tout afficher</option>');
+
             subSpecialityWidgetBarre.hide();
             subSubSpecialityWidgetBarre.hide();
+
+
         }
     }
 
     function onSubSpecialitiesChange() {
+        console.log("onSubSpecialitiesChange")
         if($(this).val() != ""){
             // on initialise le select des sous-sous-spécialités
             Liferay.Service(
@@ -158,7 +189,12 @@ jQuery(function() {
                     }else{
                         // on cache les sous-sous-spécialités
                         subSubSpecialityWidget.hide();
+                        // on met à jour la valeur du select
+                        subSubSpecialityWidget.val("");
+
                     }
+                    // on déclenche le changement pour le select
+                    subSubSpecialityWidget.trigger( "change" );
 
                     //DO THE SAME FOR THE BARRE
                     // on réinistialise les sous-sous-spécialités
@@ -175,10 +211,26 @@ jQuery(function() {
                     else{
                         // on cache les sous-sous-spécialités
                         subSubSpecialityWidgetBarre.hide();
+                        // on met à jour la valeur du select
+                        subSubSpecialityWidgetBarre.val("");
+
                     }
+                    // on déclenche le changement pour le select
+                    subSubSpecialityWidgetBarre.trigger( "change" );
                 });
         }else{
             subSubSpecialityWidget.hide();
+
+            // on réinistialise les sous-sous-spécialités
+            subSubSpecialitiesSelect.empty();
+            subSubSpecialityWidget.find('.customSelectInner').text("");
+            subSubSpecialitiesSelect.append('<option class="" value="">Tout afficher</option>');
+
+
+            // on réinistialise les sous-sous-spécialités
+            subSubSpecialitiesSelectBarre.empty();
+            subSubSpecialityWidgetBarre.find('.customSelectInner').text("");
+            subSubSpecialitiesSelectBarre.append('<option class="" value="">Tout afficher</option>');
 
             subSubSpecialityWidgetBarre.hide();
         }
