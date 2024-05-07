@@ -37,14 +37,14 @@ public class ManagementCampaignsToolBarDisplayContext extends ManagementBaseTool
         return !WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
                 _themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
                 Campaign.class.getName())
-                && _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                && _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getCompanyGroupId(),
                 StrasbourgPortletKeys.AGENDA_BO, StrasbourgPortletKeys.AGENDA_BO, "EDIT_CAMPAIGN")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
     }
 
     @Override
     protected boolean hasDeletePermission() {
-        return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+        return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getCompanyGroupId(),
                 StrasbourgPortletKeys.AGENDA_BO, StrasbourgPortletKeys.AGENDA_BO, "DELETE_CAMPAIGN")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
     }

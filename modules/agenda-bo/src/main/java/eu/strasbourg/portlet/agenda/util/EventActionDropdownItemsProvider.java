@@ -43,11 +43,11 @@ public class EventActionDropdownItemsProvider {
      */
     public List<DropdownItem> getActionDropdownItems() {
 
-        boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+        boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getCompanyGroupId(),
                 StrasbourgPortletKeys.AGENDA_BO, StrasbourgPortletKeys.AGENDA_BO, "EDIT_EVENT")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
-        boolean hasAddPermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+        boolean hasAddPermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getCompanyGroupId(),
                 StrasbourgPortletKeys.AGENDA_BO, StrasbourgPortletKeys.AGENDA_BO, "ADD_EVENT")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 

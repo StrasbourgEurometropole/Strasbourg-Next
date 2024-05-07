@@ -43,11 +43,11 @@ public class CampaignActionDropdownItemsProvider {
      */
     public List<DropdownItem> getActionDropdownItems() {
 
-        boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+        boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getCompanyGroupId(),
                 StrasbourgPortletKeys.AGENDA_BO, StrasbourgPortletKeys.AGENDA_BO, "EDIT_CAMPAIGN")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
-        boolean hasDeletePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+        boolean hasDeletePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getCompanyGroupId(),
                 StrasbourgPortletKeys.AGENDA_BO, StrasbourgPortletKeys.AGENDA_BO, "DELETE_CAMPAIGN")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
