@@ -37,7 +37,6 @@ jQuery(function() {
     subSpecialitiesSelectBarre.change(onSubSpecialitiesChange);
 
     function onDomainChange() {
-        console.log("onDomainChange")
         if($(this).val() != ""){
             // on initialise le select des spécialités
             Liferay.Service(
@@ -89,7 +88,6 @@ jQuery(function() {
     }
 
     function onSpecialitiesChange() {
-        console.log("onSpecialitiesChange")
         if($(this).val() != ""){
             // on initialise le select des sous-spécialités
             Liferay.Service(
@@ -139,7 +137,7 @@ jQuery(function() {
 
                     }
                     // on déclenche le changement pour le select
-                    subSpecialityWidgetBarre.trigger( "change" );
+                    subSpecialitiesSelectBarre.trigger( "change" );
                 });
 
             // on cache les autres select
@@ -159,6 +157,10 @@ jQuery(function() {
             subSpecialityWidgetBarre.find('.customSelectInner').text("");
             subSpecialitiesSelectBarre.append('<option class="" value="">Tout afficher</option>');
 
+            subSpecialitiesSelectBarre.trigger( "change" );
+
+            subSpecialitiesSelect.trigger( "change" );
+
             subSpecialityWidgetBarre.hide();
             subSubSpecialityWidgetBarre.hide();
 
@@ -167,7 +169,6 @@ jQuery(function() {
     }
 
     function onSubSpecialitiesChange() {
-        console.log("onSubSpecialitiesChange")
         if($(this).val() != ""){
             // on initialise le select des sous-sous-spécialités
             Liferay.Service(
@@ -219,6 +220,8 @@ jQuery(function() {
                     subSubSpecialityWidgetBarre.trigger( "change" );
                 });
         }else{
+
+
             subSubSpecialityWidget.hide();
 
             // on réinistialise les sous-sous-spécialités
@@ -231,6 +234,10 @@ jQuery(function() {
             subSubSpecialitiesSelectBarre.empty();
             subSubSpecialityWidgetBarre.find('.customSelectInner').text("");
             subSubSpecialitiesSelectBarre.append('<option class="" value="">Tout afficher</option>');
+
+
+            subSubSpecialitiesSelect.trigger( "change" );
+            subSubSpecialitiesSelectBarre.trigger( "change" );
 
             subSubSpecialityWidgetBarre.hide();
         }
