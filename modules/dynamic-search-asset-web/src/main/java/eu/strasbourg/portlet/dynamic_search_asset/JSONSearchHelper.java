@@ -1078,4 +1078,22 @@ public class JSONSearchHelper {
 
         return jsonActivity;
     }
+
+    /**
+     * création du JSON de base pour tous les AssetEntry
+     */
+    public static JSONObject createAssetEntrySearchJson(JSONObject json, AssetEntry entry) {
+
+        json.put(
+                Constants.ATTRIBUTE_CLASSNAMEID,
+                entry.getClassNameId()
+        );
+
+        json.put(
+                Constants.ATTRIBUTE_CLASSPK,
+                entry.getClassPK()
+        );
+
+        return json;
+    }
 }

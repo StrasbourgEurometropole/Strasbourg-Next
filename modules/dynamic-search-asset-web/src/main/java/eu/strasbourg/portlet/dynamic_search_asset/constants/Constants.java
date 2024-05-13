@@ -11,6 +11,8 @@ public class Constants {
 
 	/* utile pour toutes les entités */
 	public static final String ATTRIBUTE_CLASSNAME = "className";
+	public static final String ATTRIBUTE_CLASSNAMEID = "classNameId";
+	public static final String ATTRIBUTE_CLASSPK = "classPk";
 	public static final String ATTRIBUTE_LINK = "link"; // inutile pour événement
 	public static final String ATTRIBUTE_TITLE = "title";
 	public static final String ATTRIBUTE_CATEGORIES = "categories"; // inutiles pour les vignettes en mode placit

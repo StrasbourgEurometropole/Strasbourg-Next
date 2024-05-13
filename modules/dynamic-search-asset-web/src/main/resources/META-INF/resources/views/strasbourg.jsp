@@ -2,6 +2,8 @@
 
 <portlet:resourceURL id="searchSubmit" var="searchSubmitURL">
 </portlet:resourceURL>
+<portlet:resourceURL id="logChoice" var="logChoiceURL">
+</portlet:resourceURL>
 <c:if test="${themeDisplay.isSignedIn()}" >
 <clay:alert message="Overlay de recherche est present sur cette page"
 displayType="secondary"
@@ -107,7 +109,8 @@ title="Overlay" />
 		var porletNamespace = '<portlet:namespace/>';
 		var dynamicSearch = ${dynamicSearch};
 
-		var searchSubmitURL = '${searchSubmitURL}';
+        var searchSubmitURL = '${searchSubmitURL}';
+        var logChoiceURL = '${logChoiceURL}';
 	</script>
     <link rel="stylesheet" href="/o/dynamicsearchassetweb/css/dynamic-search.css" />
 </liferay-util:html-top>
