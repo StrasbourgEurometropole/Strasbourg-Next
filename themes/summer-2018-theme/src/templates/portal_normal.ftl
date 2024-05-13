@@ -103,6 +103,7 @@
 
   <body class="${css_class}">
 
+<div id="wrapper">
     <@liferay_ui["quick-access"] contentId="#main-content" />
 
     <@liferay_util["include"] page=body_top_include />
@@ -111,7 +112,7 @@
 
     <div id="mns-global">
         <header id="mns-header">
-          <div id="layer"></div>
+            <div id="layer"></div>
             <!-- Top header bar -->
             <div class="mns-top-header">
                 <div>
@@ -124,15 +125,15 @@
                       <span class="mns-contact">
                         <span class="mns-picto-contact"></span>
                         <span class="mns-text">Contact</span>
-                      </span>    
+                      </span>
                     </a>
                     <#assign entity = themeDisplay.getURLCurrent()?keep_after(layout.friendlyURL)?keep_before('\\?','r') />
                     <#if homeURL != "">
-                        <a href="/fr${homeURL}${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>  
+                        <a href="/fr${homeURL}${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>
                         <a href="/de${homeURL}${layout.friendlyURL}${entity}" title="Deutsch" class="${(locale.language =='de')?then('active','')}" >DE</a>
                         <a href="/en${homeURL}${layout.friendlyURL}${entity}" title="English" class="${(locale.language =='en')?then('active','')}" >EN</a>
                     <#else>
-                        <a href="/fr${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>  
+                        <a href="/fr${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>
                         <a href="/de${layout.friendlyURL}${entity}" title="Deutsch" class="${(locale.language =='de')?then('active','')}" >DE</a>
                         <a href="/en${layout.friendlyURL}${entity}" title="English" class="${(locale.language =='en')?then('active','')}" >EN</a>
                     </#if>
@@ -154,33 +155,33 @@
 
         <!-- Social Share sur chaque page - Apparait au moment du scroll de la page -->
         <div class="social-share">
-            <input class="toggle-input" id="toggle-input" type="checkbox" aria-label="Réseaux sociaux" /> 
+            <input class="toggle-input" id="toggle-input" type="checkbox" aria-label="Réseaux sociaux" />
             <label aria-hidden="true" aria-label="Partagez sur les réseaux sociaux" class="toggle" for="toggle-input">
-              <span>Réseaux sociaux</span>
+                <span>Réseaux sociaux</span>
             </label>
             <ul class="network-list">
-              <li class="facebook">
-                <a aria-label="Partagez sur Facebook" data-href="#" id="sharefacebook" target="_blank" title="Lien de partage sur Facebook"></a>
-              </li>
-              <li class="twitter">
-                <a aria-label="Partagez sur Twitter" id="sharetwitter" target="_blank" title="Lien de partage sur Twitter"></a>
-              </li>
-              <li class="linkedin">
-                <a aria-label="Partagez sur LinkedIn" id="ShareLinkedIn" target="_blank" title="Lien de partage sur LinkedIn"></a>
-              </li>
-              <li class="mail">
-                <a aria-label="Partagez par Email" id="ShareMail" title="Lien de partage par Email"></a>
-              </li>
+                <li class="facebook">
+                    <a aria-label="Partagez sur Facebook" data-href="#" id="sharefacebook" target="_blank" title="Lien de partage sur Facebook"></a>
+                </li>
+                <li class="twitter">
+                    <a aria-label="Partagez sur Twitter" id="sharetwitter" target="_blank" title="Lien de partage sur Twitter"></a>
+                </li>
+                <li class="linkedin">
+                    <a aria-label="Partagez sur LinkedIn" id="ShareLinkedIn" target="_blank" title="Lien de partage sur LinkedIn"></a>
+                </li>
+                <li class="mail">
+                    <a aria-label="Partagez par Email" id="ShareMail" title="Lien de partage par Email"></a>
+                </li>
             </ul>
         </div>
 
         <!-- Footer -->
         <footer class="mns-footer">
             <@liferay_portlet["runtime"]
-                portletProviderAction=portletProviderAction.VIEW
-                portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-                instanceId="footer"
-                settingsScope="group" />
+            portletProviderAction=portletProviderAction.VIEW
+            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+            instanceId="footer"
+            settingsScope="group" />
         </footer>
     </div>
 
@@ -188,10 +189,10 @@
     <@liferay_util["include"] page=bottom_include />
     <script src="/o/summer-2018-theme/js/t_main.js"></script>
     <script type="text/javascript">
-      if ($(window).width() >= 1280) {
-        $(window).stellar();
-      }
-    </script>    
+        if ($(window).width() >= 1280) {
+            $(window).stellar();
+        }
+    </script>
 
     <script type="text/javascript">
         window.onload = function(){
@@ -202,9 +203,11 @@
             document.getElementById("ShareMail").setAttribute("href","mailto:?body="+url);
         }
     </script>
-		
-		<!-- Lightbox implementation and Vendors JS -->
-		<script src="${javascript_folder}/lightbox-custom.js" charset="utf-8"></script>  
+
+    <!-- Lightbox implementation and Vendors JS -->
+    <script src="${javascript_folder}/lightbox-custom.js" charset="utf-8"></script>
+
+</div>
 
   </body>
 </html>
