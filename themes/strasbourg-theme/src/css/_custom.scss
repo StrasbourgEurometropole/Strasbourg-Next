@@ -9,6 +9,14 @@ body {
   }
 }
 
+// Responsive recaptcha
+@media only screen and (max-width: 500px) {
+  .g-recaptcha {
+    transform:scale(0.77);
+    transform-origin:0 0;
+  }
+}
+
 @mixin st-btn() {
   @include create-outline();
   @include inline-flex-center;
