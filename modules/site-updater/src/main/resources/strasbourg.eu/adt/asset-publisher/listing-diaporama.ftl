@@ -27,7 +27,7 @@
 
                         <#assign id = curEntry.getAssetRenderer().getArticle().getArticleId() />
 
-                        <li class="splide__slide">
+                        <li class="splide__slide" role="tabpanel">
                             <a href="${viewURL}" class="st-slide-diaporama">
                                 <div class="st-image">
                                     <@strasbourg.addImage fileEntryId=imageId maxWidth=800 showLegende=false showCopyright=false isFigure=true />

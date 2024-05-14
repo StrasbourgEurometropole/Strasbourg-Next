@@ -48,7 +48,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <div class="splide__track st-u-overflow-visible">
                         <ul class="splide__list">
                             <#list photos.getSiblings() as photo>
-                                <li class="splide__slide">
+                                <li class="splide__slide" role="tabpanel">
                                     <figure class="st-figure st-fit-cover" role="group" aria-label="">
                                         <picture>
                                             <img alt="${photo.getAttribute("alt")! ""}" data-fileentryid="${photo.getAttribute("fileEntryId")! ""}" src="${photo.getData()}" />

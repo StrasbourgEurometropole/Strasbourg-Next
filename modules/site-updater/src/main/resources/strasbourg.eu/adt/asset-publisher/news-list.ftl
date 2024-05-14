@@ -36,7 +36,7 @@
 
                         <#assign newsTypes = assetVocabularyHelper.getAssetEntryCategoriesByVocabulary(curEntry, "type d'actualite") />
 
-                        <li class="splide__slide" id="splide02-slide01">
+                        <li class="splide__slide" role="tabpanel">
                             <div class="st-card-container">
                                 <a  href="${viewURL}" class="st-card st-card-actu">
                                     <div class="st-caption">

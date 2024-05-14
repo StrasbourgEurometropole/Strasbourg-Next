@@ -10,7 +10,7 @@
 
 <li>
     <div class="st-card-container">
-        <a href="#" class="st-card" data-overlay-open="st-overlay-preview-activite" onclick="updateModalActivity(this)">
+        <a href="#" role="button" class="st-card" data-overlay-open="st-overlay-preview-activite" onclick="updateModalActivity(this)">
             <div class="st-caption">
                 <h3 class="st-title-card">${entry.getTitle(locale)}</h3>
                 <p class="st-surtitre-cat">${entry.getTypesLabel(locale)}</p>
