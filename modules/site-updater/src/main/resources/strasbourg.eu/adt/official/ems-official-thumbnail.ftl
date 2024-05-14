@@ -8,15 +8,15 @@
 
 <li>
     <div class="st-card-container">
-        <a href="#" class="st-card st-card-person" onclick="updateModalOfficial(this)"
+        <a href="#" role="button" class="st-card st-card-person" onclick="updateModalOfficial(this)"
            data-detailurl="${homeURL}elu/-/entity/id/${entry.getOfficialId()}"
            data-mailaddress="<#if entry.listeContact?has_content>${homeURL}elu/-/entity/id/${entry.getOfficialId()}#st-overlay-contact</#if>"
            data-overlay-open="st-overlay-preview-person">
 
             <div class="st-caption">
-                <p class="st-title-card">
+                <h3 class="st-title-card">
                     ${entry.firstName} ${entry.lastName}
-                </p>
+                </h3>
                 <#if entry.getName(entry.fonctionEurometropole,locale)?has_content>
                     <p class="st-surtitre-cat">
                         ${entry.getName(entry.fonctionEurometropole,locale)}

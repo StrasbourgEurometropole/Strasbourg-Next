@@ -29,7 +29,7 @@
 
             ${entry.getDescription(locale)}
         </div>
-        <a href="#" class="st-card st-card-agenda st--card-horizontal st--with-gradient" onclick="updateDescription(this)" data-overlay-open="st-overlay-preview-agenda" data-classpk="${entry.assetEntry.classPK}"
+        <a href="#" role="button" class="st-card st-card-agenda st--card-horizontal st--with-gradient" onclick="updateDescription(this)" data-overlay-open="st-overlay-preview-agenda" data-classpk="${entry.assetEntry.classPK}"
            <#if entry.bookingURL?has_content>data-bookingURL="${entry.bookingURL}"</#if>
            data-date="<#if entry.firstStartDate?has_content && entry.lastEndDate?has_content>
                         <#if entry.firstStartDate?date==entry.lastEndDate?date>
@@ -41,9 +41,9 @@
            data-detailurl="${strasbourg.homeURL()}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}"
         >
             <div class="st-caption">
-                <p class="st-title-card">
+                <h3 class="st-title-card">
                     ${entry.getTitle(locale)}
-                </p>
+                </h3>
                 <p class="st-surtitre-cat">
                     ${entry.getTypeLabel(locale)}
                 </p>

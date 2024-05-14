@@ -19,12 +19,12 @@
 
 <li>
     <div class="st-card-container">
-        <a href="#" class="st-card st-card-person" onclick="updateModalOfficial(this)" data-detailurl="${detailURLFilter}" data-mailaddress="<#if entry.listeContact?has_content>${detailURLFilter}#st-overlay-contact</#if>" data-overlay-open="st-overlay-preview-person">
+        <a href="#" role="button" class="st-card st-card-person" onclick="updateModalOfficial(this)" data-detailurl="${detailURLFilter}" data-mailaddress="<#if entry.listeContact?has_content>${detailURLFilter}#st-overlay-contact</#if>" data-overlay-open="st-overlay-preview-person">
 
             <div class="st-caption">
-                <p class="st-title-card">
+                <h3 class="st-title-card">
                     ${entry.firstName} ${entry.lastName}
-                </p>
+                </h3>
                 <#if entry.districts?has_content>
                     <#if entry.getGender() == 1>
                         <#assign officialTranslation = "male-official-of-the-district" />

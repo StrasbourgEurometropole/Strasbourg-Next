@@ -651,7 +651,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                class="st-card st-card-agenda st--card-horizontal st--with-gradient"
                                title="${event.getTitle(locale)}">
                                 <div class="st-caption">
-                                    <p class="st-title-card">${event.getTitle(locale)}</p>
+                                    <h3 class="st-title-card">${event.getTitle(locale)}</h3>
                                     <p class="st-surtitre-cat">${entry.getTypeLabel(locale)}</p>
                                     <p class="st-date">
                                         <#if event.firstStartDate?date==event.lastEndDate?date>
