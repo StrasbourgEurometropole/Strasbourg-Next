@@ -5,7 +5,7 @@
 <#else>
     <#assign homeURL = "/" />
 </#if>
-<nav class="st-breadcrumbs" role="navigation" aria-label="<@liferay_ui.message key="you-are-here" />">
+<div class="st-breadcrumbs" aria-label="<@liferay_ui.message key="you-are-here" />">
     <ul class="st-breadcrumbs__list">
         <li class="st-breadcrumbs__item">
             <a href="${strasbourg.homeURL()}" class="st-breadcrumbs__link"><@liferay_ui.message key="home" /></a>
@@ -28,4 +28,4 @@
             </#list>
         </#if>
     </ul>
-</nav>
+</div>
