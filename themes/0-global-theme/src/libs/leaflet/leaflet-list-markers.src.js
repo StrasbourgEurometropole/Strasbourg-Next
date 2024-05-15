@@ -47,7 +47,7 @@ L.Control.ListMarkers = L.Control.extend({
 	
 		var container = this._container = L.DomUtil.create('div', 'list-markers');
 
-		this._list = L.DomUtil.create('div', 'filtres__list', container);
+		this._list = L.DomUtil.create('ul', 'filtres__list', container);
 
 		this._initToggle();
 
@@ -66,7 +66,7 @@ L.Control.ListMarkers = L.Control.extend({
 
 	_createItem: function(layer) {
 		var self = this;
-		var div = L.DomUtil.create('div', 'filtres__item form-group grid-item filtres__item--favorite'),
+		var div = L.DomUtil.create('li', 'filtres__item form-group grid-item filtres__item--favorite'),
 			a = L.DomUtil.create('a', 'infowindow__name', div),
             divAddress = L.DomUtil.create('div', 'infowindow__address', div),
 			that = this;
