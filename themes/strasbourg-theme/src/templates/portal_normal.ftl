@@ -47,7 +47,7 @@
                 var url = window.location.toString();
                 document.getElementById("sharefacebook")?.setAttribute("href", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(document.URL));
                 document.getElementById("sharetwitter")?.setAttribute("href", "https://twitter.com/intent/tweet?text=" + url);
-                document.getElementById("ShareLinkedIn")?.setAttribute("href", "http://www.linkedin.com/shareArticle?mini=true&url=" + url);
+                document.getElementById("ShareLinkedIn")?.setAttribute("href", "https://www.linkedin.com/shareArticle?mini=true&url=" + url);
                 document.getElementById("ShareMail")?.setAttribute("href", "mailto:?body=" + url);
             }
             environment = 'desktop';

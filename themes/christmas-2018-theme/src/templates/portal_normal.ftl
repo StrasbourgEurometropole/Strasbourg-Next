@@ -118,7 +118,7 @@
         <!-- Top header bar -->
         <div class="mns-top-header">
             <div>
-                <a href="http://www.strasbourg.eu/" target="_blank">
+                <a href="https://www.strasbourg.eu/" target="_blank">
                     <img src="/o/christmas-2018-theme/images/logo-strasbourg-eu.png" alt="Strasbourg.eu" width="183" height="40" />
                 </a>
             </div>
@@ -240,7 +240,7 @@
             var url = window.location.toString();
             document.getElementById("sharefacebook").setAttribute("href","https://www.facebook.com/sharer/sharer.php?u="+ encodeURIComponent(document.URL));
             document.getElementById("sharetwitter").setAttribute("href","https://twitter.com/intent/tweet?text="+url);
-            document.getElementById("ShareLinkedIn").setAttribute("href","http://www.linkedin.com/shareArticle?mini=true&url="+url);
+            document.getElementById("ShareLinkedIn").setAttribute("href","https://www.linkedin.com/shareArticle?mini=true&url="+url);
             document.getElementById("ShareMail").setAttribute("href","mailto:?body="+url);
         }
     </script>

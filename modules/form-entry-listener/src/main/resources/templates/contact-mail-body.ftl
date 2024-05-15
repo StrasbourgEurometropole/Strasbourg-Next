@@ -33,7 +33,7 @@
     Cordialement,<br>
     <br>
     La Ville et l'Eurométropole de Strasbourg<br>
-    <a href="http://www.strasbourg.eu/" target="_blank">www.strasbourg.eu</a><br>
+    <a href="https://www.strasbourg.eu/" target="_blank">www.strasbourg.eu</a><br>
 </p>
 </body>
 </html>
