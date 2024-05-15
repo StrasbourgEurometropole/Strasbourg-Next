@@ -172,7 +172,7 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
         }else{
             // Email déjà existant ?
             Official official = this.officialLocalService.findByEmail(this.email);
-            if (Validator.isNotNull(official)){
+            if (Validator.isNotNull(official) && official.getOfficialId() != officialId){
                 SessionErrors.add(request, ERROR_EXISTING_EMAIL);
                 isValid = false;
             }
