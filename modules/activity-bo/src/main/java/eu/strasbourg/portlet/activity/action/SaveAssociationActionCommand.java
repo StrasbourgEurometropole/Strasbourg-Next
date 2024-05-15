@@ -153,23 +153,28 @@ public class SaveAssociationActionCommand extends BaseMVCActionCommand {
 					String categoriesIdsString = "";
 					AssetVocabulary practicesVocabulary = assetVocabularyAccessor.getPractice(groupId);
 					if (practicesVocabulary != null) {
-						categoriesIdsString += ParamUtil.getString(request, "practiceId-" + practiceIndex + "_" + practicesVocabulary.getVocabularyId());
+						String[] categories = ParamUtil.getStringValues(request, "practiceId-" + practiceIndex + "_" + practicesVocabulary.getVocabularyId());
+						// join the categories
+						categoriesIdsString += String.join(",", categories);
 					}
 
 					AssetVocabulary publicsVocabulary = assetVocabularyAccessor.gePracticePublic(groupId);
 					if (publicsVocabulary != null) {
-						categoriesIdsString += "," + ParamUtil.getString(request, "practiceId-" + practiceIndex + "_" + publicsVocabulary.getVocabularyId());
+						String[] categories = ParamUtil.getStringValues(request, "practiceId-" + practiceIndex + "_" + publicsVocabulary.getVocabularyId());
+						categoriesIdsString += "," + String.join(",", categories);
 					}
 
 					AssetVocabulary territoriesVocabulary = AssetVocabularyHelper
 							.getGlobalVocabulary(VocabularyNames.TERRITORY);
 					if (territoriesVocabulary != null) {
-						categoriesIdsString += "," + ParamUtil.getString(request, "practiceId-" + practiceIndex + "_" + territoriesVocabulary.getVocabularyId());
+						String[] categories = ParamUtil.getStringValues(request, "practiceId-" + practiceIndex + "_" + territoriesVocabulary.getVocabularyId());
+						categoriesIdsString += "," + String.join(",", categories);
 					}
 
 					AssetVocabulary accessibiliestyVocabulary = assetVocabularyAccessor.getAccessibility(groupId);
 					if (publicsVocabulary != null) {
-						categoriesIdsString += "," + ParamUtil.getString(request, "practiceId-" + practiceIndex + "_" + accessibiliestyVocabulary.getVocabularyId());
+						String[] categories = ParamUtil.getStringValues(request, "practiceId-" + practiceIndex + "_" + accessibiliestyVocabulary.getVocabularyId());
+						categoriesIdsString += "," + String.join(",", categories);
 					}
 
 					List<Long> categoriesList = new ArrayList<Long>();

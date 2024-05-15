@@ -634,3 +634,49 @@ body:not(.no-hover) .st-page-wrapper .login-container button{
     @include clay-table-variant($c-table-bordered);
   }
 }
+
+
+/* Fix écran de réinitialisaiton du mdp */
+.st-page-wrapper #portlet_new-password .sheet{
+  background-color: transparent;
+  border: none;
+
+  input{
+    color: white;
+  }
+
+  .btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    padding: 16px 60px;
+    font-family: "TTFors", Sans-Serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #171C22;
+    line-height: 1;
+    letter-spacing: 0.025em;
+    text-align: center;
+    background-color: #2AD783;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    transition: color 0.2s, background-color 0.2s, border-color 0.2s;
+
+    &:hover, &:focus {
+      color: #171C22;
+      background-color: #FFFFFF;
+    }
+  }
+
+  .btn-secondary {
+    color: #FFFFFF;
+    background-color: #171C22;
+    border: 1px solid #2AD783;
+
+    &:hover, &:focus {
+      color: #171C22;
+      border-color: transparent;
+    }
+  }
+}

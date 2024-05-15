@@ -17,7 +17,7 @@
                             ${isException ? '*' : '' }</p>
                 </c:when>
                 <c:when test="${placeSchedule.isAlwaysOpen()}">
-                    <p class="st-u-color-primary"><liferay-ui:message key="always-open" />
+                    <p><liferay-ui:message key="always-open" />
                             ${isException ? '*' : '' }</p>
                 </c:when>
                 <c:otherwise>

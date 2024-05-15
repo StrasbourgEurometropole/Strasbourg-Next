@@ -41,9 +41,6 @@
     'Table',
     '-',
     'ImageSelector',
-    'Copyright',
-    'FileSelector',
-    'SimpleBox',
     '-',
     'Smiley',
     'SpecialChar'
@@ -71,13 +68,5 @@
   ],
   [
     'Source'
-  ],
-  '/',
-  [
-    'KeyNumbers',
-    'Quote',
-    'LinkBlock',
-    'BlockFileSelector',
-    'VideoSelector'
   ]
 ]

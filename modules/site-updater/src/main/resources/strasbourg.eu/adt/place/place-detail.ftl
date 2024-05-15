@@ -465,7 +465,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                     <h3 class="st-subplaces">${subPlace.getName(locale)}</h3>
                                     <ul class="st-list-rows st-basic-grid st-col-2@t-small">
                                         <#assign
-                                        weekSchedules=subPlace.defaultPeriod.getWeekSchedule(subPlace.subPlaceId) />
+                                        weekSchedules=period.getWeekSchedule(subPlace.subPlaceId) />
                                         <#assign day=0 />
                                         <#list weekSchedules as schedule>
                                             <@showTime day schedule hasException />
@@ -699,7 +699,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                     <#assign i++>
                 </#list>
             </ul>
-            <a href="${strasbourg.homeURL()}agenda?idSIGPlace=${entry.getSIGid()}"
+            <a href="${strasbourg.homeURL()}agenda?toDate=${.now?date?string["dd/MM"]}/${.now?date?string["yyyy"]?number + 1}&idSIGPlace=${entry.getSIGid()}"
                class="st-btn st--btn-secondary"> <@liferay_ui.message key="sae.all-events" /></a>
         </div>
     </#if>

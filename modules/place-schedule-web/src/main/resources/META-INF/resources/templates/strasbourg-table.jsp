@@ -102,6 +102,7 @@
                                     </c:choose>
 
                                 </p>
+                                <c:if test="!${isMairie}">
                                 <p class="st-surtitre-cat">
                                     <liferay-ui:message key="eu.place.total-capacity-long" />
                                     <fmt:formatNumber type = "number" value = "${occupationState.capacity}"/>
@@ -114,6 +115,7 @@
                                         </c:when>
                                     </c:choose>
                                 </p>
+                                </c:if>
                                 <p class="st-small-text">
                                     <c:choose>
                                         <c:when test="${isSwimmingPool}">
