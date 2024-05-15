@@ -4,7 +4,8 @@
 
 <%-- URL : definit le lien menant vers la page de listage de l'entite --%>
 <liferay-portlet:renderURL varImpl="councilSessionsURL">
-	<portlet:param name="tab" value="councilSessions" />
+    <portlet:param name="tab" value="councilSessions" />
+    <portlet:param name="mvcPath" value="/council-bo-view-council-sessions.jsp" />
 </liferay-portlet:renderURL>
 
 <%-- URL : definit le lien menant vers la fonction de reload des procurations pour le tableau --%>
@@ -24,6 +25,9 @@
 <liferay-portlet:renderURL varImpl="editCouncilSessionURL">
 	<portlet:param name="councilSessionId"
 	    value="${not empty dc.councilSession ? dc.councilSession.councilSessionId : ''}" />
+    <portlet:param name="cmd" value="editCouncilSession" />
+    <portlet:param name="backURL" value="${councilSessionsURL}" />
+    <portlet:param name="tab" value="councilSessions" />
     <portlet:param name="mvcPath" value="/council-bo-edit-council-session.jsp" />
 </liferay-portlet:renderURL>
 
