@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <#include init />
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
   <#assign homeURL = "/web${layout.group.friendlyURL}" />
 <#else>
@@ -23,7 +24,7 @@
     <script>
       <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
       window.homeURL = '${homeURL}/';
-      window.loginURL = '${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}';
+      window.loginURL = '${layoutHelper.getPublikLoginURL(currentUrl)?html}';
 
 
       <#if request.session.getAttribute("publik_logged_in")!false>
@@ -149,7 +150,7 @@
                       settingsScope="group" />
                     </div>
                 <#else>
-                  <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" title="<@liferay_ui.message key='eu.login.strasbourg' />" class="connect">
+                  <a href="${layoutHelper.getPublikLoginURL(currentUrl)?html}" title="<@liferay_ui.message key='eu.login.strasbourg' />" class="connect">
                     <span class="flexbox">
                       <span class="picto"></span>
                       <span class="text"><@liferay_ui.message key='eu.login.strasbourg' /></span>

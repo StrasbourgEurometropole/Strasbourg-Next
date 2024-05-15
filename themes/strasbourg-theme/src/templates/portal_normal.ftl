@@ -2,6 +2,7 @@
 
 <#include init />
 <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
@@ -43,7 +44,7 @@
         <div id="overlay-shadow" class="st-shadow-overlay"></div>
         <script type="text/javascript">
             window.onload = function () {
-                window.loginURL = '${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}';
+                window.loginURL = '${layoutHelper.getPublikLoginURL(currentUrl)?html}';
                 var url = window.location.toString();
                 document.getElementById("sharefacebook")?.setAttribute("href", "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(document.URL));
                 document.getElementById("sharetwitter")?.setAttribute("href", "https://twitter.com/intent/tweet?text=" + url);

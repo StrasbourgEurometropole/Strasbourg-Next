@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <#include init />
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 
 <html class="${root_css_class} mseu" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}">
 
@@ -62,7 +63,7 @@
 
 <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
 <script>
-  window.loginURL = '${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}';
+  window.loginURL = '${layoutHelper.getPublikLoginURL(currentUrl)?html}';
 </script>
 
   <header class="header">

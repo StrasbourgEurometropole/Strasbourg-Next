@@ -61,15 +61,15 @@
             </#list>
         </div>
         <div class="st-overlay__footer  st-has-btn-compte st-hide-from@t-small">
-            <#if themeDisplay.getRequest().session.getAttribute("publik_logged_in")!false>
             <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
+            <#if themeDisplay.getRequest().session.getAttribute("publik_logged_in")!false>
             <a href="${layoutHelper.getDashboardURL()}" class="st-btn-compte">
                 <span class="st-icon-person" aria-hidden="true"></span>
                 ${request.session.getAttribute("publik_given_name")?html}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]?html}.
             </a>
             <a href="${layoutHelper.getPublikLogoutURL(currentUrl)?html}" class="st-btn-icon st-btn-logout  mr-2" title="<@liferay_ui.message key='eu.logout' />"> <span class="st-icon-close" aria-hidden="true"></span> <span class="st-sr-only"><@liferay_ui.message key='eu.logout' /></span> </a>
             <#else>
-            <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="st-btn-compte  mr-2">
+            <a href="${layoutHelper.getPublikLoginURL(currentUrl)?html}" class="st-btn-compte  mr-2">
                 <span class="st-icon-person" aria-hidden="true"></span>
                 <strong><@liferay_ui.message key="eu.mystrasbourg" /></strong>.eu
             </a>
