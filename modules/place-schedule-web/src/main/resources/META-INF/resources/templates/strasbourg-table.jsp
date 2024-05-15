@@ -270,7 +270,7 @@
                 <div class="st-show-more">
                     <button class="st-btn-show-more st-btn-arrow st--down"
                             aria-expanded="false"
-                            data-open-label="<@liferay_ui.message key='eu.view-more' />" data-close-label="<@liferay_ui.message key='eu.view-less' />"><@liferay_ui.message key='eu.view-more' />
+                            data-open-label="<liferay-ui:message key='eu.view-more.exception' />" data-close-label="<liferay-ui:message key='eu.view-less.exception' />"><@liferay_ui.message key='eu.view-more' />
                     </button>
                 </div>
             </c:if>
