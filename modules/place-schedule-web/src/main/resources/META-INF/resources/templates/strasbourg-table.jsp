@@ -240,7 +240,7 @@
             </c:if>
             <c:if test="${!empty exceptions}">
                 <div class="calendar-schedule-exceptions rte st-limit-height st-text-styles" style="--max-height-desktop: 13rem;">
-                    <h3 id="exceptions"><liferay-ui:message key="eu.exceptional-closings-openings" /></h3>
+                    <h2 id="exceptions"><liferay-ui:message key="eu.exceptional-closings-openings" /></h2>
                     <c:set var="nbExceptions" value="0" />
                     <ul>
                         <c:forEach var="exception" items="${exceptions}">
