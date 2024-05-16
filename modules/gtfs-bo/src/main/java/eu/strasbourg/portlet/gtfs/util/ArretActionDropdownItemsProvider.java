@@ -41,11 +41,11 @@ public class ArretActionDropdownItemsProvider {
      */
     public List<DropdownItem> getActionDropdownItems() {
 
-        boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+        boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getCompanyGroupId(),
                 StrasbourgPortletKeys.GTFS_BO, StrasbourgPortletKeys.GTFS_BO, "EDIT_ARRET")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
-        boolean hasDeletePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+        boolean hasDeletePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getCompanyGroupId(),
                 StrasbourgPortletKeys.GTFS_BO, StrasbourgPortletKeys.GTFS_BO, "DELETE_ARRET")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 

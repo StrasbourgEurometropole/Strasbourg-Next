@@ -7,8 +7,10 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.project.model.Initiative;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -39,12 +41,21 @@ public class InitiativeActionDropdownItemsProvider {
      */
     public List<DropdownItem> getActionDropdownItems() {
 
+        boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                StrasbourgPortletKeys.PROJECT_BO, StrasbourgPortletKeys.PROJECT_BO, "EDIT_INITIATIVE")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+
+        boolean hasDeletePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                StrasbourgPortletKeys.PROJECT_BO, StrasbourgPortletKeys.PROJECT_BO, "DELETE_INITIATIVE")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+
         return DropdownItemListBuilder
                 .addGroup(
                         dropdownGroupItem -> {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
+                                                    () -> hasUpdatePermission,
                                                     _getEditActionUnsafeConsumer()
                                             )
                                             .build()
@@ -56,6 +67,7 @@ public class InitiativeActionDropdownItemsProvider {
                             dropdownGroupItem.setDropdownItems(
                                     DropdownItemListBuilder
                                             .add(
+                                                    () -> hasDeletePermission,
                                                     _getDeleteActionUnsafeConsumer()
                                             )
                                             .build()

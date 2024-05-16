@@ -6,17 +6,23 @@ import java.util.Set;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.service.place.service.SubPlaceLocalServiceUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class EditSubPlaceDisplayContext {
 	public EditSubPlaceDisplayContext(RenderRequest request,
 			RenderResponse response) {
 		this._request = request;
+		this._themeDisplay = (ThemeDisplay) request
+				.getAttribute(WebKeys.THEME_DISPLAY);
 	}
 
 	public SubPlace getSubPlace() {
@@ -45,8 +51,19 @@ public class EditSubPlaceDisplayContext {
 		return indexes;
 	}
 
+	/**
+	 * Wrapper autour du permission checker pour les permissions de module
+	 */
+	public boolean hasPermission(String actionId) throws PortalException {
+		return _themeDisplay.getPermissionChecker().hasPermission(
+				this._themeDisplay.getCompanyGroupId(),
+				StrasbourgPortletKeys.PLACE_BO, StrasbourgPortletKeys.PLACE_BO,
+				actionId);
+	}
+
 	private SubPlace _subPlace;
 
 	private final RenderRequest _request;
+	private final ThemeDisplay _themeDisplay;
 
 }
