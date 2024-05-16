@@ -7,6 +7,7 @@ import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleServiceUtil;
 import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -22,6 +23,8 @@ import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -63,6 +66,8 @@ import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
+import eu.strasbourg.service.search.log.model.SearchLog;
+import eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.AssetPublisherTemplateHelper;
@@ -303,11 +308,24 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 				
 				this.applyTemplateBehaviors(configuration,assetEntries);
 
-				JSONArray jsonResponse = this.constructJSONSelection(request, configuration,assetEntries,totalResult);
+				JSONArray jsonResponse = this.constructJSONSelection(request, configuration,assetEntries,totalResult, keywords, (long) (hits.getSearchTime() * 1000));
 				
 				// Recuperation de l'élément d'écriture de la réponse
 				PrintWriter writer = response.getWriter();
 				writer.print(jsonResponse.toString());
+			}else if(resourceID.equals("logChoice")){
+				// On logue le choix de l'utilsateur
+				long searchLogId = ParamUtil.getLong(request, "searchLogId");
+				SearchLog searchLog = SearchLogLocalServiceUtil.fetchSearchLog(searchLogId);
+				if (searchLog != null) {
+					long userTargetClassId = ParamUtil.getLong(request, "classNameId");
+					long userTargetClassPK = ParamUtil.getLong(request, "classPK");
+					String userTargetTitle = ParamUtil.getString(request, "title");
+					searchLog.setUserTargetClassId(userTargetClassId);
+					searchLog.setUserTargetClassPK(userTargetClassPK);
+					searchLog.setUserTargetTitle(userTargetTitle);
+					SearchLogLocalServiceUtil.updateSearchLog(searchLog);
+				}
 			}
 			
 		} catch (Exception e) {
@@ -373,7 +391,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 	 * @throws  PortalException
 	 */
 	@SuppressWarnings("JavaDoc")
-	private JSONArray constructJSONSelection(ResourceRequest request, DynamicSearchAssetConfiguration configuration,List<AssetEntry> assetEntries,long totalResult) throws PortalException {
+	private JSONArray constructJSONSelection(ResourceRequest request, DynamicSearchAssetConfiguration configuration,List<AssetEntry> assetEntries,long totalResult,String keywords,long searchTime) throws PortalException {
 		
 		// Récupération du contexte de la requète
 		String publikUserId = this.getPublikID(request);
@@ -388,7 +406,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		JSONObject jsonDisplayResult = JSONFactoryUtil.createJSONObject();
 		jsonDisplayResult.put("displayResult", configuration.delta());
 		jsonResponse.put(jsonDisplayResult);
-		
+
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		Locale locale = themeDisplay.getLocale();
 		String configAffichage = configuration.searchForm();
@@ -407,6 +425,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			if (assetClassName.equals(Event.class.getName())) {
 				Event event = EventLocalServiceUtil.getEvent(assetEntry.getClassPK());
 				JSONObject jsonEvent = JSONSearchHelper.createEventSearchJson(event, getImageURL(event.getImageId()), locale, themeDisplay, publikUserId, configAffichage, descriptionMaxLength);
+				jsonEvent = JSONSearchHelper.createAssetEntrySearchJson(jsonEvent, assetEntry);
 				jsonResponse.put(jsonEvent);
 			}
 			
@@ -414,6 +433,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(Project.class.getName())) {
 				Project project = ProjectLocalServiceUtil.getProject(assetEntry.getClassPK());
 				JSONObject jsonProject = JSONSearchHelper.createProjectSearchJson(project, getImageURL(project.getImageId()), themeDisplay, configAffichage, descriptionMaxLength);
+				jsonProject = JSONSearchHelper.createAssetEntrySearchJson(jsonProject, assetEntry);
 				jsonResponse.put(jsonProject);
 			}
 
@@ -421,6 +441,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(Participation.class.getName())) {
 				Participation participation = ParticipationLocalServiceUtil.getParticipation(assetEntry.getClassPK());
 				JSONObject jsonParticipation = JSONSearchHelper.createParticipationSearchJson(participation, locale, themeDisplay, configAffichage);
+				jsonParticipation = JSONSearchHelper.createAssetEntrySearchJson(jsonParticipation, assetEntry);
 				jsonResponse.put(jsonParticipation);
 			}
 
@@ -428,6 +449,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(Video.class.getName())) {
 				Video video = VideoLocalServiceUtil.getVideo(assetEntry.getClassPK());
 				JSONObject jsonVideo = JSONSearchHelper.createVideoSearchJson(video, getImageURL(video.getImageId()), locale, themeDisplay, configAffichage);
+				jsonVideo = JSONSearchHelper.createAssetEntrySearchJson(jsonVideo, assetEntry);
 				jsonResponse.put(jsonVideo);
 			}
 
@@ -435,6 +457,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(Petition.class.getName())) {
 				Petition petition = PetitionLocalServiceUtil.fetchPetition(assetEntry.getClassPK());
 				JSONObject jsonPetition = JSONSearchHelper.createPetitionSearchJson(petition, getImageURL(petition.getImageId()), themeDisplay, configAffichage);
+				jsonPetition = JSONSearchHelper.createAssetEntrySearchJson(jsonPetition, assetEntry);
 				jsonResponse.put(jsonPetition);
 			}
 			
@@ -442,6 +465,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(BudgetParticipatif.class.getName())) {
 				BudgetParticipatif bp = BudgetParticipatifLocalServiceUtil.fetchBudgetParticipatif(assetEntry.getClassPK());
 				JSONObject jsonBP = JSONSearchHelper.createBudgetParticipatifSearchJson(bp, locale, themeDisplay, configAffichage);
+				jsonBP = JSONSearchHelper.createAssetEntrySearchJson(jsonBP, assetEntry);
 				jsonResponse.put(jsonBP);
 			}
 			
@@ -449,6 +473,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(Initiative.class.getName())) {
 				Initiative initiative = InitiativeLocalServiceUtil.fetchInitiative(assetEntry.getClassPK());
 				JSONObject jsonInitiative = JSONSearchHelper.createInitiativeSearchJson(initiative, getImageURL(initiative.getImageId()), themeDisplay, configAffichage);
+				jsonInitiative = JSONSearchHelper.createAssetEntrySearchJson(jsonInitiative, assetEntry);
 				jsonResponse.put(jsonInitiative);
 			}
 			
@@ -477,6 +502,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 						JSONObject documentJSONObject = JSONFactoryUtil.createJSONObject(documentStructure);
 
 						JSONObject jsonArticle = JSONSearchHelper.createJournalArticleSearchJson(assetEntry, journalArticle, getImageURL(documentJSONObject.getLong("fileEntryId")), locale, themeDisplay, configAffichage, descriptionMaxLength, publikUserId);
+						jsonArticle = JSONSearchHelper.createAssetEntrySearchJson(jsonArticle, assetEntry);
 						jsonResponse.put(jsonArticle);
 					}catch (Exception e){
 						_log.error(e);
@@ -488,6 +514,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(Official.class.getName())) {
 				Official official = OfficialLocalServiceUtil.getOfficial(assetEntry.getClassPK());
 				JSONObject jsonOfficial = JSONSearchHelper.createOfficialSearchJson(official, getImageURL(official.getImageId()), locale, themeDisplay, configAffichage);
+				jsonOfficial = JSONSearchHelper.createAssetEntrySearchJson(jsonOfficial, assetEntry);
 				jsonResponse.put(jsonOfficial);
 			}
 
@@ -495,6 +522,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(Edition.class.getName())) {
 				Edition edition = EditionLocalServiceUtil.getEdition(assetEntry.getClassPK());
 				JSONObject jsonEdition = JSONSearchHelper.createEditionSearchJson(edition, getImageURL(edition.getImageId()), locale, themeDisplay, configAffichage, descriptionMaxLength, publikUserId);
+				jsonEdition = JSONSearchHelper.createAssetEntrySearchJson(jsonEdition, assetEntry);
 				jsonResponse.put(jsonEdition);
 			}
 
@@ -502,6 +530,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(Manifestation.class.getName())) {
 				Manifestation manifestation = ManifestationLocalServiceUtil.getManifestation(assetEntry.getClassPK());
 				JSONObject jsonManifestation = JSONSearchHelper.createManifestationSearchJson(manifestation, locale, themeDisplay, configAffichage, descriptionMaxLength);
+				jsonManifestation = JSONSearchHelper.createAssetEntrySearchJson(jsonManifestation, assetEntry);
 				jsonResponse.put(jsonManifestation);
 			}
 
@@ -509,6 +538,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(EditionGallery.class.getName())) {
 				EditionGallery editionGallery = EditionGalleryLocalServiceUtil.getEditionGallery(assetEntry.getClassPK());
 				JSONObject jsonEditionGallery = JSONSearchHelper.createEditionGallerySearchJson(editionGallery, getImageURL(editionGallery.getImageId()), locale, themeDisplay, configAffichage, descriptionMaxLength);
+				jsonEditionGallery = JSONSearchHelper.createAssetEntrySearchJson(jsonEditionGallery, assetEntry);
 				jsonResponse.put(jsonEditionGallery);
 			}
 
@@ -516,6 +546,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(Place.class.getName())) {
 				Place place = PlaceLocalServiceUtil.getPlace(assetEntry.getClassPK());
 				JSONObject jsonPlace = JSONSearchHelper.createPlaceSearchJson(place, getImageURL(place.getImageId()), locale, themeDisplay, configAffichage, publikUserId);
+				jsonPlace = JSONSearchHelper.createAssetEntrySearchJson(jsonPlace, assetEntry);
 				jsonResponse.put(jsonPlace);
 			}
 
@@ -523,6 +554,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(ActivityCourse.class.getName())) {
 				ActivityCourse activityCourse = ActivityCourseLocalServiceUtil.getActivityCourse(assetEntry.getClassPK());
 				JSONObject jsonActivityCourse = JSONSearchHelper.createActivityCourseSearchJson(activityCourse, getImageURL(activityCourse.getImageId()), locale, themeDisplay, configAffichage);
+				jsonActivityCourse = JSONSearchHelper.createAssetEntrySearchJson(jsonActivityCourse, assetEntry);
 				jsonResponse.put(jsonActivityCourse);
 			}
 
@@ -530,10 +562,22 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			else if (assetClassName.equals(Activity.class.getName())) {
 				Activity activity = ActivityLocalServiceUtil.getActivity(assetEntry.getClassPK());
 				JSONObject jsonActivity = JSONSearchHelper.createActivitySearchJson(activity, getImageURL(activity.getImageId()), locale, themeDisplay, configAffichage, descriptionMaxLength);
+				jsonActivity = JSONSearchHelper.createAssetEntrySearchJson(jsonActivity, assetEntry);
 				jsonResponse.put(jsonActivity);
 			}
 		}
-		
+
+		// Gestion du log
+		JSONObject jsonSearchLog = JSONFactoryUtil.createJSONObject();
+		ServiceContext sc = ServiceContextFactory.getInstance(request);
+		AssetEntry result1 = assetEntries.size() > 0 ? assetEntries.get(0) : null;
+		AssetEntry result2 = assetEntries.size() > 1 ? assetEntries.get(1) : null;
+		AssetEntry result3 = assetEntries.size() > 2 ? assetEntries.get(2) : null;
+		SearchLog searchLog = SearchLogLocalServiceUtil.addSearchLog(sc, keywords,
+				totalResult, result1, result2, result3, null, searchTime);
+		jsonSearchLog.put("searchLogId", searchLog.getSearchLogId());
+		jsonResponse.put(jsonSearchLog);
+
 		return  jsonResponse;
 	}
 
