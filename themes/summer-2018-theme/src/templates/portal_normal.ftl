@@ -115,7 +115,7 @@
             <!-- Top header bar -->
             <div class="mns-top-header">
                 <div>
-                    <a href="http://www.strasbourg.eu/" target="_blank"><img src="/o/summer-2018-theme/images/logo-strasbourg-eu.png" alt="Logo Strasbourg" width="183" height="40" /></a>
+                    <a href="https://www.strasbourg.eu/" target="_blank"><img src="/o/summer-2018-theme/images/logo-strasbourg-eu.png" alt="Logo Strasbourg" width="183" height="40" /></a>
                 </div>
                 <div>
                     <!-- a href="#" class="mns-w-fixe-1"><span>Carte interractive</span></a>
@@ -198,7 +198,7 @@
             var url = window.location.toString();
             document.getElementById("sharefacebook").setAttribute("href","https://www.facebook.com/sharer/sharer.php?u="+ encodeURIComponent(document.URL));
             document.getElementById("sharetwitter").setAttribute("href","https://twitter.com/intent/tweet?text="+url);
-            document.getElementById("ShareLinkedIn").setAttribute("href","http://www.linkedin.com/shareArticle?mini=true&url="+url);
+            document.getElementById("ShareLinkedIn").setAttribute("href","https://www.linkedin.com/shareArticle?mini=true&url="+url);
             document.getElementById("ShareMail").setAttribute("href","mailto:?body="+url);
         }
     </script>
