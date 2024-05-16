@@ -53,7 +53,11 @@ div#tarteaucitronRoot, .tac_activate {
     }
     
     #tarteaucitronDisclaimerAlert {
-        color: $c_white;
+        width: 100%;
+
+        p {
+            color: $c_white;
+        }
     }
 
     .tarteaucitronH1 {

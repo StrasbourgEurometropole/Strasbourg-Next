@@ -34,18 +34,6 @@
           "label": "ID vidéo",
           "name": "id",
           "type": "text"
-        },
-        {
-          "defaultValue": "",
-          "label": "width",
-          "name": "videoWidth",
-          "type": "text"
-        },
-        {
-          "defaultValue": "",
-          "label": "height",
-          "name": "videoHeight",
-          "type": "text"
         }
       ],
       "label": "external-video-options"

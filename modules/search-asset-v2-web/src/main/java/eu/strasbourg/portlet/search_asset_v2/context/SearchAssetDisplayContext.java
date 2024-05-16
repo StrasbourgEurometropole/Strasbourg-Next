@@ -366,6 +366,9 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 	 * défaut par défaut est négative, date du jour)
 	 */
 	public int getToDay() throws ConfigurationException {
+		if(Validator.isNotNull(getToDate())){
+			return Integer.parseInt(getToDate().split("/")[0]);
+		}
 		int toParam = ParamUtil.getInteger(this._request, "toDay");
 		if (toParam > 0) {
 			return toParam;
@@ -391,6 +394,9 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 	 * de la requête ou depuis la configuration, dans l'interval [1;12]
 	 */
 	public int getToMonthValue() throws ConfigurationException {
+		if(Validator.isNotNull(getToDate())){
+			return Integer.parseInt(getToDate().split("/")[1]);
+		}
 		String toMonthString = ParamUtil.getString(this._request, "toMonth");
 		if (Validator.isNull(toMonthString)) {
 			if (getConfigurationData().getDefaultFilterDateRange() > 0) {
@@ -408,6 +414,9 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 	 * de la requête ou depuis la configuration
 	 */
 	public int getToYear() throws ConfigurationException {
+		if(Validator.isNotNull(getToDate())){
+			return Integer.parseInt(getToDate().split("/")[2]);
+		}
 		int toParam = ParamUtil.getInteger(this._request, "toYear");
 		if (toParam > 0) {
 			return toParam;
@@ -898,6 +907,11 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 	public String getIdSIGPlace() {
 		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(_request));
 		return ParamUtil.getString(originalRequest, "idSIGPlace");
+	}
+
+	public String getToDate(){
+		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(_request));
+		return originalRequest.getParameter("toDate");
 	}
 
 	/**

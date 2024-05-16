@@ -37,13 +37,13 @@
                             <div class="wrapper-card-initiative">
 								<#if entry.getImageURL()?has_content>
 									<figure role="group" class="fit-cover">
-										<img src="${entry.getImageURL()}&imagePreview=1" loading="lazy" width="155" height="200" alt="Image atelier"/>
+										<img src="${entry.getImageURL()}${(entry.getImageURL()?contains('?'))?then('&','?')}imagePreview=1" loading="lazy" width="155" height="200" alt="Image atelier"/>
 									</figure>
 								</#if>
                                 <div>
                                     <div class="pro-header-initiative">
                                         <figure role="group">
-											<img src="${entry.getAuthorImageURL()}&imagePreview=1" loading="lazy" width="40" height="40" alt="Image de profil">
+											<img src="${entry.getAuthorImageURL()}${(entry.getAuthorImageURL()?contains('?'))?then('&','?')}imagePreview=1" loading="lazy" width="40" height="40" alt="Image de profil">
 										</figure>
                                         <p>Atelier publié par :</p>
                                         <p><strong>${entry.getAuthorLabel()?html}</strong></p>

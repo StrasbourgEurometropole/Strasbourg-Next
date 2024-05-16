@@ -29,9 +29,9 @@
 				<img src="/o/agenda-platform-theme/images/strasbourg-logo.png" alt="Strasbourg.eu" />
 			</a>
 			<div class="login-link">
-				<#if !is_signed_in>
+				<#if !is_signed_in && sign_in_url?? && sign_in_url?has_content>
 					<a data-redirect="${is_login_redirect_required?string}" href="${sign_in_url}" id="sign-in" rel="nofollow"><@liferay_ui.message key="eu.login" /></a>
-				<#else>
+				<#elseif is_signed_in>
 					<span style="color:white;padding-right: 90px;"><@liferay.language key="welcome" /> ${user_name} </span>
 					<a data-redirect="${is_login_redirect_required?string}" href="/c/portal/logout" id="sign-out" rel="nofollow"><@liferay_ui.message key="eu.logout" /></a>
 				</#if>

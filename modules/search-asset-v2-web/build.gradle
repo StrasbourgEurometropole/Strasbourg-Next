@@ -1,6 +1,6 @@
 dependencies {
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
-	compileInclude group: 'com.itextpdf', name: 'html2pdf', version: '5.0.2'
+	compileInclude group: 'com.itextpdf', name: 'html2pdf', version: '5.0.3'
 
 	compileInclude group: 'org.apache.commons', name: 'commons-lang3', version: '3.14.0'
 
