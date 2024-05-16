@@ -28,7 +28,8 @@
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
 	<liferay-ui:error key="error-missing-lastname" message="error-missing-lastname" />
 	<liferay-ui:error key="error-missing-firstname" message="error-missing-firstname" />
-	<liferay-ui:error key="error-missing-email" message="error-missing-email" />
+        <liferay-ui:error key="error-missing-email" message="error-missing-email" />
+        <liferay-ui:error key="error-existing-email" message="error-existing-email" />
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 	<aui:form action="${saveOfficialURL}" method="post" name="fm" onSubmit="submitForm(event);">

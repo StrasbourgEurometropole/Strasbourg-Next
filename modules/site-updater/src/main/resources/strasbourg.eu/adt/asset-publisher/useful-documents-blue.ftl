@@ -3,9 +3,12 @@
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
-<div class="st-bloc st-wrapper st--has-margin-small">
-    <h2 class="st-h2">${portletHelper.getPortletTitle('eu.useful-documents', renderRequest)}</h2>
-</div>
+
+<#if portletHelper.getPortletTitle('', renderRequest)?has_content>
+    <div class="st-bloc st-wrapper st--has-margin-small">
+        <h2 class="st-h2">${portletHelper.getPortletTitle('e', renderRequest)}</h2>
+    </div>
+</#if>
 
 <#if !entries?has_content && themeDisplay.isSignedIn()>
     <div>

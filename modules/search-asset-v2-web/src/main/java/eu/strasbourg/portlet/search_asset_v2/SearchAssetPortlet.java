@@ -240,13 +240,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 				attributes.remove(td.getPpid());
 			});
 
-			// Temp fix for actionURL
-			// FIXME: remove when LPS-200157 is fixed
-			if(renderRequest.getAttribute("javax.portlet.request") instanceof RenderRequest) {
-				themeDisplay.getRequest().setAttribute("javax.portlet.request", renderRequest.getAttribute("javax.portlet.request"));
-				themeDisplay.getRequest().setAttribute("javax.portlet.response", renderRequest.getAttribute("javax.portlet.response"));
-				themeDisplay.getRequest().setAttribute("javax.portlet.config", renderRequest.getAttribute("javax.portlet.config"));
-			}
+
 			boolean isDueEntity = false;
 			renderRequest.setAttribute("isDueEntity", isDueEntity);
 

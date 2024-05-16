@@ -16,6 +16,8 @@
 package eu.strasbourg.portlet.activity.action;
 
 import com.liferay.asset.kernel.model.AssetVocabulary;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
@@ -131,68 +133,72 @@ public class SaveAssociationActionCommand extends BaseMVCActionCommand {
 		// Pratiques
 		// On récupère les pratiques de l'association pour suppression
 		List<Long> practicesToKeep = new ArrayList<Long>();
+		try {
+			String practiceIndexes = ParamUtil.getString(request, "practiceIndexes");
+			if (Validator.isNotNull(practiceIndexes)) {
+				for (String practiceIndex : practiceIndexes.split(",")) {
+					if (Validator.isNotNull(practiceIndex)) {
+						long practiceId = ParamUtil.getLong(request, "practiceId" + practiceIndex);
 
-		String practiceIndexes = ParamUtil.getString(request, "practiceIndexes");
-		if (Validator.isNotNull(practiceIndexes)) {
-			for (String practiceIndex : practiceIndexes.split(",")) {
-				if (Validator.isNotNull(practiceIndex)) {
-					long practiceId = ParamUtil.getLong(request, "practiceId" + practiceIndex);
+						Practice practice;
+						if(practiceId != 0){
+							practice = _practiceLocalService.fetchPractice(practiceId);
+						}else{
+							practice = _practiceLocalService.createPractice(sc);
+						}
 
-					Practice practice;
-					if(practiceId != 0){
-						practice = _practiceLocalService.fetchPractice(practiceId);
-					}else{
-						practice = _practiceLocalService.createPractice(sc);
+						// on ajoute cette pratique à la liste des pratiques à garder
+						practicesToKeep.add(practice.getPracticeId());
+						AssetVocabularyAccessor assetVocabularyAccessor = new AssetVocabularyAccessor();
+						long groupId = themeDisplay.getLayout().getGroupId();
+
+						String categoriesIdsString = "";
+						AssetVocabulary practicesVocabulary = assetVocabularyAccessor.getPractice(groupId);
+						if (practicesVocabulary != null) {
+							String[] categories = ParamUtil.getStringValues(request, "practiceId-" + practiceIndex + "_" + practicesVocabulary.getVocabularyId());
+							// join the categories
+							categoriesIdsString += String.join(",", categories);
+						}
+
+						AssetVocabulary publicsVocabulary = assetVocabularyAccessor.gePracticePublic(groupId);
+						if (publicsVocabulary != null) {
+							String[] categories = ParamUtil.getStringValues(request, "practiceId-" + practiceIndex + "_" + publicsVocabulary.getVocabularyId());
+							categoriesIdsString += "," + String.join(",", categories);
+						}
+
+						AssetVocabulary territoriesVocabulary = AssetVocabularyHelper
+								.getGlobalVocabulary(VocabularyNames.TERRITORY);
+						if (territoriesVocabulary != null) {
+							String[] categories = ParamUtil.getStringValues(request, "practiceId-" + practiceIndex + "_" + territoriesVocabulary.getVocabularyId());
+							categoriesIdsString += "," + String.join(",", categories);
+						}
+
+						AssetVocabulary accessibiliestyVocabulary = assetVocabularyAccessor.getAccessibility(groupId);
+						if (publicsVocabulary != null) {
+							String[] categories = ParamUtil.getStringValues(request, "practiceId-" + practiceIndex + "_" + accessibiliestyVocabulary.getVocabularyId());
+							categoriesIdsString += "," + String.join(",", categories);
+						}
+
+						List<Long> categoriesList = new ArrayList<Long>();
+						for (String category: categoriesIdsString.split(",")) {
+							if(Validator.isNotNull(category))
+								categoriesList.add(Long.parseLong(category));
+						}
+						long[] categoriesIds = categoriesList.stream().mapToLong(l -> l).toArray();
+
+						ServiceContext scPractice = ServiceContextFactory.getInstance(request);
+						scPractice.setAssetCategoryIds(categoriesIds);
+
+						practice.setAssociationId(association.getAssociationId());
+						this._practiceLocalService.updatePractice(practice, scPractice);
 					}
 
-					// on ajoute cette pratique à la liste des pratiques à garder
-					practicesToKeep.add(practice.getPracticeId());
-					AssetVocabularyAccessor assetVocabularyAccessor = new AssetVocabularyAccessor();
-					long groupId = themeDisplay.getLayout().getGroupId();
-
-					String categoriesIdsString = "";
-					AssetVocabulary practicesVocabulary = assetVocabularyAccessor.getPractice(groupId);
-					if (practicesVocabulary != null) {
-						String[] categories = ParamUtil.getStringValues(request, "practiceId-" + practiceIndex + "_" + practicesVocabulary.getVocabularyId());
-						// join the categories
-						categoriesIdsString += String.join(",", categories);
-					}
-
-					AssetVocabulary publicsVocabulary = assetVocabularyAccessor.gePracticePublic(groupId);
-					if (publicsVocabulary != null) {
-						String[] categories = ParamUtil.getStringValues(request, "practiceId-" + practiceIndex + "_" + publicsVocabulary.getVocabularyId());
-						categoriesIdsString += "," + String.join(",", categories);
-					}
-
-					AssetVocabulary territoriesVocabulary = AssetVocabularyHelper
-							.getGlobalVocabulary(VocabularyNames.TERRITORY);
-					if (territoriesVocabulary != null) {
-						String[] categories = ParamUtil.getStringValues(request, "practiceId-" + practiceIndex + "_" + territoriesVocabulary.getVocabularyId());
-						categoriesIdsString += "," + String.join(",", categories);
-					}
-
-					AssetVocabulary accessibiliestyVocabulary = assetVocabularyAccessor.getAccessibility(groupId);
-					if (publicsVocabulary != null) {
-						String[] categories = ParamUtil.getStringValues(request, "practiceId-" + practiceIndex + "_" + accessibiliestyVocabulary.getVocabularyId());
-						categoriesIdsString += "," + String.join(",", categories);
-					}
-
-					List<Long> categoriesList = new ArrayList<Long>();
-					for (String category: categoriesIdsString.split(",")) {
-						if(Validator.isNotNull(category))
-							categoriesList.add(Long.parseLong(category));
-					}
-					long[] categoriesIds = categoriesList.stream().mapToLong(l -> l).toArray();
-
-					ServiceContext scPractice = ServiceContextFactory.getInstance(request);
-					scPractice.setAssetCategoryIds(categoriesIds);
-
-					practice.setAssociationId(association.getAssociationId());
-					this._practiceLocalService.updatePractice(practice, scPractice);
 				}
-
 			}
+		} catch (Exception e) {
+			_log.error(e);
 		}
+
 
 		// On supprime les anciennes activités qui n'existent plus
 		for (Practice practice : association.getPractices()) {
@@ -226,4 +232,6 @@ public class SaveAssociationActionCommand extends BaseMVCActionCommand {
 
 		_practiceLocalService = practiceLocalService;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

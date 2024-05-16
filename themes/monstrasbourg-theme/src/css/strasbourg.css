@@ -11357,7 +11357,7 @@ footer .footer .portlet {
 .mseu main {
   overflow: hidden;
 }
-.mseu #main-content > *:not(.bg-banner) {
+.mseu #main-content > *:not(.bg-banner), .mseu #main-content #content > *:not(.bg-banner) {
   z-index: 2;
   position: relative;
 }
