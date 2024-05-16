@@ -23,11 +23,13 @@
 	<portlet:param name="deliberationId"
 	    value="${not empty dc.deliberation ? dc.deliberation.deliberationId : ''}" />
     <portlet:param name="mvcPath" value="/council-bo-view-deliberations.jsp" />
+    <portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveDeliberation" varImpl="saveDeliberationURL">
 	<portlet:param name="tab" value="deliberations" />
+    <portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 

@@ -4,6 +4,7 @@
 
 <liferay-portlet:actionURL name="saveArret" varImpl="saveArretURL">
 	<portlet:param name="tab" value="arrets" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 <div class="container-fluid container-fluid-max-xl main-content-body">
 <liferay-ui:error key="start-date-error" message="start-date-error" />

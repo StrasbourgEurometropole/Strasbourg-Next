@@ -13,7 +13,6 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.portlet.form_send.util.FormSendSignalementActionDropdownItemsProvider;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordField;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
 import eu.strasbourg.service.formSendRecordField.service.FormSendRecordFieldLocalServiceUtil;
@@ -125,17 +124,6 @@ public class ViewReportingDisplayContext extends ViewBaseDisplayContext<FormSend
             }
         }
         return response;
-    }
-
-    /**
-     * Retourne le dropdownItemsProvider de Form
-     *
-     * @return officialActionDropdownItemsProvider
-     */
-    @SuppressWarnings("unused")
-    public FormSendSignalementActionDropdownItemsProvider getActionsForm(FormSendRecordFieldSignalement formSignalement) {
-        return new FormSendSignalementActionDropdownItemsProvider(formSignalement, _request,
-                _response);
     }
 
     private void getHits() throws PortalException {

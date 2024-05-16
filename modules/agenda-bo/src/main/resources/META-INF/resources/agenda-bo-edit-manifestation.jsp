@@ -7,6 +7,7 @@
 	<portlet:param name="mvcPath" value="/agenda-bo-view-manifestations.jsp" />
 	<portlet:param name="manifestationId"
 		value="${not empty dc.manifestation ? dc.manifestation.manifestationId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveManifestation" varImpl="saveManifestationURL">

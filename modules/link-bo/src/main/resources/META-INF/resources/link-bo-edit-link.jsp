@@ -8,9 +8,12 @@
 	<portlet:param name="mvcPath" value="/link-bo-view-links.jsp" />
 	<portlet:param name="linkId"
 		value="${not empty dc.link ? dc.link.linkId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveLink" varImpl="saveLinkURL">
+	<portlet:param name="tab" value="links" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <div class="container-fluid container-fluid-max-xl main-content-body">

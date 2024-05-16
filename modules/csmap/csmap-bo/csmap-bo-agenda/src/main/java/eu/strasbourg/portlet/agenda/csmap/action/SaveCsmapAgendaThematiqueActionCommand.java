@@ -28,6 +28,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -185,12 +186,13 @@ public class SaveCsmapAgendaThematiqueActionCommand implements MVCActionCommand 
 
             // Régénération du cache des agendas pour CSMap
             _csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.AGENDA.getId());
-            response.setRenderParameter("mvcPath",
-                    "/csmap-bo-agenda-view-thematiques.jsp");
+            response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
 
         } catch (PortalException e) {
             _log.error(e.getMessage(), e);
+        } catch (IOException e) {
+            _log.error(e);
         }
 
         return true;

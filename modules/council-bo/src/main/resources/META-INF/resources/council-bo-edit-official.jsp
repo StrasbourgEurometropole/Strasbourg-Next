@@ -9,17 +9,10 @@
 	<portlet:param name="tab" value="officials" />
 </liferay-portlet:renderURL>
 
-<%-- URL : definit le lien menant vers la suppression de l'entite --%>
-<liferay-portlet:actionURL name="deleteOfficial" var="deleteOfficialURL">
-	<portlet:param name="cmd" value="deleteOfficial" />
-	<portlet:param name="tab" value="officials" />
-	<portlet:param name="officialId"
-	    value="${not empty dc.official ? dc.official.officialId : ''}" />
-</liferay-portlet:actionURL>
-
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveOfficial" varImpl="saveOfficialURL">
 	<portlet:param name="tab" value="officials" />
+    <portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>
@@ -146,15 +139,6 @@
 		var editOfficial = true;
 	</script>
 </liferay-util:html-top>
-
-<%-- Script : permet l'affichage des alertes de validation d'action --%>
-<aui:script>
-	function <portlet:namespace />deleteEntity() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
-			window.location = '${deleteOfficialURL}';
-		}
-	}
-</aui:script>
 
 <liferay-util:html-bottom>
     <script src="/o/councilbo/js/council-bo-edit-official.js" type="text/javascript"></script>
