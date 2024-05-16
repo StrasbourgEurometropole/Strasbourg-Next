@@ -1,5 +1,11 @@
 @import "style";
 
+html {
+  @include tablet-portrait {
+    overflow-x: none;
+  }
+}
+
 body {
   .alert {
     .close {
