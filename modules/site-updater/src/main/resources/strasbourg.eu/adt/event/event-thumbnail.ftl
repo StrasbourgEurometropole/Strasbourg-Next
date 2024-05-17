@@ -29,7 +29,7 @@
 
             ${entry.getDescription(locale)}
         </div>
-        <a href="#" role="button" class="st-card st-card-agenda st--card-horizontal st--with-gradient" onclick="updateDescription(this)" data-overlay-open="st-overlay-preview-agenda" data-classpk="${entry.assetEntry.classPK}"
+        <a href="#" role="button" aria-haspopup="dialog" aria-controls="st-overlay-preview-agenda" class="st-card st-card-agenda st--card-horizontal st--with-gradient" onclick="updateDescription(this)" onkeydown="simulateClick(event)" data-overlay-open="st-overlay-preview-agenda" data-classpk="${entry.assetEntry.classPK}"
            <#if entry.bookingURL?has_content>data-bookingURL="${entry.bookingURL}"</#if>
            data-date="<#if entry.firstStartDate?has_content && entry.lastEndDate?has_content>
                         <#if entry.firstStartDate?date==entry.lastEndDate?date>

@@ -8,7 +8,7 @@
 
 <li>
     <div class="st-card-container">
-        <a href="#" role="button" class="st-card st-card-person" onclick="updateModalOfficial(this)"
+        <a href="#" role="button" aria-haspopup="dialog" aria-controls="st-overlay-preview-person" class="st-card st-card-person" onclick="updateModalOfficial(this)" onkeydown="simulateClick(event)"
            data-detailurl="${homeURL}elu/-/entity/id/${entry.getOfficialId()}"
            data-mailaddress="<#if entry.listeContact?has_content>${homeURL}elu/-/entity/id/${entry.getOfficialId()}#st-overlay-contact</#if>"
            data-overlay-open="st-overlay-preview-person">
