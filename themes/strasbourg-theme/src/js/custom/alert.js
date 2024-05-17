@@ -28,3 +28,11 @@ function createConfirmationDialog(title, description = "", buttonLabel = "OK", b
     document.getElementById("alert-confirm").addEventListener("click", callbackConfirm);
     th_overlay.open("st-overlay-alert");
 }
+
+// function that simulate on click event when onkeydown event is triggered (this is called by onkeydown event)
+function simulateClick(event) {
+    // if the key is enter or space
+    if (event.keyCode === 13 || event.keyCode === 32) {
+        event.target.click();
+    }
+}
