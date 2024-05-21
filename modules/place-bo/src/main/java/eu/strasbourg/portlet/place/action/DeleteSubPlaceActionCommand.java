@@ -31,6 +31,8 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.service.place.service.SubPlaceLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
+import java.io.IOException;
+
 @Component(immediate = true, property = {
 		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_BO,
 		"mvc.command.name=deleteSubPlace" }, service = MVCActionCommand.class)
@@ -43,10 +45,13 @@ public class DeleteSubPlaceActionCommand implements MVCActionCommand {
 		try {
 			long subPlaceId = ParamUtil.getLong(request, "subPlaceId");
 			_subPlaceLocalService.removeSubPlace(subPlaceId);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
-		return true;
+		} catch (IOException e) {
+			_log.error(e);
+        }
+        return true;
 	}
 
 	private SubPlaceLocalService _subPlaceLocalService;

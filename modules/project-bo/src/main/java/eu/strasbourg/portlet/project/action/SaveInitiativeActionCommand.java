@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.project.action;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -236,12 +237,14 @@ public class SaveInitiativeActionCommand implements MVCActionCommand {
 			initiative.setPublicationDate(publicationDate);
 
 			_initiativeLocalService.updateInitiative(initiative, sc);
-			response.setRenderParameter("mvcPath", "/project-bo-view-initiatives.jsp");
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+			_log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 	
 	/**

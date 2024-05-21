@@ -28,6 +28,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -269,12 +270,14 @@ public class SavePetitionActionCommand implements MVCActionCommand {
             	petition.setExtensionDate(expirationDate);
             }
             _petitionLocalService.updatePetition(petition,sc);
-			response.setRenderParameter("mvcPath", "/project-bo-view-petitions.jsp");
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+			_log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 	
 	/**

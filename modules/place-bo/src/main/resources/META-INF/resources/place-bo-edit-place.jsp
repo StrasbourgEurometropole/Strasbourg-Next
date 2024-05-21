@@ -8,6 +8,7 @@
 	<portlet:param name="mvcPath" value="/place-bo-view-places.jsp" />
 	<portlet:param name="placeId"
 		value="${not empty dc.place ? dc.place.placeId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="savePlace" varImpl="savePlaceURL">

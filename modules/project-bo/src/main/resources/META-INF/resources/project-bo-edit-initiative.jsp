@@ -12,11 +12,13 @@
 	<portlet:param name="tab" value="initiatives" />
 	<portlet:param name="mvcPath" value="/project-bo-view-initiatives.jsp" />
 	<portlet:param name="initiativeId" value="${not empty dc.initiative ? dc.initiative.initiativeId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveInitiative" varImpl="saveInitiativeURL">
 	<portlet:param name="tab" value="initiatives" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>

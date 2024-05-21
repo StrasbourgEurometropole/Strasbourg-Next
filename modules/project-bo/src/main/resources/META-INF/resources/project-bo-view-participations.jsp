@@ -11,13 +11,6 @@
 	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:renderURL>
 
-<%-- URL : definit le lien vers la page d'ajout/edition d'une entite --%>
-<liferay-portlet:renderURL varImpl="addParticipationURL">
-	<portlet:param name="cmd" value="editParticipation" />
-	<portlet:param name="mvcPath" value="/project-bo-edit-participation.jsp" />
-	<portlet:param name="backURL" value="${participationsURL}" />
-</liferay-portlet:renderURL>
-
 <%-- Composant : barre de filtres et de gestion des entites --%>
 <clay:management-toolbar
 		managementToolbarDisplayContext="${managementDC}"

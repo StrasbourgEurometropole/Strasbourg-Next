@@ -16,6 +16,8 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.service.project.service.ProjectLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
+import java.io.IOException;
+
 @Component(
 	immediate = true,
 	property = {
@@ -33,10 +35,13 @@ public class DeleteProjectActionCommand implements MVCActionCommand {
 		try {
 			long projectId = ParamUtil.getLong(request, "projectId");
 			_projectLocalService.removeProject(projectId);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
-		return true;
+		} catch (IOException e) {
+			_log.error(e);
+        }
+        return true;
 	}
 
 	@Reference(unbind = "-")
