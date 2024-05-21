@@ -104,7 +104,8 @@ public class FicheCSMap {
     public JSONArray constructStatusJsonArray() {
         JSONArray jsonArray = new JSONArrayImpl();
         for (String key : fields.keySet()) {
-            if (key.startsWith("statut_")) {
+            // Check if the key is statut_piscine or statut_mediatheque
+            if (key.equals("statut_piscine") || key.equals("statut_mediatheque")) {
                 JSONObject statusObject = new JSONObjectImpl();
                 statusObject.put("label", key);
                 statusObject.put("value", fields.get(key));
