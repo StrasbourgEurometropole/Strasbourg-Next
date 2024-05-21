@@ -35,8 +35,7 @@ public class SelectionActionCommand implements MVCActionCommand {
 	@Override
 	public boolean processAction(ActionRequest actionRequest,
 		ActionResponse actionResponse) {
-		long[] deliberationIds = StringUtil
-			.split(ParamUtil.getString(actionRequest, "selectionIds"), 0L);
+		long[] deliberationIds = ParamUtil.getLongValues(actionRequest, "rowIds");
 
 		for (long deliberationId : deliberationIds) {
 			try {
