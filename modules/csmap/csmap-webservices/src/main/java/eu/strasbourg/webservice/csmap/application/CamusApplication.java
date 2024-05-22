@@ -24,7 +24,6 @@ import eu.strasbourg.webservice.csmap.exception.NoJWTInHeaderException;
 import eu.strasbourg.webservice.csmap.model.FicheCSMap;
 import eu.strasbourg.webservice.csmap.service.WSAuthenticator;
 import eu.strasbourg.webservice.csmap.service.WSCamus;
-import eu.strasbourg.webservice.csmap.service.WSLiferayObject;
 import eu.strasbourg.webservice.csmap.service.WSSettings;
 import eu.strasbourg.webservice.csmap.utils.CSMapJSonHelper;
 import eu.strasbourg.webservice.csmap.utils.WSCSMapUtil;
@@ -150,7 +149,7 @@ public class CamusApplication extends Application {
             FicheCSMap fiche = WSCamus.getFicheCSMap(user.getPublikId());
 
             if (fiche == null) {
-                throw new NotFoundException("Fiche non trouvée");
+                throw new NotFoundException("Fiche non trouv\u00E9e");
             }
 
             // Met à jour la fiche avec les nouvelles données
@@ -187,16 +186,13 @@ public class CamusApplication extends Application {
             FicheCSMap fiche = WSCamus.getFicheCSMap(user.getPublikId());
 
             if (fiche == null) {
-                throw new NotFoundException("Fiche non trouvée");
+                throw new NotFoundException("Fiche non trouv\u00E9e");
             }
 
             // Construit le JSON des services à partir de la fiche
             JSONArray listService = fiche.constructStatusJsonArray();
 
-            JSONObject json = JSONFactoryUtil.createJSONObject();
-            json.put("listService", listService);
-
-            return WSResponseUtil.buildOkResponse(json, 200);
+            return WSResponseUtil.buildOkResponse(listService, 200);
         } catch (WebApplicationException e) {
             log.error(e.getMessage());
             return WSResponseUtil.buildErrorResponse(e.getResponse().getStatus(), e.getMessage());

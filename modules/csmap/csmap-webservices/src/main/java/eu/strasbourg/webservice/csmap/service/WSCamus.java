@@ -30,29 +30,28 @@ public class WSCamus {
     public static final String PATH = "/api/cards/fiches-csmap/";
 
 
-
     /**
      * Récupérer une fiche CSMap en fonction de l'identifiant Publik de l'utilisateur.
      *
      * @param publikUserId L'identifiant Publik de l'utilisateur.
-     * @return Un objet FicheCSMap correspondant à l'utilisateur.
+     * @return Un objet FicheCSMap correspondant à l'utilisateur, null si la fiche n'existe pas.
      * @throws WebApplicationException Si une erreur se produit lors de la récupération de la fiche.
      */
     public static FicheCSMap getFicheCSMap(String publikUserId) throws WebApplicationException {
         // Vérifier si l'identifiant Publik est valide
-        if(publikUserId == null || publikUserId.isEmpty()){
+        if (publikUserId == null || publikUserId.isEmpty()) {
             throw new NotFoundException("publikId est vide ou null");
         }
 
         // Construire le chemin complet pour la requête
         final String path = "list?full=on&filter-user-uuid=" + publikUserId;
-        try{
+        try {
             // Appeler l'API Entrouvert et récupérer la réponse
             JSONObject response = getEntrouvertAPI(path);
             // Créer et retourner un objet FicheCSMap à partir de la réponse
             JSONObject fiche = response.getJSONArray("data").getJSONObject(0);
-            if(fiche == null){
-                 return null;
+            if (fiche == null) {
+                return null;
             }
             return new FicheCSMap(fiche);
         } catch (JSONException | IOException e) {
@@ -71,13 +70,13 @@ public class WSCamus {
      */
     public static void createFicheCSMap(String publikUserEmail, JSONObject jsonFields) throws WebApplicationException {
         // Vérifier si l'email de l'utilisateur Publik est valide
-        if(publikUserEmail == null || publikUserEmail.isEmpty()){
+        if (publikUserEmail == null || publikUserEmail.isEmpty()) {
             throw new NotFoundException("publikUserEmail est vide ou null");
         }
 
         // Construire le chemin complet pour la requête
         final String path = "submit";
-        try{
+        try {
             // Construire le corps de la requête au format JSON
             JSONObject jsonBody = JSONFactoryUtil.createJSONObject();
             jsonBody.put("data", jsonFields);
@@ -103,13 +102,13 @@ public class WSCamus {
      */
     public static void updateFicheCSMap(String ficheId, JSONObject fields) throws WebApplicationException {
         // Vérifier si l'identifiant de la fiche est valide
-        if(ficheId == null || ficheId.isEmpty()){
+        if (ficheId == null || ficheId.isEmpty()) {
             throw new NotFoundException("ficheId est vide ou null");
         }
 
         // Construire le chemin complet pour la requête
         final String path = ficheId;
-        try{
+        try {
             // Construire le corps de la requête au format JSON
             JSONObject jsonBody = JSONFactoryUtil.createJSONObject();
             jsonBody.put("data", fields);
@@ -129,7 +128,7 @@ public class WSCamus {
      * @param path Le chemin de la requête API.
      * @return Un objet JSON contenant la réponse de l'API.
      * @throws JSONException En cas de problème de traitement JSON.
-     * @throws IOException    En cas de problème d'entrée/sortie.
+     * @throws IOException   En cas de problème d'entrée/sortie.
      */
     public static JSONObject getEntrouvertAPI(String path) throws JSONException, IOException {
         // Récupérer l'en-tête d'authentification HTTP
@@ -159,7 +158,7 @@ public class WSCamus {
      * @param path Le chemin de la requête API.
      * @param body Le corps de la requête au format JSON.
      * @throws JSONException En cas de problème de traitement JSON.
-     * @throws IOException    En cas de problème d'entrée/sortie.
+     * @throws IOException   En cas de problème d'entrée/sortie.
      */
     public static void postEntrouvertAPI(String path, JSONObject body) throws JSONException, IOException {
         // Récupérer l'en-tête d'authentification HTTP
@@ -219,11 +218,11 @@ public class WSCamus {
             String csrfToken = AuthTokenUtil.getToken(request);
             JSONObject response = callLiferayAPI(url, sessionId, csrfToken);
 
-            // Vérifie si la réponse contient des éléments
-            if (response.getJSONArray("items").length() == 0) {
-                return false;
+            // Check if the response contains the "items" key and if it contains any elements
+            if (response.has("items") && response.getJSONArray("items").length() > 0) {
+                return true;
             }
-            return true;
+            return false;
         } catch (Exception e) {
             // En cas d'erreur, on log l'exception et retourne false
             _log.error(e);
@@ -244,25 +243,24 @@ public class WSCamus {
     /**
      * Appelle l'API Liferay avec les paramètres spécifiés.
      *
-     * @param url L'URL de l'API.
+     * @param url       L'URL de l'API.
      * @param sessionId L'ID de session de l'utilisateur.
      * @param csrfToken Le token CSRF pour l'authentification.
      * @return Un objet JSON contenant la réponse de l'API.
-     * @throws IOException En cas de problème d'entrée/sortie.
+     * @throws IOException   En cas de problème d'entrée/sortie.
      * @throws JSONException En cas de problème de traitement JSON.
      */
     private static JSONObject callLiferayAPI(String url, String sessionId, String csrfToken) throws IOException, JSONException {
+
+        // Récupère les identifiants de connexion
+        String username = StrasbourgPropsUtil.getCamusWebserviceUserName();
+        String password = StrasbourgPropsUtil.getCamusWebservicePassword();
+
         Map<String, String> headers = HashMapBuilder.put(
                         "Accept", "application/json"
                 )
-                // TODO: Ajouter l'authentification Basic et ajouter l'utilisateur à l'accès Vue de CamusUser dans l'objet
-                // .put(
-                // "Authorization", "Basic " + Base64.encode((username + ":" + password).getBytes())
-                // )
                 .put(
-                        "Cookie", "JSESSIONID=" + sessionId
-                ).put(
-                        "x-csrf-token", csrfToken
+                        "Authorization", "Basic " + Base64.encode((username + ":" + password).getBytes())
                 ).build();
 
         Http.Options httpOptions = new Http.Options();

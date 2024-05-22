@@ -204,6 +204,14 @@ public class StrasbourgPropsUtil {
 	public static String getCamusPassword() {
 		return PropsUtil.get("eu.strasbourg.camus.password");
 	}
+
+	public static String getCamusWebserviceUserName() {
+		return PropsUtil.get("eu.strasbourg.camus.webservice.username");
+	}
+
+	public static String getCamusWebservicePassword() {
+		return PropsUtil.get("eu.strasbourg.camus.webservice.password");
+	}
 	
 	public static String getObjtpURL(){
 		return PropsUtil.get("eu.strasbourg.objtp.url");
