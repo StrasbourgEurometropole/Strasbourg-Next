@@ -3,7 +3,92 @@
  * In this file you should write your main styles. (or centralize your imports)
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/base.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
-@import url(//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,700,800,600,300);
+
+/* Open Sans */
+  /* Light */
+  @font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/OpenSans-Light.woff2') format('woff2'),
+    url('../fonts/OpenSans-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+  }
+  /* Light Italic */
+  @font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/OpenSans-LightItalic.woff2') format('woff2'),
+    url('../fonts/OpenSans-LightItalic.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+  }
+  /* Regular */
+  @font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/OpenSans-Regular.woff2') format('woff2'),
+    url('../fonts/OpenSans-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+  }
+  /* Regular Italic */
+  @font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/OpenSans-Italic.woff2') format('woff2'),
+    url('../fonts/OpenSans-Italic.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+  }
+  /* semibold */
+  @font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/OpenSans-SemiBold.woff2') format('woff2'),
+    url('../fonts/OpenSans-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+  }
+  /* semibold Italic */
+  @font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/OpenSans-SemiBoldItalic.woff2') format('woff2'),
+    url('../fonts/OpenSans-SemiBoldItalic.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+  }
+  /* Bold */
+  @font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/OpenSans-Bold.woff2') format('woff2'),
+    url('../fonts/OpenSans-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+  }
+  /* Bold Italic */
+  @font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/OpenSans-BoldItalic.woff2') format('woff2'),
+    url('../fonts/OpenSans-BoldItalic.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+  }
+  /* ExtraBold */
+  @font-face {
+    font-family: 'Open Sans';
+    src: url('../fonts/OpenSans-ExtraBold.woff2') format('woff2'),
+    url('../fonts/OpenSans-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+  }
+  /* ExtraBold Italic */
+  @font-face {
+  font-family: 'Open Sans';
+  src: url('../fonts/OpenSans-ExtraBoldItalic.woff2') format('woff2'),
+  url('../fonts/OpenSans-ExtraBoldItalic.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+}
+
+
+
+
 /* This file allows you to override default styles in one central location for easier upgrade and maintenance. */
 /* line 2, ../sass/partials/_custom.scss */
 body {

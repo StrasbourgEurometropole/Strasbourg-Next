@@ -19,7 +19,6 @@
     
     <link href="/o/summer-2018-theme/css/t_main.css" rel="stylesheet">
 	  <link type="text/css" rel="stylesheet" href="/o/0-global-theme/css/hackliferay.css" />
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700" rel="stylesheet">
 
   <script>
       window.userFavorites = [
