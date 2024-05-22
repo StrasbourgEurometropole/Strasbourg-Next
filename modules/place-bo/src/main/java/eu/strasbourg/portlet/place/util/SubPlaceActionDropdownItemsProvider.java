@@ -11,6 +11,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.place.model.PublicHoliday;
 import eu.strasbourg.service.place.model.SubPlace;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -41,9 +42,13 @@ public class SubPlaceActionDropdownItemsProvider {
      */
     public List<DropdownItem> getActionDropdownItems() {
 
-        boolean hasUpdatePermission = Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+        boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getCompanyGroupId(),
+                StrasbourgPortletKeys.PLACE_BO, StrasbourgPortletKeys.PLACE_BO, "EDIT_PLACE")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
-        boolean hasDeletePermission = Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+        boolean hasDeletePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getCompanyGroupId(),
+                StrasbourgPortletKeys.PLACE_BO, StrasbourgPortletKeys.PLACE_BO, "DELETE_PLACE")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 
         return DropdownItemListBuilder
                 .addGroup(

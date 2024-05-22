@@ -10,10 +10,10 @@
     <#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
     <#assign text = docXml.valueOf("//dynamic-element[@name='text']/dynamic-content/text()") />
     <#assign thumbnail = docXml.valueOf("//dynamic-element[@name='thumbnail']/dynamic-content/text()") />
-    <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
-    <#assign imageURL ="" />
+    <#assign thumbnailId ="" />
     <#if thumbnail?has_content>
-        <#assign imageURL = assetPublisherTemplateHelperService.getDocumentUrl(thumbnail) />
+        <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
+        <#assign thumbnailId = assetPublisherTemplateHelperService.getDocumentId(thumbnail) />
     </#if>
 
 <#-- Récupération des catégories "Type d'actualité de l'entité -->
@@ -38,11 +38,7 @@
                     <p class="st-surtitre-cat">${newsTypes?map(news -> news.getTitle(locale))?join(', ')}</p>
                 </div>
                 <div class="st-image">
-                    <figure class="st-figure st-fit-cover" role="group">
-                        <picture>
-                            <img alt="" loading="lazy"  src="${imageURL}" />
-                        </picture>
-                    </figure>
+                    <@strasbourg.addImage fileEntryId=thumbnailId maxWidth=265 showLegende=false showCopyright=false isFigure=true />
                 </div>
             </a>
         </div>

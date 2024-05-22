@@ -3,6 +3,7 @@
 <#else>
   <#assign homeURL = "" />
 </#if>
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 <nav role="navigation" class="navbar mns-nav navbar-light">
     <div id="search-bar" class="mns-search-bar">
         <div class="container">
@@ -44,7 +45,7 @@
                   settingsScope="group" />
                 </div>
             <#else>
-              <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" title="<@liferay_ui.message key='eu.login.strasbourg' />" class="connect">
+              <a href="${layoutHelper.getPublikLoginURL(currentUrl)?html}" title="<@liferay_ui.message key='eu.login.strasbourg' />" class="connect">
                 <span class="flexbox">
                   <span class="picto"></span>
                 </span>    

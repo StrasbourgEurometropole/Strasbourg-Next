@@ -25,7 +25,7 @@
 <div class="top-header">
 	<div class="container-fluid" id="content">
 		<div class="row">
-			<a href="http://strasbourg.eu">
+			<a href="https://strasbourg.eu">
 				<img src="/o/agenda-platform-theme/images/strasbourg-logo.png" alt="Strasbourg.eu" />
 			</a>
 			<div class="login-link">

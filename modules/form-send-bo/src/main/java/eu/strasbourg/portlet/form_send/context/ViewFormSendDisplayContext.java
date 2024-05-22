@@ -19,7 +19,6 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.portlet.form_send.util.FormSendActionDropdownItemsProvider;
 import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
 import javax.portlet.PortletURL;
@@ -213,16 +212,6 @@ public class ViewFormSendDisplayContext extends ViewBaseDisplayContext<DDMFormIn
         }
         _searchContainer.setRowChecker(new EmptyOnClickRowChecker(_response));
         return _searchContainer;
-    }
-    /**
-     * Retourne le dropdownItemsProvider de Form
-     *
-     * @return officialActionDropdownItemsProvider
-     */
-    @SuppressWarnings("unused")
-    public FormSendActionDropdownItemsProvider getActionsForm(DDMFormInstanceRecord formSend) {
-        return new FormSendActionDropdownItemsProvider(formSend, _request,
-                _response);
     }
 
     private void getHits() throws PortalException {

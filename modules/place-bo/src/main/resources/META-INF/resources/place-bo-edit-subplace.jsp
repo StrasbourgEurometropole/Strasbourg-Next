@@ -215,10 +215,9 @@
 				<aui:button cssClass="btn-lg btn-default" type="submit"
 					name="save-as-draft" value="save-as-draft" />
 			</c:if>
-			<c:if
-				test="${not empty dc.subPlace and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<aui:button cssClass="btn-lg" href="${deleteSubPlaceURL}" type="cancel"
-					value="delete" />
+			<c:if test="${not empty dc.subPlace && dc.hasPermission('DELETE_PLACE') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+				<aui:button cssClass="btn-lg" href="${deleteSubPlaceURL}"
+							type="cancel" value="delete" />
 			</c:if>
 			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>

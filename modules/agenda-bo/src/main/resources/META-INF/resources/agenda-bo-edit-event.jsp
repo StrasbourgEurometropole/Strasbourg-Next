@@ -18,6 +18,7 @@
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="description-error" message="description-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
+	<liferay-ui:error key="image-format-error" message="image-format-error" />
 	<liferay-ui:error key="image-load-error" message="image-load-error" />
 	<liferay-ui:error key="image-copyright-error" message="image-copyright-error" />
 	<liferay-ui:error key="place-selected-error" message="place-selected-error" />

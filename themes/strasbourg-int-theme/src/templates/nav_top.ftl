@@ -1,4 +1,5 @@
 <#macro subnavtop prefix>
+  <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
   <nav class="${prefix}-nav-top">
     <div class="${prefix}-container">
       <a href="${homeURL}" aria-label="Accueil">
@@ -31,7 +32,7 @@
             settingsScope="group" />
         </div>
       <#else>
-        <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="${prefix}-nav-account ${prefix}-nav-btn" title="Connexion">
+        <a href="${layoutHelper.getPublikLoginURL(currentUrl)?html}" class="${prefix}-nav-account ${prefix}-nav-btn" title="Connexion">
           <span class="${prefix}-flexbox">
             <span class="${prefix}-picto"></span>
             <span class="${prefix}-text"><@liferay.language key="eu.login.strasbourg" /></span>
