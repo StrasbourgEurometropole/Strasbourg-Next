@@ -33,6 +33,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.*;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -126,8 +127,11 @@ public class SaveGalleryActionCommand implements MVCActionCommand {
 
 			_editionGalleryLocalService.updateEditionGallery(editionGallery,
 				sc);
-			response.setRenderParameter("mvcPath", "/edition-bo-view-galleries.jsp");
+
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
+			_log.error(e);
+		} catch (IOException e) {
 			_log.error(e);
 		}
 

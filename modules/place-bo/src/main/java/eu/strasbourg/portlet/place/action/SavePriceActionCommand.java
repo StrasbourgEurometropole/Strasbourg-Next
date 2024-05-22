@@ -15,6 +15,7 @@
  */
 package eu.strasbourg.portlet.place.action;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -105,12 +106,14 @@ public class SavePriceActionCommand implements MVCActionCommand {
 			}
 
 			_priceLocalService.updatePrice(price, sc);
-			response.setRenderParameter("mvcPath", "/place-bo-view-prices.jsp");
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+			_log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 
 	/**

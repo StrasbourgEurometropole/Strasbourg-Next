@@ -352,7 +352,7 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			}
 
 			_projectLocalService.updateProject(project, sc);
-			response.setRenderParameter("mvcPath", "/project-bo-view-projects.jsp");
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
 		} catch (PortalException | IOException | AddressException e) {
 			_log.error(e);

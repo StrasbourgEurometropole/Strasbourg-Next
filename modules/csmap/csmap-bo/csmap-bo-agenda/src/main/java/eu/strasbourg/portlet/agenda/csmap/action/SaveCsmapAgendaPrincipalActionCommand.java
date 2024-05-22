@@ -4,10 +4,13 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.csmap.constants.CodeCacheEnum;
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.service.AgendaLocalService;
@@ -21,6 +24,9 @@ import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
+import java.io.IOException;
 
 @Component(
         immediate = true,
@@ -99,6 +105,20 @@ public class SaveCsmapAgendaPrincipalActionCommand extends BaseMVCActionCommand 
 
         // Régénération du cache des agendas pour CSMap
         _csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.AGENDA.getId());
+
+        // Post / Redirect / Get si tout est bon
+        ThemeDisplay themeDisplay = (ThemeDisplay) request
+                .getAttribute(WebKeys.THEME_DISPLAY);
+        String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
+        PortletURL renderURL = PortletURLFactoryUtil.create(request,
+                portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
+        renderURL.setParameter("tab", request.getParameter("tab"));
+        renderURL.setParameter("mvcPath", request.getParameter("mvcPath"));
+        try {
+            response.sendRedirect(renderURL.toString());
+        } catch (IOException e) {
+            _log.error(e);
+        }
     }
 
     private AgendaLocalService _agendaLocalService;

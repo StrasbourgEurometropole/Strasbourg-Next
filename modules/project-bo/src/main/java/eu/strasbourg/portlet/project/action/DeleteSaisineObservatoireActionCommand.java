@@ -14,6 +14,7 @@ import org.osgi.service.component.annotations.Reference;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import java.io.IOException;
 
 /**
  * @author Joshua Chacha
@@ -38,9 +39,12 @@ public class DeleteSaisineObservatoireActionCommand implements MVCActionCommand{
         long saisineObservatoireId = ParamUtil.getLong(request, "saisineObservatoireId");
         try {
             _saisineObservatoireLocalService.removeSaisineObservatoire(saisineObservatoireId);
+            response.sendRedirect(ParamUtil.getString(request, "backURL"));
         } catch (PortalException e) {
             _log.error("erreur dans le delete : ",e);
             throw new PortletException(e);
+        } catch (IOException e) {
+            _log.error(e);
         }
         return false;
     }

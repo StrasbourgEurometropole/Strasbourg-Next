@@ -8,6 +8,7 @@
 	<portlet:param name="publicHolidayId"
 		value="${not empty dc.publicHoliday ? dc.publicHoliday.publicHolidayId : ''}" />
 	<portlet:param name="mvcPath" value="/place-bo-view-public-holidays.jsp" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="savePublicHoliday"

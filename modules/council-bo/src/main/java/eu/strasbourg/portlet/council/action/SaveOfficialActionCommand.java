@@ -28,6 +28,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.io.IOException;
 import java.util.List;
 
 @Component(
@@ -129,9 +130,11 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 
             // Mise à jour de l'entrée
             this.officialLocalService.updateOfficial(official, sc);
-            response.setRenderParameter("mvcPath", "/council-bo-view-officials.jsp");
+            response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
         } catch (PortalException e) {
+            log.error(e);
+        } catch (IOException e) {
             log.error(e);
         }
         return true;

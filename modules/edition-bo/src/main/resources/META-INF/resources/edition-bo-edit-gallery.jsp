@@ -7,6 +7,7 @@
 	<portlet:param name="mvcPath" value="/edition-bo-view-galleries.jsp" />
 	<portlet:param name="galleryId"
 		value="${not empty dc.editionGallery ? dc.editionGallery.galleryId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveGallery" varImpl="saveGalleryURL">

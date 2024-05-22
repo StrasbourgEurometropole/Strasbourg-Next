@@ -15,6 +15,7 @@
  */
 package eu.strasbourg.portlet.video.action;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -129,11 +130,14 @@ public class SaveVideoActionCommand
 			}
 			
 			_videoLocalService.updateVideo(video, sc);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+			_log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 
 	/**

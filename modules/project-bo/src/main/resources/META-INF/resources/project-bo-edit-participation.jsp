@@ -12,11 +12,13 @@
 	<portlet:param name="tab" value="participations" />
 	<portlet:param name="mvcPath" value="/project-bo-view-participations.jsp" />
 	<portlet:param name="participationId" value="${not empty dc.participation ? dc.participation.participationId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveParticipation" varImpl="saveParticipationURL">
 	<portlet:param name="tab" value="participations" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>

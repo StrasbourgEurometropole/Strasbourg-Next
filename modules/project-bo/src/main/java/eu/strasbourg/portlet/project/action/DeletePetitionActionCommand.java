@@ -13,6 +13,7 @@ import org.osgi.service.component.annotations.Reference;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import java.io.IOException;
 
 /**
  * @author alexandre.quere
@@ -36,9 +37,12 @@ public class DeletePetitionActionCommand implements MVCActionCommand{
         long petitionId = ParamUtil.getLong(request, "petitionId");
         try {
             _petitionLocalService.removePetition(petitionId);
+            response.sendRedirect(ParamUtil.getString(request, "backURL"));
         } catch (PortalException e) {
             _log.error("erreur dans le delete : ",e);
             throw new PortletException(e);
+        } catch (IOException e) {
+            _log.error(e);
         }
         return false;
     }

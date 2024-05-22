@@ -31,6 +31,8 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.service.agenda.service.EventLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
+import java.io.IOException;
+
 @Component(
 	immediate = true,
 	property = {
@@ -47,10 +49,13 @@ public class DeleteEventActionCommand
 		try {
 			long eventId = ParamUtil.getLong(request, "eventId");
 			_eventLocalService.removeEvent(eventId);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
+        }catch (Exception e) {
+			_log.error(e);
 		}
-		return true;
+        return true;
 	}
 
 	private EventLocalService _eventLocalService;

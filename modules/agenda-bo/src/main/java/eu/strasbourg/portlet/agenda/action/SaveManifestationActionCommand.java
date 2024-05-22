@@ -44,6 +44,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -158,14 +159,16 @@ public class SaveManifestationActionCommand implements MVCActionCommand {
 
 			_eventManifestationLocalService
 				.updateManifestation(eventManifestation, sc);
-			response.setRenderParameter("mvcPath", "/agenda-bo-view-manifestations.jsp");
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
 		} catch (ParseException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+            _log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 
 	/**

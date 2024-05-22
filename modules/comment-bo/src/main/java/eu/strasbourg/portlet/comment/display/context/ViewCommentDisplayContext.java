@@ -11,7 +11,6 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.portlet.comment.util.CommentActionDropdownItemsProvider;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
 import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
@@ -30,17 +29,6 @@ public class ViewCommentDisplayContext extends ViewBaseDisplayContext<Comment> {
         _response = response;
         _themeDisplay = (ThemeDisplay) _request
                 .getAttribute(WebKeys.THEME_DISPLAY);
-    }
-
-    /**
-     * Retourne le dropdownItemsProvider de commentaire
-     *
-     * @return CommentActionDropdownItemsProvider
-     */
-    @SuppressWarnings("unused")
-    public CommentActionDropdownItemsProvider getActionsComment(Comment comment) {
-        return new CommentActionDropdownItemsProvider(comment, _request,
-                _response);
     }
 
     /**

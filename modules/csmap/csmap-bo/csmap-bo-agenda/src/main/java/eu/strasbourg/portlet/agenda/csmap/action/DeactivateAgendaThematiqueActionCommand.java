@@ -15,6 +15,8 @@
  */
 package eu.strasbourg.portlet.agenda.csmap.action;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -28,6 +30,7 @@ import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import java.io.IOException;
 
 @Component(
 	immediate = true,
@@ -50,7 +53,12 @@ public class DeactivateAgendaThematiqueActionCommand
 
 		// Régénération du cache des agendas pour CSMap
 		_csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.AGENDA.getId());
-		return true;
+        try {
+            response.sendRedirect(ParamUtil.getString(request, "backURL"));
+        } catch (IOException e) {
+            _log.error(e);
+        }
+        return true;
 	}
 
 	private AgendaLocalService _agendaLocalService;
@@ -65,4 +73,5 @@ public class DeactivateAgendaThematiqueActionCommand
 	protected void setCsmapCacheLocalService(CsmapCacheLocalService csmapCacheLocalService) {
 		_csmapCacheLocalService = csmapCacheLocalService;
 	}
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

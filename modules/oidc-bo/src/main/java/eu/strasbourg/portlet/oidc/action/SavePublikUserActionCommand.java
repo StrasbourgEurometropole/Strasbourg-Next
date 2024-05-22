@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.oidc.action;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -115,11 +116,14 @@ public class SavePublikUserActionCommand implements MVCActionCommand {
 			publikUser.setBanishDescriptionMap(banishDescription);
 
 			_publikUserLocalService.updatePublikUser(publikUser, sc);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
 		} catch (PortalException e) {
 			_log.error(e);
-		}
-		return true;
+		} catch (IOException e) {
+			_log.error(e);
+        }
+        return true;
 	}
 	
 	/**

@@ -6,12 +6,6 @@
 	<portlet:param name="mvcPath" value="/place-bo-view-prices.jsp" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
 </liferay-portlet:renderURL>
-<liferay-portlet:renderURL varImpl="addPriceURL">
-	<portlet:param name="tab" value="prices"/>
-	<portlet:param name="cmd" value="editPrice" />
-	<portlet:param name="mvcPath" value="/place-bo-edit-price.jsp" />
-	<portlet:param name="backURL" value="${pricesURL}" />
-</liferay-portlet:renderURL>
 
 <clay:management-toolbar
 		managementToolbarDisplayContext="${managementDC}"
