@@ -134,11 +134,11 @@ public class CamusApplication extends Application {
             // Boucle à travers le tableau JSON
             for (int i = 0; i < json.length(); i++) {
                 JSONObject obj = json.getJSONObject(i);
-                String label = obj.getString("codeService");
-                String value = obj.getString("code");
+                String label = obj.getString("codeSecteur");
+                String value = obj.getString("identifiant");
                 // Vérifie que les valeurs ne sont pas vides
                 if (!Validator.isNotNull(value) || !Validator.isNotNull(label)) {
-                    return WSResponseUtil.buildErrorResponse(400, "code or codeService is empty");
+                    return WSResponseUtil.buildErrorResponse(400, "identifiant or codeSecteur is empty");
                 }
 
                 // Ajoute la valeur au JSON de retour
