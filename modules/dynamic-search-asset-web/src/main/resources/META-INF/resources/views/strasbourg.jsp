@@ -2,6 +2,8 @@
 
 <portlet:resourceURL id="searchSubmit" var="searchSubmitURL">
 </portlet:resourceURL>
+<portlet:resourceURL id="logChoice" var="logChoiceURL">
+</portlet:resourceURL>
 <c:if test="${themeDisplay.isSignedIn()}" >
 <clay:alert message="Overlay de recherche est present sur cette page"
 displayType="secondary"
@@ -72,13 +74,14 @@ title="Overlay" />
                         <span class="st-icon-person" aria-hidden="true"></span>
                         ${publikName}.
                     </a>
-                    <a href="${publikLogoutURL}" class="st-btn-icon st-btn-logout  mr-2" title="<liferay-ui:message key='eu.logout' />">
+                    <a href="<c:out value="${publikLogoutURL}" />" class="st-btn-icon st-btn-logout  mr-2" title="<liferay-ui:message key='eu.logout' />">
                         <span class="st-icon-close" aria-hidden="true"></span>
                         <span class="st-sr-only"><liferay-ui:message key='eu.logout' /></span>
                     </a>
                 </c:when>
                 <c:otherwise>
-                    <a href="${publikLoginURL}" class="st-btn-compte  mr-2">
+
+                    <a href="<c:out value="${publikLoginURL}" />" class="st-btn-compte  mr-2">
                         <span class="st-icon-person" aria-hidden="true"></span>
                         <strong><liferay-ui:message key="eu.mystrasbourg" /></strong>.eu
                     </a>
@@ -106,7 +109,8 @@ title="Overlay" />
 		var porletNamespace = '<portlet:namespace/>';
 		var dynamicSearch = ${dynamicSearch};
 
-		var searchSubmitURL = '${searchSubmitURL}';
+        var searchSubmitURL = '${searchSubmitURL}';
+        var logChoiceURL = '${logChoiceURL}';
 	</script>
     <link rel="stylesheet" href="/o/dynamicsearchassetweb/css/dynamic-search.css" />
 </liferay-util:html-top>

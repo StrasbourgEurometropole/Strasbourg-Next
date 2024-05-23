@@ -11,5 +11,6 @@ dependencies {
 	implementation project (':modules:edition:edition-api')
 	implementation project (':modules:activity:activity-api')
 	implementation project (':modules:place:place-api')
+	implementation project (':modules:search-log:search-log-api')
 
 }

@@ -180,6 +180,20 @@ jQuery(function() {
 		var periodLabels = $('.tab-content > div[id*=period]');
 		var nbPeriodDefault = 0;
 		var periodsIndexes = "";
+
+
+		// Gitlab 39036: affichage d'un message d'erreur si plus de 10 périodes
+		if(periodLabels.length > 10) {
+			$('#period-timeContent .place-schedule-max-period').show();
+			if(allValidate){
+				$('html,body').animate({scrollTop: $('#period-timeContent .place-schedule-max-period').offset().top - 100}, 'slow');
+				allValidate = false;
+			}
+		}else{
+			$('#period-timeContent .place-schedule-max-period').hide();
+		}
+
+
 		for (var i = 0; i < periodLabels.length; i++) {
 			var periodLabel = periodLabels[i];
 			var index = $(periodLabel).children('input[id*=numPeriod]').val();
@@ -314,6 +328,19 @@ jQuery(function() {
 		var scheduleLabels = document
 				.querySelectorAll('#date-fields .schedule-label');
 		var periods = [];
+
+		// Gitlab 39036 : affichage d'un message d'erreur si plus de 25 exceptions
+		if(scheduleLabels.length > 25) {
+			$('#date-fields .place-schedule-max-exception').show();
+			if(allValidate){
+				$('html,body').animate({scrollTop: $('#date-fields .place-schedule-max-exception').offset().top - 100}, 'slow');
+				allValidate = false;
+			}
+		}else{
+			$('#date-fields .place-schedule-max-exception').hide();
+		}
+
+
 		for (var i = 0; i < scheduleLabels.length; i++) {
 			var scheduleLabel = scheduleLabels[i];
 			var index = $(scheduleLabel).attr('id');

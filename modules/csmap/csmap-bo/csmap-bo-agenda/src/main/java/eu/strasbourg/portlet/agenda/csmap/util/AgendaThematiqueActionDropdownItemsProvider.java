@@ -41,10 +41,10 @@ public class AgendaThematiqueActionDropdownItemsProvider {
      */
     public List<DropdownItem> getActionDropdownItems() {
 
-        boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+        boolean hasUpdatePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getCompanyGroupId(),
                 StrasbourgPortletKeys.CSMAP_BO_AGENDA, StrasbourgPortletKeys.CSMAP_BO_AGENDA, "EDIT_AGENDA")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
-        boolean hasDeletePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+        boolean hasDeletePermission = _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getCompanyGroupId(),
                 StrasbourgPortletKeys.CSMAP_BO_AGENDA, StrasbourgPortletKeys.CSMAP_BO_AGENDA, "DELETE_AGENDA")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
 

@@ -53,6 +53,7 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
     public static final String ERROR_MISSING_LASTNAME = "error-missing-lastname";
     public static final String ERROR_MISSING_FIRSTNAME = "error-missing-firstname";
     public static final String ERROR_MISSING_EMAIL = "error-missing-email";
+    public static final String ERROR_EXISTING_EMAIL = "error-existing-email";
 
     /** Service **/
     private OfficialLocalService officialLocalService;
@@ -168,6 +169,13 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
         if (Validator.isNull(this.email)) {
             SessionErrors.add(request, ERROR_MISSING_EMAIL);
             isValid = false;
+        }else{
+            // Email déjà existant ?
+            Official official = this.officialLocalService.findByEmail(this.email);
+            if (Validator.isNotNull(official) && official.getOfficialId() != officialId){
+                SessionErrors.add(request, ERROR_EXISTING_EMAIL);
+                isValid = false;
+            }
         }
 
         return isValid;

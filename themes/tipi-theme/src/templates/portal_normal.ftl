@@ -51,7 +51,7 @@
 			<h1></h1> 
 			<nav class="nav-lang"> 
 				<div class="center"> 
-					<a href="http://www.strasbourg.eu/" title="Strasbourg.eu (nouvelle fenêtre)" class="logo-strasbourg" target="_blank"> 
+					<a href="https://www.strasbourg.eu/" title="Strasbourg.eu (nouvelle fenêtre)" class="logo-strasbourg" target="_blank">
 						<img src="/o/tipi-theme/images/logo_strasbourg.png" alt="Strasbourg.eu"> 
 					</a> 
 					<ul> <li class="contact"> <a href="/web/tipi/pied-de-page/contact" title="Contact">Contact</a> </li> </ul> 
@@ -139,14 +139,14 @@
 					<ul> 
 						<li> <a class="btn-fb" href="https://www.facebook.com/strasbourg.eu" target="_blank" title="Page Facebook de Strasbourg.eu (nouvelle fenêtre)">Facebook</a></li> 
 						<li> <a class="btn-twitter" href="https://twitter.com/strasbourg" target="_blank" title="Fil Twitter de Strasbourg.eu (nouvelle fenêtre)">Twitter</a></li> 
-						<li> <a class="btn-daily" href="http://www.dailymotion.com/villedestrasbourg" target="_blank" title="Les vidéos de Strasbourg.eu (nouvelle fenêtre)">Dailymotion</a></li> 
+						<li> <a class="btn-daily" href="https://www.dailymotion.com/villedestrasbourg" target="_blank" title="Les vidéos de Strasbourg.eu (nouvelle fenêtre)">Dailymotion</a></li>
 						<li> <a class="btn-insta" href="https://instagram.com/strasbourg_eurometropole" target="_blank" title="Instagram de Strasbourg.eu (nouvelle fenêtre)">Instagram</a></li> 
-						<li> <a class="btn-tumblr" href="http://www.strasblr.eu/" target="_blank" title="Strasblr : un autre regard sur Strasbourg (nouvelle fenêtre)">Tumblr</a></li> 
+						<li> <a class="btn-tumblr" href="https://www.strasblr.eu/" target="_blank" title="Strasblr : un autre regard sur Strasbourg (nouvelle fenêtre)">Tumblr</a></li>
 					</ul> 
 				</div> 
 			</div> 
 		</div>
-		<div class="closure"> <a href="http://www.strasbourg.eu" target="_blank" title="Strasbourg.eu">Strasbourg.eu</a></div>
+		<div class="closure"> <a href="https://www.strasbourg.eu" target="_blank" title="Strasbourg.eu">Strasbourg.eu</a></div>
 	</footer>
 	<script type="text/javascript">
 		document.querySelector(".footer-back-to-top").addEventListener("click", toTop);

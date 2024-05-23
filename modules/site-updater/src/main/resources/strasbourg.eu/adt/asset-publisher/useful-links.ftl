@@ -4,9 +4,11 @@
 <div class="st-bloc st-bloc-infos-complementaires st-wrapper st--has-margin">
     <div>
         <div class="st-component st-component-type-2">
-            <h2 class="st-h2 st-title">
-                ${portletHelper.getPortletTitle('eu.useful-links', renderRequest)}
-            </h2>
+            <#if portletHelper.getPortletTitle('', renderRequest)?has_content>
+                <h2 class="st-h2 st-title">
+                    ${portletHelper.getPortletTitle('', renderRequest)}
+                </h2>
+            </#if>
             <div class="st-component-container">
                 <ul class="st-liste st-limit-height">
                     <#if entries?has_content>

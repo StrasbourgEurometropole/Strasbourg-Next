@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <#include init />
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 
 <html class="${root_css_class} mseu" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}">
 
@@ -62,7 +63,7 @@
 
 <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
 <script>
-  window.loginURL = '${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}';
+  window.loginURL = '${layoutHelper.getPublikLoginURL(currentUrl)?html}';
 </script>
 
   <header class="header">
@@ -93,40 +94,42 @@
   </header>
  
   <main id="main-content">
-    <#if !isWelcome>
-      <#assign layoutImage = layout.expandoBridge.getAttribute('image') />
-      <#if !layoutImage?has_content>
-        <div class="bg-banner" style="background-image: url(/o/monstrasbourg-theme/images/banner.jpg);"></div>
-      </#if>
-      <#if layoutImage?has_content>
-        <div class="bg-banner" style="background-image: url(${layoutImage});"></div>
-      </#if>
-    </#if>
-    <#if !isWelcome>
-      <div class="custom-container" >
-        <#include "${full_templates_path}/home_banner.ftl" />
-        <#if !(isHome || isDistrict)>
-          <div class="card-box">  
-            <@liferay.breadcrumbs />
+    <div id="content">
+      <#if !isWelcome>
+        <#assign layoutImage = layout.expandoBridge.getAttribute('image') />
+        <#if !layoutImage?has_content>
+          <div class="bg-banner" style="background-image: url(/o/monstrasbourg-theme/images/banner.jpg);"></div>
         </#if>
-    <#else> 
-      <div id="welcome-page">
-    </#if>      
-    <#if selectable>
-      <@liferay_util["include"] page=content_include />
-    <#else>
-      ${portletDisplay.recycle()}
-
-      ${portletDisplay.setTitle(the_title)}
-
-      <@liferay_theme["wrap-portlet"] page="portlet.ftl">
+        <#if layoutImage?has_content>
+          <div class="bg-banner" style="background-image: url(${layoutImage});"></div>
+        </#if>
+      </#if>
+      <#if !isWelcome>
+        <div class="custom-container" >
+          <#include "${full_templates_path}/home_banner.ftl" />
+          <#if !(isHome || isDistrict)>
+            <div class="card-box">  
+              <@liferay.breadcrumbs />
+          </#if>
+      <#else> 
+        <div id="welcome-page">
+      </#if>      
+      <#if selectable>
         <@liferay_util["include"] page=content_include />
-      </@>
-    </#if>
-    <#if !(isHome || isDistrict || isWelcome)>
-      </div>
-    </#if>
-    </div> 
+      <#else>
+        ${portletDisplay.recycle()}
+
+        ${portletDisplay.setTitle(the_title)}
+
+        <@liferay_theme["wrap-portlet"] page="portlet.ftl">
+          <@liferay_util["include"] page=content_include />
+        </@>
+      </#if>
+      <#if !(isHome || isDistrict || isWelcome)>
+        </div>
+      </#if>
+      </div> 
+    </div>
   </main>
   <#include "${full_templates_path}/footer.ftl" />
 

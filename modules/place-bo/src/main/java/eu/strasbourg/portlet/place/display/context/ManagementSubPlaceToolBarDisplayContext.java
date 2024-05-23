@@ -9,9 +9,11 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.display.context.ManagementBaseToolBarDisplayContext;
@@ -36,12 +38,16 @@ public class ManagementSubPlaceToolBarDisplayContext extends ManagementBaseToolB
 
     @Override
     protected boolean hasUpdatePermission() {
-        return Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+        return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getCompanyGroupId(),
+                StrasbourgPortletKeys.PLACE_BO, StrasbourgPortletKeys.PLACE_BO, "EDIT_PLACE")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
     }
 
     @Override
     protected boolean hasDeletePermission() {
-        return Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
+        return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getCompanyGroupId(),
+                StrasbourgPortletKeys.PLACE_BO, StrasbourgPortletKeys.PLACE_BO, "DELETE_PLACE")
+                && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
     }
 
     /**

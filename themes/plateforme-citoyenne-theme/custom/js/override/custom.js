@@ -794,7 +794,7 @@ function createVideo(video){
             '<div class="pro-card pro-card-video vignette" data-linkall="> a">' +
                 '<div class="pro-header">' +
                     '<figure class="fit-cover" role="group">' +
-                        '<img alt="' + video.title["fr_FR"] + '" width="280" height="175" src="' + video.imageURL + '&imagePreview=1" loading="lazy">' +
+                        '<img alt="' + video.title["fr_FR"] + '" width="280" height="175" src="' + video.imageURL + (video.imageURL.includes('?') ? '&' : '?') + 'imagePreview=1" loading="lazy">' +
                     '</figure>' +
                     '<span class="icon-ico-lecteur"></span>' +
                 '</div>' +
@@ -843,7 +843,7 @@ function createProject(project){
                 '<a href="' + homeURL + project.detailURL + '" title="lien de la page">' +
                     '<div class="img">' +
                         '<figure role="group">' +
-                            '<img src="' + project.imageURL + '&imagePreview=1" loading="lazy" alt="Image projet" width="360" height="242" class="fit-cover"/>' +
+                            '<img src="' + project.imageURL + (project.imageURL.includes('?') ? '&' : '?') + 'imagePreview=1" loading="lazy" alt="Image projet" width="360" height="242" class="fit-cover"/>' +
                         '</figure>' +
                         '<span>Voir le projet</span>' +
                     '</div>' +
@@ -998,7 +998,7 @@ function createParticipation(participation) {
       <div>
         <div class="pro-header-participation">
             <figure role="group">
-              <img src="${participation.authorImageURL}&imagePreview=1" loading="lazy" width="40" height="40" alt="Image participation"/>
+              <img src="${participation.authorImageURL}${participation.authorImageURL.includes('?') ? '&' : '?'}imagePreview=1" loading="lazy" width="40" height="40" alt="Image participation"/>
             </figure>
             <div class="pro-header-author">
             <p>Participation publiée par :</p>
@@ -1096,7 +1096,7 @@ function createProjectWorkshop(projectWorkshop){
         '<a href="' + projectWorkshop.detailURL + '" title="Lien vers la page (' + projectWorkshop.title + ')" class="pro-bloc-actu">' +          
             '<div class="img">' +
                 '<figure role="group">' +
-                    '<img src="' + projectWorkshop.thumbnail + '&imagePreview=1" loading="lazy" alt="Image" width="360" height="174" class="fit-cover"/>' +
+                    '<img src="' + projectWorkshop.thumbnail + (projectWorkshop.thumbnail.includes('?') ? '&' : '?') + 'imagePreview=1" loading="lazy" alt="Image" width="360" height="174" class="fit-cover"/>' +
                 '</figure>' +
                 '<span>';
                     vignette += projectWorkshop.jsonVocabulariesTitle;
@@ -1126,7 +1126,7 @@ function createNews(news) {
         <a href="${news.detailURL}" title="Lien vers la page (${news.title})" class="pro-bloc-actu">
             <div class="img">
                 <figure role="group">
-                    <img src="${news.thumbnail}&imagePreview=1" loading="lazy" alt="Image" width="360" height="174" class="fit-cover"/>
+                    <img src="${news.thumbnail}${news.thumbnail.includes('?') ? '&' : '?'}imagePreview=1" loading="lazy" alt="Image" width="360" height="174" class="fit-cover"/>
                 </figure>
             </div>
             <div class="content">
@@ -1153,7 +1153,7 @@ function createPetition(petition) {
       <div>
         <div class="pro-header-participation">
             <figure role="group">
-              <img src="${petition.authorImageURL}&imagePreview=1" loading="lazy" width="40" height="40" alt="Image petition"/>
+              <img src="${petition.authorImageURL}${petition.authorImageURL.includes('?') ? '&' : '?'}imagePreview=1" loading="lazy" width="40" height="40" alt="Image petition"/>
             </figure>
             <div class="pro-header-author">
             <p>Pétition publiée par :</p>
@@ -1214,7 +1214,7 @@ function createSaisineObservatoire(saisineObservatoire) {
       <div>
         <div class="pro-header-participation">
             <figure role="group">
-              <img src="${saisineObservatoire.authorImageURL}&imagePreview=1" loading="lazy" width="40" height="40" alt="Image saisine"/>
+              <img src="${saisineObservatoire.authorImageURL}${saisineObservatoire.authorImageURL.includes('?') ? '&' : '?'}imagePreview=1" loading="lazy" width="40" height="40" alt="Image saisine"/>
             </figure>
             <div class="pro-header-author">
             <p>Saisine publiée par :</p>
@@ -1270,12 +1270,12 @@ function createBudgetParticipatif(budgetParticipatif) {
       <div class="pro-budget">
         <div>
           <div class="pro-header-budget" ${budgetParticipatif.imageURL != "" ?
-        `style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, transparent 45%), url('${budgetParticipatif.imageURL}&imagePreview=1')"`
+        `style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, transparent 45%), url('${budgetParticipatif.imageURL}${budgetParticipatif.authorImageURL.includes('?') ? '&' : '?'}imagePreview=1')"`
         :
         ''
     }>
             <figure role="group">
-              <img src="${budgetParticipatif.authorImageURL}&imagePreview=1" loading="lazy" width="40" height="40" alt="Arrière plan page standard"/>
+              <img src="${budgetParticipatif.authorImageURL}${budgetParticipatif.authorImageURL.includes('?') ? '&' : '?'}imagePreview=1" loading="lazy" width="40" height="40" alt="Arrière plan page standard"/>
             </figure>
             <p>Projet déposé par :</p>
             <p><strong>${budgetParticipatif.author}</strong></p>
@@ -1314,9 +1314,9 @@ function createInitiative(initiative) {
     <div class="item pro-bloc-card-budget vignette" data-linkall="a">
       <div class="pro-budget">
         <div>
-          <div class="pro-header-budget" ${`style="background-image: linear-gradient(to bottom, rgba(0, 0, 0,  0.7) 0%, transparent 45%), url('${initiative.imageURL}&imagePreview=1')"`}>
+          <div class="pro-header-budget" ${`style="background-image: linear-gradient(to bottom, rgba(0, 0, 0,  0.7) 0%, transparent 45%), url('${initiative.imageURL}${initiative.authorImageURL.includes('?') ? '&' : '?'}imagePreview=1')"`}>
             <figure role="group">
-              <img src="${initiative.authorImageURL}&imagePreview=1" loading="lazy" width="40" height="40" alt="Arrière plan page standard"/>
+              <img src="${initiative.authorImageURL}${initiative.authorImageURL.includes('?') ? '&' : '?'}imagePreview=1" loading="lazy" width="40" height="40" alt="Arrière plan page standard"/>
             </figure>
             <p>Atelier déposé par :</p>
             <p><strong>${initiative.author}</strong></p>

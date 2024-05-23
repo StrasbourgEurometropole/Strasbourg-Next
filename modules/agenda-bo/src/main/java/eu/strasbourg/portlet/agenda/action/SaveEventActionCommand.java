@@ -421,6 +421,7 @@ public class SaveEventActionCommand implements MVCActionCommand {
 	private boolean validate(ActionRequest request) {
 		boolean isValid = true;
 
+
 		// Titre
 		if (Validator.isNull(ParamUtil.getString(request, "title"))) {
 			SessionErrors.add(request, "title-error");
@@ -438,6 +439,11 @@ public class SaveEventActionCommand implements MVCActionCommand {
 		String imageURL = ParamUtil.getString(request, "externalImageURL");
 		if (imageId == 0 && Validator.isNull(imageURL)) {
 			SessionErrors.add(request, "image-error");
+			isValid = false;
+		}
+
+		if (!Validator.isUrl(imageURL)) {
+			SessionErrors.add(request, "image-format-error");
 			isValid = false;
 		}
 

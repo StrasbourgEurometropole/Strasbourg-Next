@@ -91,7 +91,7 @@
 	            <div class="buttons">
 	            	<input class="reset-button" name="Effacer" title="Effacer les champs de saisie" type="button" value="Effacer">
 	            	<input class="button" name="submitBill" title="Valider le formulaire" type="submit" value="Envoyer"> 
-	            	<input class="reset-button" style="float: right;" name="Fermer" onclick="window.location.href='http://' + window.location.hostname" title="Aller &agrave; la page principale" type="button" value="Fermer">
+	            	<input class="reset-button" style="float: right;" name="Fermer" onclick="window.location.href='https://' + window.location.hostname" title="Aller &agrave; la page principale" type="button" value="Fermer">
 	            </div>
 	            <div class="clear">
 	                &nbsp;

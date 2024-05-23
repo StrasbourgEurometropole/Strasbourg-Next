@@ -47,7 +47,7 @@
                 margin-top: 25px;
 
                 label, legend {
-                    @include ft($f_hx, 1.4em, 700, $c_dark, 11em);
+                    @include ft($f_hx, 1.4em, 700, $c_dark, 1.1em);
                     position: relative;
                     display: block;
                     margin: 10px 0 5px 0;

@@ -9,7 +9,8 @@
 
 
 <div class="st-bloc st-bloc-slider-focus st-js-slider-focus splide st-u-overflow-x-hidden st--type-cards" role="group">
-    <div class="st-wrapper st-wrapper-small st-bloc-slider-focus__top">
+
+    <div class="st-wrapper st-wrapper-small st-bloc-slider-focus__top ${(entries?size gt 4)?then("","st-hide")}">
         <div class="splide__arrows st-nav-arrows st-hide-until@mobile">
             <button class="splide__arrow splide__arrow--prev st-btn-arrow st--prev"></button>
             <button class="splide__arrow splide__arrow--next st-btn-arrow st--next"></button>
@@ -59,7 +60,9 @@
     </div>
     <div class="st-wrapper st-wrapper-small st-bloc-slider-focus__bottom">
         <ul class="splide__pagination st-nav-dots"></ul>
-        <a href="/actualite" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta">Tous les articles</a>
+        <a href="/actualite" class="st-btn st--btn-secondary st--btn-full-width-mobile st-btn-cta">
+<@liferay_ui.message key="eu.news.all-news" />
+        </a>
     </div>
 </div>
 

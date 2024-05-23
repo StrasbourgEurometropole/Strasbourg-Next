@@ -53,8 +53,6 @@ import java.util.Map;
 public class GlobalBOEditorConfigContributor
 	extends BaseEditorConfigContributor {
 
-	private ItemSelector _itemSelector;
-
 	@Override
 	public void populateConfigJSONObject(JSONObject jsonObject,
 										 Map<String, Object> inputEditorTaglibAttributes,
@@ -83,119 +81,7 @@ public class GlobalBOEditorConfigContributor
 			_log.error(e.getMessage() + " : " + editorConfigurationString);
 		}
 		jsonObject.put("allowedContent", true);
-
-		// Plugins
-		String extraPlugins = jsonObject.getString("extraPlugins");
-
-		if (Validator.isNull(extraPlugins)) {
-			extraPlugins = "copyright,fileselector,simplebox,keynumbers,linkblock,blockfileselector,quote,videoselector";
-		} else {
-			if (!extraPlugins.contains("copyright")) {
-				extraPlugins = extraPlugins + ",copyright";
-			}
-			if (!extraPlugins.contains("fileselector")) {
-				extraPlugins = extraPlugins + ",fileselector";
-			}
-			if (!extraPlugins.contains("simplebox")) {
-				extraPlugins = extraPlugins + ",simplebox";
-			}
-			if (!extraPlugins.contains("keynumbers")) {
-				extraPlugins = extraPlugins + ",keynumbers";
-			}
-			if (!extraPlugins.contains("linkblock")) {
-				extraPlugins = extraPlugins + ",linkblock";
-			}
-			if (!extraPlugins.contains("blockfileselector")) {
-				extraPlugins = extraPlugins + ",blockfileselector";
-			}
-			if (!extraPlugins.contains("quote")) {
-				extraPlugins = extraPlugins + ",quote";
-			}
-			if (!extraPlugins.contains("videoselector")) {
-				extraPlugins = extraPlugins + ",videoselector";
-			}
-		}
-		jsonObject.put("extraPlugins", extraPlugins);
-
-		// Configuration ItemSelector pour fichiers
-		List<ItemSelectorCriterion> itemSelectorCriteria = new ArrayList<>();
-
-		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes = new ArrayList<>();
-		desiredItemSelectorReturnTypes
-				.add(new FileEntryItemSelectorReturnType());
-		FileItemSelectorCriterion fileItemSelectorCriterion = new FileItemSelectorCriterion();
-		fileItemSelectorCriterion
-				.setDesiredItemSelectorReturnTypes(desiredItemSelectorReturnTypes);
-
-		itemSelectorCriteria.add(fileItemSelectorCriterion);
-
-		PortletURL itemSelectorURL = getItemSelectorPortletURL(
-				inputEditorTaglibAttributes, requestBackedPortletURLFactory,
-				itemSelectorCriteria.toArray(
-						new ItemSelectorCriterion[itemSelectorCriteria.size()]));
-
-		if (itemSelectorURL != null) {
-			jsonObject.put("filebrowserFileBrowseLinkUrl",
-					itemSelectorURL.toString());
-			jsonObject.put("filebrowserFileBrowseUrl",
-					itemSelectorURL.toString());
-		}
-
-		// Configuration ItemSelector pour vidéos
-		// On reprend juste l'URL précédente en remplaçant le criterion
-		String videoSelectorURL = itemSelectorURL.toString().replace(
-				"com.liferay.item.selector.criteria.file.criterion.FileItemSelectorCriterion",
-				"eu.strasbourg.portlet.video.itemselector.VideoItemSelectorCriterion");
-		if (videoSelectorURL != null) {
-			jsonObject.put("videobrowserVideoBrowseLinkUrl", videoSelectorURL);
-			jsonObject.put("videobrowserVideoBrowseUrl", videoSelectorURL);
-		}
-
-	}
-
-	@Reference(unbind = "-")
-	public void setItemSelector(ItemSelector itemSelector) {
-		_itemSelector = itemSelector;
-	}
-
-	protected ItemSelector getItemSelector() {
-		return _itemSelector;
-	}
-
-	private PortletURL getItemSelectorPortletURL(
-			Map<String, Object> inputEditorTaglibAttributes,
-			RequestBackedPortletURLFactory requestBackedPortletURLFactory,
-			ItemSelectorCriterion... itemSelectorCriteria) {
-
-		List<ItemSelectorReturnType> desiredItemSelectorReturnTypes = new ArrayList<>();
-
-		desiredItemSelectorReturnTypes.add(new URLItemSelectorReturnType());
-
-		for (ItemSelectorCriterion itemSelectorCriterion : itemSelectorCriteria) {
-
-			itemSelectorCriterion.setDesiredItemSelectorReturnTypes(
-					desiredItemSelectorReturnTypes);
-		}
-
-		String name = GetterUtil.getString(
-				inputEditorTaglibAttributes.get("liferay-ui:input-editor:name"));
-
-		boolean inlineEdit = GetterUtil.getBoolean(inputEditorTaglibAttributes
-				.get("liferay-ui:input-editor:inlineEdit"));
-
-		if (!inlineEdit) {
-			String namespace = GetterUtil.getString(inputEditorTaglibAttributes
-					.get("liferay-ui:input-editor:namespace"));
-
-			name = namespace + name;
-		}
-
-		ItemSelector itemSelector = getItemSelector();
-
-		return itemSelector.getItemSelectorURL(requestBackedPortletURLFactory,
-				name + "selectItem", itemSelectorCriteria);
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-
 }

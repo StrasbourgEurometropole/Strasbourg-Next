@@ -5,8 +5,6 @@ import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
@@ -15,7 +13,6 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.portlet.form_send.util.FormActionDropdownItemsProvider;
 import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
 import javax.portlet.PortletURL;
@@ -96,16 +93,6 @@ public class ViewFormDisplayContext extends ViewBaseDisplayContext<DDMFormInstan
         }
         _searchContainer.setRowChecker(new EmptyOnClickRowChecker(_response));
         return _searchContainer;
-    }
-    /**
-     * Retourne le dropdownItemsProvider de Form
-     *
-     * @return officialActionDropdownItemsProvider
-     */
-    @SuppressWarnings("unused")
-    public FormActionDropdownItemsProvider getActionsForm(DDMFormInstance ddmForm) {
-        return new FormActionDropdownItemsProvider(ddmForm, _request,
-                _response);
     }
 
     @Override
