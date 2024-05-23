@@ -19,6 +19,16 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.model.SubPlace;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
+import eu.strasbourg.service.place.service.SubPlaceLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -31,6 +41,8 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.service.place.service.SubPlaceLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
+import java.util.List;
+
 @Component(immediate = true, property = {
 		"javax.portlet.name=" + StrasbourgPortletKeys.PLACE_BO,
 		"mvc.command.name=deleteSubPlace" }, service = MVCActionCommand.class)
@@ -40,11 +52,27 @@ public class DeleteSubPlaceActionCommand implements MVCActionCommand {
 	public boolean processAction(ActionRequest request, ActionResponse response)
 			throws PortletException {
 
-		try {
-			long subPlaceId = ParamUtil.getLong(request, "subPlaceId");
-			_subPlaceLocalService.removeSubPlace(subPlaceId);
-		} catch (PortalException e) {
-			_log.error(e);
+		long subPlaceId = ParamUtil.getLong(request, "subPlaceId");
+
+		// vérifie que l'utilisateur à le droit de supprimer ce sous-lieu
+		SubPlace subPlace = SubPlaceLocalServiceUtil.fetchSubPlace(subPlaceId);
+		if (Validator.isNotNull(subPlace)) {
+			ThemeDisplay themeDisplay = (ThemeDisplay) request
+					.getAttribute(WebKeys.THEME_DISPLAY);
+			Place place = subPlace.getParentPlace();
+			if(Validator.isNotNull(place)) {
+				List<AssetCategory> typeDeLieuVocab = place.getTypes();
+				List<AssetCategory> categoriesUser = AssetCategoryLocalServiceUtil.getCategories(User.class.getName(), themeDisplay.getUserId());
+				if (!themeDisplay.getPermissionChecker().isOmniadmin() &&
+						!typeDeLieuVocab.stream().anyMatch(categoriesUser::contains)) {
+					return false;
+				}
+			}
+			try {
+				_subPlaceLocalService.removeSubPlace(subPlaceId);
+			} catch (PortalException e) {
+				_log.error(e);
+			}
 		}
 		return true;
 	}
