@@ -12,11 +12,13 @@
     <portlet:param name="tab" value="saisines-observatoire" />
     <portlet:param name="mvcPath" value="/project-bo-view-saisines-observatoire.jsp" />
     <portlet:param name="saisineObservatoireId" value="${not empty dc.saisineObservatoire ? dc.saisineObservatoire.saisineObservatoireId : ''}" />
+    <portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveSaisineObservatoire" varImpl="saveSaisineObservatoireURL">
     <portlet:param name="tab" value="saisines-observatoire" />
+    <portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <div class="container-fluid container-fluid-max-xl main-content-body">

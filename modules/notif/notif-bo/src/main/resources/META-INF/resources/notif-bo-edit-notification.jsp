@@ -7,6 +7,7 @@
 	<portlet:param name="cmd" value="saveNotification" />
 	<portlet:param name="tab" value="notifications" />
     <portlet:param name="mvcPath" value="/notif-bo-view-notifications.jsp" />
+    <portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>
@@ -233,6 +234,7 @@
                 <portlet:param name="mvcPath" value="/notif-bo-view-notifications.jsp" />
                 <portlet:param name="notificationId"
                     value="${not empty dc.notification ? dc.notification.notificationId : ''}" />
+                <portlet:param name="backURL" value="${param.backURL}" />
             </liferay-portlet:actionURL>
 			<c:if test="${not empty dc.notification && dc.hasPermission('DELETE_NOTIFICATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
                 <c:if test="${!dc.notification.new and dc.canUpdateOrDeleteNotification()}">

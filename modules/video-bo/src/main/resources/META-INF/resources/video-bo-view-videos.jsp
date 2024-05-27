@@ -11,13 +11,6 @@
 	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:renderURL>
 
-<liferay-portlet:renderURL varImpl="addVideoURL">
-	<portlet:param name="cmd" value="editVideo" />
-	<portlet:param name="tab" value="videos" />
-	<portlet:param name="mvcPath" value="/video-bo-edit-video.jsp" />
-	<portlet:param name="backURL" value="${videosURL}" />
-</liferay-portlet:renderURL>
-
 <clay:management-toolbar
 		managementToolbarDisplayContext="${managementDC}"
 />

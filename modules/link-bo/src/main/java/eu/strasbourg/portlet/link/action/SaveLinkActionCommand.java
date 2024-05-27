@@ -15,6 +15,7 @@
  */
 package eu.strasbourg.portlet.link.action;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
 
@@ -95,11 +96,15 @@ public class SaveLinkActionCommand implements MVCActionCommand {
 			link.setHoverTextMap(hoverText);
 			
 			_linkLocalService.updateLink(link, sc);
+
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+			_log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 
 

@@ -12,10 +12,12 @@
 	<portlet:param name="notificationId"
 		value="${not empty notif ? notif.notificationId : ''}" />
 	<portlet:param name="mvcPath" value="/notification-bo-view-notifications.jsp" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveNotification" varImpl="saveNotificationURL">
 	<portlet:param name="tab" value="notifications" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 

@@ -15,6 +15,7 @@
  */
 package eu.strasbourg.portlet.video.action;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -118,12 +119,14 @@ public class SaveGalleryActionCommand
 			}
 			
 			_videoGalleryLocalService.updateVideoGallery(videoGallery, sc);
-			response.setRenderParameter("mvcPath", "/video-bo-view-galleries.jsp");
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+			_log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 
 	/**

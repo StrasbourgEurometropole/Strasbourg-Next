@@ -7,6 +7,7 @@
 	<portlet:param name="mvcPath" value="/place-bo-view-prices.jsp" />
 	<portlet:param name="priceId"
 		value="${not empty dc.price ? dc.price.priceId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 
 </liferay-portlet:actionURL>
 

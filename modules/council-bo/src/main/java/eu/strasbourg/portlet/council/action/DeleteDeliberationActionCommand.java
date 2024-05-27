@@ -1,22 +1,14 @@
 package eu.strasbourg.portlet.council.action;
 
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextFactory;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
-import eu.strasbourg.service.council.constants.DeliberationDataConstants;
 import eu.strasbourg.service.council.constants.StageDeliberation;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.model.DeliberationModel;
 import eu.strasbourg.service.council.model.Procuration;
-import eu.strasbourg.service.council.model.ProcurationModel;
 import eu.strasbourg.service.council.service.CouncilSessionLocalService;
 import eu.strasbourg.service.council.service.DeliberationLocalService;
 import eu.strasbourg.service.council.service.ProcurationLocalService;
@@ -26,8 +18,6 @@ import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletURL;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -67,11 +57,6 @@ DeleteDeliberationActionCommand extends BaseMVCActionCommand {
     @Override
     protected void doProcessAction(ActionRequest request,
                                    ActionResponse response) throws Exception {
-        ServiceContext sc = ServiceContextFactory.getInstance(request);
-        ThemeDisplay themeDisplay = (ThemeDisplay) request
-                .getAttribute(WebKeys.THEME_DISPLAY);
-        String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
-
         long deliberationId = ParamUtil.getLong(request, "deliberationId");
 
         // Partie procuration
@@ -153,11 +138,6 @@ DeleteDeliberationActionCommand extends BaseMVCActionCommand {
         // Suppression de l'entité
         deliberationLocalService.removeDeliberation(deliberationId);
 
-        // Post / Redirect / Get si tout est bon
-        PortletURL renderURL = PortletURLFactoryUtil.create(request,
-                portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
-        renderURL.setParameter("tab", request.getParameter("tab"));
-        renderURL.setParameter("mvcPath", request.getParameter("mvcPath"));
-        response.sendRedirect(renderURL.toString());
+        response.sendRedirect(ParamUtil.getString(request, "backURL"));
     }
 }

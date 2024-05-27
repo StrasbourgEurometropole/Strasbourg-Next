@@ -6,6 +6,7 @@
 <liferay-portlet:actionURL name="saveService" varImpl="saveServiceURL">
 	<portlet:param name="cmd" value="saveService" />
 	<portlet:param name="tab" value="services" />
+    <portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>
@@ -136,6 +137,7 @@
                 <portlet:param name="mvcPath" value="/notif-bo-view-services.jsp" />
                 <portlet:param name="serviceId"
                     value="${not empty dc.service ? dc.service.serviceId : ''}" />
+                <portlet:param name="backURL" value="${param.backURL}" />
             </liferay-portlet:actionURL>
 			<%-- Test : Verification des droits de supression --%>
 			<c:if test="${not empty dc.service && dc.hasPermission('DELETE_SERVICE') and empty themeDisplay.scopeGroup.getStagingGroup()}">

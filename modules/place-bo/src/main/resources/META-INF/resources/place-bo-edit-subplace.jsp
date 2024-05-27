@@ -8,6 +8,7 @@
 	<portlet:param name="subPlaceId"
 		value="${not empty dc.subPlace ? dc.subPlace.subPlaceId : ''}" />
 	<portlet:param name="mvcPath" value="/place-bo-view-subplaces.jsp" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveSubPlace"

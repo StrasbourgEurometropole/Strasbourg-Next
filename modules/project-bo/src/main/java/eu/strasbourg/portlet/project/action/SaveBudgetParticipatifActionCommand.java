@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.project.action;
 
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_MERGED;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -358,10 +359,12 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             
             // Sauvegarde du budget
             _budgetLocalService.updateBudgetParticipatif(budgetParticipatif, sc);
-			response.setRenderParameter("mvcPath", "/project-bo-view-budgets-participatifs.jsp");
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
             
         } catch (PortalException e) {
             _log.error("erreur lors de la mise à jour d'un budget : ",e);
+        } catch (IOException e) {
+			_log.error(e);
         }
         return true;
 	}

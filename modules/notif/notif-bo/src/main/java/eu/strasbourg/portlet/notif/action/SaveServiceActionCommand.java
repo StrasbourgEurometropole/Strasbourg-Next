@@ -147,7 +147,8 @@ public class SaveServiceActionCommand implements MVCActionCommand {
             }
 
             _serviceNotifLocalService.updateServiceNotif(service);
-            response.setRenderParameter("mvcPath", "/notif-bo-view-services.jsp");
+
+            response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
         } catch (Exception e) {
             log.error(e);

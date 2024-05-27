@@ -29,6 +29,7 @@ import org.osgi.service.component.annotations.Reference;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import java.io.IOException;
 
 @Component(
 	immediate = true,
@@ -47,10 +48,13 @@ public class DeleteAssociationActionCommand
 			long associationId = ParamUtil.getLong(request, "associationId");
 
 			_associationLocalService.removeAssociation(associationId);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
-		return true;
+		} catch (IOException e) {
+            _log.error(e);
+        }
+        return true;
 	}
 
 	private AssociationLocalService _associationLocalService;

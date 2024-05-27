@@ -31,6 +31,8 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.service.place.service.PriceLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
+import java.io.IOException;
+
 @Component(
 	immediate = true,
 	property = {
@@ -47,10 +49,13 @@ public class DeletePriceActionCommand
 		try {
 			long priceId = ParamUtil.getLong(request, "priceId");
 			_priceLocalService.removePrice(priceId);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
-		return true;
+		} catch (IOException e) {
+			_log.error(e);
+        }
+        return true;
 	}
 
 	private PriceLocalService _priceLocalService;

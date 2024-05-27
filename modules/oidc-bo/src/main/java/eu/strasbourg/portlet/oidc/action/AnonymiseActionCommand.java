@@ -23,6 +23,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.*;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -63,12 +64,15 @@ public class AnonymiseActionCommand implements MVCActionCommand {
 				SessionErrors.add(request, "anonymisation-forbidden");
 				return false;
 			}
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
 		} catch (PortalException e) {
 			_log.info(e);
-		}
+		} catch (IOException e) {
+			_log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 
 	private AnonymisationHistoricLocalService _anonymisationHistoricLocalService;

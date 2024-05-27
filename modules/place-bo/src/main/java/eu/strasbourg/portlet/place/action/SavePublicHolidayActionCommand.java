@@ -15,6 +15,7 @@
  */
 package eu.strasbourg.portlet.place.action;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -95,12 +96,14 @@ public class SavePublicHolidayActionCommand implements MVCActionCommand {
 			publicHoliday.setRecurrent(recurrent);
 
 			_publicHolidayLocalService.updatePublicHoliday(publicHoliday);
-			response.setRenderParameter("mvcPath", "/place-bo-view-public-holidays.jsp");
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+			_log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.project.action;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -141,11 +142,13 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 			budgetPhase.setEndVoteDate(endVoteDate);
 
 			_budgetPhaseLocalService.updateBudgetPhase(budgetPhase, sc);
-			response.setRenderParameter("mvcPath", "/project-bo-view-budget-phases.jsp");
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
 		} catch (PortalException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+			_log.error(e);
+        }
         return true;
 	}
 	
