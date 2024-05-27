@@ -28,6 +28,8 @@ public class CouncilConstants {
     public static final String OFFICIALS_PATH = "/council-bo-view-officials.jsp";
     public static final String EDIT_OFFICIAL = "editOfficial";
     public static final String SAVE_OFFICIAL = "saveOfficial";
+    public static final String IMPORT_OFFICIAL = "importOfficials";
+
 
     public static final String OFFICIAL_CONNECTIONS = "officialsConnection";
     public static final String OFFICIAL_CONNECTIONS_PATH = "/council-bo-view-officials-connection.jsp";
