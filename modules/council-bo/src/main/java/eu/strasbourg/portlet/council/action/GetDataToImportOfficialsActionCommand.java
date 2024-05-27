@@ -41,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,10 +54,7 @@ import java.util.stream.Collectors;
 public class GetDataToImportOfficialsActionCommand implements MVCActionCommand {
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-    private final String ERROR_INFO = "</br></br></br>  Le fichier doit avoir pour header exact  : EMAIL,NOM,PRENOM,TYPE_CONSEIL " +
-            "</br> Il doit y avoir quatre colonnes s\u00e9par\u00e9es par une virgule." +
-            "</br> La derni\u00e8re colonne contient le nom des conseils s\u00e9par\u00e9 par un point-virgule." +
-            "</br> Et le fichier doit \u00eatre encod\u00e9 en UTF8 et l'extension doit \u00eatre csv";
+
 
     @Reference(unbind = "-")
     protected void setTypeLocalService(TypeLocalService typeLocalService) {
@@ -94,9 +92,9 @@ public class GetDataToImportOfficialsActionCommand implements MVCActionCommand {
             List<Map<String, String>> officialsToCreate = new ArrayList<>();
             List<Map<String, String>> officialsToUpdate = new ArrayList<>();
             List<Map<String, String>> officialsToDelete = new ArrayList<>();
-            String errorParse = "";
-            CSVFormat csvFileFormat = CSVFormat.DEFAULT.withHeader(OfficialDataConstants.OFFICIALS_HEADER_MAPPING).withDelimiter(',');
-            CSVParser csvFileParser = CSVParser.parse(officialsCsv, StandardCharsets.UTF_8, csvFileFormat);
+            List<String> errorParse = new ArrayList<>();
+            CSVFormat csvFileFormat = CSVFormat.EXCEL.withHeader(OfficialDataConstants.OFFICIALS_HEADER_MAPPING).withDelimiter(',');
+            CSVParser csvFileParser = CSVParser.parse(officialsCsv, Charset.forName("windows-1252"), csvFileFormat);
             List<CSVRecord> csvRecords = csvFileParser.getRecords();
             if (csvRecords.size() > 0) {
                 for (int i = 1; i < csvRecords.size(); i++) {
@@ -104,7 +102,7 @@ public class GetDataToImportOfficialsActionCommand implements MVCActionCommand {
                     // Récupération des données de la ligne CSV
                     String erreur = validate(record);
                     if(Validator.isNotNull(erreur))
-                        errorParse += "Erreur(s) sur la ligne " + i + " : " + erreur;
+                        errorParse.add("Ligne " + i + " : " + erreur);
                     else {
                         Map<String, String> official = new HashMap<>();
                         official.put(OfficialDataConstants.NOM, record.get(OfficialDataConstants.NOM));
@@ -115,7 +113,8 @@ public class GetDataToImportOfficialsActionCommand implements MVCActionCommand {
                         Official officialBDD = officialLocalService.findByEmail(record.get(OfficialDataConstants.EMAIL));
                         if (Validator.isNull(officialBDD)){
                             officialsToCreate.add(official);
-                        }else {
+                        }
+                        else {
                             official.put(OfficialDataConstants.ID, String.valueOf(officialBDD.getOfficialId()));
                             if(Validator.isNull(record.get(OfficialDataConstants.TYPE_CONSEIL))) {
                                 officialsToDelete.add(official);
@@ -127,7 +126,7 @@ public class GetDataToImportOfficialsActionCommand implements MVCActionCommand {
                 }
             }
 
-            if (Validator.isNull(errorParse)) {
+            if (errorParse.isEmpty()) {
                 request.setAttribute("toImport", "true");
                 HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(request);
                 HttpSession session = originalRequest.getSession();
@@ -136,13 +135,12 @@ public class GetDataToImportOfficialsActionCommand implements MVCActionCommand {
                 session.setAttribute("officialsToDelete", officialsToDelete);
 //                request.setAttribute("returnURL", ParamUtil.getString(request, "returnURL"));
             } else {
-                errorParse += ERROR_INFO;
                 SessionErrors.add(request, "error-parse-order");
-                request.setAttribute("errorParse", errorParse);
+                request.setAttribute("errorParse", String.join("\n", errorParse));
                 return false;
             }
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             SessionErrors.add(request, "error-import-officials");
             request.setAttribute("error", e.getMessage());
             _log.error(e);
@@ -158,7 +156,6 @@ public class GetDataToImportOfficialsActionCommand implements MVCActionCommand {
 
         String errorCsvCheck = ImportCsvHelper.csvCheckHeader(officialsCsv, OfficialDataConstants.OFFICIALS_HEADER_MAPPING, '\t', ',');
         if (Validator.isNotNull(errorCsvCheck) || !extension.equals("csv")) {
-            errorCsvCheck += ERROR_INFO;
             SessionErrors.add(actionRequest, "error-import-officials");
             actionRequest.setAttribute("error", errorCsvCheck);
 
@@ -169,64 +166,71 @@ public class GetDataToImportOfficialsActionCommand implements MVCActionCommand {
     }
 
     /**
-     * Effectue les vérifications sur les lignes
+     * Effectue les vérifications sur les lignes du fichier CSV
      */
     private String validate(CSVRecord rowRecord) {
-        String error = "";
+        StringBuilder error = new StringBuilder();
+
+        // Vérification si la ligne n'est pas null et si la première colonne n'est pas null
         if (rowRecord != null && rowRecord.get(0) != null) {
-            // Vérification Email
+
+            // Vérification de l'Email
             String email = rowRecord.get(OfficialDataConstants.EMAIL);
-            //obligatoire
-            if (Validator.isNull(email)) {
-                error += "</br>Erreur dans la colonne " + OfficialDataConstants.EMAIL + " : champ obligatoire";
-            }
-            //validité
+            verifierChamp(email, OfficialDataConstants.EMAIL, true, 75, error);
             if (!Validator.isEmailAddress(email)) {
-                error += "</br>Erreur dans la colonne " + OfficialDataConstants.EMAIL +" : email invalide";
-            }
-            //taille
-            if (email.length() > 75) {
-                error += "</br>Erreur dans la colonne " + OfficialDataConstants.EMAIL +" : valeur trop longue";
+                error.append("Colonne : ").append(OfficialDataConstants.EMAIL).append(" : email invalide");
             }
 
-            // Vérification nom
+            // Vérification du nom
             String nom = rowRecord.get(OfficialDataConstants.NOM);
-            //obligatoire
-            if (Validator.isNull(nom)) {
-                error += "</br>Erreur dans la colonne " +OfficialDataConstants.NOM +" : champ obligatoire";
-            }
-            //taille
-            if (nom.length() > 75) {
-                error += "</br>Erreur dans la colonne " + OfficialDataConstants.NOM +" : valeur trop longue";
-            }
+            verifierChamp(nom, OfficialDataConstants.NOM, true, 75, error);
 
-            // Vérification prénom
+            // Vérification du prénom
             String prenom = rowRecord.get(OfficialDataConstants.PRENOM);
-            //obligatoire
-            if (Validator.isNull(prenom)) {
-                error += "</br>Erreur dans la colonne " + OfficialDataConstants.PRENOM + " : champ obligatoire";
-            }
-            //taille
-            if (prenom.length() > 75) {
-                error += "</br>Erreur dans la colonne " + OfficialDataConstants.PRENOM +" : valeur trop longue";
-            }
+            verifierChamp(prenom, OfficialDataConstants.PRENOM, true, 75, error);
 
-            // Vérification type de conseil
+            // Vérification du type de conseil
             String[] councilTypes = rowRecord.get(OfficialDataConstants.TYPE_CONSEIL).split(";");
-            // Type existant
-            String errorTypes = "";
-            for(String councilType : councilTypes) {
-                if (!getTypes().contains(councilType)) {
-                    errorTypes += (Validator.isNotNull(errorTypes) ? ", " : "") + councilType;
-                }
+            verifierTypeConseil(councilTypes, error);
+        }
+
+        return error.toString();
+    }
+
+    /**
+     * Vérifie les champs communs
+     */
+    private void verifierChamp(String valeur, String colonne, boolean obligatoire, int longueurMax, StringBuilder error) {
+        if (Validator.isNull(valeur)) {
+            if (obligatoire) {
+                error.append(" Colonne : ").append(colonne).append(" : Champ obligatoire");
             }
-            if(Validator.isNotNull(errorTypes)) {
-                error += "</br>Erreur dans la colonne " + OfficialDataConstants.TYPE_CONSEIL + " : le(s) type(s) : " +
-                        errorTypes + " n'existe(nt) pas";
+        } else {
+            if (valeur.length() > longueurMax) {
+                error.append(" Colonne : ").append(colonne).append(" : Valeur trop longue. Taille max : ").append(longueurMax).append(" caract\u00e8res");
             }
         }
-        return error;
     }
+
+    /**
+     * Vérifie le type de conseil
+     */
+    private void verifierTypeConseil(String[] councilTypes, StringBuilder error) {
+        StringBuilder errorTypes = new StringBuilder();
+        for (String councilType : councilTypes) {
+            if (!getTypes().contains(councilType)) {
+                if (errorTypes.length() > 0) {
+                    errorTypes.append(", ");
+                }
+                errorTypes.append(councilType);
+            }
+        }
+        if (errorTypes.length() > 0) {
+            error.append(" Colonne ").append(OfficialDataConstants.TYPE_CONSEIL)
+                    .append(" : le(s) type(s) : ").append(errorTypes).append(" n'existe(nt) pas");
+        }
+    }
+
 
     /**
      * Récupère les types de conseil

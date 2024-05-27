@@ -71,6 +71,7 @@
 
 	    <!-- Import des élus-->
         <liferay-portlet:renderURL varImpl="importOfficialsURL">
+			<portlet:param name="tab" value="officials" />
             <portlet:param name="cmd" value="importOfficials" />
             <portlet:param name="mvcPath" value="/council-bo-import-officials.jsp" />
             <portlet:param name="returnURL" value="${officialsURL}" />

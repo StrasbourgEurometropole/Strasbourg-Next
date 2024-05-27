@@ -75,60 +75,94 @@ public class StartImportOfficialsActionCommand implements MVCActionCommand {
     @Override
     public boolean processAction(ActionRequest request, ActionResponse response) {
 
+        // Récupération de la requête originale et de la session
         HttpServletRequest originalRequest = PortalUtil.getHttpServletRequest(request);
         HttpSession session = originalRequest.getSession();
+
+        // Récupération des listes d'officiels à créer, mettre à jour et supprimer depuis la session
         List<Map<String, String>> officialsToCreate = (List<Map<String, String>>) session.getAttribute("officialsToCreate");
         List<Map<String, String>> officialsToUpdate = (List<Map<String, String>>) session.getAttribute("officialsToUpdate");
         List<Map<String, String>> officialsToDelete = (List<Map<String, String>>) session.getAttribute("officialsToDelete");
+
+        if(officialsToCreate == null || officialsToUpdate == null || officialsToDelete == null) {
+            // En cas d'erreur, ajout d'un message d'erreur à la session et journalisation
+            SessionErrors.add(request, "error-parse-order");
+            prepareErrorResponse(response);
+            return false;
+        }
+
         try {
 
+
+            // Création du contexte de service
             ServiceContext serviceContext = ServiceContextFactory.getInstance(request);
 
-            // Import en base de données
-            for (Map<String, String> officialToCreate : officialsToCreate) {
-                // Création d'un votant
-                Official official = officialLocalService.createOfficial(serviceContext);
-                official.setLastname(officialToCreate.get(OfficialDataConstants.NOM));
-                official.setFirstname(officialToCreate.get(OfficialDataConstants.PRENOM));
-                official.setEmail(officialToCreate.get(OfficialDataConstants.EMAIL));
-                official.setIsActive(true);
-                // Mise à jour de l'entrée
-                this.officialLocalService.updateOfficial(official, serviceContext);
+            // Traitement des officiels à créer
+            processOfficialsToAdd(officialsToCreate, serviceContext);
 
-                // Ajout des nouveaux types de conseil liés
-                addOfficialTypes(official.getOfficialId(), officialToCreate.get(OfficialDataConstants.TYPE_CONSEIL), serviceContext);
-            }
+            // Traitement des officiels à mettre à jour
+            processOfficialsToUpdate(officialsToUpdate, serviceContext);
 
-            for (Map<String, String> officialToUpdate : officialsToUpdate) {
-                long id = Long.parseLong(officialToUpdate.get(OfficialDataConstants.ID));
-                // gestion des types de conseil
-                // Suppression des anciens types de conseil liés
-                removeOfficialTypes(officialLocalService.fetchOfficial(id));
-                // Ajout des nouveaux types de conseil liés
-                addOfficialTypes(id, officialToUpdate.get(OfficialDataConstants.TYPE_CONSEIL), serviceContext);
-            }
+            // Traitement des officiels à supprimer
+            processOfficialsToDelete(officialsToDelete, serviceContext);
 
-            for (Map<String, String> officialToDelete : officialsToDelete) {
-                long id = Long.parseLong(officialToDelete.get(OfficialDataConstants.ID));
-                // Inactivation du votant
-                Official official = officialLocalService.fetchOfficial(id);
-                official.setIsActive(false);
-                // Mise à jour de l'entrée
-                this.officialLocalService.updateOfficial(official, serviceContext);
-                // gestion des types de conseil
-                // Suppression des anciens types de conseil liés
-                removeOfficialTypes(official);
-            }
-
+            // Ajout d'un message de succès à la session
             SessionMessages.add(request, "import-successful");
-        } catch (PortalException e) {
+
+            response.setRenderParameter("mvcPath", "/council-bo-view-officials.jsp");
+
+            return true;
+
+        } catch (Exception e) {
+            // En cas d'erreur, ajout d'un message d'erreur à la session et journalisation
             SessionErrors.add(request, "error-parse-order");
             request.setAttribute("errorParse", e.getMessage());
             prepareErrorResponse(response);
             _log.error(e);
             return false;
         }
-        return true;
+    }
+
+    // Fonction pour traiter les officiels à ajouter
+    private void processOfficialsToAdd(List<Map<String, String>> officialsToCreate, ServiceContext serviceContext) throws PortalException {
+        for (Map<String, String> officialToCreate : officialsToCreate) {
+            // Création d'un nouvel officiel
+            Official official = officialLocalService.createOfficial(serviceContext);
+            // Définition des attributs de l'officiel
+            official.setLastname(officialToCreate.get(OfficialDataConstants.NOM));
+            official.setFirstname(officialToCreate.get(OfficialDataConstants.PRENOM));
+            official.setEmail(officialToCreate.get(OfficialDataConstants.EMAIL));
+            official.setIsActive(true);
+            // Mise à jour de l'officiel en base de données
+            this.officialLocalService.updateOfficial(official, serviceContext);
+            // Ajout des types de conseil associés
+            addOfficialTypes(official.getOfficialId(), officialToCreate.get(OfficialDataConstants.TYPE_CONSEIL), serviceContext);
+        }
+    }
+
+    // Fonction pour traiter les officiels à mettre à jour
+    private void processOfficialsToUpdate(List<Map<String, String>> officialsToUpdate, ServiceContext serviceContext) throws PortalException {
+        for (Map<String, String> officialToUpdate : officialsToUpdate) {
+            long id = Long.parseLong(officialToUpdate.get(OfficialDataConstants.ID));
+            // Suppression des anciens types de conseil associés
+            removeOfficialTypes(officialLocalService.fetchOfficial(id));
+            // Ajout des nouveaux types de conseil associés
+            addOfficialTypes(id, officialToUpdate.get(OfficialDataConstants.TYPE_CONSEIL), serviceContext);
+        }
+    }
+
+    // Fonction pour traiter les officiels à supprimer
+    private void processOfficialsToDelete(List<Map<String, String>> officialsToDelete, ServiceContext serviceContext) throws PortalException {
+        for (Map<String, String> officialToDelete : officialsToDelete) {
+            long id = Long.parseLong(officialToDelete.get(OfficialDataConstants.ID));
+            // Récupération de l'officiel à supprimer et désactivation
+            Official official = officialLocalService.fetchOfficial(id);
+            official.setIsActive(false);
+            // Mise à jour de l'officiel en base de données
+            this.officialLocalService.updateOfficial(official, serviceContext);
+            // Suppression des types de conseil associés
+            removeOfficialTypes(official);
+        }
     }
 
     /**
