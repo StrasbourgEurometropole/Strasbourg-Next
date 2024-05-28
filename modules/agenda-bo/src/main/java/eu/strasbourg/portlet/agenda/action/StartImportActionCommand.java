@@ -20,7 +20,14 @@ import java.io.IOException;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.agenda.constants.agendaConstants;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -44,7 +51,17 @@ public class StartImportActionCommand
 	public boolean processAction(ActionRequest request, ActionResponse response)
 		throws PortletException {
 		try {
-			return _eventLocalService.doImport();
+			_eventLocalService.doImport();
+
+			// Récupération du contexte de la requête
+			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+			String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
+			PortletURL renderURL = PortletURLFactoryUtil.create(request,
+					portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
+			renderURL.setParameter("tab", request.getParameter("tab"));
+			renderURL.setParameter("mvcPath", request.getParameter("mvcPath"));
+			response.sendRedirect(renderURL.toString());
+			return true;
 		} catch (Exception e) {
 			_log.error(e);
 			return false;
