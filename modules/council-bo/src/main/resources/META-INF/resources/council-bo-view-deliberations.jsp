@@ -60,7 +60,7 @@
                 name="amendement-column"
                 orderable="true" value="${deliberation.amendement}" />
 
-				<liferay-ui:search-container-column-text cssClass="content-column table-cell-content"
+				<liferay-ui:search-container-column-text cssClass="content-column table-cell-expand"
 					href="${editDeliberationURL}" name="title"
 					orderable="true" >
 					<div id="delib-${deliberation.deliberationId}">${deliberation.title}</div>
@@ -69,12 +69,12 @@
 				<fmt:formatDate value="${deliberation.councilSession.date}"
 					var="formattedDate" type="date" pattern="dd/MM/yyyy" />
 				<!-- Colonne : Date de conseil - Type de conseil -->
-				<liferay-ui:search-container-column-text cssClass="content-column"
+				<liferay-ui:search-container-column-text
                     name="councilSession"
                     orderable="true" value="${formattedDate} - ${deliberation.councilSession.typeCouncil.title}" />
 
 
-                <liferay-ui:search-container-column-text cssClass="content-column ${dc.getCSSClass(deliberation)}"
+                <liferay-ui:search-container-column-text cssClass="${dc.getCSSClass(deliberation)}"
                     name="stage"
                     orderable="true" value="${deliberation.stage}" />
 
