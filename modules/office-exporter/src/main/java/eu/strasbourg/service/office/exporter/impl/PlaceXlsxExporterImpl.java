@@ -14,6 +14,7 @@ import eu.strasbourg.service.place.service.PlaceLocalService;
 import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.PetitionLocalService;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.osgi.service.component.annotations.Component;
@@ -50,9 +51,9 @@ public class PlaceXlsxExporterImpl implements PlaceXlsxExporter {
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
     @Override
-    public void export(OutputStream stream, List<Place> places) {
+    public void export(OutputStream stream, List<Place> places) throws IOException {
         // Export to Excel
-        Workbook workbook = new XSSFWorkbook();
+        Workbook workbook = new SXSSFWorkbook();
         Sheet sheet = workbook.createSheet("lieux");
 
         createHeaderRow(sheet);
@@ -60,13 +61,8 @@ public class PlaceXlsxExporterImpl implements PlaceXlsxExporter {
         populateDataRows(sheet, places, cellStyle);
         autoSizeColumns(sheet);
 
-        try {
-            workbook.write(stream);
-            workbook.close();
-        } catch (IOException e) {
-            _log.error(e.getMessage(), e);
-
-        }
+        workbook.write(stream);
+        workbook.close();
 
     }
 

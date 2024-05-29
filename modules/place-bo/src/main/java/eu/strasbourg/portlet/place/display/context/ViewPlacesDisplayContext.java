@@ -6,19 +6,25 @@ import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactory;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.search.*;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.*;
+import com.liferay.search.experiences.rest.dto.v1_0.Hit;
 import eu.strasbourg.portlet.place.util.PlaceActionDropdownItemsProvider;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
+import javax.portlet.PortletSession;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -38,13 +44,6 @@ public class ViewPlacesDisplayContext extends ViewBaseDisplayContext<Place> {
 				.getAttribute(WebKeys.THEME_DISPLAY);
 	}
 
-	List<Place> _places = new ArrayList<>();
-
-	//Set places
-	public void setPlaces(List<Place> places) {
-		_places = places;
-	}
-
 	/**
 	 * Retourne le dropdownItemsProvider de place
 	 *
@@ -55,12 +54,6 @@ public class ViewPlacesDisplayContext extends ViewBaseDisplayContext<Place> {
 				_response);
 	}
 
-	/**
-	 * Retourne la liste des lieux
-	 */
-	public List<Place> getPlaces() {
-		return _places;
-	}
 
 	/**
 	 * Wrapper autour du permission checker pour les permissions de module
@@ -105,8 +98,6 @@ public class ViewPlacesDisplayContext extends ViewBaseDisplayContext<Place> {
 							}
 						}
 
-						setPlaces(results);
-
 						return results;
 					}, hits.getLength()
 			);
@@ -119,8 +110,26 @@ public class ViewPlacesDisplayContext extends ViewBaseDisplayContext<Place> {
 	@Override
 	protected Hits getHits(long groupId) throws PortalException {
 		HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(_request);
-		SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
 
+		List<Long[]> categoriesId = getFilterCategoriesIdWithUser();
+		// Recherche des hits
+		String keywords = ParamUtil.getString(servletRequest, "keywords");
+		_hits = searchBO(getSearchContainer().getStart(), getSearchContainer().getEnd() ,groupId, categoriesId, keywords);
+		return _hits;
+	}
+
+	public Hits searchBO(int start, int end ,long groupId, List<Long[]> categoriesId, String keywords) {
+		HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(_request);
+		SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
+		return SearchHelper.getBOSearchHits(searchContext,
+				start,
+				end, Place.class.getName(), groupId,
+				categoriesId, keywords,
+				getOrderByColSearchField(),
+				"desc".equals(getOrderByType()));
+	}
+
+	public List<Long[]> getFilterCategoriesIdWithUser() {
 		AssetVocabulary typeDeLieuVocab = AssetVocabularyHelper.getVocabulary("Type de lieu", GroupLocalServiceUtil.fetchCompanyGroup(PortalUtil.getDefaultCompanyId()).getGroupId());
 		List<AssetCategory> categoriesUser = AssetCategoryLocalServiceUtil.getCategories(User.class.getName(), _themeDisplay.getUserId());
 		List<Long> categoriesTypeDeLieuUser = new ArrayList<>();
@@ -138,16 +147,13 @@ public class ViewPlacesDisplayContext extends ViewBaseDisplayContext<Place> {
 			categoriesId.add(ArrayUtil.toLongArray(categoriesTypeDeLieuUser.toArray()));
 		}
 
-		// Recherche des hits
-		String keywords = ParamUtil.getString(servletRequest, "keywords");
-		_hits = SearchHelper.getBOSearchHits(searchContext,
-				getSearchContainer().getStart(),
-				getSearchContainer().getEnd(), Place.class.getName(), groupId,
-				categoriesId, keywords,
-				getOrderByColSearchField(),
-				"desc".equals(getOrderByType()));
-		return _hits;
+		return categoriesId;
 	}
+
+	public String getSeralizedCategoriesId() {
+		return JSONHelper.convertListToJson(getFilterCategoriesIdWithUser());
+	}
+
 
 
 	@Override
@@ -159,19 +165,6 @@ public class ViewPlacesDisplayContext extends ViewBaseDisplayContext<Place> {
 			default:
 				return "modified_sortable";
 		}
-	}
-
-	public String getPlaceIds() {
-		// get places from _places
-		List<Place> places = getPlaces();
-		String placeIds = "";
-		for (Place place : places) {
-			if (Validator.isNotNull(placeIds)) {
-				placeIds += ",";
-			}
-			placeIds += place.getPlaceId();
-		}
-		return placeIds;
 	}
 
 	public List<Long[]> getFilterCategoriesIds() {

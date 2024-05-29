@@ -77,10 +77,12 @@
 		</liferay-ui:search-container>
 	</aui:form>
 
-	<liferay-portlet:resourceURL var="exportXlsxURL" id="exportXlsx">
+	<liferay-portlet:resourceURL var="exportXlsxURL" id="exportXlsx" copyCurrentRenderParameters="<%= false %>" >
 	</liferay-portlet:resourceURL>
 	<form method="POST" action="${exportXlsxURL}">
-		<aui:input type="hidden" name="placeIds" value="${dc.placeIds}" />
+		<aui:input type="hidden" name="categoryIds" value="${dc.getSeralizedCategoriesId()}" />
+		<aui:input type="hidden" name="orderByCol" value="${dc.orderByCol}" />
+		<aui:input type="hidden" name="keywords" value="${dc.keywords}" />
 		<aui:button-row>
 			<aui:button cssClass="btn-lg" type="submit"
 						value="export-xlsx" />
