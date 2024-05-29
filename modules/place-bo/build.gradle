@@ -6,6 +6,7 @@ dependencies {
 
 	implementation project (':modules:utils')
 	implementation project (':modules:place:place-api')
+	implementation project (':modules:office-exporter')
 	implementation project (':modules:agenda:agenda-service')
 	implementation project (':modules:agenda:agenda-api')
 }

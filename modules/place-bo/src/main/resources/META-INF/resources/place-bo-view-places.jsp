@@ -76,6 +76,16 @@
 				markupView="lexicon" searchContainer="${dc.searchContainer}" />
 		</liferay-ui:search-container>
 	</aui:form>
+
+	<liferay-portlet:resourceURL var="exportXlsxURL" id="exportXlsx">
+	</liferay-portlet:resourceURL>
+	<form method="POST" action="${exportXlsxURL}">
+		<aui:input type="hidden" name="placeIds" value="${dc.placeIds}" />
+		<aui:button-row>
+			<aui:button cssClass="btn-lg" type="submit"
+						value="export-xlsx" />
+		</aui:button-row>
+	</form>
 </div>
 
 

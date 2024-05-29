@@ -38,6 +38,13 @@ public class ViewPlacesDisplayContext extends ViewBaseDisplayContext<Place> {
 				.getAttribute(WebKeys.THEME_DISPLAY);
 	}
 
+	List<Place> _places = new ArrayList<>();
+
+	//Set places
+	public void setPlaces(List<Place> places) {
+		_places = places;
+	}
+
 	/**
 	 * Retourne le dropdownItemsProvider de place
 	 *
@@ -46,6 +53,13 @@ public class ViewPlacesDisplayContext extends ViewBaseDisplayContext<Place> {
 	public PlaceActionDropdownItemsProvider getActionsPlace(Place place) {
 		return new PlaceActionDropdownItemsProvider(place, _request,
 				_response);
+	}
+
+	/**
+	 * Retourne la liste des lieux
+	 */
+	public List<Place> getPlaces() {
+		return _places;
 	}
 
 	/**
@@ -91,6 +105,8 @@ public class ViewPlacesDisplayContext extends ViewBaseDisplayContext<Place> {
 							}
 						}
 
+						setPlaces(results);
+
 						return results;
 					}, hits.getLength()
 			);
@@ -98,6 +114,7 @@ public class ViewPlacesDisplayContext extends ViewBaseDisplayContext<Place> {
 		_searchContainer.setRowChecker(new EmptyOnClickRowChecker(_response));
 		return _searchContainer;
 	}
+
 
 	@Override
 	protected Hits getHits(long groupId) throws PortalException {
@@ -142,6 +159,19 @@ public class ViewPlacesDisplayContext extends ViewBaseDisplayContext<Place> {
 			default:
 				return "modified_sortable";
 		}
+	}
+
+	public String getPlaceIds() {
+		// get places from _places
+		List<Place> places = getPlaces();
+		String placeIds = "";
+		for (Place place : places) {
+			if (Validator.isNotNull(placeIds)) {
+				placeIds += ",";
+			}
+			placeIds += place.getPlaceId();
+		}
+		return placeIds;
 	}
 
 	public List<Long[]> getFilterCategoriesIds() {
