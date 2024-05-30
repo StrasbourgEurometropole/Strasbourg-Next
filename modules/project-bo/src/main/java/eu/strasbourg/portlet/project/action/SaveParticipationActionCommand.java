@@ -28,6 +28,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -261,13 +262,15 @@ public class SaveParticipationActionCommand implements MVCActionCommand {
 			participation.setExpirationDate(expirationDate);
 			
 			_participationLocalService.updateParticipation(participation, sc);
-			response.setRenderParameter("mvcPath", "/project-bo-view-participations.jsp");
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
 		} catch (PortalException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+			_log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 	
 	/**

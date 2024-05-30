@@ -7,6 +7,7 @@
 	<portlet:param name="mvcPath" value="/activity-bo-view-courses.jsp" />
 	<portlet:param name="activityCourseId"
 		value="${not empty dc.activityCourse ? dc.activityCourse.activityCourseId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveActivityCourse" varImpl="saveActivityCourseURL">

@@ -36,6 +36,7 @@ import org.osgi.service.component.annotations.Reference;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -137,12 +138,14 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 			
 			_campaignLocalService
 				.updateCampaign(campaign, sc);
-			response.setRenderParameter("mvcPath", "/agenda-bo-view-campaigns.jsp");
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+            _log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 
 	private CampaignLocalService _campaignLocalService;

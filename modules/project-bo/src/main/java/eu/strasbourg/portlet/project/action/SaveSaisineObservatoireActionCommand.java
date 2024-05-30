@@ -26,6 +26,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -229,12 +230,14 @@ public class SaveSaisineObservatoireActionCommand implements MVCActionCommand {
             
 
             _saisineObservatoireLocalService.updateSaisineObservatoire(saisineObservatoire,sc);
-			response.setRenderParameter("mvcPath", "/project-bo-view-saisines-observatoire.jsp");
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+			_log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 	
 	/**

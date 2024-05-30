@@ -7,6 +7,7 @@
 	<portlet:param name="mvcPath" value="/agenda-bo-view-events.jsp" />
 	<portlet:param name="eventId"
 		value="${not empty dc.event ? dc.event.eventId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveEvent" varImpl="saveEventURL">

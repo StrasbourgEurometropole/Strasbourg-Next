@@ -13,11 +13,13 @@
 	<portlet:param name="tab" value="types" />
 	<portlet:param name="typeId"
 	    value="${not empty dc.type ? dc.type.typeId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveType" varImpl="saveTypeURL">
 	<portlet:param name="tab" value="types" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>

@@ -1,12 +1,9 @@
 package eu.strasbourg.portlet.council.action;
 
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.servlet.SessionErrors;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.service.CouncilSessionLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -14,8 +11,6 @@ import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletURL;
 
 @Component(
         immediate = true,
@@ -29,9 +24,6 @@ public class DeleteCouncilSessionActionCommand extends BaseMVCActionCommand {
 
     @Override
     protected void doProcessAction(ActionRequest request, ActionResponse response) throws Exception {
-        // Récupération du contexte de la requête
-        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-        String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
 
         long councilSessionId = ParamUtil.getLong(request, "councilSessionId");
 
@@ -43,12 +35,7 @@ public class DeleteCouncilSessionActionCommand extends BaseMVCActionCommand {
             SessionErrors.add(request, "council-has-delib-error");
         }
 
-        // Post / Redirect / Get si tout est bon
-        PortletURL renderURL = PortletURLFactoryUtil.create(request,
-                portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
-        renderURL.setParameter("tab", request.getParameter("tab"));
-        renderURL.setParameter("mvcPath", request.getParameter("mvcPath"));
-        response.sendRedirect(renderURL.toString());
+        response.sendRedirect(ParamUtil.getString(request, "backURL"));
     }
 
     @Reference(unbind = "-")

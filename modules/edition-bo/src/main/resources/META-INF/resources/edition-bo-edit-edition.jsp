@@ -7,9 +7,12 @@
 	<portlet:param name="mvcPath" value="/edition-bo-view-editions.jsp" />
 	<portlet:param name="editionId"
 		value="${not empty dc.edition ? dc.edition.editionId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveEdition" varImpl="saveEditionURL">
+	<portlet:param name="tab" value="editions" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 	<liferay-ui:error key="title-error" message="title-error" />

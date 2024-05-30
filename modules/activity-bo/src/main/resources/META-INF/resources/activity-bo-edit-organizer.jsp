@@ -7,6 +7,7 @@
 	<portlet:param name="mvcPath" value="/activity-bo-view-organizers.jsp" />
 	<portlet:param name="activityOrganizerId"
 		value="${not empty dc.activityOrganizer ? dc.activityOrganizer.activityOrganizerId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveActivityOrganizer" varImpl="saveActivityOrganizerURL">

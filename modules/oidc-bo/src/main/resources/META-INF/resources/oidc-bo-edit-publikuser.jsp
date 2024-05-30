@@ -5,6 +5,7 @@
 <liferay-portlet:actionURL name="savePublikUser" varImpl="savePublikUserURL">
 	<portlet:param name="cmd" value="savePublikUser" />
 	<portlet:param name="tab" value="publikUsers" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>

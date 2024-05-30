@@ -7,9 +7,12 @@
 	<portlet:param name="officialId"
 		value="${not empty dc.official ? dc.official.officialId : ''}" />
 	<portlet:param name="mvcPath" value="/official-bo-view-officials.jsp" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveOfficial" varImpl="saveOfficialURL">
+	<portlet:param name="tab" value="officials" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <div class="container-fluid container-fluid-max-xl main-content-body">

@@ -12,6 +12,7 @@ import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import java.io.IOException;
 
 @Component(
         immediate = true,
@@ -32,7 +33,10 @@ public class DeleteBudgetParticipatifActionCommand implements MVCActionCommand  
         try {
             long budgetParticipatifId = ParamUtil.getLong(request, "budgetParticipatifId");
             _budgetParticipatifLocalService.removeBudgetParticipatif(budgetParticipatifId);
+            response.sendRedirect(ParamUtil.getString(request, "backURL"));
         } catch (PortalException e) {
+            _log.error(e);
+        } catch (IOException e) {
             _log.error(e);
         }
         return true;

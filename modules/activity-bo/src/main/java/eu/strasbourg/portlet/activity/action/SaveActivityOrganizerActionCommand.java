@@ -127,7 +127,7 @@ public class SaveActivityOrganizerActionCommand extends BaseMVCActionCommand {
 		// Update de l'entité
 		activityOrganizerLocalService.updateActivityOrganizer(activityOrganizer,
 			sc);
-		response.setRenderParameter("mvcPath", "/activity-bo-view-organizers.jsp");
+		response.sendRedirect(ParamUtil.getString(request, "backURL"));
 	}
 
 	private boolean validate(ActionRequest request) {

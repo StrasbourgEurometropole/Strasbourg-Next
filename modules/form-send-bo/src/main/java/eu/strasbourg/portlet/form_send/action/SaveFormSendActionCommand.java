@@ -3,6 +3,7 @@ package eu.strasbourg.portlet.form_send.action;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -22,6 +23,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +45,6 @@ public class SaveFormSendActionCommand implements MVCActionCommand{
     public boolean processAction(ActionRequest actionRequest, ActionResponse actionResponse) {
         ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest
                 .getAttribute(WebKeys.THEME_DISPLAY);
-        actionResponse.setRenderParameter("formInstanceId", ParamUtil.getString(actionRequest,"formInstanceId"));
 
         try {
             long recordId = ParamUtil.getLong(actionRequest,"recordId");
@@ -78,7 +79,11 @@ public class SaveFormSendActionCommand implements MVCActionCommand{
                 }
             }
 
-        } catch (Exception e) {
+            actionResponse.sendRedirect(ParamUtil.getString(actionRequest, "backURL"));
+
+        } catch (IOException e) {
+            _log.error(e);
+        } catch (PortalException e) {
             _log.error(e);
             String portletName = (String) actionRequest
                     .getAttribute(WebKeys.PORTLET_ID);
@@ -91,8 +96,6 @@ public class SaveFormSendActionCommand implements MVCActionCommand{
             actionResponse.setRenderParameter("cmd", "saveFormSend");
             return false;
         }
-
-        actionResponse.setRenderParameter("mvcPath", "/form-send-bo-view-form-send-records.jsp");
         return true;
     }
 

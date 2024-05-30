@@ -57,7 +57,6 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
     @Override
     protected void doProcessAction(ActionRequest request,
                                    ActionResponse response) throws Exception {
-        ServiceContext sc = ServiceContextFactory.getInstance(request);
         ThemeDisplay themeDisplay = (ThemeDisplay) request
                 .getAttribute(WebKeys.THEME_DISPLAY);
         String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
@@ -96,13 +95,7 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
             AssetEntryAssetCategoryRelLocalServiceUtil.addAssetEntryAssetCategoryRel(stageCategory.getCategoryId(), deliberation.getAssetEntry().getEntryId());
         // Update de l'entité
         deliberationLocalService.updateDeliberation(deliberation);
-
-        // Post / Redirect / Get si tout est bon
-        PortletURL renderURL = PortletURLFactoryUtil.create(request,
-                portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
-        renderURL.setParameter("tab", request.getParameter("tab"));
-        renderURL.setParameter("mvcPath", request.getParameter("mvcPath"));
-        response.sendRedirect(renderURL.toString());
+        response.sendRedirect(ParamUtil.getString(request, "backURL"));
     }
 
 }

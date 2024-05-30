@@ -206,7 +206,7 @@ public class SaveAssociationActionCommand extends BaseMVCActionCommand {
 				_practiceLocalService.removePractice(practice.getPracticeId());
 			}
 		}
-		response.setRenderParameter("mvcPath", "/activity-bo-view-associations.jsp");
+		response.sendRedirect(ParamUtil.getString(request, "backURL"));
 	}
 
 	private boolean validate(ActionRequest request) {

@@ -7,9 +7,11 @@
 	<portlet:param name="tab" value="videos" />
 	<portlet:param name="videoId"
 		value="${not empty dc.video ? dc.video.videoId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveVideo" varImpl="saveVideoURL">
+	<portlet:param name="tab" value="videos" />
 	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 

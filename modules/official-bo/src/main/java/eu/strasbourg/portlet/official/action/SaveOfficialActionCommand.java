@@ -15,6 +15,7 @@
  */
 package eu.strasbourg.portlet.official.action;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -210,12 +211,15 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 			AssetEntryLocalServiceUtil.updateEntry(sc.getUserId(),
 					official.getGroupId(), Official.class.getName(),
 					official.getOfficialId(), categoryIds, null);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
 		} catch (PortalException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+			_log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 
 	/**

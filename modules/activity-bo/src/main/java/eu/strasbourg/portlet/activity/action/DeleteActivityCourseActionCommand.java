@@ -31,6 +31,8 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.service.activity.service.ActivityCourseLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
+import java.io.IOException;
+
 @Component(
 	immediate = true,
 	property = {
@@ -47,10 +49,13 @@ public class DeleteActivityCourseActionCommand
 		try {
 			long activityCourseId = ParamUtil.getLong(request, "activityCourseId");
 			_activityCourseLocalService.removeActivityCourse(activityCourseId);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
-		return true;
+		} catch (IOException e) {
+            _log.error(e);
+        }
+        return true;
 	}
 
 	private ActivityCourseLocalService _activityCourseLocalService;

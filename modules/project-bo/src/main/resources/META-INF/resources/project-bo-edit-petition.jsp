@@ -12,11 +12,13 @@
 	<portlet:param name="tab" value="petitions" />
 	<portlet:param name="mvcPath" value="/project-bo-view-petitions.jsp" />
 	<portlet:param name="petitionId" value="${not empty dc.petition ? dc.petition.petitionId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="savePetition" varImpl="savePetitionURL">
 	<portlet:param name="tab" value="petitions" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>

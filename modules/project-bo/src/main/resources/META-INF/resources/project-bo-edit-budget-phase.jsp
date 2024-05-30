@@ -12,6 +12,7 @@
 	<portlet:param name="tab" value="budget-phases" />
 	<portlet:param name="mvcPath" value="/project-bo-view-budget-phases.jsp" />
 	<portlet:param name="budgetPhaseId" value="${not empty dc.budgetPhase ? dc.budgetPhase.budgetPhaseId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
