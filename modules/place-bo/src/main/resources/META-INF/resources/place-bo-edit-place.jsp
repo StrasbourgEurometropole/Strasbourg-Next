@@ -17,6 +17,7 @@
 
 <liferay-portlet:renderURL var="manageSubPlacesURL">
 	<portlet:param name="tab" value="subPlaces" />
+	<portlet:param name="mvcPath" value="/place-bo-view-subplaces.jsp" />
 </liferay-portlet:renderURL>
 
 <div class="container-fluid container-fluid-max-xl main-content-body">
