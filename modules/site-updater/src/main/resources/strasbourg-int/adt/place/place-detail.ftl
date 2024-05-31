@@ -36,11 +36,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         window.y = ${entry.getMercatorY()};
     </script>
 </@>
-<link rel="stylesheet" href="/o/strasbourg-theme/css/leaflet.css" />
+<link rel="stylesheet" href="/o/0-global-theme/libs/leaflet/leaflet.css" />
+
 
 <@liferay_util["html-bottom"]>
-    <script src="/o/strasbourg-theme/js/leaflet.js"></script>
-    <script src="/o/strasbourg-theme/js/map.js"></script>
+
+    <script src="/o/0-global-theme/libs/leaflet/leaflet.js"></script>
+    <script src="/o/strasbourg-int-theme/js/map.js"></script>
 </@>
 
 <div class="seu-page-lieu">

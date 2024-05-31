@@ -73,7 +73,7 @@
 </script>
 <section id="seu-une">
     <div class="seu-une-top-background"></div>
-    <div class="seu-une-background"  style="background-image: url(/o/strasbourg-theme/images/blurry.jpg);"></div>
+    <div class="seu-une-background"  style="background-image: url(/o/strasbourg-int-theme/images/blurry.jpg);"></div>
     <div class="seu-container seu-top-line">
         <h2 class="seu-section-title">
             <span class="seu-title"><liferay-ui:message key="eu.slider-one" /></span>
