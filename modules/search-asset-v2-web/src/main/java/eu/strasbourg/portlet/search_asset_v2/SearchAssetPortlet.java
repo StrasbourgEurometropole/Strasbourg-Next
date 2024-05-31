@@ -43,20 +43,8 @@ import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
-import eu.strasbourg.service.project.model.BudgetParticipatif;
-import eu.strasbourg.service.project.model.Initiative;
-import eu.strasbourg.service.project.model.Participation;
-import eu.strasbourg.service.project.model.Petition;
-import eu.strasbourg.service.project.model.Project;
-import eu.strasbourg.service.project.service.BudgetParticipatifLocalService;
-import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
-import eu.strasbourg.service.project.service.InitiativeLocalService;
-import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
-import eu.strasbourg.service.project.service.ParticipationLocalService;
-import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
-import eu.strasbourg.service.project.service.PetitionLocalService;
-import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
-import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
+import eu.strasbourg.service.project.model.*;
+import eu.strasbourg.service.project.service.*;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.AssetPublisherTemplateHelper;
@@ -120,6 +108,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SearchAssetPortlet extends MVCPortlet {
 
 	public final static String PETITION = "eu.strasbourg.service.project.model.Petition";
+	public final static String SAISINE_OBSERVATOIRE = "eu.strasbourg.service.project.model.SaisineObservatoire";
 	public final static String PARTICIPATION = "eu.strasbourg.service.project.model.Participation";
 	public final static String BUDGET = "eu.strasbourg.service.project.model.BudgetParticipatif";
 	public final static String INITIATIVE = "eu.strasbourg.service.project.model.Initiative";
@@ -181,6 +170,10 @@ public class SearchAssetPortlet extends MVCPortlet {
 					renderRequest.setAttribute("petitionListMostSigned", petitionListMostSigned);
 					renderRequest.setAttribute("petitionListLessSigned", petitionListLessSigned);
 					renderRequest.setAttribute("petitionListMostCommented", petitionListMostCommented);
+				} else if (className.equals(SAISINE_OBSERVATOIRE)) {
+					List<SaisineObservatoire> saisineObservatoireListMostCommented = _saisineObservatoireLocalService.getTheMostCommented(themeDisplay.getScopeGroupId());
+
+					renderRequest.setAttribute("saisineObservatoireListMostCommented", saisineObservatoireListMostCommented);
 
 				} else if (className.equals(BUDGET)) {
 
@@ -370,6 +363,21 @@ public class SearchAssetPortlet extends MVCPortlet {
 							jsonPetition.put("json", json);
 							jsonEntries.put(jsonPetition);
 							break;
+						case "eu.strasbourg.service.project.model.SaisineObservatoire":
+							SaisineObservatoire saisineObservatoire = SaisineObservatoireLocalServiceUtil.fetchSaisineObservatoire(entry.getClassPK());
+							JSONObject jsonSaisineObservatoire = JSONFactoryUtil.createJSONObject();
+							jsonSaisineObservatoire.put("class", className);
+							json = saisineObservatoire.toJSON(publikUserId);
+							jsonThematicCategoriesTitle = JSONFactoryUtil.createJSONArray();
+							thematicCategories = saisineObservatoire.getThematicCategories();
+							for (AssetCategory assetCategory : thematicCategories) {
+								jsonThematicCategoriesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
+							}
+							json.put("jsonThematicCategoriesTitle", jsonThematicCategoriesTitle);
+							json.put("jsonProjectCategoryTitle", JSONHelper.getJSONFromI18nMap((Validator.isNull(saisineObservatoire.getProjectCategory())? LocalizationUtil.getLocalizationMap("") : saisineObservatoire.getProjectCategory().getTitleMap())));
+							jsonSaisineObservatoire.put("json", json);
+							jsonEntries.put(jsonSaisineObservatoire);
+							break;
 						case "eu.strasbourg.service.project.model.BudgetParticipatif":
 							BudgetParticipatif budgetParticipatif = BudgetParticipatifLocalServiceUtil.fetchBudgetParticipatif(entry.getClassPK());
 							JSONObject jsonBudget = JSONFactoryUtil.createJSONObject();
@@ -504,7 +512,6 @@ public class SearchAssetPortlet extends MVCPortlet {
 			projects = ParamUtil.getLongValues(request, "selectedProject");
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
 		if (resourceID.equals("entrySelectionProject")) {
 			keywords = ParamUtil.getString(request, "selectedKeyWords");
@@ -517,7 +524,6 @@ public class SearchAssetPortlet extends MVCPortlet {
 			statuts = ParamUtil.getLongValues(request, "selectedStatut");
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
 		if (resourceID.equals("entrySelectionParticipation")) {
 			keywords = ParamUtil.getString(request, "selectedKeyWords");
@@ -531,7 +537,6 @@ public class SearchAssetPortlet extends MVCPortlet {
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
 			types = ParamUtil.getLongValues(request, "selectedTypes");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
 		if (resourceID.equals("entrySelectionAgenda")) {
 			keywords = ParamUtil.getString(request, "selectedKeyWords");
@@ -544,7 +549,6 @@ public class SearchAssetPortlet extends MVCPortlet {
 			projects = ParamUtil.getLongValues(request, "selectedProject");
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
 		if (resourceID.equals("entrySelectionPetition")) {
 			keywords = ParamUtil.getString(request, "selectedKeyWords");
@@ -557,7 +561,19 @@ public class SearchAssetPortlet extends MVCPortlet {
 			states = ParamUtil.getLongValues(request, "selectedStates");
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
+		}
+		if (resourceID.equals("entrySelectionSaisineObservatoire")) {
+			keywords = ParamUtil.getString(request, "selectedKeyWords");
+			startDay = ParamUtil.getInteger(request, "selectedStartDay");
+			startMonth = ParamUtil.getString(request, "selectedStartMonth");
+			startYear = ParamUtil.getInteger(request, "selectedStartYear");
+			endDay = ParamUtil.getInteger(request, "selectedEndDay");
+			endMonth = ParamUtil.getString(request, "selectedEndMonth");
+			endYear = ParamUtil.getInteger(request, "selectedEndYear");
+			states = ParamUtil.getLongValues(request, "selectedStates");
+			projects = ParamUtil.getLongValues(request, "selectedProject");
+			districts = ParamUtil.getLongValues(request, "selectedDistricts");
+			thematics = ParamUtil.getLongValues(request, "selectedThematics");
 		}
 		if (resourceID.equals("entrySelectionBudgetParticipatif")) {
 			keywords = ParamUtil.getString(request, "selectedKeyWords");
@@ -570,7 +586,6 @@ public class SearchAssetPortlet extends MVCPortlet {
 			bpStatus = ParamUtil.getLongValues(request, "selectedBPStatus");
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
 		if (resourceID.equals("entrySelectionInitiative")) {
 			keywords = ParamUtil.getString(request, "selectedKeyWords");
@@ -583,9 +598,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 			initiativeStatus = ParamUtil.getLongValues(request, "selectedInitiativeStatus");
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
-
 		if (resourceID.equals("entrySelectionHelpProposal")) {
 			keywords = ParamUtil.getString(request, "selectedKeyWords");
 			startDay = ParamUtil.getInteger(request, "selectedStartDay");
@@ -597,7 +610,6 @@ public class SearchAssetPortlet extends MVCPortlet {
 			helpProposalTypes = ParamUtil.getLongValues(request, "selectedHelpProposalTypes");
 			helpProposalActivityStatus = ParamUtil.getLongValues(request, "selectedHelpProposalActivityStatus");
 			localisations = ParamUtil.getLongValues(request, "selectedLocalisations");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
 		if (resourceID.equals("entrySelectionNews")) {
 			startDay = ParamUtil.getInteger(request, "selectedStartDay");
@@ -609,9 +621,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 			states = ParamUtil.getLongValues(request, "selectedStates");
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
-
 		if (resourceID.equals("entrySelectionProjectWorkshop")) {
 			keywords = null;
 			startDay = ParamUtil.getInteger(request, "selectedStartDay");
@@ -623,9 +633,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 			states = ParamUtil.getLongValues(request, "selectedStates");
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
-
 		if (resourceID.equals("entrySelectionMuseum")) {
 			startDay = ParamUtil.getInteger(request, "selectedStartDay");
 			startMonth = ParamUtil.getString(request, "selectedStartMonth");
@@ -1023,6 +1031,11 @@ public class SearchAssetPortlet extends MVCPortlet {
 	private PetitionLocalService _petitionLocalService;
 
 	/**
+	 * interface des saisines
+	 */
+	private SaisineObservatoireLocalService _saisineObservatoireLocalService;
+
+	/**
 	 * interface des budgets
 	 */
 	private BudgetParticipatifLocalService _budgetParticipatifLocalService;
@@ -1040,6 +1053,11 @@ public class SearchAssetPortlet extends MVCPortlet {
 	@Reference(unbind = "-")
 	protected void setPetitionLocalService(PetitionLocalService petitionLocalService) {
 		_petitionLocalService = petitionLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setSaisineObservatoireLocalService(SaisineObservatoireLocalService saisineObservatoireLocalService) {
+		_saisineObservatoireLocalService = saisineObservatoireLocalService;
 	}
 
 	@Reference(unbind = "-")

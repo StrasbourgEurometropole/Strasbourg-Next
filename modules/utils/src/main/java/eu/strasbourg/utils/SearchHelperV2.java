@@ -115,7 +115,7 @@ public class SearchHelperV2{
 		searchRequestBuilder.size(end - start);
 
 		// Tri
-		if (Validator.isNotNull(seed) && seed > 0) {
+		if (Validator.isNotNull(seed)) {
 			// Tri aléatoire
 			RandomScoreFunction randomScoreFunction = scoreFunctions.random();
 			randomScoreFunction.setSeed(seed);
