@@ -34,6 +34,12 @@
           "label": "ID vidéo",
           "name": "id",
           "type": "text"
+        },
+        {
+          "defaultValue": "",
+          "label": "Titre de iframe",
+          "name": "iframeTitle",
+          "type": "text"
         }
       ],
       "label": "external-video-options"

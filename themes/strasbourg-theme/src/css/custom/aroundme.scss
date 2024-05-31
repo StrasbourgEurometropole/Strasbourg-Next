@@ -14,7 +14,7 @@
 
 
 .st-page-wrapper {
-    h1.aroundme--h1 {
+    .aroundme--h1, .aroundme--h2, .aroundme--h3  {
         display: block;
         font-size: 30px;
         font-weight: 600;
@@ -31,6 +31,11 @@
         }
     }
     #aroundme {
+        #aroundme__side {
+            @media screen and (max-width: 350px) {
+               width: 270px;
+            }
+        }
 
         #aroundme__center {
             .aroundme__map {
@@ -115,6 +120,13 @@
                 font-size: 16px;
                 margin-left: 15px;
                 @include transition(color);
+
+            }
+            @include can-hover {
+                &:after {
+                    color: $c_main !important;
+                }
+
             }
         }
 

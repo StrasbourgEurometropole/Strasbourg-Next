@@ -5,7 +5,7 @@
             <h2 class="st-h2">
                 <@liferay_ui.message key='dossiers' />
             </h2>
-            <div class="splide__arrows st-nav-arrows st-hide-until@mobile">
+            <div class="splide__arrows st-nav-arrows">
                 <button class="splide__arrow splide__arrow--prev st-btn-arrow st--prev"></button>
                 <button class="splide__arrow splide__arrow--next st-btn-arrow st--next"></button>
             </div>

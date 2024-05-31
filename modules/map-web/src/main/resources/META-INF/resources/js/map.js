@@ -38,8 +38,16 @@
             // Ouverture/fermeture Panel
             ame.$trigger_side.on('click', function() {
                 if ($ame.hasClass('side-opened')) {
+                    // add aria-expanded attribute
+                    ame.$trigger_side.attr('aria-expanded', 'false');
+                    // change aria-label attribute
+                    ame.$trigger_side.attr('aria-label', Liferay.Language.get('eu.aroundme.open-list'));
                     ame.close_panel_side();
                 } else {
+                    // add aria-expanded attribute
+                    ame.$trigger_side.attr('aria-expanded', 'true');
+                    // change aria-label attribute
+                    ame.$trigger_side.attr('aria-label', Liferay.Language.get('eu.aroundme.close-list'));
                     ame.open_panel_side();
                 }
             });
@@ -113,7 +121,7 @@
                 '         <div class="infowindow__visual"></div>'+
                 '         <div class="infowindow__top">' +
                 '             <div class="infowindow__categ"></div>' +
-                '             <div class="infowindow__title-block"><div class="infowindow__name"></div><div class="infowindow__like"><a class="" href="/like"></a></div></div>' +
+                '             <div class="infowindow__title-block"><div class="infowindow__name" role="heading" aria-level="3"></div><div class="infowindow__like"><a class="" href="/like"></a></div></div>' +
                 '             <div class="infowindow__address"></div>' +
                 '         </div>' +
                 '         <div class="infowindow__middle">' +
@@ -180,23 +188,18 @@
                     					}
                     				} 
                     			}
-                    		
-                    			var lienFavori = '<a href="#" class="add-favorites';
-                    			if(addedFavorite){
-                    				lienFavori += ' liked';
-                    			}
-                    			lienFavori += '" style="display: flex; margin-bottom: 0px;" '
-                    				+ 'data-type="' + feature.properties[info_to_display] + '"' 
-                    		        + 'data-title="' + feature.properties["name"] + '"' 
-                    		        + 'data-url="' + feature.properties["url"] + '"' 
-                    		        + 'data-id="' + feature.properties["id"]+ '">';
-                    			if(addedFavorite){
-                    				lienFavori += '<span>' + Liferay.Language.get("eu.remove-from-favorite") + '</span>';
-                    			}else{
-                    				lienFavori += '<span>' + Liferay.Language.get("eu.add-to-favorite") + '</span>';
-                    			}
-                    			lienFavori += '</a>';
-                    			formated_info = lienFavori;
+
+                                var lienFavori = `<a href="#" class="add-favorites${addedFavorite ? ' liked' : ''}" 
+                    aria-pressed="${addedFavorite ? 'true' : 'false'}" 
+                    role="button" style="display: flex; margin-bottom: 0px;" 
+                    data-type="${feature.properties[info_to_display]}" 
+                    data-title="${feature.properties['name']}" 
+                    data-url="${feature.properties['url']}" 
+                    data-id="${feature.properties['id']}">
+                    <span>${addedFavorite ? Liferay.Language.get("eu.remove-from-favorite") : Liferay.Language.get("eu.add-to-favorite")}</span>
+                 </a>`;
+
+                                formated_info = lienFavori;
                             } else if (info_to_display == "opened"){
                                 if(feature.properties[info_to_display]["url"] !== undefined && feature.properties[info_to_display]["url"] != ""){
                                     formated_info = '<a href="' + feature.properties[info_to_display]["url"] + '">' + Liferay.Language.get("eu.see-times") + '</a>';
@@ -306,8 +309,12 @@
                             }
                         }
                         if (isFavorite) {
+                            // addFavoriteElement aria-pressed true
+                            addFavoriteElement.setAttribute('aria-pressed', 'true')
+
                             addFavoriteElement.addClass('liked');
                         } else {
+                            addFavoriteElement.setAttribute('aria-pressed', 'false')
                             addFavoriteElement.removeClass('liked');
                         }
                     });

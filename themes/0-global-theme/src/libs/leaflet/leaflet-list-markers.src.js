@@ -47,7 +47,7 @@ L.Control.ListMarkers = L.Control.extend({
 	
 		var container = this._container = L.DomUtil.create('div', 'list-markers');
 
-		this._list = L.DomUtil.create('div', 'filtres__list', container);
+		this._list = L.DomUtil.create('ul', 'filtres__list', container);
 
 		this._initToggle();
 
@@ -66,10 +66,13 @@ L.Control.ListMarkers = L.Control.extend({
 
 	_createItem: function(layer) {
 		var self = this;
-		var div = L.DomUtil.create('div', 'filtres__item form-group grid-item filtres__item--favorite'),
+		var div = L.DomUtil.create('li', 'filtres__item form-group grid-item filtres__item--favorite'),
 			a = L.DomUtil.create('a', 'infowindow__name', div),
             divAddress = L.DomUtil.create('div', 'infowindow__address', div),
 			that = this;
+
+		// Role button for keyboard accessibility
+		a.setAttribute('role', 'button');
 
 		a.href = layer.feature.properties.url;
         // lien sur le marker au niveau de l'image et du nom de l'entité
@@ -101,8 +104,14 @@ L.Control.ListMarkers = L.Control.extend({
 			.on(a, 'mouseover', function(e) {
 				that.fire('item-mouseover', {layer: layer });
 			}, this)
-			.on(a, 'mouseout', function(e) {
-				that.fire('item-mouseout', {layer: layer });
+			.on(a, 'mouseover', function(e) {
+				that.fire('item-mouseover', {layer: layer });
+			}, this)
+			.on(a, 'keydown', function(e) {
+				if (e.key === ' ' || e.keyCode === 32) {
+				a.click();
+				}
+
 			}, this);
 
 
@@ -115,7 +124,7 @@ L.Control.ListMarkers = L.Control.extend({
             if (layer.feature.properties.alert) {
                 a.innerHTML += '<div class="aroundme__marker-alert" style="position:static; float:right; margin-left:10px;"></div>';
             }
-			a.innerHTML += '<span>'+layer.options[this.options.label]+'</span>';
+			a.innerHTML += '<span role="heading" aria-level="3">'+layer.options[this.options.label]+'</span>';
 			//TODO use related marker icon!
 			//TODO use template for item
 		}
@@ -176,21 +185,19 @@ L.Control.ListMarkers = L.Control.extend({
 					}
 				} 
 			}
-			var lienFavori = '<div style="background-color: white; padding: 0px 8px;"><a href="#" class="add-favorites';
-			if(addedFavorite){
-				lienFavori += ' liked';
-			}
-			lienFavori += '" style="display: flex;" '
-				+ 'data-type="' + layer.feature.properties.type + '"' 
-		        + 'data-title="' + layer.options[this.options.label] + '"' 
-		        + 'data-url="' + layer.feature.properties.url + '"' 
-		        + 'data-id="' + layer.feature.properties.id + '">';
-			if(addedFavorite){
-				lienFavori += '<span>' + Liferay.Language.get("eu.remove-from-favorite") + '</span>';
-			}else{
-				lienFavori += '<span>' + Liferay.Language.get("eu.add-to-favorite") + '</span>';
-			}
-			lienFavori += '</a></div>';
+			var lienFavori = `
+    <div style="background-color: white; padding: 0px 8px;">
+        <a href="#" class="add-favorites${addedFavorite ? ' liked' : ''}" 
+           aria-pressed="${addedFavorite ? 'true': 'false'}"
+           role="button" style="display: flex;" 
+           data-type="${layer.feature.properties.type}" 
+           data-title="${layer.options[this.options.label]}" 
+           data-url="${layer.feature.properties.url}" 
+           data-id="${layer.feature.properties.id}">
+           <span>${addedFavorite ? Liferay.Language.get("eu.remove-from-favorite") : Liferay.Language.get("eu.add-to-favorite")}</span>
+        </a>
+    </div>
+`;
 		    divAddress.insertAdjacentHTML('afterend', lienFavori);
 		}
 

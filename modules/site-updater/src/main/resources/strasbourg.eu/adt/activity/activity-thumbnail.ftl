@@ -10,9 +10,9 @@
 
 <li>
     <div class="st-card-container">
-        <a href="#" class="st-card" data-overlay-open="st-overlay-preview-activite" onclick="updateModalActivity(this)">
+        <a href="#" role="button" class="st-card" aria-haspopup="dialog" aria-controls="st-overlay-preview-activite" data-overlay-open="st-overlay-preview-activite" onclick="updateModalActivity(this)" onkeydown="simulateClick(event)">
             <div class="st-caption">
-                <p class="st-title-card">${entry.getTitle(locale)}</p>
+                <h3 class="st-title-card">${entry.getTitle(locale)}</h3>
                 <p class="st-surtitre-cat">${entry.getTypesLabel(locale)}</p>
                 <p class="st-text">${entry.getDescription(locale)?replace(r'<[^>]*>', '', 'r')?truncate(170, "...")}</p>
                 <p class="st-all-text hidden">${entry.getDescription(locale)?replace(r'<[^>]*>', '', 'r')}</p>

@@ -96,7 +96,7 @@
             </ul>
         </div>
     </div>
-    <div  class="st-container-mentions" role="navigation">
+    <div  class="st-container-mentions">
         <ul class="st-liens">
             <#if subfooterLinkLabel.getSiblings()?has_content>
                 <#list subfooterLinkLabel.getSiblings() as cur_subfooterLinkLabel>
