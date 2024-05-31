@@ -49,6 +49,9 @@ public class WSCamus {
             // Appeler l'API Entrouvert et récupérer la réponse
             JSONObject response = getEntrouvertAPI(path);
             // Créer et retourner un objet FicheCSMap à partir de la réponse
+            if(response.getJSONArray("data") == null){
+                throw new JSONException("JSON not expected: " + response.toString());
+            }
             JSONObject fiche = response.getJSONArray("data").getJSONObject(0);
             if (fiche == null) {
                 return null;
@@ -57,7 +60,7 @@ public class WSCamus {
         } catch (JSONException | IOException e) {
             // En cas d'erreur, enregistrer l'erreur et renvoyer une erreur 500
             _log.error(e);
-            throw new InternalServerErrorException("Impossible de récupérer la fiche CSMap");
+            throw new InternalServerErrorException("Impossible de r\u00e9cup\u00e9rer la fiche CSMap");
         }
     }
 
@@ -89,7 +92,7 @@ public class WSCamus {
         } catch (JSONException | IOException e) {
             // En cas d'erreur, enregistrer l'erreur et renvoyer une erreur 500
             _log.error(e);
-            throw new InternalServerErrorException("Impossible de récupérer la fiche CSMap");
+            throw new InternalServerErrorException("Impossible de  r\u00e9cup\u00e9rer la fiche CSMap");
         }
     }
 
