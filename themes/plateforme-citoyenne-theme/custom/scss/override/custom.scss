@@ -1,12 +1,16 @@
 // Style pour les formulaires
 .portlet-forms {
 
-    .ddm-radio label{
+    .ddm__radio label{
         padding-left: 0px;
 
         &:before{
             content: none;
         }
+    }
+
+    .lfr-ddm-form-page-title{
+        line-height: normal;
     }
 
     .form {
