@@ -64,11 +64,20 @@
 	<!-- ACTION RESOURCE : Export des élus-->
     <liferay-portlet:resourceURL var="exportOfficialsURL" id="exportOfficials"  copyCurrentRenderParameters="false">
 	</liferay-portlet:resourceURL>
-	<form method="POST" action="${exportOfficialsURL}">
+	<form method="POST" action="${exportOfficialsURL}" style="display: inline">
         <aui:button-row>
             <aui:button cssClass="btn-lg" type="submit" value="eu.council.bo.export.officials" />
-        </aui:button-row>
-    </form>
+        </form>
+
+	    <!-- Import des élus-->
+        <liferay-portlet:renderURL varImpl="importOfficialsURL">
+			<portlet:param name="tab" value="officials" />
+            <portlet:param name="cmd" value="importOfficials" />
+            <portlet:param name="mvcPath" value="/council-bo-import-officials.jsp" />
+            <portlet:param name="returnURL" value="${officialsURL}" />
+        </liferay-portlet:renderURL>
+        <aui:button cssClass="btn-lg" type="submit" href="${importOfficialsURL}" value="Nouvel import" title="Importer des votants"/>
+    </aui:button-row>
 
 </div>
 

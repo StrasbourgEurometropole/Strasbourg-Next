@@ -107,7 +107,7 @@ public class PrintPDF {
 
 			Paragraph title = new Paragraph(titleCouncil.toUpperCase() + " - Point n"
 					+ LanguageUtil.get(Locale.FRANCE, "eu.numero")
-					+ deliberation.getOrder())
+					+ deliberation.getOrder() + deliberation.getAmendement())
 				.setPaddings(0f,10f,0f,150f)
 				.setTextAlignment(TextAlignment.CENTER);
 			document.add(title);
@@ -249,7 +249,7 @@ public class PrintPDF {
 				fileName +=  Normalizer.normalize(council.getTypeCouncil().getTitle(), Normalizer.Form.NFD).replaceAll("\\p{M}", "");
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.FRANCE);
-			fileName += " " + sdf.format(council.getDate()) + " - Point " + deliberation.getOrder() + ".pdf";
+			fileName += " " + sdf.format(council.getDate()) + " - Point " + deliberation.getOrder() + deliberation.getAmendement() + ".pdf";
 
 			// enregistrement du fichier
 			File deliberationpdf = new File(folder.getAbsolutePath() + "/" + fileName);

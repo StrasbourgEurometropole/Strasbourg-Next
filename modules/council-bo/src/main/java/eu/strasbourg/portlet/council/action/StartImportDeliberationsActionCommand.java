@@ -48,6 +48,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,9 +60,11 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
     private final String ERROR_INFO = "</br></br></br>  Le fichier doit avoir pour header exact  : ORDER;TITLE " +
-            "</br> Il doit y avoir deux colonnes s\u00e9par\u00e9es par un point-virgule et le fichier doit \u00eatre encod\u00e9 en UTF8 et l'extension doit \u00eatre csv";
+            "</br> Il doit y avoir deux colonnes s\u00e9par\u00e9es par un point-virgule et le fichier doit \u00eatre encod\u00e9 en Western-1252 et l'extension doit \u00eatre csv";
 
     private DeliberationLocalService deliberationLocalService;
+
+    private List<Map<String, String>> recordsListMap;
 
     @Reference(unbind = "-")
     protected void setDeliberationLocalService(DeliberationLocalService deliberationLocalService) {
@@ -88,19 +91,6 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
             if (!isValid) {
                 prepareErrorResponse(request, response, themeDisplay);
                 return false;
-            }
-
-            CSVFormat csvFileFormat = CSVFormat.DEFAULT.withHeader(DeliberationDataConstants.DELIBERATIONS_HEADER_MAPPING).withDelimiter(';');
-            CSVParser csvFileParser = CSVParser.parse(deliberationsCsv, StandardCharsets.UTF_8, csvFileFormat);
-
-            List<Map<String, String>> recordsListMap = new ArrayList<>();
-            List<CSVRecord> csvRecords = csvFileParser.getRecords();
-
-            if (csvRecords.size() > 0) {
-                for (int i = 1; i < csvRecords.size(); i++) {
-                    CSVRecord record = csvRecords.get(i);
-                    recordsListMap.add(record.toMap());
-                }
             }
 
             long councilSessionId = ParamUtil.getLong(request, "councilSessionId");
@@ -162,6 +152,36 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
             actionRequest.setAttribute("error", errorCsvCheck);
 
             _log.error(errorCsvCheck);
+            return false;
+        }
+
+        CSVFormat csvFileFormat = CSVFormat.DEFAULT.withHeader(DeliberationDataConstants.DELIBERATIONS_HEADER_MAPPING).withDelimiter(';');
+        CSVParser csvFileParser = CSVParser.parse(deliberationsCsv, Charset.forName("windows-1252"), csvFileFormat);
+
+        List<CSVRecord> csvRecords = csvFileParser.getRecords();
+        recordsListMap = new ArrayList<>();
+
+        boolean isValid=true;
+        StringBuilder errorTitleCheck = new StringBuilder();
+        errorTitleCheck.append("</br>Le titre ne doit pas exc\u00e9der 500 caract\u00e8res - Lignes en erreur : </br>");
+
+        if (csvRecords.size() > 0) {
+            for (int i = 1; i < csvRecords.size(); i++) {
+                CSVRecord record = csvRecords.get(i);
+                if(record.get("TITLE").length() > 500){
+                    isValid=false;
+                    errorTitleCheck.append("  - Ligne "+(i+1)+"</br>");
+
+                }
+                recordsListMap.add(record.toMap());
+            }
+        }
+        if(!isValid) {
+            errorTitleCheck.append(ERROR_INFO);
+            SessionErrors.add(actionRequest, "error-import-deliberations");
+            actionRequest.setAttribute("error", errorTitleCheck);
+
+            _log.error(errorTitleCheck);
             return false;
         }
         return true;
