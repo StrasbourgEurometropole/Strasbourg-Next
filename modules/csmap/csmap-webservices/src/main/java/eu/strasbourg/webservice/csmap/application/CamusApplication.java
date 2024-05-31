@@ -99,12 +99,12 @@ public class CamusApplication extends Application {
             }
 
         } catch (WebApplicationException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(e.getResponse().getStatus(), e.getMessage());
         } catch (NoJWTInHeaderException e) {
             return WSResponseUtil.buildErrorResponse(401, "No JWT in header");
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
         return WSResponseUtil.buildOkResponse(JSONFactoryUtil.createJSONObject(), 200);
@@ -156,14 +156,14 @@ public class CamusApplication extends Application {
             WSCamus.updateFicheCSMap(fiche.getId(), jsonToReturn);
 
         } catch (WebApplicationException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(e.getResponse().getStatus(), e.getMessage());
         } catch (NoJWTInHeaderException e) {
             return WSResponseUtil.buildErrorResponse(401, "No JWT in header");
         } catch (JSONException e) {
             return WSResponseUtil.buildErrorResponse(403, "Invalid JSON :" + e.getMessage());
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
         return WSResponseUtil.buildOkResponse(JSONFactoryUtil.createJSONObject(), 200);
@@ -194,12 +194,12 @@ public class CamusApplication extends Application {
 
             return WSResponseUtil.buildOkResponse(listService, 200);
         } catch (WebApplicationException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(e.getResponse().getStatus(), e.getMessage());
         } catch (NoJWTInHeaderException e) {
             return WSResponseUtil.buildErrorResponse(401, "No JWT in header");
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
     }
@@ -225,12 +225,12 @@ public class CamusApplication extends Application {
 
             return WSResponseUtil.buildOkResponse(json, 200);
         } catch (WebApplicationException e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(e.getResponse().getStatus(), e.getMessage());
         } catch (NoJWTInHeaderException e) {
             return WSResponseUtil.buildErrorResponse(401, "No JWT in header");
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
     }
