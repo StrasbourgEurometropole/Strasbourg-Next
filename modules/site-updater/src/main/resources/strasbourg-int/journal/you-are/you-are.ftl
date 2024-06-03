@@ -2,8 +2,8 @@
 <section id="seu-profil">
     <h2 class="sr-only">Profils</h2>
     <div class="seu-pictures">
-        <div class="seu-left seu-picture" style="background-image: url(/o/strasbourg-theme/images/test/profil-left.jpg);"></div>
-        <div class="seu-right seu-picture" style="background-image: url(/o/strasbourg-theme/images/test/profil-right.jpg);"></div>
+        <div class="seu-left seu-picture" style="background-image: url(/o/strasbourg-int-theme/images/test/profil-left.jpg);"></div>
+        <div class="seu-right seu-picture" style="background-image: url(/o/strasbourg-int-theme/images/test/profil-right.jpg);"></div>
     </div>
     <div class="seu-container">
         <div class="seu-left seu-text">

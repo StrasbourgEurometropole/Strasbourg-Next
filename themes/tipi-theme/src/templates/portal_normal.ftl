@@ -32,7 +32,6 @@
 
 
 	<@liferay_util["include"] page=top_head_include />
-	<link rel="icon" type="image/png" href="${images_folder}/logo/favicon.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 </head>
 
