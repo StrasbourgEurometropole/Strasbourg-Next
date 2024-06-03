@@ -4,8 +4,8 @@
             "fields": [
                 {
                     "name": "numberOfImages",
-                    "label": "Button Text",
-                    "description": "button-text",
+                    "label": "Nombre d'images",
+                    "description": "Nombre d'images à afficher.",
                     "type": "text",
                     "dataType": "int",
                     "defaultValue": "4"
