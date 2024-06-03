@@ -19,6 +19,15 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -31,6 +40,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.service.place.service.PlaceLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
+import java.util.List;
 import java.io.IOException;
 
 @Component(
@@ -45,17 +55,27 @@ public class DeletePlaceActionCommand
 	@Override
 	public boolean processAction(ActionRequest request, ActionResponse response)
 		throws PortletException {
+		long placeId = ParamUtil.getLong(request, "placeId");
 
-		try {
-			long placeId = ParamUtil.getLong(request, "placeId");
-			_placeLocalService.removePlace(placeId);
-			response.sendRedirect(ParamUtil.getString(request, "backURL"));
-		} catch (PortalException e) {
-			_log.error(e);
-		} catch (IOException e) {
-			_log.error(e);
-        }
-        return true;
+		// vérifie que l'utilisateur à le droit de supprimer ce lieu
+		Place place = PlaceLocalServiceUtil.fetchPlace(placeId);
+		if (Validator.isNotNull(place)) {
+			ThemeDisplay themeDisplay = (ThemeDisplay) request
+					.getAttribute(WebKeys.THEME_DISPLAY);
+			List<AssetCategory> typeDeLieuVocab = place.getTypes();
+			List<AssetCategory> categoriesUser = AssetCategoryLocalServiceUtil.getCategories(User.class.getName(), themeDisplay.getUserId());
+			if(!themeDisplay.getPermissionChecker().isOmniadmin() &&
+					!typeDeLieuVocab.stream().anyMatch(categoriesUser::contains)) {
+				return false;
+			}
+
+			try {
+				_placeLocalService.removePlace(placeId);
+			} catch (PortalException e) {
+				_log.error(e);
+			}
+		}
+		return true;
 	}
 
 	private PlaceLocalService _placeLocalService;
