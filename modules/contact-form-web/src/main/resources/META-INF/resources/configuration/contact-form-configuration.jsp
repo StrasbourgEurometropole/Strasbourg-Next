@@ -34,7 +34,13 @@
                     <aui:input required="true" type="text" name="title" value="${title}" label="form-name" localized="true"/>
 
                     <!-- Email -->
-                    <aui:input required="true" type="text" name="email" value="${email}" label="email" />
+                    <div>
+                        <label><liferay-ui:message key="email" /></label>
+                        <p>
+                            <liferay-ui:message key="email-help" />
+                        </p>
+                        <aui:input required="true" type="text" name="email" value="${email}" label="" />
+                    </div>
 
                     <!-- Texte de description -->
                     <aui:input name="descriptionText" value="${descriptionText}" localized="true" type="editor" label="description-text" />
