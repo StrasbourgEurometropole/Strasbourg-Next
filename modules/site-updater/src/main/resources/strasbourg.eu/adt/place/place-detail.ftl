@@ -938,8 +938,10 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                     <a href="tel:${entry.phone?replace(" ","")?replace("(0)","")}" class="st-btn st--btn-secondary">${entry.phone}</a>
                 </#if>
 
+                <#if entry.mail?has_content>
                 <a href="#st-overlay-contact"
                    class="st-btn st--btn-secondary"><@liferay_ui.message key="eu.contact-mail" /></a>
+                </#if>
             </div>
         </div>
     </div>
