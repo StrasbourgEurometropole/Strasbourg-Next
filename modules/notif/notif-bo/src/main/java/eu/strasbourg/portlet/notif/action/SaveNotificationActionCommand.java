@@ -208,7 +208,8 @@ public class SaveNotificationActionCommand implements MVCActionCommand {
             }
 
             _notificationLocalService.updateNotification(notification, sc);
-            response.setRenderParameter("mvcPath", "/notif-bo-view-notifications.jsp");
+
+            response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
         } catch (Exception e) {
             log.error(e);

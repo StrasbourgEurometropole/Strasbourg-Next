@@ -13,18 +13,10 @@
     <portlet:param name="tab" value="comments"/>
 </liferay-portlet:renderURL>
 
-
-<%-- URL : definit le lien menant vers la suppression de l'entite --%>
-<liferay-portlet:actionURL name="deleteComment" var="deleteCommentURL">
-    <portlet:param name="cmd" value="deleteComment" />
-    <portlet:param name="tab" value="Comments" />
-    <portlet:param name="mvcPath" value="/comment-bo-view-comments.jsp" />
-    <portlet:param name="commentId" value="${not empty dc.comment ? dc.comment.commentId : ''}" />
-</liferay-portlet:actionURL>
-
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveComment" varImpl="saveCommentURL">
     <portlet:param name="tab" value="comments"/>
+    <portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 
@@ -170,12 +162,3 @@
     </liferay-util:html-top>
 
 </div>
-
-<%-- Script : permet l'affichage des alertes de validation d'action --%>
-<aui:script>
-    function <portlet:namespace />deleteEntity() {
-    if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
-    window.location = '${deleteCommentURL}';
-    }
-    }
-</aui:script>

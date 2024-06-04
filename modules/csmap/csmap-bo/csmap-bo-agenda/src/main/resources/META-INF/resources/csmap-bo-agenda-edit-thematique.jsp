@@ -9,6 +9,7 @@
 <liferay-portlet:actionURL name="saveAgendaThematique" varImpl="saveAgendaThematiqueURL">
 	<portlet:param name="tab" value="agendaThematique" />
 	<portlet:param name="mvcPath" value="/csmap-bo-agenda-view-thematiques.jsp"/>
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 

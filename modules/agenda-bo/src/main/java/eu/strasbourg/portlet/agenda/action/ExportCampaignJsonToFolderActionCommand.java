@@ -43,6 +43,11 @@ public class ExportCampaignJsonToFolderActionCommand implements MVCActionCommand
         if (campaign != null) {
             campaign.export();
         }
+        try {
+            response.sendRedirect(ParamUtil.getString(request, "backURL"));
+        } catch (IOException e) {
+            log.error(e);
+        }
 
         return true;
     }

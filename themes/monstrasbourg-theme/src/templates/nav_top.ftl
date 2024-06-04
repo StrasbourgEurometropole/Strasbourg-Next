@@ -14,6 +14,7 @@
             </a>
             <div class="account-wrapper">
                 <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
+                <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
                 <#if request.session.getAttribute("publik_logged_in")!false>
                     <a href="${layoutHelper.getDashboardURL()}" class="nav-account nav-btn" title="Mon tableau de bord">
                         <span class="flexbox">
@@ -21,13 +22,13 @@
                             <span class="text">${request.session.getAttribute("publik_given_name")?html}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]?html}.</span>
                         </span>    
                     </a>
-                    <a class="nav-btn nav-logout" href="${layoutHelper.getPublikLogoutURL(portalUtil.getCurrentCompleteURL(request))}" title="<@liferay.language key='eu.logout' />">
+                    <a class="nav-btn nav-logout" href="${layoutHelper.getPublikLogoutURL(currentUrl)}" title="<@liferay.language key='eu.logout' />">
                         <span class="flexbox">
                             <span class="picto"></span>
                         </span>  
                     </a>
                 <#else>
-                    <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="nav-account nav-btn" title="Connexion">
+                    <a href="${layoutHelper.getPublikLoginURL(currentUrl)?html}" class="nav-account nav-btn" title="Connexion">
                         <span class="flexbox">
                             <span class="picto"></span>
                             <span class="text">Connexion</span>

@@ -301,7 +301,7 @@ public class SaveActivityCourseActionCommand extends BaseMVCActionCommand {
 
 		// Update de l'entité
 		activityCourseLocalService.updateActivityCourse(activityCourse, sc);
-		response.setRenderParameter("mvcPath", "/activity-bo-view-courses.jsp");
+		response.sendRedirect(ParamUtil.getString(request, "backURL"));
 	}
 
 	/**

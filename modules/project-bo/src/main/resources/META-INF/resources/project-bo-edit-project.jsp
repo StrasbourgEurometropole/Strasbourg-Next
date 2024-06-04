@@ -12,11 +12,13 @@
 	<portlet:param name="tab" value="projects" />
 	<portlet:param name="mvcPath" value="/project-bo-view-projects.jsp" />
 	<portlet:param name="projectId" value="${not empty dc.project ? dc.project.projectId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveProject" varImpl="saveProjectURL">
 	<portlet:param name="tab" value="projects" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>

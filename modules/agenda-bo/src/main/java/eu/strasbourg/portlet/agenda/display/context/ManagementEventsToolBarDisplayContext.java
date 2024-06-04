@@ -37,14 +37,14 @@ public class ManagementEventsToolBarDisplayContext extends ManagementBaseToolBar
         return !WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
                 _themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
                 Event.class.getName())
-                && _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                && _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getCompanyGroupId(),
                 StrasbourgPortletKeys.AGENDA_BO, StrasbourgPortletKeys.AGENDA_BO, "EDIT_EVENT")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
     }
 
     @Override
     protected boolean hasDeletePermission() {
-        return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+        return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getCompanyGroupId(),
                 StrasbourgPortletKeys.AGENDA_BO, StrasbourgPortletKeys.AGENDA_BO, "DELETE_EVENT")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
     }

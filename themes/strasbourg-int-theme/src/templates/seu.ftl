@@ -1,4 +1,5 @@
 <#assign isHome = layout.getFriendlyURL() == "/accueil" />
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 
 <body class="${css_class} seu-no-js seu-body 
   <#if isHome>
@@ -22,7 +23,7 @@
     </#if>
     <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
     window.homeURL = '${homeURL}';
-    window.loginURL = '${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}';
+    window.loginURL = '${layoutHelper.getPublikLoginURL(currentUrl)?html}';
 
     <#if request.session.getAttribute("publik_logged_in")!false>
       <#assign favoriteLocalService = serviceLocator.findService("eu.strasbourg.service.favorite.service.FavoriteLocalService") />
@@ -123,7 +124,7 @@
           var url = window.location.toString();
           document.getElementById("sharefacebook").setAttribute("href","https://www.facebook.com/sharer/sharer.php?u="+ encodeURIComponent(document.URL));
           document.getElementById("sharetwitter").setAttribute("href","https://twitter.com/intent/tweet?text="+url);
-          document.getElementById("ShareLinkedIn").setAttribute("href","http://www.linkedin.com/shareArticle?mini=true&url="+url);
+          document.getElementById("ShareLinkedIn").setAttribute("href","https://www.linkedin.com/shareArticle?mini=true&url="+url);
           document.getElementById("ShareMail").setAttribute("href","mailto:?body="+url);
       }
   </script>

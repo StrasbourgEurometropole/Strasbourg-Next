@@ -45,7 +45,7 @@
         <header id="pre-header">
             <div class="pre-header-inner container">
                 <div class="strasbourg-eu-logo">
-                    <a href="http://strasbourg.eu" class="strasbourg-eu-link" target="_blank" aria-label="strasbourg.eu"
+                    <a href="https://strasbourg.eu" class="strasbourg-eu-link" target="_blank" aria-label="strasbourg.eu"
                        title="strasbourg.eu">
                         <img src="/o/museum-v2-theme/images/logos/strasbourg-logo.png" alt="strasbourg.eu"
                              title="strasbourg.eu">

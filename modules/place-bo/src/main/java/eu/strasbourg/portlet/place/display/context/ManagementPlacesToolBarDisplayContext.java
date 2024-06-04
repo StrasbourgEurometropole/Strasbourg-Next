@@ -83,14 +83,14 @@ public class ManagementPlacesToolBarDisplayContext extends ManagementBaseToolBar
         return !WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(
                 _themeDisplay.getCompanyId(), _themeDisplay.getScopeGroupId(),
                 Place.class.getName())
-                && _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+                && _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getCompanyGroupId(),
                 StrasbourgPortletKeys.PLACE_BO, StrasbourgPortletKeys.PLACE_BO, "EDIT_PLACE")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
     }
 
     @Override
     protected boolean hasDeletePermission() {
-        return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getScopeGroupId(),
+        return _themeDisplay.getPermissionChecker().hasPermission(this._themeDisplay.getCompanyGroupId(),
                 StrasbourgPortletKeys.PLACE_BO, StrasbourgPortletKeys.PLACE_BO, "DELETE_PLACE")
                 && Validator.isNull(_themeDisplay.getScopeGroup().getStagingGroup());
     }

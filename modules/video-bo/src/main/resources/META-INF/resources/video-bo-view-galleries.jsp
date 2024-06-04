@@ -10,13 +10,6 @@
     <portlet:param name="delta" value="${dc.searchContainer.delta}"/>
 </liferay-portlet:renderURL>
 
-<liferay-portlet:renderURL varImpl="addGalleryURL">
-    <portlet:param name="cmd" value="editGallery"/>
-    <portlet:param name="tab" value="galleries"/>
-    <portlet:param name="mvcPath" value="/video-bo-edit-gallery.jsp"/>
-    <portlet:param name="backURL" value="${galleriesURL}"/>
-</liferay-portlet:renderURL>
-
 <clay:management-toolbar
         managementToolbarDisplayContext="${managementDC}"
 />

@@ -7,6 +7,7 @@
 	<portlet:param name="mvcPath" value="/agenda-bo-view-campaigns.jsp" />
 	<portlet:param name="campaignId"
 		value="${not empty dc.campaign ? dc.campaign.campaignId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveCampaign" varImpl="saveCampaignURL">

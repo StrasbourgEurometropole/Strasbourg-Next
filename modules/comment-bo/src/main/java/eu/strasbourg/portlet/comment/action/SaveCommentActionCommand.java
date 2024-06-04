@@ -29,6 +29,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -136,9 +137,11 @@ public class SaveCommentActionCommand implements MVCActionCommand{
             }else banishDescription="";
             PublikUserLocalServiceUtil.updatePublikUser(publikUser);
             _commentLocalService.updateComment(comment);
-            actionResponse.setRenderParameter("mvcPath", "/comment-bo-view-comments.jsp");
+            actionResponse.sendRedirect(ParamUtil.getString(actionRequest, "backURL"));
 
         } catch (PortalException e) {
+            _log.error(e);
+        } catch (IOException e) {
             _log.error(e);
         }
         return true;

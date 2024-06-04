@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
@@ -51,6 +52,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -83,12 +85,12 @@ public class SaveEventActionCommand implements MVCActionCommand {
 				PortalUtil.copyRequestParameters(request, response);
 
 				ThemeDisplay themeDisplay = (ThemeDisplay) request
-					.getAttribute(WebKeys.THEME_DISPLAY);
+						.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request
-					.getAttribute(WebKeys.PORTLET_ID);
+						.getAttribute(WebKeys.PORTLET_ID);
 				PortletURL backURL = PortletURLFactoryUtil.create(request,
-					portletName, themeDisplay.getPlid(),
-					PortletRequest.RENDER_PHASE);
+						portletName, themeDisplay.getPlid(),
+						PortletRequest.RENDER_PHASE);
 				response.setRenderParameter("backURL", backURL.toString());
 				response.setRenderParameter("mvcPath",
 					"/agenda-bo-edit-event.jsp");
@@ -383,7 +385,7 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			}
 
 			_eventLocalService.updateEvent(event, sc);
-			response.setRenderParameter("mvcPath", "/agenda-bo-view-events.jsp");
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
 		} catch (PortalException e) {
 			_log.error(e);
@@ -396,20 +398,18 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			PortalUtil.copyRequestParameters(request, response);
 
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
-				.getAttribute(WebKeys.THEME_DISPLAY);
+					.getAttribute(WebKeys.THEME_DISPLAY);
 			String portletName = (String) request
-				.getAttribute(WebKeys.PORTLET_ID);
+					.getAttribute(WebKeys.PORTLET_ID);
 			PortletURL backURL = PortletURLFactoryUtil.create(request,
-				portletName, themeDisplay.getPlid(),
-				PortletRequest.RENDER_PHASE);
+					portletName, themeDisplay.getPlid(),
+					PortletRequest.RENDER_PHASE);
 
 			response.setRenderParameter("backURL", backURL.toString());
 			response.setRenderParameter("cmd", "saveEvent");
 			response.setRenderParameter("mvcPath",
 				"/agenda-bo-edit-event.jsp");
 			return false;
-		} catch (Exception e) {
-			_log.error(e);
 		}
 
 		return true;
@@ -420,6 +420,7 @@ public class SaveEventActionCommand implements MVCActionCommand {
 	 */
 	private boolean validate(ActionRequest request) {
 		boolean isValid = true;
+
 
 		// Titre
 		if (Validator.isNull(ParamUtil.getString(request, "title"))) {
@@ -438,6 +439,11 @@ public class SaveEventActionCommand implements MVCActionCommand {
 		String imageURL = ParamUtil.getString(request, "externalImageURL");
 		if (imageId == 0 && Validator.isNull(imageURL)) {
 			SessionErrors.add(request, "image-error");
+			isValid = false;
+		}
+
+		if (!Validator.isUrl(imageURL)) {
+			SessionErrors.add(request, "image-format-error");
 			isValid = false;
 		}
 

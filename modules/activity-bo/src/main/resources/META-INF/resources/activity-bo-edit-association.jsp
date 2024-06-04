@@ -7,6 +7,7 @@
 	<portlet:param name="mvcPath" value="/activity-bo-view-associations.jsp" />
 	<portlet:param name="associationId"
 		value="${not empty dc.association ? dc.association.associationId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveAssociation" varImpl="saveAssociationURL">

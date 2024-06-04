@@ -1,6 +1,9 @@
 // 'Enum' de tous les classNames des entité pouvant être rencontrées
 var numberFormat=new Intl.NumberFormat();
 
+// Initialisation de l'id des log
+var searchLogId = -1;
+
 var EntityEnum = {
     OFFICIAL: 'eu.strasbourg.service.official.model.Official',
     EDITION: 'eu.strasbourg.service.edition.model.Edition',
@@ -69,7 +72,11 @@ function createOfficialVignette(data) {
     return `
     <li>
     <div class="st-card-container">
-        <a href="${data.link}" class="st-card st--card-horizontal st-card-person ${!data.imageURL ? 'st--with-icon' : ''}">
+        <a href="${data.link}" 
+            data-classNameId="${data.classNameId}"
+            data-classPK="${data.classPk}"
+            data-title="${data.title}"
+            class="st-card st--card-horizontal st-card-person ${!data.imageURL ? 'st--with-icon' : ''}">
             <div class="st-caption">
                 <h3 class="st-title-card">${data.firstName} ${data.lastName}</h3>
                 ${data.fonctionEuro ? `<p class="st-surtitre-cat">${data.fonctionEuro}</p>` : ''}
@@ -94,6 +101,9 @@ function createEditionVignette(data) {
                ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
             <div class="st-btns-wrapper">
                 <a href="${data.link}" target="_blank"
+                    data-classNameId="${data.classNameId}"
+                    data-classPK="${data.classPk}"
+                    data-title="${data.title}"
                     class="st-btn st--btn-secondary st--btn-xs st--btn-small-padding">Visionner</a>
                     ${data.galeryEditionURL ?
                 `<a href="${data.galeryEditionURL}" class="st-btn st--btn-primary st--btn-xs st--btn-small-padding">
@@ -113,7 +123,11 @@ function createEventVignette(data) {
     return `
     <li>
     <div class="st-card-container">
-        <a href="${data.linkStras}" class="st-card st--card-horizontal st-card-agenda st--with-gradient  ${!data.imageURL ? 'st--with-icon': ''}">
+        <a href="${data.linkStras}" 
+            data-classNameId="${data.classNameId}"
+            data-classPK="${data.classPk}"
+            data-title="${data.title}"
+            class="st-card st--card-horizontal st-card-agenda st--with-gradient  ${!data.imageURL ? 'st--with-icon': ''}">
             <div class="st-caption">
               ${data.title ? `<h3 class="st-title-card">${data.title}</h3>` : ''}
                ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
@@ -134,7 +148,11 @@ function createEventVignette(data) {
 function createManifestationVignette(data) {
     return `<li>
     <div class="st-card-container">
-        <a href="${data.link}" class="st-card st--card-horizontal st-card-agenda st--with-gradient  ${!data.imageURL ? 'st--with-icon': ''}">
+        <a href="${data.link}" 
+            data-classNameId="${data.classNameId}"
+            data-classPK="${data.classPk}"
+            data-title="${data.title}"
+            class="st-card st--card-horizontal st-card-agenda st--with-gradient  ${!data.imageURL ? 'st--with-icon': ''}">
             <div class="st-caption">
               ${data.title ? `<h3 class="st-title-card">${data.title}</h3>` : ''}
                ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
@@ -153,7 +171,11 @@ function createEditionGalleryVignette(data) {
     return `
 <li>
     <div class="st-card-container">
-        <a href="${data.link}" class="st-card st--card-horizontal  ${!data.imageURL ? 'st--with-icon': ''}">
+        <a href="${data.link}" 
+            data-classNameId="${data.classNameId}"
+            data-classPK="${data.classPk}"
+            data-title="${data.title}"
+            class="st-card st--card-horizontal  ${!data.imageURL ? 'st--with-icon': ''}">
             <div class="st-caption">
                ${data.title ? `<h3 class="st-title-card">${data.title}</h3>` : ''}
                ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
@@ -172,7 +194,11 @@ function createPlaceVignette(data) {
     return `
 <li>
     <div class="st-card-container">
-        <a href="${data.link}" class="st-card st--card-horizontal st--with-gradient  ${!data.imageURL ? 'st--with-icon': ''}">
+        <a href="${data.link}" 
+            data-classNameId="${data.classNameId}"
+            data-classPK="${data.classPk}"
+            data-title="${data.title}"
+            class="st-card st--card-horizontal st--with-gradient  ${!data.imageURL ? 'st--with-icon': ''}">
             <div class="st-caption">
                  ${data.title ? `<h3 class="st-title-card">${data.title}</h3>` : ''}
                ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
@@ -198,7 +224,11 @@ function createCourseVignette(data) {
     return `
     <li>
     <div class="st-card-container">
-        <a href="${data.link}" class="st-card st--card-horizontal  ${!data.imageURL ? 'st--with-icon': ''}">
+        <a href="${data.link}" 
+            data-classNameId="${data.classNameId}"
+            data-classPK="${data.classPk}"
+            data-title="${data.title}"
+            class="st-card st--card-horizontal  ${!data.imageURL ? 'st--with-icon': ''}">
             <div class="st-caption">
             ${data.title ? `<h3 class="st-title-card">${data.title}</h3>` : ''}
                ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
@@ -216,7 +246,11 @@ function createActivityVignette(data) {
     return `
     <li>
     <div class="st-card-container">
-        <a href="${data.link}" class="st-card st--card-horizontal  ${!data.imageURL ? 'st--with-icon': ''}">
+        <a href="${data.link}" 
+            data-classNameId="${data.classNameId}"
+            data-classPK="${data.classPk}"
+            data-title="${data.title}"
+            class="st-card st--card-horizontal  ${!data.imageURL ? 'st--with-icon': ''}">
             <div class="st-caption">
                ${data.title ? `<h3 class="st-title-card">${data.title}</h3>` : ''}
                ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
@@ -235,7 +269,11 @@ function createArticleVignette(data) {
     return `
     <li>
     <div class="st-card-container">
-        <a href="${data.link}" class="st-card st--card-horizontal  ${!data.imageURL ? 'st--with-icon': ''}">
+        <a href="${data.link}" 
+            data-classNameId="${data.classNameId}"
+            data-classPK="${data.classPk}"
+            data-title="${data.title}"
+            class="st-card st--card-horizontal  ${!data.imageURL ? 'st--with-icon': ''}">
             <div class="st-caption">
                ${data.title ? `<h3 class="st-title-card">${data.title}</h3>` : ''}
                 ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
@@ -302,15 +340,20 @@ function callSearchUrl(url, data, callback) {
 function populateList(data) {
     var resultList = document.getElementById('results');
     resultList.innerHTML = ''; // Clear existing list items
+
     var totalResult = parseInt(data.find(item => item.totalResult).totalResult, 10)
     var resultTotal = document.getElementById('results-total');
     resultTotal.innerHTML = numberFormat.format(totalResult);
+
     var resultDisplay = document.getElementById('results-display');
     var delta = parseInt(data.find(item => item.displayResult).displayResult, 10)
     if(totalResult > delta)
         resultDisplay.style.display = "block";
     else
         resultDisplay.style.display = "none";
+
+    searchLogId = data.find(item => item.searchLogId).searchLogId;
+
     data = data.filter(item => !item.totalResult);
     // Remove all click event from favorite buttons
     var favoriteButtons = document.querySelectorAll('.st-btn-favorite-card');
@@ -322,7 +365,9 @@ function populateList(data) {
             item.description = item.description.replace(/(<([^>]+)>)/ig,"");
         }
         var vignette = getVignette(item.className, item);
-        resultList.insertAdjacentHTML('beforeend', vignette);
+        if(vignette != "") {
+            resultList.insertAdjacentHTML('beforeend', vignette);
+        }
     });
 
     // permet d'ajouter les résultats au éléments focussables
@@ -334,6 +379,8 @@ function populateList(data) {
     }, 150);*/
 
     addClickEventToFavoriteButtons();
+
+    addClickEventToThumbnails();
 
     // remonte le scroll en haut
     if(resultList.querySelector("li") != undefined)
@@ -396,3 +443,22 @@ elementsWithOnClick.forEach(function(element) {
     element.addEventListener('click', toggleStIsActive);
 
 });
+
+
+function addClickEventToThumbnails() {
+    document.querySelectorAll("#results a").forEach(function(element) {
+        element.removeEventListener("click", addClickEventToThumbnailsNoLegacy);
+        element.addEventListener("click", addClickEventToThumbnailsNoLegacy);
+    });
+}
+
+function addClickEventToThumbnailsNoLegacy(e) {
+    // ajoute une action au lien de la vignette
+    var postData =
+        `${porletNamespace}searchLogId=${searchLogId}&${porletNamespace}classNameId=${this.dataset.classnameid}&${porletNamespace}classPK=${this.dataset.classpk}&${porletNamespace}title=${this.dataset.title}`;
+    var xhrLog = new XMLHttpRequest();
+    xhrLog.open('POST', logChoiceURL, true);
+    xhrLog.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhrLog.send(postData);
+
+}

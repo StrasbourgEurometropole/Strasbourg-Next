@@ -8,6 +8,7 @@
 	<portlet:param name="subPlaceId"
 		value="${not empty dc.subPlace ? dc.subPlace.subPlaceId : ''}" />
 	<portlet:param name="mvcPath" value="/place-bo-view-subplaces.jsp" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveSubPlace"
@@ -215,10 +216,9 @@
 				<aui:button cssClass="btn-lg btn-default" type="submit"
 					name="save-as-draft" value="save-as-draft" />
 			</c:if>
-			<c:if
-				test="${not empty dc.subPlace and empty themeDisplay.scopeGroup.getStagingGroup()}">
-				<aui:button cssClass="btn-lg" href="${deleteSubPlaceURL}" type="cancel"
-					value="delete" />
+			<c:if test="${not empty dc.subPlace && dc.hasPermission('DELETE_PLACE') and empty themeDisplay.scopeGroup.getStagingGroup()}">
+				<aui:button cssClass="btn-lg" href="${deleteSubPlaceURL}"
+							type="cancel" value="delete" />
 			</c:if>
 			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>

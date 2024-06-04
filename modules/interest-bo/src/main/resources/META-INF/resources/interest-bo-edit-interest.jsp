@@ -7,11 +7,13 @@
 	<portlet:param name="mvcPath" value="/interest-bo-view-interests.jsp" />
 	<portlet:param name="interestId"
 		value="${not empty dc.interest ? dc.interest.interestId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveInterest" varImpl="saveInterestURL">
 	<portlet:param name="cmd" value="saveInterest" />
 	<portlet:param name="tab" value="interests" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 
 </liferay-portlet:actionURL>
 

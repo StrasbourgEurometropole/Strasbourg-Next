@@ -33,6 +33,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.*;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -172,7 +173,11 @@ public class SaveEditionActionCommand implements MVCActionCommand {
 			}
 
 			_editionLocalService.updateEdition(edition, sc);
+
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
+			_log.error(e);
+		} catch (IOException e) {
 			_log.error(e);
 		}
 

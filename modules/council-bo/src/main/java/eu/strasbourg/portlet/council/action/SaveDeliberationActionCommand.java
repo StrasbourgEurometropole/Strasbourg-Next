@@ -148,8 +148,7 @@ public class SaveDeliberationActionCommand extends BaseMVCActionCommand {
             deliberationLocalService.updateDeliberation(deliberation);
         }
 
-        // Post / Redirect / Get si tout est bon
-        response.setRenderParameter("mvcPath", "/council-bo-view-deliberations.jsp");
+        response.sendRedirect(ParamUtil.getString(request, "backURL"));
     }
 
     /**

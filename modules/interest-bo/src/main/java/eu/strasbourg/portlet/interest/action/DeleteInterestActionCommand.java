@@ -52,17 +52,8 @@ public class DeleteInterestActionCommand
 		try {
 			long interestId = ParamUtil.getLong(request, "interestId");
 			_interestInterestLocalService.removeInterest(interestId);
-			
-			// Redirection (évite double
-			// requête POST si l'utilisateur actualise sa page)
-			ThemeDisplay themeDisplay = (ThemeDisplay) request
-					.getAttribute(WebKeys.THEME_DISPLAY);
-			String portletName = (String) request
-				.getAttribute(WebKeys.PORTLET_ID);
-			PortletURL renderUrl = PortletURLFactoryUtil.create(request,
-				portletName, themeDisplay.getPlid(),
-				PortletRequest.RENDER_PHASE);
-			response.sendRedirect(renderUrl.toString());
+
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (Exception e) {
 			_log.error(e);
 		}

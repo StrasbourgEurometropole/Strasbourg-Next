@@ -31,10 +31,6 @@ public class ViewDeliberationsDisplayContext extends ViewBaseDisplayContext<Deli
         _response = response;
         _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
         _filterCategories = filterCategories;
-        // Hack : forçage du delta du SearchContainer
-        // TODO : Changer le ViewListBaseDisplayContext pour mettre en place la prise en compte du delta par default
-        this.getSearchContainer().setDelta(100);
-
     }
 
     /**
@@ -107,6 +103,7 @@ public class ViewDeliberationsDisplayContext extends ViewBaseDisplayContext<Deli
             _searchContainer.setOrderByTypeParam("orderByType");
             _searchContainer.setOrderByCol(getOrderByCol());
             _searchContainer.setOrderByType(getOrderByType());
+            _searchContainer.setDelta(200);
             Hits hits;
             try {
                 hits = getHits(this._themeDisplay.getScopeGroupId());

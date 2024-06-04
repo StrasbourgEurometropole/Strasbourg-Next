@@ -7,6 +7,7 @@
 	<portlet:param name="mvcPath" value="/agenda-bo-view-events.jsp" />
 	<portlet:param name="eventId"
 		value="${not empty dc.event ? dc.event.eventId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveEvent" varImpl="saveEventURL">
@@ -18,6 +19,7 @@
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="description-error" message="description-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
+	<liferay-ui:error key="image-format-error" message="image-format-error" />
 	<liferay-ui:error key="image-load-error" message="image-load-error" />
 	<liferay-ui:error key="image-copyright-error" message="image-copyright-error" />
 	<liferay-ui:error key="place-selected-error" message="place-selected-error" />
