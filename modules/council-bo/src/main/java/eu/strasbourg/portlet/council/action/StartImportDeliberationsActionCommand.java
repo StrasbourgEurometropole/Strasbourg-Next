@@ -120,6 +120,7 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
             _log.error(e);
             return false;
         }
+        response.setRenderParameter("mvcPath", "/council-bo-view-deliberations.jsp");
         return true;
     }
 
@@ -136,7 +137,7 @@ public class  StartImportDeliberationsActionCommand implements MVCActionCommand 
                 PortletRequest.RENDER_PHASE);
 
         response.setRenderParameter("backURL", returnURL.toString());
-        response.setRenderParameter("cmd", "startImportDeliberations");
+        response.setRenderParameter("cmd", "importDeliberation");
         response.setRenderParameter("mvcPath", "/council-bo-import-deliberation.jsp");
     }
 
