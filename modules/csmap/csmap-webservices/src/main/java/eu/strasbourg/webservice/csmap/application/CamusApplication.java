@@ -107,7 +107,10 @@ public class CamusApplication extends Application {
             log.error(e);
             return WSResponseUtil.buildErrorResponse(500, e.getMessage());
         }
-        return WSResponseUtil.buildOkResponse(JSONFactoryUtil.createJSONObject(), 200);
+
+        JSONObject response = JSONFactoryUtil.createJSONObject();
+        response.put("isConsenting", true);
+        return WSResponseUtil.buildOkResponse(response, 200);
     }
 
     /**
@@ -127,7 +130,14 @@ public class CamusApplication extends Application {
             PublikUser user = authenticator.validateUserInJWTHeader(httpHeaders);
 
             // Parse le JSON du corps de la requête
-            JSONArray json = JSONFactoryUtil.createJSONArray(jsonString);
+            JSONObject jsonObject = JSONFactoryUtil.createJSONObject(jsonString);
+
+            JSONArray json = jsonObject.getJSONArray("amcIdentifiers");
+
+            // Vérifie que le JSON contient des données
+            if (json == null || json.length() == 0) {
+                return WSResponseUtil.buildErrorResponse(400, "amcIdentifiers is empty");
+            }
 
             JSONObject jsonToReturn = JSONFactoryUtil.createJSONObject();
 
