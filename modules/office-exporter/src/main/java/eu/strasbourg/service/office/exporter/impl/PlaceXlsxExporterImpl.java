@@ -59,7 +59,6 @@ public class PlaceXlsxExporterImpl implements PlaceXlsxExporter {
         createHeaderRow(sheet);
         CellStyle cellStyle = createCellStyle(workbook);
         populateDataRows(sheet, places, cellStyle);
-        autoSizeColumns(sheet);
 
         workbook.write(stream);
         workbook.close();
