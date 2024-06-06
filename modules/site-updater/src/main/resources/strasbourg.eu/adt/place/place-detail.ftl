@@ -925,7 +925,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
 
     </div>
-
+<#if entry.mail?has_content || entry.phone?has_content>
     <!-- Contact -->
     <div class="st-bloc st-bloc-sit-focus st-wrapper st--has-margin">
         <div class="st-container">
@@ -945,6 +945,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
             </div>
         </div>
     </div>
+    </#if>
 
 
 </div>
