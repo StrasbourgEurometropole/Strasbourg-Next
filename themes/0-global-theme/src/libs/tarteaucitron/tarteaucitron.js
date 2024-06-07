@@ -197,7 +197,7 @@ var tarteaucitron = {
         },
     },
     "addFrame": function (frame_title, url, allowfullscreen, srcdoc = "", loading = "") {
-        return '<iframe title="' + frame_title + '" type="text/html" src="//www.youtube-nocookie.com/embed/' + video_id + '?' + params + '"' + (allowfullscreen == '0' ? '' : ' allowfullscreen') + ' ' + srcdoc + ' ' + loading + '></iframe>';
+        return '<iframe title="' + frame_title + '" type="text/html" src="' + url + '"' + (allowfullscreen == '0' ? '' : ' allowfullscreen') + ' ' + srcdoc + ' ' + loading + '></iframe>';
     },
     "load": function () {
         "use strict";
