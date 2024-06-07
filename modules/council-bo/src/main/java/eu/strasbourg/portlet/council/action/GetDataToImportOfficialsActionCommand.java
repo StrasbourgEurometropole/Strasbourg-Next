@@ -112,7 +112,7 @@ public class GetDataToImportOfficialsActionCommand implements MVCActionCommand {
                     // Récupération des données de la ligne CSV
                     String erreur = validate(record);
                     if(Validator.isNotNull(erreur))
-                        errorParse.add("<br><strong>Ligne " + i + "</strong> : <br>" + errorDuplicate + erreur);
+                        errorParse.add("<br><strong>Ligne " + (i + 1) + "</strong> : <br>" + errorDuplicate + erreur);
                     else {
                         Map<String, String> official = new HashMap<>();
                         official.put(OfficialDataConstants.NOM, record.get(OfficialDataConstants.NOM));
