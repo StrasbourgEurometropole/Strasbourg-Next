@@ -105,7 +105,7 @@ public class GetDataToImportOfficialsActionCommand implements MVCActionCommand {
                     String email = record.get(OfficialDataConstants.EMAIL);
                     String errorDuplicate = "";
                     if (emails.contains(email)) {
-                        errorDuplicate = "Colonne: EMAIL : " + "L'email " + email + " est pr\u00e9sents plusieurs fois dans le CSV<br>";
+                        errorDuplicate = "Colonne: EMAIL : " + "L'email " + email + " est pr\u00e9sent plusieurs fois dans le CSV<br>";
                     } else {
                         emails.add(email);
                     }
