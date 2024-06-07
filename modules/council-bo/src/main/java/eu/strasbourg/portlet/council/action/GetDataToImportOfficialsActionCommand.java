@@ -96,13 +96,23 @@ public class GetDataToImportOfficialsActionCommand implements MVCActionCommand {
             CSVFormat csvFileFormat = CSVFormat.EXCEL.withHeader(OfficialDataConstants.OFFICIALS_HEADER_MAPPING).withDelimiter(',');
             CSVParser csvFileParser = CSVParser.parse(officialsCsv, Charset.forName("windows-1252"), csvFileFormat);
             List<CSVRecord> csvRecords = csvFileParser.getRecords();
+            // Check if email is duplicated
+            List<String> emails = new ArrayList<>();
             if (csvRecords.size() > 0) {
                 for (int i = 1; i < csvRecords.size(); i++) {
                     CSVRecord record = csvRecords.get(i);
+                    // Get email
+                    String email = record.get(OfficialDataConstants.EMAIL);
+                    String errorDuplicate = "";
+                    if (emails.contains(email)) {
+                        errorDuplicate = "Colonne: EMAIL : " + "L'email " + email + " est pr\u00e9sents plusieurs fois dans le CSV<br>";
+                    } else {
+                        emails.add(email);
+                    }
                     // Récupération des données de la ligne CSV
                     String erreur = validate(record);
                     if(Validator.isNotNull(erreur))
-                        errorParse.add("Ligne " + i + " : " + erreur);
+                        errorParse.add("<br><strong>Ligne " + i + "</strong> : <br>" + errorDuplicate + erreur);
                     else {
                         Map<String, String> official = new HashMap<>();
                         official.put(OfficialDataConstants.NOM, record.get(OfficialDataConstants.NOM));
@@ -169,7 +179,7 @@ public class GetDataToImportOfficialsActionCommand implements MVCActionCommand {
      * Effectue les vérifications sur les lignes du fichier CSV
      */
     private String validate(CSVRecord rowRecord) {
-        StringBuilder error = new StringBuilder();
+        List<String> error = new ArrayList<>();
 
         // Vérification si la ligne n'est pas null et si la première colonne n'est pas null
         if (rowRecord != null && rowRecord.get(0) != null) {
@@ -178,7 +188,7 @@ public class GetDataToImportOfficialsActionCommand implements MVCActionCommand {
             String email = rowRecord.get(OfficialDataConstants.EMAIL);
             verifierChamp(email, OfficialDataConstants.EMAIL, true, 75, error);
             if (!Validator.isEmailAddress(email)) {
-                error.append("Colonne : ").append(OfficialDataConstants.EMAIL).append(" : email invalide");
+                error.add("Colonne : " + OfficialDataConstants.EMAIL + " : email invalide");
             }
 
             // Vérification du nom
@@ -194,20 +204,22 @@ public class GetDataToImportOfficialsActionCommand implements MVCActionCommand {
             verifierTypeConseil(councilTypes, error);
         }
 
-        return error.toString();
+
+        // Join the string with <br>
+        return String.join("<br>", error);
     }
 
     /**
      * Vérifie les champs communs
      */
-    private void verifierChamp(String valeur, String colonne, boolean obligatoire, int longueurMax, StringBuilder error) {
+    private void verifierChamp(String valeur, String colonne, boolean obligatoire, int longueurMax, List<String> error) {
         if (Validator.isNull(valeur)) {
             if (obligatoire) {
-                error.append(" Colonne : ").append(colonne).append(" : Champ obligatoire");
+                error.add(" Colonne : " + colonne +" : Champ obligatoire");
             }
         } else {
             if (valeur.length() > longueurMax) {
-                error.append(" Colonne : ").append(colonne).append(" : Valeur trop longue. Taille max : ").append(longueurMax).append(" caract\u00e8res");
+                error.add(" Colonne : " + colonne + " : Valeur trop longue. Taille max : " + longueurMax + " caract\u00e8res");
             }
         }
     }
@@ -215,7 +227,7 @@ public class GetDataToImportOfficialsActionCommand implements MVCActionCommand {
     /**
      * Vérifie le type de conseil
      */
-    private void verifierTypeConseil(String[] councilTypes, StringBuilder error) {
+    private void verifierTypeConseil(String[] councilTypes, List<String> error) {
         StringBuilder errorTypes = new StringBuilder();
         for (String councilType : councilTypes) {
             if (!getTypes().contains(councilType)) {
@@ -226,8 +238,7 @@ public class GetDataToImportOfficialsActionCommand implements MVCActionCommand {
             }
         }
         if (errorTypes.length() > 0) {
-            error.append(" Colonne ").append(OfficialDataConstants.TYPE_CONSEIL)
-                    .append(" : le(s) type(s) : ").append(errorTypes).append(" n'existe(nt) pas");
+            error.add("Colonne " + OfficialDataConstants.TYPE_CONSEIL + " : le(s) type(s) : " + errorTypes + " n'existe(nt) pas");
         }
     }
 

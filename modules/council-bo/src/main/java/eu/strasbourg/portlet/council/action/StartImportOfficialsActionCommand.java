@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.council.constants.OfficialDataConstants;
@@ -109,7 +110,7 @@ public class StartImportOfficialsActionCommand implements MVCActionCommand {
             // Ajout d'un message de succès à la session
             SessionMessages.add(request, "import-successful");
 
-            response.setRenderParameter("mvcPath", "/council-bo-view-officials.jsp");
+            response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
             return true;
 
