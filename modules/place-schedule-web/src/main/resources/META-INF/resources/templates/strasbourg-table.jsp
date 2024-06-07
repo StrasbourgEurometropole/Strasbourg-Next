@@ -1,6 +1,8 @@
 <%@ include file="/place-schedule-init.jsp" %>
 <jsp:useBean id="now" class="java.util.Date" />
 <fmt:formatDate value="${now}" type="date" var="fullNow" dateStyle="FULL"/>
+<fmt:formatDate value="${jourChoisi}" type="date" var="jourChoisiFormat" dateStyle="FULL"/>
+<c:set var="isToday" value="${fullNow eq jourChoisiFormat}" />
 <fmt:setLocale value="${locale}" />
 <c:choose>
     <c:when test="${empty themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames or themeDisplay.scopeGroup.isStagingGroup()}">
@@ -49,13 +51,13 @@
 
         <div class="st-wrapper st-grid st-grid-12 mb-6">
             <a href="${previousURL}" class="st-btn st--btn-secondary st-col-3@mobile">
-                <liferay-ui:message key="previous" />
+                <liferay-ui:message key="previous-week" />
             </a>
             <c:if test="${!empty selectedPlaces}">
                 <span class="st-title-medium st-col-6@mobile text-center my-auto">${jourChoisiFormate} - ${lastDayFormate}</span>
             </c:if>
             <a href="${nextURL}" class="st-btn st--btn-secondary st-col-3@mobile">
-                <liferay-ui:message key="next" />
+                <liferay-ui:message key="next-week" />
             </a>
         </div>
 
@@ -177,8 +179,11 @@
                             </c:if>
 
                             <c:if test="${!place.hasURLSchedule}">
+                                <c:if test="${isToday}">
+                                    <p class="st-badge-today"><liferay-ui:message key="today" /></p>
+                                </c:if>
                                 <ul class="st-list-rows st-basic-grid st-col-2@t-small">
-                                    <c:forEach var="horaires" items="${place.getPlaceSchedule(jourChoisi, 5, locale)}"
+                                    <c:forEach var="horaires" items="${place.getPlaceSchedule(jourChoisi, 7, locale)}"
                                                varStatus="status">
 
                                         <%@ include file="/horaire-row.jsp"%>
@@ -198,7 +203,7 @@
                                         <p class="st-badge-today"><liferay-ui:message key="today" /></p>
                                     </c:if>
                                     <ul class="st-list-rows st-basic-grid st-col-2@t-small">
-                                        <c:forEach var="horaires" items="${subPlace.getSubPlaceSchedule(jourChoisi, 5, locale)}"
+                                        <c:forEach var="horaires" items="${subPlace.getSubPlaceSchedule(jourChoisi, 7, locale)}"
                                                    varStatus="status">
 
                                             <%@ include file="/horaire-row.jsp"%>
