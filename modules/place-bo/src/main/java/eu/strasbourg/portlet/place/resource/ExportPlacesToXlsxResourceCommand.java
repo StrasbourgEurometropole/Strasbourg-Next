@@ -66,6 +66,7 @@ public class ExportPlacesToXlsxResourceCommand implements MVCResourceCommand {
             List<Long[]> categoryIds = JSONHelper.parseJsonList(categoryIdsJSON);
             String orderByCol = ParamUtil.getString(resourceRequest, "orderByCol");
             String keywords = ParamUtil.getString(resourceRequest, "keywords");
+            String orderByType = ParamUtil.getString(resourceRequest, "orderByType");
 
 
             // get themedisplay
@@ -73,7 +74,7 @@ public class ExportPlacesToXlsxResourceCommand implements MVCResourceCommand {
             long companyGroupId = themeDisplay.getCompanyGroupId();
 
             // Get all places
-            Hits hits = SearchHelper.getBOSearchHits(searchContext, 0, -1, Place.class.getName() , companyGroupId , categoryIds, keywords, orderByCol , true);
+            Hits hits = SearchHelper.getBOSearchHits(searchContext, -1, -1, Place.class.getName() , companyGroupId , categoryIds, keywords, orderByCol , orderByType.equals("desc"));
 
             List<Place> places = Stream.of(hits.getDocs())
                     .map(document -> {
