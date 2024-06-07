@@ -131,10 +131,4 @@ public class PlaceXlsxExporterImpl implements PlaceXlsxExporter {
 
         return territory.toString();
     }
-
-    private void autoSizeColumns(Sheet sheet) {
-        for (int i = 0; i < 4; i++) {
-            sheet.autoSizeColumn(i);
-        }
-    }
 }

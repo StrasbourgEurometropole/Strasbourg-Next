@@ -93,14 +93,6 @@ public class ExportPlacesToXlsxResourceCommand implements MVCResourceCommand {
         return true;
     }
 
-    private Long tryParse(String value) {
-        try {
-            return Long.valueOf(value);
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
-
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }
