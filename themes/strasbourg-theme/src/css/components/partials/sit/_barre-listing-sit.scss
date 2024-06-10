@@ -16,6 +16,8 @@
 
 	.st-barre-inner {
 		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
 		align-items: center;
 		min-height: 100px;
 		padding: 20px;
@@ -36,16 +38,13 @@
 	// Pour le moment j'ai mis ici les styles des filtres vu qu'on n'as pas encore la maquette de l'overlay filtres, donc je ne sais pas si les styles vont être globales au projet, ou s'ils vont être différents entre la barre et l'overlay
 	.st-filtre {
 		position: relative;
-		margin-right: 10px;
 
 		&.st--is-expanded {
 			flex-grow: 1;
-			max-width: 320px;
 		}
 
 		&.st--is-date {
 			flex-grow: 1;
-			max-width: 144px;
 		}
 
 		.st-field-date {
@@ -61,7 +60,7 @@
 		label,
 		.label-fake {
 			position: absolute;
-			top: -10px;
+			top: -20%;
 			left: 10px;
 			z-index: 1;
 			margin-bottom: initial;
@@ -184,47 +183,36 @@
 
 
 	&.st--horaires {
-		.st-filtre {
-			&:not(.st--affluence) {
-				@include bp-down(1190px) {
-					display: none;
-				}
+		@include mobile {
+			position: static;
+			background: transparent;
+		}
+		.st-barre-inner {
+			@include mobile {
+				gap: 15px;
+				flex-direction: column;
+				align-items: stretch;
 			}
 
-			&.st--affluence {
-				@include tablet-portrait {
-					display: block;
-					margin-right: 40px;
-				}
-
+		}
+		.st-filtre {
+			@include mobile {
+				display: block;
+			}
+			label {
 				@include mobile {
-					margin-right: 20px;
-				}
-
-				.st-field-checkbox {
-					position: initial;
-					align-items: center;
-					padding: initial;
-					margin-left: 10px;
-					font-weight: 600;
-					white-space: initial;
-
-					@include bp-down(1190px) {
-						margin-left: initial;
-					}
-
-					@include mobile {
-						font-size: 12px;
-						line-height: 1;
-					}
+					background: $c_main;
 				}
 			}
 		}
 
 		.col-right {
-			@include tablet-portrait {
-				width: initial;
+			button {
+				@include mobile {
+					width: 100%;
+				}
 			}
+
 		}
 	}
 }

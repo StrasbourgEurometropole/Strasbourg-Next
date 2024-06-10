@@ -1,28 +1,12 @@
 <!-- Formulaire de recherche -->
 <aui:form action="${changeDataURL}" method="post" name="fm" id="search-asset-form" cssClass="seu-view-filters">
-<div class="st-barre-listing-sit st--horaires st-hide-until@mobile" role="region" aria-label="Horaire des lieux, filtre des horaires">
+<div class="st-barre-listing-sit st--horaires" role="region" aria-label="Horaire des lieux, filtre des horaires">
     <div class="st-barre-inner st-wrapper form-styles">
 
         <div class="st-filtre st-group-field">
             <label for="place"><liferay-ui:message key="eu.place" /></label>
             <div class="st-field-select">
-                <select class="toCustomSelect" id="place" name="<portlet:namespace />placeId">
-                    <aui:option value="" label="select-place"/>
-                    <c:forEach var="place" items="${places}">
-                        <c:choose>
-                            <c:when test="${place.placeId == placeId}">
-                                <aui:option value="${place.placeId}" selected="true" >
-                                    ${place.getAlias(locale)}
-                                </aui:option>
-                            </c:when>
-                            <c:otherwise>
-                                <aui:option value="${place.placeId}" >
-                                    ${place.getAlias(locale)}
-                                </aui:option>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                </select>
+                <%@ include file="/select-place.jsp"%>
             </div>
         </div>
 
@@ -48,8 +32,7 @@
 
 
         <div class="col-right">
-
-            <button class="st-btn st--btn-small-padding st-btn-submit st-hide-until@t-portrait" type="submit"><liferay-ui:message key="to-research" /></button>
+            <button class="st-btn st--btn-small-padding st-btn-submit" type="submit"><liferay-ui:message key="to-research" /></button>
         </div>
     </div>
 </div>
