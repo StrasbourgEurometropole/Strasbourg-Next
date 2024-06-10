@@ -44,7 +44,7 @@
         </figure>
     <#else>
         <figure class="<#if isFigure>st-figure</#if> st-fit-cover" role="group">
-            <img alt="" loading="lazy" src="https://placehold.co/600x400/20272F/2AD783/png?text=!&font=roboto" />
+            <img alt="" loading="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAABECAYAAABK3PEEAAAACXBIWXMAAC4jAAAuIwF4pT92AAABBUlEQVR4Xu3VAQkAIBDFUO0fRLCD2RSM8dg12Mbn5trnjo41MAvMtv1gBbb7FhjvW+AC6wZwvn5wgXEDOF4LLjBuAMdrwQXGDeB4LbjAuAEcrwUXGDeA47XgAuMGcLwWXGDcAI7XgguMG8DxWnCBcQM4XgsuMG4Ax2vBBcYN4HgtuMC4ARyvBRcYN4DjteAC4wZwvBZcYNwAjteCC4wbwPFacIFxAzheCy4wbgDHa8EFxg3geC24wLgBHK8FFxg3gOO14ALjBnC8Flxg3ACO14ILjBvA8VpwgXEDOF4LLjBuAMdrwQXGDeB4LbjAuAEcrwUXGDeA47XgAuMGcLwWXGDcAI73ADVez7kdh2y/AAAAAElFTkSuQmCC" />
         </figure>
     </#if>
 </#macro>

@@ -2,7 +2,6 @@ package eu.strasbourg.service.social.twitter;
 
 import eu.strasbourg.service.social.SocialPost;
 import eu.strasbourg.service.social.impl.SocialMedia;
-import eu.strasbourg.service.social.impl.twitter.twemoji.Twemoji;
 
 public class Tweet extends SocialPost {
 
@@ -17,7 +16,7 @@ public class Tweet extends SocialPost {
 
 	@Override
 	public void setContent(String content) {
-		super.setContent(Twemoji.parse(content));
+		super.setContent(content);
 	}
 
 	public String getScreenName() {
