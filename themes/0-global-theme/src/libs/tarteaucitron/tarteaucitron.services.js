@@ -3479,7 +3479,8 @@ tarteaucitron.services.recaptcha = {
     "cookies": ['nid'],
     "js": function () {
         "use strict";
-        window.tacRecaptchaOnLoad = tarteaucitron.user.recaptchaOnLoad || function () { };
+        window.tacRecaptchaOnLoad = tarteaucitron.user.recaptchaOnLoad || function () {
+        };
         tarteaucitron.fallback(['g-recaptcha'], '');
 
         let url = 'https://www.google.com/recaptcha/api.js?onload=tacRecaptchaOnLoad';
