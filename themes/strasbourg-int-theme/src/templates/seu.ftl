@@ -105,12 +105,6 @@
       settingsScope="group" />
   </div>
 
-  <!-- inject:js -->
-  <script type="text/javascript">
-    if(typeof jQuery == 'undefined'){
-      document.write('<script type="text/javascript" src="/o/0-global-theme/libs/jquery/1.12.2/jquery.min.js"></'+'script>');
-    }
-  </script>
   <script src="/o/0-global-theme/libs/gsap/1.19.1/TweenMax.min.js"></script>
   <script type="text/javascript" src="/o/strasbourg-int-theme/js/strasbourg.js"></script>
 
