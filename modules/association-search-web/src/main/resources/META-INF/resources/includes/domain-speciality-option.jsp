@@ -1,1 +1,1 @@
-<option value="${category.categoryId}" selected="${curValue == category.categoryId}">${category.getTitle(locale)}</option>
+<option value="${category.categoryId}" ${curValue == category.categoryId ? "selected" : ""}>${category.getTitle(locale)}</option>

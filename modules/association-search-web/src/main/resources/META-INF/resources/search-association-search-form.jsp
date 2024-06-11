@@ -14,6 +14,7 @@
             </p>
         </div>
         </c:if>
+
         <div class="st-grid-fields st-grid-12">
 
             <div class="st-group-field domain st-col-3@t-small">
@@ -22,7 +23,7 @@
                 </label>
                 <div class="st-field-select">
                     <select class="domains" id="<portlet:namespace />domain" name="<portlet:namespace />domain">
-                        <aui:option value="" label=""/>
+                        <aui:option selected="${empty param.domain}" value="" label="select-one-domain"/>
                         <c:forEach items="${dc.getSortedCategories(dc.domainVocabulary)}" var="category">
                             <c:set var="category" value="${category}" scope="request"/>
                             <c:set var="level" value="0" scope="request"/>
