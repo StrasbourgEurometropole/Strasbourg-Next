@@ -57,6 +57,7 @@ public class SearchAssociationPortlet extends MVCPortlet {
 			// On set le DisplayContext
 			SearchAssociationDisplayContext dc = new SearchAssociationDisplayContext(request, response);
 			request.setAttribute("dc", dc);
+			request.setAttribute("locale", themeDisplay.getLocale());
 
 			// On envoie a la jsp la map className / layout qui fait
 			// correspondre à chaque type d'asset une page de détail
@@ -100,6 +101,10 @@ public class SearchAssociationPortlet extends MVCPortlet {
 
 	private boolean validate(ActionRequest request) {
 		boolean isValid = true;
+		if(Validator.isNull(ParamUtil.getString(request, "domain"))){
+			isValid = false;
+			request.setAttribute("domainError", true);
+		}
 
 		return isValid;
 	}
