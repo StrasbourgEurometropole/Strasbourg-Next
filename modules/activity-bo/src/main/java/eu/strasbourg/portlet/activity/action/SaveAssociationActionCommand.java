@@ -126,6 +126,10 @@ public class SaveAssociationActionCommand extends BaseMVCActionCommand {
 				.getLocalizationMap(request, "othersInformations");
 		association.setOthersInformationsMap(othersInformations);
 
+		// Order
+		Integer order = ParamUtil.getInteger(request, "order");
+		association.setOrder(order);
+
 		// Update de l'entité
 		associationLocalService.updateAssociation(association,
 				sc);

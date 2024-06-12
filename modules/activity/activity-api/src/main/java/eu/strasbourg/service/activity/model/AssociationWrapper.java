@@ -49,6 +49,7 @@ public class AssociationWrapper
 		attributes.put("mail", getMail());
 		attributes.put("facebookURL", getFacebookURL());
 		attributes.put("othersInformations", getOthersInformations());
+		attributes.put("order", getOrder());
 		attributes.put("status", getStatus());
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
@@ -148,6 +149,12 @@ public class AssociationWrapper
 
 		if (othersInformations != null) {
 			setOthersInformations(othersInformations);
+		}
+
+		Integer order = (Integer)attributes.get("order");
+
+		if (order != null) {
+			setOrder(order);
 		}
 
 		Integer status = (Integer)attributes.get("status");
@@ -427,6 +434,16 @@ public class AssociationWrapper
 	@Override
 	public Map<java.util.Locale, String> getNameMap() {
 		return model.getNameMap();
+	}
+
+	/**
+	 * Returns the order of this association.
+	 *
+	 * @return the order of this association
+	 */
+	@Override
+	public int getOrder() {
+		return model.getOrder();
 	}
 
 	/**
@@ -1088,6 +1105,16 @@ public class AssociationWrapper
 		Map<java.util.Locale, String> nameMap, java.util.Locale defaultLocale) {
 
 		model.setNameMap(nameMap, defaultLocale);
+	}
+
+	/**
+	 * Sets the order of this association.
+	 *
+	 * @param order the order of this association
+	 */
+	@Override
+	public void setOrder(int order) {
+		model.setOrder(order);
 	}
 
 	/**

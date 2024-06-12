@@ -55,6 +55,8 @@ public class AssociationTable extends BaseTable<AssociationTable> {
 	public final Column<AssociationTable, Clob> othersInformations =
 		createColumn(
 			"othersInformations", Clob.class, Types.CLOB, Column.FLAG_DEFAULT);
+	public final Column<AssociationTable, Integer> order = createColumn(
+		"order_", Integer.class, Types.INTEGER, Column.FLAG_DEFAULT);
 	public final Column<AssociationTable, Integer> status = createColumn(
 		"status", Integer.class, Types.INTEGER, Column.FLAG_DEFAULT);
 	public final Column<AssociationTable, Long> statusByUserId = createColumn(
