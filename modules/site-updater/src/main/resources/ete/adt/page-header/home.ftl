@@ -1,8 +1,8 @@
 <#setting locale = locale />
-<header class="mns-header mns-header-home" style="background: url(${page.expandoBridge.getAttribute('image')}) no-repeat center center /cover;">
+<header class="mns-header mns-header-home" style="background: url(${imageUrl}) no-repeat center center /cover;">
     <div class="container mns-center">
-        <h1>${page.getTitle(locale)}</h1>
+        <h1>${title}</h1>
         <div class="line-title"></div>
-        <span>${page.getDescription(locale)}</span>
+        <span>${subTitle}</span>
     </div>
 </header>

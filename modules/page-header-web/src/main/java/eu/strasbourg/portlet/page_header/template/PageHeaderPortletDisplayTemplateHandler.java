@@ -52,6 +52,10 @@ public class PageHeaderPortletDisplayTemplateHandler
 		
 		fieldsTemplateVariableGroup.addVariable("page", Layout.class, "page");
 		fieldsTemplateVariableGroup.addVariable("image-credit", String.class, "imageCredit");
+		fieldsTemplateVariableGroup.addVariable("title", String.class, "title");
+		fieldsTemplateVariableGroup.addVariable("sub-title", String.class, "subTitle");
+		fieldsTemplateVariableGroup.addVariable("image-url", String.class, "imageUrl");
+
 		
 		return templateVariableGroups;
 	}

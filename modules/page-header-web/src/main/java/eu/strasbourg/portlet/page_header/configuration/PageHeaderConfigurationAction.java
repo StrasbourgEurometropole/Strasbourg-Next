@@ -46,6 +46,15 @@ public class PageHeaderConfigurationAction extends DefaultConfigurationAction {
 		String imageCredit = ParamUtil.getString(actionRequest, "imageCredit");
 		setPreference(actionRequest, "imageCredit", imageCredit);
 
+		String title = ParamUtil.getString(actionRequest, "title");
+		setPreference(actionRequest, "title", title);
+
+		String subTitle = ParamUtil.getString(actionRequest, "subTitle");
+		setPreference(actionRequest, "subTitle", subTitle);
+
+		String imageUrl = ParamUtil.getString(actionRequest, "imageUrl");
+		setPreference(actionRequest, "imageUrl", imageUrl);
+
 		super.processAction(portletConfig, actionRequest, actionResponse);
 	}
 
@@ -64,6 +73,15 @@ public class PageHeaderConfigurationAction extends DefaultConfigurationAction {
 
 			request.setAttribute("imageCredit", ParamUtil.getString(
 				request, "imageCredit", configuration.imageCredit()));
+
+			request.setAttribute("title", ParamUtil.getString(
+				request, "title", configuration.title()));
+
+			request.setAttribute("subTitle", ParamUtil.getString(
+				request, "subTitle", configuration.subTitle()));
+
+			request.setAttribute("imageUrl", ParamUtil.getString(
+				request, "imageUrl", configuration.imageUrl()));
 
 			// Tout ce qui est Application Display Template
 			String displayStyle = GetterUtil.getString(preferences.getValue("displayStyle", StringPool.BLANK));
