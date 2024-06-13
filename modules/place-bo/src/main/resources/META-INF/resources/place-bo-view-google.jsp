@@ -60,7 +60,8 @@
 	</aui:form>
 
     <liferay-portlet:actionURL name="startSynchronized" var="startSynchronizedURL">
-        <portlet:param name="tab" value="google" />
+		<portlet:param name="tab" value="google" />
+		<portlet:param name="mvcPath" value="/place-bo-view-google.jsp" />
     </liferay-portlet:actionURL>
 	<form action="${startSynchronizedURL}" method="POST">
    		<aui:button-row>
