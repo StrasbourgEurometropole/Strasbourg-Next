@@ -102,6 +102,10 @@ public class SaveActivityActionCommand extends BaseMVCActionCommand {
 			.getLocalizationMap(request, "description");
 		activity.setDescriptionMap(description);
 
+		// Ordre
+		int order = ParamUtil.getInteger(request, "order");
+		activity.setOrder(order);
+
 		// Image
 		long imageId = ParamUtil.getLong(request, "imageId");
 		activity.setImageId(imageId);

@@ -37,6 +37,8 @@
 				
 				<aui:input name="description" />
 
+				<aui:input name="order" />
+
 				<liferay-asset:asset-categories-selector
 						className="<%= Activity.class.getName() %>"
 						classPK="${dc.activity.activityId}"

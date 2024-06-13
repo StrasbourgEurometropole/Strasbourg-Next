@@ -14,10 +14,7 @@ import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.portlet.activity.configuration.SearchActivityConfiguration;
-import eu.strasbourg.service.activity.model.Activity;
-import eu.strasbourg.service.activity.model.ActivityCourse;
-import eu.strasbourg.service.activity.model.ActivityCoursePlace;
-import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
+import eu.strasbourg.service.activity.model.*;
 import eu.strasbourg.service.activity.service.ActivityCourseLocalServiceUtil;
 import eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalServiceUtil;
 import eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalServiceUtil;
@@ -32,12 +29,8 @@ import eu.strasbourg.utils.group.GroupHelper;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.text.Collator;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -489,6 +482,28 @@ public class SearchActivityDisplayContext {
 
 			if (okToAddActivity) {
 				activities.add(activity);
+			}
+		}
+
+		if(configuration.sortingField().equals("title")) {
+			// Get sortingOrder
+			if(configuration.sortingType().equals("asc")) {
+				activities.sort((a1, a2) -> {
+					Collator frCollator = Collator.getInstance(themeDisplay.getLocale());
+					return frCollator.compare(a1.getTitle(themeDisplay.getLocale()), a2.getTitle(themeDisplay.getLocale()));
+				});
+			} else {
+				activities.sort((a1, a2) -> {
+					Collator frCollator = Collator.getInstance(themeDisplay.getLocale());
+					return frCollator.compare(a2.getTitle(themeDisplay.getLocale()), a1.getTitle(themeDisplay.getLocale()));
+				});
+			}
+		} else if(configuration.sortingField().equals("order")) {
+			// Get sortingOrder
+			if(configuration.sortingType().equals("asc")) {
+				activities.sort(Comparator.comparing(Activity::getOrder));
+			} else {
+				activities.sort(Comparator.comparing(Activity::getOrder).reversed());
 			}
 		}
 

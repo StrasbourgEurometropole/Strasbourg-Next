@@ -67,6 +67,14 @@ public class SearchActivityConfigurationAction
 				"detailPageUuid");
 			setPreference(actionRequest, "detailPageUuid", detailPageUuid);
 
+			// Champ de tri
+			String sortingField = ParamUtil.getString(actionRequest, "sortingField");
+			setPreference(actionRequest, "sortingField", sortingField);
+
+			// Ordre de tri
+			String sortingType = ParamUtil.getString(actionRequest, "sortingType");
+			setPreference(actionRequest, "sortingType", sortingType);
+
 			// Page de détail des cours
 			String courseDetailPageUuid = ParamUtil.getString(actionRequest,
 				"courseDetailPageUuid");
@@ -161,6 +169,12 @@ public class SearchActivityConfigurationAction
 			setVocabularyAttributes("territory", VocabularyNames.TERRITORY,
 				configuration.territoryIds(), configuration.territoryNames(),
 				request, themeDisplay.getCompanyGroupId());
+
+			// Champ de tri
+			request.setAttribute("sortingField", configuration.sortingField());
+
+			// Ordre de tri
+			request.setAttribute("sortingType", configuration.sortingType().toLowerCase());
 
 			// Texte
 			request.setAttribute("textXML", configuration.textXML());
