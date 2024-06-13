@@ -147,10 +147,15 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 </div>
 
 <#if entry.listeContact?has_content>
+    <#if entry.getGender() == 2>
+    <#assign officialGender="élue" />
+    <#else>
+    <#assign officialGender="élu" />
+    </#if>
     <@liferay_portlet.actionURL var="contactURL" name="contact">
         <@liferay_portlet.param name="classPK" value="${entry.getOfficialId()}" />
         <@liferay_portlet.param name="entityId" value="${entry.getOfficialId()}" />
-        <@liferay_portlet.param name="title" value="${entry.getFirstName()} ${entry.getLastName()}" />
+        <@liferay_portlet.param name="title" value="${officialGender} ${entry.getFirstName()} ${entry.getLastName()}" />
         <@liferay_portlet.param name="type" value="Official" />
     </@liferay_portlet.actionURL>
     <#assign overlayContactTitle="${entry.getFirstName()} ${entry.getLastName()}" />
