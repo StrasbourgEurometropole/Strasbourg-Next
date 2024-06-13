@@ -242,7 +242,7 @@
             </c:if>
             <c:if test="${!empty exceptions}">
                 <div class="calendar-schedule-exceptions rte st-limit-height st-text-styles" style="--max-height-desktop: 13rem;">
-                    <h3 id="exceptions"><liferay-ui:message key="eu.exceptional-closings-openings" /></h3>
+                    <h2 id="exceptions"><liferay-ui:message key="eu.exceptional-closings-openings" /></h2>
                     <c:set var="nbExceptions" value="0" />
                     <ul>
                         <c:forEach var="exception" items="${exceptions}">
@@ -272,7 +272,7 @@
                 <div class="st-show-more">
                     <button class="st-btn-show-more st-btn-arrow st--down"
                             aria-expanded="false"
-                            data-open-label="<@liferay_ui.message key='eu.view-more' />" data-close-label="<@liferay_ui.message key='eu.view-less' />"><@liferay_ui.message key='eu.view-more' />
+                            data-open-label="<liferay-ui:message key='eu.view-more.exception' />" data-close-label="<liferay-ui:message key='eu.view-less.exception' />"><liferay-ui:message key='eu.view-more.exception' />
                     </button>
                 </div>
             </c:if>

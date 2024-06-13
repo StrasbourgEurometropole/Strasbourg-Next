@@ -64,8 +64,8 @@
                                             <div class="st-card-container">
                                                 <a href="${navigationChildren.getURL()}" class="st-card st-card-actu " ${navigationChildren.getTarget()}>
                                                     <div class="st-caption">
-                                                        <p class="st-title-card">${navigationChildren.getName()}
-                                                        </p>
+                                                        <h3 class="st-title-card">${navigationChildren.getName()}
+                                                        </h3>
                                                     </div>
                                                     <div class="st-image">
                                                         <figure class="st-figure st-fit-cover" role="group">

@@ -11,7 +11,7 @@
 <div class="st-bloc st-bloc-slider-focus st-js-slider-focus splide st-u-overflow-x-hidden st--type-cards" role="group">
 
     <div class="st-wrapper st-wrapper-small st-bloc-slider-focus__top ${(entries?size gt 4)?then("","st-hide")}">
-        <div class="splide__arrows st-nav-arrows st-hide-until@mobile">
+        <div class="splide__arrows st-nav-arrows">
             <button class="splide__arrow splide__arrow--prev st-btn-arrow st--prev"></button>
             <button class="splide__arrow splide__arrow--next st-btn-arrow st--next"></button>
         </div>
@@ -41,7 +41,7 @@
                             <div class="st-card-container">
                                 <a href="${viewURL}" class="st-card ">
                                     <div class="st-caption">
-                                        <p class="st-title-card">${title}</p>
+                                        <h3 class="st-title-card">${title}</h3>
                                         <p class="st-surtitre-cat">${newsTypes?map(news -> news.getTitle(locale))?join(', ')}</p>
                                         <p class="st-text">${chapo}</p>
                                     </div>

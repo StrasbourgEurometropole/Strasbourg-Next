@@ -1,5 +1,28 @@
 @import "style";
 
+html {
+  @include tablet-portrait {
+    overflow-x: none;
+  }
+}
+
+body {
+  .alert {
+    .close {
+      color: black;
+      display: none;
+    }
+  }
+}
+
+// Responsive recaptcha
+@media only screen and (max-width: 500px) {
+  .g-recaptcha {
+    transform:scale(0.77);
+    transform-origin:0 0;
+  }
+}
+
 @mixin st-btn() {
   @include create-outline();
   @include inline-flex-center;
@@ -323,7 +346,6 @@
 }
 
 .seu-wi.seu-media.seu-wi-download, .seu-wi-link-group {
-  cursor: pointer;
   pointer-events: auto;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -376,12 +398,17 @@
           }
         }
       }
-      span.seu-btn-text {
+      a.seu-media-download {
+        @include create-outline();
         font-weight: 600;
         color: #2ad783;
         line-height: 1;
         letter-spacing: .025em;
+        @include can-hover {
+          color: $c_white;
+        }
       }
+
     }
   }
 }
