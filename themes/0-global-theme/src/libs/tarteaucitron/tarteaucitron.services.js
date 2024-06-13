@@ -1890,8 +1890,7 @@ tarteaucitron.services.calameo = {
                 height = tarteaucitron.getElemAttr(x, "height"),
                 url = '//v.calameo.com/?bkcode=' + id,
                 allowfullscreen = tarteaucitron.getElemAttr(x, "allowfullscreen");
-
-            return '<iframe title="' + frame_title + '" src="' + url + '" width="' + width + '" height="' + height + '" scrolling="no" allowtransparency ' + (allowfullscreen == '0' ? '' : ' allowfullscreen') + '></iframe>';
+            return tarteaucitron.addFrame(frame_title, url, allowfullscreen);
         });
     },
     "fallback": function () {
@@ -2183,7 +2182,8 @@ tarteaucitron.services.dailymotion = {
             if (embed_type === undefined || !['video', 'playlist'].includes(embed_type)) {
                 embed_type = "video";
             }
-            video_frame = '<iframe title="' + frame_title + '" src="//www.dailymotion.com/embed/' + embed_type + '/' + video_id + '?' + params + '" ' + frame_width + frame_height + (allowfullscreen == '0' ? '' : ' allowfullscreen') + '></iframe>';
+            let url = '//www.dailymotion.com/embed/' + embed_type + '/' + video_id + '?' + params;
+            video_frame = tarteaucitron.addFrame(frame_title, url, allowfullscreen);
             return video_frame;
         });
     },
@@ -3479,7 +3479,8 @@ tarteaucitron.services.recaptcha = {
     "cookies": ['nid'],
     "js": function () {
         "use strict";
-        window.tacRecaptchaOnLoad = tarteaucitron.user.recaptchaOnLoad || function () { };
+        window.tacRecaptchaOnLoad = tarteaucitron.user.recaptchaOnLoad || function () {
+        };
         tarteaucitron.fallback(['g-recaptcha'], '');
 
         let url = 'https://www.google.com/recaptcha/api.js?onload=tacRecaptchaOnLoad';
@@ -4702,7 +4703,9 @@ tarteaucitron.services.youtube = {
                 loading = '';
             }
 
-            video_frame = '<iframe title="' + frame_title + '" type="text/html" ' + frame_width + frame_height + ' src="//www.youtube-nocookie.com/embed/' + video_id + '?' + params + '"' + (allowfullscreen == '0' ? '' : ' allowfullscreen') + ' ' + srcdoc + ' ' + loading + '></iframe>';
+            var url = '//www.youtube-nocookie.com/embed/' + video_id + '?' + params
+
+            video_frame = tarteaucitron.addFrame(frame_title, url, allowfullscreen, srcdoc, loading);
             return video_frame;
         });
     },

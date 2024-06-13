@@ -23,7 +23,7 @@ public class BaseDisplayContext {
 	}
 
 	public String getLayoutTitle() {
-		String title = this._themeDisplay.getLayout().getTitle(_themeDisplay.getLocale());
+		String title = this._themeDisplay.getLayout().getName(_themeDisplay.getLocale());
 		// title is xml, so we need to extract the text from title tag
 		title = HtmlUtil.stripHtml(title);
 		return title;

@@ -79,6 +79,7 @@ import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -240,6 +241,13 @@ public class SearchAssetPortlet extends MVCPortlet {
 				attributes.remove(td.getPpid());
 			});
 
+			// Ajouter la page courant and le nombre de filtre applique dans le titre de la page
+			String pageTitle = themeDisplay.getLayout().getTitle(themeDisplay.getLocale());
+
+			pageTitle = getPageTitle(pageTitle, dc);
+
+			themeDisplay.getLayout().setTitle(pageTitle);
+
 
 			boolean isDueEntity = false;
 			renderRequest.setAttribute("isDueEntity", isDueEntity);
@@ -250,6 +258,64 @@ public class SearchAssetPortlet extends MVCPortlet {
 			_log.error(e);
 		}
 	}
+
+	/**
+	 * Génère le titre de la page avec des informations sur la pagination et les filtres appliqués.
+	 *
+	 * @param originalTitle Le titre original de la page.
+	 * @param dc Le contexte d'affichage de l'actif de recherche contenant les informations de pagination et de filtrage.
+	 * @return Le titre de la page modifié avec des informations sur la pagination et les filtres appliqués.
+	 */
+	public String getPageTitle(String originalTitle, SearchAssetDisplayContext dc) throws ConfigurationException {
+		// Initialiser le titre avec le titre original
+		String title = originalTitle;
+
+		// Ajouter les informations de pagination au titre
+		title += " | Page " + dc.getPager().getCurrentPage() + " sur " + dc.getPager().getPages().size();
+
+		// Compter le nombre de filtres appliqués
+		int filterCount = getAppliedFilterCount(dc);
+
+		// Si des filtres sont appliqués, ajouter cette information au titre
+		if (filterCount > 0) {
+			title += " | " + filterCount + " filtre" + (filterCount > 1 ? "s" : "") + " appliqu\u00E9" + (filterCount > 1 ? "s" : "");
+		}
+
+		// Retourner le titre modifié
+		return title;
+	}
+
+	/**
+	 * Calcule le nombre de filtres appliqués dans le contexte d'affichage.
+	 *
+	 * @param dc Le contexte d'affichage de l'actif de recherche contenant les informations de pagination et de filtrage.
+	 * @return Le nombre de filtres appliqués.
+	 */
+	private int getAppliedFilterCount(SearchAssetDisplayContext dc) throws ConfigurationException {
+		int filterCount = 0;
+
+		// Vérifier si une date est sélectionnée et incrémenter le compteur de filtres si c'est le cas
+		if (dc.isDateField()) {
+			filterCount++;
+		}
+
+		// Ajouter le nombre de vocabulaires de filtres appliqués au compteur de filtres
+		filterCount += dc.getFilterCategoriesIds().size();
+
+
+		// Ajouter le mots-clés de filtres appliqués au compteur de filtres
+		if(!Validator.isNull(dc.getKeywords())) {
+			filterCount++;
+		}
+
+		// Ajouter le mots-clés de filtres appliqués au compteur de filtres
+		if(!Validator.isNull(dc.getIdSIGPlace())) {
+			filterCount++;
+		}
+
+		return filterCount;
+	}
+
 
 	/**
 	 * L'utilisateur a fait une recherche, on en profite pour set un attribut

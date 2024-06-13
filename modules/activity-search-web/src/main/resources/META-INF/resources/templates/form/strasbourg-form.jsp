@@ -1,6 +1,6 @@
 
 <form class="seu-view-filters" method="post" action="${searchURL}">
-<div class="st-barre-listing-sit" role="region" aria-label="page de recherche, formulaire de filtre">
+<div class="st-barre-listing-sit" role="region" aria-label="Rechercher une activité aquatique, formulaire de filtre">
     <div class="st-barre-inner st-wrapper form-styles">
 
         <div class="st-filtre st-group-field">
