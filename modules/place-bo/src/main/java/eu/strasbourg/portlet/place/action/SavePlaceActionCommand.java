@@ -15,9 +15,12 @@
  */
 package eu.strasbourg.portlet.place.action;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -511,6 +514,21 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 	 */
 	private boolean validate(ActionRequest request) {
 		boolean isValid = true;
+
+		// vérifie que l'utilisateur à le droit d'éditer ce lieu
+		long placeId = ParamUtil.getLong(request, "placeId");
+		Place place = _placeLocalService.fetchPlace(placeId);
+		if (Validator.isNotNull(place)) {
+			ThemeDisplay themeDisplay = (ThemeDisplay) request
+					.getAttribute(WebKeys.THEME_DISPLAY);
+			List<AssetCategory> typeDeLieuVocab = place.getTypes();
+			List<AssetCategory> categoriesUser = AssetCategoryLocalServiceUtil.getCategories(User.class.getName(), themeDisplay.getUserId());
+			if (!themeDisplay.getPermissionChecker().isOmniadmin() &&
+					!typeDeLieuVocab.stream().anyMatch(categoriesUser::contains)) {
+				SessionErrors.add(request, "permission-error");
+				isValid = false;
+			}
+		}
 
 		// Alias
 		if (Validator.isNull(ParamUtil.getString(request, "alias"))) {
