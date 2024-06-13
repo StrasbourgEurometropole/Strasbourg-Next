@@ -70,12 +70,14 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                         </a>
                     </li>
                 </#if>
+                <#if entry.mail?has_content>
                 <li>
                     <button class="st-btn-icon st-btn-icon--white" data-overlay-open="st-overlay-contact"
                             aria-label="Formulaire de contact" aria-haspopup="dialog">
                         <span class="st-icon-email" aria-hidden="true"></span>
                     </button>
                 </li>
+                </#if>
                 <#if entry.getSiteLabel(locale)?has_content && entry.getSiteURL(locale)?has_content>
                     <li>
                         <a href="${entry.getSiteURL(locale)}" class="st-btn-icon st-btn-icon--white" target="_blank"
@@ -936,8 +938,10 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                     <a href="tel:${entry.phone?replace(" ","")?replace("(0)","")}" class="st-btn st--btn-secondary">${entry.phone}</a>
                 </#if>
 
+                <#if entry.mail?has_content>
                 <a href="#st-overlay-contact"
                    class="st-btn st--btn-secondary"><@liferay_ui.message key="eu.contact-mail" /></a>
+                </#if>
             </div>
         </div>
     </div>
@@ -948,16 +952,18 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
 </div>
 
+<#if entry.mail?has_content>
+    <@liferay_portlet.actionURL var="contactURL" name="contact">
+        <@liferay_portlet.param name="classPK" value="${entry.getPlaceId()}" />
+        <@liferay_portlet.param name="entityId" value="${entry.getPlaceId()}" />
+        <@liferay_portlet.param name="title" value="${entry.getAlias(locale)}" />
+        <@liferay_portlet.param name="type" value="Place" />
+    </@liferay_portlet.actionURL>
+    <#assign overlayContactTitle=entry.getAlias(locale) />
 
-<@liferay_portlet.actionURL var="contactURL" name="contact">
-    <@liferay_portlet.param name="classPK" value="${entry.getPlaceId()}" />
-    <@liferay_portlet.param name="entityId" value="${entry.getPlaceId()}" />
-    <@liferay_portlet.param name="title" value="${entry.getAlias(locale)}" />
-    <@liferay_portlet.param name="type" value="Place" />
-</@liferay_portlet.actionURL>
-<#assign overlayContactTitle=entry.getAlias(locale) />
+    <@strasbourg.overlayContact entry=entry entryType="Place" overlayContactTitle=overlayContactTitle />
+</#if>
 
-<@strasbourg.overlayContact entry=entry entryType="Place" overlayContactTitle=overlayContactTitle />
 
 
 <#macro showTime day schedule hasException>
