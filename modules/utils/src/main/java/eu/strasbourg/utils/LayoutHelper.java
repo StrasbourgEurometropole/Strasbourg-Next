@@ -103,8 +103,8 @@ public class LayoutHelper {
 		JournalArticle article = JournalArticleLocalServiceUtil
 			.fetchArticle(groupId, articleId);
 		if (article != null && article.getLayout() != null) {
-			return "/web" + themeDisplay.getScopeGroup().getFriendlyURL()
-				+ "/-/" + article.getUrlTitle();
+			String homeURL = PortalHelper.getHomeURL(themeDisplay, "/");
+			return homeURL + "-/" + article.getUrlTitle();
 		}
 		// S'il n'y en a pas, on essaye de trouver une page où le contenu est
 		// affiché
