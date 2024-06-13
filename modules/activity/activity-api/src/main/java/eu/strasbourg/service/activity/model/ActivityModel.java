@@ -401,6 +401,20 @@ public interface ActivityModel
 		Map<Locale, String> descriptionMap, Locale defaultLocale);
 
 	/**
+	 * Returns the order of this activity.
+	 *
+	 * @return the order of this activity
+	 */
+	public int getOrder();
+
+	/**
+	 * Sets the order of this activity.
+	 *
+	 * @param order the order of this activity
+	 */
+	public void setOrder(int order);
+
+	/**
 	 * Returns the videos IDs of this activity.
 	 *
 	 * @return the videos IDs of this activity

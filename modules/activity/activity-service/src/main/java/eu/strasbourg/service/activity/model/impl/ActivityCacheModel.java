@@ -53,7 +53,7 @@ public class ActivityCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(39);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -75,6 +75,8 @@ public class ActivityCacheModel
 		sb.append(title);
 		sb.append(", description=");
 		sb.append(description);
+		sb.append(", order=");
+		sb.append(order);
 		sb.append(", videosIds=");
 		sb.append(videosIds);
 		sb.append(", imageId=");
@@ -147,6 +149,8 @@ public class ActivityCacheModel
 			activityImpl.setDescription(description);
 		}
 
+		activityImpl.setOrder(order);
+
 		if (videosIds == null) {
 			activityImpl.setVideosIds("");
 		}
@@ -210,6 +214,8 @@ public class ActivityCacheModel
 		modifiedDate = objectInput.readLong();
 		title = objectInput.readUTF();
 		description = (String)objectInput.readObject();
+
+		order = objectInput.readInt();
 		videosIds = objectInput.readUTF();
 
 		imageId = objectInput.readLong();
@@ -264,6 +270,8 @@ public class ActivityCacheModel
 			objectOutput.writeObject(description);
 		}
 
+		objectOutput.writeInt(order);
+
 		if (videosIds == null) {
 			objectOutput.writeUTF("");
 		}
@@ -311,6 +319,7 @@ public class ActivityCacheModel
 	public long modifiedDate;
 	public String title;
 	public String description;
+	public int order;
 	public String videosIds;
 	public long imageId;
 	public String imagesIds;

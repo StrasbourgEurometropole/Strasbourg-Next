@@ -9,6 +9,7 @@ create table activity_Activity (
 	modifiedDate DATE null,
 	title STRING null,
 	description TEXT null,
+	order_ INTEGER,
 	videosIds VARCHAR(75) null,
 	imageId LONG,
 	imagesIds VARCHAR(75) null,

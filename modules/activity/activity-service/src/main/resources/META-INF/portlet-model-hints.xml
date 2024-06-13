@@ -16,6 +16,7 @@
 		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="order" type="int" />
 		<field name="videosIds" type="String" />
 		<field name="imageId" type="long" />
 		<field name="imagesIds" type="String" />
