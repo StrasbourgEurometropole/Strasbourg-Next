@@ -1,0 +1,121 @@
+{
+  "frontendTokenCategories": [
+    {
+      "label": "Couleurs",
+      "name": "colors",
+      "frontendTokenSets": [
+        {
+          "name": "mainColors",
+          "label": "Couleurs principales",
+          "frontendTokens": [
+            {
+              "name": "primary",
+              "label": "Principale",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#171C22",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "primary"
+                }
+              ]
+            },
+            {
+              "name": "secondary",
+              "label": "Secondaire",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#2AD783",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "secondary"
+                }
+              ]
+            },
+            {
+              "name": "greyDark",
+              "label": "Gris Foncé",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#20272F",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "greyDark"
+                }
+              ]
+            },
+            {
+              "name": "greyMedium",
+              "label": "Gris Moyen",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#282F38",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "greyMedium"
+                }
+              ]
+            },
+            {
+              "name": "border",
+              "label": "Bordure",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#51555A",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "border"
+                }
+              ]
+            },
+            {
+              "name": "grey",
+              "label": "Gris",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#B1B9C3",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "grey"
+                }
+              ]
+            },
+            {
+              "name": "gradient",
+              "label": "Gradient",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#1E2329",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "gradient"
+                }
+              ]
+            },
+            {
+              "name": "textColor",
+              "label": "Couleur des texte",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#B1B9C3",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "textColor"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
