@@ -296,4 +296,32 @@ public class JSONHelper {
         return results;
     }
 
+    public static String convertListToJson(List<Long[]> list) {
+        JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
+        for (Long[] array : list) {
+            JSONArray jsonArrayElement = JSONFactoryUtil.createJSONArray();
+            for (Long element : array) {
+                jsonArrayElement.put(element);
+            }
+            jsonArray.put(jsonArrayElement);
+        }
+        return jsonArray.toString();
+    }
+
+    public static List<Long[]> parseJsonList(String jsonList) throws JSONException {
+        List<Long[]> list = new ArrayList<>();
+        JSONArray jsonArray = JSONFactoryUtil.createJSONArray(jsonList);
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONArray jsonArrayElement = jsonArray.getJSONArray(i);
+            Long[] longArray = new Long[jsonArrayElement.length()];
+            for (int j = 0; j < jsonArrayElement.length(); j++) {
+                longArray[j] = jsonArrayElement.getLong(j);
+            }
+            list.add(longArray);
+        }
+
+        return list;
+    }
+
 }
