@@ -12,10 +12,6 @@
     <link type="text/css" rel="stylesheet" href="/o/council-theme/css/council.css">
     <link type="text/css" rel="stylesheet" href="/o/council-theme/css/libraries.css">
 
-
-    <!-- Magnific Popup core JS file -->
-    <script type="text/javascript" src="/o/council-theme/js/lightbox.js" charset="utf-8"></script> 
-
     <title>${the_title?replace('-', '|')}</title>
 
   </head>

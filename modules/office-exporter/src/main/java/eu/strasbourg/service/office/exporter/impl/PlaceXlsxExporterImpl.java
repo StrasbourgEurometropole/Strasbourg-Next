@@ -59,7 +59,6 @@ public class PlaceXlsxExporterImpl implements PlaceXlsxExporter {
         createHeaderRow(sheet);
         CellStyle cellStyle = createCellStyle(workbook);
         populateDataRows(sheet, places, cellStyle);
-        autoSizeColumns(sheet);
 
         workbook.write(stream);
         workbook.close();
@@ -131,11 +130,5 @@ public class PlaceXlsxExporterImpl implements PlaceXlsxExporter {
         }
 
         return territory.toString();
-    }
-
-    private void autoSizeColumns(Sheet sheet) {
-        for (int i = 0; i < 4; i++) {
-            sheet.autoSizeColumn(i);
-        }
     }
 }
