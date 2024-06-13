@@ -81,6 +81,17 @@ public class GlobalBOEditorConfigContributor
 			_log.error(e.getMessage() + " : " + editorConfigurationString);
 		}
 		jsonObject.put("allowedContent", true);
+
+		String removePlugins = jsonObject.getString("removePlugins");
+
+		if (Validator.isNotNull(removePlugins)) {
+			removePlugins = removePlugins + ",autogrow";
+		}
+		else {
+			removePlugins = "autogrow";
+		}
+
+		jsonObject.put("removePlugins", removePlugins);
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
