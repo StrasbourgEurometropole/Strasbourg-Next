@@ -1,4 +1,4 @@
-<a href="${configuration.urlLink}" class="st-lien">
+<a href="${configuration.urlLink}" class="st-lien" [#if configuration.openInNewTab] target="_blank" [/#if]>
   <p class="st-title-lien" data-lfr-editable-id="titleLink" data-lfr-editable-type="text">Formulaire en ligne</p>
   [#if configuration.displayStyle == "complete"]
   <div class="st-lien-content">
