@@ -44,6 +44,8 @@ public class ActivityTable extends BaseTable<ActivityTable> {
 		"title", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<ActivityTable, Clob> description = createColumn(
 		"description", Clob.class, Types.CLOB, Column.FLAG_DEFAULT);
+	public final Column<ActivityTable, Integer> order = createColumn(
+		"order_", Integer.class, Types.INTEGER, Column.FLAG_DEFAULT);
 	public final Column<ActivityTable, String> videosIds = createColumn(
 		"videosIds", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<ActivityTable, Long> imageId = createColumn(

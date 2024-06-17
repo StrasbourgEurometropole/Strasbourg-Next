@@ -44,6 +44,7 @@ public class ActivityWrapper
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
+		attributes.put("order", getOrder());
 		attributes.put("videosIds", getVideosIds());
 		attributes.put("imageId", getImageId());
 		attributes.put("imagesIds", getImagesIds());
@@ -116,6 +117,12 @@ public class ActivityWrapper
 
 		if (description != null) {
 			setDescription(description);
+		}
+
+		Integer order = (Integer)attributes.get("order");
+
+		if (order != null) {
+			setOrder(order);
 		}
 
 		String videosIds = (String)attributes.get("videosIds");
@@ -399,6 +406,16 @@ public class ActivityWrapper
 	@Override
 	public Date getModifiedDate() {
 		return model.getModifiedDate();
+	}
+
+	/**
+	 * Returns the order of this activity.
+	 *
+	 * @return the order of this activity
+	 */
+	@Override
+	public int getOrder() {
+		return model.getOrder();
 	}
 
 	/**
@@ -868,6 +885,16 @@ public class ActivityWrapper
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		model.setModifiedDate(modifiedDate);
+	}
+
+	/**
+	 * Sets the order of this activity.
+	 *
+	 * @param order the order of this activity
+	 */
+	@Override
+	public void setOrder(int order) {
+		model.setOrder(order);
 	}
 
 	/**

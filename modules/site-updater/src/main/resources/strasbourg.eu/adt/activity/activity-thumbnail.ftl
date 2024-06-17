@@ -10,7 +10,7 @@
 
 <li>
     <div class="st-card-container">
-        <a href="#" role="button" class="st-card" aria-haspopup="dialog" aria-controls="st-overlay-preview-activite" data-overlay-open="st-overlay-preview-activite" onclick="updateModalActivity(this)" onkeydown="simulateClick(event)">
+        <a role="button" href="#st-overlay-preview-activite-${entry.getActivityId()}" aria-haspopup="dialog" aria-controls="st-overlay-preview-activite" class="st-card" id="${entry.getActivityId()}" onclick="updateModalActivity(this)" onkeydown="simulateClick(event)>
             <div class="st-caption">
                 <h3 class="st-title-card">${entry.getTitle(locale)}</h3>
                 <p class="st-surtitre-cat">${entry.getTypesLabel(locale)}</p>

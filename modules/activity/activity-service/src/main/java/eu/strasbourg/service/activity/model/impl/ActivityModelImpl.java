@@ -78,10 +78,11 @@ public class ActivityModelImpl
 		{"userId", Types.BIGINT}, {"userName", Types.VARCHAR},
 		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
 		{"title", Types.VARCHAR}, {"description", Types.CLOB},
-		{"videosIds", Types.VARCHAR}, {"imageId", Types.BIGINT},
-		{"imagesIds", Types.VARCHAR}, {"filesIds", Types.VARCHAR},
-		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
-		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP}
+		{"order_", Types.INTEGER}, {"videosIds", Types.VARCHAR},
+		{"imageId", Types.BIGINT}, {"imagesIds", Types.VARCHAR},
+		{"filesIds", Types.VARCHAR}, {"status", Types.INTEGER},
+		{"statusByUserId", Types.BIGINT}, {"statusByUserName", Types.VARCHAR},
+		{"statusDate", Types.TIMESTAMP}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -98,6 +99,7 @@ public class ActivityModelImpl
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("order_", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("videosIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("imagesIds", Types.VARCHAR);
@@ -109,7 +111,7 @@ public class ActivityModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table activity_Activity (uuid_ VARCHAR(75) null,activityId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title STRING null,description TEXT null,videosIds VARCHAR(75) null,imageId LONG,imagesIds VARCHAR(75) null,filesIds VARCHAR(75) null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
+		"create table activity_Activity (uuid_ VARCHAR(75) null,activityId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title STRING null,description TEXT null,order_ INTEGER,videosIds VARCHAR(75) null,imageId LONG,imagesIds VARCHAR(75) null,filesIds VARCHAR(75) null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
 
 	public static final String TABLE_SQL_DROP = "drop table activity_Activity";
 
@@ -277,6 +279,7 @@ public class ActivityModelImpl
 			attributeGetterFunctions.put("title", Activity::getTitle);
 			attributeGetterFunctions.put(
 				"description", Activity::getDescription);
+			attributeGetterFunctions.put("order", Activity::getOrder);
 			attributeGetterFunctions.put("videosIds", Activity::getVideosIds);
 			attributeGetterFunctions.put("imageId", Activity::getImageId);
 			attributeGetterFunctions.put("imagesIds", Activity::getImagesIds);
@@ -329,6 +332,8 @@ public class ActivityModelImpl
 			attributeSetterBiConsumers.put(
 				"description",
 				(BiConsumer<Activity, String>)Activity::setDescription);
+			attributeSetterBiConsumers.put(
+				"order", (BiConsumer<Activity, Integer>)Activity::setOrder);
 			attributeSetterBiConsumers.put(
 				"videosIds",
 				(BiConsumer<Activity, String>)Activity::setVideosIds);
@@ -761,6 +766,21 @@ public class ActivityModelImpl
 
 	@JSON
 	@Override
+	public int getOrder() {
+		return _order;
+	}
+
+	@Override
+	public void setOrder(int order) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_order = order;
+	}
+
+	@JSON
+	@Override
 	public String getVideosIds() {
 		if (_videosIds == null) {
 			return "";
@@ -1155,6 +1175,7 @@ public class ActivityModelImpl
 		activityImpl.setModifiedDate(getModifiedDate());
 		activityImpl.setTitle(getTitle());
 		activityImpl.setDescription(getDescription());
+		activityImpl.setOrder(getOrder());
 		activityImpl.setVideosIds(getVideosIds());
 		activityImpl.setImageId(getImageId());
 		activityImpl.setImagesIds(getImagesIds());
@@ -1189,6 +1210,7 @@ public class ActivityModelImpl
 		activityImpl.setTitle(this.<String>getColumnOriginalValue("title"));
 		activityImpl.setDescription(
 			this.<String>getColumnOriginalValue("description"));
+		activityImpl.setOrder(this.<Integer>getColumnOriginalValue("order_"));
 		activityImpl.setVideosIds(
 			this.<String>getColumnOriginalValue("videosIds"));
 		activityImpl.setImageId(this.<Long>getColumnOriginalValue("imageId"));
@@ -1338,6 +1360,8 @@ public class ActivityModelImpl
 			activityCacheModel.description = null;
 		}
 
+		activityCacheModel.order = getOrder();
+
 		activityCacheModel.videosIds = getVideosIds();
 
 		String videosIds = activityCacheModel.videosIds;
@@ -1459,6 +1483,7 @@ public class ActivityModelImpl
 	private String _titleCurrentLanguageId;
 	private String _description;
 	private String _descriptionCurrentLanguageId;
+	private int _order;
 	private String _videosIds;
 	private long _imageId;
 	private String _imagesIds;
@@ -1508,6 +1533,7 @@ public class ActivityModelImpl
 		_columnOriginalValues.put("modifiedDate", _modifiedDate);
 		_columnOriginalValues.put("title", _title);
 		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("order_", _order);
 		_columnOriginalValues.put("videosIds", _videosIds);
 		_columnOriginalValues.put("imageId", _imageId);
 		_columnOriginalValues.put("imagesIds", _imagesIds);
@@ -1524,6 +1550,7 @@ public class ActivityModelImpl
 		Map<String, String> attributeNames = new HashMap<>();
 
 		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("order_", "order");
 
 		_attributeNames = Collections.unmodifiableMap(attributeNames);
 	}
@@ -1559,21 +1586,23 @@ public class ActivityModelImpl
 
 		columnBitmasks.put("description", 512L);
 
-		columnBitmasks.put("videosIds", 1024L);
+		columnBitmasks.put("order_", 1024L);
 
-		columnBitmasks.put("imageId", 2048L);
+		columnBitmasks.put("videosIds", 2048L);
 
-		columnBitmasks.put("imagesIds", 4096L);
+		columnBitmasks.put("imageId", 4096L);
 
-		columnBitmasks.put("filesIds", 8192L);
+		columnBitmasks.put("imagesIds", 8192L);
 
-		columnBitmasks.put("status", 16384L);
+		columnBitmasks.put("filesIds", 16384L);
 
-		columnBitmasks.put("statusByUserId", 32768L);
+		columnBitmasks.put("status", 32768L);
 
-		columnBitmasks.put("statusByUserName", 65536L);
+		columnBitmasks.put("statusByUserId", 65536L);
 
-		columnBitmasks.put("statusDate", 131072L);
+		columnBitmasks.put("statusByUserName", 131072L);
+
+		columnBitmasks.put("statusDate", 262144L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

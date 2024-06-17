@@ -19,6 +19,7 @@
     <!-- Other fields -->
     <column name="title" type="String" localized="true" />
     <column name="description" type="String" localized="true" />
+      <column name="order" type="int" />
     <column name="videosIds" type="String" />
     <column name="imageId" type="long" />
     <column name="imagesIds" type="String" />
@@ -229,6 +230,8 @@
         <column name="mail" type="String" />
         <column name="facebookURL" type="String" localized="true" />
         <column name="othersInformations" type="String" localized="true" />
+        <column name="order" type="int" />
+
 
         <!-- Workflow fields -->
         <column name="status" type="int" />
