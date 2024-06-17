@@ -179,9 +179,14 @@
 
 <liferay-portlet:actionURL name="getBareboneJSP" var="placeRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
 	<liferay-portlet:param name="mvcPath" value="/includes/course-place-row.jsp" />
+	<liferay-portlet:param name="cmd" value="editActivityCourse" />
+	<liferay-portlet:param name="tab" value="activityCourses" />
+
 </liferay-portlet:actionURL>
 <liferay-portlet:actionURL name="getBareboneJSP" var="placeScheduleRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
 	<liferay-portlet:param name="mvcPath" value="/includes/course-place-schedule-row.jsp" />
+	<liferay-portlet:param name="cmd" value="editActivityCourse" />
+	<liferay-portlet:param name="tab" value="activityCourses" />
 </liferay-portlet:actionURL>
 <liferay-util:html-top>
 	<script>
