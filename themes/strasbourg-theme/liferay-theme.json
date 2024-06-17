@@ -1,1 +1,7 @@
-{"LiferayTheme":{"deployPath":"C:/liferay/74-workspace/Strasbourg-Next/bundles/deploy","themeName":"0-global-theme","appServerPathTheme":"C:/liferay/74-workspace/Strasbourg-Next/bundles/tomcat-9.0.82/webapps/0-global-theme","deployed":false,"appServerPath":"C:/liferay/74-workspace/Strasbourg-Next/bundles/tomcat-9.0.82"}}
+{
+  "LiferayTheme": {
+    "appServerPath": "C:/liferay/74-workspace/Strasbourg-Next/bundles/tomcat-9.0.82",
+    "deployPath": "C:/liferay/74-workspace/Strasbourg-Next/bundles/deploy",
+    "deployed": true
+  }
+}

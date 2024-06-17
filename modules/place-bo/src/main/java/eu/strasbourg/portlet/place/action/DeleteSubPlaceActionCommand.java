@@ -72,7 +72,7 @@ public class DeleteSubPlaceActionCommand implements MVCActionCommand {
 			try {
 				_subPlaceLocalService.removeSubPlace(subPlaceId);
 				response.sendRedirect(ParamUtil.getString(request, "backURL"));
-			} catch (PortalException e) {
+			} catch (PortalException | IOException e) {
 				_log.error(e);
 			}
 		}

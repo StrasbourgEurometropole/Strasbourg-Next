@@ -72,7 +72,7 @@ public class DeletePlaceActionCommand
 			try {
 				_placeLocalService.removePlace(placeId);
 				response.sendRedirect(ParamUtil.getString(request, "backURL"));
-			} catch (PortalException e) {
+			} catch (PortalException | IOException e) {
 				_log.error(e);
 			}
 		}
