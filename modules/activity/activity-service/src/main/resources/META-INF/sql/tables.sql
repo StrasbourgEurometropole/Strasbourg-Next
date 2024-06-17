@@ -125,7 +125,6 @@ create table activity_Association (
 	mail VARCHAR(75) null,
 	facebookURL STRING null,
 	othersInformations TEXT null,
-	order_ INTEGER,
 	status INTEGER,
 	statusByUserId LONG,
 	statusByUserName VARCHAR(75) null,

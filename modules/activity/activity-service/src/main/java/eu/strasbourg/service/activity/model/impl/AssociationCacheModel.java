@@ -54,7 +54,7 @@ public class AssociationCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(41);
+		StringBundler sb = new StringBundler(39);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -86,8 +86,6 @@ public class AssociationCacheModel
 		sb.append(facebookURL);
 		sb.append(", othersInformations=");
 		sb.append(othersInformations);
-		sb.append(", order=");
-		sb.append(order);
 		sb.append(", status=");
 		sb.append(status);
 		sb.append(", statusByUserId=");
@@ -187,7 +185,6 @@ public class AssociationCacheModel
 			associationImpl.setOthersInformations(othersInformations);
 		}
 
-		associationImpl.setOrder(order);
 		associationImpl.setStatus(status);
 		associationImpl.setStatusByUserId(statusByUserId);
 
@@ -233,8 +230,6 @@ public class AssociationCacheModel
 		mail = objectInput.readUTF();
 		facebookURL = objectInput.readUTF();
 		othersInformations = (String)objectInput.readObject();
-
-		order = objectInput.readInt();
 
 		status = objectInput.readInt();
 
@@ -319,8 +314,6 @@ public class AssociationCacheModel
 			objectOutput.writeObject(othersInformations);
 		}
 
-		objectOutput.writeInt(order);
-
 		objectOutput.writeInt(status);
 
 		objectOutput.writeLong(statusByUserId);
@@ -350,7 +343,6 @@ public class AssociationCacheModel
 	public String mail;
 	public String facebookURL;
 	public String othersInformations;
-	public int order;
 	public int status;
 	public long statusByUserId;
 	public String statusByUserName;

@@ -1930,7 +1930,6 @@ public class AssociationPersistenceImpl
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
 		dbColumnNames.put("uuid", "uuid_");
-		dbColumnNames.put("order", "order_");
 
 		setDBColumnNames(dbColumnNames);
 
@@ -2608,7 +2607,7 @@ public class AssociationPersistenceImpl
 		AssociationPersistenceImpl.class);
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
-		new String[] {"uuid", "order"});
+		new String[] {"uuid"});
 
 	@Override
 	protected FinderCache getFinderCache() {
