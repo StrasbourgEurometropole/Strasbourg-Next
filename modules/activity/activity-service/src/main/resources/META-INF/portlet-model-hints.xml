@@ -155,7 +155,6 @@
 		<field localized="true" name="othersInformations" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
-		<field name="order" type="int" />
 		<field name="status" type="int" />
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />

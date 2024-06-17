@@ -230,8 +230,6 @@
         <column name="mail" type="String" />
         <column name="facebookURL" type="String" localized="true" />
         <column name="othersInformations" type="String" localized="true" />
-        <column name="order" type="int" />
-
 
         <!-- Workflow fields -->
         <column name="status" type="int" />

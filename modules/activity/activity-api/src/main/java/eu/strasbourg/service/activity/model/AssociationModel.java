@@ -734,20 +734,6 @@ public interface AssociationModel
 		Map<Locale, String> othersInformationsMap, Locale defaultLocale);
 
 	/**
-	 * Returns the order of this association.
-	 *
-	 * @return the order of this association
-	 */
-	public int getOrder();
-
-	/**
-	 * Sets the order of this association.
-	 *
-	 * @param order the order of this association
-	 */
-	public void setOrder(int order);
-
-	/**
 	 * Returns the status of this association.
 	 *
 	 * @return the status of this association

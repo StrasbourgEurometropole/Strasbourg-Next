@@ -80,9 +80,9 @@ public class AssociationModelImpl
 		{"name", Types.VARCHAR}, {"presentation", Types.CLOB},
 		{"phone", Types.VARCHAR}, {"siteURL", Types.VARCHAR},
 		{"mail", Types.VARCHAR}, {"facebookURL", Types.VARCHAR},
-		{"othersInformations", Types.CLOB}, {"order_", Types.INTEGER},
-		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
-		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP}
+		{"othersInformations", Types.CLOB}, {"status", Types.INTEGER},
+		{"statusByUserId", Types.BIGINT}, {"statusByUserName", Types.VARCHAR},
+		{"statusDate", Types.TIMESTAMP}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -104,7 +104,6 @@ public class AssociationModelImpl
 		TABLE_COLUMNS_MAP.put("mail", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("facebookURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("othersInformations", Types.CLOB);
-		TABLE_COLUMNS_MAP.put("order_", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
@@ -112,7 +111,7 @@ public class AssociationModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table activity_Association (uuid_ VARCHAR(75) null,associationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,name STRING null,presentation TEXT null,phone VARCHAR(75) null,siteURL STRING null,mail VARCHAR(75) null,facebookURL STRING null,othersInformations TEXT null,order_ INTEGER,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
+		"create table activity_Association (uuid_ VARCHAR(75) null,associationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,name STRING null,presentation TEXT null,phone VARCHAR(75) null,siteURL STRING null,mail VARCHAR(75) null,facebookURL STRING null,othersInformations TEXT null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table activity_Association";
@@ -293,7 +292,6 @@ public class AssociationModelImpl
 				"facebookURL", Association::getFacebookURL);
 			attributeGetterFunctions.put(
 				"othersInformations", Association::getOthersInformations);
-			attributeGetterFunctions.put("order", Association::getOrder);
 			attributeGetterFunctions.put("status", Association::getStatus);
 			attributeGetterFunctions.put(
 				"statusByUserId", Association::getStatusByUserId);
@@ -360,9 +358,6 @@ public class AssociationModelImpl
 				"othersInformations",
 				(BiConsumer<Association, String>)
 					Association::setOthersInformations);
-			attributeSetterBiConsumers.put(
-				"order",
-				(BiConsumer<Association, Integer>)Association::setOrder);
 			attributeSetterBiConsumers.put(
 				"status",
 				(BiConsumer<Association, Integer>)Association::setStatus);
@@ -1167,21 +1162,6 @@ public class AssociationModelImpl
 
 	@JSON
 	@Override
-	public int getOrder() {
-		return _order;
-	}
-
-	@Override
-	public void setOrder(int order) {
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
-		}
-
-		_order = order;
-	}
-
-	@JSON
-	@Override
 	public int getStatus() {
 		return _status;
 	}
@@ -1573,7 +1553,6 @@ public class AssociationModelImpl
 		associationImpl.setMail(getMail());
 		associationImpl.setFacebookURL(getFacebookURL());
 		associationImpl.setOthersInformations(getOthersInformations());
-		associationImpl.setOrder(getOrder());
 		associationImpl.setStatus(getStatus());
 		associationImpl.setStatusByUserId(getStatusByUserId());
 		associationImpl.setStatusByUserName(getStatusByUserName());
@@ -1613,8 +1592,6 @@ public class AssociationModelImpl
 			this.<String>getColumnOriginalValue("facebookURL"));
 		associationImpl.setOthersInformations(
 			this.<String>getColumnOriginalValue("othersInformations"));
-		associationImpl.setOrder(
-			this.<Integer>getColumnOriginalValue("order_"));
 		associationImpl.setStatus(
 			this.<Integer>getColumnOriginalValue("status"));
 		associationImpl.setStatusByUserId(
@@ -1801,8 +1778,6 @@ public class AssociationModelImpl
 			associationCacheModel.othersInformations = null;
 		}
 
-		associationCacheModel.order = getOrder();
-
 		associationCacheModel.status = getStatus();
 
 		associationCacheModel.statusByUserId = getStatusByUserId();
@@ -1906,7 +1881,6 @@ public class AssociationModelImpl
 	private String _facebookURLCurrentLanguageId;
 	private String _othersInformations;
 	private String _othersInformationsCurrentLanguageId;
-	private int _order;
 	private int _status;
 	private long _statusByUserId;
 	private String _statusByUserName;
@@ -1957,7 +1931,6 @@ public class AssociationModelImpl
 		_columnOriginalValues.put("mail", _mail);
 		_columnOriginalValues.put("facebookURL", _facebookURL);
 		_columnOriginalValues.put("othersInformations", _othersInformations);
-		_columnOriginalValues.put("order_", _order);
 		_columnOriginalValues.put("status", _status);
 		_columnOriginalValues.put("statusByUserId", _statusByUserId);
 		_columnOriginalValues.put("statusByUserName", _statusByUserName);
@@ -1970,7 +1943,6 @@ public class AssociationModelImpl
 		Map<String, String> attributeNames = new HashMap<>();
 
 		attributeNames.put("uuid_", "uuid");
-		attributeNames.put("order_", "order");
 
 		_attributeNames = Collections.unmodifiableMap(attributeNames);
 	}
@@ -2016,15 +1988,13 @@ public class AssociationModelImpl
 
 		columnBitmasks.put("othersInformations", 16384L);
 
-		columnBitmasks.put("order_", 32768L);
+		columnBitmasks.put("status", 32768L);
 
-		columnBitmasks.put("status", 65536L);
+		columnBitmasks.put("statusByUserId", 65536L);
 
-		columnBitmasks.put("statusByUserId", 131072L);
+		columnBitmasks.put("statusByUserName", 131072L);
 
-		columnBitmasks.put("statusByUserName", 262144L);
-
-		columnBitmasks.put("statusDate", 524288L);
+		columnBitmasks.put("statusDate", 262144L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
