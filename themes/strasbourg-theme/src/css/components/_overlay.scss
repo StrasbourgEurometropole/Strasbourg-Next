@@ -148,6 +148,15 @@
 	}
 }
 
+.st-overlay-filters {
+	.st-btn-close {
+
+		@include bp-down($breakpoint_filter) {
+			bottom: 13px;
+		}
+	}
+}
+
 // Bouton close à droite en mobile
 .st-overlay-edito,
 .st-overlay-preview-activite,
