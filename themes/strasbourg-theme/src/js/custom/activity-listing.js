@@ -12,6 +12,8 @@ function updateModalActivity(clickedElement) {
     overlayDiv.querySelector(".st-overlay__content .st-intro p").textContent = description;
     overlayDiv.querySelector(".st-overlay__content .cours").innerHTML = courseDiv;
 
+
+    th_overlay.open('st-overlay-preview-activite');
 }
 
 function submitFilterForm(e) {

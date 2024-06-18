@@ -34,6 +34,18 @@
           "label": "ID vidéo",
           "name": "id",
           "type": "text"
+        },
+        {
+          "defaultValue": "",
+          "label": "Titre de iframe",
+          "name": "iframeTitle",
+          "type": "text"
+        },
+        {
+          "defaultValue": false,
+          "label": "Afficher la transcription",
+          "name": "showTranscription",
+          "type": "checkbox"
         }
       ],
       "label": "external-video-options"

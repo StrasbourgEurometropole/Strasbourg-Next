@@ -143,7 +143,7 @@ class Select{
     container.innerHTML = `
       <p id="a11y-usage-${this.id}-js" class="sr-only">${this._options.text.help}</p>
       <label for="a11y-${this.id}-js" class="sr-only">${this._options.text.placeholder}</label>
-      <input type="text" id="a11y-${this.id}-js" class="${this.el.className}" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${this._options.text.placeholder}" aria-describedby="a11y-usage-${this.id}-js">
+      <input type="text" id="a11y-${this.id}-js" class="${this.el.className}" autocomplete="off" autocapitalize="off" spellcheck="false" title="${this._options.text.placeholder}" placeholder="${this._options.text.placeholder}" aria-describedby="a11y-usage-${this.id}-js">
       <button id="a11y-show-all-${this.id}-js"  tabindex="0" data-index="0" class="a11y-suggestion mt-2 w-100">Tout afficher</button>
     `;
 

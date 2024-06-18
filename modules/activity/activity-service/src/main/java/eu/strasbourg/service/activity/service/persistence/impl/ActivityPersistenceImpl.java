@@ -1923,6 +1923,7 @@ public class ActivityPersistenceImpl
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
 		dbColumnNames.put("uuid", "uuid_");
+		dbColumnNames.put("order", "order_");
 
 		setDBColumnNames(dbColumnNames);
 
@@ -2594,7 +2595,7 @@ public class ActivityPersistenceImpl
 		ActivityPersistenceImpl.class);
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
-		new String[] {"uuid"});
+		new String[] {"uuid", "order"});
 
 	@Override
 	protected FinderCache getFinderCache() {

@@ -80,7 +80,7 @@ public class EventViewerPortlet extends MVCPortlet {
 			log.error(e);
 		}
 
-		if (Validator.isNull(this.configuration.categoriesIds())
+		if (this.configuration.categoriesIds() == null
 			&& Validator.isNull(this.configuration.tagsNames())
 			&& Validator.isNull(this.configuration.fromDate())
 			&& Validator.isNull(this.configuration.toDate())) {

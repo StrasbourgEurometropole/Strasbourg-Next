@@ -1,18 +1,24 @@
 package eu.strasbourg.portlet.place.display.context;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.service.place.service.SubPlaceLocalServiceUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -23,6 +29,16 @@ public class EditSubPlaceDisplayContext {
 		this._request = request;
 		this._themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
+		Place place = getSubPlace().getParentPlace();
+		if(Validator.isNotNull(place)) {
+			List<AssetCategory> typeDeLieuVocab = place.getTypes();
+			List<AssetCategory> categoriesUser = AssetCategoryLocalServiceUtil.getCategories(User.class.getName(), _themeDisplay.getUserId());
+			if (!_themeDisplay.getPermissionChecker().isOmniadmin() &&
+					!typeDeLieuVocab.stream().anyMatch(categoriesUser::contains)) {
+				SessionErrors.add(_request, "permission-error");
+				this.hasEditPermission = false;
+			}
+		}
 	}
 
 	public SubPlace getSubPlace() {
@@ -51,6 +67,10 @@ public class EditSubPlaceDisplayContext {
 		return indexes;
 	}
 
+	public boolean hasEditPermission() {
+		return hasEditPermission;
+	}
+
 	/**
 	 * Wrapper autour du permission checker pour les permissions de module
 	 */
@@ -65,5 +85,6 @@ public class EditSubPlaceDisplayContext {
 
 	private final RenderRequest _request;
 	private final ThemeDisplay _themeDisplay;
+	public boolean hasEditPermission = true;
 
 }

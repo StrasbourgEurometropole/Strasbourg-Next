@@ -74,7 +74,6 @@
 				&.st-has-tooltip-show {
 					.st-tooltip-logo {
 						opacity: 1;
-						visibility: visible;
 						transform: none;
 					}
 				}
@@ -111,7 +110,6 @@
 			background-color: $c_greydark;
 			border-radius: $border-radius-small;
 			opacity: 0;
-			visibility: hidden;
 			pointer-events: none;
 			@include transition(opacity, visibility, transform);
 		}

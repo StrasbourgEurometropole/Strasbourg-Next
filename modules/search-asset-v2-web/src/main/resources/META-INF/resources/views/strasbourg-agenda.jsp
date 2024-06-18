@@ -25,22 +25,25 @@
 	</div>
 
 	<div class="col-right">
-		<div class="st-filters-agenda">
+		<ul class="st-filters-agenda">
+			<li>
+				<a href="#" class="st-btn st--btn-secondary" id="today">
+					<liferay-ui:message key="today" />
+				</a>
+			</li>
 
-			<div class="st-filter-agenda">
-				<input type="radio" name="filters-agenda" value="filter-aujourdhui" id="today">
-				<label for="today"><liferay-ui:message key="today" /> </label>
-			</div>
-			<div class="st-filter-agenda">
-				<input type="radio" name="filters-agenda" value="filter-demain" id="tomorrow">
-				<label for="tomorrow"><liferay-ui:message key="tomorrow" /></label>
-			</div>
-			<div class="st-filter-agenda">
-				<input type="radio" name="filters-agenda" value="filter-weekend" id="week-end">
-				<label for="week-end"><liferay-ui:message key="weekend" /></label>
-			</div>
+			<li>
+				<a href="#" class="st-btn st--btn-secondary" id="tomorrow">
+					<liferay-ui:message key="tomorrow" />
+				</a>
+			</li>
 
-		</div>
+			<li>
+				<a href="#" class="st-btn st--btn-secondary" id="week-end">
+					<liferay-ui:message key="weekend" />
+				</a>
+			</li>
+		</ul>
 	</div>
 </header>
 

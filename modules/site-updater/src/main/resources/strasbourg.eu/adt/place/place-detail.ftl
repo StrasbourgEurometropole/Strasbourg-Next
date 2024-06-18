@@ -70,12 +70,14 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                         </a>
                     </li>
                 </#if>
+                <#if entry.mail?has_content>
                 <li>
                     <button class="st-btn-icon st-btn-icon--white" data-overlay-open="st-overlay-contact"
                             aria-label="Formulaire de contact" aria-haspopup="dialog">
                         <span class="st-icon-email" aria-hidden="true"></span>
                     </button>
                 </li>
+                </#if>
                 <#if entry.getSiteLabel(locale)?has_content && entry.getSiteURL(locale)?has_content>
                     <li>
                         <a href="${entry.getSiteURL(locale)}" class="st-btn-icon st-btn-icon--white" target="_blank"
@@ -651,7 +653,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                class="st-card st-card-agenda st--card-horizontal st--with-gradient"
                                title="${event.getTitle(locale)}">
                                 <div class="st-caption">
-                                    <p class="st-title-card">${event.getTitle(locale)}</p>
+                                    <h3 class="st-title-card">${event.getTitle(locale)}</h3>
                                     <p class="st-surtitre-cat">${entry.getTypeLabel(locale)}</p>
                                     <p class="st-date">
                                         <#if event.firstStartDate?date==event.lastEndDate?date>
@@ -923,24 +925,26 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
 
     </div>
+    <#if entry.mail?has_content || entry.phone?has_content>
+        <!-- Contact -->
+        <div class="st-bloc st-bloc-sit-focus st-wrapper st--has-margin">
+            <div class="st-container">
+                <div class="st-col-left">
+                    <h2 class="st-h2"><@liferay_ui.message key="contact" /></h2>
+                    <p class="st-surtitre-cat">${entry.getAlias(locale)}</p>
+                </div>
+                <div class="st-col-right">
+                    <#if entry.phone?has_content>
+                        <a href="tel:${entry.phone?replace(" ","")?replace("(0)","")}" class="st-btn st--btn-secondary">${entry.phone}</a>
+                    </#if>
 
-    <!-- Contact -->
-    <div class="st-bloc st-bloc-sit-focus st-wrapper st--has-margin">
-        <div class="st-container">
-            <div class="st-col-left">
-                <h2 class="st-h2"><@liferay_ui.message key="contact" /></h2>
-                <p class="st-surtitre-cat">${entry.getAlias(locale)}</p>
-            </div>
-            <div class="st-col-right">
-                <#if entry.phone?has_content>
-                    <a href="tel:${entry.phone?replace(" ","")?replace("(0)","")}" class="st-btn st--btn-secondary">${entry.phone}</a>
-                </#if>
-
-                <a href="#st-overlay-contact"
-                   class="st-btn st--btn-secondary"><@liferay_ui.message key="eu.contact-mail" /></a>
+                    <#if entry.mail?has_content>
+                        <a href="#st-overlay-contact" class="st-btn st--btn-secondary"><@liferay_ui.message key="eu.contact-mail" /></a>
+                    </#if>
+                </div>
             </div>
         </div>
-    </div>
+    </#if>
 
 
 </div>
@@ -948,16 +952,18 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
 
 </div>
 
+<#if entry.mail?has_content>
+    <@liferay_portlet.actionURL var="contactURL" name="contact">
+        <@liferay_portlet.param name="classPK" value="${entry.getPlaceId()}" />
+        <@liferay_portlet.param name="entityId" value="${entry.getPlaceId()}" />
+        <@liferay_portlet.param name="title" value="${entry.getAlias(locale)}" />
+        <@liferay_portlet.param name="type" value="Place" />
+    </@liferay_portlet.actionURL>
+    <#assign overlayContactTitle=entry.getAlias(locale) />
 
-<@liferay_portlet.actionURL var="contactURL" name="contact">
-    <@liferay_portlet.param name="classPK" value="${entry.getPlaceId()}" />
-    <@liferay_portlet.param name="entityId" value="${entry.getPlaceId()}" />
-    <@liferay_portlet.param name="title" value="${entry.getAlias(locale)}" />
-    <@liferay_portlet.param name="type" value="Place" />
-</@liferay_portlet.actionURL>
-<#assign overlayContactTitle=entry.getAlias(locale) />
+    <@strasbourg.overlayContact entry=entry entryType="Place" overlayContactTitle=overlayContactTitle />
+</#if>
 
-<@strasbourg.overlayContact entry=entry entryType="Place" overlayContactTitle=overlayContactTitle />
 
 
 <#macro showTime day schedule hasException>

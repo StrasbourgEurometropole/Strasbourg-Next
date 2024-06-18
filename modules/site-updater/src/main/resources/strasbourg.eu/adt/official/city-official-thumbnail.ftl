@@ -19,12 +19,12 @@
 
 <li>
     <div class="st-card-container">
-        <a href="#" class="st-card st-card-person" onclick="updateModalOfficial(this)" data-detailurl="${detailURLFilter}" data-mailaddress="<#if entry.listeContact?has_content>${detailURLFilter}#st-overlay-contact</#if>" data-overlay-open="st-overlay-preview-person">
+        <a href="#" role="button" aria-haspopup="dialog" aria-controls="st-overlay-preview-person" class="st-card st-card-person" onclick="updateModalOfficial(this)" onkeydown="simulateClick(event)" data-detailurl="${detailURLFilter}" data-mailaddress="<#if entry.listeContact?has_content>${detailURLFilter}#st-overlay-contact</#if>" data-overlay-open="st-overlay-preview-person">
 
             <div class="st-caption">
-                <p class="st-title-card">
+                <h3 class="st-title-card">
                     ${entry.firstName} ${entry.lastName}
-                </p>
+                </h3>
                 <#if entry.districts?has_content>
                     <#if entry.getGender() == 1>
                         <#assign officialTranslation = "male-official-of-the-district" />
@@ -54,7 +54,7 @@
         </a>
         <div class="st-hide st-description">
             <#if entry.fonctionCity?has_content>
-                <div class="st-container">
+                <div class="st-container st-text-styles">
                     <h3 class="st-title-small">
                         ${entry.getName(entry.fonctionCity, locale)}
                     </h3>
@@ -65,7 +65,7 @@
                 </div>
             </#if>
             <#if entry.fonctionEurometropole?has_content>
-                <div class="st-container">
+                <div class="st-container st-text-styles">
                     <h3 class="st-title-small">
                         ${entry.getName(entry.fonctionEurometropole, locale)}
                         <#if entry.fonctionTown?has_content>,

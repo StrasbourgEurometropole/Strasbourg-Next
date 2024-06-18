@@ -8,7 +8,7 @@
     <button class="st-btn-close" data-overlay-close="st-overlay-menu" aria-label="Fermer"></button>
     <div class="st-overlay__inner">
         <div class="st-overlay__body st-custom-scrollbar">
-            <div class="st-nav-menu-mobile st-hide-from@mobile">
+            <div class="st-nav-menu-mobile st-hide-from@t-portrait">
                 <#-- liferay_portlet["runtime"] - Structure Je suis-->
                 <@liferay_portlet["runtime"]
                 portletProviderAction=portletProviderAction.VIEW

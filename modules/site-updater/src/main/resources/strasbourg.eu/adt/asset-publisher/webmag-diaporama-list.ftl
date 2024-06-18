@@ -28,7 +28,7 @@
                 <div class="st-card-container">
                     <a href="${viewURL}" class="st-card st-card-actu st--with-gradient ">
                         <div class="st-caption">
-                            <p class="st-title-card">${title}</p>
+                            <h3 class="st-title-card">${title}</h3>
                             <p class="st-date">Publié le ${dateHelperService.displayShortDate(curEntry.getModifiedDate()?date, locale)}</p>
                             <p class="st-text"> ${content?replace("<[^>]*>", "", "r")[0..*100]}
                                 <#if (content?replace("<[^>]*>", "", "r")?length gt 100)>

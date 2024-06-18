@@ -31,12 +31,12 @@
     <div class="st-card-container">
         <a href="${detailURLFilter}" class="st-card">
             <div class="st-caption">
-                <p class="st-title-card">${entry.getTitle(locale)}</p>
+                <h3 class="st-title-card">${entry.getTitle(locale)}</h3>
                 <p class="st-surtitre-cat">${entry.getThemesLabel(locale)}</p>
                 <p class="st-text">${entry.getDescription(locale)?replace(r'<[^>]*>', '', 'r')[0..*150]}...</p>
             </div>
             <div class="st-image">
-                <@strasbourg.addImage fileEntryId=entry.imageId maxWidth=195 showLegende=false showCopyright=false isFigure=true />
+                <@strasbourg.addImage fileEntryId=entry.imageId maxWidth=430 showLegende=false showCopyright=false isFigure=true />
             </div>
 
         </a>

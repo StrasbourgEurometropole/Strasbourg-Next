@@ -63,11 +63,14 @@
       </#if>
     </#list>
 
+
+
 	<link type="text/css" rel="stylesheet" href="/o/aider-theme/css/strasbourg.css">
-	<link type="text/css" rel="stylesheet" href="/o/aider-theme/css/leaflet.css">
-	<link type="text/css" rel="stylesheet" href="/o/aider-theme/css/leaflet.fullscreen.css">
-	<link type="text/css" rel="stylesheet" href="/o/aider-theme/css/MarkerCluster.css" />
-	<link type="text/css" rel="stylesheet" href="/o/aider-theme/css/MarkerCluster.Default.css" />
+
+	<link rel="stylesheet" href="/o/aider-theme/css/leaflet.fullscreen.css" />
+	<link rel="stylesheet" href="/o/0-global-theme/libs/leaflet/leaflet.css" />
+	<link rel="stylesheet" href="/o/0-global-theme/libs/leaflet/MarkerCluster.css" />
+	<link rel="stylesheet" href="/o/0-global-theme/libs/leaflet/MarkerCluster.Default.css" />
 	<link type="text/css" rel="stylesheet" href="/o/0-global-theme/css/hackliferay.css" />
 
   <script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>

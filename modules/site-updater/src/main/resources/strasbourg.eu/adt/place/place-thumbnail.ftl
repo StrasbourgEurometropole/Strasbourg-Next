@@ -10,9 +10,9 @@
     <div class="st-card-container">
         <a href="${strasbourg.homeURL()}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}" class="st-card st--card-horizontal st--with-gradient <#if entry.getImageId() == 0 || !entry.getImageURL()?has_content>st--with-icon</#if>">
             <div class="st-caption">
-                <p class="st-title-card">
+                <h3 class="st-title-card">
                     ${entry.getAlias(locale)}
-                </p>
+                </h3>
                 <p class="st-surtitre-cat">
                     ${entry.getTypeLabel(locale)}
                 </p>

@@ -122,7 +122,7 @@ public class ContactFormContactAction implements MVCActionCommand {
             hasError = true;
         }
         if (hasError) {
-            return false;
+            return true;
         }
 
         // Envoi du mail au service
@@ -274,6 +274,7 @@ public class ContactFormContactAction implements MVCActionCommand {
             log.error(e);
         }
         return true;
+
     }
 
 }

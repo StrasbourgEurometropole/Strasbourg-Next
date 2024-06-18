@@ -193,7 +193,7 @@ public class FormSendDisplayContext {
                                     }
                                     break;
                                 default:
-                                    field[2] = value.replaceAll("(\r\n|\n)", "<br />");
+                                    field[2] = Validator.isNotNull(value) ? value.replaceAll("(\r\n|\n)", "<br />") : value;
                             }
                         }
                         recordFields.add(field);

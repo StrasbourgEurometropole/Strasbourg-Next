@@ -64,6 +64,33 @@ switch (window.tarteaucitronForceLanguage) {
         };
 }
 
+// Function to update the title attribute and remove specific attributes from iframes
+function updateIframes() {
+    // Get all elements with the class 'g-recaptcha'
+    const recaptchaParents = document.getElementsByClassName('g-recaptcha');
+    // Loop through each element with the class 'g-recaptcha'
+    for (let i = 0; i < recaptchaParents.length; i++) {
+        const parent = recaptchaParents[i];
+
+        // Get all iframe elements that are children of the current parent element
+        const iframes = parent.getElementsByTagName('iframe');
+        // Loop through each iframe element
+        for (let j = 0; j < iframes.length; j++) {
+            const iframe = iframes[j];
+
+            // Replace the value of the title attribute
+            iframe.setAttribute('title', Liferay.Language.get("recaptcha-title"));
+
+            // Remove the frameborder, height, and width attributes
+            iframe.removeAttribute('frameborder');
+            iframe.removeAttribute('height');
+            iframe.removeAttribute('width');
+        }
+    }
+}
+
+tarteaucitron.user.recaptchaOnLoad = updateIframes;
+
 // Initialisation de tarteaucitron
 tarteaucitron.init({
     "privacyUrl": "https://www.strasbourg.eu/donnees-personnelles", /* Privacy policy url */

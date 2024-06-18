@@ -10,7 +10,7 @@
 <div class="st-bloc st-bloc-slider-focus st-js-slider-focus splide st-u-overflow-x-hidden st--type-cards" role="group">
     <div class="st-wrapper st-wrapper-small st-bloc-slider-focus__top">
         <h2 class="st-h2 st-title">Portraits</h2>
-        <div class="splide__arrows st-nav-arrows st-hide-until@mobile ${(entries?size gt 4)?then("","st-hide")}">
+        <div class="splide__arrows st-nav-arrows ${(entries?size gt 4)?then("","st-hide")}">
             <button class="splide__arrow splide__arrow--prev st-btn-arrow st--prev"></button>
             <button class="splide__arrow splide__arrow--next st-btn-arrow st--next"></button>
         </div>
@@ -35,7 +35,7 @@
                             <div class="st-card-container">
                                 <a href="${viewURL}" class="st-card ">
                                     <div class="st-caption">
-                                        <p class="st-title-card">${title}</p>
+                                        <h3 class="st-title-card">${title}</h3>
                                         <p class="st-text">${chapo}</p>
                                     </div>
                                     <div class="st-image">

@@ -44,6 +44,7 @@
 
 		.st-lien {
 			padding: var(--link-padding-top) 40px var(--link-padding-bottom);
+			margin: 0.25rem;
 
 			@include mobile {
 				--link-padding-top: 16px;

@@ -200,7 +200,7 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 	 * Renvoie la liste des catégories sur lesquelles on souhaite filtrer les
 	 * entries. L'opérateur entre chaque id de catégorie d'un array est un "OU", celui entre chaque liste d'array est un "ET"
 	 */
-	private List<Long[]> getFilterCategoriesIds() {
+	public List<Long[]> getFilterCategoriesIds() {
 		if (_filterCategoriesIds == null) {
 			List<Long[]> filterCategoriesIds = new ArrayList<>();
 
