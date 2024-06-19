@@ -16,29 +16,31 @@
 
             <aui:form name="uploadForm" enctype="multipart/form-data">
                 <div id="uploadDiv" class="pro-wrapper">
+                    <liferay-ui:message key="modal.submitbudget.text-preheader"/>
+
                     <h4><liferay-ui:message key="modal.submitbudget.information"/></h4>
                     <div class="form-group">
-                        <aui:input id="budgettitle" name="title" label="modal.submitbudget.information.title" maxlength="256" required="true" value=""/>
+                        <aui:input helpMessage="modal.submitbudget.information.title.help" id="budgettitle" name="title" label="modal.submitbudget.information.title" maxlength="256" required="true" value=""/>
                     </div>
                     <div class="form-group">
-                        <aui:input id="budgetsummary" cssClass="form-control pro-textarea-small" name="summary" type="textarea" label="modal.submitbudget.information.summary" maxlength="256" required="true" value=""/>
+                        <aui:input id="budgetsummary" helpMessage="modal.submitbudget.information.summary.help" cssClass="form-control pro-textarea-small" name="summary" type="textarea" label="modal.submitbudget.information.summary" maxlength="256" required="true" value=""/>
                     </div>
                     <div class="form-group">
                         <aui:input id="budgetdescription" name="description" type="hidden"/>
-                        <aui:input name="squiredescription" type="textarea" required="true" cssClass="form-control form-squire-target" label="modal.submitbudget.information.description"/>
+                        <aui:input name="squiredescription" type="textarea" required="true" cssClass="form-control form-squire-target" helpMessage="modal.submitbudget.information.description.help" label="modal.submitbudget.information.description"/>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
                             <label for="quartiers"><liferay-ui:message key="modal.submitbudget.information.territoire"/> <strong class="required" aria-required="true">*</strong></label>
                             <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
-                                <option value="0" selected></option>
+                                <option value="0" selected><liferay-ui:message key="modal.submitbudget.information.territoire.not-specified"/> </option>
                                 <c:forEach var="quartier" items="${quartiers}">
                                     <option value="${quartier.categoryId}">${quartier.name}</option>
                                 </c:forEach>
                             </select>
                         </div>
                         <div class="form-group form-half">
-                            <aui:input id="budgetlieux" name="budgetlieux" label="modal.submitbudget.information.lieu" maxlength="256" value=""/>
+                            <aui:input id="budgetlieux" name="budgetlieux" helpMessage="modal.submitbudget.information.lieu.help" label="modal.submitbudget.information.lieu" maxlength="256" value=""/>
                         </div>
                     </div>
                     <div class="pro-row">
@@ -64,7 +66,7 @@
                     <div class="pro-row">
                         <div class="form-group form-two-tiers">
                             <span class="browsePicture input-group-btn">
-                                <aui:input name="budgetPhoto" type="file" label="modal.submitbudget.information.picture"
+                                <aui:input name="budgetPhoto" type="file" helpMessage="modal.submitbudget.information.picture.help" label="modal.submitbudget.information.picture"
                                     cssClass="btn btn-default btn-choose upload-image">
 							        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
                                 </aui:input>
@@ -92,6 +94,7 @@
                 </div>
                 <div class="pro-wrapper last-wrapper">
                     <h4><liferay-ui:message key="modal.submitbudget.user"/></h4>
+                    <liferay-ui:message key="modal.submitbudget.user.text"/>
                     <div class="pro-row">
                         <div class="form-group form-triple">
                             <aui:input name="username" disabled="true" label="modal.user.username" required="true" value="${userConnected.get('last_name')}"/>
@@ -130,6 +133,12 @@
                         <div class="form-group form-half">
                             <aui:input name="mobile" label="modal.user.mobile" maxlength="20" value="" onInput="checkValuesSubmitBudget();"/>
                         </div>
+                    </div>
+                    <div class="form-group"  >
+                        <label>Niveau d'engagement dans le projet </label>
+                        <aui:input type="radio" label="eu.participer.commitment.want-to-commit" value="want-to-commit" name="commitment"/>
+                        <aui:input type="radio" label="eu.participer.commitment.dont-want-to-commit" value="dont-want-to-commit" name="commitment"/>
+                        <aui:input type="radio" label="eu.participer.commitment.dont-know-yet" value="dont-know-yet" name="commitment"/>
                     </div>
                     <div class="form-group form-checkbox" id="checkboxSaveInfo" >
                         <div>
@@ -223,10 +232,14 @@
         $('#modalConfirmerBudget').modal('hide');
         $('#modalErrorBudget').modal('hide');
         $('#checkboxSaveInfo').hide();
+        if(document.location.hash == "#deposerBudget"){
+            $('#modalBudget').modal('show');
+        }
     });
     
     $('#buttonDeposer').click(function(event){
         resetValuesSubmitBudget();
+        document.location.hash = "#deposerBudget";
     });
 
     $("#sendBudget").click(function(event){
@@ -437,7 +450,6 @@
     function validateFormSubmitBudget()
     {
         var result = true;
-        var quartierValue = $("#"+namespaceSubmitBudget+"quartier").val();
         var budgettitle = $("#"+namespaceSubmitBudget+"budgettitle").val();
         var budgetsummary = $("#"+namespaceSubmitBudget+"budgetsummary").val();
         var iframe = $('.Squire-UI').next('iframe').first()[0];
@@ -451,11 +463,6 @@
         var photo = $("#"+namespaceSubmitBudget+"budgetPhoto").val();
         var files = $(".upload-file");
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
-
-        if (quartierValue==0){
-            $("#"+namespaceSubmitBudget+"quartier").closest(".selectric-wrapper").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#"+namespaceSubmitBudget+"quartier").closest(".selectric-wrapper").css({ "box-shadow" : "" });
 
         if (photo!=null && photo!==""){
             var ext = photo.split(".").pop().toLowerCase();

@@ -557,6 +557,21 @@ public interface BudgetParticipatifModel
 	public void setInTheNameOf(String inTheNameOf);
 
 	/**
+	 * Returns the commitment of this budget participatif.
+	 *
+	 * @return the commitment of this budget participatif
+	 */
+	@AutoEscape
+	public String getCommitment();
+
+	/**
+	 * Sets the commitment of this budget participatif.
+	 *
+	 * @param commitment the commitment of this budget participatif
+	 */
+	public void setCommitment(String commitment);
+
+	/**
 	 * Returns the citoyen lastname of this budget participatif.
 	 *
 	 * @return the citoyen lastname of this budget participatif

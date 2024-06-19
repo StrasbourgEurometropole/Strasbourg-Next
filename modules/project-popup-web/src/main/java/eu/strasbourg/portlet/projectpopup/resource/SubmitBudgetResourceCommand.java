@@ -3,6 +3,7 @@ package eu.strasbourg.portlet.projectpopup.resource;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetCategoryModel;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
@@ -42,14 +43,17 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
+import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
 
 import javax.mail.internet.InternetAddress;
@@ -61,14 +65,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
@@ -79,6 +76,7 @@ import static eu.strasbourg.portlet.projectpopup.utils.ProjectPopupUtils.getPubl
  * @author Romain Vernier
  * @author Anglélique Zunino Champougny
  * @author Cédric Henry
+ * @author Thomas Tse
  */
 @Component(
         immediate = true,
@@ -169,11 +167,12 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         File photoFile = uploadRequest.getFile("budgetPhoto");
         File[] documentFiles = uploadRequest.getFiles("budgetFile");
         String[] documentsFileNames = uploadRequest.getFileNames("budgetFile");
+        String commitment = ParamUtil.getString(request, "commitment");
         
         // Verification de la validite des informations
         String message = validate(request, configuration, publikID, user,  activePhase, title, summary,
                 squiredescription, city, address, postalcode, quartierId, photoFileName, photoFile, documentFiles,
-                documentsFileNames);
+                documentsFileNames, commitment);
         if (message.equals("")) {
         
         	// Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
@@ -195,11 +194,26 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 
             List<Long> identifiants = new ArrayList<>();
             if (quartierId == 0) {
-                List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
-                assert districts != null;
-                identifiants = districts.stream()
-                        .map(AssetCategoryModel::getCategoryId)
-                        .collect(Collectors.toList());
+                // Get assetcategroy of strasbourg
+                AssetVocabulary territoryVocabulary = null;
+                try {
+                    territoryVocabulary = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
+                } catch (PortalException e) {
+                    throw new RuntimeException(e);
+                }
+
+                List<AssetCategory> cities = territoryVocabulary.getCategories();
+
+                // Parcours des villes
+                for (AssetCategory cityCategory : cities) {
+                    if (cityCategory.getTitle(Locale.FRENCH).equals(CITY_NAME)) {
+                        identifiants.add(cityCategory.getCategoryId());
+                    }
+                }
+
+
+
+
             } else {
                 identifiants.add(quartierId);
             }
@@ -240,6 +254,8 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                 budgetParticipatif.setPlaceTextArea(lieu);
                 budgetParticipatif.setCitoyenPhone(phone);
                 budgetParticipatif.setPublikId(publikID);
+                budgetParticipatif.setCommitment(commitment);
+
                 budgetParticipatif = uploadFile(photoFile, themeDisplay, sc, budgetParticipatif);
 
                 // Récpère la phase active (si elle existe)
@@ -562,7 +578,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private String validate(ResourceRequest request, ProjectPopupConfiguration configuration, String publikID,
                             PublikUser user, BudgetPhase activePhase, String title, String summary, String description,
                             String city, String address, long postalcode, long quartierId, String photoFileName,
-                            File photoFile, File[] documentFiles, String[] documentsFileNames) {
+                            File photoFile, File[] documentFiles, String[] documentsFileNames,String commitment) {
         // utilisateur
         if (publikID == null || publikID.isEmpty()) {
             return "Utilisateur non reconnu";
@@ -598,14 +614,14 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
             return "Description non valide";
         }
 
-        // quartier
-        if (Validator.isNull(quartierId)) {
-            return "Quartier non valide";
-        }
-
         // city
         if (Validator.isNull(city)) {
             return "Ville non valide";
+        }
+
+        // Niveau d'engagement
+        if (Validator.isNull(commitment)) {
+            return "Niveau d'engagement non valide";
         }
 
         // address
