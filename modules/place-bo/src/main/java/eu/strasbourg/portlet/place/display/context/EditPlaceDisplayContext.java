@@ -33,8 +33,16 @@ public class EditPlaceDisplayContext {
 				.getAttribute(WebKeys.THEME_DISPLAY);
 		List<AssetCategory> typeDeLieuVocab = getPlace().getTypes();
 		List<AssetCategory> categoriesUser = AssetCategoryLocalServiceUtil.getCategories(User.class.getName(), _themeDisplay.getUserId());
+		List<AssetCategory> subCategoriesUser = new ArrayList<>();
+		// Make a copy of the list to avoid concurrent modification exception
+		List<AssetCategory> categoriesUserCopy = new ArrayList<>(categoriesUser);
+		// add all sub category
+		for (AssetCategory category : categoriesUserCopy) {
+			subCategoriesUser.addAll(AssetVocabularyHelper.getChild(category.getCategoryId()));
+		}
 		if(!_themeDisplay.getPermissionChecker().isOmniadmin() &&
-				!typeDeLieuVocab.stream().anyMatch(categoriesUser::contains)) {
+				!typeDeLieuVocab.stream().anyMatch(categoriesUser::contains) &&
+				!typeDeLieuVocab.stream().anyMatch(subCategoriesUser::contains)) {
 			SessionErrors.add(_request, "permission-error");
 			this.hasEditPermission = false;
 		}
