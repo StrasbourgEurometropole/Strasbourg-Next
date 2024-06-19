@@ -89,7 +89,7 @@ public class ContactFormContactAction implements MVCActionCommand {
 
         // Validation
         boolean hasError = false;
-        String gRecaptchaResponse = ParamUtil.getString(request, "g-recaptcha-response");
+        String gRecaptchaResponse = ParamUtil.getString(request, "frc-captcha-solution");
         String placit= ParamUtil.getString(request, "placit");
         if (placit.isEmpty()&&!RecaptchaHelper.verify(gRecaptchaResponse)) {
             // Recaptcha

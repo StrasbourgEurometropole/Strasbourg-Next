@@ -65,7 +65,7 @@
 
 			<div class="st-group-field st-col-12@t-small">
 				<div class="recaptcha" style="margin-top: 20px;">
-					<div class="g-recaptcha" id="recaptcha-contact-form" data-sitekey="${recaptchaKey}"></div>
+					<div class="frc-captcha" data-sitekey="FCMK9QO1GIM8HSMS"></div>
 				</div>
 			</div>
 
@@ -114,3 +114,10 @@
 	</c:if>
 
 </div>
+<script
+		type="module"
+		src="https://cdn.jsdelivr.net/npm/friendly-challenge@0.9.14/widget.module.min.js"
+		async
+		defer
+></script>
+<script nomodule src="https://cdn.jsdelivr.net/npm/friendly-challenge@0.9.14/widget.min.js" async defer></script>

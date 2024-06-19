@@ -13,8 +13,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 public class RecaptchaHelper {
 
-	public static final String url = "https://www.google.com/recaptcha/api/siteverify";
-	public static final String secret = StrasbourgPropsUtil.getRecaptchaSecretKey();
+	public static final String url = "https://api.friendlycaptcha.com/api/v1/siteverify";
+	public static final String secret = "A1FCHBNM0Q975NV3RKBOCS2763RDMLP33DAG8LB9U73N38HFGANKADGC5G";
 	private final static String USER_AGENT = "Mozilla/5.0";
 
 	public static boolean verify(String gRecaptchaResponse) {
@@ -29,7 +29,7 @@ public class RecaptchaHelper {
 			con.setRequestMethod("POST");
 			con.setRequestProperty("User-Agent", USER_AGENT);
 			con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-			String postParams = "secret=" + secret + "&response="
+			String postParams = "secret=" + secret + "&solution="
 				+ gRecaptchaResponse;
 
 			con.setDoOutput(true);
