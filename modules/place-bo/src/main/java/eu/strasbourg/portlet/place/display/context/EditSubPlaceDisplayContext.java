@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.place.display.context;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -18,9 +19,11 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.place.util.PlacePermissionUtils;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.service.place.service.SubPlaceLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 public class EditSubPlaceDisplayContext {
@@ -31,10 +34,7 @@ public class EditSubPlaceDisplayContext {
 				.getAttribute(WebKeys.THEME_DISPLAY);
 		Place place = getSubPlace().getParentPlace();
 		if(Validator.isNotNull(place)) {
-			List<AssetCategory> typeDeLieuVocab = place.getTypes();
-			List<AssetCategory> categoriesUser = AssetCategoryLocalServiceUtil.getCategories(User.class.getName(), _themeDisplay.getUserId());
-			if (!_themeDisplay.getPermissionChecker().isOmniadmin() &&
-					!typeDeLieuVocab.stream().anyMatch(categoriesUser::contains)) {
+			if(!PlacePermissionUtils.hasEditPermission(_themeDisplay, place)) {
 				SessionErrors.add(_request, "permission-error");
 				this.hasEditPermission = false;
 			}
