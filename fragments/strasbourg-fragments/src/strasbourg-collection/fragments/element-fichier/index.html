@@ -4,7 +4,7 @@
 [#if configuration.fileSelector.fileEntryId?has_content]
 [#assign url = fileEntryHelper.getFileEntryURL(configuration.fileSelector.fileEntryId?number) /]
 [#assign title = fileEntryHelper.getFileTitle(configuration.fileSelector.fileEntryId?number, locale) /]
-<a href="${url}" class="st-lien" download="">
+<a href="${url}" class="st-lien"  [#if configuration.openInNewTab] target="_blank" [/#if]>
   <p class="st-title-lien">
     ${title}
   </p>

@@ -9,7 +9,7 @@
                     <div class="st-inner-container">
                         <figure class="st-figure st-fit-cover" role="group" aria-label="">
                             <picture>
-                                <img alt="" src="/o/strasbourg-theme/images/assets/images/medias/logo-plan-canopee.png" srcset="/o/strasbourg-theme/images/medias/logo-plan-canopee.png 1x, /o/strasbourg-theme/images/medias/logo-plan-canopee@2x.png 2x">
+                                <img alt="" src="/o/strasbourg-theme/images/medias/logo-plan-canopee.png" srcset="/o/strasbourg-theme/images/medias/logo-plan-canopee.png 1x, /o/strasbourg-theme/images/medias/logo-plan-canopee@2x.png 2x">
                             </picture>
                         </figure>
                         <p class="number">${arbres.getData()?number}</p>
@@ -22,7 +22,7 @@
                     <div class="st-inner-container">
                         <figure class="st-figure st-fit-cover" role="group" aria-label="">
                             <picture>
-                                <img alt="" src="/o/strasbourg-theme/images/assets/images/medias/logo-plan-canopee.png" srcset="/o/strasbourg-theme/images/medias/logo-plan-canopee.png 1x, /o/strasbourg-theme/images/medias/logo-plan-canopee@2x.png 2x">
+                                <img alt="" src="/o/strasbourg-theme/images/medias/logo-plan-canopee.png" srcset="/o/strasbourg-theme/images/medias/logo-plan-canopee.png 1x, /o/strasbourg-theme/images/medias/logo-plan-canopee@2x.png 2x">
                             </picture>
                         </figure>
                         <p class="number">${ecole.getData()?number}</p>
@@ -35,7 +35,7 @@
                     <div class="st-inner-container">
                         <figure class="st-figure st-fit-cover" role="group" aria-label="">
                             <picture>
-                                <img alt="" src="/o/strasbourg-theme/images/assets/images/medias/logo-plan-canopee.png" srcset="/o/strasbourg-theme/images/medias/logo-plan-canopee.png 1x, /o/strasbourg-theme/images/medias/logo-plan-canopee@2x.png 2x">
+                                <img alt="" src="/o/strasbourg-theme/images/medias/logo-plan-canopee.png" srcset="/o/strasbourg-theme/images/medias/logo-plan-canopee.png 1x, /o/strasbourg-theme/images/medias/logo-plan-canopee@2x.png 2x">
                             </picture>
                         </figure>
                         <p class="number">${demineralisee.getData()?number}</p>
