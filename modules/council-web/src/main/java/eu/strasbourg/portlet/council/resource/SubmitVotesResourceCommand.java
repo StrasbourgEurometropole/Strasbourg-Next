@@ -236,7 +236,7 @@ public class SubmitVotesResourceCommand  implements MVCResourceCommand {
                 return LanguageUtil.get(bundle, "procuration-voted-not-found-error");
             }
         }
-        // Vérification que la personne vote bien avec son officialId
+        // Vérification que la personne connecté qui vote est bien celle de l'id élu reçu dan la requête
         if(CouncilHelper.getOfficialId(request)!=paramOfficialId){
             return LanguageUtil.get(bundle, "officialId-not-match");
         }
