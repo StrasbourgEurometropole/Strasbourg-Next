@@ -31,13 +31,12 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <label for="quartiers"><liferay-ui:message key="modal.submitbudget.information.territoire"/> <strong class="required" aria-required="true">*</strong></label>
-                            <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
-                                <option value="0" selected><liferay-ui:message key="modal.submitbudget.information.territoire.not-specified"/> </option>
+                            <aui:select name="quartier" id="quartier" label="modal.submitbudget.information.territoire" helpMessage="modal.submitbudget.information.territoire.help" required="true">
+                                <aui:option value="0" selected="true"><liferay-ui:message key="modal.submitbudget.information.territoire.not-specified"/> </aui:option>
                                 <c:forEach var="quartier" items="${quartiers}">
-                                    <option value="${quartier.categoryId}">${quartier.name}</option>
+                                    <aui:option value="${quartier.categoryId}">${quartier.name}</aui:option>
                                 </c:forEach>
-                            </select>
+                            </aui:select>
                         </div>
                         <div class="form-group form-half">
                             <aui:input id="budgetlieux" name="budgetlieux" helpMessage="modal.submitbudget.information.lieu.help" label="modal.submitbudget.information.lieu" maxlength="256" value=""/>

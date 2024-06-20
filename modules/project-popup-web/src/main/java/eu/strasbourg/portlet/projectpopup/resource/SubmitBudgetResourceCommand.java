@@ -194,26 +194,11 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 
             List<Long> identifiants = new ArrayList<>();
             if (quartierId == 0) {
-                // Get assetcategroy of strasbourg
-                AssetVocabulary territoryVocabulary = null;
-                try {
-                    territoryVocabulary = AssetVocabularyHelper.getGlobalVocabulary(VocabularyNames.TERRITORY);
-                } catch (PortalException e) {
-                    throw new RuntimeException(e);
-                }
-
-                List<AssetCategory> cities = territoryVocabulary.getCategories();
-
-                // Parcours des villes
-                for (AssetCategory cityCategory : cities) {
-                    if (cityCategory.getTitle(Locale.FRENCH).equals(CITY_NAME)) {
-                        identifiants.add(cityCategory.getCategoryId());
-                    }
-                }
-
-
-
-
+                List<AssetCategory> districts = AssetVocabularyHelper.getAllDistrictsFromCity(CITY_NAME);
+                assert districts != null;
+                identifiants = districts.stream()
+                        .map(AssetCategoryModel::getCategoryId)
+                        .collect(Collectors.toList());
             } else {
                 identifiants.add(quartierId);
             }
