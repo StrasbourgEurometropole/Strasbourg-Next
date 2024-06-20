@@ -232,8 +232,13 @@
         $('#modalConfirmerBudget').modal('hide');
         $('#modalErrorBudget').modal('hide');
         $('#checkboxSaveInfo').hide();
+        //if #deposerBudget has data-target="#modalPetition"
         if(document.location.hash == "#deposerBudget"){
-            $('#modalBudget').modal('show');
+            let target = $('#buttonDeposer').data('target');
+            if(target != undefined && target != "") {
+                $(target).modal('show');
+            }
+
         }
     });
     
