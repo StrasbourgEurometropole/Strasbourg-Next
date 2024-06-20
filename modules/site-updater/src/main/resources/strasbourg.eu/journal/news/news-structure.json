@@ -168,7 +168,7 @@
       "dataType": "image",
       "readOnly": false,
       "label": {
-        "fr_FR": "Vignette"
+        "fr_FR": "Vignette carré (300*300)"
       },
       "type": "image",
       "required": true,

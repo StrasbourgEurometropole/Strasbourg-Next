@@ -16,6 +16,10 @@
 <#if thumbnail.getData()?has_content>
     <#assign imageUrl=thumbnail.getData()?replace('@', "" )?replace('cdn_hostroot_path', "" ) />
 </#if>
+<#if image.getData()?has_content>
+    <#assign imageUrl=image.getData()?replace('@', "" )?replace('cdn_hostroot_path', "" ) />
+</#if>
+
 <#assign journalArticleLocalService=serviceLocator.findService("com.liferay.journal.service.JournalArticleLocalService")>
 <#assign journalArticle=journalArticleLocalService.getArticle(groupId, .vars['reserved-article-id'].data)>
 <#assign assetEntryLocalService=serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService") />
