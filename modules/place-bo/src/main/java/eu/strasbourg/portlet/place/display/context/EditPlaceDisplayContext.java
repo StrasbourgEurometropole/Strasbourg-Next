@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.place.util.PlacePermissionUtils;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -31,10 +32,8 @@ public class EditPlaceDisplayContext {
 		this._request = request;
 		this._themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
-		List<AssetCategory> typeDeLieuVocab = getPlace().getTypes();
-		List<AssetCategory> categoriesUser = AssetCategoryLocalServiceUtil.getCategories(User.class.getName(), _themeDisplay.getUserId());
-		if(!_themeDisplay.getPermissionChecker().isOmniadmin() &&
-				!typeDeLieuVocab.stream().anyMatch(categoriesUser::contains)) {
+
+		if(!PlacePermissionUtils.hasEditPermission(_themeDisplay, getPlace())) {
 			SessionErrors.add(_request, "permission-error");
 			this.hasEditPermission = false;
 		}

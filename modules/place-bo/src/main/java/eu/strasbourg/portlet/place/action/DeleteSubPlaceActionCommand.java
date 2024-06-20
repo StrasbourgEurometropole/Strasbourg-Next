@@ -25,10 +25,12 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.place.util.PlacePermissionUtils;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.service.place.service.SubPlaceLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -41,6 +43,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.service.place.service.SubPlaceLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
 
@@ -62,10 +65,7 @@ public class DeleteSubPlaceActionCommand implements MVCActionCommand {
 					.getAttribute(WebKeys.THEME_DISPLAY);
 			Place place = subPlace.getParentPlace();
 			if(Validator.isNotNull(place)) {
-				List<AssetCategory> typeDeLieuVocab = place.getTypes();
-				List<AssetCategory> categoriesUser = AssetCategoryLocalServiceUtil.getCategories(User.class.getName(), themeDisplay.getUserId());
-				if (!themeDisplay.getPermissionChecker().isOmniadmin() &&
-						!typeDeLieuVocab.stream().anyMatch(categoriesUser::contains)) {
+				if(!PlacePermissionUtils.hasEditPermission(themeDisplay, place)) {
 					return false;
 				}
 			}
