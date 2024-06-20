@@ -133,14 +133,8 @@
   </main>
   <#include "${full_templates_path}/footer.ftl" />
 
-<!-- inject:js -->
-<script type="text/javascript">
-    if(typeof jQuery == 'undefined'){
-      document.write('<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></'+'script>');
-    }
-  </script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script>
+  <script src="/o/0-global-theme/libs/gsap/1.19.1/TweenMax.min.js"></script>
 
 
   <#if  propsUtil.get('eu.strasbourg.environment') == "PROD"><!-- Piwik -->
