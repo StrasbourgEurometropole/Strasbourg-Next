@@ -105,7 +105,27 @@
 // Styles et positionnement au sein d'un bloc de texte
 // ==========================================================================
 
-.st-text-styles {
+.st-text-styles, .component-paragraph, .component-html {
+
+	@include ft($f_txt, 16px, 300, $c_txt, 1.5);
+	@include letter-spacing(25);
+	display: block;
+	margin-bottom: 15px;
+
+	@include mobile {
+		font-size: 14px;
+		line-height: 1.43;
+	}
+
+	& + .st-btn-primary,
+	& + .st-btn {
+		margin-top: 10px;
+	}
+
+	strong {
+		color: $c_white;
+	}
+
 	// Alignement
 	&.st-aligncenter {
 		margin-left: auto;
