@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -14,6 +15,7 @@ import javax.portlet.RenderResponse;
 
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -52,13 +54,25 @@ public class PageHeaderPortlet extends MVCPortlet {
 		Layout layout = themeDisplay.getLayout();
 		
 		renderRequest.setAttribute("page", layout);
-		
+
+		String title = layout.getTitle(themeDisplay.getLocale());
+		String subTitle = layout.getDescription(themeDisplay.getLocale());
+		String imageUrl = layout.getExpandoBridge().getAttribute("image").toString();
 		String imageCredit = "";
+
 		try {
 			PageHeaderConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(PageHeaderConfiguration.class, themeDisplay);
-			imageCredit = configuration.imageCredit();
-			renderRequest.setAttribute("imageCredit",
-				imageCredit);
+
+			imageCredit = getNonEmptyValue(configuration.imageCredit(), imageCredit);
+			title = getNonEmptyValue(configuration.title(), title);
+			subTitle = getNonEmptyValue(configuration.subTitle(), subTitle);
+			imageUrl = getNonEmptyValue(configuration.imageUrl(), imageUrl);
+
+			renderRequest.setAttribute("imageCredit", imageCredit);
+			renderRequest.setAttribute("title", title);
+			renderRequest.setAttribute("subTitle", subTitle);
+			renderRequest.setAttribute("imageUrl", imageUrl);
+
 		} catch (ConfigurationException e) {
 			_log.error(e);
 		}
@@ -69,6 +83,9 @@ public class PageHeaderPortlet extends MVCPortlet {
 		long displayStyleGroupId = GetterUtil.getLong(preferences.getValue("displayStyleGroupId", null), 0);
 		Map<String, Object> contextObjects = new HashMap<String, Object>();
 		contextObjects.put("imageCredit", imageCredit);
+		contextObjects.put("title", title);
+		contextObjects.put("subTitle", subTitle);
+		contextObjects.put("imageUrl", imageUrl);
 		contextObjects.put("page", layout);
 		List<Layout> entries = new ArrayList<Layout>() ;
 		renderRequest.setAttribute("displayStyle", displayStyle);
@@ -77,6 +94,10 @@ public class PageHeaderPortlet extends MVCPortlet {
 		renderRequest.setAttribute("entries", entries);
 		
 		super.render(renderRequest, renderResponse);
+	}
+
+	private String getNonEmptyValue(String configValue, String defaultValue) {
+		return Validator.isNull(configValue)  ? defaultValue : configValue;
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
