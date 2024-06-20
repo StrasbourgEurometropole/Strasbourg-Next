@@ -2,14 +2,14 @@
 
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
-<!-- Filtres -->
-<%@ include file="/search-association-search-form.jsp"  %>
 
+<c:if test="${not empty dc.getPortletTitle('')}">
 <header class="st-header-with-sticky st-wrapper st-wrapper-small" >
-	<h1 class="st-h1">	<c:if test="${not empty dc.getPortletTitle('')}">
-		<h1 class="st-h1">${dc.getPortletTitle('')}</h1>
-	</c:if></h1>
+	<h1 class="st-h1">${dc.getPortletTitle('')}</h1>
+	</h1>
 </header>
+</c:if>
+
 <c:if test="${not empty description}">
 	<div class="st-listing-introduction st-wrapper st-wrapper-small st-text-styles">
 		<p>${description}</p>
@@ -18,7 +18,12 @@
 
 
 
+<!-- Filtres -->
+<%@ include file="/search-association-search-form.jsp"  %>
 
+
+
+<c:if test="${userSearch}">
 
 		<aui:form method="post" name="fm" cssClass="st-bloc st--has-margin">
 			<!-- RÃ©sultats -->
@@ -134,6 +139,7 @@
 
 			</liferay-ui:search-container>
 		</aui:form>
+</c:if>
 
 <liferay-util:body-top>
     <aui:script>
