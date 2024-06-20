@@ -461,7 +461,7 @@
 		background-color: $c_main;
 
 		@include mobile {
-			padding: 8px var(--padding-horizontal) 8px calc(var(--padding-horizontal) + 44px + 5px);		// espace pour le bouton close
+			padding: 8px var(--padding-horizontal) 8px calc(var(--padding-horizontal) + 44px + 10px);		// espace pour le bouton close
 			background-color: $c_greydark;
 		}
 
@@ -599,7 +599,7 @@
 		background-color: $c_main;
 
 		@include mobile {
-			padding: 8px var(--padding-horizontal) 8px calc(var(--padding-horizontal) + 44px + 5px);		// espace pour le bouton close
+			padding: 8px var(--padding-horizontal) 8px calc(var(--padding-horizontal) + 44px + 10px);		// espace pour le bouton close
 			background-color: $c_greydark;
 		}
 
