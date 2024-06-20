@@ -21,10 +21,11 @@ function updateDescription(clickedElement) {
 	overlayDiv.querySelector(".detail-button").href = detailURL;
 	overlayDiv.querySelector(".st-img").src = imageURL;
 
+	var elementFooter = overlayDiv.querySelector(".st-overlay__footer")
+	// Remove existing booking button
+	elementFooter.querySelector(".st-btn-icon.st-btn-icon--white")?.remove()
 	if(bookingURL) {
-		var elementFooter = overlayDiv.querySelector(".st-overlay__footer")
-		// Remove existing booking button
-		elementFooter.querySelector(".st-btn-icon.st-btn-icon--white")?.remove()
+
 		elementFooter.insertAdjacentHTML("afterbegin",
 		`<a href="${bookingURL}" class="st-btn-icon st-btn-icon--white" title="`+ Liferay.Language.get("eu.ticket-office") + `">
                 <span class="st-icon-ticket" aria-hidden="true"></span>
