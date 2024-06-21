@@ -5,10 +5,10 @@
     <#assign homeURL = "" />
 </#if>
 
-<header class="mns-header" style="background: url(${page.expandoBridge.getAttribute('image')}) no-repeat center center /cover;">
+<header class="mns-header" style="background: url(${imageUrl}) no-repeat center center /cover;">
     <div class="container mns-center">
-        <h1>${page.getTitle(locale)}</h1>
-        <span>${page.getDescription(locale)}</span>
+        <h1>${title}</h1>
+        <span>${description}</span>
     </div>
 </header>
 
