@@ -8,7 +8,7 @@
                     "type": "url"
                 },
               {
-                "label": "Ouvrir dans une nouvelle onglet",
+                "label": "Ouvrir dans un nouvel onglet",
                 "name": "openInNewTab",
                 "type": "checkbox",
                 "defaultValue": false
