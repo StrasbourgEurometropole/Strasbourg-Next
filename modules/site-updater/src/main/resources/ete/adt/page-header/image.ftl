@@ -8,7 +8,7 @@
 <header class="mns-header" style="background: url(${imageUrl}) no-repeat center center /cover;">
     <div class="container mns-center">
         <h1>${title}</h1>
-        <span>${description}</span>
+        <span>${subTitle}</span>
     </div>
 </header>
 
