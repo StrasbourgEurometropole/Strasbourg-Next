@@ -43,7 +43,7 @@ var th_ancres = {
                 currentLink.addClass('is-active');
                 currentLink.attr('aria-current', 'true');
 
-               //currentLink[0].scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'start' });
+               currentLink[0].scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'start' });
                 //console.log('currentLink[0]', currentLink[0]);
             }
         }
@@ -51,7 +51,13 @@ var th_ancres = {
 
     observer: function () {
         if ('IntersectionObserver' in window) { // on vérifie si c'est compatible avec le navigateur
-            const observer = new IntersectionObserver(th_ancres.obsCallback);
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px 0px -50% 0px', // Center the observed area
+                threshold: 0 // Trigger when any part of the section is in the center area
+            };
+
+            const observer = new IntersectionObserver(th_ancres.obsCallback,observerOptions);
 
             $(th_ancres.selectors.blocAncre).each(function () {
                 observer.observe($(this)[0]);
