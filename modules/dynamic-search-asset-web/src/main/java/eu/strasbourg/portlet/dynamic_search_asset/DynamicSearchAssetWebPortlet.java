@@ -553,7 +553,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			// AssetEntry : ActivityCourse
 			else if (assetClassName.equals(ActivityCourse.class.getName())) {
 				ActivityCourse activityCourse = ActivityCourseLocalServiceUtil.getActivityCourse(assetEntry.getClassPK());
-				JSONObject jsonActivityCourse = JSONSearchHelper.createActivityCourseSearchJson(activityCourse, getImageURL(activityCourse.getImageId()), locale, themeDisplay, configAffichage);
+				JSONObject jsonActivityCourse = JSONSearchHelper.createActivityCourseSearchJson(activityCourse, getImageURL(activityCourse.getActivity().getImageId()), locale, themeDisplay, configAffichage);
 				jsonActivityCourse = JSONSearchHelper.createAssetEntrySearchJson(jsonActivityCourse, assetEntry);
 				jsonResponse.put(jsonActivityCourse);
 			}
