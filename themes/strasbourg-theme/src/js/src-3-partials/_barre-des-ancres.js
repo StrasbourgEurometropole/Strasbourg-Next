@@ -7,7 +7,6 @@ class BarreDesAncres {
 
         if (this.list) this.initArrows();
         this.fadeOnSocialShareClick(container);
-        this.stickyPositionHandler(container);
     }
 
     // Défilement de la liste des ancres en overflow avec les flèches sur mobile
@@ -36,29 +35,6 @@ class BarreDesAncres {
                 this.container.classList.toggle("st-has-social-share-open");
             });
         }
-    }
-
-    stickyPositionHandler(slider) {
-        const footer = document.querySelector(".st-footer");
-
-        const options = {
-            rootMargin: "0px",
-            threshold: 0.1,
-        };
-
-        const callback = (entries, observer) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    this.container.classList.add("st-footer-is-visible");
-                } else {
-                    this.container.classList.remove("st-footer-is-visible");
-                }
-            });
-        };
-
-        let observer = new IntersectionObserver(callback, options);
-
-        observer.observe(footer);
     }
 }
 
