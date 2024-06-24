@@ -267,7 +267,7 @@
 		}
 	}
 
-	p:not([class]) {
+	p {
 		@include ft($f_txt, 16px, 300, $c_txt, 1.5);
 		@include letter-spacing(25);
 		display: block;
@@ -292,7 +292,7 @@
 		margin-bottom: 15px;
 	}
 
-	li:not([class]) {
+	li {
 		position: relative;
 		@include ft($f_txt, $s_p, 300, $c_txt, 1.5);
 
@@ -307,7 +307,7 @@
 		}
 	}
 
-	ul:not([class]) {
+	ul {
 		padding: 0;
 		margin-left: 0px;
 		margin-right: 0px;
@@ -370,7 +370,7 @@
 		}
 	}
 
-	ol:not([class]) {
+	ol {
 		padding: 0;
 		margin-bottom: 15px;
 		list-style-type: decimal;
@@ -382,7 +382,7 @@
 		}
 	}
 
-	a:not([class]) {
+	a {
 		@include create-outline;
 		color: $c_sub;
 		text-decoration: underline;
@@ -393,7 +393,7 @@
 		}
 	}
 
-	blockquote:not([class]) {
+	blockquote {
 		@include ft($f_txt, $s_small_title, 300, $c_txt, 1.4);
 		position: relative;
 		font-style: italic;
