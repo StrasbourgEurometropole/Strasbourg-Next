@@ -586,6 +586,10 @@ body:not(.no-hover) .st-page-wrapper .login-container button{
   }
 }
 
+.st-overlay-menu .st-overlay__footer.st-has-btn-compte {
+  align-items: end;
+}
+
 .st-liste {
     .st-lien-container {
         > div:not([style]) {
