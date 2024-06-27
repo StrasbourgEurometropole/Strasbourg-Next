@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -47,6 +48,7 @@ public class JSONSearchHelper {
 
     private static final Log _log = LogFactoryUtil.getLog("JSONSearchHelper");
 
+
     public static JSONObject createEventSearchJson(Event event, String imageURL, Locale locale, ThemeDisplay themeDisplay, String publikUserId, String configAffichage, int tailleMax) {
         JSONObject jsonEvent = JSONFactoryUtil.createJSONObject();
         jsonEvent.put(
@@ -72,7 +74,7 @@ public class JSONSearchHelper {
             case Constants.SEARCH_FORM_PLACIT:
                 jsonEvent.put(
                         Constants.ATTRIBUTE_LINK,
-                        Utils.getHomeURL(themeDisplay) + Constants.DETAIL_EVENT_URL + event.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(event.getTitle(locale))
+                        SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_EVENT_URL + event.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(event.getTitle(locale))
                 );
 
                 jsonEvent.put(
@@ -104,7 +106,7 @@ public class JSONSearchHelper {
 
                 jsonEvent.put(
                         Constants.ATTRIBUTE_LINK_ABSOLUTE,
-                        themeDisplay.getPortalURL() + Utils.getHomeURL(themeDisplay) + Constants.DETAIL_EVENT_STRAS_URL + event.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(event.getTitle(locale))
+                        themeDisplay.getPortalURL() + SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_EVENT_STRAS_URL + event.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(event.getTitle(locale))
                 );
 
                 jsonEvent.put(
@@ -138,7 +140,7 @@ public class JSONSearchHelper {
 
                 jsonEvent.put(
                         Constants.ATTRIBUTE_LINK_STRAS,
-                        Utils.getHomeURL(themeDisplay) + Constants.DETAIL_EVENT_STRAS_URL + event.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(event.getTitle(locale))
+                        SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_EVENT_STRAS_URL + event.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(event.getTitle(locale))
                 );
                 break;
         }
@@ -159,7 +161,7 @@ public class JSONSearchHelper {
 
         jsonProject.put(
                 Constants.ATTRIBUTE_LINK,
-                Utils.getHomeURL(themeDisplay) + project.getDetailURL()
+                SearchUtils.getHomeURL(themeDisplay) + project.getDetailURL()
         );
 
         switch (configAffichage) {
@@ -203,7 +205,7 @@ public class JSONSearchHelper {
 
         jsonParticipation.put(
                 Constants.ATTRIBUTE_LINK,
-                Utils.getHomeURL(themeDisplay) + Constants.DETAIL_PARTICIPATION_URL + participation.getParticipationId()
+                SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_PARTICIPATION_URL + participation.getParticipationId()
         );
 
         switch (configAffichage) {
@@ -282,7 +284,7 @@ public class JSONSearchHelper {
 
         jsonVideo.put(
                 Constants.ATTRIBUTE_LINK,
-                Utils.getHomeURL(themeDisplay) + Constants.DETAIL_VIDEO_URL + video.getVideoId()
+                SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_VIDEO_URL + video.getVideoId()
         );
 
 
@@ -337,7 +339,7 @@ public class JSONSearchHelper {
 
         jsonPetition.put(
                 Constants.ATTRIBUTE_LINK,
-                Utils.getHomeURL(themeDisplay) + Constants.DETAIL_PETITION_URL + petition.getPetitionId()
+                SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_PETITION_URL + petition.getPetitionId()
         );
 
         switch (configAffichage) {
@@ -404,7 +406,7 @@ public class JSONSearchHelper {
 
         jsonBP.put(
                 Constants.ATTRIBUTE_LINK,
-                Utils.getHomeURL(themeDisplay) + Constants.DETAIL_BUDGET_PARTICIPATIF_URL + bp.getBudgetParticipatifId()
+                SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_BUDGET_PARTICIPATIF_URL + bp.getBudgetParticipatifId()
         );
 
         switch (configAffichage) {
@@ -465,7 +467,7 @@ public class JSONSearchHelper {
 
         jsonInitiative.put(
                 Constants.ATTRIBUTE_LINK,
-                Utils.getHomeURL(themeDisplay) + Constants.DETAIL_INITIATIVE_URL + initiative.getInitiativeId()
+                SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_INITIATIVE_URL + initiative.getInitiativeId()
         );
 
         switch (configAffichage) {
@@ -508,6 +510,56 @@ public class JSONSearchHelper {
         }
 
         return jsonInitiative;
+    }
+
+    /**
+     * création de JSON pour Layout
+     */
+    public static JSONObject createLayoutSearchJson(AssetEntry assetEntry, Layout layout, ThemeDisplay themeDisplay, String publikUserId, int tailleMax) {
+        JSONObject jsonLayout = JSONFactoryUtil.createJSONObject();
+        Locale locale = themeDisplay.getLocale();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", locale);
+
+        jsonLayout.put(
+                Constants.ATTRIBUTE_CLASSNAME,
+                JournalArticle.class.getName()
+        );
+
+        // Add isFavorite attribute
+        jsonLayout.put(
+                Constants.ATTRIBUTE_IS_FAVORITE,
+                FavoriteLocalServiceUtil.isFavorite(
+                        layout.getLayoutId(),
+                        FavoriteType.PAGE.getId(),
+                        publikUserId)
+        );
+
+        jsonLayout.put(
+                Constants.ATTRIBUTE_LINK,
+                layout.getFriendlyURL(locale)
+        );
+
+        jsonLayout.put(
+                Constants.ATTRIBUTE_TITLE,
+                layout.getName(locale)
+        );
+
+        jsonLayout.put(
+                Constants.ATTRIBUTE_CHAPO,
+                HtmlUtil.stripHtml(layout.getDescription(locale))
+        );
+
+        jsonLayout.put(
+                Constants.ATTRIBUTE_IMAGE_URL,
+                layout.getExpandoBridge().getAttribute("image")
+        );
+
+        jsonLayout.put(
+                Constants.ATTRIBUTE_MODIFIED_DATE,
+                dateFormat.format(layout.getModifiedDate())
+        );
+
+        return jsonLayout;
     }
 
     /**
@@ -599,6 +651,12 @@ public class JSONSearchHelper {
                 );
 
                 jsonArticle.put(
+                        Constants.ATTRIBUTE_CATEGORIES,
+                        journalArticle.getDDMStructure().getName(locale)
+                );
+
+
+                jsonArticle.put(
                         Constants.ATTRIBUTE_GROUP_ID,
                         themeDisplay.getScopeGroupId()
                 );
@@ -621,7 +679,7 @@ public class JSONSearchHelper {
 
         jsonOfficial.put(
                 Constants.ATTRIBUTE_LINK,
-                Utils.getHomeURL(themeDisplay) + Constants.DETAIL_OFFICIAL_URL + official.getOfficialId()
+                SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_OFFICIAL_URL + official.getOfficialId()
         );
 
         switch (configAffichage) {
@@ -674,7 +732,7 @@ public class JSONSearchHelper {
 
         jsonOfficial.put(
                 Constants.ATTRIBUTE_LINK_ABSOLUTE,
-                themeDisplay.getPortalURL() + Utils.getHomeURL(themeDisplay) + Constants.DETAIL_OFFICIAL_URL + official.getOfficialId()
+                themeDisplay.getPortalURL() + SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_OFFICIAL_URL + official.getOfficialId()
         );
 
         jsonOfficial.put(
@@ -756,7 +814,7 @@ public class JSONSearchHelper {
 
                     jsonEdition.put(
                             "galeryEditionURL",
-                            Utils.getHomeURL(themeDisplay) + Constants.DETAIL_GALERIE_URL + gallery.getGalleryId()
+                            SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_GALERIE_URL + gallery.getGalleryId()
                     );
                 }
 
@@ -791,7 +849,7 @@ public class JSONSearchHelper {
 
         jsonManifestation.put(
                 Constants.ATTRIBUTE_LINK,
-                Utils.getHomeURL(themeDisplay) + Constants.DETAIL_MANIF_URL + manifestation.getManifestationId()
+                SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_MANIF_URL + manifestation.getManifestationId()
         );
 
         switch (configAffichage) {
@@ -806,7 +864,7 @@ public class JSONSearchHelper {
 
                 jsonManifestation.put(
                         Constants.ATTRIBUTE_LINK_ABSOLUTE,
-                        themeDisplay.getPortalURL() + Utils.getHomeURL(themeDisplay) + Constants.DETAIL_MANIF_URL + manifestation.getManifestationId()
+                        themeDisplay.getPortalURL() + SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_MANIF_URL + manifestation.getManifestationId()
                 );
 
                 jsonManifestation.put(
@@ -850,7 +908,7 @@ public class JSONSearchHelper {
 
         jsonEditionGallery.put(
                 Constants.ATTRIBUTE_LINK,
-                Utils.getHomeURL(themeDisplay) + Constants.DETAIL_GALERIE_URL + editionGallery.getGalleryId()
+                SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_GALERIE_URL + editionGallery.getGalleryId()
         );
 
         switch (configAffichage) {
@@ -865,7 +923,7 @@ public class JSONSearchHelper {
 
                 jsonEditionGallery.put(
                         Constants.ATTRIBUTE_LINK_ABSOLUTE,
-                        themeDisplay.getPortalURL() + Utils.getHomeURL(themeDisplay) + Constants.DETAIL_GALERIE_URL + editionGallery.getGalleryId()
+                        themeDisplay.getPortalURL() + SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_GALERIE_URL + editionGallery.getGalleryId()
                 );
 
                 jsonEditionGallery.put(
@@ -909,7 +967,7 @@ public class JSONSearchHelper {
 
         jsonPlace.put(
                 Constants.ATTRIBUTE_LINK,
-                Utils.getHomeURL(themeDisplay) + Constants.DETAIL_PLACE_URL + place.getSIGid() + "/" + UriHelper.normalizeToFriendlyUrl(place.getAlias(locale))
+                SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_PLACE_URL + place.getSIGid() + "/" + UriHelper.normalizeToFriendlyUrl(place.getAlias(locale))
         );
 
         // Add isFavorite attribute
@@ -939,7 +997,7 @@ public class JSONSearchHelper {
 
                 jsonPlace.put(
                         Constants.ATTRIBUTE_LINK_ABSOLUTE,
-                        themeDisplay.getPortalURL() + Utils.getHomeURL(themeDisplay) + Constants.DETAIL_PLACE_URL + place.getSIGid() + "/" + UriHelper.normalizeToFriendlyUrl(place.getAlias(locale))
+                        themeDisplay.getPortalURL() + SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_PLACE_URL + place.getSIGid() + "/" + UriHelper.normalizeToFriendlyUrl(place.getAlias(locale))
                 );
 
                 jsonPlace.put(
@@ -981,7 +1039,7 @@ public class JSONSearchHelper {
 
         jsonActivityCourse.put(
                 Constants.ATTRIBUTE_LINK,
-                Utils.getHomeURL(themeDisplay) + Constants.DETAIL_COURSE_URL + activityCourse.getActivityCourseId()
+                SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_COURSE_URL + activityCourse.getActivityCourseId()
         );
 
         switch (configAffichage) {
@@ -1001,7 +1059,7 @@ public class JSONSearchHelper {
 
                 jsonActivityCourse.put(
                         Constants.ATTRIBUTE_LINK_ABSOLUTE,
-                        themeDisplay.getPortalURL() + Utils.getHomeURL(themeDisplay) + Constants.DETAIL_COURSE_URL + activityCourse.getActivityCourseId()
+                        themeDisplay.getPortalURL() + SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_COURSE_URL + activityCourse.getActivityCourseId()
                 );
 
                 jsonActivityCourse.put(
@@ -1032,7 +1090,7 @@ public class JSONSearchHelper {
 
         jsonActivity.put(
                 Constants.ATTRIBUTE_LINK,
-                Utils.getHomeURL(themeDisplay) + Constants.DETAIL_ACTIVITY_URL + activity.getActivityId()
+                SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_ACTIVITY_URL + activity.getActivityId()
         );
 
         switch (configAffichage) {
@@ -1047,7 +1105,7 @@ public class JSONSearchHelper {
 
                 jsonActivity.put(
                         Constants.ATTRIBUTE_LINK_ABSOLUTE,
-                        themeDisplay.getPortalURL() + Utils.getHomeURL(themeDisplay) + Constants.DETAIL_ACTIVITY_URL + activity.getActivityId()
+                        themeDisplay.getPortalURL() + SearchUtils.getHomeURL(themeDisplay) + Constants.DETAIL_ACTIVITY_URL + activity.getActivityId()
                 );
 
                 jsonActivity.put(
