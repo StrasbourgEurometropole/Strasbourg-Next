@@ -1,5 +1,6 @@
 package eu.strasbourg.utils.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +20,16 @@ public class AssetType {
         this.structureID = structureID;
         this.assetPrefilterList = assetPrefilterList;
     }
+
+    public AssetType(String className, List<Long> scopeGroupIDs) {
+        this.className = className;
+        this.scopeGroupIDs = scopeGroupIDs;
+        this.structureID = null;
+        this.assetPrefilterList = new ArrayList<>();
+    }
+
+
+
 
     public String getClassName() {
         return this.className;
