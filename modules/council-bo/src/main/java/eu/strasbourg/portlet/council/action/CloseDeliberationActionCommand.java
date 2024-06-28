@@ -2,6 +2,8 @@ package eu.strasbourg.portlet.council.action;
 
 import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -23,6 +25,8 @@ import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 import java.util.Date;
 import java.util.List;
 
@@ -64,6 +68,7 @@ public class CloseDeliberationActionCommand extends BaseMVCActionCommand {
         ServiceContext sc = ServiceContextFactory.getInstance(request);
         ThemeDisplay themeDisplay = (ThemeDisplay) request
                 .getAttribute(WebKeys.THEME_DISPLAY);
+        String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
 
         long deliberationId = ParamUtil.getLong(request, "deliberationId");
         Deliberation deliberation = deliberationLocalService.getDeliberation(deliberationId);
@@ -143,7 +148,12 @@ public class CloseDeliberationActionCommand extends BaseMVCActionCommand {
         council.setLastDelibProcessed(deliberationId);
         councilSessionLocalService.updateCouncilSession(council, sc);
 
-        response.sendRedirect(ParamUtil.getString(request, "backURL"));
+        // Post / Redirect / Get si tout est bon
+        PortletURL renderURL = PortletURLFactoryUtil.create(request,
+                portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
+        renderURL.setParameter("tab", request.getParameter("tab"));
+        renderURL.setParameter("mvcPath", request.getParameter("mvcPath"));
+        response.sendRedirect(renderURL.toString()+"#delib-"+deliberationId);
     }
 
 }

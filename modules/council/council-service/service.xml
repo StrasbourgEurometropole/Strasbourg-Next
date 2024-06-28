@@ -210,6 +210,7 @@
 		<column name="statusDate" type="Date" />
 
 		<!-- Business fields -->
+		<column name="amendement" type="String" />
 		<column name="title" type="String" />
 		<column name="order" type="int" />
 		<column name="stage" type="String" />

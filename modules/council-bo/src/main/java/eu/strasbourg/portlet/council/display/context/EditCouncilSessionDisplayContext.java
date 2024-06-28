@@ -149,13 +149,9 @@ public class EditCouncilSessionDisplayContext {
     public String getStartDelibOrder(long startDelib){
         String getStartDelibOrder = "";
         Deliberation startDeliberation = null;
-        try {
-            startDeliberation = DeliberationLocalServiceUtil.getDeliberation(startDelib);
-            if(Validator.isNotNull(startDeliberation)){
-                getStartDelibOrder = startDelib == -1?"": String.valueOf(startDeliberation.getOrder());
-            }
-        } catch (PortalException e) {
-            _log.error(e.getMessage() + " : " + startDelib);
+        startDeliberation = DeliberationLocalServiceUtil.fetchDeliberation(startDelib);
+        if(Validator.isNotNull(startDeliberation)){
+            getStartDelibOrder = startDelib == -1?"": startDeliberation.getOrder()+startDeliberation.getAmendement();
         }
         return getStartDelibOrder;
     }
@@ -168,13 +164,9 @@ public class EditCouncilSessionDisplayContext {
     public String getEndDelibOrder(long endDelib){
         String getEndDelibOrder = "";
         Deliberation endDeliberation = null;
-        try {
-            endDeliberation = DeliberationLocalServiceUtil.getDeliberation(endDelib);
-            if(Validator.isNotNull(endDeliberation)){
-                getEndDelibOrder = endDelib == -1?"": String.valueOf(endDeliberation.getOrder());
-            }
-        } catch (PortalException e) {
-            _log.error(e.getMessage() + " : " + endDelib);
+        endDeliberation = DeliberationLocalServiceUtil.fetchDeliberation(endDelib);
+        if(Validator.isNotNull(endDeliberation)){
+            getEndDelibOrder = endDelib == -1?"": endDeliberation.getOrder()+endDeliberation.getAmendement();
         }
         return getEndDelibOrder;
     }

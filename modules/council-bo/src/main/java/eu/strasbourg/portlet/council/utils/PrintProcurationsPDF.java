@@ -219,7 +219,7 @@ public class PrintProcurationsPDF {
                 String OfficialVoterValue = Validator.isNull(OfficialVoter) ? "Aucun" : OfficialVoter;
                 insertCell(table, OfficialVoterValue, 1, font, null, null, 120f);
 
-                // Traitement pour l'affichga des heures de debut et fin de procuration
+                // Traitement pour l'affichage des heures de debut et fin de procuration
                 SimpleDateFormat hour = new SimpleDateFormat("HH", Locale.FRANCE);
                 SimpleDateFormat minute = new SimpleDateFormat("mm");
                 // Si minute 00 alors on affiche rien pour avoir 12h et pas 12h00
@@ -240,7 +240,7 @@ public class PrintProcurationsPDF {
                     _log.error(e.getMessage() + " : " + procuration);
                 }
                 if (Validator.isNotNull(startDelib)) {
-                    startDelibValue = procuration.getStartDelib() == -1 ? "" : String.valueOf(startDelib.getOrder());
+                    startDelibValue = procuration.getStartDelib() == -1 ? "" : startDelib.getOrder()+startDelib.getAmendement();
                     if (procuration.isIsAfterVote() && procuration.getStartHour() != null) {
                         startDelibValue += "-AV";
                     }
@@ -253,7 +253,7 @@ public class PrintProcurationsPDF {
                     _log.error(e.getMessage() + " : " + procuration);
                 }
                 if (Validator.isNotNull(endDelib)) {
-                    endDelibValue = procuration.getEndDelib() == -1 ? "" : String.valueOf(endDelib.getOrder());
+                    endDelibValue = procuration.getEndDelib() == -1 ? "" : endDelib.getOrder()+endDelib.getAmendement();
                 }
                 insertCell(table, startTime, 1, font, null, null, 30f);
                 insertCell(table, startDelibValue, 1, font, null, null, 30f);

@@ -72,8 +72,9 @@ public class DeliberationModelImpl
 		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
 		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
 		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
-		{"title", Types.VARCHAR}, {"order_", Types.INTEGER},
-		{"stage", Types.VARCHAR}, {"countOfficialsVoting", Types.INTEGER},
+		{"amendement", Types.VARCHAR}, {"title", Types.VARCHAR},
+		{"order_", Types.INTEGER}, {"stage", Types.VARCHAR},
+		{"countOfficialsVoting", Types.INTEGER},
 		{"countOfficialsActive", Types.INTEGER}, {"quorum", Types.INTEGER},
 		{"beginningVoteDate", Types.TIMESTAMP},
 		{"endVoteDate", Types.TIMESTAMP}, {"councilSessionId", Types.BIGINT}
@@ -95,6 +96,7 @@ public class DeliberationModelImpl
 		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("amendement", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("order_", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("stage", Types.VARCHAR);
@@ -107,7 +109,7 @@ public class DeliberationModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table council_Deliberation (uuid_ VARCHAR(75) null,deliberationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(500) null,order_ INTEGER,stage VARCHAR(75) null,countOfficialsVoting INTEGER,countOfficialsActive INTEGER,quorum INTEGER,beginningVoteDate DATE null,endVoteDate DATE null,councilSessionId LONG)";
+		"create table council_Deliberation (uuid_ VARCHAR(75) null,deliberationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,amendement VARCHAR(3) null,title VARCHAR(500) null,order_ INTEGER,stage VARCHAR(75) null,countOfficialsVoting INTEGER,countOfficialsActive INTEGER,quorum INTEGER,beginningVoteDate DATE null,endVoteDate DATE null,councilSessionId LONG)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table council_Deliberation";
@@ -291,6 +293,8 @@ public class DeliberationModelImpl
 				"statusByUserName", Deliberation::getStatusByUserName);
 			attributeGetterFunctions.put(
 				"statusDate", Deliberation::getStatusDate);
+			attributeGetterFunctions.put(
+				"amendement", Deliberation::getAmendement);
 			attributeGetterFunctions.put("title", Deliberation::getTitle);
 			attributeGetterFunctions.put("order", Deliberation::getOrder);
 			attributeGetterFunctions.put("stage", Deliberation::getStage);
@@ -361,6 +365,9 @@ public class DeliberationModelImpl
 			attributeSetterBiConsumers.put(
 				"statusDate",
 				(BiConsumer<Deliberation, Date>)Deliberation::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"amendement",
+				(BiConsumer<Deliberation, String>)Deliberation::setAmendement);
 			attributeSetterBiConsumers.put(
 				"title",
 				(BiConsumer<Deliberation, String>)Deliberation::setTitle);
@@ -658,6 +665,26 @@ public class DeliberationModelImpl
 		}
 
 		_statusDate = statusDate;
+	}
+
+	@JSON
+	@Override
+	public String getAmendement() {
+		if (_amendement == null) {
+			return "";
+		}
+		else {
+			return _amendement;
+		}
+	}
+
+	@Override
+	public void setAmendement(String amendement) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_amendement = amendement;
 	}
 
 	@JSON
@@ -969,6 +996,7 @@ public class DeliberationModelImpl
 		deliberationImpl.setStatusByUserId(getStatusByUserId());
 		deliberationImpl.setStatusByUserName(getStatusByUserName());
 		deliberationImpl.setStatusDate(getStatusDate());
+		deliberationImpl.setAmendement(getAmendement());
 		deliberationImpl.setTitle(getTitle());
 		deliberationImpl.setOrder(getOrder());
 		deliberationImpl.setStage(getStage());
@@ -1010,6 +1038,8 @@ public class DeliberationModelImpl
 			this.<String>getColumnOriginalValue("statusByUserName"));
 		deliberationImpl.setStatusDate(
 			this.<Date>getColumnOriginalValue("statusDate"));
+		deliberationImpl.setAmendement(
+			this.<String>getColumnOriginalValue("amendement"));
 		deliberationImpl.setTitle(this.<String>getColumnOriginalValue("title"));
 		deliberationImpl.setOrder(
 			this.<Integer>getColumnOriginalValue("order_"));
@@ -1165,6 +1195,14 @@ public class DeliberationModelImpl
 			deliberationCacheModel.statusDate = Long.MIN_VALUE;
 		}
 
+		deliberationCacheModel.amendement = getAmendement();
+
+		String amendement = deliberationCacheModel.amendement;
+
+		if ((amendement != null) && (amendement.length() == 0)) {
+			deliberationCacheModel.amendement = null;
+		}
+
 		deliberationCacheModel.title = getTitle();
 
 		String title = deliberationCacheModel.title;
@@ -1284,6 +1322,7 @@ public class DeliberationModelImpl
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
+	private String _amendement;
 	private String _title;
 	private int _order;
 	private String _stage;
@@ -1336,6 +1375,7 @@ public class DeliberationModelImpl
 		_columnOriginalValues.put("statusByUserId", _statusByUserId);
 		_columnOriginalValues.put("statusByUserName", _statusByUserName);
 		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("amendement", _amendement);
 		_columnOriginalValues.put("title", _title);
 		_columnOriginalValues.put("order_", _order);
 		_columnOriginalValues.put("stage", _stage);
@@ -1395,23 +1435,25 @@ public class DeliberationModelImpl
 
 		columnBitmasks.put("statusDate", 2048L);
 
-		columnBitmasks.put("title", 4096L);
+		columnBitmasks.put("amendement", 4096L);
 
-		columnBitmasks.put("order_", 8192L);
+		columnBitmasks.put("title", 8192L);
 
-		columnBitmasks.put("stage", 16384L);
+		columnBitmasks.put("order_", 16384L);
 
-		columnBitmasks.put("countOfficialsVoting", 32768L);
+		columnBitmasks.put("stage", 32768L);
 
-		columnBitmasks.put("countOfficialsActive", 65536L);
+		columnBitmasks.put("countOfficialsVoting", 65536L);
 
-		columnBitmasks.put("quorum", 131072L);
+		columnBitmasks.put("countOfficialsActive", 131072L);
 
-		columnBitmasks.put("beginningVoteDate", 262144L);
+		columnBitmasks.put("quorum", 262144L);
 
-		columnBitmasks.put("endVoteDate", 524288L);
+		columnBitmasks.put("beginningVoteDate", 524288L);
 
-		columnBitmasks.put("councilSessionId", 1048576L);
+		columnBitmasks.put("endVoteDate", 1048576L);
+
+		columnBitmasks.put("councilSessionId", 2097152L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
