@@ -980,10 +980,10 @@ import java.util.stream.Collectors;
 
 		@Override
 		public JSONObject getTagsAndCategoriesByGroupIdsAndClassName(long[] groupIds,
-																	 String className) {
+																	 String className, long classType) {
 			JSONObject json = JSONFactoryUtil.createJSONObject();
 			json.put("tags", getTagsByGroupIds(groupIds));
-			json.put("categories", getCategoriesByClassNameAndGroupIds(groupIds, className));
+			json.put("categories", getCategoriesByClassNameAndGroupIds(groupIds, className, classType));
 			return json;
 		}
 
@@ -1039,7 +1039,7 @@ import java.util.stream.Collectors;
 
 		@Override
 		public JSONArray getCategoriesByClassNameAndGroupIds(long[] groupIds,
-															 String className) {
+															 String className, long classType) {
 			JSONArray categoriesJson = JSONFactoryUtil.createJSONArray();
 
 			// on ajoute le groupe global aux groupes
@@ -1056,7 +1056,7 @@ import java.util.stream.Collectors;
 				if(className.equals("searchJournalArticle")) className = JournalArticle.class.getName();
 
 				// récupère les vocabulaires d'un className et des groupIds
-				List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getGroupsVocabularies(groupIds, className);
+				List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getGroupsVocabularies(groupIds, className, classType);
 				for (AssetVocabulary vocabulary : vocabularies) {
 					// récupère le groupe de la catégorie
 					Group group = GroupLocalServiceUtil.fetchGroup(vocabulary.getGroupId());

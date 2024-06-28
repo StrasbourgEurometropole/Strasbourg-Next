@@ -626,7 +626,8 @@ public class StrasbourgServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONObject
 		getTagsAndCategoriesByGroupIdsAndClassName(
-			HttpPrincipal httpPrincipal, long[] groupIds, String className) {
+			HttpPrincipal httpPrincipal, long[] groupIds, String className,
+			long classType) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -635,7 +636,7 @@ public class StrasbourgServiceHttp {
 				_getTagsAndCategoriesByGroupIdsAndClassNameParameterTypes21);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, groupIds, className);
+				methodKey, groupIds, className, classType);
 
 			Object returnObj = null;
 
@@ -692,7 +693,8 @@ public class StrasbourgServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONArray
 		getCategoriesByClassNameAndGroupIds(
-			HttpPrincipal httpPrincipal, long[] groupIds, String className) {
+			HttpPrincipal httpPrincipal, long[] groupIds, String className,
+			long classType) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -701,7 +703,7 @@ public class StrasbourgServiceHttp {
 				_getCategoriesByClassNameAndGroupIdsParameterTypes24);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, groupIds, className);
+				methodKey, groupIds, className, classType);
 
 			Object returnObj = null;
 
@@ -842,12 +844,12 @@ public class StrasbourgServiceHttp {
 		new Class[] {long[].class};
 	private static final Class<?>[]
 		_getTagsAndCategoriesByGroupIdsAndClassNameParameterTypes21 =
-			new Class[] {long[].class, String.class};
+			new Class[] {long[].class, String.class, long.class};
 	private static final Class<?>[] _getTagsByGroupIdsParameterTypes22 =
 		new Class[] {long[].class};
 	private static final Class<?>[]
 		_getCategoriesByClassNameAndGroupIdsParameterTypes24 = new Class[] {
-			long[].class, String.class
+			long[].class, String.class, long.class
 		};
 	private static final Class<?>[] _getCategoriesByGroupIdsParameterTypes25 =
 		new Class[] {long[].class};

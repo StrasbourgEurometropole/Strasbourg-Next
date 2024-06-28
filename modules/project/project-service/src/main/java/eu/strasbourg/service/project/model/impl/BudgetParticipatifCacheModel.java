@@ -56,7 +56,7 @@ public class BudgetParticipatifCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(79);
+		StringBundler sb = new StringBundler(81);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -96,6 +96,8 @@ public class BudgetParticipatifCacheModel
 		sb.append(placeTextArea);
 		sb.append(", inTheNameOf=");
 		sb.append(inTheNameOf);
+		sb.append(", commitment=");
+		sb.append(commitment);
 		sb.append(", citoyenLastname=");
 		sb.append(citoyenLastname);
 		sb.append(", citoyenFirstname=");
@@ -245,6 +247,13 @@ public class BudgetParticipatifCacheModel
 			budgetParticipatifImpl.setInTheNameOf(inTheNameOf);
 		}
 
+		if (commitment == null) {
+			budgetParticipatifImpl.setCommitment("");
+		}
+		else {
+			budgetParticipatifImpl.setCommitment(commitment);
+		}
+
 		if (citoyenLastname == null) {
 			budgetParticipatifImpl.setCitoyenLastname("");
 		}
@@ -377,6 +386,7 @@ public class BudgetParticipatifCacheModel
 		motif = (String)objectInput.readObject();
 		placeTextArea = objectInput.readUTF();
 		inTheNameOf = objectInput.readUTF();
+		commitment = objectInput.readUTF();
 		citoyenLastname = objectInput.readUTF();
 		citoyenFirstname = objectInput.readUTF();
 		citoyenAdresse = objectInput.readUTF();
@@ -496,6 +506,13 @@ public class BudgetParticipatifCacheModel
 			objectOutput.writeUTF(inTheNameOf);
 		}
 
+		if (commitment == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(commitment);
+		}
+
 		if (citoyenLastname == null) {
 			objectOutput.writeUTF("");
 		}
@@ -611,6 +628,7 @@ public class BudgetParticipatifCacheModel
 	public String motif;
 	public String placeTextArea;
 	public String inTheNameOf;
+	public String commitment;
 	public String citoyenLastname;
 	public String citoyenFirstname;
 	public String citoyenAdresse;

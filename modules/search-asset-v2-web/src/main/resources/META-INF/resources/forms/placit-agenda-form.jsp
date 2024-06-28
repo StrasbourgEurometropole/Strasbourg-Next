@@ -59,10 +59,9 @@
 
 <!-- Recherche par projet -->
 <div class="pro-group">
-    <div class="pro-header">
-        <h4><liferay-ui:message key="eu.projects" /></h4>
-        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
-    </div>
+	<label>
+		<span class="pro-group-title"><liferay-ui:message key="eu.projects" /> :</span>
+	</label>
     <fieldset>
         <legend aria-hidden="true" class="hide">Choix par nom de projet</legend>
         <div>
@@ -82,15 +81,18 @@
 				</c:forEach>
 			</select>
         </div>
+		<span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </fieldset>
 </div>
 
 <!-- Recherche par quartiers -->
 <div class="pro-group">
-    <div class="pro-header">
-        <h4><liferay-ui:message key="eu.districts" /></h4>
-        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
-    </div>
+	<input type="checkbox" id="districts_checkbox"/>
+	<label for="districts_checkbox">
+		<span class="pro-group-title"><liferay-ui:message key="eu.districts" /> :</span>
+		<span class="see-less"><liferay-ui:message key="eu.see-less" /></span>
+		<span class="see-more"><liferay-ui:message key="eu.see-more" /></span>
+	</label>
     <fieldset id="districts_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par nom de quartier</legend>
         
@@ -106,16 +108,18 @@
 				label="${category.getTitle(locale)}"
 				cssClass="move-to-grand-parent" />
 		</c:forEach>
-
+		<span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </fieldset>
 </div>
 
 <!-- Recherche par thematique -->
 <div class="pro-group">
-    <div class="pro-header">
-        <h4><liferay-ui:message key="eu.thematics" /></h4>
-        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
-    </div>
+	<input type="checkbox" id="thematics_checkbox"/>
+	<label for="thematics_checkbox">
+		<span class="pro-group-title"><liferay-ui:message key="eu.thematics" /> :</span>
+		<span class="see-less"><liferay-ui:message key="eu.see-less" /></span>
+		<span class="see-more"><liferay-ui:message key="eu.see-more" /></span>
+	</label>
     <fieldset id="thematics_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par nom de la thematique</legend>
 
@@ -131,6 +135,7 @@
 				label="${category.getTitle(locale)}"
 				cssClass="move-to-grand-parent" />
 		</c:forEach>
+		<span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
     </fieldset>
 </div>
 

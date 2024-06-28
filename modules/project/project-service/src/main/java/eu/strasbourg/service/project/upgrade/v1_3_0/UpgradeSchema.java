@@ -1,4 +1,4 @@
-package eu.strasbourg.service.project.upgrade.v1_2_0;
+package eu.strasbourg.service.project.upgrade.v1_3_0;
 
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
 import com.liferay.portal.kernel.util.StringUtil;

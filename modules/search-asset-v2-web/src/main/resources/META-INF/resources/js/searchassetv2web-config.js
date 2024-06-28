@@ -102,11 +102,15 @@ function initializeBloc(index) {
 function initializePrefilter(index){
     groupIds = $(namespaceAUI + "scopeIds_" + index).val();
     classname = $(namespaceAUI + "classname_" + index).val();
+    classtype = $(namespaceAUI + "structure_" + index).val();
+    if(classtype == undefined)
+        classtype = -1;
 
     Liferay.Service('/strasbourg.strasbourg/get-tags-and-categories-by-group-ids-and-class-name',
         {
             groupIds: groupIds,
-            className: classname
+            className: classname,
+            classType: classtype
         },
         function(json) {
             $("select[id^='" + namespace + "prefilterIds_" + index + "']").each(function (){
@@ -257,7 +261,7 @@ function updateBloc(index) {
         $("#scope" + index).show();
 
     // vide les structures
-    optionsStructure = "<option>" + Liferay.Language.get('select-a-structure') + "</option>";
+    optionsStructure = "<option value='-1'>" + Liferay.Language.get('select-a-structure') + "</option>";
     $(namespaceAUI + "structure_" + index).html(optionsStructure);
     // affiche la structure pour les contenus web
     if($(namespaceAUI + "classname_" + index).val() == "searchJournalArticle")
@@ -317,6 +321,9 @@ function updateBloc(index) {
 function updatePrefiltersStructureVocabulariesAndGroupBy(index) {
     groupIds = $(namespaceAUI + "scopeIds_" + index).val();
     classname = $(namespaceAUI + "classname_" + index).val();
+    classtype = $(namespaceAUI + "structure_" + index).val();
+    if(classtype == undefined)
+        classtype = -1;
 
     // MaJ des structures
     if($(namespaceAUI + "classname_" + index).val() == "searchJournalArticle"){
@@ -340,7 +347,8 @@ function updatePrefiltersStructureVocabulariesAndGroupBy(index) {
     Liferay.Service('/strasbourg.strasbourg/get-tags-and-categories-by-group-ids-and-class-name',
         {
             groupIds: groupIds,
-            className: classname
+            className: classname,
+            classType: classtype
         },
         function(json) {
             $("select[id^='" + namespace + "categoriesOrTags_" + index + "']").each(function (){
@@ -389,11 +397,15 @@ function updatePrefilter(elt){
     }
     else {
         classname = $(namespaceAUI + "classname_" + indexType).val();
+        classtype = $(namespaceAUI + "structure_" + indexType).val();
+        if(classtype == undefined)
+            classtype = -1;
 
         Liferay.Service('/strasbourg.strasbourg/get-categories-by-class-name-and-group-ids',
             {
                 groupIds: groupIds,
-                className: classname
+                className: classname,
+                classType: classtype
             },
             function(json) {
                 choice.setChoices(json, "value", "label", true);

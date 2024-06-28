@@ -16,6 +16,7 @@ public class AssetCategorySelectorTag extends IncludeTag {
     private String label;
     private String groupIds;
     private String classname;
+    private String classtype;
     private String required;
     private String values;
     private String multiple;
@@ -42,6 +43,7 @@ public class AssetCategorySelectorTag extends IncludeTag {
         request.setAttribute("id", id);
         request.setAttribute("groupIds", groupIds);
         request.setAttribute("classname", classname);
+        request.setAttribute("classtype", classtype);
         request.setAttribute("label", label);
         request.setAttribute("required", "true".equals(required));
         request.setAttribute("values", Validator.isNull(values) ? "" : values);
@@ -58,6 +60,10 @@ public class AssetCategorySelectorTag extends IncludeTag {
 
     public void setClassname(String classname) {
         this.classname = classname;
+    }
+
+    public void setClasstype(String classtype) {
+        this.classtype = classtype;
     }
 
     public void setLabel(String label) {

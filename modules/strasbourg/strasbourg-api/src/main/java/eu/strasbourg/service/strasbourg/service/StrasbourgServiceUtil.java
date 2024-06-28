@@ -90,10 +90,10 @@ public class StrasbourgServiceUtil {
 
 	public static com.liferay.portal.kernel.json.JSONArray
 		getCategoriesByClassNameAndGroupIds(
-			long[] groupIds, java.lang.String className) {
+			long[] groupIds, java.lang.String className, long classType) {
 
 		return getService().getCategoriesByClassNameAndGroupIds(
-			groupIds, className);
+			groupIds, className, classType);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
@@ -179,10 +179,10 @@ public class StrasbourgServiceUtil {
 
 	public static com.liferay.portal.kernel.json.JSONObject
 		getTagsAndCategoriesByGroupIdsAndClassName(
-			long[] groupIds, java.lang.String className) {
+			long[] groupIds, java.lang.String className, long classType) {
 
 		return getService().getTagsAndCategoriesByGroupIdsAndClassName(
-			groupIds, className);
+			groupIds, className, classType);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray getTagsByGroupIds(

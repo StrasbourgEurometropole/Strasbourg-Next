@@ -1,9 +1,10 @@
 // Initialisation des variables de références
-var news = null;
+var saisinesObservatoire = null;
 
 var entityType = {
-	THEMATIC : 'vocabulary_0',
+	STATE : 'vocabulary_0',
 	DISTRICT : 'vocabulary_1',
+	THEMATIC : 'vocabulary_2',
 }
 
 
@@ -31,6 +32,7 @@ function getSelectedMarkerElements(entityName) {
  * @return
  */
 function getSelectedEntries() {
+	var selectedKeyWords = $('#name')[0].value;
 
     var selectedStartDay ;
     var selectedStartMonth ;
@@ -46,45 +48,53 @@ function getSelectedEntries() {
         selectedEndMonth = $('input[data-name="toMonth"]')[0].value;
         selectedEndYear = $('input[data-name="toYear"]')[0].value;
 	}
-	var selectedThematics = getSelectedMarkerElements(entityType.THEMATIC);
+	var selectedStates = getSelectedMarkerElements(entityType.STATE);
 	var selectedDistricts = getSelectedMarkerElements(entityType.DISTRICT);
+	var selectedThematics = getSelectedMarkerElements(entityType.THEMATIC);
 
 	AUI().use('aui-io-request', function(A) {
-		A.io.request(newsSelectionURL, {
+		console.log(saisinesObservatoireSelectionURL);
+		A.io.request(saisinesObservatoireSelectionURL, {
 			method : 'post',
 			dataType: 'json',
 			data : {
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedStartDay : selectedStartDay,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedStartMonth : selectedStartMonth,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedStartYear : selectedStartYear,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedEndDay : selectedEndDay,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedEndMonth : selectedEndMonth,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedEndYear : selectedEndYear,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedThematics : selectedThematics,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedDistricts : selectedDistricts,
+				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedKeyWords : selectedKeyWords,
+				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedStartDay : selectedStartDay,
+				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedStartMonth : selectedStartMonth,
+				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedStartYear : selectedStartYear,
+				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndDay : selectedEndDay,
+				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndMonth : selectedEndMonth,
+				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndYear : selectedEndYear,
+				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedStates : selectedStates,
+				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedDistricts : selectedDistricts,
+				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedThematics : selectedThematics,
 			},
 			on: {
                 success: function(e) {
                 	var data = this.get('responseData');
-                	getResult('news', data);
-                    //Force la premiere tuile à prendre deux fois plus de place en hauteur de largeur
-                    $('.pro-wi-grid .col-md-4.col-sm-6.col-xs-12:first-child').removeClass('col-md-3').removeClass('col-sm-6').addClass('col-md-8').addClass('col-sm-12');
-                    $('.pro-wi-grid .col-md-6.col-sm-12.col-xs-12 .pro-bloc-actu').addClass('pro-bloc-actu-large');
-                    $('.pro-listing .pro-wi-grid>*').css('margin', '20px 0px');
-
-                    egalizeAll();
+                	getResult('saisineObservatoire', data);
 			 	}
 			}
 		});
 	});
 }
 
-// Lors d'une selection d'une thématique
-$("fieldset[id='thematics_fieldset'] input").change(function() {
+// Lors d'une recherche par mots clés
+$('#name').on('input',function() {
+	getSelectedEntries();
+});
+
+// Lors d'une selection d'état
+$("fieldset[id='states_fieldset'] input").change(function() {
 	getSelectedEntries();
 });
 
 // Lors d'une selection d'un quartier
 $("fieldset[id='districts_fieldset'] input").change(function() {
+	getSelectedEntries();
+});
+
+// Lors d'une selection d'une thématique
+$("fieldset[id='thematics_fieldset'] input").change(function() {
 	getSelectedEntries();
 });

@@ -99,7 +99,7 @@ public interface StrasbourgService extends BaseService {
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getCategoriesByClassNameAndGroupIds(
-		long[] groupIds, String className);
+		long[] groupIds, String className, long classType);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getCategoriesByGroupIds(long[] groupIds);
@@ -152,7 +152,7 @@ public interface StrasbourgService extends BaseService {
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getTagsAndCategoriesByGroupIdsAndClassName(
-		long[] groupIds, String className);
+		long[] groupIds, String className, long classType);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getTagsByGroupIds(long[] groupIds);

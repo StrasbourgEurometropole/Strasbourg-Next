@@ -12,12 +12,13 @@ async function fetchCategoriesByGroupIds(groupIds) {
         return []
     }
 }
-async function fetchCategoriesByGroupIdsAndClassName(groupIds, className) {
+async function fetchCategoriesByGroupIdsAndClassName(groupIds, className, classType) {
     try {
         const response = await fetch(
             '/api/jsonws/strasbourg.strasbourg/get-categories-by-class-name-and-group-ids' +
             '?groupIds=' + groupIds +
             '?className=' + className +
+            '?classType=' + classType +
             '&p_auth=' + Liferay.authToken
         );
 
@@ -28,7 +29,7 @@ async function fetchCategoriesByGroupIdsAndClassName(groupIds, className) {
     }
 }
 
-async function initCategorySelector(element, groupIds, values , classname = "") {
+async function initCategorySelector(element, groupIds, values , classname = "", classType = "-1") {
     const choice = new Choices(element, {
         removeItemButton: true,
         loadingText: 'Chargement...',
@@ -47,7 +48,7 @@ async function initCategorySelector(element, groupIds, values , classname = "") 
     if(classname == "")
         categories = await fetchCategoriesByGroupIds(groupIds);
     else
-        categories = await fetchCategoriesByGroupIdsAndClassName(groupIds, classname);
+        categories = await fetchCategoriesByGroupIdsAndClassName(groupIds, classname, classType);
     choice.setChoices(categories, "value", "label", true);
 
     if(values.length > 0){

@@ -84,17 +84,17 @@ public class BudgetParticipatifModelImpl
 		{"title", Types.VARCHAR}, {"description", Types.CLOB},
 		{"summary", Types.VARCHAR}, {"budget", Types.VARCHAR},
 		{"motif", Types.CLOB}, {"placeTextArea", Types.VARCHAR},
-		{"inTheNameOf", Types.VARCHAR}, {"citoyenLastname", Types.VARCHAR},
-		{"citoyenFirstname", Types.VARCHAR}, {"citoyenAdresse", Types.VARCHAR},
-		{"citoyenPostalCode", Types.BIGINT}, {"citoyenCity", Types.VARCHAR},
-		{"citoyenPhone", Types.VARCHAR}, {"citoyenMobile", Types.VARCHAR},
-		{"citoyenEmail", Types.VARCHAR}, {"citoyenBirthday", Types.TIMESTAMP},
-		{"hasCopyright", Types.BOOLEAN}, {"videoUrl", Types.VARCHAR},
-		{"imageTimeline", Types.BIGINT}, {"opacityImage", Types.DOUBLE},
-		{"isCrush", Types.BOOLEAN}, {"crushComment", Types.CLOB},
-		{"publikId", Types.VARCHAR}, {"imageId", Types.BIGINT},
-		{"filesIds", Types.VARCHAR}, {"budgetPhaseId", Types.BIGINT},
-		{"parentId", Types.BIGINT}
+		{"inTheNameOf", Types.VARCHAR}, {"commitment", Types.VARCHAR},
+		{"citoyenLastname", Types.VARCHAR}, {"citoyenFirstname", Types.VARCHAR},
+		{"citoyenAdresse", Types.VARCHAR}, {"citoyenPostalCode", Types.BIGINT},
+		{"citoyenCity", Types.VARCHAR}, {"citoyenPhone", Types.VARCHAR},
+		{"citoyenMobile", Types.VARCHAR}, {"citoyenEmail", Types.VARCHAR},
+		{"citoyenBirthday", Types.TIMESTAMP}, {"hasCopyright", Types.BOOLEAN},
+		{"videoUrl", Types.VARCHAR}, {"imageTimeline", Types.BIGINT},
+		{"opacityImage", Types.DOUBLE}, {"isCrush", Types.BOOLEAN},
+		{"crushComment", Types.CLOB}, {"publikId", Types.VARCHAR},
+		{"imageId", Types.BIGINT}, {"filesIds", Types.VARCHAR},
+		{"budgetPhaseId", Types.BIGINT}, {"parentId", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -120,6 +120,7 @@ public class BudgetParticipatifModelImpl
 		TABLE_COLUMNS_MAP.put("motif", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("placeTextArea", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("inTheNameOf", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("commitment", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("citoyenLastname", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("citoyenFirstname", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("citoyenAdresse", Types.VARCHAR);
@@ -143,7 +144,7 @@ public class BudgetParticipatifModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,summary VARCHAR(400) null,budget VARCHAR(75) null,motif TEXT null,placeTextArea VARCHAR(400) null,inTheNameOf VARCHAR(400) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(400) null,citoyenPostalCode LONG,citoyenCity VARCHAR(400) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(400) null,citoyenBirthday DATE null,hasCopyright BOOLEAN,videoUrl VARCHAR(400) null,imageTimeline LONG,opacityImage DOUBLE,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(400) null,budgetPhaseId LONG,parentId LONG)";
+		"create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,summary VARCHAR(400) null,budget VARCHAR(75) null,motif TEXT null,placeTextArea VARCHAR(400) null,inTheNameOf VARCHAR(400) null,commitment VARCHAR(75) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(400) null,citoyenPostalCode LONG,citoyenCity VARCHAR(400) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(400) null,citoyenBirthday DATE null,hasCopyright BOOLEAN,videoUrl VARCHAR(400) null,imageTimeline LONG,opacityImage DOUBLE,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(400) null,budgetPhaseId LONG,parentId LONG)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table project_BudgetParticipatif";
@@ -370,6 +371,8 @@ public class BudgetParticipatifModelImpl
 			attributeGetterFunctions.put(
 				"inTheNameOf", BudgetParticipatif::getInTheNameOf);
 			attributeGetterFunctions.put(
+				"commitment", BudgetParticipatif::getCommitment);
+			attributeGetterFunctions.put(
 				"citoyenLastname", BudgetParticipatif::getCitoyenLastname);
 			attributeGetterFunctions.put(
 				"citoyenFirstname", BudgetParticipatif::getCitoyenFirstname);
@@ -503,6 +506,10 @@ public class BudgetParticipatifModelImpl
 				"inTheNameOf",
 				(BiConsumer<BudgetParticipatif, String>)
 					BudgetParticipatif::setInTheNameOf);
+			attributeSetterBiConsumers.put(
+				"commitment",
+				(BiConsumer<BudgetParticipatif, String>)
+					BudgetParticipatif::setCommitment);
 			attributeSetterBiConsumers.put(
 				"citoyenLastname",
 				(BiConsumer<BudgetParticipatif, String>)
@@ -1180,6 +1187,26 @@ public class BudgetParticipatifModelImpl
 		}
 
 		_inTheNameOf = inTheNameOf;
+	}
+
+	@JSON
+	@Override
+	public String getCommitment() {
+		if (_commitment == null) {
+			return "";
+		}
+		else {
+			return _commitment;
+		}
+	}
+
+	@Override
+	public void setCommitment(String commitment) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_commitment = commitment;
 	}
 
 	@JSON
@@ -1954,6 +1981,7 @@ public class BudgetParticipatifModelImpl
 		budgetParticipatifImpl.setMotif(getMotif());
 		budgetParticipatifImpl.setPlaceTextArea(getPlaceTextArea());
 		budgetParticipatifImpl.setInTheNameOf(getInTheNameOf());
+		budgetParticipatifImpl.setCommitment(getCommitment());
 		budgetParticipatifImpl.setCitoyenLastname(getCitoyenLastname());
 		budgetParticipatifImpl.setCitoyenFirstname(getCitoyenFirstname());
 		budgetParticipatifImpl.setCitoyenAdresse(getCitoyenAdresse());
@@ -2023,6 +2051,8 @@ public class BudgetParticipatifModelImpl
 			this.<String>getColumnOriginalValue("placeTextArea"));
 		budgetParticipatifImpl.setInTheNameOf(
 			this.<String>getColumnOriginalValue("inTheNameOf"));
+		budgetParticipatifImpl.setCommitment(
+			this.<String>getColumnOriginalValue("commitment"));
 		budgetParticipatifImpl.setCitoyenLastname(
 			this.<String>getColumnOriginalValue("citoyenLastname"));
 		budgetParticipatifImpl.setCitoyenFirstname(
@@ -2262,6 +2292,14 @@ public class BudgetParticipatifModelImpl
 			budgetParticipatifCacheModel.inTheNameOf = null;
 		}
 
+		budgetParticipatifCacheModel.commitment = getCommitment();
+
+		String commitment = budgetParticipatifCacheModel.commitment;
+
+		if ((commitment != null) && (commitment.length() == 0)) {
+			budgetParticipatifCacheModel.commitment = null;
+		}
+
 		budgetParticipatifCacheModel.citoyenLastname = getCitoyenLastname();
 
 		String citoyenLastname = budgetParticipatifCacheModel.citoyenLastname;
@@ -2460,6 +2498,7 @@ public class BudgetParticipatifModelImpl
 	private String _motifCurrentLanguageId;
 	private String _placeTextArea;
 	private String _inTheNameOf;
+	private String _commitment;
 	private String _citoyenLastname;
 	private String _citoyenFirstname;
 	private String _citoyenAdresse;
@@ -2532,6 +2571,7 @@ public class BudgetParticipatifModelImpl
 		_columnOriginalValues.put("motif", _motif);
 		_columnOriginalValues.put("placeTextArea", _placeTextArea);
 		_columnOriginalValues.put("inTheNameOf", _inTheNameOf);
+		_columnOriginalValues.put("commitment", _commitment);
 		_columnOriginalValues.put("citoyenLastname", _citoyenLastname);
 		_columnOriginalValues.put("citoyenFirstname", _citoyenFirstname);
 		_columnOriginalValues.put("citoyenAdresse", _citoyenAdresse);
@@ -2613,45 +2653,47 @@ public class BudgetParticipatifModelImpl
 
 		columnBitmasks.put("inTheNameOf", 262144L);
 
-		columnBitmasks.put("citoyenLastname", 524288L);
+		columnBitmasks.put("commitment", 524288L);
 
-		columnBitmasks.put("citoyenFirstname", 1048576L);
+		columnBitmasks.put("citoyenLastname", 1048576L);
 
-		columnBitmasks.put("citoyenAdresse", 2097152L);
+		columnBitmasks.put("citoyenFirstname", 2097152L);
 
-		columnBitmasks.put("citoyenPostalCode", 4194304L);
+		columnBitmasks.put("citoyenAdresse", 4194304L);
 
-		columnBitmasks.put("citoyenCity", 8388608L);
+		columnBitmasks.put("citoyenPostalCode", 8388608L);
 
-		columnBitmasks.put("citoyenPhone", 16777216L);
+		columnBitmasks.put("citoyenCity", 16777216L);
 
-		columnBitmasks.put("citoyenMobile", 33554432L);
+		columnBitmasks.put("citoyenPhone", 33554432L);
 
-		columnBitmasks.put("citoyenEmail", 67108864L);
+		columnBitmasks.put("citoyenMobile", 67108864L);
 
-		columnBitmasks.put("citoyenBirthday", 134217728L);
+		columnBitmasks.put("citoyenEmail", 134217728L);
 
-		columnBitmasks.put("hasCopyright", 268435456L);
+		columnBitmasks.put("citoyenBirthday", 268435456L);
 
-		columnBitmasks.put("videoUrl", 536870912L);
+		columnBitmasks.put("hasCopyright", 536870912L);
 
-		columnBitmasks.put("imageTimeline", 1073741824L);
+		columnBitmasks.put("videoUrl", 1073741824L);
 
-		columnBitmasks.put("opacityImage", 2147483648L);
+		columnBitmasks.put("imageTimeline", 2147483648L);
 
-		columnBitmasks.put("isCrush", 4294967296L);
+		columnBitmasks.put("opacityImage", 4294967296L);
 
-		columnBitmasks.put("crushComment", 8589934592L);
+		columnBitmasks.put("isCrush", 8589934592L);
 
-		columnBitmasks.put("publikId", 17179869184L);
+		columnBitmasks.put("crushComment", 17179869184L);
 
-		columnBitmasks.put("imageId", 34359738368L);
+		columnBitmasks.put("publikId", 34359738368L);
 
-		columnBitmasks.put("filesIds", 68719476736L);
+		columnBitmasks.put("imageId", 68719476736L);
 
-		columnBitmasks.put("budgetPhaseId", 137438953472L);
+		columnBitmasks.put("filesIds", 137438953472L);
 
-		columnBitmasks.put("parentId", 274877906944L);
+		columnBitmasks.put("budgetPhaseId", 274877906944L);
+
+		columnBitmasks.put("parentId", 549755813888L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
