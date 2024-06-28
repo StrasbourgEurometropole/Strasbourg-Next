@@ -7,7 +7,7 @@
  dépôt. Vous ne pourrez plus le modifier après son analyse définitive de recevabilité (fin mars 2020). &nbsp;</span><span style="font-size:10.5pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">Si vous souhaitez vous faire accompagner dans la rédaction de votre
  projet vous pouvez contacter le service de la Mission participation citoyenne : </span>
 <a href="mailto:participer@strasbourg.eu"><span style="font-size:10.5pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">participer@strasbourg.eu</span></a><span style="font-size:10.5pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black"> ou 03 68 98 69
- 38.<br>
+ 38 ou pendant <a href="https://participer.strasbourg.eu">les permanences de l’équipe BP dans votre quartier<a/> <br>
 <h2>Votre projet</h2></span><span style="font-size:11.0pt;font-family:&quot;Calibri Light&quot;,sans-serif"><o:p></o:p></span></p>
 <center>
 
