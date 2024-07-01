@@ -1365,7 +1365,13 @@
 				background-image: url(../images/pictos/facebook-lg-round.png);
 			}
 			&.btn-twitter {
-				background-image: url(../images/pictos/twitter-lg-round.png);
+				background-image: url(../images/x-white.svg);
+				background-color: $c_main;
+				height: 115px;
+				background-size: 45px;
+				background-position: center;
+				background-repeat: no-repeat;
+				border-radius: 13px;
 			}
 			&.btn-insta {
 				background-image: url(../images/pictos/instagram-lg-round.png);

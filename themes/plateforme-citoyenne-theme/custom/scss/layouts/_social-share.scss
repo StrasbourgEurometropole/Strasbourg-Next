@@ -91,9 +91,15 @@
 
 .twitter {
 	a:before {
-		@include font();
-		content: "\e901";
-		color: $c_white;
+		content: "";
+		mask: url(../images/x.svg) no-repeat 50% 50%;
+		mask-size: cover;
+		background-color: $c_white;
+	}
+	a:hover, a:focus {
+		&:before {
+			background-color: $c_dark !important;
+		}
 	}
 }
 .social-footer {
@@ -115,6 +121,14 @@
 			a:hover {
 				@include addDynamicTextColor();
 			}
+		}
+	}
+	.twitter {
+		a:before {
+			width: 25px;
+			height: 25px;
+			display: inline-block;
+			vertical-align: middle;
 		}
 	}
 	.link-pacte {
@@ -268,6 +282,13 @@
 		// box-shadow: inset 0 0 0 1px $toggle;
 	}
 
+	.twitter {
+		a:before {
+			height: 16px;
+			width: 16px;
+			margin: auto;
+		}
+	}
 
 }
 
