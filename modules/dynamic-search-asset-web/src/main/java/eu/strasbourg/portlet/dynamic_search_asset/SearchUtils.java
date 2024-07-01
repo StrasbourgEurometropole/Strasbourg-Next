@@ -111,10 +111,6 @@ public class SearchUtils {
             return false;
         }
 
-        if (isJournalArticleEntry(document) && !hasValidLayout(entry, themeDisplay)) {
-            return false;
-        }
-
         return true;
     }
 

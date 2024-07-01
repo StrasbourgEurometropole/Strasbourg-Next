@@ -585,6 +585,9 @@ public class JSONSearchHelper {
         );
 
         String detailURL = LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay);
+        if(Validator.isNull(detailURL)) {
+            detailURL = SearchUtils.getHomeURL(themeDisplay) + "-/" + journalArticle.getUrlTitle(locale);
+        }
         jsonArticle.put(
                 Constants.ATTRIBUTE_LINK,
                 detailURL

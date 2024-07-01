@@ -28,6 +28,13 @@ public class AssetType {
         this.assetPrefilterList = new ArrayList<>();
     }
 
+    public AssetType(String className, List<Long> scopeGroupIDs, Long structureID) {
+        this.className = className;
+        this.scopeGroupIDs = scopeGroupIDs;
+        this.structureID = structureID;
+        this.assetPrefilterList = new ArrayList<>();
+    }
+
 
 
 

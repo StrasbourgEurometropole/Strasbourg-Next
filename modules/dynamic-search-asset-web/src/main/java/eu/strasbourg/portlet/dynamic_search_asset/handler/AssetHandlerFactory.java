@@ -13,7 +13,9 @@ import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.project.model.*;
 import eu.strasbourg.service.video.model.Video;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AssetHandlerFactory {
@@ -36,6 +38,10 @@ public class AssetHandlerFactory {
         handlers.put(Official.class.getName(), new OfficialHandler());
         handlers.put(JournalArticle.class.getName(), new JournalArticleHandler());
         handlers.put(Manifestation.class.getName(), new ManifestationHandler());
+    }
+
+    public static List<String> getSupportedAssetTypes() {
+        return new ArrayList<>(handlers.keySet());
     }
 
     public static AssetHandler getHandler(String className) {

@@ -120,6 +120,8 @@ public class SearchHelperV2{
 
 		searchRequestBuilder.from(start);
 		searchRequestBuilder.size(end - start);
+		// Pour debugger les scores
+		searchRequestBuilder.explain(true);
 
 		// Tri
 		if (Validator.isNotNull(seed) && seed > 0) {
@@ -171,7 +173,8 @@ public class SearchHelperV2{
 
 		QueryBuilder queryBuilder = new QueryBuilder(queries);
 
-		queryBuilder = queryBuilder.withAssetTypes(assetTypes, classNamesOrStructuresSelected, keywords)
+		queryBuilder = queryBuilder
+				.withAssetTypes(assetTypes, classNamesOrStructuresSelected, keywords)
 				.withStatus(WorkflowConstants.STATUS_APPROVED)
 				.withVisible(true)
 				.withDateBeforeToday();
@@ -181,7 +184,8 @@ public class SearchHelperV2{
 		}
 
 
-		Query query = queryBuilder.withKeywords(keywords, locale)
+		Query query = queryBuilder
+				.withKeywords(keywords, locale)
                 .withCategories(categoriesIds)
                 .withPlace(placeSigId)
 				.build();

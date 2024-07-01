@@ -16,8 +16,10 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class QueryBuilder {
     protected Queries queries;
@@ -56,12 +58,12 @@ public class QueryBuilder {
     private BooleanQuery buildAssetTypeQuery(AssetType assetType, String keywords) {
         BooleanQuery assetTypeQuery = queries.booleanQuery();
         // ClassNames
-        if (assetType.getClassName().equals("searchJournalArticle")) {
+        if (assetType.getClassName().equals("searchJournalArticle") || assetType.getClassName().equals(JournalArticle.class.getName())) {
             // Cas d'un journalArticle
             TermQuery journalArticleClassNameQuery = queries.term(Field.ENTRY_CLASS_NAME, JournalArticle.class.getName());
             // on vérifie que c'est la dernière version
             TermQuery journalArticleHeadQuery = queries.term("head", true);
-            assetTypeQuery.addMustQueryClauses(journalArticleClassNameQuery, journalArticleHeadQuery);
+            assetTypeQuery.addMustQueryClauses(journalArticleClassNameQuery);
             // ajout de la structure du contenu web
             if (Validator.isNotNull(assetType.getStructureID())) {
                 TermQuery structureQuery = queries.term(Field.CLASS_TYPE_ID, assetType.getStructureID());
@@ -150,6 +152,16 @@ public class QueryBuilder {
         return this;
     }
 
+    public QueryBuilder withoutTags(List<String> tagNames) {
+        BooleanQuery tagsQuery = queries.booleanQuery();
+        for (String tagId :tagNames){
+            TermQuery tagQuery = queries.term(Field.ASSET_TAG_NAMES, tagId);
+            tagsQuery.addMustNotQueryClauses(tagQuery);
+        }
+        query.addMustQueryClauses(tagsQuery);
+        return this;
+    }
+
     public QueryBuilder withVisible(boolean visible) {
         TermQuery statusQuery = queries.term("visible", visible);
         query.addMustQueryClauses(statusQuery);
@@ -166,114 +178,22 @@ public class QueryBuilder {
     public QueryBuilder withKeywords(String keywords, Locale locale) {
         // Mots-clés
         if (Validator.isNotNull(keywords)) {
-            BooleanQuery keywordQuery = queries.booleanQuery();
+            Map<String, Float> fieldBoost = new HashMap<String, Float>() {{
+                put(Field.TITLE + "*", 30f);
+                put(Field.DESCRIPTION + "*", 7f);
+                put(Field.CONTENT + "*", 7f);
+                put(Field.ASSET_CATEGORY_TITLES + "*", 15f);
+                put(Field.ASSET_TAG_NAMES + "*", 15f);
+            }};
 
-            // Fuzzy sur titre
-            MatchQuery titleQuery = queries.match(Field.TITLE + '_' + locale, keywords);
-            titleQuery.setOperator(Operator.OR);
-            titleQuery.setAnalyzer("strasbourg_analyzer");
-            titleQuery.setPrefixLength(0);
-            titleQuery.setMaxExpansions(50);
-            titleQuery.setFuzzyTranspositions(true);
-            titleQuery.setLenient(false);
-            titleQuery.setZeroTermsQuery(com.liferay.portal.search.query.MatchQuery.ZeroTermsQuery.NONE);
-//					"auto_generate_synonyms_phrase_query" : true,
-            keywordQuery.addShouldQueryClauses(titleQuery);
 
-            // Titre sans analyzer
-            MatchQuery titleQueryWithoutAnalyzer = queries.match(Field.TITLE + "_" + locale, keywords);
-            titleQueryWithoutAnalyzer.setOperator(Operator.OR);
-            titleQueryWithoutAnalyzer.setFuzziness(2f);
-            titleQueryWithoutAnalyzer.setPrefixLength(0);
-            titleQueryWithoutAnalyzer.setMaxExpansions(50);
-            titleQueryWithoutAnalyzer.setFuzzyTranspositions(true);
-            titleQueryWithoutAnalyzer.setLenient(false);
-            titleQueryWithoutAnalyzer.setZeroTermsQuery(com.liferay.portal.search.query.MatchQuery.ZeroTermsQuery.NONE);
-//					"auto_generate_synonyms_phrase_query" : true,
-            titleQueryWithoutAnalyzer.setBoost(3.0f);
-            FunctionScoreQuery functionScoreQueryTitleQueryWithoutAnalyzer =
-                    queries.functionScore(titleQueryWithoutAnalyzer);
-            functionScoreQueryTitleQueryWithoutAnalyzer.setBoost(3.0f);
-            keywordQuery.addShouldQueryClauses(functionScoreQueryTitleQueryWithoutAnalyzer);
-            keywordQuery.addShouldQueryClauses(titleQueryWithoutAnalyzer);
+            MultiMatchQuery matchQuery = queries.multiMatch(keywords, fieldBoost);
+            matchQuery.setAnalyzer("strasbourg_analyzer");
+            matchQuery.setFuzziness("AUTO");
+            matchQuery.setLenient(true);
+            matchQuery.setOperator(Operator.OR);
 
-            // Wildcard sur titre
-            WildcardQuery titleWildcardQuery = queries.wildcard(Field.TITLE + "_" + locale,
-                    "*" + keywords + "*");
-            titleWildcardQuery.setBoost(30.0f);
-            FunctionScoreQuery functionScoreQueryTitleWildcard =
-                    queries.functionScore(titleWildcardQuery);
-            functionScoreQueryTitleWildcard.setBoost(30.0f);
-            keywordQuery.addShouldQueryClauses(functionScoreQueryTitleWildcard);
-            keywordQuery.addShouldQueryClauses(titleWildcardQuery);
-
-            // Description
-            MatchQuery descriptionQuery = queries.match(Field.DESCRIPTION + "_" + locale, keywords);
-            descriptionQuery.setOperator(Operator.OR);
-            descriptionQuery.setPrefixLength(0);
-            descriptionQuery.setMaxExpansions(50);
-            descriptionQuery.setFuzzyTranspositions(true);
-            descriptionQuery.setLenient(false);
-            descriptionQuery.setZeroTermsQuery(com.liferay.portal.search.query.MatchQuery.ZeroTermsQuery.NONE);
-//					"auto_generate_synonyms_phrase_query" : true,
-            keywordQuery.addShouldQueryClauses(descriptionQuery);
-
-            // Pour les fichiers on recherche dans le champ "title" sans la
-            // locale car il est indexé uniquement comme cela
-            MatchQuery fileTitleQuery = queries.match(Field.TITLE, keywords);
-            fileTitleQuery.setOperator(Operator.OR);
-            // fileTitleQuery.setFuzziness(10f);
-            fileTitleQuery.setPrefixLength(0);
-            fileTitleQuery.setMaxExpansions(50);
-            fileTitleQuery.setFuzzyTranspositions(true);
-            fileTitleQuery.setLenient(false);
-            fileTitleQuery.setZeroTermsQuery(com.liferay.portal.search.query.MatchQuery.ZeroTermsQuery.NONE);
-//			"auto_generate_synonyms_phrase_query" : true,
-
-            TermQuery classNameQuery = queries.term(Field.ENTRY_CLASS_NAME, DLFileEntry.class.getName());
-
-            BooleanQuery fileQuery = queries.booleanQuery();
-            fileQuery.addMustQueryClauses(fileTitleQuery, classNameQuery);
-            keywordQuery.addShouldQueryClauses(fileQuery);
-
-            // Fuzzy sur content (tous les champs indexables des structures
-            // de CW et de D&M sont dans ce champ)
-            MatchQuery contentQuery = queries.match(Field.CONTENT + "_" + locale, keywords);
-            contentQuery.setOperator(Operator.OR);
-            // contentQuery.setFuzziness(1f);
-            contentQuery.setPrefixLength(0);
-            contentQuery.setMaxExpansions(50);
-            contentQuery.setFuzzyTranspositions(true);
-            contentQuery.setLenient(false);
-            contentQuery.setZeroTermsQuery(com.liferay.portal.search.query.MatchQuery.ZeroTermsQuery.NONE);
-//			"auto_generate_synonyms_phrase_query" : true,
-            keywordQuery.addShouldQueryClauses(contentQuery);
-
-            // Fuzzy sur catégorie
-            MatchQuery categoryKeywordQuery = queries.match(Field.ASSET_CATEGORY_TITLES + '_' + locale, keywords);
-            categoryKeywordQuery.setOperator(Operator.OR);
-            // categoryKeywordQuery.setFuzziness(10f);
-            categoryKeywordQuery.setPrefixLength(0);
-            categoryKeywordQuery.setMaxExpansions(50);
-            categoryKeywordQuery.setFuzzyTranspositions(true);
-            categoryKeywordQuery.setLenient(false);
-            categoryKeywordQuery.setZeroTermsQuery(com.liferay.portal.search.query.MatchQuery.ZeroTermsQuery.NONE);
-//			"auto_generate_synonyms_phrase_query" : true,
-            keywordQuery.addShouldQueryClauses(categoryKeywordQuery);
-
-            // Fuzzy sur tags
-            MatchQuery tagKeywordQuery = queries.match(Field.ASSET_TAG_NAMES, keywords);
-            tagKeywordQuery.setOperator(Operator.OR);
-            // tagKeywordQuery.setFuzziness(10f);
-            tagKeywordQuery.setPrefixLength(0);
-            tagKeywordQuery.setMaxExpansions(50);
-            tagKeywordQuery.setFuzzyTranspositions(true);
-            tagKeywordQuery.setLenient(false);
-            tagKeywordQuery.setZeroTermsQuery(com.liferay.portal.search.query.MatchQuery.ZeroTermsQuery.NONE);
-//			"auto_generate_synonyms_phrase_query" : true,
-            keywordQuery.addShouldQueryClauses(tagKeywordQuery);
-
-            query.addMustQueryClauses(keywordQuery);
+            query.addMustQueryClauses(matchQuery);
         } else {
             // Si on n'a pas de keyword : on ne veut que les entités de la
             // langue en cours tout de même
@@ -291,6 +211,8 @@ public class QueryBuilder {
             query.addMustQueryClauses(anyKeywordQuery);
         }
         return this;
+
+
     }
 
     public QueryBuilder withDate(String filterField, LocalDate fromDate, LocalDate toDate) {
@@ -336,6 +258,16 @@ public class QueryBuilder {
             MatchQuery placeQuery = queries.match("idSIGPlace", placeSigId);
             this.query.addMustQueryClauses(placeQuery);
         }
+        return this;
+    }
+
+    public QueryBuilder withTags(List<String> tagNames) {
+        BooleanQuery tagsQuery = queries.booleanQuery();
+        for (String tagId :tagNames){
+            TermQuery tagQuery = queries.term(Field.ASSET_TAG_NAMES, tagId);
+            tagsQuery.addShouldQueryClauses(tagQuery);
+        }
+        query.addMustQueryClauses(tagsQuery);
         return this;
     }
 

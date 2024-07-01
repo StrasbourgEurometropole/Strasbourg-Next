@@ -31,9 +31,12 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.document.Document;
 import com.liferay.portal.search.hits.SearchHit;
 import com.liferay.portal.search.hits.SearchHits;
+import com.liferay.portal.search.query.Queries;
+import com.liferay.portal.search.query.Query;
 import com.liferay.portlet.documentlibrary.lar.FileEntryUtil;
 import eu.strasbourg.portlet.dynamic_search_asset.configuration.DynamicSearchAssetConfiguration;
 import eu.strasbourg.portlet.dynamic_search_asset.constants.Constants;
@@ -247,9 +250,6 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			classNames = configurationClassNames.split(",");
 		}
 
-        // Temp : Add layout to classNames
-        classNames = ArrayUtil.append(classNames, Layout.class.getName());
-
 		// Inclusion ou non du scope global
 		boolean globalScope = configuration.globalScope();
 		long globalGroupId = themeDisplay.getCompanyGroupId();
@@ -283,40 +283,94 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		return getSearchHitFromSearch(
 				Arrays.asList(classNames), groupId, globalGroupId, globalScope,
 				searchContext, keywords, useDatePrefilter, fromDate, toDate, prefilterCategoriesIds,
-				themeDisplay, maxResults);
+				themeDisplay, maxResults, prefilterTagsNames, configuration.searchForm());
 	}
 
 	public SearchHits getSearchHitFromSearch(
 			List<String> classNames, long groupId, long globalGroupId, boolean globalScope,
 			SearchContext searchContext, String keywords, boolean useDatePrefilter,
 			LocalDate fromDate, LocalDate toDate, List<Long[]> prefilterCategoriesIds,
-			ThemeDisplay themeDisplay, int maxResults) throws PortalException {
+			ThemeDisplay themeDisplay, int maxResults, String[] prefilterTagsNames, String configAffichage) throws PortalException {
 
 		// Turn classNames into AssetType
-		List<AssetType> assetTypes = new ArrayList<>();
+		List<AssetType> assetTypes = getAssetTypesFromClassNames(classNames, groupId, globalGroupId, globalScope, configAffichage);
 
-		for (String className : classNames) {
-            List<Long> groupIds;
-            if(className.equals(Layout.class.getName()) || className.equals(JournalArticle.class.getName())){
-                groupIds = List.of(groupId);
-            }
-            else {
-                groupIds = globalScope ? List.of(globalGroupId) : List.of(groupId);
-            }
+        // Construct the query
+        QueryBuilder queryBuilder = new QueryBuilder(queries);
 
-			AssetType assetType = new AssetType(className, groupIds);
+        queryBuilder = queryBuilder
+                .withAssetTypes(assetTypes, classNames, keywords);
 
-			assetTypes.add(assetType);
-		}
+        queryBuilder = queryBuilder
+                .withStatus(WorkflowConstants.STATUS_APPROVED)
+                .withKeywords(keywords, themeDisplay.getLocale());
+
+        if (useDatePrefilter) {
+            queryBuilder = queryBuilder.withDate(Field.PUBLISH_DATE + "_sortable",fromDate, toDate);
+        }
+
+        if(prefilterCategoriesIds.size() > 0) {
+            queryBuilder = queryBuilder.withCategories(prefilterCategoriesIds);
+        }
+
+        if(prefilterTagsNames.length > 0) {
+            queryBuilder = queryBuilder.withTags(List.of(prefilterTagsNames));
+        }
+
+        // Exclure le tag technique
+
+        queryBuilder = queryBuilder.withoutTags(List.of("technique"));
+
+        Query query = queryBuilder.build();
+
 
 		// Perform the search
-		SearchHits hitV2 = _searchHelperV2.getGlobalSearchHitsV2(
-				searchContext, assetTypes, useDatePrefilter, "publishDate_sortable", 0,
-				new HashMap<>(), keywords, fromDate, toDate, prefilterCategoriesIds, null,
-				classNames, themeDisplay.getLocale(), 0, maxResults);
+		SearchHits hit = _searchHelperV2.search(
+				searchContext, query ,new HashMap<>(), 0,0, maxResults);
 
-		return hitV2;
+        return hit;
 	}
+
+    public List<AssetType> getAssetTypesFromClassNames(List<String> classNames, long groupId, long globalGroupId, boolean globalScope, String configAffichage) {
+        // Turn classNames into AssetType
+        List<AssetType> assetTypes = new ArrayList<>();
+
+        for (String className : classNames) {
+            List<Long> groupIds = getGroupIds(className, groupId, globalGroupId, globalScope);
+
+            if (isSpecialJournalArticleCase(className, configAffichage)) {
+                addSpecialJournalArticleAssetTypes(assetTypes, className, groupIds);
+            } else {
+                assetTypes.add(new AssetType(className, groupIds));
+            }
+        }
+        return assetTypes;
+    }
+
+    private List<Long> getGroupIds(String className, long groupId, long globalGroupId, boolean globalScope) {
+        if (className.equals(Place.class.getName()) || className.equals(Event.class.getName())) {
+            return globalScope ? List.of(globalGroupId) : List.of(groupId);
+        } else {
+            return List.of(groupId);
+        }
+    }
+
+    private boolean isSpecialJournalArticleCase(String className, String configAffichage) {
+        return className.equals(JournalArticle.class.getName()) && configAffichage.equals(Constants.SEARCH_FORM_STRASBOURG);
+    }
+
+    private void addSpecialJournalArticleAssetTypes(List<AssetType> assetTypes, String className, List<Long> groupIds) {
+        Long[] structureIds = {
+                1064291L,
+                5099142L,
+                5099148L,
+                1564337L
+        };
+        for (Long structureId : structureIds) {
+            assetTypes.add(new AssetType(className, groupIds, structureId));
+        }
+    }
+
 
     /**
      * Retourne un objet JSON contenant l'ensemble des entités voulues et valide
@@ -432,6 +486,9 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 
     @Reference
     private LayoutHelperService _layoutHelperService;
+
+    @Reference
+    protected Queries queries;
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
