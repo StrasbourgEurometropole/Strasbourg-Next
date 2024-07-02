@@ -175,25 +175,47 @@ public class QueryBuilder {
         return this;
     }
 
+    public BooleanQuery addKeywordField(String field, String keyword, Float boost){
+        BooleanQuery keywordQuery = queries.booleanQuery();
+        BooleanQuery mustQuery = queries.booleanQuery();
+
+        MatchQuery matchQuery = queries.match(field, keyword);
+        matchQuery.setBoost(boost);
+        matchQuery.setFuzziness(2f);
+        matchQuery.setAnalyzer("strasbourg_analyzer");
+        MatchPhrasePrefixQuery matchPhrasePrefixQuery = queries.matchPhrasePrefix(field, keyword);
+        matchPhrasePrefixQuery.setBoost(boost);
+        matchPhrasePrefixQuery.setAnalyzer("strasbourg_analyzer");
+        MatchPhraseQuery matchPhraseQuery = queries.matchPhrase(field, keyword);
+        matchPhraseQuery.setBoost(boost);
+        matchPhraseQuery.setAnalyzer("strasbourg_analyzer");
+        mustQuery.addShouldQueryClauses(matchQuery, matchPhrasePrefixQuery);
+
+        keywordQuery.addShouldQueryClauses(matchPhraseQuery);
+        keywordQuery.addMustQueryClauses(mustQuery);
+
+        return keywordQuery;
+
+    }
+
     public QueryBuilder withKeywords(String keywords, Locale locale) {
         // Mots-clés
         if (Validator.isNotNull(keywords)) {
             Map<String, Float> fieldBoost = new HashMap<String, Float>() {{
-                put(Field.TITLE + "*", 30f);
-                put(Field.DESCRIPTION + "*", 7f);
-                put(Field.CONTENT + "*", 7f);
-                put(Field.ASSET_CATEGORY_TITLES + "*", 15f);
-                put(Field.ASSET_TAG_NAMES + "*", 15f);
+                put(Field.TITLE + "_" + locale.toString(), 30f);
+                put(Field.CONTENT + "_" + locale.toString(), 1f);
+                put(Field.DESCRIPTION + "_" + locale.toString(), 1f);
+                put(Field.ASSET_CATEGORY_TITLES + "_" + locale.toString(), 15f);
+                put(Field.ASSET_TAG_NAMES  + "_" + locale.toString(), 15f);
             }};
 
+            BooleanQuery shouldQuery = queries.booleanQuery();
+            for(Map.Entry<String, Float> entry : fieldBoost.entrySet()) {
+                BooleanQuery booleanQuery = addKeywordField(entry.getKey(), keywords, entry.getValue());
+                shouldQuery.addShouldQueryClauses(booleanQuery);
+            }
 
-            MultiMatchQuery matchQuery = queries.multiMatch(keywords, fieldBoost);
-            matchQuery.setAnalyzer("strasbourg_analyzer");
-            matchQuery.setFuzziness("AUTO");
-            matchQuery.setLenient(true);
-            matchQuery.setOperator(Operator.OR);
-
-            query.addMustQueryClauses(matchQuery);
+            query.addMustQueryClauses(shouldQuery);
         } else {
             // Si on n'a pas de keyword : on ne veut que les entités de la
             // langue en cours tout de même
