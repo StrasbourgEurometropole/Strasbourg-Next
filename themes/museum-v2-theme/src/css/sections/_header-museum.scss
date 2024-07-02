@@ -10,6 +10,7 @@
         @include positionAbsolute('', translate(-50%, -50%), (top: 50%, left: 50%));
         text-shadow: 4px 4px 11px #000000;
         text-align: center;
+        z-index: 2;
 
         @include RWD(tablet_portrait){
             font-size: 2.75rem;
@@ -19,7 +20,6 @@
 
     .slider{
         position: relative;
-        z-index: -1;
 
         .swiper{
             .swiper-slide{
