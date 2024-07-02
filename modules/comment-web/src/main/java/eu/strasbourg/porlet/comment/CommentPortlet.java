@@ -4,6 +4,7 @@ import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServic
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.journal.exception.NoSuchArticleException;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
@@ -361,13 +362,17 @@ public class CommentPortlet extends MVCPortlet {
 			currentUrl = currentUrl.substring(0, indexFirstParam);
 		
 		// Test d'un detail Journal utilisant la mecanique d'assetpuplisher par default
-		if (journalMatcher.find() && !entityMatcher.find()) { 
-			JournalArticle journalArticle = JournalArticleLocalServiceUtil.getDisplayArticleByUrlTitle(groupId, journalMatcher.group(1));
-			
-			if (journalArticle != null) {
-				AssetEntry assetEntry = AssetEntryLocalServiceUtil.getEntry(JournalArticle.class.getName(), journalArticle.getResourcePrimKey());
-				
-				return assetEntry != null ? assetEntry.getEntryId() : -1;
+		if (journalMatcher.find() && !entityMatcher.find()) {
+			try {
+				JournalArticle journalArticle = JournalArticleLocalServiceUtil.getDisplayArticleByUrlTitle(groupId, journalMatcher.group(1));
+
+				if (journalArticle != null) {
+					AssetEntry assetEntry = AssetEntryLocalServiceUtil.getEntry(JournalArticle.class.getName(), journalArticle.getResourcePrimKey());
+
+					return assetEntry != null ? assetEntry.getEntryId() : -1;
+				}
+			}catch (NoSuchArticleException e){
+				return -1;
 			}
 		}
 		// Test d'un detail utilisant le module entity-detail
