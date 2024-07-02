@@ -40,6 +40,8 @@ import java.util.*;
 public class FileEntryHelper {
 	public static String getFileTitle(long fileEntryId, Locale locale) {
 		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryId);
+		if(Validator.isNull(fileEntry))
+			return "";
 		String titleFromStructure = getStructureFieldValue(fileEntry.getFileEntryId(), "Titre", locale);
 		if (Validator.isNotNull(titleFromStructure)) {
 			return titleFromStructure;
