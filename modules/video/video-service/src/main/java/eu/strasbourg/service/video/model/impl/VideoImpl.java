@@ -71,7 +71,7 @@ import java.util.TimeZone;
  * @author BenjaminBini
  */
 @ProviderType
-public class VideoImpl extends VideoBaseImpl {
+public class    VideoImpl extends VideoBaseImpl {
 
     private static final long serialVersionUID = 2515513279571209485L;
 
@@ -368,7 +368,13 @@ public class VideoImpl extends VideoBaseImpl {
                 url = StrasbourgPropsUtil.getDailymotionApiUrl().replace("[videoID]", videoId);
                 try {
                     JSONObject json = JSONHelper.readJsonFromURL(url);
-                    nbViews = json.getString("views_total");
+                    if(json.has("error")) {
+                        nbViews = "0";
+                    }
+                    else {
+                        nbViews = json.getString("views_total");
+                    }
+
                 } catch (Exception e) {
                     _log.error(e.getMessage() + " : " + url);
                 }
@@ -376,9 +382,15 @@ public class VideoImpl extends VideoBaseImpl {
                 url = StrasbourgPropsUtil.getYoutubeApiUrl().replace("[videoID]", videoId);
                 try {
                     JSONObject json = JSONHelper.readJsonFromURL(url);
-                    JSONObject item = json.getJSONArray("items").getJSONObject(0);
-                    JSONObject statistics = item.getJSONObject("statistics");
-                    nbViews = statistics.getString("viewCount");
+                    if(json.has("error")) {
+                        nbViews = "0";
+                        _log.warn("Erreur nbView de la vidéo : " + videoId + " : " + json.getJSONObject("error").getString("message"));
+                    }
+                    else {
+                        JSONObject item = json.getJSONArray("items").getJSONObject(0);
+                        JSONObject statistics = item.getJSONObject("statistics");
+                        nbViews = statistics.getString("viewCount");
+                    }
                 } catch (Exception e) {
                     _log.error(e.getMessage() + " : " + url);
                 }
