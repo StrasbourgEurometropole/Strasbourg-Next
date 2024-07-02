@@ -17,7 +17,7 @@
                 <span>${page.getName(locale)}</span>
             </div>
         </div>
-        <h1>${page.getName(locale)}</h1>
+        <h1>${title}</h1>
     </div>
 </header>
 

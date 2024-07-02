@@ -7,10 +7,16 @@
                     "name": "urlLink",
                     "type": "url"
                 },
+              {
+                "label": "Ouvrir dans un nouvel onglet",
+                "name": "openInNewTab",
+                "type": "checkbox",
+                "defaultValue": false
+              },
 							{
                     "name": "displayStyle",
                     "label": "Style d'affichage",
-                    "description": "number-of-features",
+                    "description": "Choisissez le style d'affichage du lien (complet ou compact). Cela doit être la même valeur que celle choisie pour le conteneur du bloc.",
                     "type": "select",
                     "dataType": "string",
                     "typeOptions": {

@@ -46,7 +46,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <ul class="st-liens-rapides">
                 <#if entry.phone?has_content>
                     <li>
-                        <a href="tel:${entry.phone}" class="st-btn-icon st-btn-icon--white" target="_blank" rel="noopener" title="<@liferay_ui.message key=" phone" /> : ${entry.phone}">
+                        <a href="tel:${entry.phone}" class="st-btn-icon st-btn-icon--white" rel="noopener" title="<@liferay_ui.message key=" phone" /> : ${entry.phone}">
                             <span class="st-icon-phone" aria-hidden="true"></span>
                             <span class="st-sr-only"><@liferay_ui.message key=" phone" /> : ${entry.phone}</span>
                         </a>

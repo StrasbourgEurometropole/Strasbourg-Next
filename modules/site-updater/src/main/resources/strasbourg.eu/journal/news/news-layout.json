@@ -40,7 +40,7 @@
             {
               "size": 12,
               "fieldNames": [
-                "thumbnail"
+                "image"
               ]
             }
           ]
@@ -50,7 +50,7 @@
             {
               "size": 12,
               "fieldNames": [
-                "image"
+                "thumbnail"
               ]
             }
           ]

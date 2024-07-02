@@ -62,7 +62,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                 </li>
                 <#if entry.phone?has_content>
                     <li>
-                        <a href="tel:${entry.phone?replace(" ","")?replace("(0)","")}" class="st-btn-icon st-btn-icon--white" target="_blank"
+                        <a href="tel:${entry.phone?replace(" ","")?replace("(0)","")}" class="st-btn-icon st-btn-icon--white"
                            rel="noopener"
                            title="<@liferay_ui.message key="phone" /> : ${entry.phone}">
                             <span class="st-icon-phone" aria-hidden="true"></span>

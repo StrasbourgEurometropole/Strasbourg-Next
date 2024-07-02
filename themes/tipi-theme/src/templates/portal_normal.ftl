@@ -10,13 +10,6 @@
 <head>
 	<title>${the_title} | tipi.strasbourg.eu</title>
 
-	<!-- jQuery 1.9.1 -->
-	<script type="text/javascript">
-		if(typeof jQuery == 'undefined'){	
-			document.write('<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></'+'script>');
-		}
-	</script>
-
 	<link rel="stylesheet" href="${images_folder}/../css/vendor/normalize.css">
 	<link rel="stylesheet" href="${images_folder}/../css/vendor/owl.carousel.css">
 	<link rel="stylesheet" href="${images_folder}/../css/vendor/owl.theme.css">

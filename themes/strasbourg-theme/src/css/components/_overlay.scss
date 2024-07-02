@@ -148,6 +148,15 @@
 	}
 }
 
+.st-overlay-filters {
+	.st-btn-close {
+
+		@include bp-down($breakpoint_filter) {
+			bottom: 13px;
+		}
+	}
+}
+
 // Bouton close à droite en mobile
 .st-overlay-edito,
 .st-overlay-preview-activite,
@@ -461,7 +470,7 @@
 		background-color: $c_main;
 
 		@include mobile {
-			padding: 8px var(--padding-horizontal) 8px calc(var(--padding-horizontal) + 44px + 5px);		// espace pour le bouton close
+			padding: 8px var(--padding-horizontal) 8px calc(var(--padding-horizontal) + 44px + 10px);		// espace pour le bouton close
 			background-color: $c_greydark;
 		}
 
@@ -472,7 +481,7 @@
 				width: 44px;
 				height: 44px;
 				font-size: 16px;
-				margin-right: 5px;
+				margin-right: 10px;
 			}
 
 			& + .st-btn-icon {
@@ -599,7 +608,7 @@
 		background-color: $c_main;
 
 		@include mobile {
-			padding: 8px var(--padding-horizontal) 8px calc(var(--padding-horizontal) + 44px + 5px);		// espace pour le bouton close
+			padding: 8px var(--padding-horizontal) 8px calc(var(--padding-horizontal) + 44px + 10px);		// espace pour le bouton close
 			background-color: $c_greydark;
 		}
 
@@ -610,6 +619,7 @@
 				width: 44px;
 				height: 44px;
 				font-size: 16px;
+				margin-right: 5px;
 			}
 		}
 

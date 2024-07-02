@@ -41,7 +41,6 @@
 
 	.st-col-right {
 		display: flex;
-		flex-shrink: 0;
 
 		@include tablet-portrait {
 			flex-direction: column;

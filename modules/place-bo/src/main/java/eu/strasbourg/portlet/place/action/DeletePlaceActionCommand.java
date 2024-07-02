@@ -26,8 +26,10 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.place.util.PlacePermissionUtils;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -40,6 +42,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.service.place.service.PlaceLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
 
@@ -62,12 +65,11 @@ public class DeletePlaceActionCommand
 		if (Validator.isNotNull(place)) {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 					.getAttribute(WebKeys.THEME_DISPLAY);
-			List<AssetCategory> typeDeLieuVocab = place.getTypes();
-			List<AssetCategory> categoriesUser = AssetCategoryLocalServiceUtil.getCategories(User.class.getName(), themeDisplay.getUserId());
-			if(!themeDisplay.getPermissionChecker().isOmniadmin() &&
-					!typeDeLieuVocab.stream().anyMatch(categoriesUser::contains)) {
+
+			if(!PlacePermissionUtils.hasEditPermission(themeDisplay, place)) {
 				return false;
 			}
+
 
 			try {
 				_placeLocalService.removePlace(placeId);

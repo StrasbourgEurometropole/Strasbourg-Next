@@ -40,8 +40,8 @@ $s_h2: 30px;
 $s_h3: 18px;
 $s_small_title: 20px;
 $s_medium: 18px;
-$s_p: 14px;
-$s_link: 14px;
+$s_p: 16px;
+$s_link: 16px;
 $s_link_small: 12px;
 
 // Gestion des valeurs des z-index
@@ -134,6 +134,7 @@ $breakpoints: (
 // Breakpoints (Ancien système sans map)
 // ==========================================================================
 $breakpoint_mo_small: 320px;
+$breakpoint_filter: 405px;
 $breakpoint_mo: 599px;
 $breakpoint_tablet-small: 768px;
 $breakpoint_portrait: 980px;

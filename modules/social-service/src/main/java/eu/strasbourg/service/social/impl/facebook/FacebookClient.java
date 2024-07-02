@@ -9,7 +9,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import eu.strasbourg.service.social.SocialPost;
 import eu.strasbourg.service.social.impl.SocialMedia;
-import eu.strasbourg.service.social.impl.twitter.twemoji.Twemoji;
 import eu.strasbourg.utils.JSONHelper;
 
 import java.io.IOException;
@@ -57,7 +56,7 @@ public class FacebookClient {
 				JSONObject jsonPost = jsonPostList.getJSONObject(i);
 				
 				String content = jsonPost.getString("message");
-				post.setContent(Twemoji.parse(content));
+				post.setContent(content);
 
 				String imageURL = jsonPost.getString("full_picture");
 				post.setImageURL(imageURL);

@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.place.util.PlacePermissionUtils;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.ScheduleException;
@@ -521,10 +522,7 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 		if (Validator.isNotNull(place)) {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 					.getAttribute(WebKeys.THEME_DISPLAY);
-			List<AssetCategory> typeDeLieuVocab = place.getTypes();
-			List<AssetCategory> categoriesUser = AssetCategoryLocalServiceUtil.getCategories(User.class.getName(), themeDisplay.getUserId());
-			if (!themeDisplay.getPermissionChecker().isOmniadmin() &&
-					!typeDeLieuVocab.stream().anyMatch(categoriesUser::contains)) {
+			if (!PlacePermissionUtils.hasEditPermission(themeDisplay, place)) {
 				SessionErrors.add(request, "permission-error");
 				isValid = false;
 			}

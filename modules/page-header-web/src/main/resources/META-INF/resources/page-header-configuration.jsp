@@ -25,6 +25,22 @@
                     </aui:fieldset>
 
                     <aui:fieldset>
+                        <aui:input name="title" type="text" value="${title}" />
+                    </aui:fieldset>
+
+
+                    <aui:fieldset>
+                        <aui:input name="subTitle" type="text" value="${subTitle}" />
+                    </aui:fieldset>
+
+                    <aui:fieldset>
+                        <aui:input name="imageUrl" type="text" value="${imageUrl}" />
+                    </aui:fieldset>
+
+
+
+
+                    <aui:fieldset>
                         <div class="display-template">
                             <liferay-ddm:template-selector
                                 className="<%= LayoutSet.class.getName() %>"
