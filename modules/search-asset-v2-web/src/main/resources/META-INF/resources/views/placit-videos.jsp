@@ -34,13 +34,6 @@
                 <div class="pro-wrapper-listing-video">
                     <div class="pro-wrapper">
                         <h2><liferay-ui:message key="eu.all-videos" /></h2>
-                        <div class="pro-sort pro-dropdown">
-                            <a id="sortType" href="#">Tri A-Z</a>
-                            <ul>
-                                <li><a href="javascript:sortVideo('asc');">Tri A-Z</a></li>
-                                <li><a href="javascript:sortVideo('desc');">Tri Z-A</a></li>
-                            </ul>
-                        </div>
                     </div>
 
                     <div class="pro-listing-video" data-egalize="> * > a" data-row="true">
@@ -66,3 +59,9 @@
         </div>
     </div>
 </div>
+
+<style>
+    .pro-search-listing .pro-bloc-facette{
+        background-color: black;
+    }
+</style>

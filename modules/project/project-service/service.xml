@@ -615,6 +615,7 @@
 		<column name="motif" type="String" localized="true" />
 		<column name="placeTextArea" type="String" />
 		<column name="inTheNameOf" type="String" />
+		<column name="commitment" type="String" />
 
 		<!-- citoyen fields -->
 		<column name="citoyenLastname" type="String" />

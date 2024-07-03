@@ -245,6 +245,16 @@ form{
 				border-color: #ff0000;
 			}
 		}
+		.radio {
+			label {
+				display: flex;
+				flex-direction: row-reverse;
+				align-items: center;
+				input[type=radio]+span {
+					margin-right: 20px;
+				}
+			}
+		}
 		label {
 			position: relative;
 			display: block;
@@ -345,7 +355,7 @@ form{
 		text-align: left;
 		clear: both;
 		user-select: none;
-		span {
+		span:not(.c-inner) {
 			color: #ff0000;
 		}
 	}

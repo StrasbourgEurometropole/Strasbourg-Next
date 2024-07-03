@@ -1,6 +1,6 @@
 <%@ include file="/search-asset-init.jsp"%>
 
-<portlet:resourceURL id="entrySelectionBudgetParticipatif" var="budgetParticipatifsSelectionURL">
+<portlet:resourceURL id="entrySelectionSaisineObservatoire" var="saisinesObservatoireSelectionURL">
 </portlet:resourceURL>
 
 <c:set var="groupID" value="${themeDisplay.scopeGroupId}" />
@@ -25,50 +25,50 @@
 </div>
 
 <!-- Recherche par dates -->
-<c:if test="${dc.dateField}">
-	<div class="pro-group">
-	    <div class="pro-header">
-	        <h4><liferay-ui:message key="eu.dates" /></h4>
-	    </div>
-	    <fieldset>
-	        <legend aria-hidden="true" class="hide">Choix par date</legend>
-	        <div>
-	            <div class="pro-facette-date">
-	                <label for="startDate" class="hide"><liferay-ui:message key="eu.dates" /></label>
-	                <span class="pro-wrapper-date">
-	                	<input name="from" data-type="date" type="text" id="date-start"  class="frm_date dynamic"
-			            	readonly="readonly" value="${dc.fromDay}/${dc.fromMonthValue}/${dc.fromYear}">
-			            <input type="hidden" name="<portlet:namespace />fromDay" data-name="fromDay" value="${dc.fromDay}" />
-			            <input type="hidden" name="<portlet:namespace />fromMonth" data-name="fromMonth" value="${dc.fromMonthIndex}" />
-			            <input type="hidden" name="<portlet:namespace />fromYear" data-name="fromYear" value="${dc.fromYear}" />
-	                </span>
-	                <label for="endDate"><liferay-ui:message key="eu.au" /></label>
-	                <span class="pro-wrapper-date"> 
-	                	<input name="to" data-type="date" type="text" id="date-end" class="frm_date dynamic"
-			            	readonly="readonly" value="${dc.toDay}/${dc.toMonthValue}/${dc.toYear}">
-			            <input type="hidden" name="<portlet:namespace />toDay" data-name="toDay" value="${dc.toDay}" />
-			            <input type="hidden" name="<portlet:namespace />toMonth" data-name="toMonth" value="${dc.toMonthIndex}" />
-			            <input type="hidden" name="<portlet:namespace />toYear" data-name="toYear" value="${dc.toYear}" />
-	                </span>
-	            </div>
-	        </div>
-			<span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>
-	    </fieldset>
-	</div>
-</c:if>
+<%--<c:if test="${dc.dateField}">--%>
+<%--	<div class="pro-group">--%>
+<%--	    <div class="pro-header">--%>
+<%--	        <h4><liferay-ui:message key="eu.dates" /></h4>--%>
+<%--	        <span class="pro-remove dynamic"><liferay-ui:message key="eu.erase" /></span>--%>
+<%--	    </div>--%>
+<%--	    <fieldset>--%>
+<%--	        <legend aria-hidden="true" class="hide">Choix par date</legend>--%>
+<%--	        <div>--%>
+<%--	            <div class="pro-facette-date">--%>
+<%--	                <label for="startDate" class="hide"><liferay-ui:message key="eu.dates" /></label>--%>
+<%--	                <span class="pro-wrapper-date">--%>
+<%--	                	<input name="from" data-type="date" type="text" id="date-start"  class="frm_date dynamic"--%>
+<%--			            	readonly="readonly" value="${dc.fromDay}/${dc.fromMonthValue}/${dc.fromYear}">--%>
+<%--			            <input type="hidden" name="<portlet:namespace />fromDay" data-name="fromDay" value="${dc.fromDay}" />--%>
+<%--			            <input type="hidden" name="<portlet:namespace />fromMonth" data-name="fromMonth" value="${dc.fromMonthIndex}" />--%>
+<%--			            <input type="hidden" name="<portlet:namespace />fromYear" data-name="fromYear" value="${dc.fromYear}" />--%>
+<%--	                </span>--%>
+<%--	                <label for="endDate"><liferay-ui:message key="eu.au" /></label>--%>
+<%--	                <span class="pro-wrapper-date"> --%>
+<%--	                	<input name="to" data-type="date" type="text" id="date-end" class="frm_date dynamic"--%>
+<%--			            	readonly="readonly" value="${dc.toDay}/${dc.toMonthValue}/${dc.toYear}">--%>
+<%--			            <input type="hidden" name="<portlet:namespace />toDay" data-name="toDay" value="${dc.toDay}" />--%>
+<%--			            <input type="hidden" name="<portlet:namespace />toMonth" data-name="toMonth" value="${dc.toMonthIndex}" />--%>
+<%--			            <input type="hidden" name="<portlet:namespace />toYear" data-name="toYear" value="${dc.toYear}" />--%>
+<%--	                </span>--%>
+<%--	            </div>--%>
+<%--	        </div>--%>
+<%--	    </fieldset>--%>
+<%--	</div>--%>
+<%--</c:if>--%>
 
-<!-- Recherche par etats -->
+<!-- Recherche par Ã©tats -->
 <div class="pro-group">
-	<input type="checkbox" id="bp_states_checkbox"/>
-	<label for="bp_states_checkbox">
+	<input type="checkbox" id="saisineObservatoire_status_checbox"/>
+	<label for="saisineObservatoire_status_checbox">
 		<span class="pro-group-title"><liferay-ui:message key="eu.state" /> :</span>
-		<span class="see-less"><liferay-ui:message key="eu.see-less" /></span>
-		<span class="see-more"><liferay-ui:message key="eu.see-more" /></span>
+		<span class="see-less">Voir moins</span>
+		<span class="see-more">Voir plus</span>
 	</label>
-    <fieldset id="bp_status_fieldset" class="pro-checkbox">
+    <fieldset id="states_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par denomination de l'etat</legend>
         
-        <c:set var="statusVocabulary" value="${vocabularyAccessor.getBudgetParticipatifStatus(groupID)}" />
+        <c:set var="statusVocabulary" value="${vocabularyAccessor.getSaisineStatus(groupID)}" />
 		<c:forEach
 			items="${dc.getDropdownRootCategories(statusVocabulary)}"
 			var="category"
@@ -86,11 +86,11 @@
 
 <!-- Recherche par quartiers -->
 <div class="pro-group">
-	<input type="checkbox" id="bp_districtss_checkbox"/>
-	<label for="bp_districtss_checkbox">
+	<input type="checkbox" id="saisineObservatoire_districts_checkbox"/>
+	<label for="saisineObservatoire_districts_checkbox">
 		<span class="pro-group-title"><liferay-ui:message key="eu.districts" /> :</span>
-		<span class="see-less"><liferay-ui:message key="eu.see-less" /></span>
-		<span class="see-more"><liferay-ui:message key="eu.see-more" /></span>
+		<span class="see-less">Voir moins</span>
+		<span class="see-more">Voir plus</span>
 	</label>
     <fieldset id="districts_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par nom de quartier</legend>
@@ -111,17 +111,16 @@
     </fieldset>
 </div>
 
-<!-- Recherche par thematiques -->
+<!-- Recherche par thÃ©matiques -->
 <div class="pro-group">
-	<input type="checkbox" id="bp_thematics_checkbox"/>
-	<label for="bp_thematics_checkbox">
+	<input type="checkbox" id="saisineObservatoire_thematics_checkbox"/>
+	<label for="saisineObservatoire_thematics_checkbox">
 		<span class="pro-group-title"><liferay-ui:message key="eu.thematics" /> :</span>
-		<span class="see-less"><liferay-ui:message key="eu.see-less" /></span>
-		<span class="see-more"><liferay-ui:message key="eu.see-more" /></span>
+		<span class="see-less">Voir moins</span>
+		<span class="see-more">Voir plus</span>
 	</label>
     <fieldset id="thematics_fieldset" class="pro-checkbox">
         <legend aria-hidden="true" class="hide">Choix par nom de la thematique</legend>
-        		
 		<c:set var="thematicVocabulary" value="${vocabularyAccessor.getThematics(groupID)}" />
 		<c:forEach
 			items="${dc.getDropdownRootCategories(thematicVocabulary)}"
@@ -149,10 +148,12 @@
 <liferay-util:html-top>
 	<script>
 		var porletNamespace = '<portlet:namespace/>';
-        var budgetParticipatifsSelectionURL = '${budgetParticipatifsSelectionURL}';
+
+        var saisinesObservatoireSelectionURL = '${saisinesObservatoireSelectionURL}';
 	</script>
 </liferay-util:html-top>
 
 <liferay-util:html-bottom>
-	<script src="/o/searchassetv2web/js/placit-budgetParticipatif.js"></script>
+	<script src="/o/searchassetv2web/js/placit-saisineObservatoire.js"></script>
+
 </liferay-util:html-bottom>

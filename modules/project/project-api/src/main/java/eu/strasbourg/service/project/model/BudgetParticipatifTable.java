@@ -76,6 +76,9 @@ public class BudgetParticipatifTable
 	public final Column<BudgetParticipatifTable, String> inTheNameOf =
 		createColumn(
 			"inTheNameOf", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
+	public final Column<BudgetParticipatifTable, String> commitment =
+		createColumn(
+			"commitment", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<BudgetParticipatifTable, String> citoyenLastname =
 		createColumn(
 			"citoyenLastname", String.class, Types.VARCHAR,
