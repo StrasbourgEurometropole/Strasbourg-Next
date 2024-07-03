@@ -82,13 +82,10 @@
 <liferay-util:html-top>
 	<script>
 		var porletNamespace = '<portlet:namespace/>';
-        var projectWorkshopSelectionURL = '${projectWorkshopSelectionURL}';
-        var sortField = "${dc.sortField}";
-        var sortType = "${dc.sortType}";
+		var projectWorkshopSelectionURL = '${projectWorkshopSelectionURL}';
 	</script>
 </liferay-util:html-top>
 
 <liferay-util:html-bottom>
-	<script src="/o/searchassetweb/js/placit-project-workshop.js"></script>
-
+	<script src="/o/searchassetv2web/js/placit-project-workshop.js"></script>
 </liferay-util:html-bottom>
