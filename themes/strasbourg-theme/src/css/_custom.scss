@@ -686,3 +686,9 @@ body:not(.no-hover) .st-page-wrapper .login-container button{
     }
   }
 }
+
+
+.video-player iframe {
+  aspect-ratio: 16 / 9;
+  height: 100%;
+}
