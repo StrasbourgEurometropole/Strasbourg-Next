@@ -6,6 +6,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.opendata.geo.address.OpenDataGeoAddressService;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
@@ -60,11 +61,13 @@ public class OpenDataGeoAddressServiceImpl implements OpenDataGeoAddressService 
     @Override
     public JSONArray getCoordinateForAddress(String address, String zipCode, String city, int timeOut) throws Exception {
         JSONArray coordinates = JSONFactoryUtil.createJSONArray();
-        String url = getAddressesURL() + "&q=" + HtmlUtil.escapeURL(address) + "+and+code_postal=" + HtmlUtil.escapeURL(zipCode) + "+and+nom_commune=" + HtmlUtil.escapeURL(city);
-        JSONArray records = getRecord(url, timeOut);
-        if (records.length() > 0) {
-            JSONObject fields = records.getJSONObject(0).getJSONObject("fields");
-            coordinates = fields.getJSONArray("geo_pt");
+        if(Validator.isNotNull(address) && Validator.isNotNull(zipCode) && Validator.isNotNull(city)) {
+            String url = getAddressesURL() + "&q=" + HtmlUtil.escapeURL(address) + "+and+code_postal=" + HtmlUtil.escapeURL(zipCode) + "+and+nom_commune=" + HtmlUtil.escapeURL(city);
+            JSONArray records = getRecord(url, timeOut);
+            if (records.length() > 0) {
+                JSONObject fields = records.getJSONObject(0).getJSONObject("fields");
+                coordinates = fields.getJSONArray("geo_pt");
+            }
         }
         return coordinates;
     }
