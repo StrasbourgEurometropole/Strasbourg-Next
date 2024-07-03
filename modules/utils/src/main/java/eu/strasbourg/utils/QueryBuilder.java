@@ -182,13 +182,12 @@ public class QueryBuilder {
 
         MatchQuery matchQuery = queries.match(field, keyword);
         matchQuery.setBoost(boost);
-        matchQuery.setFuzziness(2f);
+        matchQuery.setFuzziness(1f);
         matchQuery.setOperator(Operator.OR);
         matchQuery.setAnalyzer("strasbourg_analyzer");
 
         MatchQuery matchApproxQuery = queries.match(field, keyword);
-        matchQuery.setOperator(Operator.OR);
-        matchQuery.setAnalyzer("strasbourg_analyzer");
+        matchApproxQuery.setBoost(boost);
 
 
         if(searchExact) {
