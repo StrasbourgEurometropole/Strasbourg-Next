@@ -634,7 +634,7 @@ body:not(.no-hover) .st-page-wrapper .login-container button{
 
 }
 
-.st-text-styles {
+.st-text-styles, .component-paragraph, .component-html {
   table {
     @include clay-table-variant($c-table);
     @include clay-table-variant($c-table-bordered);
