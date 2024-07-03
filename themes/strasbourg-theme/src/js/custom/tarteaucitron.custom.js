@@ -77,3 +77,35 @@ switch (window.tarteaucitronForceLanguage) {
 // Service Timeline JS
 //<div class="timelinejs-canvas" spreadsheet_id="spreadsheet_id" width="width" height="height" lang="lang_2_letter" font="font (Bevan-PotanoSans | Georgia-Helvetica | Arvo-PTSans)" map="map (toner | osm)" start_at_end="start_at_end (false | true)" hash_bookmark="hash_bookmark (false | true)" start_at_slide="start_at_slide (0 | ...)" start_zoom="start_zoom (0 | ... | 5)"></div>
 (tarteaucitron.job = tarteaucitron.job || []).push('timelinejs');
+
+
+// When windows is loaded and tarteaucitron is ready, everytime #tarteaucitronAlertBig attribute changes, we set the css variable --height-sticky to 240px
+window.addEventListener('load', function() {
+    // wait 500ms
+    setTimeout(function() {
+        let alertBig = document.querySelector('#tarteaucitronAlertBig');
+
+        if (alertBig) {
+            if(alertBig.style.display === 'block') {
+                document.documentElement.style.setProperty('--height-sticky', '240px');
+            }
+            let observer = new MutationObserver(function(mutationsList, observer) {
+                mutationsList.forEach(mutation => {
+                    if (mutation.attributeName === 'style') {
+                        let display = mutation.target.style.display;
+                        if (display === 'block') {
+                            document.documentElement.style.setProperty('--height-sticky', '240px');
+                        }
+                        else if (display === 'none') {
+                            document.documentElement.style.setProperty('--height-sticky', '20px');
+                        }
+                    }
+
+                });
+            });
+            observer.observe(alertBig, { attributes: true });
+        }
+
+    }, 500)
+
+});

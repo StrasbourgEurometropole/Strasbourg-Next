@@ -691,6 +691,9 @@ body:not(.no-hover) .st-page-wrapper .login-container button{
   }
 }
 
+#tarteaucitronAlertBig.tarteaucitronAlertBigBottom[style*="display: block; opacity: 1;"] {
+  --height-sticky: 100px;
+}
 
 .video-player iframe {
   aspect-ratio: 16 / 9;
