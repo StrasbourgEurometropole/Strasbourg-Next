@@ -159,7 +159,18 @@
 			// Twitter
 			.twitter {
 				a:before {
-					content: "\e901";
+					content: "";
+					mask: url(../images/x.svg) no-repeat 50% 50%;
+					mask-size: cover;
+					background-color: $c_white;
+					height: 15px;
+					width: 15px;
+					margin: auto;
+				}
+				a:hover, a:focus {
+					&:before {
+						background-color: $c_white !important;
+					}
 				}
 			}
 	

@@ -89,5 +89,16 @@
 	content: "\e911";
 }
 .icon-ico-twitter:before {
-	content: "\e912";
+	content: "";
+	mask: url(../images/x.svg) no-repeat 50% 50%;
+	mask-size: cover;
+	background-color: $c_dark;
+	height: 20px;
+	width: 20px;
+	margin: auto;
+}
+a:hover .icon-ico-twitter, a:focus .icon-ico-twitter {
+	&:before {
+		background-color: $c_main !important;
+	}
 }

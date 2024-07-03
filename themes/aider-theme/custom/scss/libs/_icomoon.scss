@@ -223,9 +223,30 @@
 .icon-ico-connexion:before {
 	content: "\e900";
 }
+
 .icon-ico-twitter:before {
-	content: "\e901";
+	content: "";
+	mask: url(../images/x.svg) no-repeat 50% 50%;
+	mask-size: cover;
+	background-color: $c_grey;
+	height: 15px;
+	width: 15px;
+	margin: auto;
 }
+a:hover .icon-ico-twitter, a:focus .icon-ico-twitter {
+	&:before {
+		background-color: $c_grey !important;
+	}
+}
+.icon-ico-twitter:after {
+	content: "";
+	width: 15px;
+	border-bottom: solid 1px;
+	position: absolute;
+	bottom: 5px;
+	left: 4px;
+}
+
 .icon-ico-chevron-left:before {
 	content: "\e90e";
 }
