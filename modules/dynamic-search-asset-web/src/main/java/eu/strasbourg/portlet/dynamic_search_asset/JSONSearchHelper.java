@@ -554,11 +554,6 @@ public class JSONSearchHelper {
         );
 
         jsonLayout.put(
-                Constants.ATTRIBUTE_IMAGE_URL,
-                layout.getExpandoBridge().getAttribute("image")
-        );
-
-        jsonLayout.put(
                 Constants.ATTRIBUTE_MODIFIED_DATE,
                 dateFormat.format(layout.getModifiedDate())
         );
