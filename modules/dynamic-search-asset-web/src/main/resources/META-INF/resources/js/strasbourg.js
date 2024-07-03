@@ -390,6 +390,16 @@ function populateList(data) {
 var searchInput = document.getElementById('recherche-input');
 var typingTimer;
 var doneTypingInterval = 500;
+// wait until document is loaded
+document.addEventListener('DOMContentLoaded', function () {
+    setTimeout(function () {
+    var searchInputDOM = document.getElementById('recherche-input');
+    if (searchInputDOM.value.length >= 3) {
+        sendSearch();
+    }
+}
+, 500);
+});
 
 searchInput.addEventListener('input', function () {
     clearTimeout(typingTimer);
