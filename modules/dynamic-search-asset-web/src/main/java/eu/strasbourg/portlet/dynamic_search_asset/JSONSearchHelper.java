@@ -12,6 +12,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.portlet.dynamic_search_asset.constants.Constants;
 import eu.strasbourg.service.activity.model.Activity;
@@ -546,7 +547,10 @@ public class JSONSearchHelper {
 
         jsonLayout.put(
                 Constants.ATTRIBUTE_CHAPO,
-                HtmlUtil.stripHtml(layout.getDescription(locale))
+                StringUtil.shorten(
+                        HtmlUtil.stripHtml(layout.getDescription(locale)),
+                        tailleMax
+                )
         );
 
         jsonLayout.put(

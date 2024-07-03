@@ -26,11 +26,13 @@ public class QueryBuilder {
 
     private BooleanQuery superQuery;
     private BooleanQuery query;
+    private BooleanQuery filterQuery;
 
     public QueryBuilder(Queries queries) {
         this.queries = queries;
         this.superQuery = queries.booleanQuery();
         this.query = queries.booleanQuery();
+        this.filterQuery = queries.booleanQuery();
     }
 
     public QueryBuilder withAssetTypes(List<AssetType> assetTypes, List<String> classNamesOrStructuresSelected, String keywords) {
@@ -50,7 +52,7 @@ public class QueryBuilder {
             assetTypeQuery.addMustQueryClauses(classNameQuery);
             assetTypesQuery.addShouldQueryClauses(assetTypeQuery);
         }
-        this.query.addMustQueryClauses(assetTypesQuery);
+        this.filterQuery.addMustQueryClauses(assetTypesQuery);
         return this;
     }
 
@@ -148,7 +150,7 @@ public class QueryBuilder {
     public QueryBuilder withStatus(int status) {
         // Statut et visibilité
         TermQuery statusQuery = queries.term(Field.STATUS, status);
-        query.addMustQueryClauses(statusQuery);
+        filterQuery.addMustQueryClauses(statusQuery);
         return this;
     }
 
@@ -158,41 +160,56 @@ public class QueryBuilder {
             TermQuery tagQuery = queries.term(Field.ASSET_TAG_NAMES, tagId);
             tagsQuery.addMustNotQueryClauses(tagQuery);
         }
-        query.addMustQueryClauses(tagsQuery);
+        filterQuery.addMustQueryClauses(tagsQuery);
         return this;
     }
 
     public QueryBuilder withVisible(boolean visible) {
         TermQuery statusQuery = queries.term("visible", visible);
-        query.addMustQueryClauses(statusQuery);
+        filterQuery.addMustQueryClauses(statusQuery);
         return this;
     }
 
     public QueryBuilder withDateBeforeToday() {
         // Date de publication
         RangeTermQuery publicationDateQuery = queries.rangeTerm(Field.PUBLISH_DATE + "_sortable", true, true, 0, Timestamp.valueOf(LocalDateTime.now()).toInstant().toEpochMilli());
-        query.addMustQueryClauses(publicationDateQuery);
+        filterQuery.addMustQueryClauses(publicationDateQuery);
         return this;
     }
 
-    public BooleanQuery addKeywordField(String field, String keyword, Float boost){
+    public BooleanQuery addKeywordField(String field, String keyword, Float boost, Boolean searchExact){
         BooleanQuery keywordQuery = queries.booleanQuery();
-        BooleanQuery mustQuery = queries.booleanQuery();
 
         MatchQuery matchQuery = queries.match(field, keyword);
         matchQuery.setBoost(boost);
         matchQuery.setFuzziness(2f);
+        matchQuery.setOperator(Operator.OR);
         matchQuery.setAnalyzer("strasbourg_analyzer");
-        MatchPhrasePrefixQuery matchPhrasePrefixQuery = queries.matchPhrasePrefix(field, keyword);
-        matchPhrasePrefixQuery.setBoost(boost);
-        matchPhrasePrefixQuery.setAnalyzer("strasbourg_analyzer");
-        MatchPhraseQuery matchPhraseQuery = queries.matchPhrase(field, keyword);
-        matchPhraseQuery.setBoost(boost);
-        matchPhraseQuery.setAnalyzer("strasbourg_analyzer");
-        mustQuery.addShouldQueryClauses(matchQuery, matchPhrasePrefixQuery);
 
-        keywordQuery.addShouldQueryClauses(matchPhraseQuery);
-        keywordQuery.addMustQueryClauses(mustQuery);
+        MatchQuery matchApproxQuery = queries.match(field, keyword);
+        matchQuery.setOperator(Operator.OR);
+        matchQuery.setAnalyzer("strasbourg_analyzer");
+
+
+        if(searchExact) {
+            MatchQuery matchExactQuery = queries.match(field + ".exact", keyword);
+            matchExactQuery.setBoost(boost + 2f);
+            matchExactQuery.setAnalyzer("standard");
+            keywordQuery.addShouldQueryClauses(matchExactQuery);
+        }
+
+        MatchPhraseQuery matchPhraseQuery = queries.matchPhrase(field, keyword);
+        matchPhraseQuery.setSlop(5);
+        matchPhraseQuery.setBoost(boost + 2f);
+        matchPhraseQuery.setAnalyzer("strasbourg_analyzer");
+
+        MatchPhrasePrefixQuery matchPhrasePrefixQuery = queries.matchPhrasePrefix(field, keyword);
+        matchPhrasePrefixQuery.setSlop(5);
+        matchPhrasePrefixQuery.setBoost(boost + 2f);
+        matchPhrasePrefixQuery.setAnalyzer("strasbourg_analyzer");
+
+
+        keywordQuery.addShouldQueryClauses(matchPhraseQuery, matchPhrasePrefixQuery, matchQuery, matchApproxQuery);
 
         return keywordQuery;
 
@@ -211,7 +228,7 @@ public class QueryBuilder {
 
             BooleanQuery shouldQuery = queries.booleanQuery();
             for(Map.Entry<String, Float> entry : fieldBoost.entrySet()) {
-                BooleanQuery booleanQuery = addKeywordField(entry.getKey(), keywords, entry.getValue());
+                BooleanQuery booleanQuery = addKeywordField(entry.getKey(), keywords, entry.getValue(), entry.getValue() > 20f);
                 shouldQuery.addShouldQueryClauses(booleanQuery);
             }
 
@@ -247,13 +264,13 @@ public class QueryBuilder {
                         + String.format("%02d", toDate.getDayOfMonth()) + "000000";
 
                 RangeTermQuery datesQuery = queries.dateRangeTerm("dates", true, true, fromDateString, toDateString);
-                query.addMustQueryClauses(datesQuery);
+                filterQuery.addMustQueryClauses(datesQuery);
             } else {
                 long fromDateEpoch = fromDate.atStartOfDay().toEpochSecond(ZoneOffset.UTC) * 1000;
                 long toDateEpoch = toDate.plusDays(1).atStartOfDay().toEpochSecond(ZoneOffset.UTC) * 1000;
 
                 RangeTermQuery datesQuery = queries.rangeTerm(filterField, true, true, fromDateEpoch, toDateEpoch);
-                query.addMustQueryClauses(datesQuery);
+                filterQuery.addMustQueryClauses(datesQuery);
             }
 
         return this;
@@ -270,7 +287,7 @@ public class QueryBuilder {
                 TermQuery categoryQuery = queries.term(Field.ASSET_CATEGORY_IDS, String.valueOf(categoryId));
                 vocabularyQuery.addShouldQueryClauses(categoryQuery);
             }
-            query.addMustQueryClauses(vocabularyQuery);
+            filterQuery.addMustQueryClauses(vocabularyQuery);
         }
         return this;
     }
@@ -278,7 +295,7 @@ public class QueryBuilder {
     public QueryBuilder withPlace(String placeSigId) {
         if (Validator.isNotNull(placeSigId)) {
             MatchQuery placeQuery = queries.match("idSIGPlace", placeSigId);
-            this.query.addMustQueryClauses(placeQuery);
+            this.filterQuery.addMustQueryClauses(placeQuery);
         }
         return this;
     }
@@ -289,12 +306,14 @@ public class QueryBuilder {
             TermQuery tagQuery = queries.term(Field.ASSET_TAG_NAMES, tagId);
             tagsQuery.addShouldQueryClauses(tagQuery);
         }
-        query.addMustQueryClauses(tagsQuery);
+        filterQuery.addMustQueryClauses(tagsQuery);
         return this;
     }
 
     public Query build() {
-        this.superQuery.addShouldQueryClauses(this.query);
+        this.superQuery.addMustQueryClauses(this.query);
+        this.superQuery.addFilterQueryClauses(this.filterQuery);
+
         return this.superQuery;
     }
 
