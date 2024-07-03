@@ -20,7 +20,7 @@ public class ActivityCourseHandler extends  AssetHandler {
             logNotFound(assetEntry.getClassName(), assetEntry.getClassPK());
             return;
         }
-        JSONObject jsonActivityCourse = JSONSearchHelper.createActivityCourseSearchJson(activityCourse, getImageURL(fileEntryHelperService, activityCourse.getImageId()), locale, themeDisplay, configAffichage);
+        JSONObject jsonActivityCourse = JSONSearchHelper.createActivityCourseSearchJson(activityCourse, getImageURL(fileEntryHelperService, activityCourse.getActivity().getImageId()), locale, themeDisplay, configAffichage);
         jsonActivityCourse = JSONSearchHelper.createAssetEntrySearchJson(jsonActivityCourse, assetEntry);
         jsonResponse.put(jsonActivityCourse);
     }
