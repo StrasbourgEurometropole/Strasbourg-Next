@@ -16,12 +16,7 @@
             <div class="splide__track st-u-overflow-visible">
                 <ul class="splide__list">
                     <#list entries as curEntry>
-
-                        <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-                            <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-                        <#else>
-                            <#assign homeURL = "/" />
-                        </#if>
+                        <#assign homeURL = "/" />
 
                         <#assign entry = curEntry.getAssetRenderer().getVideo() />
                         <#assign viewURL = homeURL + "video/-/entity/id/" + entry.getVideoId() />
