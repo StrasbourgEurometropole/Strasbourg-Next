@@ -232,6 +232,7 @@ function createCourseVignette(data) {
             <div class="st-caption">
             ${data.title ? `<h3 class="st-title-card">${data.title}</h3>` : ''}
                ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
+               ${data.description ?`<p class="st-text">${data.description}</p>` : ''}
             </div>
            <div class="st-image">
                 ${generateImage(data.imageURL)}

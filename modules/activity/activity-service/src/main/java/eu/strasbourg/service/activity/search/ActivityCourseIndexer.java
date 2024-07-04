@@ -7,13 +7,16 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.search.BaseIndexer;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.activity.service.ActivityCourseLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
@@ -31,6 +34,10 @@ public class ActivityCourseIndexer extends BaseIndexer<ActivityCourse> {
 	public static final String CLASS_NAME = ActivityCourse.class.getName();
 
 	public ActivityCourseIndexer() {
+		setDefaultSelectedFieldNames(
+				Field.ASSET_TAG_NAMES, Field.COMPANY_ID, Field.CONTENT,
+				Field.ENTRY_CLASS_NAME, Field.ENTRY_CLASS_PK, Field.GROUP_ID,
+				Field.MODIFIED_DATE, Field.SCOPE_GROUP_ID, Field.TITLE, Field.UID);
 		setFilterSearch(true);
 		setPermissionAware(true);
 	}
@@ -66,6 +73,9 @@ public class ActivityCourseIndexer extends BaseIndexer<ActivityCourse> {
 
 		document.addLocalizedText(Field.TITLE, activityCourse.getNameMap());
 		document.addNumber(Field.STATUS, activityCourse.getStatus());
+		// little hack to allow guest user to see the activityCourse
+		Company company  = CompanyLocalServiceUtil.fetchCompany(activityCourse.getCompanyId());
+		document.addKeyword("sharedToUserId", List.of(company.getGuestUser().getUserId()).toArray(new Long[1]));
 		return document;
 	}
 

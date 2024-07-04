@@ -8,6 +8,7 @@ import com.liferay.portal.configuration.module.configuration.ConfigurationProvid
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ClassName;
+import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
@@ -18,6 +19,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.dynamic_search_asset.handler.AssetHandlerFactory;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -181,10 +183,10 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 			DynamicSearchAssetConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(DynamicSearchAssetConfiguration.class, themeDisplay);
 			
 			// Liste tous les types possibles d'asset
-			// On ne prend que ceux qui commencent par "eu.strasbourg"
+			// On ne prend que ceux qui sont supporté par le AssetHandler
 			List<AssetRendererFactory<?>> availableAssetRendererFactories = AssetRendererFactoryRegistryUtil.getAssetRendererFactories(
 					themeDisplay.getCompany().getCompanyId()).stream().filter(a -> a.isCategorizable()
-					&& a.getClassName().startsWith("eu.strasbourg")).collect(Collectors.toList());
+					&& AssetHandlerFactory.getSupportedAssetTypes().contains(a.getClassName())).collect(Collectors.toList());
 //			List<AssetRendererFactory<?>> availableAssetRendererFactories = ListUtil
 //					.filter(
 //							AssetRendererFactoryRegistryUtil.getAssetRendererFactories(
