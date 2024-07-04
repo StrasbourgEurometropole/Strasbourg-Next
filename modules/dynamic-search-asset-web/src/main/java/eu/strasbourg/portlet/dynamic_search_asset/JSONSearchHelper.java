@@ -1051,6 +1051,10 @@ public class JSONSearchHelper {
             case Constants.SEARCH_FORM_STRASBOURG:
                 jsonActivityCourse.put(
                         Constants.ATTRIBUTE_CATEGORIES,
+                        activityCourse.getTypesLabels(locale)
+                );
+                jsonActivityCourse.put(
+                        Constants.ATTRIBUTE_DESCRIPTION,
                         activityCourse.getActivity().getTitle(locale)
                 );
 

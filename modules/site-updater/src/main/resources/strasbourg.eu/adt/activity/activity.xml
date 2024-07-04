@@ -7,4 +7,9 @@
         <name>Vignette activités</name>
         <key>1207730</key>
     </template>
+    <template>
+        <script>activity-detail.ftl</script>
+        <name>Detail Activités</name>
+        <key>1207752</key>
+    </template>
 </root>
