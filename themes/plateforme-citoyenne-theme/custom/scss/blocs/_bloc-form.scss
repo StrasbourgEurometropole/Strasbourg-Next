@@ -250,6 +250,7 @@ form{
 				display: flex;
 				flex-direction: row-reverse;
 				align-items: center;
+				justify-content: flex-end;
 				input[type=radio]+span {
 					margin-right: 20px;
 				}

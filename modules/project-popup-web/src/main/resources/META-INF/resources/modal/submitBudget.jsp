@@ -133,12 +133,7 @@
                             <aui:input name="mobile" label="modal.user.mobile" maxlength="20" value="" onInput="checkValuesSubmitBudget();"/>
                         </div>
                     </div>
-                    <div class="form-group"  >
-                        <label>Niveau d'engagement dans le projet </label>
-                        <aui:input type="radio" label="eu.participer.commitment.want-to-commit" value="want-to-commit" name="commitment"/>
-                        <aui:input type="radio" label="eu.participer.commitment.dont-want-to-commit" value="dont-want-to-commit" name="commitment"/>
-                        <aui:input type="radio" label="eu.participer.commitment.dont-know-yet" value="dont-know-yet" name="commitment"/>
-                    </div>
+
                     <div class="form-group form-checkbox" id="checkboxSaveInfo" >
                         <div>
                             <input type="checkbox" id="save-info" value="info">
@@ -146,6 +141,13 @@
                             	<liferay-ui:message key="modal.save.info"/>
                             </label>
                         </div>
+                    </div>
+
+                    <div class="form-group"  >
+                        <label><liferay-ui:message key="modal.submitbudget.commitement"/></label>
+                        <aui:input type="radio" label="eu.participer.commitment.want-to-commit" value="want-to-commit" name="commitment"/>
+                        <aui:input type="radio" label="eu.participer.commitment.dont-want-to-commit" value="dont-want-to-commit" name="commitment"/>
+                        <aui:input type="radio" label="eu.participer.commitment.dont-know-yet" value="dont-know-yet" name="commitment"/>
                     </div>
                 </div>
                 <div class="top-slope"></div>
