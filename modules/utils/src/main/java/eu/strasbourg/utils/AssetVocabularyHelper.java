@@ -736,9 +736,11 @@ public class AssetVocabularyHelper {
 		return cities;
 	}
 
-	public static String getDistrictTitleForCity(Locale locale, List<AssetCategory> assetDistrictCategories, List<AssetCategory> assetCityCategories, String city) {
+	public static String getDistrictTitleForCity(Locale locale, List<AssetCategory> assetDistrictCategories, List<AssetCategory> assetCityCategories, List<String> city) {
 		StringBuilder result = new StringBuilder();
-		boolean isAllDistricts = AssetVocabularyHelper.isAllDistrictOfCity(assetDistrictCategories, city);
+		boolean isAllDistricts = city.stream()
+				.anyMatch(cityName -> AssetVocabularyHelper.isAllDistrictOfCity(assetDistrictCategories, cityName));
+
 		boolean isAllCities= AssetVocabularyHelper.isAllFrenchCity(assetCityCategories.size());
 
 		if ((assetCityCategories == null || assetCityCategories.isEmpty()) && (assetDistrictCategories == null || assetDistrictCategories.isEmpty())) {
@@ -782,7 +784,7 @@ public class AssetVocabularyHelper {
 	}
 
 	public static String getDistrictTitle(Locale locale, List<AssetCategory> assetDistrictCategories, List<AssetCategory> assetCityCategories) {
-		return getDistrictTitleForCity(locale, assetDistrictCategories, assetCityCategories, "Strasbourg");
+		return getDistrictTitleForCity(locale, assetDistrictCategories, assetCityCategories, List.of("Strasbourg"));
 	}
 
 	/**
