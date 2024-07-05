@@ -241,8 +241,8 @@ public class QueryBuilder {
         if (Validator.isNotNull(keywords)) {
             Map<String, Float> fieldBoost = new HashMap<String, Float>() {{
                 put(Field.TITLE + "_" + locale.toString(), 30f);
-                put(Field.CONTENT + "_" + locale.toString(), 10f);
-                put(Field.DESCRIPTION + "_" + locale.toString(), 10f);
+                put(Field.CONTENT + "_" + locale.toString(), 1f);
+                put(Field.DESCRIPTION + "_" + locale.toString(), 1f);
                 put(Field.ASSET_CATEGORY_TITLES + "_" + locale.toString(), 15f);
                 put(Field.ASSET_TAG_NAMES  + "_" + locale.toString(), 15f);
             }};
