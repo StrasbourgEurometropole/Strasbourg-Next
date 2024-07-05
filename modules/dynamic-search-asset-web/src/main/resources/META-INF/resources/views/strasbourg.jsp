@@ -43,6 +43,12 @@ title="Overlay" />
                             <li>
                                 <button type="button" id="dynamic_search_type_layouts" data-entity-classname="com.liferay.portal.kernel.model.Layout" class="st-btn-filter-search st-is-active" aria-pressed="true"><liferay-ui:message key="search.pages" /></button>
                             </li>
+                            <li>
+                                <button type="button" id="dynamic_search_type_activity" data-entity-classname="eu.strasbourg.service.activity.model.Activity" class="st-btn-filter-search st-is-active" aria-pressed="true"><liferay-ui:message key="search.activity" /></button>
+                            </li>
+                            <li>
+                                <button type="button" id="dynamic_search_type_activityCourse" data-entity-classname="eu.strasbourg.service.activity.model.ActivityCourse" class="st-btn-filter-search st-is-active" aria-pressed="true"><liferay-ui:message key="search.activity-course" /></button>
+                            </li>
                         </ul>
                     </fieldset>
 
