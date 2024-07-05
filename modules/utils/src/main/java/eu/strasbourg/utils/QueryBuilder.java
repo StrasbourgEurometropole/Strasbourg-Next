@@ -194,6 +194,7 @@ public class QueryBuilder {
 
         MatchQuery matchQuery = queries.match(field, keyword);
         matchQuery.setBoost(boost);
+        matchQuery.setFuzziness(2f);
         matchQuery.setOperator(Operator.OR);
         matchQuery.setQueryName("match");
         matchQuery.setAnalyzer("strasbourg_analyzer");
