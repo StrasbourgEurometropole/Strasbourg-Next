@@ -2,6 +2,10 @@ package eu.strasbourg.utils;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.layout.page.template.constants.LayoutPageTemplateCollectionTypeConstants;
+import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.LayoutConstants;
+import com.liferay.portal.kernel.model.LayoutType;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -144,6 +148,13 @@ public class QueryBuilder {
             }
             assetTypeQuery.addMustQueryClauses(prefiltersQuery);
         }
+
+        if(assetType.getClassName().equals(Layout.class.getName())) {
+            // Exclusion des layouts de page de la redirect
+            TermQuery linkLayout = queries.term(Field.TYPE, LayoutConstants.TYPE_LINK_TO_LAYOUT);
+            TermQuery urlLayout = queries.term(Field.TYPE, LayoutConstants.TYPE_URL);
+            assetTypeQuery.addMustNotQueryClauses(linkLayout, urlLayout);
+        }
         return assetTypeQuery;
     }
 
@@ -179,33 +190,43 @@ public class QueryBuilder {
 
     public BooleanQuery addKeywordField(String field, String keyword, Float boost, Boolean searchExact){
         BooleanQuery keywordQuery = queries.booleanQuery();
+        keywordQuery.setQueryName("keywordQuery" + field);
 
         MatchQuery matchQuery = queries.match(field, keyword);
         matchQuery.setBoost(boost);
-        matchQuery.setFuzziness(2f);
         matchQuery.setOperator(Operator.OR);
+        matchQuery.setQueryName("match");
         matchQuery.setAnalyzer("strasbourg_analyzer");
 
         MatchQuery matchApproxQuery = queries.match(field, keyword);
-        matchQuery.setOperator(Operator.OR);
-        matchQuery.setAnalyzer("strasbourg_analyzer");
+        matchApproxQuery.setQueryName("matchApprox");
+        matchApproxQuery.setBoost(boost);
+
+        MatchPhraseQuery matchPhraseQuery = queries.matchPhrase(field, keyword);
+        matchPhraseQuery.setSlop(2);
+        matchPhraseQuery.setQueryName("matchPhrase");
+        matchPhraseQuery.setBoost(boost + 4f);
+        matchPhraseQuery.setAnalyzer("standard");
 
 
         if(searchExact) {
             MatchQuery matchExactQuery = queries.match(field + ".exact", keyword);
             matchExactQuery.setBoost(boost + 2f);
             matchExactQuery.setAnalyzer("standard");
+            matchExactQuery.setQueryName("matchExact");
             keywordQuery.addShouldQueryClauses(matchExactQuery);
         }
 
-        MatchPhraseQuery matchPhraseQuery = queries.matchPhrase(field, keyword);
-        matchPhraseQuery.setSlop(5);
-        matchPhraseQuery.setBoost(boost + 2f);
-        matchPhraseQuery.setAnalyzer("strasbourg_analyzer");
+        MatchPhraseQuery matchPhraseAnalyzerQuery = queries.matchPhrase(field, keyword);
+        matchPhraseAnalyzerQuery.setSlop(5);
+        matchPhraseAnalyzerQuery.setQueryName("matchPhrase");
+        matchPhraseAnalyzerQuery.setBoost(boost + 4f);
+        matchPhraseAnalyzerQuery.setAnalyzer("strasbourg_analyzer");
 
         MatchPhrasePrefixQuery matchPhrasePrefixQuery = queries.matchPhrasePrefix(field, keyword);
         matchPhrasePrefixQuery.setSlop(5);
         matchPhrasePrefixQuery.setBoost(boost + 2f);
+        matchPhrasePrefixQuery.setQueryName("matchPhrasePrefix");
         matchPhrasePrefixQuery.setAnalyzer("strasbourg_analyzer");
 
 
@@ -220,8 +241,8 @@ public class QueryBuilder {
         if (Validator.isNotNull(keywords)) {
             Map<String, Float> fieldBoost = new HashMap<String, Float>() {{
                 put(Field.TITLE + "_" + locale.toString(), 30f);
-                put(Field.CONTENT + "_" + locale.toString(), 1f);
-                put(Field.DESCRIPTION + "_" + locale.toString(), 1f);
+                put(Field.CONTENT + "_" + locale.toString(), 10f);
+                put(Field.DESCRIPTION + "_" + locale.toString(), 10f);
                 put(Field.ASSET_CATEGORY_TITLES + "_" + locale.toString(), 15f);
                 put(Field.ASSET_TAG_NAMES  + "_" + locale.toString(), 15f);
             }};
