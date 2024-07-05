@@ -601,35 +601,6 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         reindex(budgetParticipatif, false);
         return budgetParticipatif;
     }
-
-    /**
-     * On randomise la date de modifications des budgets participatifs
-     * Cela permet de simuler un tri aléatoire
-     */
-    @Override
-    public void randomizeModifiedDate() throws SearchException {
-        List<BudgetParticipatif> budgets = this.getBudgetParticipatifs(-1,-1);
-        Random rnd;
-        Date    dt;
-        long    ms;
-
-        for (BudgetParticipatif budget: budgets) {
-
-            // Get a new random instance, seeded from the clock
-            rnd = new Random();
-
-            // Get an Epoch value roughly between 1940 and 2010
-            // -946771200000L = January 1, 1940
-            // Add up to 70 years to it (using modulus on the next long)
-            ms = -946771200000L + (Math.abs(rnd.nextLong()) % (70L * 365 * 24 * 60 * 60 * 1000));
-
-            // Construct a date
-            dt = new Date(ms);
-            budget.setModifiedDate(dt);
-            this.updateBudgetParticipatif(budget);
-            this.reindex(budget, false);
-        }
-    }
     
     @Override
     public List<BudgetParticipatif> getBudgetParticipatifByPublikUserID(String publikId){
