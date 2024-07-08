@@ -74,6 +74,10 @@ public class SearchAssociationPortlet extends MVCPortlet {
 			request.setAttribute("classNameLayoutId", className_layoutId);
 			request.setAttribute("description", description);
 
+			if(Validator.isNotNull(ParamUtil.getString(request, "domain"))) {
+				request.setAttribute("userSearch", true);
+			}
+
 			super.render(request, response);
 		} catch (Exception ex) {
 			log.error(ex);
