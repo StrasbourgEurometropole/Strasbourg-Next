@@ -442,7 +442,7 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			isValid = false;
 		}
 
-		if (!Validator.isUrl(imageURL)) {
+		if (imageId == 0 && !Validator.isUrl(imageURL)) {
 			SessionErrors.add(request, "image-format-error");
 			isValid = false;
 		}
