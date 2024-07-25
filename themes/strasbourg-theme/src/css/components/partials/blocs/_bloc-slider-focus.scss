@@ -43,12 +43,12 @@
 
 		&:before {
 			left: 0;
-			background-image: linear-gradient(to right, rgba($c_main, 1), rgba($c_main, 0));
+			background-image: linear-gradient(to right, color-mix(in srgb, $c_main 100%, transparent), color-mix(in srgb, $c_main 0%, transparent));
 		}
 
 		&:after {
 			right: 0;
-			background-image: linear-gradient(to left, rgba($c_main, 1), rgba($c_main, 0));
+			background-image: linear-gradient(to left, color-mix(in srgb, $c_main 100%, transparent), color-mix(in srgb, $c_main 0%, transparent));
 		}
 	}
 
@@ -128,7 +128,7 @@
 		figure {
 			&:after {
 				@include pseudo-block-stretch();
-				background: linear-gradient(-90deg, rgba($c_main, 0), rgba($c_main, 1));
+				background: linear-gradient(-90deg, color-mix(in srgb, $c_main 0%, transparent), color-mix(in srgb, $c_main 100%, transparent));
 				opacity: 0.75;
 				pointer-events: none;
 				@include transition(opacity);

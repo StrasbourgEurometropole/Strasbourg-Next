@@ -11,7 +11,7 @@
 	white-space: nowrap;
 	background-color: $c_black;
 	border-radius: 2px;
-	box-shadow: 0 0 20px rgba($c_black, 0.15);
+	box-shadow: 0 0 20px color-mix(in srgb, $c_black 15%, transparent);
 	transform: translate(-50%, 6px);
 	opacity: 0;
 	visibility: hidden;

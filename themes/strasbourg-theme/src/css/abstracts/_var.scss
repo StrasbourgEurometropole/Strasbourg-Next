@@ -1,16 +1,12 @@
 // ==============================================
-
 //        VARIABLES SASS & CSS
-
 // ==============================================
-
 
 // Fonts
 // ==========================================================================
-$f_hx: 'TTFors', Sans-Serif;
-$f_txt: 'TTFors', Sans-Serif;
-$f_spe: 'TTFors', Sans-Serif;
-
+$f_hx: var(--f-hx, 'TTFors', Sans-Serif);
+$f_txt: var(--f-txt, 'TTFors', Sans-Serif);
+$f_spe: var(--f-spe, 'TTFors', Sans-Serif);
 
 // Surcharge du path par défaut des fonts icomoon
 // ==========================================================================
@@ -18,20 +14,20 @@ $icomoon-font-path: "../fonts/icomoon/fonts";
 
 
 // Colors
-// ================================================ ==========================
-$c_main: #171C22;
-$c_sub: var(--secondary,#2AD783);
-$c_greydark: var(--greyDark,#20272F);
-$c_greymedium: var(--greyMedium,#282F38);
-$c_border: var(--border,#51555A);
-$c_grey: var(--grey,#B1B9C3);
-$c_gradient: var(--gradient,#1E2329);
-$c_txt: var(--textColor,#B1B9C3);
+// ==========================================================================
+$c_main: var(--main, #171C22);
+$c_sub: var(--secondary, #2AD783);
+$c_greydark: var(--c-greyDark, #20272F);
+$c_greymedium: var(--greyMedium, #282F38);
+$c_border: var(--border, #51555A);
+$c_grey: var(--grey, #B1B9C3);
+$c_gradient: var(--gradient, #1E2329);
+$c_txt: var(--textColor, #B1B9C3);
 
-$c_black: #000000;
-$c_white: #FFFFFF;
-$c_pink: #FF9F9F;
-$c_error: #E91741;
+$c_black: var(--blackColor, #000000);
+$c_white: var(--whiteColor, #FFFFFF);
+$c_pink: var(--errorSecondaryColor, #FF9F9F);
+$c_error: var(--errorColor, #E91741);
 
 // Sizes
 // ==========================================================================
@@ -62,7 +58,6 @@ $z-layers: (
 		'default' : 1,
 		'below' : -1,
 );
-
 
 // Width / Height / Spacing
 // ==========================================================================
@@ -120,7 +115,6 @@ $border-radius-small: 3px;
 
 // Breakpoints
 // ==========================================================================
-
 $breakpoints: (
 		mobile-small : 320px,
 		mobile : 599px,
