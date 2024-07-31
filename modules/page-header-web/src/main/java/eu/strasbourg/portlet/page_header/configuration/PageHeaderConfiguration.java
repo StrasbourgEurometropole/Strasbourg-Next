@@ -16,13 +16,13 @@ public interface PageHeaderConfiguration {
 	@Meta.AD(name="imageCredit", deflt = "", required = false)
 	public String imageCredit();
 
-	@Meta.AD(name="title", deflt = "", required = false)
-	public String title();
+	@Meta.AD(name="titleXML", deflt = "", required = false)
+	public String titleXML();
 
-	@Meta.AD(name="subTitle", deflt = "", required = false)
-	public String subTitle();
+	@Meta.AD(name="subTitleXML", deflt = "", required = false)
+	public String subTitleXML();
 
-	@Meta.AD(name="imageUrl", deflt = "", required = false)
-	public String imageUrl();
+	@Meta.AD(name="imageUrlXML", deflt = "", required = false)
+	public String imageUrlXML();
 
 }
