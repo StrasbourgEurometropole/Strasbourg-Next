@@ -31,15 +31,6 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <@liferay.breadcrumbs />
             </div>
         </div>
-        <#if  panoramique.getData()?has_content>
-            <div class="st-img-wrapper" tabindex="0">
-                <figure class="st-figure st-fit-cover figcaption-only-credits" role="group" aria-label="">
-                    <picture>
-                        <img alt="" src="${panoramique.getData()}">
-                    </picture>
-                </figure>
-            </div>
-        </#if>
     </div>
 </header>
 
