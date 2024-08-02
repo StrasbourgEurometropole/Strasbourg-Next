@@ -14,8 +14,38 @@
 
 package eu.strasbourg.service.place.model.impl;
 
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.models.Pair;
+
+import java.text.DateFormat;
+import java.time.LocalTime;
+
 /**
  * @author Angelique Zunino Champougny
  */
 public class PublicHolidayImpl extends PublicHolidayBaseImpl {
+
+    /**
+     * Retourne la version JSON des jours fériés
+     */
+    @Override
+    public JSONObject toJSON() {
+        JSONObject publicHolidayJSON = JSONFactoryUtil.createJSONObject();
+
+        publicHolidayJSON.put("description",
+                JSONHelper.getJSONFromI18nMap(this.getNameMap()));
+        DateFormat dateFormat = DateFormatFactoryUtil
+                .getSimpleDateFormat("yyyy-MM-dd");
+        publicHolidayJSON.put("startDate",
+                dateFormat.format(this.getDate()));
+        publicHolidayJSON.put("endDate",
+                dateFormat.format(this.getDate()));
+        publicHolidayJSON.put("closed", true);
+
+        return publicHolidayJSON;
+    }
 }
