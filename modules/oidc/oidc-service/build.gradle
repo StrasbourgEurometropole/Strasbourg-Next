@@ -12,6 +12,7 @@ dependencies {
 	implementation project(":modules:comment:comment-api")
 	implementation project(":modules:like:like-api")
 	implementation project (':modules:form-send-record-field:form-send-record-field-api')
+	implementation project (':modules:csmap:csmap-api')
 
 }
 

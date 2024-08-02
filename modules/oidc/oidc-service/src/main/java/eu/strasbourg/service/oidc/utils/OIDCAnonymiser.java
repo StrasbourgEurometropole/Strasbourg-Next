@@ -7,6 +7,8 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.csmap.model.RefreshToken;
+import eu.strasbourg.service.csmap.service.RefreshTokenLocalServiceUtil;
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
 import eu.strasbourg.service.interest.model.UserInterest;
@@ -188,6 +190,16 @@ public class OIDCAnonymiser {
                                                 for (UserNotificationChannel userNotificationChannel : userNotificationChannels) {
                                                     // Suppression
                                                     UserNotificationChannelLocalServiceUtil.deleteUserNotificationChannel(userNotificationChannel);
+                                                }
+                                            }
+
+                                            // Suppression du refreshToken de l'utilisateur
+                                            List<RefreshToken> refreshTokens = RefreshTokenLocalServiceUtil.
+                                                    getByPublikId(publikUser.getPublikId());
+                                            if (!refreshTokens.isEmpty()) {
+                                                for (RefreshToken refreshToken : refreshTokens) {
+                                                    // Suppression
+                                                    RefreshTokenLocalServiceUtil.deleteRefreshToken(refreshToken);
                                                 }
                                             }
 

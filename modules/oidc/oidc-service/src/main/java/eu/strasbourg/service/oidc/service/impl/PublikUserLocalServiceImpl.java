@@ -330,7 +330,8 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 	 * Anonymise l'utilisateur pour placit
 	 * suppression de la signature du pacte,
 	 * anonymisation de ProjectFollowed, EventParticipation, Petition, Signataire, BudgetParticipatif,
-	 *     BudgetSupport, Initiative, InitiativeHelp, Comment et Like
+	 *     BudgetSupport, Initiative, InitiativeHelp, SaisineObservatoire, Comment, Like, Signalement
+	 *     et FormSendRecordFieldSignalement
 	 */
 	@Override
 	public void anonymisedUserPlacit(PublikUser anonymUser, PublikUser publikUser) {
@@ -351,8 +352,7 @@ public class PublikUserLocalServiceImpl extends PublikUserLocalServiceBaseImpl {
 			}
 		}
 
-		// Anonymisation des informations utilisateur dans participation à des
-		// évènements
+		// Anonymisation des informations utilisateur dans participation à des évènements
 		List<EventParticipation> eventParticipations = EventParticipationLocalServiceUtil
 				.getByPublikUser(publikUser.getPublikId());
 		if (!eventParticipations.isEmpty()) {
