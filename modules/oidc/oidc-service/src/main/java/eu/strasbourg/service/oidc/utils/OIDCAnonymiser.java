@@ -120,7 +120,7 @@ public class OIDCAnonymiser {
                                         .filter(p -> p.getIsActive())
                                         .filter(p -> !p.getBeginVoteDate().after(today))
                                         .filter(p -> !p.getEndVoteDate().before(today))
-                                        .findFirst().get();
+                                        .findFirst().orElse(null);
                                 if(phaseActive != null)
                                     this.anonymisationHistoric.addNewOperation("Nous sommes en p&eacute;riode de vote pour la phase " +
                                             phaseActive.getTitle() +
