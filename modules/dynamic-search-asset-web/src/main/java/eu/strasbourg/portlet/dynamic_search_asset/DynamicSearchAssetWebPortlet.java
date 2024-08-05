@@ -316,7 +316,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 			}else if(resourceID.equals("logChoice")){
 				// On logue le choix de l'utilsateur
 				long searchLogId = ParamUtil.getLong(request, "searchLogId");
-				SearchLog searchLog = SearchLogLocalServiceUtil.fetchSearchLog(searchLogId);
+				/*SearchLog searchLog = SearchLogLocalServiceUtil.fetchSearchLog(searchLogId);
 				if (searchLog != null) {
 					long userTargetClassId = ParamUtil.getLong(request, "classNameId");
 					long userTargetClassPK = ParamUtil.getLong(request, "classPK");
@@ -325,7 +325,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 					searchLog.setUserTargetClassPK(userTargetClassPK);
 					searchLog.setUserTargetTitle(userTargetTitle);
 					SearchLogLocalServiceUtil.updateSearchLog(searchLog);
-				}
+				}*/
 			}
 			
 		} catch (Exception e) {
@@ -333,7 +333,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		}
 		super.serveResource(request, response);
 	}
-	
+
 	/**
 	 * Applique un comportement de filtrage suplémentaire selon le template 
 	 * de formulaire configuré
@@ -569,13 +569,14 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 
 		// Gestion du log
 		JSONObject jsonSearchLog = JSONFactoryUtil.createJSONObject();
-		ServiceContext sc = ServiceContextFactory.getInstance(request);
+		/*ServiceContext sc = ServiceContextFactory.getInstance(request);
 		AssetEntry result1 = assetEntries.size() > 0 ? assetEntries.get(0) : null;
 		AssetEntry result2 = assetEntries.size() > 1 ? assetEntries.get(1) : null;
 		AssetEntry result3 = assetEntries.size() > 2 ? assetEntries.get(2) : null;
 		SearchLog searchLog = SearchLogLocalServiceUtil.addSearchLog(sc, keywords,
 				totalResult, result1, result2, result3, null, searchTime);
-		jsonSearchLog.put("searchLogId", searchLog.getSearchLogId());
+		jsonSearchLog.put("searchLogId", searchLog.getSearchLogId());*/
+		jsonSearchLog.put("searchLogId", 1);
 		jsonResponse.put(jsonSearchLog);
 
 		return  jsonResponse;
