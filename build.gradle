@@ -1,0 +1,11 @@
+plugins {
+    id "org.sonarqube" version "5.0.0.4638"
+}
+
+sonar {
+    properties {
+        property "sonar.projectKey", "liferay-strasbourg-next"
+        property "sonar.projectName", "Liferay Strasbourg Next"
+        property "sonar.qualitygate.wait", true
+    }
+}

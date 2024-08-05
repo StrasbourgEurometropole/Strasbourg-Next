@@ -1,0 +1,65 @@
+volumes:
+  db_data:
+  es_data:
+  document_library_volume:
+
+
+services:
+  app:
+    image: harbor-cds.sully-group.fr/ems/strasbourg-next:recette
+    environment:
+      - SOURCE_DB_PASSWORD=${SOURCE_DB_PASSWORD}
+      - JAVA_VERSION=zulu11
+      - LIFERAY_DISABLE_TRIAL_LICENSE=true
+      - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME=com.mysql.cj.jdbc.Driver
+      - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_URL=jdbc:mysql://db/lportal?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&useFastDateParsing=false&useUnicode=true&serverTimezone=Europe/Paris
+      - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_USERNAME=lportal
+      - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_PASSWORD=lportal
+      - LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_SMTP_PERIOD_AUTH=false
+      - LIFERAY_ADMIN_PERIOD_EMAIL_PERIOD_FROM_PERIOD_ADDRESS=test@liferay.com
+      - LIFERAY_ADMIN_PERIOD_EMAIL_PERIOD_FROM_PERIOD_NAME=Admin Liferay
+      - LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_SMTP_PERIOD_PORT=25
+      - LIFERAY_MAIL_PERIOD_SESSION_PERIOD_MAIL_PERIOD_SMTP_PERIOD_HOST=mailcatcher
+      - LIFERAY_UPGRADE_PERIOD_DATABASE_PERIOD_AUTO_PERIOD_RUN=true
+    volumes:
+      - ./docker/configs/files:/mnt/liferay/files
+      - ./docker/configs/scripts:/mnt/liferay/scripts
+      - ./docker/configs/patching:/mnt/liferay/patching
+      - document_library_volume:/opt/liferay/data/document_library
+    ports:
+      - 9080:8080
+      - 8009:8009
+    depends_on:
+      - db
+      - mailcatcher
+      - elasticsearch
+
+
+
+  db:
+    image: mysql:8.4.1
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: lportal
+      MYSQL_USER: lportal
+      MYSQL_PASSWORD: lportal
+    volumes:
+      - db_data:/var/lib/mysql
+
+  mailcatcher:
+    image: sj26/mailcatcher
+    command: "--smtp-port 25 --ip 0.0.0.0"
+    ports:
+      - 1080:1080
+
+  elasticsearch:
+    image: harbor-cds.sully-group.fr/ems/strasbourg-next-es:latest
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - cluster.name=LiferayElasticsearchCluster
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
