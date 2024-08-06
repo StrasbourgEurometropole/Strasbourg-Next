@@ -1,0 +1,22 @@
+#!/usr/bin/expect
+
+# Set timeout for responses
+set timeout -1
+
+# Start the interaction
+spawn npm run compress
+
+# Reply to "Add deployment descriptor? (Y/n)" prompt
+expect "Add deployment descriptor?"
+send "yes\r"
+
+# Reply to "Deployment descriptor company Web ID?" prompt
+expect "Deployment descriptor company Web ID"
+send "liferay.com\r"
+
+# Reply to "Deployment descriptor group key?" prompt
+expect "Deployment descriptor group key"
+send "Strasbourg.eu\r"
+
+# Wait for the process to finish
+expect eof

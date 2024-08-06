@@ -88,8 +88,6 @@ fragment_build:
     - cd fragments/strasbourg-fragments && npm i && npm i yo
     - expect build_fragment.exp
     - mv ./build/liferay-fragments.zip ../../build/docker/deploy/liferay-fragments-strasbourg-eu.zip
-    - expect build_fragment_placit.exp
-    - mv ./build/liferay-fragments.zip ../../build/docker/deploy/liferay-fragments-placit.zip
   artifacts:
     paths:
       - "build/docker/*"
