@@ -168,7 +168,7 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 
 						//Remplit les infos JSON de la delib
 						deliberation.put("deliberationId", delibRejeteCommunqiueAdopte.getDeliberationId());
-						deliberation.put("order", delibRejeteCommunqiueAdopte.getOrder() + delibRejeteCommunqiueAdopte.getAmendement());
+						deliberation.put("order", delibRejeteCommunqiueAdopte.getOrder() + "." + delibRejeteCommunqiueAdopte.getAmendement());
 						deliberation.put("title", delibRejeteCommunqiueAdopte.getTitle());
 						deliberation.put("stage", delibRejeteCommunqiueAdopte.getStage());
 

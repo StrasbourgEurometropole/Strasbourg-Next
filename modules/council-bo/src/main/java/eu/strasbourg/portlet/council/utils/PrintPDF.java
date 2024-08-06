@@ -107,11 +107,11 @@ public class PrintPDF {
 
 			Paragraph title = new Paragraph(titleCouncil.toUpperCase() + " - Point n"
 					+ LanguageUtil.get(Locale.FRANCE, "eu.numero")
-					+ deliberation.getOrder() + deliberation.getAmendement())
+					+ deliberation.getOrder())
 				.setPaddings(0f,10f,0f,150f)
 				.setTextAlignment(TextAlignment.CENTER);
 			document.add(title);
-			title = new Paragraph(deliberation.getTitle()).setFont(font)
+			title = new Paragraph(deliberation.getOrder() + "." + deliberation.getAmendement() + ", " + deliberation.getTitle()).setFont(font)
 				.setPaddings(0f,10f,0f,150f)
 				.setTextAlignment(TextAlignment.CENTER)
 				.setFontSize(13.5f);
