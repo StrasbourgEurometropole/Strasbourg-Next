@@ -52,9 +52,6 @@ switch (window.tarteaucitronForceLanguage) {
 //<div class="dailymotion_player" videoID="video_id" width="width" height="height" showinfo="showinfo (1 | 0)" autoplay="autoplay (0 | 1)" embedType="embedType (video | playlist)"></div>
 (tarteaucitron.job = tarteaucitron.job || []).push('dailymotion');
 
-// Service reCAPTCHA
-(tarteaucitron.job = tarteaucitron.job || []).push('recaptcha_ems');
-
 (tarteaucitron.job = tarteaucitron.job || []).push('soundcloud');
 (tarteaucitron.job = tarteaucitron.job || []).push('calameo');
 (tarteaucitron.job = tarteaucitron.job || []).push('vimeo');

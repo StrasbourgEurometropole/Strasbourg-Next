@@ -11,14 +11,14 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 
-public class RecaptchaHelper {
+public class FriendlycaptchaHelper {
 
-	public static final String url = "https://www.google.com/recaptcha/api/siteverify";
-	public static final String secret = StrasbourgPropsUtil.getRecaptchaSecretKey();
+	public static final String url = StrasbourgPropsUtil.getFriendlycaptchaURL();
+	public static final String secret = StrasbourgPropsUtil.getFriendlycaptchaSecretKey();
 	private final static String USER_AGENT = "Mozilla/5.0";
 
-	public static boolean verify(String gRecaptchaResponse) {
-		if (gRecaptchaResponse == null || "".equals(gRecaptchaResponse)) {	
+	public static boolean verify(String friendlycaptchaResponse) {
+		if (friendlycaptchaResponse == null || "".equals(friendlycaptchaResponse)) {
 			return false;
 		}
 
@@ -29,8 +29,8 @@ public class RecaptchaHelper {
 			con.setRequestMethod("POST");
 			con.setRequestProperty("User-Agent", USER_AGENT);
 			con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-			String postParams = "secret=" + secret + "&response="
-				+ gRecaptchaResponse;
+			String postParams = "secret=" + secret + "&solution="
+				+ friendlycaptchaResponse;
 
 			con.setDoOutput(true);
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
@@ -58,5 +58,5 @@ public class RecaptchaHelper {
 		}
 	}
 	
-	private static final Log _log = LogFactoryUtil.getLog(RecaptchaHelper.class.getName());
+	private static final Log _log = LogFactoryUtil.getLog(FriendlycaptchaHelper.class.getName());
 }

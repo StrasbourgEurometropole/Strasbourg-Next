@@ -80,9 +80,9 @@ public class ContactFormPortlet extends MVCPortlet {
 			ContactFormDisplayContext dc = new ContactFormDisplayContext(renderRequest, renderResponse);
 			renderRequest.setAttribute("dc", dc);
 			
-			// Clé recaptcha
-			String recaptchaKey = StrasbourgPropsUtil.getRecaptchaPublicKey();
-			renderRequest.setAttribute("recaptchaKey", recaptchaKey);
+			// Clé friendlycaptcha
+			String friendlycaptcha = StrasbourgPropsUtil.getFriendlycaptchaPublicKey();
+			renderRequest.setAttribute("friendlycaptcha", friendlycaptcha);
 
 			if (Validator.isNull(email) || Validator.isNull(template)) {
 				include("/no-config.jsp", renderRequest, renderResponse);

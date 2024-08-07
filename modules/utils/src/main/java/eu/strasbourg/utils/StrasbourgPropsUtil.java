@@ -16,12 +16,16 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.hcaptcha.secret");
 	}
 
-	public static String getRecaptchaSecretKey() {
-		return PropsUtil.get("eu.strasbourg.recaptcha.secret");
+	public static String getFriendlycaptchaSecretKey() {
+		return PropsUtil.get("eu.strasbourg.friendlycaptcha.secret");
 	}
 
-	public static String getRecaptchaPublicKey() {
-		return PropsUtil.get("eu.strasbourg.recaptcha.public");
+	public static String getFriendlycaptchaPublicKey() {
+		return PropsUtil.get("eu.strasbourg.friendlycaptcha.public");
+	}
+
+	public static String getFriendlycaptchaURL() {
+		return PropsUtil.get("eu.strasbourg.friendlycaptcha.url");
 	}
 
 	public static String getAgendaImportMails() {
