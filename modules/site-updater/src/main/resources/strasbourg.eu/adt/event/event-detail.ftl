@@ -65,7 +65,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     ${entry.placeZipCode} ${entry.getPlaceCity(locale)}
                 </p>
             </div>
-            <#if (entry.placeId> 0)>
+            <#if (entry.placeId > 0 && entry.isPlaceApproved())>
                 <div class="st-top-bar__right">
                     <a href="${strasbourg.homeURL()}lieu/-/entity/id/${entry.placeId}/${uriHelper.normalizeToFriendlyUrl(entry.getPlaceAlias(locale))}"
                        class="st-btn st--btn-full-width-mobile">

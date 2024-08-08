@@ -2507,6 +2507,14 @@ public class EventWrapper
 	}
 
 	/**
+	 * Vérifie si le lieu est déployé
+	 */
+	@Override
+	public boolean isPlaceApproved() {
+		return model.isPlaceApproved();
+	}
+
+	/**
 	 * Returns <code>true</code> if this event is registration.
 	 *
 	 * @return <code>true</code> if this event is registration; <code>false</code> otherwise

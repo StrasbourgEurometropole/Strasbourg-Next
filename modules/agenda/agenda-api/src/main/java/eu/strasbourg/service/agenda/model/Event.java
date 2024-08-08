@@ -143,6 +143,11 @@ public interface Event extends EventModel, PersistedModel {
 	public long getPlaceId();
 
 	/**
+	 * Vérifie si le lieu est déployé
+	 */
+	public boolean isPlaceApproved();
+
+	/**
 	 * Retourne le nom de la ville, provenant du lieu interne s'il existe, du lieu
 	 * lié sinon
 	 */
