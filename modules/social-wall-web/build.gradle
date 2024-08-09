@@ -1,7 +1,0 @@
-dependencies {
-	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
-	compileOnly group: "jstl", name: "jstl"
-
-	implementation project (':modules:utils')
-	implementation project (':modules:social-service')
-}
