@@ -1,0 +1,11 @@
+http://mysql.localhost {
+    reverse_proxy phpmyadmin:80
+}
+
+http://mail.localhost {
+    reverse_proxy mailpit:8025
+}
+
+http://liferay.localhost {
+    reverse_proxy localhost:8080
+}

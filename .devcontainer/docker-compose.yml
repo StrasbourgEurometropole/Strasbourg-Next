@@ -1,0 +1,61 @@
+volumes:
+  postgres-data:
+  db_data:
+  mailpit_data:
+  es_data:
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    volumes:
+      - ../..:/workspaces:cached
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    depends_on:
+      - db
+      - phpmyadmin
+      - mailpit
+      - elasticsearch
+
+
+
+  db:
+    image: mysql:8.4.1
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: lportal
+      MYSQL_USER: lportal
+      MYSQL_PASSWORD: lportal
+    volumes:
+      - db_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: rootpassword
+    depends_on:
+      - db
+
+  mailpit:
+    image: axllent/mailpit
+    volumes:
+      - mailpit_data:/data
+
+  elasticsearch:
+    build:
+      context: .
+      dockerfile: ../es.Dockerfile
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - cluster.name=LiferayElasticsearchCluster
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
