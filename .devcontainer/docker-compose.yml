@@ -6,7 +6,9 @@ volumes:
 
 services:
   app:
-    image: azul/zulu-openjdk:17.0.12-jdk
+    build:
+      context: .
+      dockerfile: Dockerfile
 
     volumes:
       - ../..:/workspaces:cached
