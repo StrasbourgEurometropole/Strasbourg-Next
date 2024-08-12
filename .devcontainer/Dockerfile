@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk:17.0.12-jdk
+FROM liferay/dxp:2024.q2.8
 
 USER root
 
