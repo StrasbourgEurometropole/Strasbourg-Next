@@ -1,4 +1,4 @@
-FROM liferay/dxp:2024.q2.8
+FROM azul/zulu-openjdk:17.0.12-jdk
 
 USER root
 
@@ -25,8 +25,6 @@ USER liferay
 RUN curl -L https://raw.githubusercontent.com/liferay/liferay-blade-cli/master/cli/installers/local | sh
 
 RUN echo 'export PATH="$PATH:$HOME/jpm/bin"' >> ~/.bash_profile
-
-ENV JAVA_VERSION=zulu11
 
 CMD ["/bin/bash"]
 
