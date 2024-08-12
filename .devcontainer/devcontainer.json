@@ -12,10 +12,6 @@
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// This can be used to network with other containers or with the host.
 	 "forwardPorts": [80],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "ln -s /home/liferay /workspaces/content/bundles && cd /etc/caddy && sudo screen -d -m caddy run",
-
 	// Configure tool-specific properties.
 	// "customizations": {},
 
