@@ -44,16 +44,12 @@ public class ExportAssociationResourceCommand implements MVCResourceCommand {
 
                 ZipHelper.zipDirectoryinOutputStream(repository, os);
 
-                os.flush();
-
                 // Fermeture des outputStreams
-                os.close();
-
+                os.flush();
             } catch (IOException e) {
                 this.log.error("Une erreur est survenu lors de l'extraction des associations", e);
             }
-        } catch (IOException e) {
-            _log.error(e.getMessage());
+            return true;
         } catch (Exception e) {
             _log.error(e.getMessage());
         }

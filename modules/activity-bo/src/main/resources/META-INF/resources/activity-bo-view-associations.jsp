@@ -60,7 +60,7 @@
 		</liferay-ui:search-container>
 	</aui:form>
 
-	<liferay-portlet:resourceURL var="exportURL" id="export"   copyCurrentRenderParameters="false">
+	<liferay-portlet:resourceURL var="exportURL" id="export" copyCurrentRenderParameters="false">
 	</liferay-portlet:resourceURL>
 	<form method="POST" action="${exportURL}">
 		<aui:button-row>
