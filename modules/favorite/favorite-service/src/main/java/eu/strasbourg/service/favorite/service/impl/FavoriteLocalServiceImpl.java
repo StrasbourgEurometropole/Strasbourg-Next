@@ -117,6 +117,15 @@ public class FavoriteLocalServiceImpl extends FavoriteLocalServiceBaseImpl {
 			this.favoritePersistence.remove(favorite);
 		}
 	}
+	@Override
+	public void deleteFavoriteByGroupIdEntityIdAndType(long groupId, long entityId, long typeId){
+
+		List<Favorite> favorites = this.favoritePersistence.findByGroupIdEntityIdAndTypeId(groupId, entityId, typeId);
+
+		for (Favorite favorite : favorites) {
+			this.favoritePersistence.remove(favorite);
+		}
+	}
 
 	
 	/**
