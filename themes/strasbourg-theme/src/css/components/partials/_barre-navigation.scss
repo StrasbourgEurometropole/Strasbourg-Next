@@ -102,7 +102,7 @@
 				display: block;
 				@include icomoon($st-icon-arrow-down);
 				font-size: 10px;
-				color: rgba($c_white, 0.75);
+				color: color-mix(in srgb, $c_white 75%, transparent);
 				transform: translateY(-50%);
 				pointer-events: none;
 
@@ -169,7 +169,7 @@
 		&:after {
 			@include icomoon($st-icon-arrow-down);
 			font-size: 10px;
-			color: rgba($c_white, 0.75);
+			color: color-mix(in srgb, $c_white 75%, transparent);
 			display: inline-block;
 			margin-left: 4px;
 			@include transition(transform);
@@ -238,7 +238,7 @@
 		height: 80px;
 		width: 100%;
 		padding-left: 78px;
-		@include ft($f_txt, 20px, 400, rgba($c_greydark, 0.75), 1);
+		@include ft($f_txt, 20px, 400, color-mix(in srgb, $c_greydark 75%, transparent), 1);
 		@include letter-spacing(25);
 		text-align: left;
 		background-color: $c_white;

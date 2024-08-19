@@ -63,7 +63,7 @@
 
 		&:before {
 			left: -40px;
-			background: linear-gradient(to right, rgba($c_main, 1), rgba($c_main, 0));
+			background: linear-gradient(to right, color-mix(in srgb, $c_main 100%, transparent), color-mix(in srgb, $c_main 0%, transparent));
 
 			@include mobile {
 				width: 20px;
@@ -72,7 +72,7 @@
 		}
 		&:after {
 			right: -40px;
-			background: linear-gradient(to left, rgba($c_main, 1), rgba($c_main, 0));
+			background: linear-gradient(to left, color-mix(in srgb, $c_main 100%, transparent), color-mix(in srgb, $c_main 0%, transparent));
 
 			@include mobile {
 				width: 20px;
@@ -144,7 +144,7 @@
 			}
 
 			.st-title {
-				@include ft('', 16px, 700, rgba($c_white, 0.6), 1);
+				@include ft('', 16px, 700, color-mix(in srgb, $c_white 60%, transparent), 1);
 				@include transition(color);
 
 				@include mobile {
@@ -381,12 +381,12 @@
 			&:before {
 				width: 20px;
 				left: -20px;
-				background: linear-gradient(to right, rgba($c_greydark, 1), rgba($c_greydark, 0));
+				background: linear-gradient(to right, color-mix(in srgb, $c_greydark 100%, transparent), color-mix(in srgb, $c_greydark 0%, transparent));
 			}
 			&:after {
 				width: 20px;
 				right: -20px;
-				background: linear-gradient(to left, rgba($c_greydark, 1), rgba($c_greydark, 0));
+				background: linear-gradient(to left, color-mix(in srgb, $c_greydark 100%, transparent), color-mix(in srgb, $c_greydark 0%, transparent));
 			}
 
 			.splide__slide {

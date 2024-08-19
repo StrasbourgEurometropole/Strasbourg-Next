@@ -233,7 +233,7 @@
 	.st-nav-menu-mobile {
 		margin-bottom: 24px;
 		padding-bottom: 12px;
-		border-bottom: 1px solid rgba($c_white, 0.25);
+		border-bottom: 1px solid color-mix(in srgb, $c_white 25%, transparent);
 
 
 		// Styles pour le dropdown RGAA
@@ -252,7 +252,7 @@
 			&:after {
 				@include icomoon($st-icon-arrow-down);
 				font-size: 10px;
-				color: rgba($c_white, 0.75);
+				color: color-mix(in srgb, $c_white 75%, transparent);
 				display: inline-block;
 				margin-left: 4px;
 				@include transition(transform);
@@ -307,7 +307,7 @@
 			@include icomoon($st-icon-arrow-down);
 			display: inline-block;
 			font-size: 10px;
-			color: rgba($c_white, 0.75);
+			color: color-mix(in srgb, $c_white 75%, transparent);
 			margin-left: 2px;
 			margin-top: -2px;
 		}
@@ -686,7 +686,7 @@
 
 	.st-overlay__content .st-container {
 		padding: 40px;
-		border: 1px solid rgba($c_white, 0.25);
+		border: 1px solid color-mix(in srgb, $c_white 25%, transparent);
 		border-radius: $border-radius;
 
 		@include mobile {
@@ -737,7 +737,7 @@
 		display: flex;
 		flex-direction: column;
 		padding: 40px;
-		border: 1px solid rgba($c_white, 0.25);
+		border: 1px solid color-mix(in srgb, $c_white 25%, transparent);
 		border-radius: $border-radius;
 
 		@include mobile {
@@ -797,10 +797,10 @@
 
 	@include min-tablet-portrait {
 		background-color: initial;
-		background-image: linear-gradient(to bottom, rgba($c_main, 0.8) 130px, $c_main 130px);		// simule le fond de la barre de nav
+		background-image: linear-gradient(to bottom, color-mix(in srgb, $c_main 80%, transparent) 130px, $c_main 130px);		// simule le fond de la barre de nav
 
 		.st-is-scrolled & {
-			background-image: linear-gradient(to bottom, rgba($c_main, 0.8) 100px, $c_main 58px);
+			background-image: linear-gradient(to bottom, color-mix(in srgb, $c_main 80%, transparent) 100px, $c_main 58px);
 		}
 	}
 
@@ -890,7 +890,7 @@
 		height: 80px;
 		width: 100%;
 		padding: 0 30px 0 78px;
-		@include ft('', 20px, 400, rgba($c_greydark, 0.75), 1);
+		@include ft('', 20px, 400, color-mix(in srgb, $c_greydark 75%, transparent), 1);
 		@include letter-spacing(25);
 		text-align: left;
 		background-color: $c_white;
@@ -915,7 +915,7 @@
 		display: flex;
 		align-items: flex-start;
 		padding: 10px 0;
-		border-bottom: 1px solid rgba($c_white, 0.25);
+		border-bottom: 1px solid color-mix(in srgb, $c_white 25%, transparent);
 
 		@include tablet-landscape {
 			flex-direction: column;
@@ -1014,7 +1014,7 @@
 			height: 16px;
 			margin-right: 5px;
 			border-radius: $border-radius-small;
-			border: 1px solid rgba($c_white, 0.5);
+			border: 1px solid color-mix(in srgb, $c_white 50%, transparent);
 		}
 
 		&:after {
@@ -1167,7 +1167,7 @@
 	right: 0;
 	bottom: 0;
 	z-index: z-index('overlay-shadow');
-	background-color: rgba($c_main, 0.8);
+	background-color: color-mix(in srgb, $c_main 80%, transparent);
 	opacity: 0;
 	visibility: hidden;
 	transition: opacity 400ms $transition-overlay-easing, visibility 400ms $transition-overlay-easing;

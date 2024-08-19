@@ -9,6 +9,19 @@
           "label": "Couleurs principales",
           "frontendTokens": [
             {
+              "name": "principal",
+              "label": "Princial",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#171C22",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "main"
+                }
+              ]
+            },
+            {
               "name": "secondary",
               "label": "Secondaire",
               "type": "String",
@@ -98,6 +111,106 @@
                   "value": "textColor"
                 }
               ]
+            },
+            {
+              "name": "blackColor",
+              "label": "Couleur des noir",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#000000",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "blackColor"
+                }
+              ]
+            },
+            {
+              "name": "whiteColor",
+              "label": "Couleur des blanc",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#FFFFFF",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "whiteColor"
+                }
+              ]
+            },
+            {
+              "name": "errorSecondaryColor",
+              "label": "Couleur des erreur secondaire",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#FF9F9F",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "errorSecondaryColor"
+                }
+              ]
+            },
+            {
+              "name": "errorColor",
+              "label": "Couleur des errreur",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#E91741",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "errorColor"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Fonts",
+      "name": "fonts",
+      "frontendTokenSets": [
+        {
+          "name": "fontFamilies",
+          "label": "Familles de polices",
+          "frontendTokens": [
+            {
+              "name": "f-hx",
+              "label": "Police des titres",
+              "type": "String",
+              "defaultValue": "'TTFors', Sans-Serif",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "f-hx"
+                }
+              ]
+            },
+            {
+              "name": "f-txt",
+              "label": "Police des textes",
+              "type": "String",
+              "defaultValue": "'TTFors', Sans-Serif",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "f-txt"
+                }
+              ]
+            },
+            {
+              "name": "f-spe",
+              "label": "Police spéciale",
+              "type": "String",
+              "defaultValue": "'TTFors', Sans-Serif",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "f-spe"
+                }
+              ]
             }
           ]
         }
@@ -105,4 +218,3 @@
     }
   ]
 }
-
