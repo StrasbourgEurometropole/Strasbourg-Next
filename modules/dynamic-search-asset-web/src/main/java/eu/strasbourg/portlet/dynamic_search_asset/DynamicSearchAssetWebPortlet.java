@@ -223,7 +223,8 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
                 PrintWriter writer = response.getWriter();
                 writer.print(jsonResponse);
             } else if (resourceID.equals("logChoice")) {
-				SearchUtils.logSearchChoice(request);
+                // HOTFIX DEACTIVATE SEARCHLOG
+				//SearchUtils.logSearchChoice(request);
             }
 
         } catch (Exception e) {
