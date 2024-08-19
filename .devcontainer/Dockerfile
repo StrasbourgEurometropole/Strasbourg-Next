@@ -1,4 +1,4 @@
-FROM liferay/portal:2023.q4.8
+FROM liferay/dxp:2023.q4.8
 
 USER root
 
