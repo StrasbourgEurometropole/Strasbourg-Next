@@ -40,7 +40,7 @@
         background-color: $c_greydark;
 
         border-radius: $border-radius $border-radius 0 0;
-        box-shadow: 0 30px 60px rgba($c_black, 0.15);
+        box-shadow: 0 30px 60px color-mix(in srgb, $c_black 15%, transparent);
     }
 
     .autocomplete__menu--hidden {
