@@ -1,4 +1,4 @@
-FROM liferay/portal:2024.q2.8
+FROM liferay/portal:2024.q4.8
 
 USER root
 
