@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -15,6 +16,7 @@ import javax.portlet.RenderResponse;
 
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -64,9 +66,9 @@ public class PageHeaderPortlet extends MVCPortlet {
 			PageHeaderConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(PageHeaderConfiguration.class, themeDisplay);
 
 			imageCredit = getNonEmptyValue(configuration.imageCredit(), imageCredit);
-			title = getNonEmptyValue(configuration.title(), title);
-			subTitle = getNonEmptyValue(configuration.subTitle(), subTitle);
-			imageUrl = getNonEmptyValue(configuration.imageUrl(), imageUrl);
+			title = getNonEmptyValue(getLocalizationValue(configuration.titleXML(), themeDisplay.getLocale()), title);
+			subTitle = getNonEmptyValue(getLocalizationValue(configuration.subTitleXML(), themeDisplay.getLocale()), subTitle);
+			imageUrl = getNonEmptyValue(getLocalizationValue(configuration.imageUrlXML(), themeDisplay.getLocale()), imageUrl);
 
 			renderRequest.setAttribute("imageCredit", imageCredit);
 			renderRequest.setAttribute("title", title);
@@ -98,6 +100,11 @@ public class PageHeaderPortlet extends MVCPortlet {
 
 	private String getNonEmptyValue(String configValue, String defaultValue) {
 		return Validator.isNull(configValue)  ? defaultValue : configValue;
+	}
+
+	private String getLocalizationValue(String map, Locale locale) {
+		Map<Locale, String> localizationMap = LocalizationUtil.getLocalizationMap(map);
+		return localizationMap.get(locale);
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());

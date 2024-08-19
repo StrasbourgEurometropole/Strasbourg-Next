@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
+import com.liferay.portal.kernel.settings.LocalizedValuesMap;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 
@@ -23,6 +25,9 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+
+import java.util.Locale;
+import java.util.Map;
 
 @Component(
 	configurationPid = "eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration",
@@ -46,14 +51,32 @@ public class PageHeaderConfigurationAction extends DefaultConfigurationAction {
 		String imageCredit = ParamUtil.getString(actionRequest, "imageCredit");
 		setPreference(actionRequest, "imageCredit", imageCredit);
 
-		String title = ParamUtil.getString(actionRequest, "title");
-		setPreference(actionRequest, "title", title);
+		Map<Locale, String> titleMap = LocalizationUtil
+				.getLocalizationMap(actionRequest, "titleMap");
+		LocalizedValuesMap mapTitle = new LocalizedValuesMap();
+		for (Map.Entry<Locale, String> e : titleMap.entrySet()) {
+			mapTitle.put(e.getKey(), e.getValue());
+		}
+		String titleXML = LocalizationUtil.getXml(mapTitle, "title");
+		setPreference(actionRequest, "titleXML", titleXML);
 
-		String subTitle = ParamUtil.getString(actionRequest, "subTitle");
-		setPreference(actionRequest, "subTitle", subTitle);
+		Map<Locale, String> subTitleMap = LocalizationUtil
+				.getLocalizationMap(actionRequest, "subTitleMap");
+		LocalizedValuesMap mapSubTitle = new LocalizedValuesMap();
+		for (Map.Entry<Locale, String> e : subTitleMap.entrySet()) {
+			mapSubTitle.put(e.getKey(), e.getValue());
+		}
+		String subTitleXML = LocalizationUtil.getXml(mapSubTitle, "subTitle");
+		setPreference(actionRequest, "subTitleXML", subTitleXML);
 
-		String imageUrl = ParamUtil.getString(actionRequest, "imageUrl");
-		setPreference(actionRequest, "imageUrl", imageUrl);
+		Map<Locale, String> imageUrlMap = LocalizationUtil
+				.getLocalizationMap(actionRequest, "imageUrlMap");
+		LocalizedValuesMap mapImageUrl = new LocalizedValuesMap();
+		for (Map.Entry<Locale, String> e : imageUrlMap.entrySet()) {
+			mapImageUrl.put(e.getKey(), e.getValue());
+		}
+		String imageUrlXML = LocalizationUtil.getXml(mapImageUrl, "imageUrl");
+		setPreference(actionRequest, "imageUrlXML", imageUrlXML);
 
 		super.processAction(portletConfig, actionRequest, actionResponse);
 	}
@@ -74,14 +97,11 @@ public class PageHeaderConfigurationAction extends DefaultConfigurationAction {
 			request.setAttribute("imageCredit", ParamUtil.getString(
 				request, "imageCredit", configuration.imageCredit()));
 
-			request.setAttribute("title", ParamUtil.getString(
-				request, "title", configuration.title()));
+			request.setAttribute("title", configuration.titleXML());
 
-			request.setAttribute("subTitle", ParamUtil.getString(
-				request, "subTitle", configuration.subTitle()));
+			request.setAttribute("subTitle", configuration.subTitleXML());
 
-			request.setAttribute("imageUrl", ParamUtil.getString(
-				request, "imageUrl", configuration.imageUrl()));
+			request.setAttribute("imageUrl", configuration.imageUrlXML());
 
 			// Tout ce qui est Application Display Template
 			String displayStyle = GetterUtil.getString(preferences.getValue("displayStyle", StringPool.BLANK));
