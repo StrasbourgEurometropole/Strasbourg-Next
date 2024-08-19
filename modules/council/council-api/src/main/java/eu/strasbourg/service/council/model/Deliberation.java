@@ -63,6 +63,8 @@ public interface Deliberation extends DeliberationModel, PersistedModel {
 	public eu.strasbourg.service.council.model.CouncilSession
 		getCouncilSession();
 
+	public String getOrderAmendement();
+
 	public boolean isCree();
 
 	public boolean isAffichageEnCours();

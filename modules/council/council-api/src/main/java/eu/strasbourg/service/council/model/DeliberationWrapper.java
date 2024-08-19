@@ -347,6 +347,11 @@ public class DeliberationWrapper
 		return model.getOrder();
 	}
 
+	@Override
+	public String getOrderAmendement() {
+		return model.getOrderAmendement();
+	}
+
 	/**
 	 * Returns the primary key of this deliberation.
 	 *
