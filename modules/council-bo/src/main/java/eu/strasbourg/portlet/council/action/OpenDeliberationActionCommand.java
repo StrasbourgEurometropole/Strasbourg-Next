@@ -169,7 +169,8 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
                 portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
         renderURL.setParameter("tab", request.getParameter("tab"));
         renderURL.setParameter("mvcPath", request.getParameter("mvcPath"));
-        response.sendRedirect(renderURL.toString()+"#delib-"+deliberationId);
+        renderURL.setParameter("deliberationId", String.valueOf(deliberationId));
+        response.sendRedirect(renderURL.toString());
 
     }
 }
