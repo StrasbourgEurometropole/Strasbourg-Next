@@ -4,7 +4,7 @@ USER root
 
 RUN apt-get update
 
-RUN apt-get install -y wget git sudo gnupg2 screen mysql-client gettext
+RUN apt-get install -y wget git sudo gnupg2 screen mysql-client gettext curl
 
 RUN usermod -aG sudo liferay
 
@@ -25,7 +25,6 @@ COPY Caddyfile /etc/caddy/Caddyfile
 USER liferay
 
 ENV NODE_VERSION=20.17.0
-RUN apt install -y curl
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
 ENV NVM_DIR=/home/liferay/.nvm
 RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
