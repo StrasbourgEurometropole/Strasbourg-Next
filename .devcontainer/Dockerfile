@@ -6,6 +6,8 @@ RUN apt-get update
 
 RUN apt-get install -y wget git sudo gnupg2 screen mysql-client gettext curl
 
+
+RUN apt-get install -y libatk1.0-0 libatk-bridge2.0-0  libatspi2.0-0  libxcomposite1  libxdamage1
 RUN usermod -aG sudo liferay
 
 RUN echo 'liferay ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
