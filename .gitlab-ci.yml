@@ -8,6 +8,7 @@ variables:
   DOCKER_TLS_CERTDIR: "/certs"
   COMMIT_MESSAGE: "skip-build"
 
+
 .base_ssh: &base_ssh
     - 'which ssh-agent || ( apk update && apk add openssh)'
     - eval $(ssh-agent -s)
