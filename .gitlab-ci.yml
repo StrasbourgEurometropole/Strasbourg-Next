@@ -2,9 +2,11 @@ stages:
   - build
   - docker_build
   - deploy_recette
+  - test
 
 variables:
   DOCKER_TLS_CERTDIR: "/certs"
+  COMMIT_MESSAGE: "skip-build"
 
 .base_ssh: &base_ssh
     - 'which ssh-agent || ( apk update && apk add openssh)'
@@ -55,6 +57,8 @@ modules_build:
     paths:
       - "build/docker/*"
   rules:
+    - if: $CI_COMMIT_MESSAGE =~ /.*$COMMIT_MESSAGE.*/
+      when: never
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
 
@@ -76,6 +80,8 @@ war_build:
     paths:
       - "build/docker/*"
   rules:
+    - if: $CI_COMMIT_MESSAGE =~ /.*$COMMIT_MESSAGE.*/
+      when: never
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
 
@@ -92,6 +98,8 @@ fragment_build:
     paths:
       - "build/docker/*"
   rules:
+    - if: $CI_COMMIT_MESSAGE =~ /.*$COMMIT_MESSAGE.*/
+      when: never
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
 
@@ -115,6 +123,8 @@ docker_build_recette:
     - docker push $HARBOR_REPO_URL:recette
     - docker push $HARBOR_REPO_URL-es:latest
   rules:
+    - if: $CI_COMMIT_MESSAGE =~ /.*$COMMIT_MESSAGE.*/
+      when: never
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
   when: manual
@@ -138,5 +148,20 @@ deploy_recette:
     - ssh $SSH_USER@$SSH_HOST "cd /var/data/surfs-74-recette && export SOURCE_DB_PASSWORD=$SOURCE_DB_PASSWORD && docker compose pull && docker compose up -d"
     - ssh $SSH_USER@$SSH_HOST "cd /var/data/surfs-74-recette/docker && bash ./wait-for-container.sh"
   rules:
+    - if: $CI_COMMIT_MESSAGE =~ /.*$COMMIT_MESSAGE.*/
+      when: never
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   needs: ['docker_build_recette']
+
+tests:
+  stage: test
+  image: mcr.microsoft.com/playwright:v1.46.1-jammy
+  parallel: 3
+  script:
+    - cd test/playwright
+    - npm ci
+    - npx playwright test --shard=$CI_NODE_INDEX/$CI_NODE_TOTAL
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
+
