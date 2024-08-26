@@ -41,7 +41,8 @@ public class FileEntryHelper {
 	public static String getFileTitle(long fileEntryId, Locale locale) {
 		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryId);
 		if(fileEntry == null) {
-			return "Fichier non-existant";
+			_log.warn("No file entry found with id " + fileEntryId);
+			return "";
 		}
 		String titleFromStructure = getStructureFieldValue(fileEntry.getFileEntryId(), "Titre", locale);
 		if (Validator.isNotNull(titleFromStructure)) {
@@ -63,6 +64,7 @@ public class FileEntryHelper {
 		if (fileEntry != null) {
 			return getFileEntryURL(fileEntry);
 		} else {
+			_log.warn("No file entry found with id " + fileEntryId);
 			return "";
 		}
 	}
@@ -70,6 +72,7 @@ public class FileEntryHelper {
 	public static String getFileEntryURLWithTimeStamp(long fileEntryId) {
 		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryId);
 		if(fileEntry == null) {
+			_log.warn("No file entry found with id " + fileEntryId);
 			return "";
 		}
 
@@ -109,6 +112,7 @@ public class FileEntryHelper {
 		if (fileEntry != null) {
 			return getReadableFileEntrySize(fileEntry, locale);
 		} else {
+			_log.warn("No file entry found with id " + fileEntryId);
 			return "";
 		}
 	}
