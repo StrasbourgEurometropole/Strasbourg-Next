@@ -153,7 +153,7 @@ deploy_recette:
     - if: $CI_COMMIT_MESSAGE =~ /.*skip-build.*/
       when: never
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-  needs: ['deploy_recette']
+  needs: ['docker_build_recette']
 
 e2e-test:
   stage: test
@@ -176,7 +176,7 @@ e2e-test:
         echo "$CI_JOB_URL/artifacts/file/playwright/out/report/index.html"
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-  needs: ['docker_build_recette']
+  needs: ['deploy_recette']
   artifacts:
     expose_as: 'Test Report'
     paths:
