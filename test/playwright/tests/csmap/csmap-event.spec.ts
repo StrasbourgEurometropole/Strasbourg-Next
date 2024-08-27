@@ -62,4 +62,42 @@ test.describe("API Event", () => {
 
     });
 
+    test("should return a list of themes", async ({request}) => {
+        const rep = await request.post(`/o/csmap-ws/event/get-themes`).then(res => res.json());
+        expect(rep).toEqual(helper.containingAddUpdateDelete())
+        const themes = rep.ADD
+
+        expect(themes).toEqual(expect.arrayContaining(
+            [
+                expect.objectContaining(
+                    {
+                        id: expect.any(String),
+                        name: helper.containingLocaleString()
+                    }
+                )
+            ]
+        ))
+
+    })
+
+
+    test("should return a list of types of event", async ({request}) => {
+        const rep = await request.post(`/o/csmap-ws/event/get-types`).then(res => res.json());
+        expect(rep).toEqual(helper.containingAddUpdateDelete())
+        const types = rep.ADD
+        expect(types).toEqual(expect.arrayContaining(
+            [
+                expect.objectContaining(
+                    {
+                        id: expect.any(String),
+                        name: helper.containingLocaleString()
+                    }
+                )
+            ]
+        ))
+
+
+
+    })
+
 });

@@ -173,7 +173,7 @@ e2e-test:
         echo "             | |                    "
         echo "             |_|                    "
         echo "Go check test results here:"
-        echo "$CI_JOB_URL/artifacts/file/playwright/out/report/index.html"
+        echo "$CI_JOB_URL/artifacts/file/test/playwright/out/report/index.html"
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   when: manual
@@ -181,5 +181,6 @@ e2e-test:
     expose_as: 'Test Report'
     paths:
       - test/playwright/out/report/
+      - test/playwright/out/test-results/
     reports:
       junit: test/playwright/results.xml
