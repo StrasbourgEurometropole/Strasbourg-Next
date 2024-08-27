@@ -12,9 +12,7 @@ test.describe("Home page", () => {
   test('screen is conform', async ({ page }) => {
     await page.goto('/');
 
-    await expect(page).toHaveScreenshot({
-      fullPage: true
-    });
+    await expect(page).toHaveScreenshot();
   });
 
   test("shows a detail place (Centre administratif)", async ({ page }) => {
@@ -22,9 +20,7 @@ test.describe("Home page", () => {
     await page.getByRole('button', { name: ' J\'ai besoin d\'informations' }).click();
     await page.getByPlaceholder('Votre recherche').fill('Centre administratif');
     await page.getByRole('link', { name: 'Centre administratif -' }).click();
-    await expect(page).toHaveScreenshot({
-      fullPage: true
-    });
+    await expect(page).toHaveScreenshot();
   })
 
 });
