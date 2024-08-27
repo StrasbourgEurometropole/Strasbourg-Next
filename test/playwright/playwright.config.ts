@@ -38,6 +38,10 @@ export default defineConfig({
     video: 'on'
   },
 
+  expect: {
+    toHaveScreenshot: { maxDiffPixelRatio: 0.1, threshold: 0.3  },
+  },
+
   /* Configure projects for major browsers */
   projects: [
     {
