@@ -176,7 +176,7 @@ e2e-test:
         echo "$CI_JOB_URL/artifacts/file/playwright/out/report/index.html"
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-  needs: ['deploy_recette']
+  when: manual
   artifacts:
     expose_as: 'Test Report'
     paths:
