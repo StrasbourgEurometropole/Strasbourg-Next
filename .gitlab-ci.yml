@@ -178,7 +178,7 @@ e2e-test:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   needs: ['docker_build_recette']
   artifacts:
-    expose_as: 'Test Report
+    expose_as: 'Test Report'
     paths:
       - test/playwright/out/report/
     reports:
