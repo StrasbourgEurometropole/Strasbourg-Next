@@ -1,64 +1,65 @@
 import {test, expect} from '@playwright/test';
 import helper from '../helper'
 
-test('should return a list of events', async ({request}) => {
+test.describe("API Event", () => {
 
-    const eventRep = await request.get(`/o/csmap-ws/event/get-events`).then(res => res.json());
+    test('should return a list of events', async ({request}) => {
 
-    expect(eventRep).toEqual(helper.containingAddUpdateDelete())
+        const eventRep = await request.get(`/o/csmap-ws/event/get-events`).then(res => res.json());
 
-    const randomIndex = Math.floor(Math.random() * eventRep.ADD.length);
-    const event = eventRep.ADD[randomIndex]
-    // Check the 'description' object contains a 'fr_FR' key with a string value
-    expect(event.description).toEqual(helper.containingLocaleString());
+        expect(eventRep).toEqual(helper.containingAddUpdateDelete())
+        const events = eventRep.ADD
 
-// Check the 'title' object contains a 'fr_FR' key with a string value
-    expect(event.title).toEqual(helper.containingLocaleString());
+        const placeExpect = expect.objectContaining({
+            accessForBlind: expect.any(Boolean),       // 'accessForBlind' should be a boolean
+            accessForDeaf: expect.any(Boolean),        // 'accessForDeaf' should be a boolean
+            accessForWheelchair: expect.any(Boolean),  // 'accessForWheelchair' should be a boolean
+            accessForDeficient: expect.any(Boolean),   // 'accessForDeficient' should be a boolean
+            accessForElder: expect.any(Boolean),        // 'accessForElder' should be a boolean
+            name: helper.containingLocaleString()
+        })
 
-    if (event.websiteName) {
-        expect(event.websiteName).toEqual(helper.containingLocaleString());
-    }
+        expect(events).toEqual(expect.arrayContaining(
+            [
+                expect.objectContaining(
+                    {
+                        id: expect.any(String),
+                        description: helper.containingLocaleString(),
+                        title: helper.containingLocaleString(),
+                        websiteName: helper.containingLocaleString(),
+                        websiteURL: helper.containingLocaleString(),
+                        price: helper.containingLocaleString(),
+                        place: placeExpect
+                    }
+                )
+            ]
+        ))
+    });
 
-    if (event.websiteURL) {
-        expect(event.websiteURL).toEqual(helper.containingLocaleString());
-    }
+    test('should return a list of agendas', async ({request}) => {
 
-    if (event.price) {
-        expect(event.price).toEqual(helper.containingLocaleString());
-    }
+        const agendaRep = await request.get(`/o/csmap-ws/event/get-agendas`).then(res => res.json());
 
-    expect(event.place).toEqual(expect.objectContaining({
-        accessForBlind: expect.any(Boolean),       // 'accessForBlind' should be a boolean
-        accessForDeaf: expect.any(Boolean),        // 'accessForDeaf' should be a boolean
-        accessForWheelchair: expect.any(Boolean),  // 'accessForWheelchair' should be a boolean
-        accessForDeficient: expect.any(Boolean),   // 'accessForDeficient' should be a boolean
-        accessForElder: expect.any(Boolean),        // 'accessForElder' should be a boolean
-        name: helper.containingLocaleString()
-    }));
-});
-
-test('should return a list of agendas', async ({request}) => {
-
-    const agendaRep = await request.get(`/o/csmap-ws/event/get-agendas`).then(res => res.json());
-
-    if(agendaRep.principal) {
-        expect(agendaRep.principal).toEqual(
-            expect.objectContaining( {
-                ids: expect.any(Array)
-            }
+        if (agendaRep.principal) {
+            expect(agendaRep.principal).toEqual(
+                expect.objectContaining({
+                        ids: expect.any(Array)
+                    }
+                )
             )
-        )
-    }
+        }
 
-    if(agendaRep.thematique) {
-        expect(agendaRep.thematique).toEqual(
-            expect.objectContaining({
-                ids: expect.any(Array),
-                title: helper.containingLocaleString(),
-                subtitle: helper.containingLocaleString(),
-                imageURL: expect.any(String)
-            })
-        )
-    }
+        if (agendaRep.thematique) {
+            expect(agendaRep.thematique).toEqual(
+                expect.objectContaining({
+                    ids: expect.any(Array),
+                    title: helper.containingLocaleString(),
+                    subtitle: helper.containingLocaleString(),
+                    imageURL: expect.any(String)
+                })
+            )
+        }
+
+    });
 
 });

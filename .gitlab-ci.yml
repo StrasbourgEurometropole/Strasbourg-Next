@@ -6,7 +6,6 @@ stages:
 
 variables:
   DOCKER_TLS_CERTDIR: "/certs"
-  COMMIT_MESSAGE: "skip-build"
 
 
 .base_ssh: &base_ssh
@@ -37,6 +36,8 @@ theme_build:
     paths:
       - "build/docker/*"
   rules:
+    - if: $CI_COMMIT_MESSAGE =~ /.*skip-build.*/
+      when: never
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
 
@@ -58,7 +59,7 @@ modules_build:
     paths:
       - "build/docker/*"
   rules:
-    - if: $CI_COMMIT_MESSAGE =~ /.*$COMMIT_MESSAGE.*/
+    - if: $CI_COMMIT_MESSAGE =~ /.*skip-build.*/
       when: never
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
@@ -81,7 +82,7 @@ war_build:
     paths:
       - "build/docker/*"
   rules:
-    - if: $CI_COMMIT_MESSAGE =~ /.*$COMMIT_MESSAGE.*/
+    - if: $CI_COMMIT_MESSAGE =~ /.*skip-build.*/
       when: never
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
@@ -99,7 +100,7 @@ fragment_build:
     paths:
       - "build/docker/*"
   rules:
-    - if: $CI_COMMIT_MESSAGE =~ /.*$COMMIT_MESSAGE.*/
+    - if: $CI_COMMIT_MESSAGE =~ /.*skip-build.*/
       when: never
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
@@ -124,7 +125,7 @@ docker_build_recette:
     - docker push $HARBOR_REPO_URL:recette
     - docker push $HARBOR_REPO_URL-es:latest
   rules:
-    - if: $CI_COMMIT_MESSAGE =~ /.*$COMMIT_MESSAGE.*/
+    - if: $CI_COMMIT_MESSAGE =~ /.*skip-build.*/
       when: never
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
@@ -149,22 +150,37 @@ deploy_recette:
     - ssh $SSH_USER@$SSH_HOST "cd /var/data/surfs-74-recette && export SOURCE_DB_PASSWORD=$SOURCE_DB_PASSWORD && docker compose pull && docker compose up -d"
     - ssh $SSH_USER@$SSH_HOST "cd /var/data/surfs-74-recette/docker && bash ./wait-for-container.sh"
   rules:
-    - if: $CI_COMMIT_MESSAGE =~ /.*$COMMIT_MESSAGE.*/
+    - if: $CI_COMMIT_MESSAGE =~ /.*skip-build.*/
       when: never
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-  needs: ['docker_build_recette']
+  needs: ['deploy_recette']
 
-tests:
+e2e-test:
   stage: test
   image: mcr.microsoft.com/playwright:v1.46.1-jammy
-  parallel: 3
   script:
     - cd test/playwright
     - npm ci
-    - npx playwright test --shard=$CI_NODE_INDEX/$CI_NODE_TOTAL
+    - npx playwright test
+  after_script:
+    - >
+        echo "   _____                       _    "
+        echo "  |  __ \                     | |   "
+        echo "  | |__) |___ _ __   ___  _ __| |_  "
+        echo "  |  _  // _ \ '_ \ / _ \| '__| __| "
+        echo "  | | \ \  __/ |_) | (_) | |  | |_  "
+        echo "  |_|  \_\___| .__/ \___/|_|   \__| "
+        echo "             | |                    "
+        echo "             |_|                    "
+        echo "Go check test results here:"
+        echo "$CI_JOB_URL/artifacts/file/playwright/out/report/index.html"
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  needs: ['docker_build_recette']
   artifacts:
+    expose_as: 'Test Report
+    paths:
+      - test/playwright/out/report/
     reports:
       junit: test/playwright/results.xml
 
