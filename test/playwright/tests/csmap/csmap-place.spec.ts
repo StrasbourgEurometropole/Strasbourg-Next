@@ -12,7 +12,7 @@ test.describe("API Place", () => {
             expect.arrayContaining([
                 expect.objectContaining(
                     {
-                        idSurfs: expect.any(String),
+                        idSurs: expect.any(String),
                         types: expect.any(Array),
                         name: helper.containingLocaleString(),
                         mercatorX: expect.any(String),
