@@ -178,7 +178,7 @@ e2e-test:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   when: manual
   artifacts:
-    expose_as: 'Test Report'
+    when: always
     paths:
       - test/playwright/out/report/
       - test/playwright/out/test-results/
