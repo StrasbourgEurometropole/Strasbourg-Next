@@ -116,4 +116,28 @@ test.describe('API Various Data', () => {
         ]))
 
     })
+
+    test("should return social networks" , async ({request}) => {
+
+        const rep = await request.post(`/o/csmap-ws/various-data/get-social-networks/`)
+
+        expect(rep.ok()).toBeTruthy()
+
+        const body = await rep.json()
+
+        expect(body).toEqual(helper.containingAddUpdateDelete())
+
+        expect(body.ADD).toEqual(expect.arrayContaining([
+            expect.objectContaining(
+                {
+                   id: expect.any(String),
+                    title: helper.containingLocaleString(),
+                    order: expect.any(Number),
+                    url: expect.any(String),
+                    picto: expect.any(String),
+                    color: expect.any(String)   // TODO HEX COLOR
+                })
+        ]))
+
+    })
 });
