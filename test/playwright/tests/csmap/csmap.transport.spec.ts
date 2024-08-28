@@ -1,10 +1,15 @@
-import {test, expect} from '@playwright/test';
-import helper from "../helper";
+import {expect, mergeTests} from '@playwright/test';
+import helper from "../../helpers/helper";
+import {apiHelpersTest} from "../../fixtures/api.helper.test";
 
-test.describe("API Transport", () => {
+export const test = mergeTests(
+    apiHelpersTest
+)
 
-    test("should return the schedule of a stop (Homme de fer)", async ({ request }) => {
-        const rep = await request.get(`/o/csmap-ws/transport/get-hours/275D/0`)
+test.describe.parallel("API Transport", () => {
+
+    test("should return the schedule of a stop (Homme de fer)", async ({ apiHelpers }) => {
+        const rep = await apiHelpers.csmapApi.getTransportSchedule("275D", 0)
 
         expect(rep.ok()).toBeTruthy()
 
@@ -30,8 +35,8 @@ test.describe("API Transport", () => {
 
     })
 
-    test("should return alerts of the transport network", async ({ request }) => {
-        const rep = await request.get(`/o/csmap-ws/transport/get-alerts`)
+    test("should return alerts of the transport network", async ({ apiHelpers }) => {
+        const rep = await apiHelpers.csmapApi.getTransportAlerts()
 
         expect(rep.ok()).toBeTruthy()
 
@@ -58,9 +63,9 @@ test.describe("API Transport", () => {
         ))
     })
 
-    test("should return the list of stops", async ({ request }) => {
+    test("should return the list of stops", async ({ apiHelpers }) => {
 
-        const rep = await request.post(`/o/csmap-ws/transport/get-transports`)
+        const rep = await apiHelpers.csmapApi.getTransports()
 
         expect(rep.ok()).toBeTruthy()
 

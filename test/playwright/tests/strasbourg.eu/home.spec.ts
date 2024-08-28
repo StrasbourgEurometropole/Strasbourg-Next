@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe("Home page", () => {
+test.describe.parallel("Home page", () => {
 
   test('has title', async ({ page }) => {
     await page.goto('/');
@@ -21,6 +21,7 @@ test.describe("Home page", () => {
     await page.getByPlaceholder('Votre recherche').fill('Centre administratif');
     await page.getByRole('link', { name: 'Centre administratif -' }).click();
     await expect(page).toHaveScreenshot();
+
   })
 
 });

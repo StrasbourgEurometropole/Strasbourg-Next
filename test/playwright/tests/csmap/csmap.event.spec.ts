@@ -1,11 +1,16 @@
-import {test, expect} from '@playwright/test';
-import helper from '../helper'
+import {expect, mergeTests} from '@playwright/test';
+import helper from '../../helpers/helper'
+import {apiHelpersTest} from "../../fixtures/api.helper.test";
 
-test.describe("API Event", () => {
+export const test = mergeTests(
+    apiHelpersTest
+)
 
-    test('should return a list of events', async ({request}) => {
+test.describe.parallel("API Event", () => {
 
-        const eventRep = await request.get(`/o/csmap-ws/event/get-events`).then(res => res.json());
+    test('should return a list of events', async ({ apiHelpers }) => {
+
+        const eventRep = await apiHelpers.csmapApi.getEvents().then(res => res.json());
 
         expect(eventRep).toEqual(helper.containingAddUpdateDelete())
         const events = eventRep.ADD
@@ -36,9 +41,9 @@ test.describe("API Event", () => {
         ))
     });
 
-    test('should return a list of agendas', async ({request}) => {
+    test('should return a list of agendas', async ({ apiHelpers }) => {
 
-        const agendaRep = await request.get(`/o/csmap-ws/event/get-agendas`).then(res => res.json());
+        const agendaRep = await apiHelpers.csmapApi.getAgendas().then(res => res.json());
 
         if (agendaRep.principal) {
             expect(agendaRep.principal).toEqual(
@@ -62,8 +67,10 @@ test.describe("API Event", () => {
 
     });
 
-    test("should return a list of themes", async ({request}) => {
-        const rep = await request.post(`/o/csmap-ws/event/get-themes`).then(res => res.json());
+    test("should return a list of themes", async ({ apiHelpers }) => {
+        const req = await apiHelpers.csmapApi.getThemes();
+        expect(req.ok()).toBeTruthy();
+        const rep = await req.json();
         expect(rep).toEqual(helper.containingAddUpdateDelete())
         const themes = rep.ADD
 
@@ -81,8 +88,8 @@ test.describe("API Event", () => {
     })
 
 
-    test("should return a list of types of event", async ({request}) => {
-        const rep = await request.post(`/o/csmap-ws/event/get-types`).then(res => res.json());
+    test("should return a list of types of event", async ({ apiHelpers }) => {
+        const rep = await apiHelpers.csmapApi.getTypes().then(res => res.json());
         expect(rep).toEqual(helper.containingAddUpdateDelete())
         const types = rep.ADD
         expect(types).toEqual(expect.arrayContaining(

@@ -1,9 +1,15 @@
-import {test, expect} from '@playwright/test';
-import helper from '../helper'
-test.describe("API Place", () => {
-    test('should return a list of places', async ({request}) => {
+import { expect, mergeTests} from '@playwright/test';
+import helper from '../../helpers/helper'
+import {apiHelpersTest} from "../../fixtures/api.helper.test";
 
-        const placesRep = await request.get(`/o/csmap-ws/place/get-places`).then(res => res.json());
+export const test = mergeTests(
+    apiHelpersTest
+)
+
+test.describe.parallel("API Place", () => {
+    test('should return a list of places', async ({ apiHelpers }) => {
+
+        const placesRep = await apiHelpers.csmapApi.getPlaces().then(res => res.json());
 
         expect(placesRep).toEqual(helper.containingAddUpdateDelete())
         const places = placesRep.ADD
@@ -31,9 +37,9 @@ test.describe("API Place", () => {
 
     });
 
-    test("should return the schedule of a place (462_SPC_38)", async ({request}) => {
+    test("should return the schedule of a place (462_SPC_38)", async ({ apiHelpers }) => {
         // We test the schedule of centre administratif
-        const scheduleRep = await request.get(`/o/csmap-ws/place/get-hours/462_SPC_38`).then(res => res.json());
+        const scheduleRep = await apiHelpers.csmapApi.getPlaceSchedule("462_SPC_38").then(res => res.json());
         expect(scheduleRep).toEqual(
             expect.objectContaining(
                 {
@@ -66,8 +72,8 @@ test.describe("API Place", () => {
 
     })
 
-    test("should return the categories", async ({request}) => {
-        const rep = await request.post(`/o/csmap-ws/place/get-categories/`).then(res => res.json());
+    test("should return the categories", async ({ apiHelpers }) => {
+        const rep = await apiHelpers.csmapApi.getPlaceCategories().then(res => res.json());
         expect(rep).toEqual(helper.containingAddUpdateDelete())
         const categories = rep.ADD
         expect(categories).toEqual(
@@ -95,8 +101,8 @@ test.describe("API Place", () => {
         )
     })
 
-    test("should return the points of interest", async ({request}) => {
-        const rep = await request.post(`/o/csmap-ws/place/get-simple-pois/`).then(res => res.json());
+    test("should return the points of interest", async ({ apiHelpers }) => {
+        const rep = await apiHelpers.csmapApi.getPlacePOIs().then(res => res.json());
         expect(rep).toEqual(helper.containingAddUpdateDelete())
 
         const pois = rep.ADD
@@ -119,8 +125,8 @@ test.describe("API Place", () => {
         )
     })
 
-    test("should return the terroitories", async ({request}) => {
-        const rep = await request.post(`/o/csmap-ws/place/get-territoires/`).then(res => res.json());
+    test("should return the terroitories", async ({ apiHelpers }) => {
+        const rep = await apiHelpers.csmapApi.getPlaceTerritories().then(res => res.json());
         expect(rep).toEqual(helper.containingAddUpdateDelete())
 
         const territories = rep.ADD

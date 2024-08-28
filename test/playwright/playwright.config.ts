@@ -1,5 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
-
+import { config as csmapConfig} from './tests/csmap/config';
+import { config as strasbourgeuConfig} from "./tests/strasbourg.eu/config";
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -35,7 +36,11 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
 
-    video: 'on'
+    video: 'retain-on-failure',
+
+    ...devices['Desktop Chrome'],
+
+    viewport: { width: 1920, height: 1080 }
   },
 
   expect: {
@@ -44,50 +49,7 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] ,
-      viewport: { width: 1920, height: 1080 }
-      },
-    },
-
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'],
-        viewport: { width: 1920, height: 1080 } },
-    },
-
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] ,
-        viewport: { width: 1920, height: 1080 }},
-    },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
+      ...csmapConfig,
+      ...strasbourgeuConfig
   ],
-
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
 });

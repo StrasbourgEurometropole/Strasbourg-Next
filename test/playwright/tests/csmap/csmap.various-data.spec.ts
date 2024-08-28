@@ -1,10 +1,15 @@
-import {test, expect} from '@playwright/test';
-import helper from "../helper";
+import {expect, mergeTests} from '@playwright/test';
+import helper from "../../helpers/helper";
+import {apiHelpersTest} from "../../fixtures/api.helper.test";
 
-test.describe('API Various Data', () => {
-    test("should return general conditions", async ({request}) => {
+export const test = mergeTests(
+    apiHelpersTest
+)
 
-        const rep = await request.get(`/o/csmap-ws/various-data/get-general-conditions/`)
+test.describe.parallel('API Various Data', () => {
+    test("should return general conditions", async ({ apiHelpers }) => {
+
+        const rep = await apiHelpers.csmapApi.getGeneralConditions()
 
         expect(rep.ok()).toBeTruthy()
 
@@ -25,9 +30,9 @@ test.describe('API Various Data', () => {
         ))
     })
 
-    test("should return accessibilities", async ({request}) => {
+    test("should return accessibilities", async ({ apiHelpers }) => {
 
-        const rep = await request.get(`/o/csmap-ws/various-data/get-accessibility/`)
+        const rep = await apiHelpers.csmapApi.getAccessibilities()
 
         expect(rep.ok()).toBeTruthy()
 
@@ -49,9 +54,9 @@ test.describe('API Various Data', () => {
 
     })
 
-    test("should return news" , async ({request}) => {
+    test("should return news" , async ({ apiHelpers }) => {
 
-        const rep = await request.post(`/o/csmap-ws/various-data/get-news/`)
+        const rep = await apiHelpers.csmapApi.getNews()
 
         expect(rep.ok()).toBeTruthy()
 
@@ -73,9 +78,9 @@ test.describe('API Various Data', () => {
 
     })
 
-    test("should return emergency numbers" , async ({request}) => {
+    test("should return emergency numbers" , async ({ apiHelpers }) => {
 
-        const rep = await request.post(`/o/csmap-ws/various-data/get-emergencies/`)
+        const rep = await apiHelpers.csmapApi.getEmergencies()
 
         expect(rep.ok()).toBeTruthy()
 
@@ -117,9 +122,9 @@ test.describe('API Various Data', () => {
 
     })
 
-    test("should return social networks" , async ({request}) => {
+    test("should return social networks" , async ({ apiHelpers }) => {
 
-        const rep = await request.post(`/o/csmap-ws/various-data/get-social-networks/`)
+        const rep = await apiHelpers.csmapApi.getSocialNetworks()
 
         expect(rep.ok()).toBeTruthy()
 
@@ -132,7 +137,7 @@ test.describe('API Various Data', () => {
                 {
                    id: expect.any(String),
                     title: helper.containingLocaleString(),
-                    order: expect.any(Number),
+                    order: expect.any(String),
                     url: expect.any(String),
                     picto: expect.any(String),
                     color: expect.any(String)   // TODO HEX COLOR
