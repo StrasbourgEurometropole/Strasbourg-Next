@@ -39,7 +39,7 @@
 	}
 
 	.st-date {
-		@include ft('', 12px, 400, $c_grey, 1.16);
+		@include ft('', 12px, 400, $c_txt, 1.16);
 		@include letter-spacing(25);
 		margin-bottom: 8px;
 
