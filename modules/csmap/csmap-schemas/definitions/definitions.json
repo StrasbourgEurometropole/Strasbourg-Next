@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://strasbourg.eu/schemas/definitions.json",
+  "definitions": {
+    "localisedString": {
+      "type": "object",
+      "properties": {
+        "fr_FR": {
+          "type": "string"
+        },
+        "en_US": {
+          "type": "string"
+        },
+        "de_DE": {
+          "type": "string"
+        }
+      },
+      "required": [
+      ]
+    }
+  }
+}

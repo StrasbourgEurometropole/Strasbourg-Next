@@ -1,44 +1,21 @@
 import {expect, mergeTests} from '@playwright/test';
 import helper from '../../helpers/helper'
 import {apiHelpersTest} from "../../fixtures/api.helper.test";
+import {schemaHelpersTest} from "../../fixtures/schema.helper.test";
 
 export const test = mergeTests(
-    apiHelpersTest
+    apiHelpersTest,
+    schemaHelpersTest
 )
 
 test.describe.parallel("API Event", () => {
 
-    test('should return a list of events', async ({ apiHelpers }) => {
-
-        const eventRep = await apiHelpers.csmapApi.getEvents().then(res => res.json());
-
-        expect(eventRep).toEqual(helper.containingAddUpdateDelete())
-        const events = eventRep.ADD
-
-        const placeExpect = expect.objectContaining({
-            accessForBlind: expect.any(Boolean),       // 'accessForBlind' should be a boolean
-            accessForDeaf: expect.any(Boolean),        // 'accessForDeaf' should be a boolean
-            accessForWheelchair: expect.any(Boolean),  // 'accessForWheelchair' should be a boolean
-            accessForDeficient: expect.any(Boolean),   // 'accessForDeficient' should be a boolean
-            accessForElder: expect.any(Boolean),        // 'accessForElder' should be a boolean
-            name: helper.containingLocaleString()
-        })
-
-        expect(events).toEqual(expect.arrayContaining(
-            [
-                expect.objectContaining(
-                    {
-                        id: expect.any(String),
-                        description: helper.containingLocaleString(),
-                        title: helper.containingLocaleString(),
-                        websiteName: helper.containingLocaleString(),
-                        websiteURL: helper.containingLocaleString(),
-                        price: helper.containingLocaleString(),
-                        place: placeExpect
-                    }
-                )
-            ]
-        ))
+    test('should return a list of events', async ({ apiHelpers, schemaHelpers }) => {
+        const response = await apiHelpers.csmapApi.getEvents()
+        expect(response.ok()).toBeTruthy()
+        const jsonResponse = await response.json()
+        const valid = schemaHelpers.validateEventSchema(jsonResponse)
+        expect(valid).toBeTruthy()
     });
 
     test('should return a list of agendas', async ({ apiHelpers }) => {

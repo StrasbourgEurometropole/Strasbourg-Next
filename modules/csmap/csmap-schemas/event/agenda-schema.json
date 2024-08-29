@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "principal": {
+      "type": "object",
+        "properties": {
+            "ids": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "thematique": {
+      "type": "object",
+        "properties": {
+            "ids": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            },
+          "title": {
+            "$ref": "definition.json#/definitions/localisedString"
+          },
+          "subtitle": {
+            "$ref": "definition.json#/definitions/localisedString"
+          },
+          "imageURL": {
+            "type": "string"
+          },
+          "labelLink": {
+            "$ref": "definition.json#/definitions/localisedString"
+          },
+          "link": {
+            "$ref": "definition.json#/definitions/localisedString"
+          }
+        }
+    },
+    "responseCode": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "responseCode"
+  ]
+}

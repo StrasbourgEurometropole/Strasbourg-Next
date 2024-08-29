@@ -1,0 +1,207 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://strasbourg.eu/schemas/event-schema.json",
+  "type": "object",
+  "properties": {
+    "ADD": {
+      "type": "array",
+      "items":
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "title": {
+              "$ref": "definitions.json#/definitions/localisedString"
+            },
+            "description": {
+              "$ref": "definitions.json#/definitions/localisedString"
+            },
+            "imageURL": {
+              "type": "string"
+            },
+            "idSurfs": {
+              "type": "string"
+            },
+            "place": {
+              "type": "object",
+              "properties": {
+                "zipCode": {
+                  "type": "string"
+                },
+                "accessForBlind": {
+                  "type": "boolean"
+                },
+                "city": {
+                  "type": "string"
+                },
+                "street": {
+                  "type": "string"
+                },
+                "accessForDeaf": {
+                  "type": "boolean"
+                },
+                "accessForWheelchair": {
+                  "type": "boolean"
+                },
+                "name": {
+                  "$ref": "definitions.json#/definitions/localisedString"
+                },
+                "accessForDeficient": {
+                  "type": "boolean"
+                },
+                "accessForElder": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "accessForBlind",
+                "accessForDeaf",
+                "accessForWheelchair",
+                "name",
+                "accessForDeficient",
+                "accessForElder"
+              ]
+            },
+            "promoter": {
+              "type": "string"
+            },
+            "websiteURL": {
+              "$ref": "definitions.json#/definitions/localisedString"
+            },
+            "websiteName": {
+              "$ref": "definitions.json#/definitions/localisedString"
+            },
+            "freeEntry": {
+              "type": "integer",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            },
+            "price": {
+              "$ref": "definitions.json#/definitions/localisedString"
+            },
+            "bookingDescription": {
+              "$ref": "definitions.json#/definitions/localisedString"
+            },
+            "bookingURL": {
+              "type": "string"
+            },
+            "subscriptionURL": {
+              "type": "string"
+            },
+            "schedules": {
+              "type": "array",
+              "items":
+                {
+                  "type": "object",
+                  "properties": {
+                    "endDate": {
+                      "type": "string"
+                    },
+                    "startDate": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "startDate"
+                  ]
+                }
+
+            },
+            "themes": {
+              "type": "array",
+              "items":
+                {
+                  "type": "string"
+                }
+
+            },
+            "types": {
+              "type": "array",
+              "items":
+                {
+                  "type": "string"
+                }
+
+            },
+            "territoires": {
+              "type": "array",
+              "items":
+                {
+                  "type": "string"
+                }
+
+            },
+            "mercatorX": {
+              "type": "string"
+            },
+            "mercatorY": {
+              "type": "string"
+            },
+            "registration": {
+              "type": "object",
+              "properties": {
+                "maxGauge": {
+                  "type": "string"
+                },
+                "startDate": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "endDate": {
+                  "type": "string",
+                  "format": "date"
+                }
+              },
+              "required": [
+                "maxGauge",
+                "startDate",
+                "endDate"
+              ]
+            }
+          },
+          "required": [
+            "types",
+            "territoires",
+            "title",
+            "themes",
+            "imageURL",
+            "schedules",
+            "id",
+            "place",
+            "freeEntry"
+          ]
+        }
+
+    },
+    "DELETE": {
+      "type": "array",
+      "items":
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          }
+        }
+
+    },
+    "UPDATE": {
+      "$ref": "#/properties/ADD"
+    },
+    "responseCode": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "ADD",
+    "DELETE",
+    "UPDATE",
+    "responseCode"
+  ]
+}
