@@ -160,18 +160,6 @@
                   "value": "f-txt"
                 }
               ]
-            },
-            {
-              "name": "f-spe",
-              "label": "Police spéciale",
-              "type": "String",
-              "defaultValue": "'TTFors', Sans-Serif",
-              "mappings": [
-                {
-                  "type": "cssVariable",
-                  "value": "f-spe"
-                }
-              ]
             }
           ]
         }
