@@ -10,7 +10,7 @@
           "frontendTokens": [
             {
               "name": "principal",
-              "label": "Princial",
+              "label": "Principale",
               "type": "String",
               "editorType": "ColorPicker",
               "defaultValue": "#171C22",
@@ -36,7 +36,7 @@
             },
             {
               "name": "greyDark",
-              "label": "Gris Foncé",
+              "label": "Background overlay",
               "type": "String",
               "editorType": "ColorPicker",
               "defaultValue": "#20272F",
@@ -44,19 +44,6 @@
                 {
                   "type": "cssVariable",
                   "value": "greyDark"
-                }
-              ]
-            },
-            {
-              "name": "greyMedium",
-              "label": "Gris Moyen",
-              "type": "String",
-              "editorType": "ColorPicker",
-              "defaultValue": "#282F38",
-              "mappings": [
-                {
-                  "type": "cssVariable",
-                  "value": "greyMedium"
                 }
               ]
             },
@@ -70,19 +57,6 @@
                 {
                   "type": "cssVariable",
                   "value": "border"
-                }
-              ]
-            },
-            {
-              "name": "grey",
-              "label": "Gris",
-              "type": "String",
-              "editorType": "ColorPicker",
-              "defaultValue": "#B1B9C3",
-              "mappings": [
-                {
-                  "type": "cssVariable",
-                  "value": "grey"
                 }
               ]
             },
@@ -101,7 +75,7 @@
             },
             {
               "name": "textColor",
-              "label": "Couleur des texte",
+              "label": "Texte gris",
               "type": "String",
               "editorType": "ColorPicker",
               "defaultValue": "#B1B9C3",
@@ -114,7 +88,7 @@
             },
             {
               "name": "blackColor",
-              "label": "Couleur des noir",
+              "label": "Ombres et picto",
               "type": "String",
               "editorType": "ColorPicker",
               "defaultValue": "#000000",
@@ -127,7 +101,7 @@
             },
             {
               "name": "whiteColor",
-              "label": "Couleur des blanc",
+              "label": "Texte blanc",
               "type": "String",
               "editorType": "ColorPicker",
               "defaultValue": "#FFFFFF",
@@ -140,7 +114,7 @@
             },
             {
               "name": "errorSecondaryColor",
-              "label": "Couleur des erreur secondaire",
+              "label": "Erreurs et croix de fermeture",
               "type": "String",
               "editorType": "ColorPicker",
               "defaultValue": "#FF9F9F",
@@ -148,19 +122,6 @@
                 {
                   "type": "cssVariable",
                   "value": "errorSecondaryColor"
-                }
-              ]
-            },
-            {
-              "name": "errorColor",
-              "label": "Couleur des errreur",
-              "type": "String",
-              "editorType": "ColorPicker",
-              "defaultValue": "#E91741",
-              "mappings": [
-                {
-                  "type": "cssVariable",
-                  "value": "errorColor"
                 }
               ]
             }
