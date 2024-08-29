@@ -191,7 +191,7 @@
 	&.st--with-icon {
 		@include can-hover {
 			.st-image {
-				background-color: $c_greymedium;
+				background-color: $c_greydark;
 			}
 			.st-icon {
 				color: $c_white;
@@ -267,7 +267,7 @@
 			padding: 16px 40px 16px 20px;
 
 			@include can-hover {
-				background-color: $c_greymedium;
+				background-color: $c_greydark;
 			}
 
 			& + .st-btn-favorite-card {
