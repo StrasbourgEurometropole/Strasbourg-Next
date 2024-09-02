@@ -53,7 +53,7 @@
 								var validate = $('#_eu_strasbourg_portlet_edition_EditionBOPortlet_description_fr_FR').val().length > 0;
 								if (!validate) {
 									$("#_eu_strasbourg_portlet_edition_EditionBOPortlet_descriptionEditorContainer").get(0).scrollIntoView();
-									edition.preventDefault();
+									event.preventDefault();
 								}
 								return validate;
 							}
@@ -111,13 +111,13 @@
 						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
 							function (val, fieldNode, ruleValue) {
 								var validated = true;
-								var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
+								var fields = document.querySelectorAll('[id*=assetCategoriesSelector]');
 								for (var i = 0; i < fields.length; i++) {
-									fieldContent = fields[i];
+									var fieldContent = fields[i];
 								    if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
 								    	&& $(fieldContent).find('input[type="hidden"]').length == 0) {
 								    	validated = false;
-                                        edition.preventDefault();
+                                        event.preventDefault();
 								    	break;
 								    }
 								}

@@ -201,9 +201,9 @@
                                 <aui:validator name="custom" errorMessage="requested-vocabularies-error">
                                     function (val, fieldNode, ruleValue) {
                                         var validated = true;
-                                        var fields = document.querySelectorAll('[id$=assetCategoriesSelector]  > .field-content');
-                                        for (var i = 0; i < fields.length; i++) {
-                                            fieldContent = fields[i];
+										var fields = document.querySelectorAll('[id*=assetCategoriesSelector]');
+										for (var i = 0; i < fields.length; i++) {
+											var fieldContent = fields[i];
                                             if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
                                                 && $(fieldContent).find('input[type="hidden"]').length == 0) {
                                                 validated = false;
@@ -229,9 +229,9 @@
                                     <aui:validator name="custom" errorMessage="requested-vocabularies-error">
                                         function (val, fieldNode, ruleValue) {
                                             var validated = true;
-                                            var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
-                                            for (var i = 0; i < fields.length; i++) {
-                                                fieldContent = fields[i];
+											var fields = document.querySelectorAll('[id*=assetCategoriesSelector]');
+											for (var i = 0; i < fields.length; i++) {
+												var fieldContent = fields[i];
                                                 if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
                                                     && $(fieldContent).find('input[type="hidden"]').length == 0) {
                                                     validated = false;
@@ -313,7 +313,7 @@
 			<aui:input type="hidden" name="workflowAction" value="" />
 			
 			<%-- Test : Verification des droits d'edition et de sauvegarde --%>
-			<c:if test="${(dc.hasPermission('ADD_BUDGET_PARTICIPATIF') and empty dc.budgetParticipatif or dc.hasPermission('EDIT_BUDGET_PARTICIPATIF') and not empty dc.budgetParticipatif) and empty themeDisplay.scopeGroup.getStagingGroup()}">
+			<c:if test="${((dc.hasPermission('ADD_BUDGET_PARTICIPATIF') and empty dc.budgetParticipatif) or (dc.hasPermission('EDIT_BUDGET_PARTICIPATIF') and not empty dc.budgetParticipatif) and empty themeDisplay.scopeGroup.getStagingGroup())}">
 				<c:if test="${dc.workflowEnabled}">
 					<aui:button cssClass="btn-lg" type="submit" value="save" />
 				</c:if>
