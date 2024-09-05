@@ -117,7 +117,10 @@ function displayInfos(obj) {
                     title.innerHTML = obj.session.title + ' -  <span style="text-transform: none"> Point n°' + deliberationJSON.order + '</span>';
 
                     var description = frontDelibDescription.getElementsByTagName("div")[0];
-                    description.textContent = deliberationJSON.orderAmendement + '. ' + deliberationJSON.title;
+                    var amendement = "";
+                    if(deliberationJSON.amendement != "")
+                        amendement = deliberationJSON.amendement + ". "
+                    description.textContent = amendement + deliberationJSON.title;
 
                     frontDelibTitle.style.display = "flex";
                     frontDelibDescription.style.display = "block";
