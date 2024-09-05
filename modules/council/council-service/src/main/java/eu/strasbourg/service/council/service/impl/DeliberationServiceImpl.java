@@ -122,7 +122,8 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 
 						//Remplit les infos JSON de la delib
 						deliberation.put("deliberationId", delibAffichageEnCours.getDeliberationId());
-						deliberation.put("order", delibAffichageEnCours.getOrderAmendement());
+						deliberation.put("order", delibAffichageEnCours.getOrder());
+						deliberation.put("orderAmendement", delibAffichageEnCours.getOrderAmendement());
 						deliberation.put("title", delibAffichageEnCours.getTitle());
 						deliberation.put("stage", delibAffichageEnCours.getStage());
 
@@ -133,7 +134,8 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 
 						//Remplit les infos JSON de la delib
 						deliberation.put("deliberationId", delibVoteOuvert.getDeliberationId());
-						deliberation.put("order", delibVoteOuvert.getOrderAmendement());
+						deliberation.put("order", delibVoteOuvert.getOrder());
+						deliberation.put("orderAmendement", delibVoteOuvert.getOrderAmendement());
 						deliberation.put("title", delibVoteOuvert.getTitle());
 						deliberation.put("stage", delibVoteOuvert.getStage());
 
@@ -168,7 +170,8 @@ public class DeliberationServiceImpl extends DeliberationServiceBaseImpl {
 
 						//Remplit les infos JSON de la delib
 						deliberation.put("deliberationId", delibRejeteCommunqiueAdopte.getDeliberationId());
-						deliberation.put("order", delibRejeteCommunqiueAdopte.getOrderAmendement());
+						deliberation.put("order", delibRejeteCommunqiueAdopte.getOrder());
+						deliberation.put("orderAmendement", delibRejeteCommunqiueAdopte.getOrderAmendement());
 						deliberation.put("title", delibRejeteCommunqiueAdopte.getTitle());
 						deliberation.put("stage", delibRejeteCommunqiueAdopte.getStage());
 
