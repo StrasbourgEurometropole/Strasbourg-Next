@@ -26,6 +26,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Benjamin Bini
@@ -123,7 +124,10 @@ public class FilePickerTag extends IncludeTag {
 			Map<Locale, List<FileObject>> language_files = new HashMap<Locale, List<FileObject>>();
 			Map<Locale, String> language_fileIds = new HashMap<Locale, String>();
 			language_files.put(defaultLocale, files);
-			language_fileIds.put(defaultLocale, _value);
+			language_fileIds.put(defaultLocale, files.stream()
+					.mapToLong(FileObject::getId)
+					.mapToObj(String::valueOf)
+					.collect(Collectors.joining(",")));
 			request.setAttribute("locale_files", language_files);
 			request.setAttribute("locale_filesIds", language_fileIds);
 		}
@@ -131,11 +135,11 @@ public class FilePickerTag extends IncludeTag {
 		else {
 			Map<Locale, List<FileObject>> locale_files = new HashMap<Locale, List<FileObject>>();
 			Map<Locale, String> locale_filesIds = LocalizationUtil
-				.getLocalizationMap(_value);
-
+					.getLocalizationMap(_value);
+			List<FileObject> files = new ArrayList<FileObject>();
 			for (Entry<Locale, String> locale_fileId : locale_filesIds
 				.entrySet()) {
-				List<FileObject> files = new ArrayList<FileObject>();
+
 				for (String fileId : locale_fileId.getValue().split(",")) {
 					if (Validator.isNumber(fileId)
 						&& Long.parseLong(fileId) > 0) {
@@ -148,8 +152,12 @@ public class FilePickerTag extends IncludeTag {
 				}
 				locale_files.put(locale_fileId.getKey(), files);
 			}
+
 			request.setAttribute("locale_files", locale_files);
-			request.setAttribute("locale_filesIds", locale_filesIds);
+			request.setAttribute("locale_filesIds", files.stream()
+					.mapToLong(FileObject::getId)
+					.mapToObj(String::valueOf)
+					.collect(Collectors.joining(",")));
 		}
 
 		// ItemSelector URL
