@@ -3,6 +3,7 @@ package eu.strasbourg.portlet.council.action;
 import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
@@ -149,11 +150,11 @@ public class CloseDeliberationActionCommand extends BaseMVCActionCommand {
         councilSessionLocalService.updateCouncilSession(council, sc);
 
         // Post / Redirect / Get si tout est bon
-        PortletURL renderURL = PortletURLFactoryUtil.create(request,
+        LiferayPortletURL renderURL = PortletURLFactoryUtil.create(request,
                 portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
         renderURL.setParameter("tab", request.getParameter("tab"));
         renderURL.setParameter("mvcPath", request.getParameter("mvcPath"));
-        response.sendRedirect(renderURL.toString()+"#delib-"+deliberationId);
+        renderURL.setParameter("deliberationId", String.valueOf(deliberationId));
     }
 
 }
