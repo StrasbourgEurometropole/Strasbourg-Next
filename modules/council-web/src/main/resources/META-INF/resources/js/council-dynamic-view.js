@@ -119,7 +119,7 @@ function displayInfos(obj) {
                     var description = frontDelibDescription.getElementsByTagName("div")[0];
                     var amendement = "";
                     if(deliberationJSON.amendement != "")
-                        amendement = deliberationJSON.amendement + ". "
+                        amendement = deliberationJSON.orderAmendement + ". "
                     description.textContent = amendement + deliberationJSON.title;
 
                     frontDelibTitle.style.display = "flex";
