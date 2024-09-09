@@ -411,17 +411,6 @@ public interface BudgetParticipatifLocalService
 	public List<BudgetParticipatif> getPublishedByGroupId(long groupId);
 
 	/**
-	 * Recuperer les budgets participatifs "coup de coeur" les plus recents
-	 *
-	 * @param groupId ID du site
-	 * @param delta Nombre de resultats max voulu
-	 * @return Liste des budgets participatifs coup de coeurs recent
-	 */
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<BudgetParticipatif> getRecentIsCrushed(
-		long groupId, int delta, AssetCategory phase);
-
-	/**
 	 * Methode permettant de recuperer une liste de budgets participatifs trie par nombre de commentaires
 	 *
 	 * @param groupId ID du site
