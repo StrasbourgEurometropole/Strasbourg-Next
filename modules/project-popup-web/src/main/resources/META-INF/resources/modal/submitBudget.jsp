@@ -276,7 +276,10 @@
                             if($("#<portlet:namespace />mobile").val() != "")
                                 saved_mobile = $("#<portlet:namespace />mobile").val();
                         }
+                        const budgetId = data.entityId;
+                        window.budgetId = budgetId;
                         $('#modalConfirmerBudget').modal('show');
+
                         resetValuesSubmitBudget();
                     }else{
                         $("#modalErrorBudget h4").text(data.message);
@@ -307,6 +310,10 @@
 
     $('#modalConfirmerBudget #buttonConfirm').click(function(event){
         $('#modalConfirmerBudget').modal('hide');
+        if(window.budgetId) {
+            const url = "/detail-budget-participatif/-/entity/id/" + window.budgetId;
+            window.location.href = url;
+        }
     });
 
     $('#modalErrorBudget #buttonConfirm').click(function(event){

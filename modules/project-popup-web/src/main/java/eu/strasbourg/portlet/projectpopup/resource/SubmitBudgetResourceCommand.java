@@ -132,11 +132,11 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
             _log.error(e);
         }
         DateFormat dateFormat = new SimpleDateFormat(PATTERN);
-        
+
         // Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour
         boolean result = false;
         boolean savedInfo = false;
-        
+
         // Recuperation de l'utilsiteur Publik ayant lance la demande
         PublikUser user = null;
         String publikID = getPublikID(request);
@@ -146,7 +146,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 
         // Recuperation la phase active
         BudgetPhase activePhase = BudgetPhaseLocalServiceUtil.getActivePhase(themeDisplay.getScopeGroupId());
-        
+
         // Recuperation des informations du formulaire
         String title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
         String summary = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETSUMMARY));
@@ -168,15 +168,16 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         File[] documentFiles = uploadRequest.getFiles("budgetFile");
         String[] documentsFileNames = uploadRequest.getFileNames("budgetFile");
         String commitment = ParamUtil.getString(request, "commitment");
-        
+
         // Verification de la validite des informations
-        String message = validate(request, configuration, publikID, user,  activePhase, title, summary,
+        String message = validate(request, configuration, publikID, user, activePhase, title, summary,
                 squiredescription, city, address, postalcode, quartierId, photoFileName, photoFile, documentFiles,
                 documentsFileNames, commitment);
+        Long entityId = 0L;
         if (message.equals("")) {
-        
-        	// Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
-        	savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
+
+            // Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
+            savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
             if (savedInfo) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String dateNaiss = sdf.format(birthday);
@@ -276,19 +277,24 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                 message = LanguageUtil.get(languageBundle, ERROR_DURING_SAVING_PROJECT);
             }
             _log.info("budget cree : " + budgetParticipatif);
-            
-            if(message.equals("")) {
+
+            if (message.equals("")) {
                 result = true;
                 sendBPMailConfirmation(request, themeDisplay, title, squiredescription, user);
             }
-        }else if(message.equals("error"))
+
+            entityId = budgetParticipatif.getBudgetParticipatifId();
+        } else if (message.equals("error"))
             message = "";
-        
+
         // Retour des informations de la requete en JSON
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);
         jsonResponse.put("message", message);
         jsonResponse.put("savedInfo", savedInfo);
+        if (entityId != 0) {
+            jsonResponse.put("entityId", entityId);
+        }
 
         // Recuperation de l'élément d'écriture de la réponse
         PrintWriter writer;
