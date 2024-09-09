@@ -438,32 +438,6 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
     }
     
     /**
-     * Recuperer les budgets participatifs "coup de coeur" les plus recents
-     * @param groupId ID du site
-     * @param delta Nombre de resultats max voulu
-     * @return Liste des budgets participatifs coup de coeurs recent
-     */
-	@Override
-    public List<BudgetParticipatif> getRecentIsCrushed(long groupId, int delta, AssetCategory phase) {
-        List<BudgetParticipatif> budgetsParticipatifs = this.budgetParticipatifPersistence.findByisCrushAndPublished(
-        													true,
-        													WorkflowConstants.STATUS_APPROVED,
-        													groupId);
-        //Filtre les BP de la phase passee en parametre
-        budgetsParticipatifs = budgetsParticipatifs
-        		.stream()
-        		.filter(bp -> AssetVocabularyHelper.hasAssetCategoryAssetEntry(phase.getCategoryId() ,
-                        bp.getAssetEntry().getEntryId())).collect((Collectors.toList()));
-        
-        
-        // Si la longueur de liste est inferieur a la taille voulu, aucun besoin de la couper
-        if (budgetsParticipatifs.size() < delta)
-            return budgetsParticipatifs;
-        else 
-        	return budgetsParticipatifs.stream().limit(delta).collect(Collectors.toList());
-    }
-    
-    /**
 	 * Retourne tous les budgets participatifs d'une phase donnee
      */
 	@Override
