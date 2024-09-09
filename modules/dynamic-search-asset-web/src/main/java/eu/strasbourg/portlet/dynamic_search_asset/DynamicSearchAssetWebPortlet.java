@@ -209,13 +209,16 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 
                 String keywords = ParamUtil.getString(request, "keywords");
 
-                SearchHits hits = searchFromParam(request, configuration, themeDisplay, keywords);
+                int start = ParamUtil.getInteger(request, "start");
+
+                SearchHits hits = searchFromParam(request, configuration, themeDisplay, keywords, start);
 
 				List<AssetEntry> assetEntries = SearchUtils.getAssetEntriesFromSearchHits(hits, themeDisplay, themeDisplay.getLayout().getGroupId());
 
 				SearchUtils.applyTemplateBehaviors(configuration, assetEntries);
 
-                JSONArray jsonResponse = this.constructJSONSelection(request, configuration, assetEntries, hits.getTotalHits());
+                JSONArray jsonResponse = this.constructJSONSelection(request, configuration, assetEntries,
+                        hits.getTotalHits(), start + configuration.delta());
 
                 SearchUtils.logSearch(request, assetEntries,  keywords, hits.getTotalHits(), hits.getSearchTime() * 1000, jsonResponse);
 
@@ -224,7 +227,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
                 writer.print(jsonResponse);
             } else if (resourceID.equals("logChoice")) {
                 // HOTFIX DEACTIVATE SEARCHLOG
-				//SearchUtils.logSearchChoice(request);
+                //SearchUtils.logSearchChoice(request);
             }
 
         } catch (Exception e) {
@@ -233,7 +236,8 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
         super.serveResource(request, response);
     }
 
-	public SearchHits searchFromParam(PortletRequest request, DynamicSearchAssetConfiguration configuration, ThemeDisplay themeDisplay, String keywords) throws PortalException {
+	public SearchHits searchFromParam(PortletRequest request, DynamicSearchAssetConfiguration configuration,
+                              ThemeDisplay themeDisplay, String keywords, int start) throws PortalException {
 		// Recuperation du searchContext
 		HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
 		SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
@@ -255,7 +259,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		boolean globalScope = configuration.globalScope();
 		long globalGroupId = themeDisplay.getCompanyGroupId();
 
-		// Recuperation du nombre de resultat max demande
+		// Recuperation du nombre de resultats max demandés
 		int maxResults = (int) configuration.delta();
 
 		// Recuperation de la configuration du prefiltre par date de la configuration
@@ -284,14 +288,14 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 		return getSearchHitFromSearch(
 				Arrays.asList(classNames), groupId, globalGroupId, globalScope,
 				searchContext, keywords, useDatePrefilter, fromDate, toDate, prefilterCategoriesIds,
-				themeDisplay, maxResults, prefilterTagsNames, configuration.searchForm());
+				themeDisplay, start, maxResults, prefilterTagsNames, configuration.searchForm());
 	}
 
 	public SearchHits getSearchHitFromSearch(
 			List<String> classNames, long groupId, long globalGroupId, boolean globalScope,
 			SearchContext searchContext, String keywords, boolean useDatePrefilter,
 			LocalDate fromDate, LocalDate toDate, List<Long[]> prefilterCategoriesIds,
-			ThemeDisplay themeDisplay, int maxResults, String[] prefilterTagsNames, String configAffichage) throws PortalException {
+			ThemeDisplay themeDisplay, int start, int maxResults, String[] prefilterTagsNames, String configAffichage) throws PortalException {
 
 		// Turn classNames into AssetType
 		List<AssetType> assetTypes = getAssetTypesFromClassNames(classNames, groupId, globalGroupId, globalScope, configAffichage);
@@ -327,7 +331,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
 
 		// Perform the search
 		SearchHits hit = _searchHelperV2.search(
-				searchContext, query ,new HashMap<>(), 0,0, maxResults);
+				searchContext, query ,new HashMap<>(), 0, start, start + maxResults);
 
         return hit;
 	}
@@ -394,7 +398,8 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
      * @throws PortalException
      */
     @SuppressWarnings("JavaDoc")
-    private JSONArray constructJSONSelection(ResourceRequest request, DynamicSearchAssetConfiguration configuration, List<AssetEntry> assetEntries, long totalResult) throws PortalException {
+    private JSONArray constructJSONSelection(ResourceRequest request, DynamicSearchAssetConfiguration configuration,
+                                             List<AssetEntry> assetEntries, long totalResult, long displayResult) throws PortalException {
 
         // Récupération du contexte de la requète
         String publikUserId = this.getPublikID(request);
@@ -407,7 +412,7 @@ public class DynamicSearchAssetWebPortlet extends MVCPortlet {
         jsonResponse.put(jsonTotalResult);
 
         JSONObject jsonDisplayResult = JSONFactoryUtil.createJSONObject();
-        jsonDisplayResult.put("displayResult", configuration.delta());
+        jsonDisplayResult.put("displayResult", displayResult);
         jsonResponse.put(jsonDisplayResult);
 
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
