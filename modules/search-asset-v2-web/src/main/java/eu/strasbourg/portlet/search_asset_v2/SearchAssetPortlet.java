@@ -192,11 +192,9 @@ public class SearchAssetPortlet extends MVCPortlet {
 					if(phase != null) {
 						List<BudgetParticipatif> budgetsMostSupported = _budgetParticipatifLocalService.getMostSupported(groupId, 3, phase);
 						List<BudgetParticipatif> budgetsMostCommented = _budgetParticipatifLocalService.getMostCommented(groupId, 3, phase);
-						List<BudgetParticipatif> budgetsIsCrush = _budgetParticipatifLocalService.getRecentIsCrushed(groupId, 3, phase);
 
 						renderRequest.setAttribute("budgetsMostSupported", budgetsMostSupported);
 						renderRequest.setAttribute("budgetsMostCommented", budgetsMostCommented);
-						renderRequest.setAttribute("budgetsIsCrush", budgetsIsCrush);
 					}
 
 				} else if (className.equals(INITIATIVE)) {
