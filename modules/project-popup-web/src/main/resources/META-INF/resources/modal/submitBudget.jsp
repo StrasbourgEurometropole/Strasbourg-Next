@@ -37,7 +37,7 @@
                                     <aui:option value="${quartier.categoryId}">${quartier.name}</aui:option>
                                 </c:forEach>
                             </aui:select>
-                            <a class="link-location" href="https://data.opendatasoft.com/explore/dataset/quartiers_elus_2020%40eurometrostrasbourg/map/?location=11,48.55252,7.79995&basemap=jawg.streets"><liferay-ui:message key="modal.submitbudget.information.territoire.link-map"/></a>
+                            <a class="link-location" target="_blank" href="https://data.opendatasoft.com/explore/dataset/quartiers_elus_2020%40eurometrostrasbourg/map/?location=11,48.55252,7.79995&basemap=jawg.streets"><liferay-ui:message key="modal.submitbudget.information.territoire.link-map"/></a>
                         </div>
                         <div class="form-group form-half">
                             <aui:input id="budgetlieux" name="budgetlieux" helpMessage="modal.submitbudget.information.lieu.help" label="modal.submitbudget.information.lieu" maxlength="256" value=""/>
