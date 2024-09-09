@@ -21,7 +21,7 @@
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="summary" type="String">
-			<hint name="max-length">400</hint>
+			<hint name="max-length">600</hint>
 		</field>
 		<field name="budget" type="String" />
 		<field localized="true" name="motif" type="String">
