@@ -455,6 +455,7 @@
 
     function validateFormSubmitBudget()
     {
+        debugger;
         var result = true;
         var budgettitle = $("#"+namespaceSubmitBudget+"budgettitle").val();
         var budgetsummary = $("#"+namespaceSubmitBudget+"budgetsummary").val();
@@ -482,7 +483,7 @@
             var file = $(this).val();
             if (file!=null && file!==""){
                 var ext = file.split(".").pop().toLowerCase();
-                if(saved_typesFiles.indexOf(ext) == -1) {
+                if(saved_typesFiles.indexOf(ext) == -1 && saved_typesFiles != "") {
                     $(this).css({ "box-shadow" : "0 0 10px #CC0000" });
                     result = false;
                 }else{

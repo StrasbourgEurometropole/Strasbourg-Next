@@ -371,7 +371,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
                     }
                 }else{
                     throw new PortalException("Fichier(s) trop volumineux (maximum autoris&eacute; : "
-                            + ParamUtil.getLong(request, "sizeFile") + "Mo)");
+                            + sizeFile + " Mo)");
                 }
             } else {
                 throw new PortalException("Extension(s) de fichier(s) non valide(s)");

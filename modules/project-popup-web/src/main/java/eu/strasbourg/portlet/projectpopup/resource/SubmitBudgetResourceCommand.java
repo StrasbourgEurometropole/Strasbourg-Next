@@ -593,12 +593,6 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         if (Validator.isNull(HtmlUtil.stripHtml(description))) {
             return "Description non valide";
         }
-
-        // city
-        if (Validator.isNull(city)) {
-            return "Ville non valide";
-        }
-
         // Niveau d'engagement
         if (Validator.isNull(commitment)) {
             return "Niveau d'engagement non valide";
@@ -622,7 +616,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
             } else {
                 if (!validateFileSizes(configuration, documentFiles)) {
                     return LanguageUtil.get(languageBundle, ERROR_FILE_TO_LARGE)
-                            + ParamUtil.getLong(request, "sizeFile") + "Mo)";
+                            + configuration.sizeFile() + "Mo)";
                 } else {
                     message = antiVirusVerif(documentFiles);
                     if (!message.equals("")) {
