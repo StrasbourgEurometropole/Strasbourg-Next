@@ -23,7 +23,7 @@
                         <aui:input helpMessage="modal.submitbudget.information.title.help" id="budgettitle" name="title" label="modal.submitbudget.information.title" maxlength="75" required="true" value=""/>
                     </div>
                     <div class="form-group">
-                        <aui:input id="budgetsummary" helpMessage="modal.submitbudget.information.summary.help" cssClass="form-control pro-textarea-small" name="summary" type="textarea" label="modal.submitbudget.information.summary" maxlength="256" value=""/>
+                        <aui:input id="budgetsummary" helpMessage="modal.submitbudget.information.summary.help" cssClass="form-control pro-textarea-small" name="summary" type="textarea" label="modal.submitbudget.information.summary" maxlength="600" value=""/>
                     </div>
                     <div class="form-group">
                         <aui:input id="budgetdescription" name="description" type="hidden"/>
