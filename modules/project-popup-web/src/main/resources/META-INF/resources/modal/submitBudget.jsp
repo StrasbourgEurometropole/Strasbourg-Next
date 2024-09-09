@@ -20,7 +20,7 @@
 
                     <h4><liferay-ui:message key="modal.submitbudget.information"/></h4>
                     <div class="form-group">
-                        <aui:input helpMessage="modal.submitbudget.information.title.help" id="budgettitle" name="title" label="modal.submitbudget.information.title" maxlength="256" required="true" value=""/>
+                        <aui:input helpMessage="modal.submitbudget.information.title.help" id="budgettitle" name="title" label="modal.submitbudget.information.title" maxlength="75" required="true" value=""/>
                     </div>
                     <div class="form-group">
                         <aui:input id="budgetsummary" helpMessage="modal.submitbudget.information.summary.help" cssClass="form-control pro-textarea-small" name="summary" type="textarea" label="modal.submitbudget.information.summary" maxlength="256" value=""/>
