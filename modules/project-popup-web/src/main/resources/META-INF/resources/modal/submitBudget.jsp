@@ -456,7 +456,6 @@
 
     function validateFormSubmitBudget()
     {
-        debugger;
         var result = true;
         var budgettitle = $("#"+namespaceSubmitBudget+"budgettitle").val();
         var budgetsummary = $("#"+namespaceSubmitBudget+"budgetsummary").val();
