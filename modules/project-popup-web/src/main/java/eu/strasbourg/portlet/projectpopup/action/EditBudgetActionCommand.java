@@ -479,11 +479,6 @@ public class EditBudgetActionCommand implements MVCActionCommand {
         if (Validator.isNull(title)) {
             return "title";
         }
-        
-        // Resume
-        if (Validator.isNull(summary)) {
-            return "summary";
-        }
 
         // description
         if (Validator.isNull(HtmlUtil.stripHtml(description))) {

@@ -89,7 +89,7 @@
                                 </a>
                                 <p>Projet adressée à <u>la ville de Strasbourg</u></p>
                                 <span class="pro-time">
-                                    Publiée le <time datetime="${entry.createDate?date?string['dd/MM/yyyy']}">${entry.createDate?date?string['dd/MM/yyyy']}</time>
+                                    Publié le <time datetime="${entry.createDate?date?string['dd/MM/yyyy']}">${entry.createDate?date?string['dd/MM/yyyy']}</time>
                                 </span>
                             </div>
                             <div class="pro-footer-budget">

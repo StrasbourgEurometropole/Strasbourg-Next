@@ -49,7 +49,7 @@
 				<aui:input name="title" required="true" />
 				
 				<%-- Champ : Resume --%>
-				<aui:input name="summary" label="bp-summary" required="true" />
+				<aui:input name="summary" label="bp-summary"/>
 
 				<%-- Champ : Corps de la description --%>
 				<aui:input name="description" required="true" />

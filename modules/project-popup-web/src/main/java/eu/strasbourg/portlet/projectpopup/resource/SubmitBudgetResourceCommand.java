@@ -588,11 +588,6 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         if (Validator.isNull(title)) {
             return "Titre non valide";
         }
-        
-        // resume
-        if (Validator.isNull(summary)) {
-            return "Resume non valide";
-        }
 
         // description
         if (Validator.isNull(HtmlUtil.stripHtml(description))) {
@@ -607,16 +602,6 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         // Niveau d'engagement
         if (Validator.isNull(commitment)) {
             return "Niveau d'engagement non valide";
-        }
-
-        // address
-        if (Validator.isNull(address)) {
-            return "Adresse non valide";
-        }
-
-        // postalcode
-        if (Validator.isNull(postalcode)) {
-            return "Code postal non valide";
         }
 
         // Photo
