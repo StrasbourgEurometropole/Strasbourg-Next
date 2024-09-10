@@ -124,7 +124,12 @@
 					background-image: url(../images/pictos/facebook-sml.png);
 				}
 				&.btn-twitter {
-					background-image: url(../images/pictos/twitter-sml.png);
+					background-image: url(../images/x-white.svg);
+					background-color: black;
+					height: 35px;
+					background-size: 16px;
+					background-position: center;
+					background-repeat: no-repeat;
 				}
 				&.btn-insta {
 					background-image: url(../images/pictos/instagram-sml.png);

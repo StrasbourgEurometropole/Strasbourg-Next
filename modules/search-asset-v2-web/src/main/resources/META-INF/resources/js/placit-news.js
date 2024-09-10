@@ -6,9 +6,6 @@ var entityType = {
 	DISTRICT : 'vocabulary_1',
 }
 
-var sortField = "modified_sortable";
-var sortType = "DESC";
-
 
 $(document).ready(function(){
     getSelectedEntries();
@@ -65,14 +62,13 @@ function getSelectedEntries() {
 				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedEndYear : selectedEndYear,
 				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedThematics : selectedThematics,
 				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedDistricts : selectedDistricts,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_sortFieldAndType : sortField + ',' + sortType,
 			},
 			on: {
                 success: function(e) {
                 	var data = this.get('responseData');
                 	getResult('news', data);
-                    //Force la premiere tuille à  prendre deux fois plus de place en hauteur de largeur
-                    $('.pro-wi-grid .col-md-3.col-sm-6.col-xs-12:first-child').removeClass('col-md-3').removeClass('col-sm-6').addClass('col-md-6').addClass('col-sm-12');
+                    //Force la premiere tuile à prendre deux fois plus de place en hauteur de largeur
+                    $('.pro-wi-grid .col-md-4.col-sm-6.col-xs-12:first-child').removeClass('col-md-3').removeClass('col-sm-6').addClass('col-md-8').addClass('col-sm-12');
                     $('.pro-wi-grid .col-md-6.col-sm-12.col-xs-12 .pro-bloc-actu').addClass('pro-bloc-actu-large');
                     $('.pro-listing .pro-wi-grid>*').css('margin', '20px 0px');
 
@@ -92,15 +88,3 @@ $("fieldset[id='thematics_fieldset'] input").change(function() {
 $("fieldset[id='districts_fieldset'] input").change(function() {
 	getSelectedEntries();
 });
-
-// Permet le tri des vidéos
-function sortVideo(type) {
-    sortType = type;
-    // change l'affichage du tri
-    if(type == "ASC"){
-        $('#sortType').text = "Tri A-Z";
-    }else{
-        $('#sortType').text = "Tri Z-A";
-    }
-    getSelectedEntries();
-}

@@ -132,6 +132,10 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             // Citoyen : Mobile
             String mobile = ParamUtil.getString(request, "citoyenMobile");
             budgetParticipatif.setCitoyenMobile(mobile);
+
+			// Niveau d'engagement
+			String commitment = ParamUtil.getString(request, "commitment");
+			budgetParticipatif.setCommitment(commitment);
             
             // ---------------------------------------------------------------
  			// -------------------------- FUSION -----------------------------

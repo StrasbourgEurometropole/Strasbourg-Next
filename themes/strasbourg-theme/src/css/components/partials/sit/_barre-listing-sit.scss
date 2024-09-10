@@ -4,7 +4,7 @@
 
 	@include min-tablet-portrait {
 		position: fixed;
-		bottom: 20px;
+		bottom: var(--height-sticky, 20px);
 	}
 
 	@include tablet-portrait {

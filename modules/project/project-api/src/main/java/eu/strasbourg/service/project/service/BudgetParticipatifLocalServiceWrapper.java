@@ -577,24 +577,6 @@ public class BudgetParticipatifLocalServiceWrapper
 	}
 
 	/**
-	 * Recuperer les budgets participatifs "coup de coeur" les plus recents
-	 *
-	 * @param groupId ID du site
-	 * @param delta Nombre de resultats max voulu
-	 * @return Liste des budgets participatifs coup de coeurs recent
-	 */
-	@Override
-	public java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif>
-			getRecentIsCrushed(
-				long groupId, int delta,
-				com.liferay.asset.kernel.model.AssetCategory phase) {
-
-		return _budgetParticipatifLocalService.getRecentIsCrushed(
-			groupId, delta, phase);
-	}
-
-	/**
 	 * Methode permettant de recuperer une liste de budgets participatifs trie par nombre de commentaires
 	 *
 	 * @param groupId ID du site
@@ -626,17 +608,6 @@ public class BudgetParticipatifLocalServiceWrapper
 
 		return _budgetParticipatifLocalService.getSortedByNbSupports(
 			groupId, phase);
-	}
-
-	/**
-	 * On randomise la date de modifications des budgets participatifs
-	 * Cela permet de simuler un tri aléatoire
-	 */
-	@Override
-	public void randomizeModifiedDate()
-		throws com.liferay.portal.kernel.search.SearchException {
-
-		_budgetParticipatifLocalService.randomizeModifiedDate();
 	}
 
 	@Override

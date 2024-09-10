@@ -12,7 +12,7 @@
 			display: none;
 			width: 100%;
 			height: var(--gradient-height);
-			background: linear-gradient(180deg, rgba($c_main, 0), rgba($c_main, 1));
+			background: linear-gradient(180deg, color-mix(in srgb, $c_main 0%, transparent), color-mix(in srgb, $c_main 100%, transparent));
 			position: absolute;
 			left: 0;
 			bottom: 0;

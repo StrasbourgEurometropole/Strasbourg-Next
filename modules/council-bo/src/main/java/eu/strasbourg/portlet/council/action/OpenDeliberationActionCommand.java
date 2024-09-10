@@ -2,6 +2,8 @@ package eu.strasbourg.portlet.council.action;
 
 import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -29,6 +31,8 @@ import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -76,6 +80,7 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
         ServiceContext sc = ServiceContextFactory.getInstance(request);
         ThemeDisplay themeDisplay = (ThemeDisplay) request
                 .getAttribute(WebKeys.THEME_DISPLAY);
+        String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
 
         String stage = ParamUtil.getString(request, "stage");
         long deliberationId = ParamUtil.getLong(request, "deliberationId");
@@ -159,7 +164,13 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
         //  Update de l'entité (même si pas de quorum on enregistre les chiffres pour que les gens puissent vérifier
         deliberationLocalService.updateDeliberation(deliberation);
 
-        response.sendRedirect(ParamUtil.getString(request, "backURL"));
+        //  Post / Redirect / Get si tout est bon
+        PortletURL renderURL = PortletURLFactoryUtil.create(request,
+                portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
+        renderURL.setParameter("tab", request.getParameter("tab"));
+        renderURL.setParameter("mvcPath", request.getParameter("mvcPath"));
+        renderURL.setParameter("deliberationId", String.valueOf(deliberationId));
+        response.sendRedirect(renderURL.toString());
 
     }
 }

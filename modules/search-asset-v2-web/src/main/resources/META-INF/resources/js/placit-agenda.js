@@ -6,9 +6,6 @@ var entityType = {
 	THEMATIC : 'vocabulary_2',
 }
 
-var sortField = "publishDate_sortable";
-var sortType = "ASC";
-
 
 $(document).ready(function(){
     getSelectedEntries();
@@ -69,7 +66,6 @@ function getSelectedEntries() {
 				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedProject : selectedProject,
 				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedDistricts : selectedDistricts,
 				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedThematics : selectedThematics,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_sortFieldAndType : sortField + ',' + sortType,
 			},
 			on: {
                 success: function(e) {
@@ -101,18 +97,6 @@ $("fieldset[id='districts_fieldset'] input").change(function() {
 $("fieldset[id='thematics_fieldset'] input").change(function() {
 	getSelectedEntries();
 });
-
-// Permet le tri des vidéos
-function sortVideo(type) {
-    sortType = type;
-    // change l'affichage du tri
-    if(type == "ASC"){
-        $('#sortType').text = "Tri A-Z";
-    }else{
-        $('#sortType').text = "Tri Z-A";
-    }
-    getSelectedEntries();
-}
 
 
 

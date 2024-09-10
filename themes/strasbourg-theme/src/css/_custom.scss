@@ -453,7 +453,7 @@ body {
   .st-bloc-elu__inner {
     .st-resume-fonction {
       display: block;
-      @include ft($f_txt, $s_link, 400, $c_grey, 1.16);
+      @include ft($f_txt, $s_link, 400, $c_txt, 1.16);
       letter-spacing: 0.025em;
       margin-bottom: 5px;
     }
@@ -586,6 +586,10 @@ body:not(.no-hover) .st-page-wrapper .login-container button{
   }
 }
 
+.st-overlay-menu .st-overlay__footer.st-has-btn-compte {
+  align-items: end;
+}
+
 .st-liste {
     .st-lien-container {
         > div:not([style]) {
@@ -685,4 +689,13 @@ body:not(.no-hover) .st-page-wrapper .login-container button{
       border-color: transparent;
     }
   }
+}
+
+#tarteaucitronAlertBig.tarteaucitronAlertBigBottom[style*="display: block; opacity: 1;"] {
+  --height-sticky: 100px;
+}
+
+.video-player iframe {
+  aspect-ratio: 16 / 9;
+  height: 100%;
 }

@@ -26,7 +26,7 @@
 
         <div class="st-bloc-video">
             <div class="st-container">
-                <div class="st-embed-container">
+                <div class="st-embed-container video-player">
                     ${entry.getPlayer(locale)}
                 </div>
             </div>

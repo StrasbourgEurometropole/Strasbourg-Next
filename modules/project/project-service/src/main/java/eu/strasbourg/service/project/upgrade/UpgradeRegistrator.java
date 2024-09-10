@@ -13,5 +13,9 @@ public class UpgradeRegistrator implements UpgradeStepRegistrator {
                 new eu.strasbourg.service.project.upgrade.v1_1_0.UpgradeSchema());
         registry.register( "1.1.0", "1.2.0",
                 new eu.strasbourg.service.project.upgrade.v1_2_0.UpgradeSchema());
+        registry.register( "1.2.0", "1.3.0",
+                new eu.strasbourg.service.project.upgrade.v1_3_0.UpgradeSchema());
+        registry.register( "1.3.0", "1.4.0",
+                new eu.strasbourg.service.project.upgrade.v1_4_0.UpgradeSchema());
     }
 }

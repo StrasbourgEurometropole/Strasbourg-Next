@@ -33,6 +33,9 @@
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
+		<field name="amendement" type="String">
+			<hint name="max-length">3</hint>
+		</field>
 		<field name="title" type="String">
 			<hint name="max-length">500</hint>
 		</field>

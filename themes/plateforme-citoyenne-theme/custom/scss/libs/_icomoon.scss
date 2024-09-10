@@ -229,7 +229,18 @@
 	content: "\e900";
 }
 .icon-ico-twitter:before {
-	content: "\e901";
+	content: "";
+	mask: url(../images/x.svg) no-repeat 50% 50%;
+	mask-size: cover;
+	background-color: $c_grey;
+	height: 15px;
+	width: 15px;
+	margin: auto;
+}
+a:hover .icon-ico-twitter, a:focus .icon-ico-twitter {
+	&:before {
+		background-color: $c_grey !important;
+	}
 }
 .icon-ico-chevron-left:before {
 	content: "\23F4";

@@ -487,6 +487,21 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             budgetParticipatifMarkers.push(marker);
         }
 
+        if(budgetParticipatifMarkers.length == 0) {
+            // Par defaut on mets le centre administratif de la ville de Strasbourg
+            // 48.5737017330932, 7.752943258552335
+
+            var marker = getBudgetParticipatifMarker(
+                budgetParticipatifJSON,
+                [48.5737017330932, 7.752943258552335]
+            );
+
+            // Ajout du point dans le Cluster de marqueurs
+            markersCluster.addLayer(marker);
+            // Ajout du marker dans le tempon
+            budgetParticipatifMarkers.push(marker);
+        }
+
         leafletMap.addLayer(markersCluster);
 
         // Adapter le zoom si des marqueurs existent

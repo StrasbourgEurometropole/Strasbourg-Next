@@ -232,6 +232,7 @@ function createCourseVignette(data) {
             <div class="st-caption">
             ${data.title ? `<h3 class="st-title-card">${data.title}</h3>` : ''}
                ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
+               ${data.description ?`<p class="st-text">${data.description}</p>` : ''}
             </div>
            <div class="st-image">
                 ${generateImage(data.imageURL)}
@@ -390,6 +391,16 @@ function populateList(data) {
 var searchInput = document.getElementById('recherche-input');
 var typingTimer;
 var doneTypingInterval = 500;
+// wait until document is loaded
+document.addEventListener('DOMContentLoaded', function () {
+    setTimeout(function () {
+    var searchInputDOM = document.getElementById('recherche-input');
+    if (searchInputDOM.value.length >= 3) {
+        sendSearch();
+    }
+}
+, 500);
+});
 
 searchInput.addEventListener('input', function () {
     clearTimeout(typingTimer);

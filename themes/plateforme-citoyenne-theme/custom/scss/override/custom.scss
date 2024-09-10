@@ -1,12 +1,16 @@
 // Style pour les formulaires
 .portlet-forms {
 
-    .ddm-radio label{
+    .ddm__radio label{
         padding-left: 0px;
 
         &:before{
             content: none;
         }
+    }
+
+    .lfr-ddm-form-page-title{
+        line-height: normal;
     }
 
     .form {
@@ -505,5 +509,14 @@ div.reply-city {
 form {
     .form-control.disable, .form-control[readonly], .form-control[disabled] {
         background-color: #e8e9ea;
+    }
+}
+
+.pro-wrapper {
+    p {
+        a {
+            font-weight: bold;
+            text-decoration: underline;
+        }
     }
 }

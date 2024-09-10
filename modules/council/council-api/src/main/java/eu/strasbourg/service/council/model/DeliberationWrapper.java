@@ -46,6 +46,7 @@ public class DeliberationWrapper
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
+		attributes.put("amendement", getAmendement());
 		attributes.put("title", getTitle());
 		attributes.put("order", getOrder());
 		attributes.put("stage", getStage());
@@ -133,6 +134,12 @@ public class DeliberationWrapper
 			setStatusDate(statusDate);
 		}
 
+		String amendement = (String)attributes.get("amendement");
+
+		if (amendement != null) {
+			setAmendement(amendement);
+		}
+
 		String title = (String)attributes.get("title");
 
 		if (title != null) {
@@ -193,6 +200,16 @@ public class DeliberationWrapper
 	@Override
 	public Deliberation cloneWithOriginalValues() {
 		return wrap(model.cloneWithOriginalValues());
+	}
+
+	/**
+	 * Returns the amendement of this deliberation.
+	 *
+	 * @return the amendement of this deliberation
+	 */
+	@Override
+	public String getAmendement() {
+		return model.getAmendement();
 	}
 
 	/**
@@ -328,6 +345,11 @@ public class DeliberationWrapper
 	@Override
 	public int getOrder() {
 		return model.getOrder();
+	}
+
+	@Override
+	public String getOrderAmendement() {
+		return model.getOrderAmendement();
 	}
 
 	/**
@@ -578,6 +600,16 @@ public class DeliberationWrapper
 	@Override
 	public void persist() {
 		model.persist();
+	}
+
+	/**
+	 * Sets the amendement of this deliberation.
+	 *
+	 * @param amendement the amendement of this deliberation
+	 */
+	@Override
+	public void setAmendement(String amendement) {
+		model.setAmendement(amendement);
 	}
 
 	/**

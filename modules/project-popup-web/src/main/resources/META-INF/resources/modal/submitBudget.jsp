@@ -16,29 +16,33 @@
 
             <aui:form name="uploadForm" enctype="multipart/form-data">
                 <div id="uploadDiv" class="pro-wrapper">
+                    <liferay-ui:message key="modal.submitbudget.text-preheader"/>
+
                     <h4><liferay-ui:message key="modal.submitbudget.information"/></h4>
                     <div class="form-group">
-                        <aui:input id="budgettitle" name="title" label="modal.submitbudget.information.title" maxlength="256" required="true" value=""/>
+                        <aui:input helpMessage="modal.submitbudget.information.title.help" id="budgettitle" name="title" label="modal.submitbudget.information.title" maxlength="75" required="true" value=""/>
                     </div>
                     <div class="form-group">
-                        <aui:input id="budgetsummary" cssClass="form-control pro-textarea-small" name="summary" type="textarea" label="modal.submitbudget.information.summary" maxlength="256" required="true" value=""/>
+                        <aui:input id="budgetsummary" helpMessage="modal.submitbudget.information.summary.help" cssClass="form-control pro-textarea-small" name="summary" type="textarea" label="modal.submitbudget.information.summary" maxlength="600" value=""/>
                     </div>
                     <div class="form-group">
                         <aui:input id="budgetdescription" name="description" type="hidden"/>
-                        <aui:input name="squiredescription" type="textarea" required="true" cssClass="form-control form-squire-target" label="modal.submitbudget.information.description"/>
+                        <aui:input name="squiredescription" type="textarea" cssClass="form-control form-squire-target" required="true"  helpMessage="modal.submitbudget.information.description.help" label="modal.submitbudget.information.description"/>
+                        <a class="link-location" target="_blank" href="https://stras.me/permanences-bp"><liferay-ui:message key="modal.submitbudget.information.territoire.link-bp"/></a>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <label for="quartiers"><liferay-ui:message key="modal.submitbudget.information.territoire"/> <strong class="required" aria-required="true">*</strong></label>
-                            <select id="<portlet:namespace />quartier" name="<portlet:namespace />quartier">
-                                <option value="0" selected></option>
+                            <aui:select name="quartier" id="quartier" label="modal.submitbudget.information.territoire" helpMessage="modal.submitbudget.information.territoire.help" required="true">
+                                <aui:option value="0" selected="true"><liferay-ui:message key="modal.submitbudget.information.territoire.not-specified"/> </aui:option>
                                 <c:forEach var="quartier" items="${quartiers}">
-                                    <option value="${quartier.categoryId}">${quartier.name}</option>
+                                    <aui:option value="${quartier.categoryId}">${quartier.name}</aui:option>
                                 </c:forEach>
-                            </select>
+                            </aui:select>
+                            <a class="link-location" target="_blank" href="https://data.opendatasoft.com/explore/dataset/quartiers_elus_2020%40eurometrostrasbourg/map/?location=11,48.55252,7.79995&basemap=jawg.streets"><liferay-ui:message key="modal.submitbudget.information.territoire.link-map"/></a>
                         </div>
                         <div class="form-group form-half">
-                            <aui:input id="budgetlieux" name="budgetlieux" label="modal.submitbudget.information.lieu" maxlength="256" value=""/>
+                            <aui:input id="budgetlieux" name="budgetlieux" helpMessage="modal.submitbudget.information.lieu.help" label="modal.submitbudget.information.lieu" maxlength="256" value=""/>
+                            <a class="link-location" target="_blank" href="https://stras.me/permanences-bp"><liferay-ui:message key="modal.submitbudget.information.territoire.link-bp"/></a>
                         </div>
                     </div>
                     <div class="pro-row">
@@ -64,16 +68,11 @@
                     <div class="pro-row">
                         <div class="form-group form-two-tiers">
                             <span class="browsePicture input-group-btn">
-                                <aui:input name="budgetPhoto" type="file" label="modal.submitbudget.information.picture"
+                                <aui:input name="budgetPhoto" type="file" helpMessage="modal.submitbudget.information.picture.help" label="modal.submitbudget.information.picture"
                                     cssClass="btn btn-default btn-choose upload-image">
 							        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
                                 </aui:input>
                             </span>
-                        </div>
-                    </div>
-                    <div class="pro-row">
-                        <div class="form-group form-two-tiers">
-                            <aui:input id="budgetVideo" name="budgetVideo" label="modal.submitbudget.information.video" maxlength="256" value=""/>
                         </div>
                     </div>
                     <c:if test="${nbFiles gt 0}">
@@ -92,6 +91,7 @@
                 </div>
                 <div class="pro-wrapper last-wrapper">
                     <h4><liferay-ui:message key="modal.submitbudget.user"/></h4>
+                    <liferay-ui:message key="modal.submitbudget.user.text"/>
                     <div class="pro-row">
                         <div class="form-group form-triple">
                             <aui:input name="username" disabled="true" label="modal.user.username" required="true" value="${userConnected.get('last_name')}"/>
@@ -109,7 +109,7 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValuesSubmitBudget();" />
+                            <aui:input name="address" label="modal.user.address" maxlength="256" onInput="checkValuesSubmitBudget();" />
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
@@ -131,6 +131,7 @@
                             <aui:input name="mobile" label="modal.user.mobile" maxlength="20" value="" onInput="checkValuesSubmitBudget();"/>
                         </div>
                     </div>
+
                     <div class="form-group form-checkbox" id="checkboxSaveInfo" >
                         <div>
                             <input type="checkbox" id="save-info" value="info">
@@ -138,6 +139,13 @@
                             	<liferay-ui:message key="modal.save.info"/>
                             </label>
                         </div>
+                    </div>
+
+                    <div class="form-group"  >
+                        <label><liferay-ui:message key="modal.submitbudget.commitement"/></label>
+                        <aui:input type="radio" label="eu.participer.commitment.want-to-commit" value="want-to-commit" name="commitment"/>
+                        <aui:input type="radio" label="eu.participer.commitment.dont-want-to-commit" value="dont-want-to-commit" name="commitment"/>
+                        <aui:input type="radio" label="eu.participer.commitment.dont-know-yet" value="dont-know-yet" name="commitment"/>
                     </div>
                 </div>
                 <div class="top-slope"></div>
@@ -223,10 +231,19 @@
         $('#modalConfirmerBudget').modal('hide');
         $('#modalErrorBudget').modal('hide');
         $('#checkboxSaveInfo').hide();
+        //if #deposerBudget has data-target="#modalPetition"
+        if(document.location.hash == "#deposerBudget"){
+            let target = $('#buttonDeposer').data('target');
+            if(target != undefined && target != "") {
+                $(target).modal('show');
+            }
+
+        }
     });
     
     $('#buttonDeposer').click(function(event){
         resetValuesSubmitBudget();
+        document.location.hash = "#deposerBudget";
     });
 
     $("#sendBudget").click(function(event){
@@ -256,7 +273,10 @@
                             if($("#<portlet:namespace />mobile").val() != "")
                                 saved_mobile = $("#<portlet:namespace />mobile").val();
                         }
+                        const budgetId = data.entityId;
+                        window.budgetId = budgetId;
                         $('#modalConfirmerBudget').modal('show');
+
                         resetValuesSubmitBudget();
                     }else{
                         $("#modalErrorBudget h4").text(data.message);
@@ -269,14 +289,13 @@
             var formData = new FormData(formElement[0]);
             var nbFileMaxValue = saved_nbFiles;
             var typesFilesValue = saved_typesFiles;
-            var videoValue = $("#"+namespaceSubmitBudget+"budgetVideo").val();
             var lieuValue =$("#"+namespaceSubmitBudget+"budgetlieux").val();
             var iframe = $('.Squire-UI').next('iframe').first()[0];
         	var editor = iframe.contentWindow.editor;       	
             var budgetDescriptionValue = editor.getHTML();
             $("#"+namespaceSubmitBudget+"budgetdescription").val(budgetDescriptionValue);
             var budgetDescription = $("#"+namespaceSubmitBudget+"budgetdescription").val();
-            formData.append("<portlet:namespace/>video", videoValue);
+            formData.append("<portlet:namespace/>video", "");
             formData.append("<portlet:namespace/>budgetLieux", lieuValue);
             formData.append("<portlet:namespace/>squiredescription", budgetDescription);
             formData.append("<portlet:namespace/>nbFileMax", nbFileMaxValue); 
@@ -287,6 +306,10 @@
 
     $('#modalConfirmerBudget #buttonConfirm').click(function(event){
         $('#modalConfirmerBudget').modal('hide');
+        if(window.budgetId) {
+            const url = "/detail-budget-participatif/-/entity/id/" + window.budgetId;
+            window.location.href = url;
+        }
     });
 
     $('#modalErrorBudget #buttonConfirm').click(function(event){
@@ -401,7 +424,6 @@
         $("#"+namespaceSubmitBudget+"address").css({ "box-shadow" : "" });
         $("#"+namespaceSubmitBudget+"budgetPhoto").val("");
         $("#"+namespaceSubmitBudget+"budgetPhoto").css({ "box-shadow" : "" });
-        $("#"+namespaceSubmitBudget+"budgetVideo").val("");
         // on supprime les sélecteurs de document
         $(".upload-file").each(function(){
             $(this).closest(".pro-row").remove();
@@ -437,7 +459,6 @@
     function validateFormSubmitBudget()
     {
         var result = true;
-        var quartierValue = $("#"+namespaceSubmitBudget+"quartier").val();
         var budgettitle = $("#"+namespaceSubmitBudget+"budgettitle").val();
         var budgetsummary = $("#"+namespaceSubmitBudget+"budgetsummary").val();
         var iframe = $('.Squire-UI').next('iframe').first()[0];
@@ -452,11 +473,6 @@
         var files = $(".upload-file");
         var regex = new RegExp("^(([0-8][0-9])|(9[0-5]))[0-9]{3}$");
 
-        if (quartierValue==0){
-            $("#"+namespaceSubmitBudget+"quartier").closest(".selectric-wrapper").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#"+namespaceSubmitBudget+"quartier").closest(".selectric-wrapper").css({ "box-shadow" : "" });
-
         if (photo!=null && photo!==""){
             var ext = photo.split(".").pop().toLowerCase();
             if($.inArray(ext, ['png','jpg','jpeg']) == -1) {
@@ -469,7 +485,7 @@
             var file = $(this).val();
             if (file!=null && file!==""){
                 var ext = file.split(".").pop().toLowerCase();
-                if(saved_typesFiles.indexOf(ext) == -1) {
+                if(saved_typesFiles.indexOf(ext) == -1 && saved_typesFiles != "") {
                     $(this).css({ "box-shadow" : "0 0 10px #CC0000" });
                     result = false;
                 }else{
@@ -482,12 +498,7 @@
             $("#"+namespaceSubmitBudget+"budgettitle").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespaceSubmitBudget+"budgettitle").css({ "box-shadow" : "" });
-        
-        if (budgetsummary===null || budgetsummary===""){
-            $("#"+namespaceSubmitBudget+"budgetsummary").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#"+namespaceSubmitBudget+"budgetsummary").css({ "box-shadow" : "" });
-             
+
         if ($(budgetdescription).text()===null || $(budgetdescription).text()===""){
             $(iframe).css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
@@ -498,10 +509,7 @@
             result = false;
         }else $("#"+namespaceSubmitBudget+"city").css({ "box-shadow" : "" });
 
-        if (address===null || address===""){
-            $("#"+namespaceSubmitBudget+"address").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#"+namespaceSubmitBudget+"address").css({ "box-shadow" : "" });
+         $("#"+namespaceSubmitBudget+"address").css({ "box-shadow" : "" });
 
         if (postalcode===null || postalcode===""){
             $("#"+namespaceSubmitBudget+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
@@ -531,5 +539,16 @@
     label .required{
         color: red;
         font-size:1em;
+    }
+
+    .form-group a.link-location {
+        display: block;
+        font-size: 0.9em;
+        color: grey;
+        transition: color 0.3s;
+    }
+
+    .form-group a.link-location:hover {
+        color: #f37021;
     }
 </style>

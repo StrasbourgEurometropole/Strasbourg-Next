@@ -57,8 +57,9 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
     @Override
     protected void doProcessAction(ActionRequest request,
                                    ActionResponse response) throws Exception {
-        ThemeDisplay themeDisplay = (ThemeDisplay) request
-                .getAttribute(WebKeys.THEME_DISPLAY);
+
+        ServiceContext sc = ServiceContextFactory.getInstance(request);
+        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
 
         long deliberationId = ParamUtil.getLong(request, "deliberationId");
@@ -77,6 +78,7 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
                         portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
                 renderURL.setParameter("tab", request.getParameter("tab"));
                 renderURL.setParameter("mvcPath", request.getParameter("mvcPath"));
+                renderURL.setParameter("deliberationId", String.valueOf(deliberationId));
                 response.sendRedirect(renderURL.toString());
                 return;
             }
@@ -95,7 +97,14 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
             AssetEntryAssetCategoryRelLocalServiceUtil.addAssetEntryAssetCategoryRel(stageCategory.getCategoryId(), deliberation.getAssetEntry().getEntryId());
         // Update de l'entité
         deliberationLocalService.updateDeliberation(deliberation);
-        response.sendRedirect(ParamUtil.getString(request, "backURL"));
+
+        // Post / Redirect / Get si tout est bon
+        PortletURL renderURL = PortletURLFactoryUtil.create(request,
+                portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
+        renderURL.setParameter("tab", request.getParameter("tab"));
+        renderURL.setParameter("mvcPath", request.getParameter("mvcPath"));
+        renderURL.setParameter("deliberationId", String.valueOf(deliberationId));
+        response.sendRedirect(renderURL.toString());
     }
 
 }

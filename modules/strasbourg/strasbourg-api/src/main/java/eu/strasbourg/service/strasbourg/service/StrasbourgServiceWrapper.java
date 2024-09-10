@@ -91,10 +91,11 @@ public class StrasbourgServiceWrapper
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONArray
-		getCategoriesByClassNameAndGroupIds(long[] groupIds, String className) {
+		getCategoriesByClassNameAndGroupIds(
+			long[] groupIds, String className, long classType) {
 
 		return _strasbourgService.getCategoriesByClassNameAndGroupIds(
-			groupIds, className);
+			groupIds, className, classType);
 	}
 
 	@Override
@@ -189,10 +190,10 @@ public class StrasbourgServiceWrapper
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject
 		getTagsAndCategoriesByGroupIdsAndClassName(
-			long[] groupIds, String className) {
+			long[] groupIds, String className, long classType) {
 
 		return _strasbourgService.getTagsAndCategoriesByGroupIdsAndClassName(
-			groupIds, className);
+			groupIds, className, classType);
 	}
 
 	@Override

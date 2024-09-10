@@ -39,9 +39,9 @@
 						</div>
 					</c:forEach>
 					<div class="asset-type-configuration">
-						<aui:input type="checkbox" 
-							name="searchNews" 
-							value="${searchNews}" 
+						<aui:input type="checkbox"
+							name="searchNews"
+							value="${searchNews}"
 							label="com.liferay.journal.model.JournalArticle" />
 					</div>
 					<div class="asset-type-configuration">
