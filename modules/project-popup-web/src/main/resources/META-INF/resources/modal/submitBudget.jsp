@@ -20,14 +20,14 @@
 
                     <h4><liferay-ui:message key="modal.submitbudget.information"/></h4>
                     <div class="form-group">
-                        <aui:input helpMessage="modal.submitbudget.information.title.help" id="budgettitle" name="title" label="modal.submitbudget.information.title" maxlength="256" required="true" value=""/>
+                        <aui:input helpMessage="modal.submitbudget.information.title.help" id="budgettitle" name="title" label="modal.submitbudget.information.title" maxlength="75" required="true" value=""/>
                     </div>
                     <div class="form-group">
-                        <aui:input id="budgetsummary" helpMessage="modal.submitbudget.information.summary.help" cssClass="form-control pro-textarea-small" name="summary" type="textarea" label="modal.submitbudget.information.summary" maxlength="256" required="true" value=""/>
+                        <aui:input id="budgetsummary" helpMessage="modal.submitbudget.information.summary.help" cssClass="form-control pro-textarea-small" name="summary" type="textarea" label="modal.submitbudget.information.summary" maxlength="600" value=""/>
                     </div>
                     <div class="form-group">
                         <aui:input id="budgetdescription" name="description" type="hidden"/>
-                        <aui:input name="squiredescription" type="textarea" required="true" cssClass="form-control form-squire-target" helpMessage="modal.submitbudget.information.description.help" label="modal.submitbudget.information.description"/>
+                        <aui:input name="squiredescription" type="textarea" cssClass="form-control form-squire-target" required="true"  helpMessage="modal.submitbudget.information.description.help" label="modal.submitbudget.information.description"/>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
@@ -37,6 +37,7 @@
                                     <aui:option value="${quartier.categoryId}">${quartier.name}</aui:option>
                                 </c:forEach>
                             </aui:select>
+                            <a class="link-location" target="_blank" href="https://data.opendatasoft.com/explore/dataset/quartiers_elus_2020%40eurometrostrasbourg/map/?location=11,48.55252,7.79995&basemap=jawg.streets"><liferay-ui:message key="modal.submitbudget.information.territoire.link-map"/></a>
                         </div>
                         <div class="form-group form-half">
                             <aui:input id="budgetlieux" name="budgetlieux" helpMessage="modal.submitbudget.information.lieu.help" label="modal.submitbudget.information.lieu" maxlength="256" value=""/>
@@ -111,14 +112,14 @@
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
-                            <aui:input name="address" label="modal.user.address" required="true" maxlength="256" onInput="checkValuesSubmitBudget();" />
+                            <aui:input name="address" label="modal.user.address" maxlength="256" onInput="checkValuesSubmitBudget();" />
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-                                <aui:input name="city" label="modal.user.city" required="true" maxlength="256" onInput="checkValuesSubmitBudget();" />
+                                <aui:input name="city" label="modal.user.city" maxlength="256" onInput="checkValuesSubmitBudget();" />
                             </div>
                             <div class="form-code">
-                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" maxlength="5" onInput="checkValuesSubmitBudget();"/>
+                                <aui:input name="postalcode" label="modal.user.postalcode" maxlength="5" onInput="checkValuesSubmitBudget();"/>
                             </div>
                         </div>
                     </div>
@@ -275,7 +276,10 @@
                             if($("#<portlet:namespace />mobile").val() != "")
                                 saved_mobile = $("#<portlet:namespace />mobile").val();
                         }
+                        const budgetId = data.entityId;
+                        window.budgetId = budgetId;
                         $('#modalConfirmerBudget').modal('show');
+
                         resetValuesSubmitBudget();
                     }else{
                         $("#modalErrorBudget h4").text(data.message);
@@ -306,6 +310,10 @@
 
     $('#modalConfirmerBudget #buttonConfirm').click(function(event){
         $('#modalConfirmerBudget').modal('hide');
+        if(window.budgetId) {
+            const url = "/detail-budget-participatif/-/entity/id/" + window.budgetId;
+            window.location.href = url;
+        }
     });
 
     $('#modalErrorBudget #buttonConfirm').click(function(event){
@@ -482,7 +490,7 @@
             var file = $(this).val();
             if (file!=null && file!==""){
                 var ext = file.split(".").pop().toLowerCase();
-                if(saved_typesFiles.indexOf(ext) == -1) {
+                if(saved_typesFiles.indexOf(ext) == -1 && saved_typesFiles != "") {
                     $(this).css({ "box-shadow" : "0 0 10px #CC0000" });
                     result = false;
                 }else{
@@ -495,31 +503,17 @@
             $("#"+namespaceSubmitBudget+"budgettitle").css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $("#"+namespaceSubmitBudget+"budgettitle").css({ "box-shadow" : "" });
-        
-        if (budgetsummary===null || budgetsummary===""){
-            $("#"+namespaceSubmitBudget+"budgetsummary").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#"+namespaceSubmitBudget+"budgetsummary").css({ "box-shadow" : "" });
-             
+
         if ($(budgetdescription).text()===null || $(budgetdescription).text()===""){
             $(iframe).css({ "box-shadow" : "0 0 10px #CC0000" });
             result = false;
         }else $(iframe).css({ "box-shadow" : "" });
 
-        if (city===null || city===""){
-            $("#"+namespaceSubmitBudget+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#"+namespaceSubmitBudget+"city").css({ "box-shadow" : "" });
+        $("#"+namespaceSubmitBudget+"city").css({ "box-shadow" : "" });
 
-        if (address===null || address===""){
-            $("#"+namespaceSubmitBudget+"address").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else $("#"+namespaceSubmitBudget+"address").css({ "box-shadow" : "" });
+         $("#"+namespaceSubmitBudget+"address").css({ "box-shadow" : "" });
 
-        if (postalcode===null || postalcode===""){
-            $("#"+namespaceSubmitBudget+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
-            result = false;
-        }else if(!regex.test(postalcode)){
+         if((postalcode != null && postalcode != "") && !regex.test(postalcode)){
             $("#"+namespaceSubmitBudget+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             alert("Merci de respecter la syntaxe d'un code postal");
             result = false;
@@ -544,5 +538,16 @@
     label .required{
         color: red;
         font-size:1em;
+    }
+
+    .form-group a.link-location {
+        display: block;
+        font-size: 0.9em;
+        color: grey;
+        transition: color 0.3s;
+    }
+
+    .form-group a.link-location:hover {
+        color: #f37021;
     }
 </style>

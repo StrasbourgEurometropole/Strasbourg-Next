@@ -85,7 +85,7 @@ public class BudgetPhaseActionDropdownItemsProvider {
         return dropdownItem -> {
             dropdownItem.setHref(
                     PortletURLBuilder.createRenderURL(_response)
-                            .setMVCPath("/project-bo-edit-budget-phase.jsps")
+                            .setMVCPath("/project-bo-edit-budget-phase.jsp")
                             .setCMD("editBudgetPhase")
                             .setBackURL(_themeDisplay.getURLCurrent())
                             .setParameter("tab", "budget-phases")

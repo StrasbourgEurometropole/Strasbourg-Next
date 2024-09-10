@@ -101,24 +101,6 @@
                     </c:forEach>
                 </div>
                 
-                <!-- Bloc : Les plus recents coups de coeur du conseil -->
-                <div class="pro-widget-participation">
-                    <h4><liferay-ui:message key="eu.most.iscrush" /></h4>
-                    <c:forEach var="bpAside" items="${budgetsIsCrush}">
-                        <a href="${dc.getHomeURL()}detail-budget-participatif/-/entity/id/${bpAside.budgetParticipatifId}" title="Lien vers le detail du budget">
-                            <div class="pro-meta">
-                                <span>${bpAside.getDistrictLabel(locale)}</span>
-                                <span>${bpAside.getThematicsLabel(locale)}</span>
-                            </div>
-                            <h3>${bpAside.title}</h3>
-
-                            <div class="pro-meta-footer">
-                                <span class="pro-comments"><strong>${bpAside.getNbApprovedComments()}</strong>Commentaire(s)</span>
-                            </div>
-                        </a>
-                    </c:forEach>
-                </div>
-                
                 
            	</div>
             
