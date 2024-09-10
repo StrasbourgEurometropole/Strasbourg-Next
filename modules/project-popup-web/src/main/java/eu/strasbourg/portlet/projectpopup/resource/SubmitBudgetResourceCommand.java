@@ -595,6 +595,16 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
             return "Titre non valide";
         }
 
+        // city
+        if (Validator.isNull(city)) {
+            return "Ville non valide";
+        }
+
+        // postalcode
+        if (Validator.isNull(postalcode)) {
+            return "Code postal non valide";
+        }
+
         // description
         if (Validator.isNull(HtmlUtil.stripHtml(description))) {
             return "Description non valide";
