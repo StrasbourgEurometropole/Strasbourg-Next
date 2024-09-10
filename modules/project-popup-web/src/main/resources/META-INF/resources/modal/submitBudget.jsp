@@ -28,6 +28,7 @@
                     <div class="form-group">
                         <aui:input id="budgetdescription" name="description" type="hidden"/>
                         <aui:input name="squiredescription" type="textarea" cssClass="form-control form-squire-target" required="true"  helpMessage="modal.submitbudget.information.description.help" label="modal.submitbudget.information.description"/>
+                        <a class="link-location" target="_blank" href="https://stras.me/permanences-bp"><liferay-ui:message key="modal.submitbudget.information.territoire.link-bp"/></a>
                     </div>
                     <div class="pro-row">
                         <div class="form-group form-half">
@@ -41,6 +42,7 @@
                         </div>
                         <div class="form-group form-half">
                             <aui:input id="budgetlieux" name="budgetlieux" helpMessage="modal.submitbudget.information.lieu.help" label="modal.submitbudget.information.lieu" maxlength="256" value=""/>
+                            <a class="link-location" target="_blank" href="https://stras.me/permanences-bp"><liferay-ui:message key="modal.submitbudget.information.territoire.link-bp"/></a>
                         </div>
                     </div>
                     <div class="pro-row">
@@ -71,11 +73,6 @@
 							        <aui:validator name="acceptFiles">'jpg,png,jpeg'</aui:validator>
                                 </aui:input>
                             </span>
-                        </div>
-                    </div>
-                    <div class="pro-row">
-                        <div class="form-group form-two-tiers">
-                            <aui:input id="budgetVideo" name="budgetVideo" label="modal.submitbudget.information.video" maxlength="256" value=""/>
                         </div>
                     </div>
                     <c:if test="${nbFiles gt 0}">
@@ -116,10 +113,10 @@
                         </div>
                         <div class="form-group form-half">
                             <div class="form-city">
-                                <aui:input name="city" label="modal.user.city" maxlength="256" onInput="checkValuesSubmitBudget();" />
+                                <aui:input name="city" label="modal.user.city" required="true" maxlength="256" onInput="checkValuesSubmitBudget();" />
                             </div>
                             <div class="form-code">
-                                <aui:input name="postalcode" label="modal.user.postalcode" maxlength="5" onInput="checkValuesSubmitBudget();"/>
+                                <aui:input name="postalcode" label="modal.user.postalcode" required="true" maxlength="5" onInput="checkValuesSubmitBudget();"/>
                             </div>
                         </div>
                     </div>
@@ -292,14 +289,13 @@
             var formData = new FormData(formElement[0]);
             var nbFileMaxValue = saved_nbFiles;
             var typesFilesValue = saved_typesFiles;
-            var videoValue = $("#"+namespaceSubmitBudget+"budgetVideo").val();
             var lieuValue =$("#"+namespaceSubmitBudget+"budgetlieux").val();
             var iframe = $('.Squire-UI').next('iframe').first()[0];
         	var editor = iframe.contentWindow.editor;       	
             var budgetDescriptionValue = editor.getHTML();
             $("#"+namespaceSubmitBudget+"budgetdescription").val(budgetDescriptionValue);
             var budgetDescription = $("#"+namespaceSubmitBudget+"budgetdescription").val();
-            formData.append("<portlet:namespace/>video", videoValue);
+            formData.append("<portlet:namespace/>video", "");
             formData.append("<portlet:namespace/>budgetLieux", lieuValue);
             formData.append("<portlet:namespace/>squiredescription", budgetDescription);
             formData.append("<portlet:namespace/>nbFileMax", nbFileMaxValue); 
@@ -428,7 +424,6 @@
         $("#"+namespaceSubmitBudget+"address").css({ "box-shadow" : "" });
         $("#"+namespaceSubmitBudget+"budgetPhoto").val("");
         $("#"+namespaceSubmitBudget+"budgetPhoto").css({ "box-shadow" : "" });
-        $("#"+namespaceSubmitBudget+"budgetVideo").val("");
         // on supprime les sélecteurs de document
         $(".upload-file").each(function(){
             $(this).closest(".pro-row").remove();
@@ -509,11 +504,17 @@
             result = false;
         }else $(iframe).css({ "box-shadow" : "" });
 
-        $("#"+namespaceSubmitBudget+"city").css({ "box-shadow" : "" });
+        if (city===null || city===""){
+            $("#"+namespaceSubmitBudget+"city").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else $("#"+namespaceSubmitBudget+"city").css({ "box-shadow" : "" });
 
          $("#"+namespaceSubmitBudget+"address").css({ "box-shadow" : "" });
 
-         if((postalcode != null && postalcode != "") && !regex.test(postalcode)){
+        if (postalcode===null || postalcode===""){
+            $("#"+namespaceSubmitBudget+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
+            result = false;
+        }else if(!regex.test(postalcode)){
             $("#"+namespaceSubmitBudget+"postalcode").css({ "box-shadow" : "0 0 10px #CC0000" });
             alert("Merci de respecter la syntaxe d'un code postal");
             result = false;
