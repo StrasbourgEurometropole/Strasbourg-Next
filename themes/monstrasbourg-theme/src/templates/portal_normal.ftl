@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 
 <#include init />
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 
 <html class="${root_css_class} mseu" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}">
 
 <head>
-    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
       <#assign homeURL = "/web${layout.group.friendlyURL}/" />
     <#else>
       <#assign homeURL = "/" />
@@ -62,7 +63,7 @@
 
 <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
 <script>
-  window.loginURL = '${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}';
+  window.loginURL = '${layoutHelper.getPublikLoginURL(currentUrl)?html}';
 </script>
 
   <header class="header">
@@ -93,51 +94,47 @@
   </header>
  
   <main id="main-content">
-    <#if !isWelcome>
-      <#assign layoutImage = layout.expandoBridge.getAttribute('image') />
-      <#if !layoutImage?has_content>
-        <div class="bg-banner" style="background-image: url(/o/monstrasbourg-theme/images/banner.jpg);"></div>
-      </#if>
-      <#if layoutImage?has_content>
-        <div class="bg-banner" style="background-image: url(${layoutImage});"></div>
-      </#if>
-    </#if>
-    <#if !isWelcome>
-      <div class="custom-container" >
-        <#include "${full_templates_path}/home_banner.ftl" />
-        <#if !(isHome || isDistrict)>
-          <div class="card-box">  
-            <@liferay.breadcrumbs />
+    <div id="content">
+      <#if !isWelcome>
+        <#assign layoutImage = layout.expandoBridge.getAttribute('image') />
+        <#if !layoutImage?has_content>
+          <div class="bg-banner" style="background-image: url(/o/monstrasbourg-theme/images/banner.jpg);"></div>
         </#if>
-    <#else> 
-      <div id="welcome-page">
-    </#if>      
-    <#if selectable>
-      <@liferay_util["include"] page=content_include />
-    <#else>
-      ${portletDisplay.recycle()}
-
-      ${portletDisplay.setTitle(the_title)}
-
-      <@liferay_theme["wrap-portlet"] page="portlet.ftl">
+        <#if layoutImage?has_content>
+          <div class="bg-banner" style="background-image: url(${layoutImage});"></div>
+        </#if>
+      </#if>
+      <#if !isWelcome>
+        <div class="custom-container" >
+          <#include "${full_templates_path}/home_banner.ftl" />
+          <#if !(isHome || isDistrict)>
+            <div class="card-box">  
+              <@liferay.breadcrumbs />
+          </#if>
+      <#else> 
+        <div id="welcome-page">
+      </#if>      
+      <#if selectable>
         <@liferay_util["include"] page=content_include />
-      </@>
-    </#if>
-    <#if !(isHome || isDistrict || isWelcome)>
-      </div>
-    </#if>
-    </div> 
+      <#else>
+        ${portletDisplay.recycle()}
+
+        ${portletDisplay.setTitle(the_title)}
+
+        <@liferay_theme["wrap-portlet"] page="portlet.ftl">
+          <@liferay_util["include"] page=content_include />
+        </@>
+      </#if>
+      <#if !(isHome || isDistrict || isWelcome)>
+        </div>
+      </#if>
+      </div> 
+    </div>
   </main>
   <#include "${full_templates_path}/footer.ftl" />
 
-<!-- inject:js -->
-<script type="text/javascript">
-    if(typeof jQuery == 'undefined'){
-      document.write('<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></'+'script>');
-    }
-  </script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script>
+  <script src="/o/0-global-theme/libs/gsap/1.19.1/TweenMax.min.js"></script>
 
 
   <#if  propsUtil.get('eu.strasbourg.environment') == "PROD"><!-- Piwik -->

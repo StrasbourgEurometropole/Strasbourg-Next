@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.comment.model.impl;
@@ -17,6 +8,7 @@ package eu.strasbourg.service.comment.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -30,27 +22,25 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.model.SignalementModel;
-import eu.strasbourg.service.comment.model.SignalementSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -124,84 +114,60 @@ public class SignalementModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.comment.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.comment.model.Signalement"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.comment.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.comment.model.Signalement"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.comment.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.comment.model.Signalement"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMMENTID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLIKID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Signalement toModel(SignalementSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Signalement model = new SignalementImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setSignalementId(soapModel.getSignalementId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setCommentId(soapModel.getCommentId());
-		model.setPublikId(soapModel.getPublikId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Signalement> toModels(SignalementSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Signalement> models = new ArrayList<Signalement>(
-			soapModels.length);
-
-		for (SignalementSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.comment.service.util.ServiceProps.get(
@@ -259,9 +225,6 @@ public class SignalementModelImpl
 				attributeGetterFunction.apply((Signalement)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -286,366 +249,110 @@ public class SignalementModelImpl
 	public Map<String, Function<Signalement, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Signalement, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Signalement>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Signalement.class.getClassLoader(), Signalement.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<Signalement, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Signalement> constructor =
-				(Constructor<Signalement>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Signalement, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<Signalement, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Signalement::getUuid);
+			attributeGetterFunctions.put(
+				"signalementId", Signalement::getSignalementId);
+			attributeGetterFunctions.put("groupId", Signalement::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", Signalement::getCompanyId);
+			attributeGetterFunctions.put("userId", Signalement::getUserId);
+			attributeGetterFunctions.put("userName", Signalement::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", Signalement::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Signalement::getModifiedDate);
+			attributeGetterFunctions.put("status", Signalement::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Signalement::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Signalement::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", Signalement::getStatusDate);
+			attributeGetterFunctions.put(
+				"commentId", Signalement::getCommentId);
+			attributeGetterFunctions.put("publikId", Signalement::getPublikId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Signalement, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Signalement, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Signalement, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Signalement, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Signalement, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Signalement, String>)Signalement::setUuid);
+			attributeSetterBiConsumers.put(
+				"signalementId",
+				(BiConsumer<Signalement, Long>)Signalement::setSignalementId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<Signalement, Long>)Signalement::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Signalement, Long>)Signalement::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<Signalement, Long>)Signalement::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Signalement, String>)Signalement::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Signalement, Date>)Signalement::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Signalement, Date>)Signalement::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<Signalement, Integer>)Signalement::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Signalement, Long>)Signalement::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Signalement, String>)
+					Signalement::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Signalement, Date>)Signalement::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"commentId",
+				(BiConsumer<Signalement, Long>)Signalement::setCommentId);
+			attributeSetterBiConsumers.put(
+				"publikId",
+				(BiConsumer<Signalement, String>)Signalement::setPublikId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<Signalement, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Signalement, Object>>();
-		Map<String, BiConsumer<Signalement, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Signalement, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Signalement, Object>() {
-
-				@Override
-				public Object apply(Signalement signalement) {
-					return signalement.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Signalement, Object>() {
-
-				@Override
-				public void accept(Signalement signalement, Object uuidObject) {
-					signalement.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"signalementId",
-			new Function<Signalement, Object>() {
-
-				@Override
-				public Object apply(Signalement signalement) {
-					return signalement.getSignalementId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"signalementId",
-			new BiConsumer<Signalement, Object>() {
-
-				@Override
-				public void accept(
-					Signalement signalement, Object signalementIdObject) {
-
-					signalement.setSignalementId((Long)signalementIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Signalement, Object>() {
-
-				@Override
-				public Object apply(Signalement signalement) {
-					return signalement.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Signalement, Object>() {
-
-				@Override
-				public void accept(
-					Signalement signalement, Object groupIdObject) {
-
-					signalement.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Signalement, Object>() {
-
-				@Override
-				public Object apply(Signalement signalement) {
-					return signalement.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Signalement, Object>() {
-
-				@Override
-				public void accept(
-					Signalement signalement, Object companyIdObject) {
-
-					signalement.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Signalement, Object>() {
-
-				@Override
-				public Object apply(Signalement signalement) {
-					return signalement.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Signalement, Object>() {
-
-				@Override
-				public void accept(
-					Signalement signalement, Object userIdObject) {
-
-					signalement.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Signalement, Object>() {
-
-				@Override
-				public Object apply(Signalement signalement) {
-					return signalement.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Signalement, Object>() {
-
-				@Override
-				public void accept(
-					Signalement signalement, Object userNameObject) {
-
-					signalement.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Signalement, Object>() {
-
-				@Override
-				public Object apply(Signalement signalement) {
-					return signalement.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Signalement, Object>() {
-
-				@Override
-				public void accept(
-					Signalement signalement, Object createDateObject) {
-
-					signalement.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Signalement, Object>() {
-
-				@Override
-				public Object apply(Signalement signalement) {
-					return signalement.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Signalement, Object>() {
-
-				@Override
-				public void accept(
-					Signalement signalement, Object modifiedDateObject) {
-
-					signalement.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Signalement, Object>() {
-
-				@Override
-				public Object apply(Signalement signalement) {
-					return signalement.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Signalement, Object>() {
-
-				@Override
-				public void accept(
-					Signalement signalement, Object statusObject) {
-
-					signalement.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Signalement, Object>() {
-
-				@Override
-				public Object apply(Signalement signalement) {
-					return signalement.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<Signalement, Object>() {
-
-				@Override
-				public void accept(
-					Signalement signalement, Object statusByUserIdObject) {
-
-					signalement.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Signalement, Object>() {
-
-				@Override
-				public Object apply(Signalement signalement) {
-					return signalement.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<Signalement, Object>() {
-
-				@Override
-				public void accept(
-					Signalement signalement, Object statusByUserNameObject) {
-
-					signalement.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Signalement, Object>() {
-
-				@Override
-				public Object apply(Signalement signalement) {
-					return signalement.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Signalement, Object>() {
-
-				@Override
-				public void accept(
-					Signalement signalement, Object statusDateObject) {
-
-					signalement.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commentId",
-			new Function<Signalement, Object>() {
-
-				@Override
-				public Object apply(Signalement signalement) {
-					return signalement.getCommentId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"commentId",
-			new BiConsumer<Signalement, Object>() {
-
-				@Override
-				public void accept(
-					Signalement signalement, Object commentIdObject) {
-
-					signalement.setCommentId((Long)commentIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publikId",
-			new Function<Signalement, Object>() {
-
-				@Override
-				public Object apply(Signalement signalement) {
-					return signalement.getPublikId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"publikId",
-			new BiConsumer<Signalement, Object>() {
-
-				@Override
-				public void accept(
-					Signalement signalement, Object publikIdObject) {
-
-					signalement.setPublikId((String)publikIdObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -661,17 +368,20 @@ public class SignalementModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -682,6 +392,10 @@ public class SignalementModelImpl
 
 	@Override
 	public void setSignalementId(long signalementId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_signalementId = signalementId;
 	}
 
@@ -693,19 +407,20 @@ public class SignalementModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -716,19 +431,21 @@ public class SignalementModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -739,6 +456,10 @@ public class SignalementModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -771,6 +492,10 @@ public class SignalementModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -782,7 +507,9 @@ public class SignalementModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_createDate = createDate;
 	}
@@ -801,6 +528,10 @@ public class SignalementModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -812,6 +543,10 @@ public class SignalementModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -823,6 +558,10 @@ public class SignalementModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -855,6 +594,10 @@ public class SignalementModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -866,6 +609,10 @@ public class SignalementModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -877,19 +624,21 @@ public class SignalementModelImpl
 
 	@Override
 	public void setCommentId(long commentId) {
-		_columnBitmask |= COMMENTID_COLUMN_BITMASK;
-
-		if (!_setOriginalCommentId) {
-			_setOriginalCommentId = true;
-
-			_originalCommentId = _commentId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_commentId = commentId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCommentId() {
-		return _originalCommentId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("commentId"));
 	}
 
 	@JSON
@@ -905,17 +654,20 @@ public class SignalementModelImpl
 
 	@Override
 	public void setPublikId(String publikId) {
-		_columnBitmask |= PUBLIKID_COLUMN_BITMASK;
-
-		if (_originalPublikId == null) {
-			_originalPublikId = _publikId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publikId = publikId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPublikId() {
-		return GetterUtil.getString(_originalPublikId);
+		return getColumnOriginalValue("publikId");
 	}
 
 	@Override
@@ -1005,6 +757,26 @@ public class SignalementModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1061,6 +833,40 @@ public class SignalementModelImpl
 	}
 
 	@Override
+	public Signalement cloneWithOriginalValues() {
+		SignalementImpl signalementImpl = new SignalementImpl();
+
+		signalementImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		signalementImpl.setSignalementId(
+			this.<Long>getColumnOriginalValue("signalementId"));
+		signalementImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		signalementImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		signalementImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		signalementImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		signalementImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		signalementImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		signalementImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		signalementImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		signalementImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		signalementImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		signalementImpl.setCommentId(
+			this.<Long>getColumnOriginalValue("commentId"));
+		signalementImpl.setPublikId(
+			this.<String>getColumnOriginalValue("publikId"));
+
+		return signalementImpl;
+	}
+
+	@Override
 	public int compareTo(Signalement signalement) {
 		int value = 0;
 
@@ -1101,11 +907,19 @@ public class SignalementModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1113,29 +927,11 @@ public class SignalementModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SignalementModelImpl signalementModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		signalementModelImpl._originalUuid = signalementModelImpl._uuid;
+		_setModifiedDate = false;
 
-		signalementModelImpl._originalGroupId = signalementModelImpl._groupId;
-
-		signalementModelImpl._setOriginalGroupId = false;
-
-		signalementModelImpl._originalCompanyId =
-			signalementModelImpl._companyId;
-
-		signalementModelImpl._setOriginalCompanyId = false;
-
-		signalementModelImpl._setModifiedDate = false;
-
-		signalementModelImpl._originalCommentId =
-			signalementModelImpl._commentId;
-
-		signalementModelImpl._setOriginalCommentId = false;
-
-		signalementModelImpl._originalPublikId = signalementModelImpl._publikId;
-
-		signalementModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1225,7 +1021,7 @@ public class SignalementModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1236,9 +1032,26 @@ public class SignalementModelImpl
 			Function<Signalement, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Signalement)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Signalement)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1251,53 +1064,19 @@ public class SignalementModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Signalement, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Signalement, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Signalement, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Signalement)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Signalement>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Signalement.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _signalementId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1308,10 +1087,106 @@ public class SignalementModelImpl
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _commentId;
-	private long _originalCommentId;
-	private boolean _setOriginalCommentId;
 	private String _publikId;
-	private String _originalPublikId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Signalement, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Signalement)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("signalementId", _signalementId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("commentId", _commentId);
+		_columnOriginalValues.put("publikId", _publikId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("signalementId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("commentId", 4096L);
+
+		columnBitmasks.put("publikId", 8192L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Signalement _escapedModel;
 

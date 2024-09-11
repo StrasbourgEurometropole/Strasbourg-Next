@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Entête de page</name>
+        <key>87803557</key>
+        <definition>header-structure.json</definition>
+        <layout>header-layout.json</layout>
+    </structure>
+    <template>
+        <name>Entête de page</name>
+        <key>87803583</key>
+        <script>header.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

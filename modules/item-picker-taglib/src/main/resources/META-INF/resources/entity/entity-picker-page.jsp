@@ -6,7 +6,7 @@
 			<liferay-ui:message key="${label}" />
 			<c:if test="${required}">
 				<span class="icon-asterisk text-warning"> 
-					<span class="hide-accessible"><liferay-ui:message key="required" /></span>
+					<span class="sr-only"><liferay-ui:message key="required" /></span>
 				</span>
 			</c:if>
 		</label>
@@ -34,44 +34,41 @@
 <c:if test="${multiple}">
 	<c:set var="dialogTitle" value="${dialogTitle.concat('s')}" />
 </c:if>
-<aui:script use="liferay-item-selector-dialog">
+<aui:script>
 $('#<portlet:namespace />choose-entity-${name}').on('click',
 	function(event) {
 		var multipleSelection = ${multiple};
-		var itemSelectorDialog = new A.LiferayItemSelectorDialog(
+		Liferay.Util.openSelectionModal(
 			{
-				eventName: 'itemSelected${name}',
-				on: {
-					selectedItemChange: function(event) {
-						var item = event.newVal;
-						var items = [];
-						if (multipleSelection && !!item) {
-							items = item;
-						} else if (!!item) {
-							items.push(item);
-						}
-						
-						for (var i = 0; i < items.length; i++) {
-							var selectedItem = items[i];
-							var htmlToAppend = '<li>'
-								+ selectedItem.title + ' <a href="#" class="remove-entity" data-entry-id="' + selectedItem.entityId + '"><i class="icon-remove"></i></a>';
-								+ '</li>';
-							if (!multipleSelection) {
-								$('#entities-thumbnails-${name}').empty();
-								$('#entities-thumbnails-${name}').append(htmlToAppend);
-								$('#<portlet:namespace />${name}').val(selectedItem.entityId);
-							} else {
-								var currentValue = $('#<portlet:namespace />${name}').val();
-								var newValue = currentValue;
-								if (currentValue.indexOf(selectedItem.entityId) === -1) {
-									if (currentValue.length > 0) {
-										newValue += ',';
-									}
-									newValue += selectedItem.entityId;
-									$('#<portlet:namespace />${name}').val(newValue);
-									$('#entities-thumbnails-${name}').append(htmlToAppend);
+				selectEventName: 'itemSelected${name}',
+				onSelect: function(item) {
+					var items = [];
+					if (multipleSelection && !!item) {
+						items = item;
+					} else if (!!item) {
+						items.push(item);
+					}
+
+					for (var i = 0; i < items.length; i++) {
+						var selectedItem = items[i];
+						var htmlToAppend = '<li>'
+							+ selectedItem.title + ' <a href="#" class="remove-entity" data-entry-id="' + selectedItem.entityId + '"><i class="icon-remove"></i></a>';
+							+ '</li>';
+						if (!multipleSelection) {
+							$('#entities-thumbnails-${name}').empty();
+							$('#entities-thumbnails-${name}').append(htmlToAppend);
+							$('#<portlet:namespace />${name}').val(selectedItem.entityId);
+						} else {
+							var currentValue = $('#<portlet:namespace />${name}').val();
+							var newValue = currentValue;
+							if (currentValue.indexOf(selectedItem.entityId) === -1) {
+								if (currentValue.length > 0) {
+									newValue += ',';
 								}
-							}							
+								newValue += selectedItem.entityId;
+								$('#<portlet:namespace />${name}').val(newValue);
+								$('#entities-thumbnails-${name}').append(htmlToAppend);
+							}
 						}
 					}
 				},
@@ -79,7 +76,6 @@ $('#<portlet:namespace />choose-entity-${name}').on('click',
 				url: '${itemSelectorURL}'
 			}
 		);
-		itemSelectorDialog.open();
 	}
 );
 $('#entities-thumbnails-${name}').on('click', '.remove-entity', function(e) {

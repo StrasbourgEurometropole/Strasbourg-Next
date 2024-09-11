@@ -14,11 +14,14 @@
 
 package eu.strasbourg.service.gtfs.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -37,19 +40,23 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
-
-import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
 import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.model.LigneModel;
 import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.base.LigneLocalServiceBaseImpl;
+import org.osgi.service.component.annotations.Reference;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the ligne local service.
@@ -235,10 +242,8 @@ public class LigneLocalServiceImpl extends LigneLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Supprime le lien avec les categories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(categoryId, entry.getEntryId());
-			}
-
+			AssetEntryAssetCategoryRelLocalServiceUtil.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Supprime le lien avec les etiquettes
 			long[] tagIds = AssetEntryLocalServiceUtil.getAssetTagPrimaryKeys(entry.getEntryId());
 			for (int i = 0; i < tagIds.length; i++) {
@@ -415,5 +420,7 @@ public class LigneLocalServiceImpl extends LigneLocalServiceBaseImpl {
 	public List<Ligne> getByShortNameAndStatus(String shortName, int status) {
 		return this.lignePersistence.findByShortNameAndStatus(shortName,status);
 	}
-	
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

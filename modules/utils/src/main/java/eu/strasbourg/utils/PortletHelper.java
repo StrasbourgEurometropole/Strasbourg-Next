@@ -6,6 +6,8 @@ import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -17,6 +19,7 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 
 import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -85,7 +88,7 @@ public class PortletHelper {
 					return Validator.isNull(adminStatus) || adminStatus.startsWith("on");
 				}
 			} catch (JSONException e) {
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + user.getDisplayConfig());
 				return true;
 			}
 		} else {
@@ -139,7 +142,7 @@ public class PortletHelper {
 					return result;
 				}
 			} catch (JSONException e) {
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + user.getDisplayConfig());
 				return result;
 			}
 		} else {
@@ -177,7 +180,7 @@ public class PortletHelper {
 				}
 			}
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage() + " : " + configurationString);
 		}
 		return status;
 	}
@@ -254,7 +257,7 @@ public class PortletHelper {
 				user.setDisplayConfig(json.toJSONString());
 				PublikUserLocalServiceUtil.updatePublikUser(user);
 			} catch (JSONException e) {
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + user.getDisplayConfig());
 			}
 		}
 	}
@@ -331,79 +334,16 @@ public class PortletHelper {
                 user.setDisplayConfig(json.toJSONString());
                 PublikUserLocalServiceUtil.updatePublikUser(user);
             } catch (JSONException e) {
-                e.printStackTrace();
+				_log.error(e.getMessage() + " : " + user.getDisplayConfig());
             }
         }
 	}
 
-	public static boolean isUserAuthorizedToConsultOffer(String typePublication) {
-		if (Validator.isNotNull(typePublication) && typePublication.equals("Interne uniquement")){
-			// vérifie si l'utilisateur est authorisé
-			return isUserAuthorizedToConsultInternOffer();
-		}
-		return true;
+
+	public static void addBreadcrumbEntry(PortletRequest request, String name, PortletURL url) {
+		PortalUtil.addPortletBreadcrumbEntry(PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(request)),
+				name, url.toString());
 	}
 
-	public static boolean isUserAuthorizedToConsultInternOffer() {
-		// récupération de l'adresse IP de l'utilisateur
-		HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
-		String ipUtil = request.getRemoteAddr();
-		for (String header : IP_HEADER_CANDIDATES) {
-			String ip = request.getHeader(header);
-			if (ip != null && ip.length() != 0 && !"unknown".equalsIgnoreCase(ip)) {
-				ipUtil = ip;
-			}
-		}
-
-		// récupération de la liste d'ip autorisée
-		String ipsAutorizedString = StrasbourgPropsUtil.getEJobIP();
-		List<String> ipsAutorized = Arrays.asList(ipsAutorizedString.split(","));
-		if (Validator.isNull(ipsAutorized) || !ipsAutorized.contains(ipUtil)) {
-			for (String ip : ipsAutorized) {
-				if(ip.contains("-")){
-					// teste si l'ip utilisateur est comprise dans le range d'ips
-					String[] ipRange = ip.split("-");
-					try {
-						long ipFrom = ipToLong(InetAddress.getByName(ipRange[0].trim()));
-						long ipTo = ipToLong(InetAddress.getByName(ipRange[1].trim()));
-						long ipToTest = ipToLong(InetAddress.getByName(ipUtil));
-						if(ipToTest >= ipFrom && ipToTest <= ipTo)
-							return true;
-					} catch (UnknownHostException e) {
-						e.printStackTrace();
-					}
-				}else{
-					if(ip.trim().equals(ipUtil))
-						return true;
-				}
-			}
-			return false;
-		}
-		return true;
-	}
-
-
-	private static final String[] IP_HEADER_CANDIDATES = {
-			"X-Forwarded-For",
-			"Proxy-Client-IP",
-			"WL-Proxy-Client-IP",
-			"HTTP_X_FORWARDED_FOR",
-			"HTTP_X_FORWARDED",
-			"HTTP_X_CLUSTER_CLIENT_IP",
-			"HTTP_CLIENT_IP",
-			"HTTP_FORWARDED_FOR",
-			"HTTP_FORWARDED",
-			"HTTP_VIA",
-			"REMOTE_ADDR" };
-
-
-	private static long ipToLong(InetAddress ip) {
-		byte[] octets = ip.getAddress();
-		long result = 0;
-		for (byte octet : octets) {
-			result <<= 8;
-			result |= octet & 0xff;
-		}
-		return result;
-	}
+	private static final Log _log = LogFactoryUtil.getLog(PortletHelper.class.getName());
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.4.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_4_0.dtd">
 
 <service-builder package-path="eu.strasbourg.service.comment">
 	<author>Romain Vergnais</author>
@@ -27,7 +27,7 @@
 		<column name="statusDate" type="Date" />
 
 		<!-- main fields -->
-		<column name="text" type="String" />
+		<column name="text" type="String" localized="true" />
 		<column name="level" type="int" />
 		<column name="userQuality" type="String" />
 		<column name="modifiedByUserDate" type="Date" />
@@ -65,7 +65,7 @@
 		</finder>
 
 		<!-- References -->
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 	</entity>
@@ -112,7 +112,7 @@
 		</finder>
 
 		<!-- References -->
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 		

@@ -42,8 +42,16 @@ $('.pro-btn-disabled').on('click', function (e) {
 // Pour les compteurs dans les pages de détail
 var textDiscover = $('.pro-compt').first().text();
 var textDiscoverWrapped = '';
+var isNumber = false;
 for (var i = 0; i != textDiscover.length; i++) {
-    textDiscoverWrapped += '<span>' + textDiscover[i] + '</span>';
+    if(textDiscover[i] == '0' && !isNumber) {
+        textDiscoverWrapped += '<span style="color: #c5c6c8;">' + textDiscover[i] + '</span>';
+    }
+    else {
+        isNumber = true;
+        textDiscoverWrapped += '<span>' + textDiscover[i] + '</span>';
+    }
+
 }
 $('.pro-compt').html(textDiscoverWrapped);
 
@@ -95,12 +103,6 @@ $("[href='#pro-onglet-activite']").on('click', function (e) {
     e.preventDefault();
     $('#pro-onglet-activite').removeClass('pro-hide');
     $('#pro-onglet-account').addClass('pro-hide');
-});
-
-
-$('.pro-title-dashboard > h1, .pro-title-dashboard > h2').each(function () {
-    var widthTitle = $(this).width() + 60;
-    $(this).next().css({'width': 'calc(100% - ' + widthTitle + 'px)'});
 });
 
 

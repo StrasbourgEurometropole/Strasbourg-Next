@@ -1,22 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.model.impl;
 
+import com.liferay.petra.lang.HashUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.util.HashUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import eu.strasbourg.service.council.model.Deliberation;
 
@@ -63,7 +54,7 @@ public class DeliberationCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(41);
+		StringBundler sb = new StringBundler(45);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -89,6 +80,8 @@ public class DeliberationCacheModel
 		sb.append(statusByUserName);
 		sb.append(", statusDate=");
 		sb.append(statusDate);
+		sb.append(", amendement=");
+		sb.append(amendement);
 		sb.append(", title=");
 		sb.append(title);
 		sb.append(", order=");
@@ -99,6 +92,8 @@ public class DeliberationCacheModel
 		sb.append(countOfficialsVoting);
 		sb.append(", countOfficialsActive=");
 		sb.append(countOfficialsActive);
+		sb.append(", quorum=");
+		sb.append(quorum);
 		sb.append(", beginningVoteDate=");
 		sb.append(beginningVoteDate);
 		sb.append(", endVoteDate=");
@@ -164,6 +159,13 @@ public class DeliberationCacheModel
 			deliberationImpl.setStatusDate(new Date(statusDate));
 		}
 
+		if (amendement == null) {
+			deliberationImpl.setAmendement("");
+		}
+		else {
+			deliberationImpl.setAmendement(amendement);
+		}
+
 		if (title == null) {
 			deliberationImpl.setTitle("");
 		}
@@ -182,6 +184,7 @@ public class DeliberationCacheModel
 
 		deliberationImpl.setCountOfficialsVoting(countOfficialsVoting);
 		deliberationImpl.setCountOfficialsActive(countOfficialsActive);
+		deliberationImpl.setQuorum(quorum);
 
 		if (beginningVoteDate == Long.MIN_VALUE) {
 			deliberationImpl.setBeginningVoteDate(null);
@@ -224,6 +227,7 @@ public class DeliberationCacheModel
 		statusByUserId = objectInput.readLong();
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
+		amendement = objectInput.readUTF();
 		title = objectInput.readUTF();
 
 		order = objectInput.readInt();
@@ -232,6 +236,8 @@ public class DeliberationCacheModel
 		countOfficialsVoting = objectInput.readInt();
 
 		countOfficialsActive = objectInput.readInt();
+
+		quorum = objectInput.readInt();
 		beginningVoteDate = objectInput.readLong();
 		endVoteDate = objectInput.readLong();
 
@@ -278,6 +284,13 @@ public class DeliberationCacheModel
 
 		objectOutput.writeLong(statusDate);
 
+		if (amendement == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(amendement);
+		}
+
 		if (title == null) {
 			objectOutput.writeUTF("");
 		}
@@ -297,6 +310,8 @@ public class DeliberationCacheModel
 		objectOutput.writeInt(countOfficialsVoting);
 
 		objectOutput.writeInt(countOfficialsActive);
+
+		objectOutput.writeInt(quorum);
 		objectOutput.writeLong(beginningVoteDate);
 		objectOutput.writeLong(endVoteDate);
 
@@ -315,11 +330,13 @@ public class DeliberationCacheModel
 	public long statusByUserId;
 	public String statusByUserName;
 	public long statusDate;
+	public String amendement;
 	public String title;
 	public int order;
 	public String stage;
 	public int countOfficialsVoting;
 	public int countOfficialsActive;
+	public int quorum;
 	public long beginningVoteDate;
 	public long endVoteDate;
 	public long councilSessionId;

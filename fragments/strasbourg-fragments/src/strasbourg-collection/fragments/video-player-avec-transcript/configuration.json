@@ -1,0 +1,54 @@
+{
+  "fieldSets": [
+    {
+      "fields": [
+        {
+          "dataType": "string",
+          "defaultValue": "youtube",
+          "label": "Fournisseur vidéo",
+          "name": "type",
+          "type": "select",
+          "typeOptions": {
+            "validValues": [
+              {
+                "label": "Youtube",
+                "value": "youtube"
+              },
+              {
+                "label": "Dailymotion",
+                "value": "dailymotion"
+              },
+              {
+                "label": "Vimeo",
+                "value": "vimeo"
+              },
+              {
+                "label": "Calameo",
+                "value": "calameo"
+              }
+            ]
+          }
+        },
+        {
+          "defaultValue": "",
+          "label": "ID vidéo",
+          "name": "id",
+          "type": "text"
+        },
+        {
+          "defaultValue": "",
+          "label": "Titre de iframe",
+          "name": "iframeTitle",
+          "type": "text"
+        },
+        {
+          "defaultValue": false,
+          "label": "Afficher la transcription",
+          "name": "showTranscription",
+          "type": "checkbox"
+        }
+      ],
+      "label": "external-video-options"
+    }
+  ]
+}

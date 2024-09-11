@@ -1,10 +1,11 @@
 <%@ include file="/council-bo-init.jsp"%>
-
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <%@page import="eu.strasbourg.service.council.model.Procuration"%>
 
 <%-- URL : definit le lien menant vers la page de listage de l'entite --%>
 <liferay-portlet:renderURL varImpl="councilSessionsURL">
-	<portlet:param name="tab" value="councilSessions" />
+    <portlet:param name="tab" value="councilSessions" />
+    <portlet:param name="mvcPath" value="/council-bo-view-council-sessions.jsp" />
 </liferay-portlet:renderURL>
 
 <%-- URL : definit le lien menant vers la fonction de reload des procurations pour le tableau --%>
@@ -24,36 +25,20 @@
 <liferay-portlet:renderURL varImpl="editCouncilSessionURL">
 	<portlet:param name="councilSessionId"
 	    value="${not empty dc.councilSession ? dc.councilSession.councilSessionId : ''}" />
+    <portlet:param name="cmd" value="editCouncilSession" />
+    <portlet:param name="backURL" value="${councilSessionsURL}" />
+    <portlet:param name="tab" value="councilSessions" />
     <portlet:param name="mvcPath" value="/council-bo-edit-council-session.jsp" />
 </liferay-portlet:renderURL>
 
-<%-- Header --%>
-<div class="navbar navbar-default collapse-basic-search" id="iqzh">
-	<div class="container-fluid-1280">
-		<div class="navbar-header visible-xs">
-			<button class="collapsed navbar-toggle navbar-toggle-left navbar-toggle-page-name" data-target="#_eu_strasbourg_portlet_oidc_OIDCBOPortlet_navTag_1NavbarCollapse" data-toggle="collapse" id="_eu_strasbourg_portlet_oidc_OIDCBOPortlet_NavbarBtn" type="button">
-				<span class="sr-only">Basculer la navigation</span>
-				<span class="page-name">Utilisateurs Publik</span>
-				<span class="caret"></span>
-			</button>
-		</div>
-		<!-- Liste des onglet -->
-		<div class="collapse navbar-collapse" id="_eu_strasbourg_portlet_oidc_OIDCBOPortlet_navTagNavbarCollapse">
-			<ul aria-label="Gestion Utilisateurs Publik" class="lfr-nav nav navbar-nav" id="_eu_strasbourg_portlet_oidc_OIDCBOPortlet_navTag" role="menubar">
-				<li class=" active " id="nraf_" role="presentation" style="margin: auto; position: inherit; font-weight: bold">
-					<a class="" role="menuitem" title="Utilisateurs Publik">
-					<span class="nav-item-label">
-					<liferay-ui:message key="council-title"/>
-                    <liferay-ui:message key=" : ${dc.getCouncilSession().title}"></liferay-ui:message>
-					</span>
-					</a>
-				</li>
-			</ul>
-		</div>
-	</div>
+<div class="container-fluid container-fluid-max-xl main-content-body">
+    <div class="council-bo">
+        <div class="manage-procuration-title ">
+            <liferay-ui:message key="council-title"/>
+            <liferay-ui:message key=" : ${dc.getCouncilSession().title}"></liferay-ui:message>
+        </div>
+    </div>
 </div>
-
-
 <div name="warnDiv" class="warnDiv" style="display: none;">
     <span name="warnMessageInput"> </span>
         <button id="closeMessageWarn" class="closeMessageWarn" name="closeMessageWarn">
@@ -72,13 +57,13 @@
     value="${dc.councilSession.getTypeCouncil().getTitle()}" />
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body council-bo">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
 	<%-- Composant : formulaire de saisie de l'entite --%>
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.councilSession}" model="<%=Procuration.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+        <div class="sheet"><div class="panel-group panel-group-flush">
 
 			<%-- Champ : (cache) PK de l'entite --%>
 			<aui:input name="councilSessionId" type="hidden" />
@@ -142,6 +127,8 @@
                         </tr>
 
                         <c:set var="allActiveOfficials" value="${dc.getAllActiveOfficials()}" />
+                        <c:set var="allProcurationMode" value="${dc.getAllProcurationMode()}" />
+                        <c:set var="allProcurationPresential" value="${dc.getAllProcurationPresential()}" />
                         <c:forEach var="official" items="${allActiveOfficials}">
 
                             <c:set var="procuration" value="${dc.findAssociatedProcuration(official.officialId)}" />
@@ -184,8 +171,8 @@
                                     <div class="selectMode" id="selectMode" name="${official.officialId}-selectMode">
                                         <aui:select cssClass="modeSelect" id="modeSelect" name="${official.officialId}-modeSelect" disabled="true" >
                                             <aui:option selected="${empty procuration}"></aui:option>
-                                            <c:forEach items="${dc.getAllProcurationMode()}" var="procurationMode">
-                                                <aui:option value="${procurationMode.getId()}" selected="${dc.verifId(procuration.procurationMode, procurationMode.getId())}">${procurationMode.name}</aui:option>
+                                            <c:forEach items="${allProcurationMode}" var="procurationMode">
+                                                <aui:option value="${procurationMode.getId()}" selected="${procuration.procurationMode == procurationMode.getId()? true : false}">${procurationMode.name}</aui:option>
                                             </c:forEach>
                                         </aui:select>
                                     </div>
@@ -197,8 +184,8 @@
                                     <div class="selectMode">
                                         <aui:select cssClass="presentialSelect" id="presentialSelect" name="${official.officialId}-presentialSelect" disabled="true">
                                             <aui:option style="display: none" selected="${empty procuration}"></aui:option>
-                                                <c:forEach items="${dc.getAllProcurationPresential()}" var="presential">
-                                                    <aui:option value="${presential.getId()}" selected="${dc.verifId(procuration.presential, presential.getId())}">${presential.getName()}</aui:option>
+                                                <c:forEach items="${allProcurationPresential}" var="presential">
+                                                    <aui:option value="${presential.getId()}" selected="${procuration.presential == presential.getId()? true : false}">${presential.getName()}</aui:option>
                                                 </c:forEach>
                                         </aui:select>
                                     </div>
@@ -261,7 +248,7 @@
                 </button>
             </div>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
 		<aui:button-row>
@@ -273,8 +260,114 @@
 
 		</aui:button-row>
 
-
+    <div id="loading" class="loading" onClick="hideSpinner()">
+    </div>
 </div>
+
+<style>
+    .loading {
+      position: fixed;
+      z-index: 999;
+      height: 2em;
+      width: 2em;
+      overflow: show;
+      margin: auto;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      display: none;
+    }
+
+    /* :not(:required) hides these rules from IE9 and below */
+    .loading:not(:required) {
+      background-color: transparent;
+      border: 0;
+    }
+
+    .loading:not(:required):after {
+      content: '';
+      display: block;
+      font-size: 10px;
+      width: 1em;
+      height: 1em;
+      margin-top: -0.5em;
+      -webkit-animation: spinner 1500ms infinite linear;
+      -moz-animation: spinner 1500ms infinite linear;
+      -ms-animation: spinner 1500ms infinite linear;
+      -o-animation: spinner 1500ms infinite linear;
+      animation: spinner 1500ms infinite linear;
+      border-radius: 0.5em;
+      -webkit-box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+      box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+    }
+
+    /* Animation */
+    @-webkit-keyframes spinner {
+      0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    @-moz-keyframes spinner {
+      0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    @-o-keyframes spinner {
+      0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+    @keyframes spinner {
+      0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+</style>
 
 <liferay-util:html-top>
 	<script>
@@ -288,66 +381,11 @@
 
 <%-- Script : permet l'affichage des alertes de validation d'action --%>
 <aui:script>
-    function getProcurations() {
-
+    var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
+    var spinner = document.getElementById('loading');
     var procurationsTable = document.getElementById("procurations-table");
-    procurationsTable.style.display="none"
-    var refreshTable = setTimeout(function(){
-        procurationsTable.style.display="block"
 
-    }, 300);
-
-        AUI().use('aui-io-request', function(A) {
-            try {
-                A.io.request('${reloadProcurationsURL}', {
-                    method : 'POST',
-                    dataType: 'json',
-                    on: {
-                        complete: function(e) {
-                            var data = JSON.parse(e.details[1].responseText);
-                            Array.prototype.forEach.call(data.official, function(official, i){
-                                    var officialId = official.officialId;
-                                    if(official.hasProcuration==true){
-                                        $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value=official.procurationId;
-                                        $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = official.procurationMode;
-                                        $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = official.presential+1;
-                                        $("input[name=" + namespace + officialId + "-officialVoters]")[0].value=official.officialVoter;
-                                        $("input[name=" + namespace + officialId + "-autre]")[0].value=official.otherProcurationMode;
-                                        if ($("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex == 4) {
-                                            $("div[name=" + officialId + "-selectMode]")[0].style.display="none";
-                                            $("div[name=" + officialId + "-inputMode]")[0].style.display="block";
-                                        }
-                                        $("button[name="+ officialId + "-saveButton]")[0].style.display="none";
-                                        $("button[name="+ officialId + "-resetButton]")[0].style.display="none";
-                                        $("button[name="+ officialId + "-closeButton]")[0].style.display="inline-block";
-                                        $("button[name="+ officialId + "-editButton]")[0].style.display="none";
-                                        $("div[name="+ officialId + "-checkAbsent]")[0].style.display="block";
-                                    } else {
-                                        $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value='';
-                                        $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = 0;
-                                        $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = 0;
-                                        $("input[name=" + namespace + officialId + "-officialVoters]")[0].value='';
-                                        $("input[name=" + namespace + officialId + "-autre]")[0].value='';
-                                        $("div[name=" + officialId + "-inputMode]")[0].style.display="none";
-                                        $("button[name="+ officialId + "-saveButton]")[0].style.display="none";
-                                        $("button[name="+ officialId + "-resetButton]")[0].style.display="none";
-                                        $("button[name="+ officialId + "-closeButton]")[0].style.display="none";
-                                        $("button[name="+ officialId + "-editButton]")[0].style.display="inline-block";
-                                        $("div[name="+ officialId + "-checkAbsent]")[0].style.display="none";
-                                    }
-                            });
-                            document.getElementById(namespace+"editHidden").value=false;
-                        }
-                    }
-                });
-            }
-            catch(error) {
-                if(!(error instanceof TypeError)){
-                    console.log(error);
-                } else console.log("petite erreur sans importance")
-            }
-        });
-    }
+    var refreshCount = setInterval(refreshTab, 1000);
 
     function refreshTab() {
          var timeleft = document.getElementById("refreshTimerValue").innerHTML-1000;
@@ -370,10 +408,12 @@
             document.getElementById(namespace+"editHidden").value=true;
             getProcurations();
          }
-     }
+    }
 
-    var refreshCount = setInterval(refreshTab, 1000);
 
+    /**
+    * Ajout event au click sur le bouton de rechargement du tableau
+    */
     var reloadButton = document.getElementById("reloadButton");
     reloadButton.addEventListener("click", function() {
         var editValue =  document.getElementById(namespace+"editHidden");
@@ -385,25 +425,17 @@
         }
     }, false);
 
-	function <portlet:namespace />deleteEntity() {
-		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
-			window.location = '${deleteCouncilSessionURL}';
-		}
-	}
 
-
-    var namespace = '_eu_strasbourg_portlet_council_CouncilBOPortlet_';
     /**
-    * Lors du click sur le bouton save
+    * Ajout event au click du bouton 'enregistrer la procuration'
     */
     var allValidateButtons = document.getElementsByClassName("saveButton");
-
-    // Permet de passer des paramètre au bouton save
     var hiddenOfficialId = document.getElementById(namespace+"officalIdHidden");
     var saveValue = document.getElementById(namespace+"actionHidden");
-
     Array.prototype.forEach.call(allValidateButtons, function(el, i) {
         el.addEventListener("click", function(element) {
+
+            // Donne les paramètres de l'élu (x2), Si ça concerne TOUTES les procurations
             hiddenOfficialId.value = element.currentTarget.attributes["data-official-id"].value;
             saveValue.value = element.currentTarget.attributes["action"].value;
             var officialId = $(this).attr("name").replace(namespace,'').replace("-saveButton",'');
@@ -418,39 +450,47 @@
 
             refreshCount = setInterval(refreshTab, 1000);
         }, false);
-     });
+    });
 
-    // Permet de passer des paramètres au bouton close
+    /**
+    * Ajout event au click des boutons 'fermer la procuration'
+    */
     var allCloseButtons = document.getElementsByClassName("closeButton");
     var procurationId = document.getElementById(namespace+"procurationIdHidden");
-        Array.prototype.forEach.call(allCloseButtons, function(el, i) {
-            el.addEventListener("click", function(element) {
-                procurationId.value = element.currentTarget.attributes["procuration-id"].value;
-                var officialId = $(this).attr("name").replace(namespace,'').replace("-closeButton",'');
+    Array.prototype.forEach.call(allCloseButtons, function(el, i) {
+        el.addEventListener("click", function(element) {
 
-                if (window.confirm("Voulez-vous vraiment fermer cette procuration ?")) {
-                    closeProcuration(officialId);
+            // Donne les paramètres de la procuration à supprimer et l'élu
+            procurationId.value = element.currentTarget.attributes["procuration-id"].value;
+            var officialId = $(this).attr("name").replace(namespace,'').replace("-closeButton",'');
 
-                     var refreshClose = setInterval(function() {
-                     getProcurations();
-                     clearInterval(refreshClose);
-                    }, 1000);
-                }
-         }, false);
-      });
+            if (window.confirm("Voulez-vous vraiment fermer cette procuration ?")) {
+                closeProcuration(officialId);
 
-    // Permet de passer des paramètres au bouton closeAllProcurations
+                 var refreshClose = setInterval(function() {
+                 getProcurations();
+                 clearInterval(refreshClose);
+                }, 1000);
+            }
+     }, false);
+    });
+
+    /**
+    * Ajout event au click du bouton 'Fermer les procurations'
+    */
     var closeAllProcurationsButton = document.getElementById("closeAllProcurationsButton");
     var action = document.getElementById(namespace+"actionHidden");
     closeAllProcurationsButton.addEventListener("click", function(element) {
+
+        // Donne le paramètre qui précise la suppression de TOUTES les procurations
         action.value = element.currentTarget.attributes["action"].value;
 
         if (window.confirm("Voulez-vous vraiment fermer toutes les procurations ?")) {
             closeProcuration(null);
 
-             var refreshCloseAll = setInterval(function() {
-             getProcurations();
-             clearInterval(refreshCloseAll);
+            var refreshCloseAll = setInterval(function() {
+                 getProcurations();
+                 clearInterval(refreshCloseAll);
             }, 1000);
         } else {
             element.preventDefault();
@@ -461,6 +501,8 @@
     function saveProcuration (officialId) {
 
         event.preventDefault();
+        procurationsTable.style.opacity=0.5;
+        spinner.style.display="block";
 
         var councilSessionId = ${dc.councilSession.councilSessionId};
         var beneficiaryId = $("input[name=" + namespace + officialId + "-officialVotersId]")[0].value;
@@ -484,30 +526,31 @@
                     },
                      on: {
                         complete: function(e) {
-                        var response = e.details[1].responseText;
-                        if (response != "") {
-                            window.scrollTo(0, 0);
-                            var data = JSON.parse(response);
-                            var dataError = JSON.stringify(data.error);
-                            if (typeof dataError !== "undefined") {
-                                if(data.error.length != 0) {
-                                    var errorInputSpan = $("span[name=" + "errorMessageInput]")[0];
-                                    var errorDiv = $("div[name=" + "errorDiv]")[0];
-                                    errorInputSpan.innerHTML=data.error.error;
-                                    errorDiv.style.display="flex";
+                            spinner.style.display="none";
+                            procurationsTable.style.opacity=1;
+                            var response = e.details[1].responseText;
+                            if (response != "") {
+                                var data = JSON.parse(response);
+                                var dataError = JSON.stringify(data.error);
+                                if (typeof dataError !== "undefined") {
+                                    if(data.error.length != 0) {
+                                        var errorInputSpan = $("span[name=" + "errorMessageInput]")[0];
+                                        var errorDiv = $("div[name=" + "errorDiv]")[0];
+                                        errorInputSpan.innerHTML=data.error.error;
+                                        errorDiv.style.display="flex";
+                                    }
                                 }
-                            }
-                            var dataWarn = JSON.stringify(data.warn);
-                            if (typeof dataWarn !== "undefined") {
-                                if (dataWarn.length != 0) {
-                                    var warnInputSpan = $("span[name=" + "warnMessageInput]")[0];
-                                    var warnDiv = $("div[name=" + "warnDiv]")[0];
-                                    warnInputSpan.innerHTML=data.warn.warn;
-                                    warnDiv.style.display="flex";
+                                var dataWarn = JSON.stringify(data.warn);
+                                if (typeof dataWarn !== "undefined") {
+                                    if (dataWarn.length != 0) {
+                                        var warnInputSpan = $("span[name=" + "warnMessageInput]")[0];
+                                        var warnDiv = $("div[name=" + "warnDiv]")[0];
+                                        warnInputSpan.innerHTML=data.warn.warn;
+                                        warnDiv.style.display="flex";
+                                    }
                                 }
+                                $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value=data.procurationId;
                             }
-                            $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value=data.procurationId;
-                        }
 
                             $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
                             $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', true);
@@ -527,70 +570,136 @@
 
      function closeProcuration(officialId) {
 
-             event.preventDefault();
+         event.preventDefault();
 
-             var councilSessionId = ${dc.councilSession.councilSessionId}
-             if (officialId != null) {
-                 var procurationId = document.getElementById(namespace+"procurationIdHidden").value;
-             } else {
-                 var action = document.getElementById(namespace+"actionHidden").value;
-             }
+         var councilSessionId = ${dc.councilSession.councilSessionId}
+         if (officialId != null) {
+             var procurationId = document.getElementById(namespace+"procurationIdHidden").value;
+         } else {
+             var action = document.getElementById(namespace+"actionHidden").value;
+         }
 
-             AUI().use('aui-io-request', function(A) {
-                     try {
-                         A.io.request('${closeProcurationURL}', {
-                             method : 'POST',
-                             dataType: 'json',
+         AUI().use('aui-io-request', function(A) {
+             try {
+                 A.io.request('${closeProcurationURL}', {
+                     method : 'POST',
+                     dataType: 'json',
 
-                             data:{
-                                 <portlet:namespace/>action: action,
-                                 <portlet:namespace/>officialId: officialId,
-                                 <portlet:namespace/>councilSessionId: councilSessionId,
-                                 <portlet:namespace/>procurationId: procurationId
-                             },
-                              on: {
-                                 complete: function(e) {
-                                 var response = e.details[1].responseText;
-                                 if (response != "") {
-                                     window.scrollTo(0, 0);
-                                     var data = JSON.parse(response);
+                     data:{
+                         <portlet:namespace/>action: action,
+                         <portlet:namespace/>officialId: officialId,
+                         <portlet:namespace/>councilSessionId: councilSessionId,
+                         <portlet:namespace/>procurationId: procurationId
+                     },
+                      on: {
+                         complete: function(e) {
+                             var response = e.details[1].responseText;
+                             if (response != "") {
+                                 window.scrollTo(0, 0);
+                                 var data = JSON.parse(response);
 
-                                    var dataError = JSON.stringify(data.error);
-                                    if (typeof dataError !== "undefined") {
-                                         if(data.error.length != 0) {
-                                             var errorInputSpan = $("span[name=" + "errorMessageInput]")[0];
-                                             var errorDiv = $("div[name=" + "errorDiv]")[0];
-                                             errorInputSpan.innerHTML=data.error.error;
-                                             errorDiv.style.display="flex";
-                                         }
+                                var dataError = JSON.stringify(data.error);
+                                if (typeof dataError !== "undefined") {
+                                     if(data.error.length != 0) {
+                                         var errorInputSpan = $("span[name=" + "errorMessageInput]")[0];
+                                         var errorDiv = $("div[name=" + "errorDiv]")[0];
+                                         errorInputSpan.innerHTML=data.error.error;
+                                         errorDiv.style.display="flex";
                                      }
-                                    var dataWarn = JSON.stringify(data.warn);
-                                    if ( dataWarn !== {} || typeof dataWarn !== "undefined") {
-                                         if (dataWarn.length != 0) {
-                                             var warnInputSpan = $("span[name=" + "warnMessageInput]")[0];
-                                             var warnDiv = $("div[name=" + "warnDiv]")[0];
-                                             warnInputSpan.innerHTML=data.warn.warn;
-                                             warnDiv.style.display="flex";
-                                         }
-                                    }
-                                 }
-                                     $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value='';
-                                     $("input[name=" + namespace + officialId + "-officialVotersId]")[0].value='';
-                                     $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
-                                     $("div[name=" + officialId + "-selectMode]")[0].style.display="block";
-                                     $("div[name=" + officialId + "-inputMode]")[0].style.display="none";
-                                     $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', true);
-                                     $("input[name=" + namespace + officialId + "-officialVoters]").prop('disabled', true);
-                                     $("input[name=" + namespace + officialId + "-autre]").prop('disabled', true);
-                                 }
+                                }
+                                var dataWarn = JSON.stringify(data.warn);
+                                if ( dataWarn !== {} || typeof dataWarn !== "undefined") {
+                                     if (dataWarn.length != 0) {
+                                         var warnInputSpan = $("span[name=" + "warnMessageInput]")[0];
+                                         var warnDiv = $("div[name=" + "warnDiv]")[0];
+                                         warnInputSpan.innerHTML=data.warn.warn;
+                                         warnDiv.style.display="flex";
+                                     }
+                                }
                              }
-                         });
-                     }
-                     catch(error) {
-                         if(!(error instanceof TypeError)){
-                             console.log(error);
-                         } else console.log("petite erreur sans importance")
+                             $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value='';
+                             $("input[name=" + namespace + officialId + "-officialVotersId]")[0].value='';
+                             $("select[name=" + namespace + officialId + "-modeSelect]").prop('disabled', true);
+                             $("div[name=" + officialId + "-selectMode]")[0].style.display="block";
+                             $("div[name=" + officialId + "-inputMode]")[0].style.display="none";
+                             $("select[name=" + namespace + officialId + "-presentialSelect]").prop('disabled', true);
+                             $("input[name=" + namespace + officialId + "-officialVoters]").prop('disabled', true);
+                             $("input[name=" + namespace + officialId + "-autre]").prop('disabled', true);
+                         }
                      }
                  });
-                 }
+             }
+             catch(error) {
+                 if(!(error instanceof TypeError)){
+                     console.log(error);
+                 } else console.log("petite erreur sans importance")
+             }
+         });
+     }
+
+    function getProcurations() {
+        procurationsTable.style.opacity=0.5;
+        spinner.style.display="block";
+        var refreshTable = setTimeout(function(){
+            spinner.style.display="none";
+            procurationsTable.style.opacity=1;
+        }, 300);
+
+        AUI().use('aui-io-request', function(A) {
+            try {
+                A.io.request('${reloadProcurationsURL}', {
+                    method : 'POST',
+                    dataType: 'json',
+                    on: {
+                        complete: function(e) {
+                            var data = JSON.parse(e.details[1].responseText);
+                            Array.prototype.forEach.call(data.official, function(official, i){
+                                var officialId = official.officialId;
+                                if(official.hasProcuration==true){
+                                    $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value=official.procurationId;
+                                    $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = official.procurationMode;
+                                    $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = official.presential+1;
+                                    $("input[name=" + namespace + officialId + "-officialVoters]")[0].value=official.officialVoter;
+                                    $("input[name=" + namespace + officialId + "-autre]")[0].value=official.otherProcurationMode;
+                                    if ($("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex == 4) {
+                                        $("div[name=" + officialId + "-selectMode]")[0].style.display="none";
+                                        $("div[name=" + officialId + "-inputMode]")[0].style.display="block";
+                                    }
+                                    $("button[name="+ officialId + "-saveButton]")[0].style.display="none";
+                                    $("button[name="+ officialId + "-resetButton]")[0].style.display="none";
+                                    $("button[name="+ officialId + "-closeButton]")[0].style.display="inline-block";
+                                    $("button[name="+ officialId + "-editButton]")[0].style.display="none";
+                                    $("div[name="+ officialId + "-checkAbsent]")[0].style.display="block";
+                                } else {
+                                    $("button[name="+ officialId + "-closeButton]")[0].attributes["procuration-id"].value='';
+                                    $("select[name=" + namespace + officialId + "-modeSelect]")[0].selectedIndex = 0;
+                                    $("select[name=" + namespace + officialId + "-presentialSelect]")[0].selectedIndex = 0;
+                                    $("input[name=" + namespace + officialId + "-officialVoters]")[0].value='';
+                                    $("input[name=" + namespace + officialId + "-autre]")[0].value='';
+                                    $("div[name=" + officialId + "-inputMode]")[0].style.display="none";
+                                    $("button[name="+ officialId + "-saveButton]")[0].style.display="none";
+                                    $("button[name="+ officialId + "-resetButton]")[0].style.display="none";
+                                    $("button[name="+ officialId + "-closeButton]")[0].style.display="none";
+                                    $("button[name="+ officialId + "-editButton]")[0].style.display="inline-block";
+                                    $("div[name="+ officialId + "-checkAbsent]")[0].style.display="none";
+                                }
+                            });
+                            document.getElementById(namespace+"editHidden").value=false;
+                        }
+                    }
+                });
+            }
+            catch(error) {
+                if(!(error instanceof TypeError)){
+                    console.log(error);
+                } else console.log("petite erreur sans importance")
+            }
+        });
+    }
+
+	function <portlet:namespace />deleteEntity() {
+		if (confirm('<liferay-ui:message key="are-you-sure-you-want-to-delete-this-entry" />')) {
+			window.location = '${deleteCouncilSessionURL}';
+		}
+	}
 </aui:script>

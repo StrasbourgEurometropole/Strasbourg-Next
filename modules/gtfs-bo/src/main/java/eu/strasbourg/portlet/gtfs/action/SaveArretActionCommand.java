@@ -34,6 +34,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.*;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -64,14 +65,15 @@ public class SaveArretActionCommand implements MVCActionCommand {
 						.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request
 						.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				PortletURL backURL = PortletURLFactoryUtil.create(request,
 						portletName, themeDisplay.getPlid(),
 						PortletRequest.RENDER_PHASE);
-				returnURL.setParameter("tab", request.getParameter("tab"));
+				backURL.setParameter("tab", request.getParameter("tab"));
 
-				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("backURL", backURL.toString());
 				response.setRenderParameter("mvcPath",
 						"/gtfs-bo-edit-arret.jsp");
+				response.setRenderParameter("cmd", "saveArret");
 				return false;
 			}
 
@@ -129,8 +131,11 @@ public class SaveArretActionCommand implements MVCActionCommand {
 
 				this._arretLocalService.updateArret(arret, sc);
 			}
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
 		} catch (PortalException e) {
+			_log.error(e);
+		} catch (IOException e) {
 			_log.error(e);
 		}
 
@@ -169,7 +174,7 @@ public class SaveArretActionCommand implements MVCActionCommand {
 							isValid = false;
 						}
 					} catch (ParseException e) {
-						e.printStackTrace();
+						_log.error(e.getMessage() + " : " + startDateString);
 					}
 				}else{
 					if (Validator.isNull(startDateString)) {

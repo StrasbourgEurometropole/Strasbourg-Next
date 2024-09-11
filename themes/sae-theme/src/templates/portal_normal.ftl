@@ -13,7 +13,7 @@
       <#assign websiteUrl = "//www.de.strasbourg.eu" />
     </#if>
 </#if>
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
   <#assign homeURL = "/web${layout.group.friendlyURL}" />
 <#else>
   <#assign homeURL = "" />
@@ -48,8 +48,6 @@
     <link rel="stylesheet" type="text/css" href="${css_folder}/sae.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="${css_folder}/swiper-bundle.min.css" media="screen" />
 	  <link type="text/css" rel="stylesheet" href="/o/0-global-theme/css/hackliferay.css" />
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> 
     <script type="text/javascript" src="${javascript_folder}/swiper-bundle.min.js" charset="utf-8"></script>
     <@liferay_util["include"] page=top_head_include />
 
@@ -129,7 +127,7 @@
             <img src="${images_folder}/pre-header/logo.png" alt="Strasbourg.eu" />
           </a>
           <ul>
-            <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+            <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
               <#assign currURL = "/web${layout.group.friendlyURL}" />
             <#else>
               <#assign currURL = "" />
@@ -160,8 +158,8 @@
                     </button>
                   </div>
                   <form action="${homeURL}/recherche" method="get">
-                      <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet" />
-                      <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" id="search" placeholder="Rechercher..." />
+                      <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet" />
+                      <input type="text" name="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" id="search" placeholder="Rechercher..." />
                   </form>
               </div>
           </div>
@@ -217,7 +215,7 @@
       </header>
       <!-- End header -->
 
-      <div class="content">
+      <div class="content" id="content">
         <section class="">
             <#if selectable>
               <@liferay_util["include"] page=content_include />
@@ -291,7 +289,7 @@
             var url = window.location.toString();
             document.getElementById("sharefacebook").setAttribute("href","https://www.facebook.com/sharer/sharer.php?u="+ encodeURIComponent(document.URL));
             document.getElementById("sharetwitter").setAttribute("href","https://twitter.com/intent/tweet?text="+url);
-            document.getElementById("ShareLinkedIn").setAttribute("href","http://www.linkedin.com/shareArticle?mini=true&url="+url);
+            document.getElementById("ShareLinkedIn").setAttribute("href","https://www.linkedin.com/shareArticle?mini=true&url="+url);
             document.getElementById("ShareMail").setAttribute("href","mailto:?body="+url);
         }
     </script>

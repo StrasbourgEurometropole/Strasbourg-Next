@@ -64,6 +64,33 @@ switch (window.tarteaucitronForceLanguage) {
         };
 }
 
+// Function to update the title attribute and remove specific attributes from iframes
+function updateIframes() {
+    // Get all elements with the class 'g-recaptcha'
+    const recaptchaParents = document.getElementsByClassName('g-recaptcha');
+    // Loop through each element with the class 'g-recaptcha'
+    for (let i = 0; i < recaptchaParents.length; i++) {
+        const parent = recaptchaParents[i];
+
+        // Get all iframe elements that are children of the current parent element
+        const iframes = parent.getElementsByTagName('iframe');
+        // Loop through each iframe element
+        for (let j = 0; j < iframes.length; j++) {
+            const iframe = iframes[j];
+
+            // Replace the value of the title attribute
+            iframe.setAttribute('title', Liferay.Language.get("recaptcha-title"));
+
+            // Remove the frameborder, height, and width attributes
+            iframe.removeAttribute('frameborder');
+            iframe.removeAttribute('height');
+            iframe.removeAttribute('width');
+        }
+    }
+}
+
+tarteaucitron.user.recaptchaOnLoad = updateIframes;
+
 // Initialisation de tarteaucitron
 tarteaucitron.init({
     "privacyUrl": "https://www.strasbourg.eu/donnees-personnelles", /* Privacy policy url */
@@ -260,6 +287,39 @@ tarteaucitron.services.iframevideosfacebook = {
       tarteaucitron.fallback(['tac_iframevideosfacebook'], function (elem) {
           return tarteaucitron.engage(id);
       });
+    }
+};
+
+
+// genially
+tarteaucitron.services.genially = {
+    "key": "genially",
+    "type": "api",
+    "name": "genially",
+    "uri": "https://www.genial.ly/cookies",
+    "needConsent": true,
+    "cookies": ['_gat', '_ga', '_gid'],
+    "js": function () {
+        "use strict";
+
+        tarteaucitron.fallback(['tac_genially'], function (x) {
+            var frame_title = tarteaucitron.fixSelfXSS(x.getAttribute("title") || 'genially iframe'),
+                width = x.getAttribute("width"),
+                height = x.getAttribute("height"),
+                geniallyid = x.getAttribute("geniallyid"),
+                allowfullscreen = x.getAttribute("allowfullscreen");
+
+            return '<div style="position: relative; padding-bottom: 109.00%; padding-top: 0; height: 0;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" title="' + frame_title + '" src="https://view.genial.ly/' + geniallyid + '" width="' + width + '" height="' + height + '" scrolling="auto" allowtransparency ' + (allowfullscreen == '0' ? '' : ' webkitallowfullscreen mozallowfullscreen allowfullscreen') + '></iframe></div>';
+        });
+    },
+    "fallback": function () {
+        "use strict";
+        var id = 'genially';
+        tarteaucitron.fallback(['tac_genially'], function (elem) {
+            elem.style.width = elem.getAttribute('width') + 'px';
+            elem.style.height = elem.getAttribute('height') + 'px';
+            return tarteaucitron.engage(id);
+        });
     }
 };
 

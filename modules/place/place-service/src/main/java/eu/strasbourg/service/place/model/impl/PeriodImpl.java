@@ -14,24 +14,23 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
-
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.place.model.PlaceSchedule;
 import eu.strasbourg.service.place.model.Slot;
 import eu.strasbourg.service.place.service.SlotLocalServiceUtil;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.JSONHelper;
+
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Period service. Represents a row in

@@ -2,6 +2,7 @@ package eu.strasbourg.portlet.project.action;
 
 import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_MERGED;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -14,6 +15,7 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalService;
 import org.osgi.service.component.annotations.Component;
@@ -86,8 +88,9 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             budgetParticipatif.setTitle(title);
             
             // Description
-            String description = ParamUtil.getString(request, "description");
-            budgetParticipatif.setDescription(description);
+			Map<Locale, String> description = LocalizationUtil
+					.getLocalizationMap(request, "description");
+            budgetParticipatif.setDescriptionMap(description);
             
             // Resume
             String summary = ParamUtil.getString(request, "summary");
@@ -98,8 +101,9 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             budgetParticipatif.setBudget(budget);
             
             // Motif
-            String motif = ParamUtil.getString(request, "motif");
-            budgetParticipatif.setMotif(motif);
+			Map<Locale, String> motif = LocalizationUtil
+					.getLocalizationMap(request, "motif");
+            budgetParticipatif.setMotifMap(motif);
             
             // ---------------------------------------------------------------
  			// -------------------------- CITOYEN ----------------------------
@@ -128,6 +132,10 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             // Citoyen : Mobile
             String mobile = ParamUtil.getString(request, "citoyenMobile");
             budgetParticipatif.setCitoyenMobile(mobile);
+
+			// Niveau d'engagement
+			String commitment = ParamUtil.getString(request, "commitment");
+			budgetParticipatif.setCommitment(commitment);
             
             // ---------------------------------------------------------------
  			// -------------------------- FUSION -----------------------------
@@ -250,8 +258,9 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             budgetParticipatif.setIsCrush(isCrush);
             
             // Commentaire du coup de coeur
-            String crushComment = ParamUtil.getString(request, "crushComment");
-            budgetParticipatif.setCrushComment(crushComment);
+			Map<Locale, String> crushComment = LocalizationUtil
+					.getLocalizationMap(request, "crushComment");
+            budgetParticipatif.setCrushCommentMap(crushComment);
             
             // ---------------------------------------------------------------
  			// ----------------------- SELECTION DE LA PHASE -----------------
@@ -354,9 +363,12 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             
             // Sauvegarde du budget
             _budgetLocalService.updateBudgetParticipatif(budgetParticipatif, sc);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
             
         } catch (PortalException e) {
             _log.error("erreur lors de la mise à jour d'un budget : ",e);
+        } catch (IOException e) {
+			_log.error(e);
         }
         return true;
 	}
@@ -370,12 +382,12 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
 			
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 			String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
-			PortletURL returnURL = PortletURLFactoryUtil.create(request,
+			PortletURL backURL = PortletURLFactoryUtil.create(request,
 				portletName, themeDisplay.getPlid(),
 				PortletRequest.RENDER_PHASE);
 
-			response.setRenderParameter("returnURL", returnURL.toString());
-			response.setRenderParameter("cmd","editBudgetParticipatif");
+			response.setRenderParameter("backURL", backURL.toString());
+			response.setRenderParameter("cmd","saveBudgetParticipatif");
 			response.setRenderParameter("mvcPath","/project-bo-edit-budget-participatif.jsp");
 	}
 	
@@ -392,7 +404,7 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
 		}
 
 		// Description
-		if (Validator.isNull(ParamUtil.getString(request, "description"))) {
+		if (Validator.isNull(ParamUtil.getString(request, "descriptionEditor"))) {
 			SessionErrors.add(request, "description-error");
 			isValid = false;
 		}

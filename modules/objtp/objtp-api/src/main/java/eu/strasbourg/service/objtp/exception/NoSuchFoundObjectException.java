@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.objtp.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author JeremyZwickert
  */
-@ProviderType
 public class NoSuchFoundObjectException extends NoSuchModelException {
 
 	public NoSuchFoundObjectException() {
@@ -30,12 +27,12 @@ public class NoSuchFoundObjectException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchFoundObjectException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchFoundObjectException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchFoundObjectException(Throwable cause) {
-		super(cause);
+	public NoSuchFoundObjectException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

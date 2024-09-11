@@ -85,7 +85,7 @@
 					<div class="content">
 						<liferay-portlet:renderURL var="formURL" />
 						<a href="${formURL}" title="<liferay-ui:message key="contact.new-request" />">
-							<button name="previous" value="<liferay-ui:message key="new-request" />" formnovalidate="formnovalidate">
+							<button name="previous" value="<liferay-ui:message key="new-request" />" >
 								<liferay-ui:message key="contact.new-request" />
 							</button>
 						</a>

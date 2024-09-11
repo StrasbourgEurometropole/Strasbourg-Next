@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- * <p>
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * <p>
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -14,13 +14,15 @@
 
 package eu.strasbourg.service.video.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.search.Document;
@@ -69,7 +71,7 @@ import java.util.TimeZone;
  * @author BenjaminBini
  */
 @ProviderType
-public class VideoImpl extends VideoBaseImpl {
+public class    VideoImpl extends VideoBaseImpl {
 
     private static final long serialVersionUID = 2515513279571209485L;
 
@@ -366,19 +368,31 @@ public class VideoImpl extends VideoBaseImpl {
                 url = StrasbourgPropsUtil.getDailymotionApiUrl().replace("[videoID]", videoId);
                 try {
                     JSONObject json = JSONHelper.readJsonFromURL(url);
-                    nbViews = json.getString("views_total");
+                    if(json.has("error")) {
+                        nbViews = "0";
+                    }
+                    else {
+                        nbViews = json.getString("views_total");
+                    }
+
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage() + " : " + url);
                 }
             } else if (site.contains("youtube")) {
                 url = StrasbourgPropsUtil.getYoutubeApiUrl().replace("[videoID]", videoId);
                 try {
                     JSONObject json = JSONHelper.readJsonFromURL(url);
-                    JSONObject item = json.getJSONArray("items").getJSONObject(0);
-                    JSONObject statistics = item.getJSONObject("statistics");
-                    nbViews = statistics.getString("viewCount");
+                    if(json.has("error")) {
+                        nbViews = "0";
+                        _log.warn("Erreur nbView de la vidéo : " + videoId + " : " + json.getJSONObject("error").getString("message"));
+                    }
+                    else {
+                        JSONObject item = json.getJSONArray("items").getJSONObject(0);
+                        JSONObject statistics = item.getJSONObject("statistics");
+                        nbViews = statistics.getString("viewCount");
+                    }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage() + " : " + url);
                 }
             }
         }
@@ -680,4 +694,6 @@ public class VideoImpl extends VideoBaseImpl {
 
         return videoJSON;
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

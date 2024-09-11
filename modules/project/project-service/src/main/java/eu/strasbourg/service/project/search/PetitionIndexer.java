@@ -17,6 +17,7 @@ import eu.strasbourg.service.project.model.Petition;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.IndexHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
@@ -58,7 +59,7 @@ public class PetitionIndexer extends BaseIndexer<Petition> {
         List<AssetCategory> assetCategories = AssetVocabularyHelper
                 .getFullHierarchyCategories(petition.getCategories());
         document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-        addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+        IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
                 assetCategories);
 
         Map<Locale, String> titleFieldMap = new HashMap<>();
@@ -104,7 +105,7 @@ public class PetitionIndexer extends BaseIndexer<Petition> {
     @Override
     protected void doReindex(Petition petition) throws Exception {
         Document document = getDocument(petition);
-        IndexWriterHelperUtil.updateDocument(getSearchEngineId(), petition.getCompanyId(), document, isCommitImmediately());
+        IndexWriterHelperUtil.updateDocument(petition.getCompanyId(), document);
     }
 
     protected void reindexEntries(long companyId) throws PortalException {
@@ -117,7 +118,6 @@ public class PetitionIndexer extends BaseIndexer<Petition> {
             Document document = getDocument(petition);
             indexableActionableDynamicQuery.addDocuments(document);
         });
-        indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
         indexableActionableDynamicQuery.performActions();
     }
 

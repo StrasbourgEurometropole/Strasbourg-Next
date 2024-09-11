@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.place.model.Place</className>
+    <template>
+        <script>place-detail.ftl</script>
+        <name>Détail lieu</name>
+        <key>4906351</key>
+    </template>
+</root>

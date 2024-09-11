@@ -1,6 +1,6 @@
 <nav class="modal_connexion">
     <!-- HTML pour la modal de connexion -->
-    <div class="pro-modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal">
+    <div class="pro-modal fade couleur-commune" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal">
             <div class="modal-dialog" role="document">                              
 					<#if request.session.getAttribute("publik_logged_in")!false>
 						<div class="modal-content">
@@ -28,9 +28,10 @@
 								<div class="modal-body"> 
 									<div class="pro-reagir">
 										<div>
+											<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 											<h3>Se connecter</h3>
 											<p>Vous devez être identifié avec votre compte MonStrasbourg.eu pour agir sur le site.</p>                          
-											<a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" class="pro-btn-yellow" title="Connexion">
+											<a href="${layoutHelper.getPublikLoginURL(currentUrl)?html}" class="pro-btn-yellow" title="Connexion">
 												Se connecter
 											</a>									
 										</div>

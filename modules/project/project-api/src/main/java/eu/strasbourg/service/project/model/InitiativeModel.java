@@ -1,34 +1,24 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
-import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedAuditedModel;
 import com.liferay.portal.kernel.model.WorkflowedModel;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
 
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model interface for the Initiative service. Represents a row in the &quot;project_Initiative&quot; database table, with each column mapped to a property of this class.
@@ -43,7 +33,7 @@ import java.util.Date;
  */
 @ProviderType
 public interface InitiativeModel
-	extends BaseModel<Initiative>, GroupedModel, ShardedModel,
+	extends BaseModel<Initiative>, GroupedModel, LocalizedModel, ShardedModel,
 			StagedAuditedModel, WorkflowedModel {
 
 	/*
@@ -311,8 +301,58 @@ public interface InitiativeModel
 	 *
 	 * @return the description of this initiative
 	 */
-	@AutoEscape
 	public String getDescription();
+
+	/**
+	 * Returns the localized description of this initiative in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized description of this initiative
+	 */
+	@AutoEscape
+	public String getDescription(Locale locale);
+
+	/**
+	 * Returns the localized description of this initiative in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this initiative. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getDescription(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized description of this initiative in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized description of this initiative
+	 */
+	@AutoEscape
+	public String getDescription(String languageId);
+
+	/**
+	 * Returns the localized description of this initiative in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this initiative
+	 */
+	@AutoEscape
+	public String getDescription(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getDescriptionCurrentLanguageId();
+
+	@AutoEscape
+	public String getDescriptionCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized descriptions of this initiative.
+	 *
+	 * @return the locales and localized descriptions of this initiative
+	 */
+	public Map<Locale, String> getDescriptionMap();
 
 	/**
 	 * Sets the description of this initiative.
@@ -320,6 +360,42 @@ public interface InitiativeModel
 	 * @param description the description of this initiative
 	 */
 	public void setDescription(String description);
+
+	/**
+	 * Sets the localized description of this initiative in the language.
+	 *
+	 * @param description the localized description of this initiative
+	 * @param locale the locale of the language
+	 */
+	public void setDescription(String description, Locale locale);
+
+	/**
+	 * Sets the localized description of this initiative in the language, and sets the default locale.
+	 *
+	 * @param description the localized description of this initiative
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setDescription(
+		String description, Locale locale, Locale defaultLocale);
+
+	public void setDescriptionCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized descriptions of this initiative from the map of locales and localized descriptions.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this initiative
+	 */
+	public void setDescriptionMap(Map<Locale, String> descriptionMap);
+
+	/**
+	 * Sets the localized descriptions of this initiative from the map of locales and localized descriptions, and sets the default locale.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this initiative
+	 * @param defaultLocale the default locale
+	 */
+	public void setDescriptionMap(
+		Map<Locale, String> descriptionMap, Locale defaultLocale);
 
 	/**
 	 * Returns the place text area of this initiative.
@@ -554,62 +630,23 @@ public interface InitiativeModel
 	public boolean isScheduled();
 
 	@Override
-	public boolean isNew();
+	public String[] getAvailableLanguageIds();
 
 	@Override
-	public void setNew(boolean n);
+	public String getDefaultLanguageId();
 
 	@Override
-	public boolean isCachedModel();
+	public void prepareLocalizedFieldsForImport() throws LocaleException;
 
 	@Override
-	public void setCachedModel(boolean cachedModel);
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException;
 
 	@Override
-	public boolean isEscapedModel();
+	public Initiative cloneWithOriginalValues();
 
-	@Override
-	public Serializable getPrimaryKeyObj();
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj);
-
-	@Override
-	public ExpandoBridge getExpandoBridge();
-
-	@Override
-	public void setExpandoBridgeAttributes(BaseModel<?> baseModel);
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge);
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext);
-
-	@Override
-	public Object clone();
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.project.model.Initiative initiative);
-
-	@Override
-	public int hashCode();
-
-	@Override
-	public CacheModel<eu.strasbourg.service.project.model.Initiative>
-		toCacheModel();
-
-	@Override
-	public eu.strasbourg.service.project.model.Initiative toEscapedModel();
-
-	@Override
-	public eu.strasbourg.service.project.model.Initiative toUnescapedModel();
-
-	@Override
-	public String toString();
-
-	@Override
-	public String toXmlString();
+	public default String toXmlString() {
+		return null;
+	}
 
 }

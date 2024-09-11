@@ -15,7 +15,12 @@
         margin: 0 -21px;
         margin-bottom: 20px;
     }
-
+    .help-request-title {
+        text-align: center;
+        padding: 30px;
+        font-weight: bold;
+        background-color: #FFF;
+    }
     // Ne pas mettre à la ligne les filtres après la checkbox globale
     .management-bar .container-fluid-1280 {
         display: flex;
@@ -46,5 +51,14 @@
         padding-top: 1.21875rem;
     }
 
+}
+
+/* Liferay 7.4 */
+.button-holder{
+    padding: 20px 0 45px 0;
+}
+
+.button-holder button{
+    margin-right: 12px;
 }
 

@@ -15,6 +15,8 @@ import java.util.Map;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 public class FelecWebServiceClient {
@@ -62,6 +64,7 @@ public class FelecWebServiceClient {
 			conn.setReadTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
+			conn.setRequestProperty("Accept", "application/json");
 			conn.setRequestProperty("Content-Type", type);
 			conn.setRequestProperty("Content-Length",
 				String.valueOf(postDataBytes.length));
@@ -78,9 +81,12 @@ public class FelecWebServiceClient {
 				.getJSONObject("cwsTabElecRetour");
 			felecResponse = new FelecResponse(jsonResponse);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			_log.error("Error while fetching Felec: " +ex.getMessage());
+			felecResponse = new FelecResponse();
 		}
 
 		return felecResponse;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(FelecWebServiceClient.class.getName());
 }

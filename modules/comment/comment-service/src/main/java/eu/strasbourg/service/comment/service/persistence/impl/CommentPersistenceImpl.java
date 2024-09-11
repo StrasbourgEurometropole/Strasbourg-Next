@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.comment.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,30 +19,30 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.comment.exception.NoSuchCommentException;
 import eu.strasbourg.service.comment.model.Comment;
+import eu.strasbourg.service.comment.model.CommentTable;
 import eu.strasbourg.service.comment.model.impl.CommentImpl;
 import eu.strasbourg.service.comment.model.impl.CommentModelImpl;
 import eu.strasbourg.service.comment.service.persistence.CommentPersistence;
+import eu.strasbourg.service.comment.service.persistence.CommentUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -250,10 +242,6 @@ public class CommentPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -602,8 +590,6 @@ public class CommentPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -760,11 +746,6 @@ public class CommentPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -853,8 +834,6 @@ public class CommentPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1054,10 +1033,6 @@ public class CommentPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1436,8 +1411,6 @@ public class CommentPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1609,10 +1582,6 @@ public class CommentPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1936,8 +1905,6 @@ public class CommentPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2116,10 +2083,6 @@ public class CommentPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2469,8 +2432,6 @@ public class CommentPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2654,10 +2615,6 @@ public class CommentPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3012,8 +2969,6 @@ public class CommentPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3211,10 +3166,6 @@ public class CommentPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3595,8 +3546,6 @@ public class CommentPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3787,10 +3736,6 @@ public class CommentPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -4145,8 +4090,6 @@ public class CommentPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -4170,21 +4113,14 @@ public class CommentPersistenceImpl
 		dbColumnNames.put("uuid", "uuid_");
 		dbColumnNames.put("text", "text_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Comment.class);
+
+		setModelImplClass(CommentImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(CommentTable.INSTANCE);
 	}
 
 	/**
@@ -4195,15 +4131,14 @@ public class CommentPersistenceImpl
 	@Override
 	public void cacheResult(Comment comment) {
 		entityCache.putResult(
-			CommentModelImpl.ENTITY_CACHE_ENABLED, CommentImpl.class,
-			comment.getPrimaryKey(), comment);
+			CommentImpl.class, comment.getPrimaryKey(), comment);
 
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {comment.getUuid(), comment.getGroupId()}, comment);
-
-		comment.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the comments in the entity cache if it is enabled.
@@ -4212,15 +4147,18 @@ public class CommentPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Comment> comments) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (comments.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Comment comment : comments) {
 			if (entityCache.getResult(
-					CommentModelImpl.ENTITY_CACHE_ENABLED, CommentImpl.class,
-					comment.getPrimaryKey()) == null) {
+					CommentImpl.class, comment.getPrimaryKey()) == null) {
 
 				cacheResult(comment);
-			}
-			else {
-				comment.resetOriginalValues();
 			}
 		}
 	}
@@ -4236,9 +4174,7 @@ public class CommentPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(CommentImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(CommentImpl.class);
 	}
 
 	/**
@@ -4250,39 +4186,22 @@ public class CommentPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Comment comment) {
-		entityCache.removeResult(
-			CommentModelImpl.ENTITY_CACHE_ENABLED, CommentImpl.class,
-			comment.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((CommentModelImpl)comment, true);
+		entityCache.removeResult(CommentImpl.class, comment);
 	}
 
 	@Override
 	public void clearCache(List<Comment> comments) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Comment comment : comments) {
-			entityCache.removeResult(
-				CommentModelImpl.ENTITY_CACHE_ENABLED, CommentImpl.class,
-				comment.getPrimaryKey());
-
-			clearUniqueFindersCache((CommentModelImpl)comment, true);
+			entityCache.removeResult(CommentImpl.class, comment);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(CommentImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				CommentModelImpl.ENTITY_CACHE_ENABLED, CommentImpl.class,
-				primaryKey);
+			entityCache.removeResult(CommentImpl.class, primaryKey);
 		}
 	}
 
@@ -4291,35 +4210,8 @@ public class CommentPersistenceImpl
 			commentModelImpl.getUuid(), commentModelImpl.getGroupId()
 		};
 
-		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, commentModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		CommentModelImpl commentModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				commentModelImpl.getUuid(), commentModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((commentModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				commentModelImpl.getOriginalUuid(),
-				commentModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
+		finderCache.putResult(_finderPathFetchByUUID_G, args, commentModelImpl);
 	}
 
 	/**
@@ -4458,23 +4350,23 @@ public class CommentPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (comment.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				comment.setCreateDate(now);
+				comment.setCreateDate(date);
 			}
 			else {
-				comment.setCreateDate(serviceContext.getCreateDate(now));
+				comment.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!commentModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				comment.setModifiedDate(now);
+				comment.setModifiedDate(date);
 			}
 			else {
-				comment.setModifiedDate(serviceContext.getModifiedDate(now));
+				comment.setModifiedDate(serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -4483,10 +4375,8 @@ public class CommentPersistenceImpl
 		try {
 			session = openSession();
 
-			if (comment.isNew()) {
+			if (isNew) {
 				session.save(comment);
-
-				comment.setNew(false);
 			}
 			else {
 				comment = (Comment)session.merge(comment);
@@ -4499,232 +4389,13 @@ public class CommentPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(CommentImpl.class, commentModelImpl, false, true);
 
-		if (!CommentModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {commentModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				commentModelImpl.getUuid(), commentModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {commentModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {commentModelImpl.getPublikId()};
-
-			finderCache.removeResult(_finderPathCountByPublikId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPublikId, args);
-
-			args = new Object[] {
-				commentModelImpl.getAssetEntryId(), commentModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByAssetEntryId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByAssetEntryId, args);
-
-			args = new Object[] {
-				commentModelImpl.getAssetEntryId(), commentModelImpl.getLevel(),
-				commentModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByAssetEntryIdAndLevel, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByAssetEntryIdAndLevel, args);
-
-			args = new Object[] {
-				commentModelImpl.getParentCommentId(),
-				commentModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByParentCommentId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByParentCommentId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((commentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					commentModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {commentModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((commentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					commentModelImpl.getOriginalUuid(),
-					commentModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					commentModelImpl.getUuid(), commentModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((commentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					commentModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {commentModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((commentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPublikId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					commentModelImpl.getOriginalPublikId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikId, args);
-
-				args = new Object[] {commentModelImpl.getPublikId()};
-
-				finderCache.removeResult(_finderPathCountByPublikId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikId, args);
-			}
-
-			if ((commentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByAssetEntryId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					commentModelImpl.getOriginalAssetEntryId(),
-					commentModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByAssetEntryId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAssetEntryId, args);
-
-				args = new Object[] {
-					commentModelImpl.getAssetEntryId(),
-					commentModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByAssetEntryId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAssetEntryId, args);
-			}
-
-			if ((commentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByAssetEntryIdAndLevel.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					commentModelImpl.getOriginalAssetEntryId(),
-					commentModelImpl.getOriginalLevel(),
-					commentModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByAssetEntryIdAndLevel, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAssetEntryIdAndLevel,
-					args);
-
-				args = new Object[] {
-					commentModelImpl.getAssetEntryId(),
-					commentModelImpl.getLevel(), commentModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByAssetEntryIdAndLevel, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByAssetEntryIdAndLevel,
-					args);
-			}
-
-			if ((commentModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByParentCommentId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					commentModelImpl.getOriginalParentCommentId(),
-					commentModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByParentCommentId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByParentCommentId, args);
-
-				args = new Object[] {
-					commentModelImpl.getParentCommentId(),
-					commentModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByParentCommentId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByParentCommentId, args);
-			}
-		}
-
-		entityCache.putResult(
-			CommentModelImpl.ENTITY_CACHE_ENABLED, CommentImpl.class,
-			comment.getPrimaryKey(), comment, false);
-
-		clearUniqueFindersCache(commentModelImpl, false);
 		cacheUniqueFindersCache(commentModelImpl);
+
+		if (isNew) {
+			comment.setNew(false);
+		}
 
 		comment.resetOriginalValues();
 
@@ -4773,159 +4444,12 @@ public class CommentPersistenceImpl
 	/**
 	 * Returns the comment with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the comment
-	 * @return the comment, or <code>null</code> if a comment with the primary key could not be found
-	 */
-	@Override
-	public Comment fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			CommentModelImpl.ENTITY_CACHE_ENABLED, CommentImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Comment comment = (Comment)serializable;
-
-		if (comment == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				comment = (Comment)session.get(CommentImpl.class, primaryKey);
-
-				if (comment != null) {
-					cacheResult(comment);
-				}
-				else {
-					entityCache.putResult(
-						CommentModelImpl.ENTITY_CACHE_ENABLED,
-						CommentImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					CommentModelImpl.ENTITY_CACHE_ENABLED, CommentImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return comment;
-	}
-
-	/**
-	 * Returns the comment with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param commentId the primary key of the comment
 	 * @return the comment, or <code>null</code> if a comment with the primary key could not be found
 	 */
 	@Override
 	public Comment fetchByPrimaryKey(long commentId) {
 		return fetchByPrimaryKey((Serializable)commentId);
-	}
-
-	@Override
-	public Map<Serializable, Comment> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Comment> map = new HashMap<Serializable, Comment>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Comment comment = fetchByPrimaryKey(primaryKey);
-
-			if (comment != null) {
-				map.put(primaryKey, comment);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				CommentModelImpl.ENTITY_CACHE_ENABLED, CommentImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Comment)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_COMMENT_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Comment comment : (List<Comment>)query.list()) {
-				map.put(comment.getPrimaryKeyObj(), comment);
-
-				cacheResult(comment);
-
-				uncachedPrimaryKeys.remove(comment.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					CommentModelImpl.ENTITY_CACHE_ENABLED, CommentImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -5052,10 +4576,6 @@ public class CommentPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -5101,9 +4621,6 @@ public class CommentPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -5120,6 +4637,21 @@ public class CommentPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "commentId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_COMMENT;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return CommentModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -5128,222 +4660,177 @@ public class CommentPersistenceImpl
 	 * Initializes the comment persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, CommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, CommentImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, CommentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, CommentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			CommentModelImpl.UUID_COLUMN_BITMASK |
-			CommentModelImpl.CREATEDATE_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, CommentImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			CommentModelImpl.UUID_COLUMN_BITMASK |
-			CommentModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, CommentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, CommentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			CommentModelImpl.UUID_COLUMN_BITMASK |
-			CommentModelImpl.COMPANYID_COLUMN_BITMASK |
-			CommentModelImpl.CREATEDATE_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, CommentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, CommentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			CommentModelImpl.GROUPID_COLUMN_BITMASK |
-			CommentModelImpl.CREATEDATE_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
 
 		_finderPathWithPaginationFindByPublikId = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, CommentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"publikId"}, true);
 
 		_finderPathWithoutPaginationFindByPublikId = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, CommentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikId",
-			new String[] {String.class.getName()},
-			CommentModelImpl.PUBLIKID_COLUMN_BITMASK |
-			CommentModelImpl.CREATEDATE_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"publikId"},
+			true);
 
 		_finderPathCountByPublikId = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"publikId"},
+			false);
 
 		_finderPathWithPaginationFindByAssetEntryId = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, CommentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAssetEntryId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"assetEntryId", "status"}, true);
 
 		_finderPathWithoutPaginationFindByAssetEntryId = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, CommentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAssetEntryId",
 			new String[] {Long.class.getName(), Integer.class.getName()},
-			CommentModelImpl.ASSETENTRYID_COLUMN_BITMASK |
-			CommentModelImpl.STATUS_COLUMN_BITMASK |
-			CommentModelImpl.CREATEDATE_COLUMN_BITMASK);
+			new String[] {"assetEntryId", "status"}, true);
 
 		_finderPathCountByAssetEntryId = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAssetEntryId",
-			new String[] {Long.class.getName(), Integer.class.getName()});
+			new String[] {Long.class.getName(), Integer.class.getName()},
+			new String[] {"assetEntryId", "status"}, false);
 
 		_finderPathWithPaginationFindByAssetEntryIdAndLevel = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, CommentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByAssetEntryIdAndLevel",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"assetEntryId", "level", "status"}, true);
 
 		_finderPathWithoutPaginationFindByAssetEntryIdAndLevel = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, CommentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByAssetEntryIdAndLevel",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName()
 			},
-			CommentModelImpl.ASSETENTRYID_COLUMN_BITMASK |
-			CommentModelImpl.LEVEL_COLUMN_BITMASK |
-			CommentModelImpl.STATUS_COLUMN_BITMASK |
-			CommentModelImpl.CREATEDATE_COLUMN_BITMASK);
+			new String[] {"assetEntryId", "level", "status"}, true);
 
 		_finderPathCountByAssetEntryIdAndLevel = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByAssetEntryIdAndLevel",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName()
-			});
+			},
+			new String[] {"assetEntryId", "level", "status"}, false);
 
 		_finderPathWithPaginationFindByParentCommentId = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, CommentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByParentCommentId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"parentCommentId", "status"}, true);
 
 		_finderPathWithoutPaginationFindByParentCommentId = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, CommentImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByParentCommentId",
 			new String[] {Long.class.getName(), Integer.class.getName()},
-			CommentModelImpl.PARENTCOMMENTID_COLUMN_BITMASK |
-			CommentModelImpl.STATUS_COLUMN_BITMASK |
-			CommentModelImpl.CREATEDATE_COLUMN_BITMASK);
+			new String[] {"parentCommentId", "status"}, true);
 
 		_finderPathCountByParentCommentId = new FinderPath(
-			CommentModelImpl.ENTITY_CACHE_ENABLED,
-			CommentModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByParentCommentId",
-			new String[] {Long.class.getName(), Integer.class.getName()});
+			new String[] {Long.class.getName(), Integer.class.getName()},
+			new String[] {"parentCommentId", "status"}, false);
+
+		CommentUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		CommentUtil.setPersistence(null);
+
 		entityCache.removeCache(CommentImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -5354,9 +4841,6 @@ public class CommentPersistenceImpl
 
 	private static final String _SQL_SELECT_COMMENT =
 		"SELECT comment FROM Comment comment";
-
-	private static final String _SQL_SELECT_COMMENT_WHERE_PKS_IN =
-		"SELECT comment FROM Comment comment WHERE commentId IN (";
 
 	private static final String _SQL_SELECT_COMMENT_WHERE =
 		"SELECT comment FROM Comment comment WHERE ";
@@ -5380,5 +4864,10 @@ public class CommentPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "text"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

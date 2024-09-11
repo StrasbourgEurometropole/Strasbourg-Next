@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <#include init />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
   <#assign homeURL = "/web${layout.group.friendlyURL}" />
 <#else>
   <#assign homeURL = "" />
@@ -19,7 +19,6 @@
     
     <link href="/o/summer-2018-theme/css/t_main.css" rel="stylesheet">
 	  <link type="text/css" rel="stylesheet" href="/o/0-global-theme/css/hackliferay.css" />
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,600,700" rel="stylesheet">
 
   <script>
       window.userFavorites = [
@@ -103,6 +102,7 @@
 
   <body class="${css_class}">
 
+<div id="wrapper">
     <@liferay_ui["quick-access"] contentId="#main-content" />
 
     <@liferay_util["include"] page=body_top_include />
@@ -111,11 +111,11 @@
 
     <div id="mns-global">
         <header id="mns-header">
-          <div id="layer"></div>
+            <div id="layer"></div>
             <!-- Top header bar -->
             <div class="mns-top-header">
                 <div>
-                    <a href="http://www.strasbourg.eu/" target="_blank"><img src="/o/summer-2018-theme/images/logo-strasbourg-eu.png" alt="Logo Strasbourg" width="183" height="40" /></a>
+                    <a href="https://www.strasbourg.eu/" target="_blank"><img src="/o/summer-2018-theme/images/logo-strasbourg-eu.png" alt="Logo Strasbourg" width="183" height="40" /></a>
                 </div>
                 <div>
                     <!-- a href="#" class="mns-w-fixe-1"><span>Carte interractive</span></a>
@@ -124,15 +124,15 @@
                       <span class="mns-contact">
                         <span class="mns-picto-contact"></span>
                         <span class="mns-text">Contact</span>
-                      </span>    
+                      </span>
                     </a>
                     <#assign entity = themeDisplay.getURLCurrent()?keep_after(layout.friendlyURL)?keep_before('\\?','r') />
                     <#if homeURL != "">
-                        <a href="/fr${homeURL}${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>  
+                        <a href="/fr${homeURL}${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>
                         <a href="/de${homeURL}${layout.friendlyURL}${entity}" title="Deutsch" class="${(locale.language =='de')?then('active','')}" >DE</a>
                         <a href="/en${homeURL}${layout.friendlyURL}${entity}" title="English" class="${(locale.language =='en')?then('active','')}" >EN</a>
                     <#else>
-                        <a href="/fr${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>  
+                        <a href="/fr${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>
                         <a href="/de${layout.friendlyURL}${entity}" title="Deutsch" class="${(locale.language =='de')?then('active','')}" >DE</a>
                         <a href="/en${layout.friendlyURL}${entity}" title="English" class="${(locale.language =='en')?then('active','')}" >EN</a>
                     </#if>
@@ -140,46 +140,47 @@
             </div>
             <#include "${full_templates_path}/navigation.ftl" />
         </header>
-        <main>
+        <main id="content">
             <#if selectable>
                 <@liferay_util["include"] page=content_include />
             <#else>
                 ${portletDisplay.recycle()}
                 ${portletDisplay.setTitle(the_title)}
-                <@liferay_theme["wrap-portlet"] page="portlet.ftl" />
-                <@liferay_util["include"] page=content_include />
+                <@liferay_theme["wrap-portlet"] page="portlet.ftl">
+                    <@liferay_util["include"] page=content_include />
+                </@>
             </#if>
         </main>
 
         <!-- Social Share sur chaque page - Apparait au moment du scroll de la page -->
         <div class="social-share">
-            <input class="toggle-input" id="toggle-input" type="checkbox" aria-label="Réseaux sociaux" /> 
+            <input class="toggle-input" id="toggle-input" type="checkbox" aria-label="Réseaux sociaux" />
             <label aria-hidden="true" aria-label="Partagez sur les réseaux sociaux" class="toggle" for="toggle-input">
-              <span>Réseaux sociaux</span>
+                <span>Réseaux sociaux</span>
             </label>
             <ul class="network-list">
-              <li class="facebook">
-                <a aria-label="Partagez sur Facebook" data-href="#" id="sharefacebook" target="_blank" title="Lien de partage sur Facebook"></a>
-              </li>
-              <li class="twitter">
-                <a aria-label="Partagez sur Twitter" id="sharetwitter" target="_blank" title="Lien de partage sur Twitter"></a>
-              </li>
-              <li class="linkedin">
-                <a aria-label="Partagez sur LinkedIn" id="ShareLinkedIn" target="_blank" title="Lien de partage sur LinkedIn"></a>
-              </li>
-              <li class="mail">
-                <a aria-label="Partagez par Email" id="ShareMail" title="Lien de partage par Email"></a>
-              </li>
+                <li class="facebook">
+                    <a aria-label="Partagez sur Facebook" data-href="#" id="sharefacebook" target="_blank" title="Lien de partage sur Facebook"></a>
+                </li>
+                <li class="twitter">
+                    <a aria-label="Partagez sur Twitter" id="sharetwitter" target="_blank" title="Lien de partage sur Twitter"></a>
+                </li>
+                <li class="linkedin">
+                    <a aria-label="Partagez sur LinkedIn" id="ShareLinkedIn" target="_blank" title="Lien de partage sur LinkedIn"></a>
+                </li>
+                <li class="mail">
+                    <a aria-label="Partagez par Email" id="ShareMail" title="Lien de partage par Email"></a>
+                </li>
             </ul>
         </div>
 
         <!-- Footer -->
         <footer class="mns-footer">
             <@liferay_portlet["runtime"]
-                portletProviderAction=portletProviderAction.VIEW
-                portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-                instanceId="footer"
-                settingsScope="group" />
+            portletProviderAction=portletProviderAction.VIEW
+            portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
+            instanceId="footer"
+            settingsScope="group" />
         </footer>
     </div>
 
@@ -187,23 +188,25 @@
     <@liferay_util["include"] page=bottom_include />
     <script src="/o/summer-2018-theme/js/t_main.js"></script>
     <script type="text/javascript">
-      if ($(window).width() >= 1280) {
-        $(window).stellar();
-      }
-    </script>    
+        if ($(window).width() >= 1280) {
+            $(window).stellar();
+        }
+    </script>
 
     <script type="text/javascript">
         window.onload = function(){
             var url = window.location.toString();
             document.getElementById("sharefacebook").setAttribute("href","https://www.facebook.com/sharer/sharer.php?u="+ encodeURIComponent(document.URL));
             document.getElementById("sharetwitter").setAttribute("href","https://twitter.com/intent/tweet?text="+url);
-            document.getElementById("ShareLinkedIn").setAttribute("href","http://www.linkedin.com/shareArticle?mini=true&url="+url);
+            document.getElementById("ShareLinkedIn").setAttribute("href","https://www.linkedin.com/shareArticle?mini=true&url="+url);
             document.getElementById("ShareMail").setAttribute("href","mailto:?body="+url);
         }
     </script>
-		
-		<!-- Lightbox implementation and Vendors JS -->
-		<script src="${javascript_folder}/lightbox-custom.js" charset="utf-8"></script>  
+
+    <!-- Lightbox implementation and Vendors JS -->
+    <script src="${javascript_folder}/lightbox-custom.js" charset="utf-8"></script>
+
+</div>
 
   </body>
 </html>

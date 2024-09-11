@@ -11,8 +11,8 @@
 
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body council-bo">
-    <aui:fieldset-group markupView="lexicon">
+<div class="container-fluid container-fluid-max-xl main-content-body">
+    <div class="sheet"><div class="panel-group panel-group-flush">
         <liferay-ui:error key="error-import-deliberations" message="${requestScope.error}"/>
         <liferay-ui:error key="error-parse-order" message="${requestScope.errorParse}"/>
         <liferay-ui:error key="error-no-council" message="error-no-council"/>
@@ -39,5 +39,5 @@
                 </aui:button-row>
             </div>
         </aui:form>
-    </aui:fieldset-group>
+    </div></div>
 </div>

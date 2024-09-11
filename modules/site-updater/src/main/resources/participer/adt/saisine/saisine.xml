@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.project.model.SaisineObservatoire</className>
+    <template>
+        <script>saisine-detail.ftl</script>
+        <name>Détail Saisine</name>
+        <key>458168626</key>
+    </template>
+</root>

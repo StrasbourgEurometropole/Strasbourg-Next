@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.council.action;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -56,9 +57,9 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
     @Override
     protected void doProcessAction(ActionRequest request,
                                    ActionResponse response) throws Exception {
+
         ServiceContext sc = ServiceContextFactory.getInstance(request);
-        ThemeDisplay themeDisplay = (ThemeDisplay) request
-                .getAttribute(WebKeys.THEME_DISPLAY);
+        ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
 
         long deliberationId = ParamUtil.getLong(request, "deliberationId");
@@ -76,6 +77,8 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
                 PortletURL renderURL = PortletURLFactoryUtil.create(request,
                         portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
                 renderURL.setParameter("tab", request.getParameter("tab"));
+                renderURL.setParameter("mvcPath", request.getParameter("mvcPath"));
+                renderURL.setParameter("deliberationId", String.valueOf(deliberationId));
                 response.sendRedirect(renderURL.toString());
                 return;
             }
@@ -88,10 +91,10 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
         //Récupère les anciennes catégories liées au statut pour les effacer (on veut qu'un seul abonnement à une catégorie de statut, celui en cours)
         List<AssetCategory> existingStageCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(deliberation.getAssetEntry(), "Statut");
         for (AssetCategory existingCat : existingStageCategories) {
-            AssetEntryLocalServiceUtil.deleteAssetCategoryAssetEntry(existingCat.getCategoryId(), deliberation.getAssetEntry().getEntryId());
+            AssetEntryAssetCategoryRelLocalServiceUtil.deleteAssetEntryAssetCategoryRel(existingCat.getCategoryId(), deliberation.getAssetEntry().getEntryId());
         }
         if(stageCategory != null)
-            AssetEntryLocalServiceUtil.addAssetCategoryAssetEntry(stageCategory.getCategoryId(), deliberation.getAssetEntry().getEntryId());
+            AssetEntryAssetCategoryRelLocalServiceUtil.addAssetEntryAssetCategoryRel(stageCategory.getCategoryId(), deliberation.getAssetEntry().getEntryId());
         // Update de l'entité
         deliberationLocalService.updateDeliberation(deliberation);
 
@@ -99,6 +102,8 @@ public class StageChangeDeliberationActionCommand extends BaseMVCActionCommand {
         PortletURL renderURL = PortletURLFactoryUtil.create(request,
                 portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
         renderURL.setParameter("tab", request.getParameter("tab"));
+        renderURL.setParameter("mvcPath", request.getParameter("mvcPath"));
+        renderURL.setParameter("deliberationId", String.valueOf(deliberationId));
         response.sendRedirect(renderURL.toString());
     }
 

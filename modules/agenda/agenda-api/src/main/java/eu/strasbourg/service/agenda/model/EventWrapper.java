@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,11 @@ import java.util.Objects;
  * @see Event
  * @generated
  */
-public class EventWrapper implements Event, ModelWrapper<Event> {
+public class EventWrapper
+	extends BaseModelWrapper<Event> implements Event, ModelWrapper<Event> {
 
 	public EventWrapper(Event event) {
-		_event = event;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Event.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Event.class.getName();
+		super(event);
 	}
 
 	@Override
@@ -502,13 +480,8 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	}
 
 	@Override
-	public Object clone() {
-		return new EventWrapper((Event)_event.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.agenda.model.Event event) {
-		return _event.compareTo(event);
+	public Event cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -518,7 +491,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getAccess() {
-		return _event.getAccess();
+		return model.getAccess();
 	}
 
 	/**
@@ -529,7 +502,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getAccess(java.util.Locale locale) {
-		return _event.getAccess(locale);
+		return model.getAccess(locale);
 	}
 
 	/**
@@ -541,7 +514,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getAccess(java.util.Locale locale, boolean useDefault) {
-		return _event.getAccess(locale, useDefault);
+		return model.getAccess(locale, useDefault);
 	}
 
 	/**
@@ -552,7 +525,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getAccess(String languageId) {
-		return _event.getAccess(languageId);
+		return model.getAccess(languageId);
 	}
 
 	/**
@@ -564,17 +537,17 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getAccess(String languageId, boolean useDefault) {
-		return _event.getAccess(languageId, useDefault);
+		return model.getAccess(languageId, useDefault);
 	}
 
 	@Override
 	public String getAccessCurrentLanguageId() {
-		return _event.getAccessCurrentLanguageId();
+		return model.getAccessCurrentLanguageId();
 	}
 
 	@Override
 	public String getAccessCurrentValue() {
-		return _event.getAccessCurrentValue();
+		return model.getAccessCurrentValue();
 	}
 
 	/**
@@ -584,7 +557,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Boolean getAccessForBlind() {
-		return _event.getAccessForBlind();
+		return model.getAccessForBlind();
 	}
 
 	/**
@@ -594,7 +567,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Boolean getAccessForDeaf() {
-		return _event.getAccessForDeaf();
+		return model.getAccessForDeaf();
 	}
 
 	/**
@@ -604,7 +577,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Boolean getAccessForDeficient() {
-		return _event.getAccessForDeficient();
+		return model.getAccessForDeficient();
 	}
 
 	/**
@@ -614,7 +587,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getAccessForDisabled() {
-		return _event.getAccessForDisabled();
+		return model.getAccessForDisabled();
 	}
 
 	/**
@@ -625,7 +598,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getAccessForDisabled(java.util.Locale locale) {
-		return _event.getAccessForDisabled(locale);
+		return model.getAccessForDisabled(locale);
 	}
 
 	/**
@@ -639,7 +612,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public String getAccessForDisabled(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _event.getAccessForDisabled(locale, useDefault);
+		return model.getAccessForDisabled(locale, useDefault);
 	}
 
 	/**
@@ -650,7 +623,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getAccessForDisabled(String languageId) {
-		return _event.getAccessForDisabled(languageId);
+		return model.getAccessForDisabled(languageId);
 	}
 
 	/**
@@ -662,17 +635,17 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getAccessForDisabled(String languageId, boolean useDefault) {
-		return _event.getAccessForDisabled(languageId, useDefault);
+		return model.getAccessForDisabled(languageId, useDefault);
 	}
 
 	@Override
 	public String getAccessForDisabledCurrentLanguageId() {
-		return _event.getAccessForDisabledCurrentLanguageId();
+		return model.getAccessForDisabledCurrentLanguageId();
 	}
 
 	@Override
 	public String getAccessForDisabledCurrentValue() {
-		return _event.getAccessForDisabledCurrentValue();
+		return model.getAccessForDisabledCurrentValue();
 	}
 
 	/**
@@ -682,7 +655,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getAccessForDisabledMap() {
-		return _event.getAccessForDisabledMap();
+		return model.getAccessForDisabledMap();
 	}
 
 	/**
@@ -692,7 +665,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Boolean getAccessForElder() {
-		return _event.getAccessForElder();
+		return model.getAccessForElder();
 	}
 
 	/**
@@ -702,7 +675,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Boolean getAccessForWheelchair() {
-		return _event.getAccessForWheelchair();
+		return model.getAccessForWheelchair();
 	}
 
 	/**
@@ -712,7 +685,25 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getAccessMap() {
-		return _event.getAccessMap();
+		return model.getAccessMap();
+	}
+
+	/**
+	 * Retourne le type d'activité de l'événement
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getActivityType() {
+
+		return model.getActivityType();
+	}
+
+	/**
+	 * Retourne le label du type d'activité de l'événement
+	 */
+	@Override
+	public String getActivityTypeLabel(java.util.Locale locale) {
+		return model.getActivityTypeLabel(locale);
 	}
 
 	/**
@@ -722,7 +713,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public java.util.List<eu.strasbourg.service.comment.model.Comment>
 		getApprovedComments() {
 
-		return _event.getApprovedComments();
+		return model.getApprovedComments();
 	}
 
 	/**
@@ -730,12 +721,12 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _event.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _event.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -745,7 +736,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getBookingDescription() {
-		return _event.getBookingDescription();
+		return model.getBookingDescription();
 	}
 
 	/**
@@ -756,7 +747,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getBookingDescription(java.util.Locale locale) {
-		return _event.getBookingDescription(locale);
+		return model.getBookingDescription(locale);
 	}
 
 	/**
@@ -770,7 +761,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public String getBookingDescription(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _event.getBookingDescription(locale, useDefault);
+		return model.getBookingDescription(locale, useDefault);
 	}
 
 	/**
@@ -781,7 +772,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getBookingDescription(String languageId) {
-		return _event.getBookingDescription(languageId);
+		return model.getBookingDescription(languageId);
 	}
 
 	/**
@@ -793,17 +784,17 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getBookingDescription(String languageId, boolean useDefault) {
-		return _event.getBookingDescription(languageId, useDefault);
+		return model.getBookingDescription(languageId, useDefault);
 	}
 
 	@Override
 	public String getBookingDescriptionCurrentLanguageId() {
-		return _event.getBookingDescriptionCurrentLanguageId();
+		return model.getBookingDescriptionCurrentLanguageId();
 	}
 
 	@Override
 	public String getBookingDescriptionCurrentValue() {
-		return _event.getBookingDescriptionCurrentValue();
+		return model.getBookingDescriptionCurrentValue();
 	}
 
 	/**
@@ -813,7 +804,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getBookingDescriptionMap() {
-		return _event.getBookingDescriptionMap();
+		return model.getBookingDescriptionMap();
 	}
 
 	/**
@@ -823,7 +814,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getBookingURL() {
-		return _event.getBookingURL();
+		return model.getBookingURL();
 	}
 
 	/**
@@ -833,7 +824,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _event.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -842,7 +833,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getCity(java.util.Locale locale) {
-		return _event.getCity(locale);
+		return model.getCity(locale);
 	}
 
 	/**
@@ -852,7 +843,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _event.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -860,7 +851,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getCompleteAddress(java.util.Locale locale) {
-		return _event.getCompleteAddress(locale);
+		return model.getCompleteAddress(locale);
 	}
 
 	/**
@@ -870,7 +861,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getComposer() {
-		return _event.getComposer();
+		return model.getComposer();
 	}
 
 	/**
@@ -880,7 +871,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getConcertId() {
-		return _event.getConcertId();
+		return model.getConcertId();
 	}
 
 	/**
@@ -890,7 +881,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _event.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -900,7 +891,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Date getCreateDateSource() {
-		return _event.getCreateDateSource();
+		return model.getCreateDateSource();
 	}
 
 	/**
@@ -908,7 +899,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getCSMapJSON() {
-		return _event.getCSMapJSON();
+		return model.getCSMapJSON();
 	}
 
 	/**
@@ -919,7 +910,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod>
 		getCurrentAndFuturePeriods() {
 
-		return _event.getCurrentAndFuturePeriods();
+		return model.getCurrentAndFuturePeriods();
 	}
 
 	/**
@@ -929,17 +920,17 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public eu.strasbourg.service.agenda.model.EventPeriod
 		getCurrentOrFuturePeriod() {
 
-		return _event.getCurrentOrFuturePeriod();
+		return model.getCurrentOrFuturePeriod();
 	}
 
 	@Override
 	public String getCurrentOrFuturePeriodStringDate() {
-		return _event.getCurrentOrFuturePeriodStringDate();
+		return model.getCurrentOrFuturePeriodStringDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _event.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -949,7 +940,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getDescription() {
-		return _event.getDescription();
+		return model.getDescription();
 	}
 
 	/**
@@ -960,7 +951,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale) {
-		return _event.getDescription(locale);
+		return model.getDescription(locale);
 	}
 
 	/**
@@ -972,7 +963,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale, boolean useDefault) {
-		return _event.getDescription(locale, useDefault);
+		return model.getDescription(locale, useDefault);
 	}
 
 	/**
@@ -983,7 +974,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getDescription(String languageId) {
-		return _event.getDescription(languageId);
+		return model.getDescription(languageId);
 	}
 
 	/**
@@ -995,17 +986,17 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getDescription(String languageId, boolean useDefault) {
-		return _event.getDescription(languageId, useDefault);
+		return model.getDescription(languageId, useDefault);
 	}
 
 	@Override
 	public String getDescriptionCurrentLanguageId() {
-		return _event.getDescriptionCurrentLanguageId();
+		return model.getDescriptionCurrentLanguageId();
 	}
 
 	@Override
 	public String getDescriptionCurrentValue() {
-		return _event.getDescriptionCurrentValue();
+		return model.getDescriptionCurrentValue();
 	}
 
 	/**
@@ -1015,7 +1006,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getDescriptionMap() {
-		return _event.getDescriptionMap();
+		return model.getDescriptionMap();
 	}
 
 	/**
@@ -1025,7 +1016,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getDistribution() {
-		return _event.getDistribution();
+		return model.getDistribution();
 	}
 
 	/**
@@ -1036,7 +1027,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getDistribution(java.util.Locale locale) {
-		return _event.getDistribution(locale);
+		return model.getDistribution(locale);
 	}
 
 	/**
@@ -1048,7 +1039,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getDistribution(java.util.Locale locale, boolean useDefault) {
-		return _event.getDistribution(locale, useDefault);
+		return model.getDistribution(locale, useDefault);
 	}
 
 	/**
@@ -1059,7 +1050,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getDistribution(String languageId) {
-		return _event.getDistribution(languageId);
+		return model.getDistribution(languageId);
 	}
 
 	/**
@@ -1071,17 +1062,17 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getDistribution(String languageId, boolean useDefault) {
-		return _event.getDistribution(languageId, useDefault);
+		return model.getDistribution(languageId, useDefault);
 	}
 
 	@Override
 	public String getDistributionCurrentLanguageId() {
-		return _event.getDistributionCurrentLanguageId();
+		return model.getDistributionCurrentLanguageId();
 	}
 
 	@Override
 	public String getDistributionCurrentValue() {
-		return _event.getDistributionCurrentValue();
+		return model.getDistributionCurrentValue();
 	}
 
 	/**
@@ -1091,7 +1082,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getDistributionMap() {
-		return _event.getDistributionMap();
+		return model.getDistributionMap();
 	}
 
 	/**
@@ -1101,7 +1092,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getEmail() {
-		return _event.getEmail();
+		return model.getEmail();
 	}
 
 	/**
@@ -1111,7 +1102,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public long getEventId() {
-		return _event.getEventId();
+		return model.getEventId();
 	}
 
 	/**
@@ -1121,7 +1112,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public java.util.List<eu.strasbourg.service.agenda.model.EventParticipation>
 		getEventParticipations() {
 
-		return _event.getEventParticipations();
+		return model.getEventParticipations();
 	}
 
 	/**
@@ -1132,7 +1123,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod>
 		getEventPeriods() {
 
-		return _event.getEventPeriods();
+		return model.getEventPeriods();
 	}
 
 	/**
@@ -1142,7 +1133,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getEventScheduleDisplay(java.util.Locale locale) {
-		return _event.getEventScheduleDisplay(locale);
+		return model.getEventScheduleDisplay(locale);
 	}
 
 	/**
@@ -1154,12 +1145,15 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public String getEventScheduleDisplay(
 		java.util.Locale locale, boolean dispYear, boolean dispShortMonth) {
 
-		return _event.getEventScheduleDisplay(locale, dispYear, dispShortMonth);
+		return model.getEventScheduleDisplay(locale, dispYear, dispShortMonth);
 	}
 
+	/**
+	 * Retourne l'horaire de l'événement de ce jour-là
+	 */
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _event.getExpandoBridge();
+	public String getEventTimeFromDate(Date date, java.util.Locale locale) {
+		return model.getEventTimeFromDate(date, locale);
 	}
 
 	/**
@@ -1169,7 +1163,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getExternalImageCopyright() {
-		return _event.getExternalImageCopyright();
+		return model.getExternalImageCopyright();
 	}
 
 	/**
@@ -1179,7 +1173,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getExternalImageURL() {
-		return _event.getExternalImageURL();
+		return model.getExternalImageURL();
 	}
 
 	/**
@@ -1189,7 +1183,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Date getFirstStartDate() {
-		return _event.getFirstStartDate();
+		return model.getFirstStartDate();
 	}
 
 	/**
@@ -1199,7 +1193,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Integer getFree() {
-		return _event.getFree();
+		return model.getFree();
 	}
 
 	/**
@@ -1209,7 +1203,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(
 		long groupId, java.util.Locale locale) {
 
-		return _event.getGeoJSON(groupId, locale);
+		return model.getGeoJSON(groupId, locale);
 	}
 
 	/**
@@ -1219,7 +1213,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _event.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -1229,7 +1223,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getIdSource() {
-		return _event.getIdSource();
+		return model.getIdSource();
 	}
 
 	/**
@@ -1237,7 +1231,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getImageCopyright(java.util.Locale locale) {
-		return _event.getImageCopyright(locale);
+		return model.getImageCopyright(locale);
 	}
 
 	/**
@@ -1247,7 +1241,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Integer getImageHeight() {
-		return _event.getImageHeight();
+		return model.getImageHeight();
 	}
 
 	/**
@@ -1257,7 +1251,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Long getImageId() {
-		return _event.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -1265,7 +1259,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getImageURL() {
-		return _event.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -1275,7 +1269,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Integer getImageWidth() {
-		return _event.getImageWidth();
+		return model.getImageWidth();
 	}
 
 	/**
@@ -1283,7 +1277,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getLabelTypologies(java.util.Locale locale) {
-		return _event.getLabelTypologies(locale);
+		return model.getLabelTypologies(locale);
 	}
 
 	/**
@@ -1293,7 +1287,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Date getLastEndDate() {
-		return _event.getLastEndDate();
+		return model.getLastEndDate();
 	}
 
 	/**
@@ -1303,7 +1297,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Date getLastPublishDate() {
-		return _event.getLastPublishDate();
+		return model.getLastPublishDate();
 	}
 
 	/**
@@ -1311,7 +1305,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public eu.strasbourg.service.agenda.model.Event getLiveVersion() {
-		return _event.getLiveVersion();
+		return model.getLiveVersion();
 	}
 
 	/**
@@ -1321,7 +1315,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public java.util.List<eu.strasbourg.service.agenda.model.Manifestation>
 		getManifestations() {
 
-		return _event.getManifestations();
+		return model.getManifestations();
 	}
 
 	/**
@@ -1330,7 +1324,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getManifestationsIds() {
-		return _event.getManifestationsIds();
+		return model.getManifestationsIds();
 	}
 
 	/**
@@ -1340,7 +1334,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public long getMaxGauge() {
-		return _event.getMaxGauge();
+		return model.getMaxGauge();
 	}
 
 	/**
@@ -1351,7 +1345,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public java.util.List<String> getMercators() {
-		return _event.getMercators();
+		return model.getMercators();
 	}
 
 	/**
@@ -1361,7 +1355,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getMercatorX() {
-		return _event.getMercatorX();
+		return model.getMercatorX();
 	}
 
 	/**
@@ -1371,7 +1365,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getMercatorY() {
-		return _event.getMercatorY();
+		return model.getMercatorY();
 	}
 
 	/**
@@ -1381,7 +1375,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _event.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -1391,7 +1385,25 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Date getModifiedDateSource() {
-		return _event.getModifiedDateSource();
+		return model.getModifiedDateSource();
+	}
+
+	/**
+	 * Retourne les musées de l'événement
+	 */
+	@Override
+	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
+		getMuseums() {
+
+		return model.getMuseums();
+	}
+
+	/**
+	 * Retourne le(s) label(s) du/des musées de l'événement
+	 */
+	@Override
+	public String getMuseumsLabel(java.util.Locale locale) {
+		return model.getMuseumsLabel(locale);
 	}
 
 	/**
@@ -1399,7 +1411,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public int getNbApprovedComments() {
-		return _event.getNbApprovedComments();
+		return model.getNbApprovedComments();
 	}
 
 	/**
@@ -1407,7 +1419,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public int getNbEventParticipations() {
-		return _event.getNbEventParticipations();
+		return model.getNbEventParticipations();
 	}
 
 	/**
@@ -1415,12 +1427,12 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getNbEventParticipationsLabel() {
-		return _event.getNbEventParticipationsLabel();
+		return model.getNbEventParticipationsLabel();
 	}
 
 	@Override
 	public java.time.LocalDate getNextOpenDate() {
-		return _event.getNextOpenDate();
+		return model.getNextOpenDate();
 	}
 
 	/**
@@ -1428,7 +1440,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getNormalizedTitle() {
-		return _event.getNormalizedTitle();
+		return model.getNormalizedTitle();
 	}
 
 	/**
@@ -1436,7 +1448,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getNormalizedTitle(java.util.Locale locale) {
-		return _event.getNormalizedTitle(locale);
+		return model.getNormalizedTitle(locale);
 	}
 
 	/**
@@ -1446,7 +1458,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPhone() {
-		return _event.getPhone();
+		return model.getPhone();
 	}
 
 	/**
@@ -1454,7 +1466,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPlaceAddress(java.util.Locale locale) {
-		return _event.getPlaceAddress(locale);
+		return model.getPlaceAddress(locale);
 	}
 
 	/**
@@ -1463,7 +1475,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPlaceAddressHTML(java.util.Locale locale) {
-		return _event.getPlaceAddressHTML(locale);
+		return model.getPlaceAddressHTML(locale);
 	}
 
 	/**
@@ -1472,7 +1484,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPlaceAlias(java.util.Locale locale) {
-		return _event.getPlaceAlias(locale);
+		return model.getPlaceAlias(locale);
 	}
 
 	/**
@@ -1482,7 +1494,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPlaceCity() {
-		return _event.getPlaceCity();
+		return model.getPlaceCity();
 	}
 
 	/**
@@ -1490,7 +1502,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPlaceCity(java.util.Locale locale) {
-		return _event.getPlaceCity(locale);
+		return model.getPlaceCity(locale);
 	}
 
 	/**
@@ -1500,7 +1512,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPlaceCountry() {
-		return _event.getPlaceCountry();
+		return model.getPlaceCountry();
 	}
 
 	/**
@@ -1508,7 +1520,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public long getPlaceId() {
-		return _event.getPlaceId();
+		return model.getPlaceId();
 	}
 
 	/**
@@ -1518,7 +1530,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPlaceName() {
-		return _event.getPlaceName();
+		return model.getPlaceName();
 	}
 
 	/**
@@ -1529,7 +1541,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPlaceName(java.util.Locale locale) {
-		return _event.getPlaceName(locale);
+		return model.getPlaceName(locale);
 	}
 
 	/**
@@ -1541,7 +1553,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPlaceName(java.util.Locale locale, boolean useDefault) {
-		return _event.getPlaceName(locale, useDefault);
+		return model.getPlaceName(locale, useDefault);
 	}
 
 	/**
@@ -1552,7 +1564,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPlaceName(String languageId) {
-		return _event.getPlaceName(languageId);
+		return model.getPlaceName(languageId);
 	}
 
 	/**
@@ -1564,17 +1576,17 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPlaceName(String languageId, boolean useDefault) {
-		return _event.getPlaceName(languageId, useDefault);
+		return model.getPlaceName(languageId, useDefault);
 	}
 
 	@Override
 	public String getPlaceNameCurrentLanguageId() {
-		return _event.getPlaceNameCurrentLanguageId();
+		return model.getPlaceNameCurrentLanguageId();
 	}
 
 	@Override
 	public String getPlaceNameCurrentValue() {
-		return _event.getPlaceNameCurrentValue();
+		return model.getPlaceNameCurrentValue();
 	}
 
 	/**
@@ -1584,7 +1596,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getPlaceNameMap() {
-		return _event.getPlaceNameMap();
+		return model.getPlaceNameMap();
 	}
 
 	/**
@@ -1594,7 +1606,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPlaceSIGId() {
-		return _event.getPlaceSIGId();
+		return model.getPlaceSIGId();
 	}
 
 	/**
@@ -1604,7 +1616,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPlaceStreetName() {
-		return _event.getPlaceStreetName();
+		return model.getPlaceStreetName();
 	}
 
 	/**
@@ -1614,7 +1626,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPlaceStreetNumber() {
-		return _event.getPlaceStreetNumber();
+		return model.getPlaceStreetNumber();
 	}
 
 	/**
@@ -1624,7 +1636,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPlaceZipCode() {
-		return _event.getPlaceZipCode();
+		return model.getPlaceZipCode();
 	}
 
 	/**
@@ -1634,7 +1646,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPrice() {
-		return _event.getPrice();
+		return model.getPrice();
 	}
 
 	/**
@@ -1645,7 +1657,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPrice(java.util.Locale locale) {
-		return _event.getPrice(locale);
+		return model.getPrice(locale);
 	}
 
 	/**
@@ -1657,7 +1669,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPrice(java.util.Locale locale, boolean useDefault) {
-		return _event.getPrice(locale, useDefault);
+		return model.getPrice(locale, useDefault);
 	}
 
 	/**
@@ -1668,7 +1680,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPrice(String languageId) {
-		return _event.getPrice(languageId);
+		return model.getPrice(languageId);
 	}
 
 	/**
@@ -1680,17 +1692,17 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPrice(String languageId, boolean useDefault) {
-		return _event.getPrice(languageId, useDefault);
+		return model.getPrice(languageId, useDefault);
 	}
 
 	@Override
 	public String getPriceCurrentLanguageId() {
-		return _event.getPriceCurrentLanguageId();
+		return model.getPriceCurrentLanguageId();
 	}
 
 	@Override
 	public String getPriceCurrentValue() {
-		return _event.getPriceCurrentValue();
+		return model.getPriceCurrentValue();
 	}
 
 	/**
@@ -1700,7 +1712,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getPriceMap() {
-		return _event.getPriceMap();
+		return model.getPriceMap();
 	}
 
 	/**
@@ -1710,12 +1722,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _event.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _event.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -1725,7 +1732,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getProgram() {
-		return _event.getProgram();
+		return model.getProgram();
 	}
 
 	/**
@@ -1736,7 +1743,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getProgram(java.util.Locale locale) {
-		return _event.getProgram(locale);
+		return model.getProgram(locale);
 	}
 
 	/**
@@ -1748,7 +1755,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getProgram(java.util.Locale locale, boolean useDefault) {
-		return _event.getProgram(locale, useDefault);
+		return model.getProgram(locale, useDefault);
 	}
 
 	/**
@@ -1759,7 +1766,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getProgram(String languageId) {
-		return _event.getProgram(languageId);
+		return model.getProgram(languageId);
 	}
 
 	/**
@@ -1771,17 +1778,17 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getProgram(String languageId, boolean useDefault) {
-		return _event.getProgram(languageId, useDefault);
+		return model.getProgram(languageId, useDefault);
 	}
 
 	@Override
 	public String getProgramCurrentLanguageId() {
-		return _event.getProgramCurrentLanguageId();
+		return model.getProgramCurrentLanguageId();
 	}
 
 	@Override
 	public String getProgramCurrentValue() {
-		return _event.getProgramCurrentValue();
+		return model.getProgramCurrentValue();
 	}
 
 	/**
@@ -1791,7 +1798,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getProgramMap() {
-		return _event.getProgramMap();
+		return model.getProgramMap();
 	}
 
 	/**
@@ -1801,7 +1808,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPromoter() {
-		return _event.getPromoter();
+		return model.getPromoter();
 	}
 
 	/**
@@ -1811,7 +1818,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Date getPublicationDate() {
-		return _event.getPublicationDate();
+		return model.getPublicationDate();
 	}
 
 	/**
@@ -1819,7 +1826,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getPublicLabel(java.util.Locale locale) {
-		return _event.getPublicLabel(locale);
+		return model.getPublicLabel(locale);
 	}
 
 	/**
@@ -1829,7 +1836,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getPublics() {
 
-		return _event.getPublics();
+		return model.getPublics();
 	}
 
 	/**
@@ -1839,7 +1846,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public java.util.List<eu.strasbourg.service.agenda.model.Manifestation>
 		getPublishedManifestations() {
 
-		return _event.getPublishedManifestations();
+		return model.getPublishedManifestations();
 	}
 
 	/**
@@ -1849,7 +1856,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public boolean getRegistration() {
-		return _event.getRegistration();
+		return model.getRegistration();
 	}
 
 	/**
@@ -1859,7 +1866,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Date getRegistrationEndDate() {
-		return _event.getRegistrationEndDate();
+		return model.getRegistrationEndDate();
 	}
 
 	/**
@@ -1869,7 +1876,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Date getRegistrationStartDate() {
-		return _event.getRegistrationStartDate();
+		return model.getRegistrationStartDate();
 	}
 
 	/**
@@ -1879,7 +1886,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getServices() {
 
-		return _event.getServices();
+		return model.getServices();
 	}
 
 	/**
@@ -1892,7 +1899,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		<eu.strasbourg.service.agenda.custom.beans.RodrigueEventSession>
 			getSessionsFromRodrigue() {
 
-		return _event.getSessionsFromRodrigue();
+		return model.getSessionsFromRodrigue();
 	}
 
 	/**
@@ -1904,7 +1911,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public com.liferay.portal.kernel.json.JSONArray
 		getSessionsFromRodrigueInJSON() {
 
-		return _event.getSessionsFromRodrigueInJSON();
+		return model.getSessionsFromRodrigueInJSON();
 	}
 
 	/**
@@ -1914,7 +1921,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getSource() {
-		return _event.getSource();
+		return model.getSource();
 	}
 
 	/**
@@ -1922,7 +1929,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Date getStartDateFirstCurrentAndFuturePeriod() {
-		return _event.getStartDateFirstCurrentAndFuturePeriod();
+		return model.getStartDateFirstCurrentAndFuturePeriod();
 	}
 
 	/**
@@ -1932,7 +1939,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public int getStatus() {
-		return _event.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -1942,7 +1949,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _event.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -1952,7 +1959,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _event.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -1962,7 +1969,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _event.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -1972,7 +1979,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _event.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -1982,7 +1989,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getSubscriptionURL() {
-		return _event.getSubscriptionURL();
+		return model.getSubscriptionURL();
 	}
 
 	/**
@@ -1992,7 +1999,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getSubtitle() {
-		return _event.getSubtitle();
+		return model.getSubtitle();
 	}
 
 	/**
@@ -2003,7 +2010,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getSubtitle(java.util.Locale locale) {
-		return _event.getSubtitle(locale);
+		return model.getSubtitle(locale);
 	}
 
 	/**
@@ -2015,7 +2022,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getSubtitle(java.util.Locale locale, boolean useDefault) {
-		return _event.getSubtitle(locale, useDefault);
+		return model.getSubtitle(locale, useDefault);
 	}
 
 	/**
@@ -2026,7 +2033,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getSubtitle(String languageId) {
-		return _event.getSubtitle(languageId);
+		return model.getSubtitle(languageId);
 	}
 
 	/**
@@ -2038,17 +2045,17 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getSubtitle(String languageId, boolean useDefault) {
-		return _event.getSubtitle(languageId, useDefault);
+		return model.getSubtitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getSubtitleCurrentLanguageId() {
-		return _event.getSubtitleCurrentLanguageId();
+		return model.getSubtitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getSubtitleCurrentValue() {
-		return _event.getSubtitleCurrentValue();
+		return model.getSubtitleCurrentValue();
 	}
 
 	/**
@@ -2058,7 +2065,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getSubtitleMap() {
-		return _event.getSubtitleMap();
+		return model.getSubtitleMap();
 	}
 
 	/**
@@ -2078,7 +2085,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		throws com.liferay.portal.kernel.exception.PortalException,
 			   com.liferay.portal.kernel.search.SearchException {
 
-		return _event.getSuggestions(request, nbSuggestions, tag, category);
+		return model.getSuggestions(request, nbSuggestions, tag, category);
 	}
 
 	/**
@@ -2088,7 +2095,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTerritories() {
 
-		return _event.getTerritories();
+		return model.getTerritories();
 	}
 
 	/**
@@ -2096,7 +2103,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getTerritoryLabel(java.util.Locale locale) {
-		return _event.getTerritoryLabel(locale);
+		return model.getTerritoryLabel(locale);
 	}
 
 	/**
@@ -2104,7 +2111,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getThemeLabel(java.util.Locale locale) {
-		return _event.getThemeLabel(locale);
+		return model.getThemeLabel(locale);
 	}
 
 	/**
@@ -2114,7 +2121,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getThemes() {
 
-		return _event.getThemes();
+		return model.getThemes();
 	}
 
 	/**
@@ -2124,7 +2131,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getTitle() {
-		return _event.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -2135,7 +2142,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale) {
-		return _event.getTitle(locale);
+		return model.getTitle(locale);
 	}
 
 	/**
@@ -2147,7 +2154,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale, boolean useDefault) {
-		return _event.getTitle(locale, useDefault);
+		return model.getTitle(locale, useDefault);
 	}
 
 	/**
@@ -2158,7 +2165,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getTitle(String languageId) {
-		return _event.getTitle(languageId);
+		return model.getTitle(languageId);
 	}
 
 	/**
@@ -2170,17 +2177,17 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getTitle(String languageId, boolean useDefault) {
-		return _event.getTitle(languageId, useDefault);
+		return model.getTitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getTitleCurrentLanguageId() {
-		return _event.getTitleCurrentLanguageId();
+		return model.getTitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getTitleCurrentValue() {
-		return _event.getTitleCurrentValue();
+		return model.getTitleCurrentValue();
 	}
 
 	/**
@@ -2190,7 +2197,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getTitleMap() {
-		return _event.getTitleMap();
+		return model.getTitleMap();
 	}
 
 	/**
@@ -2198,7 +2205,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getTypeLabel(java.util.Locale locale) {
-		return _event.getTypeLabel(locale);
+		return model.getTypeLabel(locale);
 	}
 
 	/**
@@ -2208,7 +2215,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTypes() {
 
-		return _event.getTypes();
+		return model.getTypes();
 	}
 
 	/**
@@ -2218,7 +2225,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTypologies() {
 
-		return _event.getTypologies();
+		return model.getTypologies();
 	}
 
 	/**
@@ -2228,7 +2235,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public long getUserId() {
-		return _event.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -2238,7 +2245,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getUserName() {
-		return _event.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -2248,7 +2255,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _event.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -2258,7 +2265,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getUuid() {
-		return _event.getUuid();
+		return model.getUuid();
 	}
 
 	/**
@@ -2268,7 +2275,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getWebsiteName() {
-		return _event.getWebsiteName();
+		return model.getWebsiteName();
 	}
 
 	/**
@@ -2279,7 +2286,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getWebsiteName(java.util.Locale locale) {
-		return _event.getWebsiteName(locale);
+		return model.getWebsiteName(locale);
 	}
 
 	/**
@@ -2291,7 +2298,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getWebsiteName(java.util.Locale locale, boolean useDefault) {
-		return _event.getWebsiteName(locale, useDefault);
+		return model.getWebsiteName(locale, useDefault);
 	}
 
 	/**
@@ -2302,7 +2309,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getWebsiteName(String languageId) {
-		return _event.getWebsiteName(languageId);
+		return model.getWebsiteName(languageId);
 	}
 
 	/**
@@ -2314,17 +2321,17 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getWebsiteName(String languageId, boolean useDefault) {
-		return _event.getWebsiteName(languageId, useDefault);
+		return model.getWebsiteName(languageId, useDefault);
 	}
 
 	@Override
 	public String getWebsiteNameCurrentLanguageId() {
-		return _event.getWebsiteNameCurrentLanguageId();
+		return model.getWebsiteNameCurrentLanguageId();
 	}
 
 	@Override
 	public String getWebsiteNameCurrentValue() {
-		return _event.getWebsiteNameCurrentValue();
+		return model.getWebsiteNameCurrentValue();
 	}
 
 	/**
@@ -2334,7 +2341,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getWebsiteNameMap() {
-		return _event.getWebsiteNameMap();
+		return model.getWebsiteNameMap();
 	}
 
 	/**
@@ -2344,7 +2351,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getWebsiteURL() {
-		return _event.getWebsiteURL();
+		return model.getWebsiteURL();
 	}
 
 	/**
@@ -2355,7 +2362,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getWebsiteURL(java.util.Locale locale) {
-		return _event.getWebsiteURL(locale);
+		return model.getWebsiteURL(locale);
 	}
 
 	/**
@@ -2367,7 +2374,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getWebsiteURL(java.util.Locale locale, boolean useDefault) {
-		return _event.getWebsiteURL(locale, useDefault);
+		return model.getWebsiteURL(locale, useDefault);
 	}
 
 	/**
@@ -2378,7 +2385,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getWebsiteURL(String languageId) {
-		return _event.getWebsiteURL(languageId);
+		return model.getWebsiteURL(languageId);
 	}
 
 	/**
@@ -2390,17 +2397,17 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public String getWebsiteURL(String languageId, boolean useDefault) {
-		return _event.getWebsiteURL(languageId, useDefault);
+		return model.getWebsiteURL(languageId, useDefault);
 	}
 
 	@Override
 	public String getWebsiteURLCurrentLanguageId() {
-		return _event.getWebsiteURLCurrentLanguageId();
+		return model.getWebsiteURLCurrentLanguageId();
 	}
 
 	@Override
 	public String getWebsiteURLCurrentValue() {
-		return _event.getWebsiteURLCurrentValue();
+		return model.getWebsiteURLCurrentValue();
 	}
 
 	/**
@@ -2410,7 +2417,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getWebsiteURLMap() {
-		return _event.getWebsiteURLMap();
+		return model.getWebsiteURLMap();
 	}
 
 	/**
@@ -2418,12 +2425,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public boolean hasAnyAccessForDisabled() {
-		return _event.hasAnyAccessForDisabled();
-	}
-
-	@Override
-	public int hashCode() {
-		return _event.hashCode();
+		return model.hasAnyAccessForDisabled();
 	}
 
 	/**
@@ -2433,12 +2435,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _event.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _event.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -2448,7 +2445,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _event.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -2458,12 +2455,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _event.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _event.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -2473,7 +2465,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _event.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -2481,7 +2473,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public boolean isFinished() {
-		return _event.isFinished();
+		return model.isFinished();
 	}
 
 	/**
@@ -2491,7 +2483,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _event.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -2501,12 +2493,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _event.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _event.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -2516,7 +2503,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public boolean isPending() {
-		return _event.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -2526,7 +2513,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public boolean isRegistration() {
-		return _event.isRegistration();
+		return model.isRegistration();
 	}
 
 	/**
@@ -2536,7 +2523,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _event.isScheduled();
+		return model.isScheduled();
 	}
 
 	/**
@@ -2544,19 +2531,19 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public boolean isUserParticipates(String publikUserId) {
-		return _event.isUserParticipates(publikUserId);
+		return model.isUserParticipates(publikUserId);
 	}
 
 	@Override
 	public void persist() {
-		_event.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_event.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -2564,7 +2551,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_event.prepareLocalizedFieldsForImport(defaultImportLocale);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -2574,7 +2561,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setAccess(String access) {
-		_event.setAccess(access);
+		model.setAccess(access);
 	}
 
 	/**
@@ -2585,7 +2572,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setAccess(String access, java.util.Locale locale) {
-		_event.setAccess(access, locale);
+		model.setAccess(access, locale);
 	}
 
 	/**
@@ -2600,12 +2587,12 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		String access, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_event.setAccess(access, locale, defaultLocale);
+		model.setAccess(access, locale, defaultLocale);
 	}
 
 	@Override
 	public void setAccessCurrentLanguageId(String languageId) {
-		_event.setAccessCurrentLanguageId(languageId);
+		model.setAccessCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2615,7 +2602,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setAccessForBlind(Boolean accessForBlind) {
-		_event.setAccessForBlind(accessForBlind);
+		model.setAccessForBlind(accessForBlind);
 	}
 
 	/**
@@ -2625,7 +2612,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setAccessForDeaf(Boolean accessForDeaf) {
-		_event.setAccessForDeaf(accessForDeaf);
+		model.setAccessForDeaf(accessForDeaf);
 	}
 
 	/**
@@ -2635,7 +2622,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setAccessForDeficient(Boolean accessForDeficient) {
-		_event.setAccessForDeficient(accessForDeficient);
+		model.setAccessForDeficient(accessForDeficient);
 	}
 
 	/**
@@ -2645,7 +2632,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setAccessForDisabled(String accessForDisabled) {
-		_event.setAccessForDisabled(accessForDisabled);
+		model.setAccessForDisabled(accessForDisabled);
 	}
 
 	/**
@@ -2658,7 +2645,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public void setAccessForDisabled(
 		String accessForDisabled, java.util.Locale locale) {
 
-		_event.setAccessForDisabled(accessForDisabled, locale);
+		model.setAccessForDisabled(accessForDisabled, locale);
 	}
 
 	/**
@@ -2673,12 +2660,12 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		String accessForDisabled, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_event.setAccessForDisabled(accessForDisabled, locale, defaultLocale);
+		model.setAccessForDisabled(accessForDisabled, locale, defaultLocale);
 	}
 
 	@Override
 	public void setAccessForDisabledCurrentLanguageId(String languageId) {
-		_event.setAccessForDisabledCurrentLanguageId(languageId);
+		model.setAccessForDisabledCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2690,7 +2677,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public void setAccessForDisabledMap(
 		Map<java.util.Locale, String> accessForDisabledMap) {
 
-		_event.setAccessForDisabledMap(accessForDisabledMap);
+		model.setAccessForDisabledMap(accessForDisabledMap);
 	}
 
 	/**
@@ -2704,7 +2691,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		Map<java.util.Locale, String> accessForDisabledMap,
 		java.util.Locale defaultLocale) {
 
-		_event.setAccessForDisabledMap(accessForDisabledMap, defaultLocale);
+		model.setAccessForDisabledMap(accessForDisabledMap, defaultLocale);
 	}
 
 	/**
@@ -2714,7 +2701,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setAccessForElder(Boolean accessForElder) {
-		_event.setAccessForElder(accessForElder);
+		model.setAccessForElder(accessForElder);
 	}
 
 	/**
@@ -2724,7 +2711,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setAccessForWheelchair(Boolean accessForWheelchair) {
-		_event.setAccessForWheelchair(accessForWheelchair);
+		model.setAccessForWheelchair(accessForWheelchair);
 	}
 
 	/**
@@ -2734,7 +2721,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setAccessMap(Map<java.util.Locale, String> accessMap) {
-		_event.setAccessMap(accessMap);
+		model.setAccessMap(accessMap);
 	}
 
 	/**
@@ -2748,7 +2735,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		Map<java.util.Locale, String> accessMap,
 		java.util.Locale defaultLocale) {
 
-		_event.setAccessMap(accessMap, defaultLocale);
+		model.setAccessMap(accessMap, defaultLocale);
 	}
 
 	/**
@@ -2758,7 +2745,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setBookingDescription(String bookingDescription) {
-		_event.setBookingDescription(bookingDescription);
+		model.setBookingDescription(bookingDescription);
 	}
 
 	/**
@@ -2771,7 +2758,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public void setBookingDescription(
 		String bookingDescription, java.util.Locale locale) {
 
-		_event.setBookingDescription(bookingDescription, locale);
+		model.setBookingDescription(bookingDescription, locale);
 	}
 
 	/**
@@ -2786,12 +2773,12 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		String bookingDescription, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_event.setBookingDescription(bookingDescription, locale, defaultLocale);
+		model.setBookingDescription(bookingDescription, locale, defaultLocale);
 	}
 
 	@Override
 	public void setBookingDescriptionCurrentLanguageId(String languageId) {
-		_event.setBookingDescriptionCurrentLanguageId(languageId);
+		model.setBookingDescriptionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2803,7 +2790,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public void setBookingDescriptionMap(
 		Map<java.util.Locale, String> bookingDescriptionMap) {
 
-		_event.setBookingDescriptionMap(bookingDescriptionMap);
+		model.setBookingDescriptionMap(bookingDescriptionMap);
 	}
 
 	/**
@@ -2817,7 +2804,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		Map<java.util.Locale, String> bookingDescriptionMap,
 		java.util.Locale defaultLocale) {
 
-		_event.setBookingDescriptionMap(bookingDescriptionMap, defaultLocale);
+		model.setBookingDescriptionMap(bookingDescriptionMap, defaultLocale);
 	}
 
 	/**
@@ -2827,12 +2814,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setBookingURL(String bookingURL) {
-		_event.setBookingURL(bookingURL);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_event.setCachedModel(cachedModel);
+		model.setBookingURL(bookingURL);
 	}
 
 	/**
@@ -2842,7 +2824,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_event.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -2852,7 +2834,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setComposer(String composer) {
-		_event.setComposer(composer);
+		model.setComposer(composer);
 	}
 
 	/**
@@ -2862,7 +2844,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setConcertId(String concertId) {
-		_event.setConcertId(concertId);
+		model.setConcertId(concertId);
 	}
 
 	/**
@@ -2872,7 +2854,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_event.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -2882,7 +2864,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setCreateDateSource(Date createDateSource) {
-		_event.setCreateDateSource(createDateSource);
+		model.setCreateDateSource(createDateSource);
 	}
 
 	/**
@@ -2892,7 +2874,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setDescription(String description) {
-		_event.setDescription(description);
+		model.setDescription(description);
 	}
 
 	/**
@@ -2903,7 +2885,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setDescription(String description, java.util.Locale locale) {
-		_event.setDescription(description, locale);
+		model.setDescription(description, locale);
 	}
 
 	/**
@@ -2918,12 +2900,12 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		String description, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_event.setDescription(description, locale, defaultLocale);
+		model.setDescription(description, locale, defaultLocale);
 	}
 
 	@Override
 	public void setDescriptionCurrentLanguageId(String languageId) {
-		_event.setDescriptionCurrentLanguageId(languageId);
+		model.setDescriptionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -2935,7 +2917,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public void setDescriptionMap(
 		Map<java.util.Locale, String> descriptionMap) {
 
-		_event.setDescriptionMap(descriptionMap);
+		model.setDescriptionMap(descriptionMap);
 	}
 
 	/**
@@ -2949,7 +2931,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		Map<java.util.Locale, String> descriptionMap,
 		java.util.Locale defaultLocale) {
 
-		_event.setDescriptionMap(descriptionMap, defaultLocale);
+		model.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	/**
@@ -2959,7 +2941,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setDistribution(String distribution) {
-		_event.setDistribution(distribution);
+		model.setDistribution(distribution);
 	}
 
 	/**
@@ -2970,7 +2952,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setDistribution(String distribution, java.util.Locale locale) {
-		_event.setDistribution(distribution, locale);
+		model.setDistribution(distribution, locale);
 	}
 
 	/**
@@ -2985,12 +2967,12 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		String distribution, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_event.setDistribution(distribution, locale, defaultLocale);
+		model.setDistribution(distribution, locale, defaultLocale);
 	}
 
 	@Override
 	public void setDistributionCurrentLanguageId(String languageId) {
-		_event.setDistributionCurrentLanguageId(languageId);
+		model.setDistributionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -3002,7 +2984,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public void setDistributionMap(
 		Map<java.util.Locale, String> distributionMap) {
 
-		_event.setDistributionMap(distributionMap);
+		model.setDistributionMap(distributionMap);
 	}
 
 	/**
@@ -3016,7 +2998,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		Map<java.util.Locale, String> distributionMap,
 		java.util.Locale defaultLocale) {
 
-		_event.setDistributionMap(distributionMap, defaultLocale);
+		model.setDistributionMap(distributionMap, defaultLocale);
 	}
 
 	/**
@@ -3026,7 +3008,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setEmail(String email) {
-		_event.setEmail(email);
+		model.setEmail(email);
 	}
 
 	/**
@@ -3036,24 +3018,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setEventId(long eventId) {
-		_event.setEventId(eventId);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_event.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_event.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_event.setExpandoBridgeAttributes(serviceContext);
+		model.setEventId(eventId);
 	}
 
 	/**
@@ -3063,7 +3028,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setExternalImageCopyright(String externalImageCopyright) {
-		_event.setExternalImageCopyright(externalImageCopyright);
+		model.setExternalImageCopyright(externalImageCopyright);
 	}
 
 	/**
@@ -3073,7 +3038,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setExternalImageURL(String externalImageURL) {
-		_event.setExternalImageURL(externalImageURL);
+		model.setExternalImageURL(externalImageURL);
 	}
 
 	/**
@@ -3083,7 +3048,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setFirstStartDate(Date firstStartDate) {
-		_event.setFirstStartDate(firstStartDate);
+		model.setFirstStartDate(firstStartDate);
 	}
 
 	/**
@@ -3093,7 +3058,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setFree(Integer free) {
-		_event.setFree(free);
+		model.setFree(free);
 	}
 
 	/**
@@ -3103,7 +3068,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_event.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -3113,7 +3078,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setIdSource(String idSource) {
-		_event.setIdSource(idSource);
+		model.setIdSource(idSource);
 	}
 
 	/**
@@ -3123,7 +3088,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setImageHeight(Integer imageHeight) {
-		_event.setImageHeight(imageHeight);
+		model.setImageHeight(imageHeight);
 	}
 
 	/**
@@ -3133,7 +3098,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setImageId(Long imageId) {
-		_event.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -3143,7 +3108,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setImageWidth(Integer imageWidth) {
-		_event.setImageWidth(imageWidth);
+		model.setImageWidth(imageWidth);
 	}
 
 	/**
@@ -3153,7 +3118,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setLastEndDate(Date lastEndDate) {
-		_event.setLastEndDate(lastEndDate);
+		model.setLastEndDate(lastEndDate);
 	}
 
 	/**
@@ -3163,7 +3128,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
-		_event.setLastPublishDate(lastPublishDate);
+		model.setLastPublishDate(lastPublishDate);
 	}
 
 	/**
@@ -3173,7 +3138,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setMaxGauge(long maxGauge) {
-		_event.setMaxGauge(maxGauge);
+		model.setMaxGauge(maxGauge);
 	}
 
 	/**
@@ -3183,7 +3148,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setMercatorX(String mercatorX) {
-		_event.setMercatorX(mercatorX);
+		model.setMercatorX(mercatorX);
 	}
 
 	/**
@@ -3193,7 +3158,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setMercatorY(String mercatorY) {
-		_event.setMercatorY(mercatorY);
+		model.setMercatorY(mercatorY);
 	}
 
 	/**
@@ -3203,7 +3168,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_event.setModifiedDate(modifiedDate);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -3213,12 +3178,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setModifiedDateSource(Date modifiedDateSource) {
-		_event.setModifiedDateSource(modifiedDateSource);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_event.setNew(n);
+		model.setModifiedDateSource(modifiedDateSource);
 	}
 
 	/**
@@ -3228,7 +3188,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setPhone(String phone) {
-		_event.setPhone(phone);
+		model.setPhone(phone);
 	}
 
 	/**
@@ -3238,7 +3198,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setPlaceCity(String placeCity) {
-		_event.setPlaceCity(placeCity);
+		model.setPlaceCity(placeCity);
 	}
 
 	/**
@@ -3248,7 +3208,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setPlaceCountry(String placeCountry) {
-		_event.setPlaceCountry(placeCountry);
+		model.setPlaceCountry(placeCountry);
 	}
 
 	/**
@@ -3258,7 +3218,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setPlaceName(String placeName) {
-		_event.setPlaceName(placeName);
+		model.setPlaceName(placeName);
 	}
 
 	/**
@@ -3269,7 +3229,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setPlaceName(String placeName, java.util.Locale locale) {
-		_event.setPlaceName(placeName, locale);
+		model.setPlaceName(placeName, locale);
 	}
 
 	/**
@@ -3284,12 +3244,12 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		String placeName, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_event.setPlaceName(placeName, locale, defaultLocale);
+		model.setPlaceName(placeName, locale, defaultLocale);
 	}
 
 	@Override
 	public void setPlaceNameCurrentLanguageId(String languageId) {
-		_event.setPlaceNameCurrentLanguageId(languageId);
+		model.setPlaceNameCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -3299,7 +3259,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setPlaceNameMap(Map<java.util.Locale, String> placeNameMap) {
-		_event.setPlaceNameMap(placeNameMap);
+		model.setPlaceNameMap(placeNameMap);
 	}
 
 	/**
@@ -3313,7 +3273,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		Map<java.util.Locale, String> placeNameMap,
 		java.util.Locale defaultLocale) {
 
-		_event.setPlaceNameMap(placeNameMap, defaultLocale);
+		model.setPlaceNameMap(placeNameMap, defaultLocale);
 	}
 
 	/**
@@ -3323,7 +3283,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setPlaceSIGId(String placeSIGId) {
-		_event.setPlaceSIGId(placeSIGId);
+		model.setPlaceSIGId(placeSIGId);
 	}
 
 	/**
@@ -3333,7 +3293,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setPlaceStreetName(String placeStreetName) {
-		_event.setPlaceStreetName(placeStreetName);
+		model.setPlaceStreetName(placeStreetName);
 	}
 
 	/**
@@ -3343,7 +3303,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setPlaceStreetNumber(String placeStreetNumber) {
-		_event.setPlaceStreetNumber(placeStreetNumber);
+		model.setPlaceStreetNumber(placeStreetNumber);
 	}
 
 	/**
@@ -3353,7 +3313,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setPlaceZipCode(String placeZipCode) {
-		_event.setPlaceZipCode(placeZipCode);
+		model.setPlaceZipCode(placeZipCode);
 	}
 
 	/**
@@ -3363,7 +3323,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setPrice(String price) {
-		_event.setPrice(price);
+		model.setPrice(price);
 	}
 
 	/**
@@ -3374,7 +3334,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setPrice(String price, java.util.Locale locale) {
-		_event.setPrice(price, locale);
+		model.setPrice(price, locale);
 	}
 
 	/**
@@ -3388,12 +3348,12 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public void setPrice(
 		String price, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_event.setPrice(price, locale, defaultLocale);
+		model.setPrice(price, locale, defaultLocale);
 	}
 
 	@Override
 	public void setPriceCurrentLanguageId(String languageId) {
-		_event.setPriceCurrentLanguageId(languageId);
+		model.setPriceCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -3403,7 +3363,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setPriceMap(Map<java.util.Locale, String> priceMap) {
-		_event.setPriceMap(priceMap);
+		model.setPriceMap(priceMap);
 	}
 
 	/**
@@ -3417,7 +3377,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		Map<java.util.Locale, String> priceMap,
 		java.util.Locale defaultLocale) {
 
-		_event.setPriceMap(priceMap, defaultLocale);
+		model.setPriceMap(priceMap, defaultLocale);
 	}
 
 	/**
@@ -3427,12 +3387,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_event.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_event.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -3442,7 +3397,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setProgram(String program) {
-		_event.setProgram(program);
+		model.setProgram(program);
 	}
 
 	/**
@@ -3453,7 +3408,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setProgram(String program, java.util.Locale locale) {
-		_event.setProgram(program, locale);
+		model.setProgram(program, locale);
 	}
 
 	/**
@@ -3468,12 +3423,12 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		String program, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_event.setProgram(program, locale, defaultLocale);
+		model.setProgram(program, locale, defaultLocale);
 	}
 
 	@Override
 	public void setProgramCurrentLanguageId(String languageId) {
-		_event.setProgramCurrentLanguageId(languageId);
+		model.setProgramCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -3483,7 +3438,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setProgramMap(Map<java.util.Locale, String> programMap) {
-		_event.setProgramMap(programMap);
+		model.setProgramMap(programMap);
 	}
 
 	/**
@@ -3497,7 +3452,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		Map<java.util.Locale, String> programMap,
 		java.util.Locale defaultLocale) {
 
-		_event.setProgramMap(programMap, defaultLocale);
+		model.setProgramMap(programMap, defaultLocale);
 	}
 
 	/**
@@ -3507,7 +3462,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setPromoter(String promoter) {
-		_event.setPromoter(promoter);
+		model.setPromoter(promoter);
 	}
 
 	/**
@@ -3517,7 +3472,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setPublicationDate(Date publicationDate) {
-		_event.setPublicationDate(publicationDate);
+		model.setPublicationDate(publicationDate);
 	}
 
 	/**
@@ -3527,7 +3482,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setRegistration(boolean registration) {
-		_event.setRegistration(registration);
+		model.setRegistration(registration);
 	}
 
 	/**
@@ -3537,7 +3492,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setRegistrationEndDate(Date registrationEndDate) {
-		_event.setRegistrationEndDate(registrationEndDate);
+		model.setRegistrationEndDate(registrationEndDate);
 	}
 
 	/**
@@ -3547,7 +3502,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setRegistrationStartDate(Date registrationStartDate) {
-		_event.setRegistrationStartDate(registrationStartDate);
+		model.setRegistrationStartDate(registrationStartDate);
 	}
 
 	/**
@@ -3557,7 +3512,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setSource(String source) {
-		_event.setSource(source);
+		model.setSource(source);
 	}
 
 	/**
@@ -3567,7 +3522,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_event.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -3577,7 +3532,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_event.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -3587,7 +3542,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_event.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -3597,7 +3552,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_event.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -3607,7 +3562,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_event.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -3617,7 +3572,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setSubscriptionURL(String subscriptionURL) {
-		_event.setSubscriptionURL(subscriptionURL);
+		model.setSubscriptionURL(subscriptionURL);
 	}
 
 	/**
@@ -3627,7 +3582,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setSubtitle(String subtitle) {
-		_event.setSubtitle(subtitle);
+		model.setSubtitle(subtitle);
 	}
 
 	/**
@@ -3638,7 +3593,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setSubtitle(String subtitle, java.util.Locale locale) {
-		_event.setSubtitle(subtitle, locale);
+		model.setSubtitle(subtitle, locale);
 	}
 
 	/**
@@ -3653,12 +3608,12 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		String subtitle, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_event.setSubtitle(subtitle, locale, defaultLocale);
+		model.setSubtitle(subtitle, locale, defaultLocale);
 	}
 
 	@Override
 	public void setSubtitleCurrentLanguageId(String languageId) {
-		_event.setSubtitleCurrentLanguageId(languageId);
+		model.setSubtitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -3668,7 +3623,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setSubtitleMap(Map<java.util.Locale, String> subtitleMap) {
-		_event.setSubtitleMap(subtitleMap);
+		model.setSubtitleMap(subtitleMap);
 	}
 
 	/**
@@ -3682,7 +3637,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		Map<java.util.Locale, String> subtitleMap,
 		java.util.Locale defaultLocale) {
 
-		_event.setSubtitleMap(subtitleMap, defaultLocale);
+		model.setSubtitleMap(subtitleMap, defaultLocale);
 	}
 
 	/**
@@ -3692,7 +3647,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_event.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -3703,7 +3658,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setTitle(String title, java.util.Locale locale) {
-		_event.setTitle(title, locale);
+		model.setTitle(title, locale);
 	}
 
 	/**
@@ -3717,12 +3672,12 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public void setTitle(
 		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_event.setTitle(title, locale, defaultLocale);
+		model.setTitle(title, locale, defaultLocale);
 	}
 
 	@Override
 	public void setTitleCurrentLanguageId(String languageId) {
-		_event.setTitleCurrentLanguageId(languageId);
+		model.setTitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -3732,7 +3687,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
-		_event.setTitleMap(titleMap);
+		model.setTitleMap(titleMap);
 	}
 
 	/**
@@ -3746,7 +3701,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		Map<java.util.Locale, String> titleMap,
 		java.util.Locale defaultLocale) {
 
-		_event.setTitleMap(titleMap, defaultLocale);
+		model.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**
@@ -3756,7 +3711,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_event.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -3766,7 +3721,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_event.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -3776,7 +3731,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_event.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -3786,7 +3741,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_event.setUuid(uuid);
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -3796,7 +3751,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setWebsiteName(String websiteName) {
-		_event.setWebsiteName(websiteName);
+		model.setWebsiteName(websiteName);
 	}
 
 	/**
@@ -3807,7 +3762,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setWebsiteName(String websiteName, java.util.Locale locale) {
-		_event.setWebsiteName(websiteName, locale);
+		model.setWebsiteName(websiteName, locale);
 	}
 
 	/**
@@ -3822,12 +3777,12 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		String websiteName, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_event.setWebsiteName(websiteName, locale, defaultLocale);
+		model.setWebsiteName(websiteName, locale, defaultLocale);
 	}
 
 	@Override
 	public void setWebsiteNameCurrentLanguageId(String languageId) {
-		_event.setWebsiteNameCurrentLanguageId(languageId);
+		model.setWebsiteNameCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -3839,7 +3794,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public void setWebsiteNameMap(
 		Map<java.util.Locale, String> websiteNameMap) {
 
-		_event.setWebsiteNameMap(websiteNameMap);
+		model.setWebsiteNameMap(websiteNameMap);
 	}
 
 	/**
@@ -3853,7 +3808,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		Map<java.util.Locale, String> websiteNameMap,
 		java.util.Locale defaultLocale) {
 
-		_event.setWebsiteNameMap(websiteNameMap, defaultLocale);
+		model.setWebsiteNameMap(websiteNameMap, defaultLocale);
 	}
 
 	/**
@@ -3863,7 +3818,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setWebsiteURL(String websiteURL) {
-		_event.setWebsiteURL(websiteURL);
+		model.setWebsiteURL(websiteURL);
 	}
 
 	/**
@@ -3874,7 +3829,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setWebsiteURL(String websiteURL, java.util.Locale locale) {
-		_event.setWebsiteURL(websiteURL, locale);
+		model.setWebsiteURL(websiteURL, locale);
 	}
 
 	/**
@@ -3889,12 +3844,12 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		String websiteURL, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_event.setWebsiteURL(websiteURL, locale, defaultLocale);
+		model.setWebsiteURL(websiteURL, locale, defaultLocale);
 	}
 
 	@Override
 	public void setWebsiteURLCurrentLanguageId(String languageId) {
-		_event.setWebsiteURLCurrentLanguageId(languageId);
+		model.setWebsiteURLCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -3904,7 +3859,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public void setWebsiteURLMap(Map<java.util.Locale, String> websiteURLMap) {
-		_event.setWebsiteURLMap(websiteURLMap);
+		model.setWebsiteURLMap(websiteURLMap);
 	}
 
 	/**
@@ -3918,19 +3873,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 		Map<java.util.Locale, String> websiteURLMap,
 		java.util.Locale defaultLocale) {
 
-		_event.setWebsiteURLMap(websiteURLMap, defaultLocale);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.agenda.model.Event> toCacheModel() {
-
-		return _event.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.Event toEscapedModel() {
-		return new EventWrapper(_event.toEscapedModel());
+		model.setWebsiteURLMap(websiteURLMap, defaultLocale);
 	}
 
 	/**
@@ -3938,7 +3881,7 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _event.toJSON();
+		return model.toJSON();
 	}
 
 	/**
@@ -3950,68 +3893,22 @@ public class EventWrapper implements Event, ModelWrapper<Event> {
 	public com.liferay.portal.kernel.json.JSONObject toJSON(
 		String publikUserID) {
 
-		return _event.toJSON(publikUserID);
-	}
-
-	@Override
-	public String toString() {
-		return _event.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.Event toUnescapedModel() {
-		return new EventWrapper(_event.toUnescapedModel());
+		return model.toJSON(publikUserID);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _event.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof EventWrapper)) {
-			return false;
-		}
-
-		EventWrapper eventWrapper = (EventWrapper)object;
-
-		if (Objects.equals(_event, eventWrapper._event)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _event.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Event getWrappedModel() {
-		return _event;
+	protected EventWrapper wrap(Event event) {
+		return new EventWrapper(event);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _event.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _event.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_event.resetOriginalValues();
-	}
-
-	private final Event _event;
 
 }

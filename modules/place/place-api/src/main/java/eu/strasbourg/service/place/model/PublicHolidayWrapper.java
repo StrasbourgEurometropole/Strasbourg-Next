@@ -1,29 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,11 @@ import java.util.Objects;
  * @generated
  */
 public class PublicHolidayWrapper
+	extends BaseModelWrapper<PublicHoliday>
 	implements ModelWrapper<PublicHoliday>, PublicHoliday {
 
 	public PublicHolidayWrapper(PublicHoliday publicHoliday) {
-		_publicHoliday = publicHoliday;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return PublicHoliday.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return PublicHoliday.class.getName();
+		super(publicHoliday);
 	}
 
 	@Override
@@ -98,20 +76,13 @@ public class PublicHolidayWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new PublicHolidayWrapper((PublicHoliday)_publicHoliday.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.place.model.PublicHoliday publicHoliday) {
-
-		return _publicHoliday.compareTo(publicHoliday);
+	public PublicHoliday cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _publicHoliday.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -121,17 +92,12 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public Date getDate() {
-		return _publicHoliday.getDate();
+		return model.getDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _publicHoliday.getDefaultLanguageId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _publicHoliday.getExpandoBridge();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -141,7 +107,7 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public String getName() {
-		return _publicHoliday.getName();
+		return model.getName();
 	}
 
 	/**
@@ -152,7 +118,7 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public String getName(java.util.Locale locale) {
-		return _publicHoliday.getName(locale);
+		return model.getName(locale);
 	}
 
 	/**
@@ -164,7 +130,7 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public String getName(java.util.Locale locale, boolean useDefault) {
-		return _publicHoliday.getName(locale, useDefault);
+		return model.getName(locale, useDefault);
 	}
 
 	/**
@@ -175,7 +141,7 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public String getName(String languageId) {
-		return _publicHoliday.getName(languageId);
+		return model.getName(languageId);
 	}
 
 	/**
@@ -187,17 +153,17 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public String getName(String languageId, boolean useDefault) {
-		return _publicHoliday.getName(languageId, useDefault);
+		return model.getName(languageId, useDefault);
 	}
 
 	@Override
 	public String getNameCurrentLanguageId() {
-		return _publicHoliday.getNameCurrentLanguageId();
+		return model.getNameCurrentLanguageId();
 	}
 
 	@Override
 	public String getNameCurrentValue() {
-		return _publicHoliday.getNameCurrentValue();
+		return model.getNameCurrentValue();
 	}
 
 	/**
@@ -207,7 +173,7 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getNameMap() {
-		return _publicHoliday.getNameMap();
+		return model.getNameMap();
 	}
 
 	/**
@@ -217,12 +183,7 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _publicHoliday.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _publicHoliday.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -232,7 +193,7 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public long getPublicHolidayId() {
-		return _publicHoliday.getPublicHolidayId();
+		return model.getPublicHolidayId();
 	}
 
 	/**
@@ -242,7 +203,7 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public boolean getRecurrent() {
-		return _publicHoliday.getRecurrent();
+		return model.getRecurrent();
 	}
 
 	/**
@@ -252,27 +213,7 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _publicHoliday.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _publicHoliday.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _publicHoliday.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _publicHoliday.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _publicHoliday.isNew();
+		return model.getUuid();
 	}
 
 	/**
@@ -282,19 +223,19 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public boolean isRecurrent() {
-		return _publicHoliday.isRecurrent();
+		return model.isRecurrent();
 	}
 
 	@Override
 	public void persist() {
-		_publicHoliday.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_publicHoliday.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -302,12 +243,7 @@ public class PublicHolidayWrapper
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_publicHoliday.prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_publicHoliday.setCachedModel(cachedModel);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -317,24 +253,7 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public void setDate(Date date) {
-		_publicHoliday.setDate(date);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_publicHoliday.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_publicHoliday.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_publicHoliday.setExpandoBridgeAttributes(serviceContext);
+		model.setDate(date);
 	}
 
 	/**
@@ -344,7 +263,7 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public void setName(String name) {
-		_publicHoliday.setName(name);
+		model.setName(name);
 	}
 
 	/**
@@ -355,7 +274,7 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public void setName(String name, java.util.Locale locale) {
-		_publicHoliday.setName(name, locale);
+		model.setName(name, locale);
 	}
 
 	/**
@@ -369,12 +288,12 @@ public class PublicHolidayWrapper
 	public void setName(
 		String name, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_publicHoliday.setName(name, locale, defaultLocale);
+		model.setName(name, locale, defaultLocale);
 	}
 
 	@Override
 	public void setNameCurrentLanguageId(String languageId) {
-		_publicHoliday.setNameCurrentLanguageId(languageId);
+		model.setNameCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -384,7 +303,7 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public void setNameMap(Map<java.util.Locale, String> nameMap) {
-		_publicHoliday.setNameMap(nameMap);
+		model.setNameMap(nameMap);
 	}
 
 	/**
@@ -397,12 +316,7 @@ public class PublicHolidayWrapper
 	public void setNameMap(
 		Map<java.util.Locale, String> nameMap, java.util.Locale defaultLocale) {
 
-		_publicHoliday.setNameMap(nameMap, defaultLocale);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_publicHoliday.setNew(n);
+		model.setNameMap(nameMap, defaultLocale);
 	}
 
 	/**
@@ -412,12 +326,7 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_publicHoliday.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_publicHoliday.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -427,7 +336,7 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public void setPublicHolidayId(long publicHolidayId) {
-		_publicHoliday.setPublicHolidayId(publicHolidayId);
+		model.setPublicHolidayId(publicHolidayId);
 	}
 
 	/**
@@ -437,7 +346,7 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public void setRecurrent(boolean recurrent) {
-		_publicHoliday.setRecurrent(recurrent);
+		model.setRecurrent(recurrent);
 	}
 
 	/**
@@ -447,78 +356,17 @@ public class PublicHolidayWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_publicHoliday.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.place.model.PublicHoliday> toCacheModel() {
-
-		return _publicHoliday.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.PublicHoliday toEscapedModel() {
-		return new PublicHolidayWrapper(_publicHoliday.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _publicHoliday.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.PublicHoliday toUnescapedModel() {
-		return new PublicHolidayWrapper(_publicHoliday.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _publicHoliday.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof PublicHolidayWrapper)) {
-			return false;
-		}
-
-		PublicHolidayWrapper publicHolidayWrapper =
-			(PublicHolidayWrapper)object;
-
-		if (Objects.equals(
-				_publicHoliday, publicHolidayWrapper._publicHoliday)) {
-
-			return true;
-		}
-
-		return false;
+	protected PublicHolidayWrapper wrap(PublicHoliday publicHoliday) {
+		return new PublicHolidayWrapper(publicHoliday);
 	}
-
-	@Override
-	public PublicHoliday getWrappedModel() {
-		return _publicHoliday;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _publicHoliday.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _publicHoliday.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_publicHoliday.resetOriginalValues();
-	}
-
-	private final PublicHoliday _publicHoliday;
 
 }

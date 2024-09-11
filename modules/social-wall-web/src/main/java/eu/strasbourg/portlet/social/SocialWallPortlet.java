@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.social;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -49,8 +50,7 @@ public class SocialWallPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 
 		try {
-			SocialWallConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(SocialWallConfiguration.class);
+			SocialWallConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SocialWallConfiguration.class, themeDisplay);
 
 			// Nombre de posts à afficher
 			int postCount = configuration.postCount();

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Welcome fond image</name>
+        <key>6595772</key>
+        <definition>welcome-image-structure.json</definition>
+        <layout>welcome-image-layout.json</layout>
+    </structure>
+    <template>
+        <name>Welcome fond image</name>
+        <key>6595805</key>
+        <script>welcome-fond-image.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

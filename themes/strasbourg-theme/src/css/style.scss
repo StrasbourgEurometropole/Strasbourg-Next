@@ -1,0 +1,69 @@
+
+
+// Variables, mixins, breakpoints
+// ==========================================================================
+@import "abstracts/var";
+@import "abstracts/breakpoints";
+@import "abstracts/mixins";
+
+// Icomoon
+// ==========================================================================
+@import "libs/icomoon/styles";
+
+// Styles de bases, reset
+//=====================================
+@import "base-theme/reset";
+@import "base-theme/font-face";
+@import "base-theme/auto";
+@import "base-theme/text";
+@import "base-theme/images";
+@import "base-theme/animations";
+@import "base-theme/utilities";
+@import "base-theme/rgaa";
+@import "base-theme/form-styles";
+
+// Styles des librairies js utilisées dans le projet + fichiers pour faire un overriding des styles de ces librairies
+// ==========================================================================
+@import "libs/splide";
+@import "libs/select-a11y";
+@import "libs/select-a11y-custom";
+@import "libs/_autocomplete";
+@import "libs/_autocomplete-custom";
+@import "libs/leaflet/leaflet_cluster";
+@import "libs/leaflet/leaflet_custom_popup";
+
+// Styles des éléments structurants des pages
+// ==========================================================================
+@import "layout/wrappers";
+@import "layout/basic-grid";
+@import "layout/grid-12";
+@import "layout/structure";
+@import "layout/header_variations";
+
+// Composants communes du site
+// ==========================================================================
+@import "components/breadcrumbs";
+@import "components/buttons";
+@import "components/image-wysiwyg";
+@import "components/overlay";
+@import "components/cards";
+@import "components/card-defunt";
+@import "components/pagination";
+@import "components/social-share";
+@import "components/tooltip";
+@import "components/metas";
+@import "components/accordeon";
+@import "components/social-links";
+@import "components/show-more";
+@import "components/footer";
+
+// Styles pour la page édito
+// ==========================================================================
+@import "pages/*";
+
+// Styles pour les artboards
+// ==========================================================================
+@import "pages-artboards/*";
+
+
+@import "components/partials/**/*.scss";

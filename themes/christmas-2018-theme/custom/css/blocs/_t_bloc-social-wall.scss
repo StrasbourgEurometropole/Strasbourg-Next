@@ -205,11 +205,11 @@
 				}
 			}
 
-			&:hover{
-				.item:before{
+			&:hover .item a, .item a:focus{
+				&:before{
 					transform: none;
 				}
-				.item figure{
+				figure{
 					transform: none;
 				}
 			}
@@ -223,7 +223,7 @@
 				}
 				position: relative;
 
-				&:before{
+				a:before{
 					content:'';
 					background: url(../images/deco-social-wall-repeat-y.png);
 					background-size: 20px;
@@ -291,7 +291,7 @@
 				}
 			}
 
-			&:hover{
+			&:hover, &:focus{
 				background-color: #000;
 				border-color: #000;
 			}

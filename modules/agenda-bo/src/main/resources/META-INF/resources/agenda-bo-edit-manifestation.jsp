@@ -1,24 +1,22 @@
 <%@ include file="/agenda-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.agenda.model.Manifestation"%>
 
-<liferay-portlet:renderURL varImpl="manifestationsURL">
-	<portlet:param name="tab" value="manifestations" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteManifestation" var="deleteManifestationURL">
 	<portlet:param name="cmd" value="deleteManifestation" />
 	<portlet:param name="tab" value="manifestations" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-manifestations.jsp" />
 	<portlet:param name="manifestationId"
 		value="${not empty dc.manifestation ? dc.manifestation.manifestationId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveManifestation" varImpl="saveManifestationURL">
-	<portlet:param name="cmd" value="saveManifestation" />
 	<portlet:param name="tab" value="manifestations" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form action="${saveManifestationURL}" method="post" name="fm">
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="description-error" message="description-error" />
@@ -31,7 +29,7 @@
 
 		<aui:model-context bean="${dc.manifestation}"
 			model="<%=Manifestation.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="manifestationId" type="hidden" />
 
 			<aui:fieldset collapsed="false" collapsible="true"
@@ -94,20 +92,21 @@
 
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="categorization">
-				
-				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
-				
+
+				<liferay-asset:asset-categories-selector
+						className="<%= Manifestation.class.getName() %>"
+						classPK="${dc.manifestation.manifestationId}"/>
 				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
 				<div class="has-error">
 					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
 							function (val, fieldNode, ruleValue) {
 								var validated = true;
-								var fields = document.querySelectorAll('.categories-selectors > .field-content');
+								var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
 								for (var i = 0; i < fields.length; i++) {
 									fieldContent = fields[i];
-								    if ($(fieldContent).find('.icon-asterisk').length > 0
-								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+								    if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
+								    	&& $(fieldContent).find('input[type="hidden"]').length == 0) {
 								    	validated = false;
 								    	event.preventDefault();
 								    	break;
@@ -119,7 +118,9 @@
 					</aui:input>
 				</div>
 
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= Manifestation.class.getName() %>"
+						classPK="${dc.manifestation.manifestationId}"/>
 
 			</aui:fieldset>
 
@@ -132,7 +133,7 @@
 				<aui:input name="publicationDate" />
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 		
 		<aui:button-row>
 			<c:if test="${(dc.hasPermission('ADD_EVENT_GALLERY') and empty dc.manifestation or dc.hasPermission('EDIT_EVENT_GALLERY') and not empty dc.manifestation) and empty themeDisplay.scopeGroup.getStagingGroup()}">
@@ -151,7 +152,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 	</aui:form>
 </div>

@@ -1,21 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -23,22 +15,24 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.agenda.model.ImportReportLine;
 import eu.strasbourg.service.agenda.model.ImportReportLineModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -104,29 +98,53 @@ public class ImportReportLineModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.agenda.model.ImportReportLine"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.agenda.model.ImportReportLine"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.agenda.model.ImportReportLine"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long REPORTID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TYPE_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long LINEID_COLUMN_BITMASK = 16L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -185,9 +203,6 @@ public class ImportReportLineModelImpl
 				attributeGetterFunction.apply((ImportReportLine)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -212,262 +227,97 @@ public class ImportReportLineModelImpl
 	public Map<String, Function<ImportReportLine, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<ImportReportLine, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, ImportReportLine>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			ImportReportLine.class.getClassLoader(), ImportReportLine.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<ImportReportLine, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<ImportReportLine> constructor =
-				(Constructor<ImportReportLine>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<ImportReportLine, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<ImportReportLine, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", ImportReportLine::getUuid);
+			attributeGetterFunctions.put("lineId", ImportReportLine::getLineId);
+			attributeGetterFunctions.put("type", ImportReportLine::getType);
+			attributeGetterFunctions.put("status", ImportReportLine::getStatus);
+			attributeGetterFunctions.put("log", ImportReportLine::getLog);
+			attributeGetterFunctions.put(
+				"entityName", ImportReportLine::getEntityName);
+			attributeGetterFunctions.put(
+				"entityExternalId", ImportReportLine::getEntityExternalId);
+			attributeGetterFunctions.put(
+				"entityId", ImportReportLine::getEntityId);
+			attributeGetterFunctions.put(
+				"reportId", ImportReportLine::getReportId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<ImportReportLine, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ImportReportLine, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<ImportReportLine, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap<String, Function<ImportReportLine, Object>>();
-		Map<String, BiConsumer<ImportReportLine, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<ImportReportLine, ?>>();
+		private static final Map<String, BiConsumer<ImportReportLine, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<ImportReportLine, Object>() {
+		static {
+			Map<String, BiConsumer<ImportReportLine, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<ImportReportLine, ?>>();
 
-				@Override
-				public Object apply(ImportReportLine importReportLine) {
-					return importReportLine.getUuid();
-				}
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<ImportReportLine, String>)
+					ImportReportLine::setUuid);
+			attributeSetterBiConsumers.put(
+				"lineId",
+				(BiConsumer<ImportReportLine, Long>)
+					ImportReportLine::setLineId);
+			attributeSetterBiConsumers.put(
+				"type",
+				(BiConsumer<ImportReportLine, String>)
+					ImportReportLine::setType);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<ImportReportLine, Long>)
+					ImportReportLine::setStatus);
+			attributeSetterBiConsumers.put(
+				"log",
+				(BiConsumer<ImportReportLine, String>)ImportReportLine::setLog);
+			attributeSetterBiConsumers.put(
+				"entityName",
+				(BiConsumer<ImportReportLine, String>)
+					ImportReportLine::setEntityName);
+			attributeSetterBiConsumers.put(
+				"entityExternalId",
+				(BiConsumer<ImportReportLine, String>)
+					ImportReportLine::setEntityExternalId);
+			attributeSetterBiConsumers.put(
+				"entityId",
+				(BiConsumer<ImportReportLine, Long>)
+					ImportReportLine::setEntityId);
+			attributeSetterBiConsumers.put(
+				"reportId",
+				(BiConsumer<ImportReportLine, Long>)
+					ImportReportLine::setReportId);
 
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<ImportReportLine, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(
-					ImportReportLine importReportLine, Object uuidObject) {
-
-					importReportLine.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lineId",
-			new Function<ImportReportLine, Object>() {
-
-				@Override
-				public Object apply(ImportReportLine importReportLine) {
-					return importReportLine.getLineId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"lineId",
-			new BiConsumer<ImportReportLine, Object>() {
-
-				@Override
-				public void accept(
-					ImportReportLine importReportLine, Object lineIdObject) {
-
-					importReportLine.setLineId((Long)lineIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"type",
-			new Function<ImportReportLine, Object>() {
-
-				@Override
-				public Object apply(ImportReportLine importReportLine) {
-					return importReportLine.getType();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"type",
-			new BiConsumer<ImportReportLine, Object>() {
-
-				@Override
-				public void accept(
-					ImportReportLine importReportLine, Object typeObject) {
-
-					importReportLine.setType((String)typeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<ImportReportLine, Object>() {
-
-				@Override
-				public Object apply(ImportReportLine importReportLine) {
-					return importReportLine.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<ImportReportLine, Object>() {
-
-				@Override
-				public void accept(
-					ImportReportLine importReportLine, Object statusObject) {
-
-					importReportLine.setStatus((Long)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"log",
-			new Function<ImportReportLine, Object>() {
-
-				@Override
-				public Object apply(ImportReportLine importReportLine) {
-					return importReportLine.getLog();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"log",
-			new BiConsumer<ImportReportLine, Object>() {
-
-				@Override
-				public void accept(
-					ImportReportLine importReportLine, Object logObject) {
-
-					importReportLine.setLog((String)logObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"entityName",
-			new Function<ImportReportLine, Object>() {
-
-				@Override
-				public Object apply(ImportReportLine importReportLine) {
-					return importReportLine.getEntityName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"entityName",
-			new BiConsumer<ImportReportLine, Object>() {
-
-				@Override
-				public void accept(
-					ImportReportLine importReportLine,
-					Object entityNameObject) {
-
-					importReportLine.setEntityName((String)entityNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"entityExternalId",
-			new Function<ImportReportLine, Object>() {
-
-				@Override
-				public Object apply(ImportReportLine importReportLine) {
-					return importReportLine.getEntityExternalId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"entityExternalId",
-			new BiConsumer<ImportReportLine, Object>() {
-
-				@Override
-				public void accept(
-					ImportReportLine importReportLine,
-					Object entityExternalIdObject) {
-
-					importReportLine.setEntityExternalId(
-						(String)entityExternalIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"entityId",
-			new Function<ImportReportLine, Object>() {
-
-				@Override
-				public Object apply(ImportReportLine importReportLine) {
-					return importReportLine.getEntityId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"entityId",
-			new BiConsumer<ImportReportLine, Object>() {
-
-				@Override
-				public void accept(
-					ImportReportLine importReportLine, Object entityIdObject) {
-
-					importReportLine.setEntityId((Long)entityIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"reportId",
-			new Function<ImportReportLine, Object>() {
-
-				@Override
-				public Object apply(ImportReportLine importReportLine) {
-					return importReportLine.getReportId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"reportId",
-			new BiConsumer<ImportReportLine, Object>() {
-
-				@Override
-				public void accept(
-					ImportReportLine importReportLine, Object reportIdObject) {
-
-					importReportLine.setReportId((Long)reportIdObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -482,17 +332,20 @@ public class ImportReportLineModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -502,6 +355,10 @@ public class ImportReportLineModelImpl
 
 	@Override
 	public void setLineId(long lineId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lineId = lineId;
 	}
 
@@ -517,17 +374,20 @@ public class ImportReportLineModelImpl
 
 	@Override
 	public void setType(String type) {
-		_columnBitmask |= TYPE_COLUMN_BITMASK;
-
-		if (_originalType == null) {
-			_originalType = _type;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_type = type;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalType() {
-		return GetterUtil.getString(_originalType);
+		return getColumnOriginalValue("type_");
 	}
 
 	@Override
@@ -537,19 +397,20 @@ public class ImportReportLineModelImpl
 
 	@Override
 	public void setStatus(long status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalStatus() {
-		return _originalStatus;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("status"));
 	}
 
 	@Override
@@ -564,6 +425,10 @@ public class ImportReportLineModelImpl
 
 	@Override
 	public void setLog(String log) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_log = log;
 	}
 
@@ -579,6 +444,10 @@ public class ImportReportLineModelImpl
 
 	@Override
 	public void setEntityName(String entityName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_entityName = entityName;
 	}
 
@@ -594,6 +463,10 @@ public class ImportReportLineModelImpl
 
 	@Override
 	public void setEntityExternalId(String entityExternalId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_entityExternalId = entityExternalId;
 	}
 
@@ -604,6 +477,10 @@ public class ImportReportLineModelImpl
 
 	@Override
 	public void setEntityId(long entityId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_entityId = entityId;
 	}
 
@@ -614,22 +491,44 @@ public class ImportReportLineModelImpl
 
 	@Override
 	public void setReportId(long reportId) {
-		_columnBitmask |= REPORTID_COLUMN_BITMASK;
-
-		if (!_setOriginalReportId) {
-			_setOriginalReportId = true;
-
-			_originalReportId = _reportId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_reportId = reportId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalReportId() {
-		return _originalReportId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("reportId"));
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -681,6 +580,32 @@ public class ImportReportLineModelImpl
 	}
 
 	@Override
+	public ImportReportLine cloneWithOriginalValues() {
+		ImportReportLineImpl importReportLineImpl = new ImportReportLineImpl();
+
+		importReportLineImpl.setUuid(
+			this.<String>getColumnOriginalValue("uuid_"));
+		importReportLineImpl.setLineId(
+			this.<Long>getColumnOriginalValue("lineId"));
+		importReportLineImpl.setType(
+			this.<String>getColumnOriginalValue("type_"));
+		importReportLineImpl.setStatus(
+			this.<Long>getColumnOriginalValue("status"));
+		importReportLineImpl.setLog(
+			this.<String>getColumnOriginalValue("log_"));
+		importReportLineImpl.setEntityName(
+			this.<String>getColumnOriginalValue("entityName"));
+		importReportLineImpl.setEntityExternalId(
+			this.<String>getColumnOriginalValue("entityExternalId"));
+		importReportLineImpl.setEntityId(
+			this.<Long>getColumnOriginalValue("entityId"));
+		importReportLineImpl.setReportId(
+			this.<Long>getColumnOriginalValue("reportId"));
+
+		return importReportLineImpl;
+	}
+
+	@Override
 	public int compareTo(ImportReportLine importReportLine) {
 		long primaryKey = importReportLine.getPrimaryKey();
 
@@ -722,11 +647,19 @@ public class ImportReportLineModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -734,25 +667,9 @@ public class ImportReportLineModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ImportReportLineModelImpl importReportLineModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		importReportLineModelImpl._originalUuid =
-			importReportLineModelImpl._uuid;
-
-		importReportLineModelImpl._originalType =
-			importReportLineModelImpl._type;
-
-		importReportLineModelImpl._originalStatus =
-			importReportLineModelImpl._status;
-
-		importReportLineModelImpl._setOriginalStatus = false;
-
-		importReportLineModelImpl._originalReportId =
-			importReportLineModelImpl._reportId;
-
-		importReportLineModelImpl._setOriginalReportId = false;
-
-		importReportLineModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -817,7 +734,7 @@ public class ImportReportLineModelImpl
 			attributeGetterFunctions = getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -828,9 +745,27 @@ public class ImportReportLineModelImpl
 			Function<ImportReportLine, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((ImportReportLine)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply(
+				(ImportReportLine)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -843,59 +778,110 @@ public class ImportReportLineModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<ImportReportLine, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<ImportReportLine, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<ImportReportLine, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((ImportReportLine)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, ImportReportLine>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					ImportReportLine.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _lineId;
 	private String _type;
-	private String _originalType;
 	private long _status;
-	private long _originalStatus;
-	private boolean _setOriginalStatus;
 	private String _log;
 	private String _entityName;
 	private String _entityExternalId;
 	private long _entityId;
 	private long _reportId;
-	private long _originalReportId;
-	private boolean _setOriginalReportId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<ImportReportLine, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((ImportReportLine)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("lineId", _lineId);
+		_columnOriginalValues.put("type_", _type);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("log_", _log);
+		_columnOriginalValues.put("entityName", _entityName);
+		_columnOriginalValues.put("entityExternalId", _entityExternalId);
+		_columnOriginalValues.put("entityId", _entityId);
+		_columnOriginalValues.put("reportId", _reportId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("type_", "type");
+		attributeNames.put("log_", "log");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("lineId", 2L);
+
+		columnBitmasks.put("type_", 4L);
+
+		columnBitmasks.put("status", 8L);
+
+		columnBitmasks.put("log_", 16L);
+
+		columnBitmasks.put("entityName", 32L);
+
+		columnBitmasks.put("entityExternalId", 64L);
+
+		columnBitmasks.put("entityId", 128L);
+
+		columnBitmasks.put("reportId", 256L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private ImportReportLine _escapedModel;
 

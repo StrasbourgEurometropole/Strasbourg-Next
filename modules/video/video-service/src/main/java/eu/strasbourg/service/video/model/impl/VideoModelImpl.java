@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.video.model.impl;
@@ -17,6 +8,7 @@ package eu.strasbourg.service.video.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -33,29 +25,27 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.model.VideoModel;
-import eu.strasbourg.service.video.model.VideoSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -138,89 +128,60 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.video.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.video.model.Video"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.video.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.video.model.Video"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.video.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.video.model.Video"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long MODIFIEDDATE_COLUMN_BITMASK = 32L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Video toModel(VideoSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Video model = new VideoImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setVideoId(soapModel.getVideoId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setLastPublishDate(soapModel.getLastPublishDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setTitle(soapModel.getTitle());
-		model.setDescription(soapModel.getDescription());
-		model.setCopyright(soapModel.getCopyright());
-		model.setSource(soapModel.getSource());
-		model.setPublicationDate(soapModel.getPublicationDate());
-		model.setImageId(soapModel.getImageId());
-		model.setTranscriptionFileId(soapModel.getTranscriptionFileId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Video> toModels(VideoSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Video> models = new ArrayList<Video>(soapModels.length);
-
-		for (VideoSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final String MAPPING_TABLE_VIDEO_VIDEOTOVIDEOGALLERY_NAME =
 		"video_VideoToVideoGallery";
@@ -235,11 +196,12 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		MAPPING_TABLE_VIDEO_VIDEOTOVIDEOGALLERY_SQL_CREATE =
 			"create table video_VideoToVideoGallery (companyId LONG not null,videoId LONG not null,galleryId LONG not null,primary key (videoId, galleryId))";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static final boolean FINDER_CACHE_ENABLED_VIDEO_VIDEOTOVIDEOGALLERY =
-		GetterUtil.getBoolean(
-			eu.strasbourg.service.video.service.util.PropsUtil.get(
-				"value.object.finder.cache.enabled.video_VideoToVideoGallery"),
-			true);
+		true;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.video.service.util.PropsUtil.get(
@@ -295,9 +257,6 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 				attributeName, attributeGetterFunction.apply((Video)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -319,461 +278,118 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 	}
 
 	public Map<String, Function<Video, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Video, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Video>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Video.class.getClassLoader(), Video.class, ModelWrapper.class);
+		private static final Map<String, Function<Video, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Video> constructor =
-				(Constructor<Video>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Video, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Video, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Video::getUuid);
+			attributeGetterFunctions.put("videoId", Video::getVideoId);
+			attributeGetterFunctions.put("groupId", Video::getGroupId);
+			attributeGetterFunctions.put("companyId", Video::getCompanyId);
+			attributeGetterFunctions.put("userId", Video::getUserId);
+			attributeGetterFunctions.put("userName", Video::getUserName);
+			attributeGetterFunctions.put("createDate", Video::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Video::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", Video::getLastPublishDate);
+			attributeGetterFunctions.put("status", Video::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Video::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Video::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Video::getStatusDate);
+			attributeGetterFunctions.put("title", Video::getTitle);
+			attributeGetterFunctions.put("description", Video::getDescription);
+			attributeGetterFunctions.put("copyright", Video::getCopyright);
+			attributeGetterFunctions.put("source", Video::getSource);
+			attributeGetterFunctions.put(
+				"publicationDate", Video::getPublicationDate);
+			attributeGetterFunctions.put("imageId", Video::getImageId);
+			attributeGetterFunctions.put(
+				"transcriptionFileId", Video::getTranscriptionFileId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Video, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Video, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Video, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Video, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Video, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Video, String>)Video::setUuid);
+			attributeSetterBiConsumers.put(
+				"videoId", (BiConsumer<Video, Long>)Video::setVideoId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Video, Long>)Video::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId", (BiConsumer<Video, Long>)Video::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Video, Long>)Video::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName", (BiConsumer<Video, String>)Video::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate", (BiConsumer<Video, Date>)Video::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Video, Date>)Video::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<Video, Date>)Video::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Video, Integer>)Video::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Video, Long>)Video::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Video, String>)Video::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate", (BiConsumer<Video, Date>)Video::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Video, String>)Video::setTitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<Video, String>)Video::setDescription);
+			attributeSetterBiConsumers.put(
+				"copyright", (BiConsumer<Video, String>)Video::setCopyright);
+			attributeSetterBiConsumers.put(
+				"source", (BiConsumer<Video, String>)Video::setSource);
+			attributeSetterBiConsumers.put(
+				"publicationDate",
+				(BiConsumer<Video, Date>)Video::setPublicationDate);
+			attributeSetterBiConsumers.put(
+				"imageId", (BiConsumer<Video, Long>)Video::setImageId);
+			attributeSetterBiConsumers.put(
+				"transcriptionFileId",
+				(BiConsumer<Video, Long>)Video::setTranscriptionFileId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<Video, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Video, Object>>();
-		Map<String, BiConsumer<Video, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Video, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object uuidObject) {
-					video.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"videoId",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getVideoId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"videoId",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object videoIdObject) {
-					video.setVideoId((Long)videoIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object groupIdObject) {
-					video.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object companyIdObject) {
-					video.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object userIdObject) {
-					video.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object userNameObject) {
-					video.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object createDateObject) {
-					video.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object modifiedDateObject) {
-					video.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getLastPublishDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object lastPublishDateObject) {
-					video.setLastPublishDate((Date)lastPublishDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object statusObject) {
-					video.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object statusByUserIdObject) {
-					video.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object statusByUserNameObject) {
-					video.setStatusByUserName((String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object statusDateObject) {
-					video.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getTitle();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object titleObject) {
-					video.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getDescription();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"description",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object descriptionObject) {
-					video.setDescription((String)descriptionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"copyright",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getCopyright();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"copyright",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object copyrightObject) {
-					video.setCopyright((String)copyrightObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"source",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getSource();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"source",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object sourceObject) {
-					video.setSource((String)sourceObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publicationDate",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getPublicationDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"publicationDate",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object publicationDateObject) {
-					video.setPublicationDate((Date)publicationDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageId",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getImageId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"imageId",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(Video video, Object imageIdObject) {
-					video.setImageId((Long)imageIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"transcriptionFileId",
-			new Function<Video, Object>() {
-
-				@Override
-				public Object apply(Video video) {
-					return video.getTranscriptionFileId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"transcriptionFileId",
-			new BiConsumer<Video, Object>() {
-
-				@Override
-				public void accept(
-					Video video, Object transcriptionFileIdObject) {
-
-					video.setTranscriptionFileId(
-						(Long)transcriptionFileIdObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -789,17 +405,20 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -810,6 +429,10 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setVideoId(long videoId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_videoId = videoId;
 	}
 
@@ -821,19 +444,20 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -844,19 +468,21 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -867,6 +493,10 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -899,6 +529,10 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -910,6 +544,10 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -927,7 +565,9 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -940,6 +580,10 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -951,19 +595,21 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -974,6 +620,10 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1006,6 +656,10 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1017,6 +671,10 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1076,6 +734,10 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setTitle(String title) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_title = title;
 	}
 
@@ -1181,6 +843,10 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setDescription(String description) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
 	}
 
@@ -1289,6 +955,10 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setCopyright(String copyright) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_copyright = copyright;
 	}
 
@@ -1397,6 +1067,10 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setSource(String source) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_source = source;
 	}
 
@@ -1455,17 +1129,20 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setPublicationDate(Date publicationDate) {
-		_columnBitmask |= PUBLICATIONDATE_COLUMN_BITMASK;
-
-		if (_originalPublicationDate == null) {
-			_originalPublicationDate = _publicationDate;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publicationDate = publicationDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalPublicationDate() {
-		return _originalPublicationDate;
+		return getColumnOriginalValue("publicationDate");
 	}
 
 	@JSON
@@ -1476,6 +1153,10 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setImageId(Long imageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageId = imageId;
 	}
 
@@ -1487,6 +1168,10 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void setTranscriptionFileId(Long transcriptionFileId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_transcriptionFileId = transcriptionFileId;
 	}
 
@@ -1577,6 +1262,26 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1768,6 +1473,44 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 	}
 
 	@Override
+	public Video cloneWithOriginalValues() {
+		VideoImpl videoImpl = new VideoImpl();
+
+		videoImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		videoImpl.setVideoId(this.<Long>getColumnOriginalValue("videoId"));
+		videoImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		videoImpl.setCompanyId(this.<Long>getColumnOriginalValue("companyId"));
+		videoImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		videoImpl.setUserName(this.<String>getColumnOriginalValue("userName"));
+		videoImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		videoImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		videoImpl.setLastPublishDate(
+			this.<Date>getColumnOriginalValue("lastPublishDate"));
+		videoImpl.setStatus(this.<Integer>getColumnOriginalValue("status"));
+		videoImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		videoImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		videoImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		videoImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		videoImpl.setDescription(
+			this.<String>getColumnOriginalValue("description"));
+		videoImpl.setCopyright(
+			this.<String>getColumnOriginalValue("copyright"));
+		videoImpl.setSource(this.<String>getColumnOriginalValue("source"));
+		videoImpl.setPublicationDate(
+			this.<Date>getColumnOriginalValue("publicationDate"));
+		videoImpl.setImageId(this.<Long>getColumnOriginalValue("imageId"));
+		videoImpl.setTranscriptionFileId(
+			this.<Long>getColumnOriginalValue("transcriptionFileId"));
+
+		return videoImpl;
+	}
+
+	@Override
 	public int compareTo(Video video) {
 		int value = 0;
 
@@ -1809,11 +1552,19 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1821,28 +1572,11 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 
 	@Override
 	public void resetOriginalValues() {
-		VideoModelImpl videoModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		videoModelImpl._originalUuid = videoModelImpl._uuid;
+		_setModifiedDate = false;
 
-		videoModelImpl._originalGroupId = videoModelImpl._groupId;
-
-		videoModelImpl._setOriginalGroupId = false;
-
-		videoModelImpl._originalCompanyId = videoModelImpl._companyId;
-
-		videoModelImpl._setOriginalCompanyId = false;
-
-		videoModelImpl._setModifiedDate = false;
-
-		videoModelImpl._originalStatus = videoModelImpl._status;
-
-		videoModelImpl._setOriginalStatus = false;
-
-		videoModelImpl._originalPublicationDate =
-			videoModelImpl._publicationDate;
-
-		videoModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1983,7 +1717,7 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1993,9 +1727,26 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 			String attributeName = entry.getKey();
 			Function<Video, Object> attributeGetterFunction = entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Video)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Video)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -2008,52 +1759,19 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Video, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Video, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Video, Object> attributeGetterFunction = entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Video)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Video>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Video.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _videoId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -2061,8 +1779,6 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 	private boolean _setModifiedDate;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
@@ -2075,9 +1791,125 @@ public class VideoModelImpl extends BaseModelImpl<Video> implements VideoModel {
 	private String _source;
 	private String _sourceCurrentLanguageId;
 	private Date _publicationDate;
-	private Date _originalPublicationDate;
 	private Long _imageId;
 	private Long _transcriptionFileId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Video, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Video)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("videoId", _videoId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("lastPublishDate", _lastPublishDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("copyright", _copyright);
+		_columnOriginalValues.put("source", _source);
+		_columnOriginalValues.put("publicationDate", _publicationDate);
+		_columnOriginalValues.put("imageId", _imageId);
+		_columnOriginalValues.put("transcriptionFileId", _transcriptionFileId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("videoId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("lastPublishDate", 256L);
+
+		columnBitmasks.put("status", 512L);
+
+		columnBitmasks.put("statusByUserId", 1024L);
+
+		columnBitmasks.put("statusByUserName", 2048L);
+
+		columnBitmasks.put("statusDate", 4096L);
+
+		columnBitmasks.put("title", 8192L);
+
+		columnBitmasks.put("description", 16384L);
+
+		columnBitmasks.put("copyright", 32768L);
+
+		columnBitmasks.put("source", 65536L);
+
+		columnBitmasks.put("publicationDate", 131072L);
+
+		columnBitmasks.put("imageId", 262144L);
+
+		columnBitmasks.put("transcriptionFileId", 524288L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Video _escapedModel;
 

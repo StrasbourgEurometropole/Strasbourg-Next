@@ -62,7 +62,7 @@ function opacifyOffSlide($el) {
 
 $('.owl-cards').each(function () {
 
-    if ($('.owl-cards .item').length > 0) {
+    if ($(this).find('.item').length > 0) {
         var _self = $(this);
 
         var options = {
@@ -138,10 +138,10 @@ $('.owl-timeline').each(function () {
 
 
     var options = {
-            items: 5,
+            items: 3,
             loop: false,
             margin: 0,
-            startPosition: 2,
+            startPosition: 1,
             responsive: {
                 0: {
                     items: 2
@@ -150,7 +150,7 @@ $('.owl-timeline').each(function () {
                     items: 3
                 },
                 1300: {
-                    items: 5
+                    items: 3
                 }
             },
             nav: true,

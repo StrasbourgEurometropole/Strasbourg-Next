@@ -1,28 +1,26 @@
 package eu.strasbourg.portlet.activity;
 
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
-import java.io.IOException;
-import java.util.ArrayList;
+import eu.strasbourg.portlet.activity.configuration.SearchActivityConfiguration;
+import eu.strasbourg.portlet.activity.display.context.SearchActivityDisplayContext;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import org.osgi.service.component.annotations.Component;
-
-import eu.strasbourg.portlet.activity.configuration.SearchActivityConfiguration;
-import eu.strasbourg.portlet.activity.display.context.SearchActivityDisplayContext;
+import java.io.IOException;
+import java.util.ArrayList;
 
 @Component(immediate = true, property = { "com.liferay.portlet.display-category=Strasbourg",
 		"com.liferay.portlet.instanceable=false", "com.liferay.portlet.single-page-application=false",
@@ -31,6 +29,7 @@ import eu.strasbourg.portlet.activity.display.context.SearchActivityDisplayConte
 		"javax.portlet.name=" + StrasbourgPortletKeys.ACTIVITY_SEARCH_WEB,
 		"com.liferay.portlet.header-portlet-css=/css/search-activity-main.css",
 		"javax.portlet.init-param.template-path=/", "javax.portlet.init-param.view-template=/search-activity-view.jsp",
+		"com.liferay.portlet.header-portlet-js=/js/search-activity-main.js",
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
 public class SearchActivityPortlet extends MVCPortlet {
@@ -48,10 +47,12 @@ public class SearchActivityPortlet extends MVCPortlet {
 		request.setAttribute("displayStyleGroupId", displayStyleGroupId);
 		request.setAttribute("templateEntries", new ArrayList<Object>());
 
+
 		try {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-			SearchActivityConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(SearchActivityConfiguration.class);
+			SearchActivityConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchActivityConfiguration.class, themeDisplay);
+			String title = themeDisplay.getLayout().getName(themeDisplay.getLocale());
+			request.setAttribute("title", title);
 			String template = configuration.template();
 			if (Validator.isNull(template)) {
 				template = "default";

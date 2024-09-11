@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
@@ -17,6 +8,7 @@ package eu.strasbourg.service.project.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -29,27 +21,25 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.project.model.Signataire;
 import eu.strasbourg.service.project.model.SignataireModel;
-import eu.strasbourg.service.project.model.SignataireSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -138,95 +128,66 @@ public class SignataireModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.project.model.Signataire"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.project.model.Signataire"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.project.model.Signataire"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PETITIONID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLIKUSERID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long SIGNATAIRENAME_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long SIGNATAIREID_COLUMN_BITMASK = 64L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Signataire toModel(SignataireSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Signataire model = new SignataireImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setSignataireId(soapModel.getSignataireId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setSignataireName(soapModel.getSignataireName());
-		model.setSignataireFirstname(soapModel.getSignataireFirstname());
-		model.setBirthday(soapModel.getBirthday());
-		model.setAddress(soapModel.getAddress());
-		model.setMail(soapModel.getMail());
-		model.setPostalCode(soapModel.getPostalCode());
-		model.setMobilePhone(soapModel.getMobilePhone());
-		model.setPhone(soapModel.getPhone());
-		model.setCity(soapModel.getCity());
-		model.setSignatureDate(soapModel.getSignatureDate());
-		model.setPublikUserId(soapModel.getPublikUserId());
-		model.setPetitionId(soapModel.getPetitionId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Signataire> toModels(SignataireSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Signataire> models = new ArrayList<Signataire>(soapModels.length);
-
-		for (SignataireSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.project.service.util.PropsUtil.get(
@@ -283,9 +244,6 @@ public class SignataireModelImpl
 				attributeName, attributeGetterFunction.apply((Signataire)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -310,577 +268,151 @@ public class SignataireModelImpl
 	public Map<String, Function<Signataire, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Signataire, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Signataire>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Signataire.class.getClassLoader(), Signataire.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<Signataire, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Signataire> constructor =
-				(Constructor<Signataire>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Signataire, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Signataire, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Signataire::getUuid);
+			attributeGetterFunctions.put(
+				"signataireId", Signataire::getSignataireId);
+			attributeGetterFunctions.put("groupId", Signataire::getGroupId);
+			attributeGetterFunctions.put("companyId", Signataire::getCompanyId);
+			attributeGetterFunctions.put("userId", Signataire::getUserId);
+			attributeGetterFunctions.put("userName", Signataire::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", Signataire::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Signataire::getModifiedDate);
+			attributeGetterFunctions.put("status", Signataire::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Signataire::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Signataire::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", Signataire::getStatusDate);
+			attributeGetterFunctions.put(
+				"signataireName", Signataire::getSignataireName);
+			attributeGetterFunctions.put(
+				"signataireFirstname", Signataire::getSignataireFirstname);
+			attributeGetterFunctions.put("birthday", Signataire::getBirthday);
+			attributeGetterFunctions.put("address", Signataire::getAddress);
+			attributeGetterFunctions.put("mail", Signataire::getMail);
+			attributeGetterFunctions.put(
+				"postalCode", Signataire::getPostalCode);
+			attributeGetterFunctions.put(
+				"mobilePhone", Signataire::getMobilePhone);
+			attributeGetterFunctions.put("phone", Signataire::getPhone);
+			attributeGetterFunctions.put("city", Signataire::getCity);
+			attributeGetterFunctions.put(
+				"signatureDate", Signataire::getSignatureDate);
+			attributeGetterFunctions.put(
+				"publikUserId", Signataire::getPublikUserId);
+			attributeGetterFunctions.put(
+				"petitionId", Signataire::getPetitionId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Signataire, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Signataire, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Signataire, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Signataire, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Signataire, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Signataire, String>)Signataire::setUuid);
+			attributeSetterBiConsumers.put(
+				"signataireId",
+				(BiConsumer<Signataire, Long>)Signataire::setSignataireId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<Signataire, Long>)Signataire::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Signataire, Long>)Signataire::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Signataire, Long>)Signataire::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Signataire, String>)Signataire::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Signataire, Date>)Signataire::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Signataire, Date>)Signataire::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<Signataire, Integer>)Signataire::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Signataire, Long>)Signataire::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Signataire, String>)
+					Signataire::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Signataire, Date>)Signataire::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"signataireName",
+				(BiConsumer<Signataire, String>)Signataire::setSignataireName);
+			attributeSetterBiConsumers.put(
+				"signataireFirstname",
+				(BiConsumer<Signataire, String>)
+					Signataire::setSignataireFirstname);
+			attributeSetterBiConsumers.put(
+				"birthday",
+				(BiConsumer<Signataire, Date>)Signataire::setBirthday);
+			attributeSetterBiConsumers.put(
+				"address",
+				(BiConsumer<Signataire, String>)Signataire::setAddress);
+			attributeSetterBiConsumers.put(
+				"mail", (BiConsumer<Signataire, String>)Signataire::setMail);
+			attributeSetterBiConsumers.put(
+				"postalCode",
+				(BiConsumer<Signataire, Long>)Signataire::setPostalCode);
+			attributeSetterBiConsumers.put(
+				"mobilePhone",
+				(BiConsumer<Signataire, String>)Signataire::setMobilePhone);
+			attributeSetterBiConsumers.put(
+				"phone", (BiConsumer<Signataire, String>)Signataire::setPhone);
+			attributeSetterBiConsumers.put(
+				"city", (BiConsumer<Signataire, String>)Signataire::setCity);
+			attributeSetterBiConsumers.put(
+				"signatureDate",
+				(BiConsumer<Signataire, Date>)Signataire::setSignatureDate);
+			attributeSetterBiConsumers.put(
+				"publikUserId",
+				(BiConsumer<Signataire, String>)Signataire::setPublikUserId);
+			attributeSetterBiConsumers.put(
+				"petitionId",
+				(BiConsumer<Signataire, Long>)Signataire::setPetitionId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<Signataire, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Signataire, Object>>();
-		Map<String, BiConsumer<Signataire, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Signataire, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(Signataire signataire, Object uuidObject) {
-					signataire.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"signataireId",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getSignataireId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"signataireId",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(
-					Signataire signataire, Object signataireIdObject) {
-
-					signataire.setSignataireId((Long)signataireIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(
-					Signataire signataire, Object groupIdObject) {
-
-					signataire.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(
-					Signataire signataire, Object companyIdObject) {
-
-					signataire.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(Signataire signataire, Object userIdObject) {
-					signataire.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(
-					Signataire signataire, Object userNameObject) {
-
-					signataire.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(
-					Signataire signataire, Object createDateObject) {
-
-					signataire.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(
-					Signataire signataire, Object modifiedDateObject) {
-
-					signataire.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(Signataire signataire, Object statusObject) {
-					signataire.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(
-					Signataire signataire, Object statusByUserIdObject) {
-
-					signataire.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(
-					Signataire signataire, Object statusByUserNameObject) {
-
-					signataire.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(
-					Signataire signataire, Object statusDateObject) {
-
-					signataire.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"signataireName",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getSignataireName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"signataireName",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(
-					Signataire signataire, Object signataireNameObject) {
-
-					signataire.setSignataireName((String)signataireNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"signataireFirstname",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getSignataireFirstname();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"signataireFirstname",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(
-					Signataire signataire, Object signataireFirstnameObject) {
-
-					signataire.setSignataireFirstname(
-						(String)signataireFirstnameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"birthday",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getBirthday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"birthday",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(
-					Signataire signataire, Object birthdayObject) {
-
-					signataire.setBirthday((Date)birthdayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"address",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getAddress();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"address",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(
-					Signataire signataire, Object addressObject) {
-
-					signataire.setAddress((String)addressObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"mail",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getMail();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"mail",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(Signataire signataire, Object mailObject) {
-					signataire.setMail((String)mailObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"postalCode",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getPostalCode();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"postalCode",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(
-					Signataire signataire, Object postalCodeObject) {
-
-					signataire.setPostalCode((Long)postalCodeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"mobilePhone",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getMobilePhone();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"mobilePhone",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(
-					Signataire signataire, Object mobilePhoneObject) {
-
-					signataire.setMobilePhone((String)mobilePhoneObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"phone",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getPhone();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"phone",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(Signataire signataire, Object phoneObject) {
-					signataire.setPhone((String)phoneObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"city",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getCity();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"city",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(Signataire signataire, Object cityObject) {
-					signataire.setCity((String)cityObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"signatureDate",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getSignatureDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"signatureDate",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(
-					Signataire signataire, Object signatureDateObject) {
-
-					signataire.setSignatureDate((Date)signatureDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publikUserId",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getPublikUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"publikUserId",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(
-					Signataire signataire, Object publikUserIdObject) {
-
-					signataire.setPublikUserId((String)publikUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"petitionId",
-			new Function<Signataire, Object>() {
-
-				@Override
-				public Object apply(Signataire signataire) {
-					return signataire.getPetitionId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"petitionId",
-			new BiConsumer<Signataire, Object>() {
-
-				@Override
-				public void accept(
-					Signataire signataire, Object petitionIdObject) {
-
-					signataire.setPetitionId((Long)petitionIdObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -896,17 +428,20 @@ public class SignataireModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -917,6 +452,10 @@ public class SignataireModelImpl
 
 	@Override
 	public void setSignataireId(long signataireId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_signataireId = signataireId;
 	}
 
@@ -928,19 +467,20 @@ public class SignataireModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -951,19 +491,21 @@ public class SignataireModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -974,6 +516,10 @@ public class SignataireModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -1006,6 +552,10 @@ public class SignataireModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -1017,6 +567,10 @@ public class SignataireModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -1034,6 +588,10 @@ public class SignataireModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -1045,6 +603,10 @@ public class SignataireModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -1056,6 +618,10 @@ public class SignataireModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1088,6 +654,10 @@ public class SignataireModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1099,6 +669,10 @@ public class SignataireModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1115,17 +689,20 @@ public class SignataireModelImpl
 
 	@Override
 	public void setSignataireName(String signataireName) {
-		_columnBitmask |= SIGNATAIRENAME_COLUMN_BITMASK;
-
-		if (_originalSignataireName == null) {
-			_originalSignataireName = _signataireName;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_signataireName = signataireName;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalSignataireName() {
-		return GetterUtil.getString(_originalSignataireName);
+		return getColumnOriginalValue("signataireName");
 	}
 
 	@JSON
@@ -1141,6 +718,10 @@ public class SignataireModelImpl
 
 	@Override
 	public void setSignataireFirstname(String signataireFirstname) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_signataireFirstname = signataireFirstname;
 	}
 
@@ -1152,6 +733,10 @@ public class SignataireModelImpl
 
 	@Override
 	public void setBirthday(Date birthday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_birthday = birthday;
 	}
 
@@ -1168,6 +753,10 @@ public class SignataireModelImpl
 
 	@Override
 	public void setAddress(String address) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_address = address;
 	}
 
@@ -1184,6 +773,10 @@ public class SignataireModelImpl
 
 	@Override
 	public void setMail(String mail) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mail = mail;
 	}
 
@@ -1195,6 +788,10 @@ public class SignataireModelImpl
 
 	@Override
 	public void setPostalCode(long postalCode) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_postalCode = postalCode;
 	}
 
@@ -1211,6 +808,10 @@ public class SignataireModelImpl
 
 	@Override
 	public void setMobilePhone(String mobilePhone) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mobilePhone = mobilePhone;
 	}
 
@@ -1227,6 +828,10 @@ public class SignataireModelImpl
 
 	@Override
 	public void setPhone(String phone) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_phone = phone;
 	}
 
@@ -1243,6 +848,10 @@ public class SignataireModelImpl
 
 	@Override
 	public void setCity(String city) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_city = city;
 	}
 
@@ -1254,6 +863,10 @@ public class SignataireModelImpl
 
 	@Override
 	public void setSignatureDate(Date signatureDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_signatureDate = signatureDate;
 	}
 
@@ -1270,17 +883,20 @@ public class SignataireModelImpl
 
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_columnBitmask |= PUBLIKUSERID_COLUMN_BITMASK;
-
-		if (_originalPublikUserId == null) {
-			_originalPublikUserId = _publikUserId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publikUserId = publikUserId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPublikUserId() {
-		return GetterUtil.getString(_originalPublikUserId);
+		return getColumnOriginalValue("publikUserId");
 	}
 
 	@JSON
@@ -1291,19 +907,21 @@ public class SignataireModelImpl
 
 	@Override
 	public void setPetitionId(long petitionId) {
-		_columnBitmask |= PETITIONID_COLUMN_BITMASK;
-
-		if (!_setOriginalPetitionId) {
-			_setOriginalPetitionId = true;
-
-			_originalPetitionId = _petitionId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_petitionId = petitionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalPetitionId() {
-		return _originalPetitionId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("petitionId"));
 	}
 
 	@Override
@@ -1393,6 +1011,26 @@ public class SignataireModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1459,6 +1097,56 @@ public class SignataireModelImpl
 	}
 
 	@Override
+	public Signataire cloneWithOriginalValues() {
+		SignataireImpl signataireImpl = new SignataireImpl();
+
+		signataireImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		signataireImpl.setSignataireId(
+			this.<Long>getColumnOriginalValue("signataireId"));
+		signataireImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		signataireImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		signataireImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		signataireImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		signataireImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		signataireImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		signataireImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		signataireImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		signataireImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		signataireImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		signataireImpl.setSignataireName(
+			this.<String>getColumnOriginalValue("signataireName"));
+		signataireImpl.setSignataireFirstname(
+			this.<String>getColumnOriginalValue("signataireFirstname"));
+		signataireImpl.setBirthday(
+			this.<Date>getColumnOriginalValue("birthday"));
+		signataireImpl.setAddress(
+			this.<String>getColumnOriginalValue("address"));
+		signataireImpl.setMail(this.<String>getColumnOriginalValue("mail"));
+		signataireImpl.setPostalCode(
+			this.<Long>getColumnOriginalValue("postalCode"));
+		signataireImpl.setMobilePhone(
+			this.<String>getColumnOriginalValue("mobilePhone"));
+		signataireImpl.setPhone(this.<String>getColumnOriginalValue("phone"));
+		signataireImpl.setCity(this.<String>getColumnOriginalValue("city"));
+		signataireImpl.setSignatureDate(
+			this.<Date>getColumnOriginalValue("signatureDate"));
+		signataireImpl.setPublikUserId(
+			this.<String>getColumnOriginalValue("publikUserId"));
+		signataireImpl.setPetitionId(
+			this.<Long>getColumnOriginalValue("petitionId"));
+
+		return signataireImpl;
+	}
+
+	@Override
 	public int compareTo(Signataire signataire) {
 		long primaryKey = signataire.getPrimaryKey();
 
@@ -1500,11 +1188,19 @@ public class SignataireModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1512,32 +1208,11 @@ public class SignataireModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SignataireModelImpl signataireModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		signataireModelImpl._originalUuid = signataireModelImpl._uuid;
+		_setModifiedDate = false;
 
-		signataireModelImpl._originalGroupId = signataireModelImpl._groupId;
-
-		signataireModelImpl._setOriginalGroupId = false;
-
-		signataireModelImpl._originalCompanyId = signataireModelImpl._companyId;
-
-		signataireModelImpl._setOriginalCompanyId = false;
-
-		signataireModelImpl._setModifiedDate = false;
-
-		signataireModelImpl._originalSignataireName =
-			signataireModelImpl._signataireName;
-
-		signataireModelImpl._originalPublikUserId =
-			signataireModelImpl._publikUserId;
-
-		signataireModelImpl._originalPetitionId =
-			signataireModelImpl._petitionId;
-
-		signataireModelImpl._setOriginalPetitionId = false;
-
-		signataireModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1704,7 +1379,7 @@ public class SignataireModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1715,9 +1390,26 @@ public class SignataireModelImpl
 			Function<Signataire, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Signataire)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Signataire)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1730,53 +1422,19 @@ public class SignataireModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Signataire, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Signataire, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Signataire, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Signataire)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Signataire>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Signataire.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _signataireId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1787,7 +1445,6 @@ public class SignataireModelImpl
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _signataireName;
-	private String _originalSignataireName;
 	private String _signataireFirstname;
 	private Date _birthday;
 	private String _address;
@@ -1798,10 +1455,136 @@ public class SignataireModelImpl
 	private String _city;
 	private Date _signatureDate;
 	private String _publikUserId;
-	private String _originalPublikUserId;
 	private long _petitionId;
-	private long _originalPetitionId;
-	private boolean _setOriginalPetitionId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Signataire, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Signataire)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("signataireId", _signataireId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("signataireName", _signataireName);
+		_columnOriginalValues.put("signataireFirstname", _signataireFirstname);
+		_columnOriginalValues.put("birthday", _birthday);
+		_columnOriginalValues.put("address", _address);
+		_columnOriginalValues.put("mail", _mail);
+		_columnOriginalValues.put("postalCode", _postalCode);
+		_columnOriginalValues.put("mobilePhone", _mobilePhone);
+		_columnOriginalValues.put("phone", _phone);
+		_columnOriginalValues.put("city", _city);
+		_columnOriginalValues.put("signatureDate", _signatureDate);
+		_columnOriginalValues.put("publikUserId", _publikUserId);
+		_columnOriginalValues.put("petitionId", _petitionId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("signataireId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("signataireName", 4096L);
+
+		columnBitmasks.put("signataireFirstname", 8192L);
+
+		columnBitmasks.put("birthday", 16384L);
+
+		columnBitmasks.put("address", 32768L);
+
+		columnBitmasks.put("mail", 65536L);
+
+		columnBitmasks.put("postalCode", 131072L);
+
+		columnBitmasks.put("mobilePhone", 262144L);
+
+		columnBitmasks.put("phone", 524288L);
+
+		columnBitmasks.put("city", 1048576L);
+
+		columnBitmasks.put("signatureDate", 2097152L);
+
+		columnBitmasks.put("publikUserId", 4194304L);
+
+		columnBitmasks.put("petitionId", 8388608L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Signataire _escapedModel;
 

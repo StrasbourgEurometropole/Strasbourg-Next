@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.video.model.Video</className>
+    <template>
+        <script>video-detail.ftl</script>
+        <name>Détail vidéo</name>
+        <key>2912926</key>
+    </template>
+    <template>
+        <script>video-slider.ftl</script>
+        <name>Slider vidéos sans marge</name>
+        <key>3612839</key>
+    </template>
+</root>

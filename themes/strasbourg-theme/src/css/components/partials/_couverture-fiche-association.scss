@@ -1,0 +1,12 @@
+// Couverture dans les fiches association
+.st-header-fiche-association {
+	margin-bottom: 34px;
+
+	@include min-tablet-portrait {
+		padding-top: 40px;
+	}
+
+	@include mobile {
+		margin-bottom: 24px;
+	}
+}

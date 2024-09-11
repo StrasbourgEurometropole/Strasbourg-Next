@@ -8,14 +8,36 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.service.gtfs.model.*;
-import eu.strasbourg.service.gtfs.service.*;
+import eu.strasbourg.service.gtfs.model.Arret;
+import eu.strasbourg.service.gtfs.model.Direction;
+import eu.strasbourg.service.gtfs.model.ImportHistoric;
+import eu.strasbourg.service.gtfs.model.Ligne;
+import eu.strasbourg.service.gtfs.model.Route;
+import eu.strasbourg.service.gtfs.model.Stop;
+import eu.strasbourg.service.gtfs.model.Trip;
+import eu.strasbourg.service.gtfs.service.AgencyLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.ArretLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.CalendarDateLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.CalendarLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.ImportHistoricLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.RouteLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.StopLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.StopTimeLocalServiceUtil;
+import eu.strasbourg.service.gtfs.service.TripLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.GTFSLoaderHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import eu.strasbourg.utils.exception.FileAccessException;
-import eu.strasbourg.utils.models.*;
+import eu.strasbourg.utils.models.AgencyGTFS;
+import eu.strasbourg.utils.models.CalendarDatesGTFS;
+import eu.strasbourg.utils.models.CalendarGTFS;
+import eu.strasbourg.utils.models.RoutesGTFS;
+import eu.strasbourg.utils.models.StopTimesGTFS;
+import eu.strasbourg.utils.models.StopsGTFS;
+import eu.strasbourg.utils.models.TripsGTFS;
 
 import java.io.File;
 import java.io.IOException;
@@ -516,16 +538,23 @@ public class GTFSImporter {
 
 			}
 
-			// Supprimer les arrets non parcourus
+			// Supprimer (dépublier) les arrets non parcourus
 			Timestamp timestamp4 = new Timestamp(System.currentTimeMillis());
 			this.importHistoric.addNewOperation("#4/7# Unpublish removed stop");
+			// On supprime de la liste les arrets deja depublies
+			List<Arret> arretsToCheckStatus = new ArrayList<>(arretsToUnpublish.values());
+			for (Arret arret : arretsToCheckStatus) {
+				if (arret.isDraft()) {
+					arretsToUnpublish.remove(arret.getStopId());
+				}
+			}
 			ArretLocalServiceUtil.unpublishArrets(
 					new ArrayList<>(arretsToUnpublish.values()),
 					this.importHistoric,
 					this.sc
 			);
 
-			// Supprimer les lignes non parcourues
+			// Supprimer (dépublier) les lignes non parcourues
 			Timestamp timestamp5 = new Timestamp(System.currentTimeMillis());
 			this.importHistoric.addNewOperation("#5/7# Unpublish removed route");
 			// On supprime de la liste les lignes deja depubliees

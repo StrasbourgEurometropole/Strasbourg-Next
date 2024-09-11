@@ -1,59 +1,23 @@
 <%@ include file="/comment-bo-init.jsp"%>
-
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <%-- URL : definit le lien avec les parametres de recherche des entites--%>
 <liferay-portlet:renderURL varImpl="signalementsURL">
 	<portlet:param name="tab" value="reportings" />
+	<portlet:param name="mvcPath" value="/comment-bo-view-signalements.jsp" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
 </liferay-portlet:renderURL>
 
 <%-- Composant : barre de filtres et de gestion des entite --%>
-<liferay-frontend:management-bar includeCheckBox="true" searchContainerId="signalementsSearchContainer">
-
-		<%-- Composant : partie filtres et selection --%>
-		<liferay-frontend:management-bar-filters>
-			<c:if test="${fn:length(dc.vocabularies) > 0}">
-				<li><a>Filtrer par :</a></li>
-			</c:if>
-			<c:forEach var="vocabulary" items="${dc.vocabularies}">
-				<liferay-frontend:management-bar-filter
-					managementBarFilterItems="${dc.getManagementBarFilterItems(vocabulary)}"
-					value="${dc.getVocabularyFilterLabel(vocabulary)}" />
-			</c:forEach>
-
-			<liferay-frontend:management-bar-sort orderByCol="${dc.orderByCol}"
-				orderByType="${dc.orderByType}"
-				orderColumns='<%= new String[] {"userName", "reporting-date","reportType"} %>'
-				portletURL="${signalementsURL}" />
-		</liferay-frontend:management-bar-filters>
-
-
-		<%-- Composant : partie gestion (affichee apres une selection)
-		<liferay-frontend:management-bar-action-buttons>
-			<c:if test="${not dc.workflowEnabled}">
-				<c:if test="${dc.hasPermission('EDIT_SIGNALEMENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-					<liferay-frontend:management-bar-button
-						href='<%="javascript:" + renderResponse.getNamespace() + "publishSelection();"%>'
-						icon="check" label="publish" />
-					<liferay-frontend:management-bar-button
-						href='<%="javascript:" + renderResponse.getNamespace() + "unpublishSelection();"%>'
-						icon="times" label="unpublish" />
-				</c:if>
-			</c:if>
-			<c:if test="${dc.hasPermission('DELETE_SIGNALEMENT') and empty themeDisplay.scopeGroup.getStagingGroup()}">
-			<liferay-frontend:management-bar-button
-				href='<%="javascript:" + renderResponse.getNamespace() + "deleteSelection();"%>'
-				icon="trash" label="delete" />
-			</c:if>
-		</liferay-frontend:management-bar-action-buttons>
---%>
-</liferay-frontend:management-bar>
+<clay:management-toolbar
+		managementToolbarDisplayContext="${managementDC}"
+/>
 
 <%-- Composant : tableau de visualisation des entites --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<aui:form method="post" name="fm">
 		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="signalementsSearchContainer"
@@ -96,9 +60,10 @@
                 
                 <%-- URL : Definit le lien vers la page d'edition du commentaire liee au signalement selectionnee --%>
 				<liferay-portlet:renderURL varImpl="editCommentURL">
+					<portlet:param name="tab" value="reportings" />
 					<portlet:param name="cmd" value="editComment" />
 					<portlet:param name="commentId" value="${signalement.commentId}" />
-					<portlet:param name="returnURL" value="${signalementsURL}" />
+					<portlet:param name="backURL" value="${signalementsURL}" />
 					<portlet:param name="mvcPath" value="/comment-bo-edit-comment.jsp" />
 				</liferay-portlet:renderURL>
                     
@@ -115,3 +80,58 @@
 		</liferay-ui:search-container>
 	</aui:form>
 </div>
+
+<liferay-portlet:renderURL varImpl="filterSelectionURL">
+	<portlet:param name="tab" value="reportings" />
+	<portlet:param name="mvcPath" value="/comment-bo-view-signalements.jsp" />
+	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
+	<portlet:param name="orderByType" value="${dc.orderByType}" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="filterCategoriesIdByVocabulariesName" value="${dc.filterCategoriesIdByVocabulariesName}" />
+</liferay-portlet:renderURL>
+<aui:script>
+	var form = document.querySelector("[name='<portlet:namespace />fm']");
+	var json = '{"desiredItemSelectorReturnTypes":"infoitem","itemSubtype":null,"itemType":"com.liferay.asset.kernel.model.AssetCategory","mimeTypes":null,"multiSelection":true,"refererClassPK":"0","status":0}';
+
+	function getCategoriesByVocabulary(vocabularyId, vocabularyName, categoriesId) {
+		const portletURL = location.protocol + '//' + location.host + location.pathname + "/-/select/com.liferay.item.selector.criteria.info.item.criterion.InfoItemItemSelectorCriterion/<portlet:namespace />selectCategory";
+		const url = Liferay.Util.PortletURL.createPortletURL(portletURL, {
+			p_p_id: 'com_liferay_item_selector_web_portlet_ItemSelectorPortlet',
+			'0_json': json,
+			p_p_lifecycle: 0,
+			p_p_state: "pop_up",
+			selectedCategories: categoriesId,
+			selectedCategoryIds: categoriesId,
+			singleSelect : false,
+			showAddCategoryButton: true,
+			vocabularyIds: vocabularyId,
+		});
+
+		Liferay.Util.openSelectionModal(
+			{
+				onSelect: function (selectedItem) {
+					if (selectedItem) {
+						var url = "${filterSelectionURL}";
+						if(!url.includes("filterCategoriesIdByVocabulariesName"))
+							url += "&<portlet:namespace />filterCategoriesIdByVocabulariesName=";
+						if(url.includes(encodeURIComponent(vocabularyName).replaceAll("%20","+").replaceAll("'","%27")+'__')){
+							const regex = encodeURIComponent(vocabularyName).replaceAll("%20","\\+").replaceAll("'","%27") + "(.(?<!___))*___";
+							const re = new RegExp(regex, 'gi');
+							url = url.replace(re,"");
+						}
+						for(index in Object.keys(selectedItem)){
+							var selection = selectedItem[Object.keys(selectedItem)[index]];
+							url += encodeURIComponent(vocabularyName) + '__' + encodeURIComponent(selection.title) + '__' + selection.categoryId + '___';
+						}
+						submitForm(form, url);
+					}
+				},
+				selectEventName: '<portlet:namespace />selectCategory',
+				title: vocabularyName,
+				multiple: true,
+				url: url
+			}
+		)
+	}
+</aui:script>

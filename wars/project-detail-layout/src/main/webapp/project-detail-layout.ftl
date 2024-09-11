@@ -12,7 +12,7 @@
             <div class="col-lg-12">
                 <div class="row">
 
-                    <section class="col-sm-8">
+                    <section class="col-lg-8">
                         <div class="pro-timeline">
                             ${processor.processColumn("column-2", "portlet-column-content portlet-column-content-first")}
                         </div>
@@ -21,12 +21,15 @@
                         </div>
                     </section>
 
-                    <aside class="col-sm-4"></aside>
+                    <aside class="col-lg-4"></aside>
 
                 </div>
             </div>
         </div>
 	</div>
+    <div class="suggested-projects-to-move">
+
+    </div>
 
 	<div class="portlet-layout row">
 		<div class="col-md-12 portlet-column portlet-column-only" id="column-4">

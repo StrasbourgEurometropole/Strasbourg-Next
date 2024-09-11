@@ -1,8 +1,8 @@
 package eu.strasbourg.service.csmap.utils;
 
+import com.liferay.asset.category.property.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
-import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -371,30 +371,54 @@ public class ApiCsmapUtil {
         jsonPrincipal.put("ids", jsonIds);
         json.put("principal", jsonPrincipal);
 
-        // On récupère tous les ids events de l'agenda thématique s'il y en a un
+        // On récupère tous les ids events de l'agenda thématique actif
+        // s'il y en a un
         Agenda thematique = AgendaLocalServiceUtil.getAgendaThematiqueActif();
-        if(Validator.isNotNull(thematique)) {
-            JSONObject jsonThematique = JSONFactoryUtil.createJSONObject();
-            jsonIds = getJsonIds(thematique);
-            jsonThematique.put("ids", jsonIds);
+        if (Validator.isNotNull(thematique)) {
+            // vérifie qu'il est publié
+            Date now = new Date();
+            if ((Validator.isNull(thematique.getPublicationStartDate()) && Validator.isNull(thematique.getPublicationEndDate()))
+                || (Validator.isNotNull(thematique.getPublicationStartDate()) && Validator.isNull(thematique.getPublicationEndDate())
+                && now.after(thematique.getPublicationStartDate()))
+                || (Validator.isNull(thematique.getPublicationStartDate()) && Validator.isNotNull(thematique.getPublicationEndDate())
+                && now.before(thematique.getPublicationEndDate()))
+                || (Validator.isNotNull(thematique.getPublicationStartDate()) && Validator.isNotNull(thematique.getPublicationEndDate())
+                && now.after(thematique.getPublicationStartDate()) && now.before(thematique.getPublicationEndDate()))){
 
-            JSONObject jsonTitle = JSONFactoryUtil.createJSONObject();
-            jsonTitle.put("fr_FR", thematique.getEditorialTitle(Locale.FRANCE));
-            jsonThematique.put("title", jsonTitle);
+                JSONObject jsonThematique = JSONFactoryUtil.createJSONObject();
+                jsonIds = getJsonIds(thematique);
+                jsonThematique.put("ids", jsonIds);
 
-            if(Validator.isNotNull(thematique.getSubtitle(Locale.FRANCE))) {
-                JSONObject jsonSubtitle = JSONFactoryUtil.createJSONObject();
-                jsonSubtitle.put("fr_FR", thematique.getSubtitle(Locale.FRANCE));
-                jsonThematique.put("subtitle", jsonSubtitle);
+                JSONObject jsonTitle = JSONFactoryUtil.createJSONObject();
+                jsonTitle.put("fr_FR", thematique.getEditorialTitle(Locale.FRANCE));
+                jsonThematique.put("title", jsonTitle);
+
+                if (Validator.isNotNull(thematique.getSubtitle(Locale.FRANCE))) {
+                    JSONObject jsonSubtitle = JSONFactoryUtil.createJSONObject();
+                    jsonSubtitle.put("fr_FR", thematique.getSubtitle(Locale.FRANCE));
+                    jsonThematique.put("subtitle", jsonSubtitle);
+                }
+
+                String imageURL = "";
+                if (thematique.getImageId() != null && thematique.getImageId() > 0)
+                    imageURL = StrasbourgPropsUtil.getURL() + UriHelper.appendUriImagePreview(FileEntryHelper.getFileEntryURLWithTimeStamp(thematique.getImageId()));
+
+                jsonThematique.put("imageURL", imageURL);
+
+                if (Validator.isNotNull(thematique.getLabelLink(Locale.FRANCE))) {
+                    JSONObject jsonLabelLink = JSONFactoryUtil.createJSONObject();
+                    jsonLabelLink.put("fr_FR", thematique.getLabelLink(Locale.FRANCE));
+                    jsonThematique.put("labelLink", jsonLabelLink);
+                }
+
+                if (Validator.isNotNull(thematique.getLink(Locale.FRANCE))) {
+                    JSONObject jsonLink = JSONFactoryUtil.createJSONObject();
+                    jsonLink.put("fr_FR", thematique.getLink(Locale.FRANCE));
+                    jsonThematique.put("link", jsonLink);
+                }
+
+                json.put("thematique", jsonThematique);
             }
-
-            String imageURL = "";
-            if (thematique.getImageId() != null && thematique.getImageId() > 0)
-                imageURL = StrasbourgPropsUtil.getURL() + UriHelper.appendUriImagePreview(FileEntryHelper.getFileEntryURLWithTimeStamp(thematique.getImageId()));
-
-            jsonThematique.put("imageURL", imageURL);
-
-            json.put("thematique", jsonThematique);
         }
 
         if(jsonPrincipal.length() == 0)

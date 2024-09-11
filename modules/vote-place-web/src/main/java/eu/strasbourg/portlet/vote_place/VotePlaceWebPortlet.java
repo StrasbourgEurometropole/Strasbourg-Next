@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -16,6 +17,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import eu.strasbourg.utils.PortalHelper;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.json.JSONObject;
@@ -106,11 +108,11 @@ public class VotePlaceWebPortlet extends MVCPortlet {
 									office = places.get(0);
 							}
 						} catch (NoSuchPlaceException e) {
-							e.printStackTrace();
+							_log.error(e.getMessage() + " : " + felecResponse.getStationNumber());
 						}
 						request.setAttribute("office", office);
 					} catch (ParseException e) {
-						e.printStackTrace();
+						_log.error(e.getMessage() + " : " + birthDate);
 					}
 				} else {
 					List<String> champsNull = new ArrayList<String>();
@@ -129,7 +131,7 @@ public class VotePlaceWebPortlet extends MVCPortlet {
 		}
 		ThemeDisplay themeDisplay = ((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY));
 		Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(themeDisplay.getCompanyId(), "/strasbourg.eu");
-		String virtualHostName = group.getPublicLayoutSet().getVirtualHostname();
+		String virtualHostName = PortalHelper.getVirtualHostname(group,themeDisplay.getLanguageId());
 		request.setAttribute("virtualHostName", virtualHostName);
 		request.setAttribute("showDeleteButton",
 				PortletHelper.showDeleteButtonOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId()));

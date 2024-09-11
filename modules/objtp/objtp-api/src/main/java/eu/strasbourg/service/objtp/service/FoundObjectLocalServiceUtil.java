@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.objtp.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.objtp.model.FoundObject;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for FoundObject. This utility wraps
@@ -48,9 +47,7 @@ public class FoundObjectLocalServiceUtil {
 	 * @param foundObject the found object
 	 * @return the found object that was added
 	 */
-	public static eu.strasbourg.service.objtp.model.FoundObject addFoundObject(
-		eu.strasbourg.service.objtp.model.FoundObject foundObject) {
-
+	public static FoundObject addFoundObject(FoundObject foundObject) {
 		return getService().addFoundObject(foundObject);
 	}
 
@@ -60,10 +57,18 @@ public class FoundObjectLocalServiceUtil {
 	 * @param number the primary key for the new found object
 	 * @return the new found object
 	 */
-	public static eu.strasbourg.service.objtp.model.FoundObject
-		createFoundObject(String number) {
-
+	public static FoundObject createFoundObject(String number) {
 		return getService().createFoundObject(number);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -76,10 +81,7 @@ public class FoundObjectLocalServiceUtil {
 	 * @param foundObject the found object
 	 * @return the found object that was removed
 	 */
-	public static eu.strasbourg.service.objtp.model.FoundObject
-		deleteFoundObject(
-			eu.strasbourg.service.objtp.model.FoundObject foundObject) {
-
+	public static FoundObject deleteFoundObject(FoundObject foundObject) {
 		return getService().deleteFoundObject(foundObject);
 	}
 
@@ -94,9 +96,8 @@ public class FoundObjectLocalServiceUtil {
 	 * @return the found object that was removed
 	 * @throws PortalException if a found object with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.objtp.model.FoundObject
-			deleteFoundObject(String number)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static FoundObject deleteFoundObject(String number)
+		throws PortalException {
 
 		return getService().deleteFoundObject(number);
 	}
@@ -104,25 +105,29 @@ public class FoundObjectLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
 	public static void doImport()
-		throws com.liferay.portal.kernel.exception.PortalException,
-			   com.liferay.portal.kernel.json.JSONException,
-			   java.io.IOException, java.text.ParseException {
+		throws com.liferay.portal.kernel.json.JSONException,
+			   java.io.IOException, java.text.ParseException, PortalException {
 
 		getService().doImport();
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -132,9 +137,7 @@ public class FoundObjectLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -150,9 +153,8 @@ public class FoundObjectLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -170,10 +172,9 @@ public class FoundObjectLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -185,9 +186,7 @@ public class FoundObjectLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -199,15 +198,13 @@ public class FoundObjectLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.objtp.model.FoundObject
-		fetchFoundObject(String number) {
-
+	public static FoundObject fetchFoundObject(String number) {
 		return getService().fetchFoundObject(number);
 	}
 
@@ -218,15 +215,14 @@ public class FoundObjectLocalServiceUtil {
 	 * @return the found object
 	 * @throws PortalException if a found object with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.objtp.model.FoundObject getFoundObject(
-			String number)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static FoundObject getFoundObject(String number)
+		throws PortalException {
 
 		return getService().getFoundObject(number);
 	}
 
-	public static java.util.List<eu.strasbourg.service.objtp.model.FoundObject>
-		getFoundObjectByCategoryCode(String codeCategory) {
+	public static List<FoundObject> getFoundObjectByCategoryCode(
+		String codeCategory) {
 
 		return getService().getFoundObjectByCategoryCode(codeCategory);
 	}
@@ -242,9 +238,7 @@ public class FoundObjectLocalServiceUtil {
 	 * @param end the upper bound of the range of found objects (not inclusive)
 	 * @return the range of found objects
 	 */
-	public static java.util.List<eu.strasbourg.service.objtp.model.FoundObject>
-		getFoundObjects(int start, int end) {
-
+	public static List<FoundObject> getFoundObjects(int start, int end) {
 		return getService().getFoundObjects(start, end);
 	}
 
@@ -269,9 +263,8 @@ public class FoundObjectLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -286,33 +279,18 @@ public class FoundObjectLocalServiceUtil {
 	 * @param foundObject the found object
 	 * @return the found object that was updated
 	 */
-	public static eu.strasbourg.service.objtp.model.FoundObject
-		updateFoundObject(
-			eu.strasbourg.service.objtp.model.FoundObject foundObject) {
-
+	public static FoundObject updateFoundObject(FoundObject foundObject) {
 		return getService().updateFoundObject(foundObject);
 	}
 
 	public static FoundObjectLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<FoundObjectLocalService, FoundObjectLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(FoundObjectLocalService.class);
-
-		ServiceTracker<FoundObjectLocalService, FoundObjectLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<FoundObjectLocalService, FoundObjectLocalService>(
-						bundle.getBundleContext(),
-						FoundObjectLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(FoundObjectLocalService service) {
+		_service = service;
 	}
+
+	private static volatile FoundObjectLocalService _service;
 
 }

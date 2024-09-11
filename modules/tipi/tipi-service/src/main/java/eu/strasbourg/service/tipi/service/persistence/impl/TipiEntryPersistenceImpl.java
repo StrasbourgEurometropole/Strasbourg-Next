@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.tipi.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,32 +16,32 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.tipi.exception.NoSuchTipiEntryException;
 import eu.strasbourg.service.tipi.model.TipiEntry;
+import eu.strasbourg.service.tipi.model.TipiEntryTable;
 import eu.strasbourg.service.tipi.model.impl.TipiEntryImpl;
 import eu.strasbourg.service.tipi.model.impl.TipiEntryModelImpl;
 import eu.strasbourg.service.tipi.service.persistence.TipiEntryPersistence;
+import eu.strasbourg.service.tipi.service.persistence.TipiEntryUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.sql.Timestamp;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -250,10 +242,6 @@ public class TipiEntryPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -602,8 +590,6 @@ public class TipiEntryPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -785,10 +771,6 @@ public class TipiEntryPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1132,8 +1114,6 @@ public class TipiEntryPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1158,21 +1138,14 @@ public class TipiEntryPersistenceImpl
 		dbColumnNames.put("date", "date_");
 		dbColumnNames.put("type", "type_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(TipiEntry.class);
+
+		setModelImplClass(TipiEntryImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(TipiEntryTable.INSTANCE);
 	}
 
 	/**
@@ -1183,11 +1156,10 @@ public class TipiEntryPersistenceImpl
 	@Override
 	public void cacheResult(TipiEntry tipiEntry) {
 		entityCache.putResult(
-			TipiEntryModelImpl.ENTITY_CACHE_ENABLED, TipiEntryImpl.class,
-			tipiEntry.getPrimaryKey(), tipiEntry);
-
-		tipiEntry.resetOriginalValues();
+			TipiEntryImpl.class, tipiEntry.getPrimaryKey(), tipiEntry);
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the tipi entries in the entity cache if it is enabled.
@@ -1196,15 +1168,18 @@ public class TipiEntryPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<TipiEntry> tipiEntries) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (tipiEntries.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (TipiEntry tipiEntry : tipiEntries) {
 			if (entityCache.getResult(
-					TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
 					TipiEntryImpl.class, tipiEntry.getPrimaryKey()) == null) {
 
 				cacheResult(tipiEntry);
-			}
-			else {
-				tipiEntry.resetOriginalValues();
 			}
 		}
 	}
@@ -1220,9 +1195,7 @@ public class TipiEntryPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(TipiEntryImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(TipiEntryImpl.class);
 	}
 
 	/**
@@ -1234,35 +1207,22 @@ public class TipiEntryPersistenceImpl
 	 */
 	@Override
 	public void clearCache(TipiEntry tipiEntry) {
-		entityCache.removeResult(
-			TipiEntryModelImpl.ENTITY_CACHE_ENABLED, TipiEntryImpl.class,
-			tipiEntry.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(TipiEntryImpl.class, tipiEntry);
 	}
 
 	@Override
 	public void clearCache(List<TipiEntry> tipiEntries) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (TipiEntry tipiEntry : tipiEntries) {
-			entityCache.removeResult(
-				TipiEntryModelImpl.ENTITY_CACHE_ENABLED, TipiEntryImpl.class,
-				tipiEntry.getPrimaryKey());
+			entityCache.removeResult(TipiEntryImpl.class, tipiEntry);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(TipiEntryImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				TipiEntryModelImpl.ENTITY_CACHE_ENABLED, TipiEntryImpl.class,
-				primaryKey);
+			entityCache.removeResult(TipiEntryImpl.class, primaryKey);
 		}
 	}
 
@@ -1402,10 +1362,8 @@ public class TipiEntryPersistenceImpl
 		try {
 			session = openSession();
 
-			if (tipiEntry.isNew()) {
+			if (isNew) {
 				session.save(tipiEntry);
-
-				tipiEntry.setNew(false);
 			}
 			else {
 				tipiEntry = (TipiEntry)session.merge(tipiEntry);
@@ -1418,71 +1376,12 @@ public class TipiEntryPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!TipiEntryModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {tipiEntryModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {tipiEntryModelImpl.getDate()};
-
-			finderCache.removeResult(_finderPathCountByDate, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByDate, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((tipiEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					tipiEntryModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {tipiEntryModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((tipiEntryModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByDate.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					tipiEntryModelImpl.getOriginalDate()
-				};
-
-				finderCache.removeResult(_finderPathCountByDate, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByDate, args);
-
-				args = new Object[] {tipiEntryModelImpl.getDate()};
-
-				finderCache.removeResult(_finderPathCountByDate, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByDate, args);
-			}
-		}
-
 		entityCache.putResult(
-			TipiEntryModelImpl.ENTITY_CACHE_ENABLED, TipiEntryImpl.class,
-			tipiEntry.getPrimaryKey(), tipiEntry, false);
+			TipiEntryImpl.class, tipiEntryModelImpl, false, true);
+
+		if (isNew) {
+			tipiEntry.setNew(false);
+		}
 
 		tipiEntry.resetOriginalValues();
 
@@ -1529,161 +1428,12 @@ public class TipiEntryPersistenceImpl
 	/**
 	 * Returns the tipi entry with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the tipi entry
-	 * @return the tipi entry, or <code>null</code> if a tipi entry with the primary key could not be found
-	 */
-	@Override
-	public TipiEntry fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			TipiEntryModelImpl.ENTITY_CACHE_ENABLED, TipiEntryImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		TipiEntry tipiEntry = (TipiEntry)serializable;
-
-		if (tipiEntry == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				tipiEntry = (TipiEntry)session.get(
-					TipiEntryImpl.class, primaryKey);
-
-				if (tipiEntry != null) {
-					cacheResult(tipiEntry);
-				}
-				else {
-					entityCache.putResult(
-						TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-						TipiEntryImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-					TipiEntryImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return tipiEntry;
-	}
-
-	/**
-	 * Returns the tipi entry with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param id the primary key of the tipi entry
 	 * @return the tipi entry, or <code>null</code> if a tipi entry with the primary key could not be found
 	 */
 	@Override
 	public TipiEntry fetchByPrimaryKey(long id) {
 		return fetchByPrimaryKey((Serializable)id);
-	}
-
-	@Override
-	public Map<Serializable, TipiEntry> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, TipiEntry> map =
-			new HashMap<Serializable, TipiEntry>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			TipiEntry tipiEntry = fetchByPrimaryKey(primaryKey);
-
-			if (tipiEntry != null) {
-				map.put(primaryKey, tipiEntry);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				TipiEntryModelImpl.ENTITY_CACHE_ENABLED, TipiEntryImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (TipiEntry)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_TIPIENTRY_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (TipiEntry tipiEntry : (List<TipiEntry>)query.list()) {
-				map.put(tipiEntry.getPrimaryKeyObj(), tipiEntry);
-
-				cacheResult(tipiEntry);
-
-				uncachedPrimaryKeys.remove(tipiEntry.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-					TipiEntryImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1810,10 +1560,6 @@ public class TipiEntryPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1859,9 +1605,6 @@ public class TipiEntryPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1878,6 +1621,21 @@ public class TipiEntryPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "id_";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_TIPIENTRY;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return TipiEntryModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1886,73 +1644,62 @@ public class TipiEntryPersistenceImpl
 	 * Initializes the tipi entry persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryModelImpl.FINDER_CACHE_ENABLED, TipiEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryModelImpl.FINDER_CACHE_ENABLED, TipiEntryImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryModelImpl.FINDER_CACHE_ENABLED, TipiEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryModelImpl.FINDER_CACHE_ENABLED, TipiEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			TipiEntryModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathWithPaginationFindByDate = new FinderPath(
-			TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryModelImpl.FINDER_CACHE_ENABLED, TipiEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByDate",
 			new String[] {
 				Date.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"date_"}, true);
 
 		_finderPathWithoutPaginationFindByDate = new FinderPath(
-			TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryModelImpl.FINDER_CACHE_ENABLED, TipiEntryImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByDate",
-			new String[] {Date.class.getName()},
-			TipiEntryModelImpl.DATE_COLUMN_BITMASK);
+			new String[] {Date.class.getName()}, new String[] {"date_"}, true);
 
 		_finderPathCountByDate = new FinderPath(
-			TipiEntryModelImpl.ENTITY_CACHE_ENABLED,
-			TipiEntryModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDate",
-			new String[] {Date.class.getName()});
+			new String[] {Date.class.getName()}, new String[] {"date_"}, false);
+
+		TipiEntryUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		TipiEntryUtil.setPersistence(null);
+
 		entityCache.removeCache(TipiEntryImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1961,7 +1708,7 @@ public class TipiEntryPersistenceImpl
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
 
-	private Long _getTime(Date date) {
+	private static Long _getTime(Date date) {
 		if (date == null) {
 			return null;
 		}
@@ -1971,9 +1718,6 @@ public class TipiEntryPersistenceImpl
 
 	private static final String _SQL_SELECT_TIPIENTRY =
 		"SELECT tipiEntry FROM TipiEntry tipiEntry";
-
-	private static final String _SQL_SELECT_TIPIENTRY_WHERE_PKS_IN =
-		"SELECT tipiEntry FROM TipiEntry tipiEntry WHERE id_ IN (";
 
 	private static final String _SQL_SELECT_TIPIENTRY_WHERE =
 		"SELECT tipiEntry FROM TipiEntry tipiEntry WHERE ";
@@ -1997,5 +1741,10 @@ public class TipiEntryPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "id", "date", "type"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

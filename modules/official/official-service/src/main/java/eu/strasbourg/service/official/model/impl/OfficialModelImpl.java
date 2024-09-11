@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.official.model.impl;
@@ -17,6 +8,7 @@ package eu.strasbourg.service.official.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -33,29 +25,27 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.model.OfficialModel;
-import eu.strasbourg.service.official.model.OfficialSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -95,7 +85,8 @@ public class OfficialModelImpl
 		{"thematicDelegation", Types.CLOB}, {"missions", Types.CLOB},
 		{"wasMinister", Types.BOOLEAN}, {"contact", Types.CLOB},
 		{"orderDeputyMayor", Types.INTEGER},
-		{"orderVicePresident", Types.INTEGER}, {"imageId", Types.BIGINT}
+		{"orderVicePresident", Types.INTEGER}, {"listeContact", Types.VARCHAR},
+		{"resumeFonction", Types.VARCHAR}, {"imageId", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -124,11 +115,13 @@ public class OfficialModelImpl
 		TABLE_COLUMNS_MAP.put("contact", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("orderDeputyMayor", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("orderVicePresident", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("listeContact", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("resumeFonction", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table official_Official (uuid_ VARCHAR(75) null,officialId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,gender INTEGER,lastName VARCHAR(75) null,firstName VARCHAR(75) null,thematicDelegation TEXT null,missions TEXT null,wasMinister BOOLEAN,contact TEXT null,orderDeputyMayor INTEGER,orderVicePresident INTEGER,imageId LONG)";
+		"create table official_Official (uuid_ VARCHAR(75) null,officialId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,gender INTEGER,lastName VARCHAR(75) null,firstName VARCHAR(75) null,thematicDelegation TEXT null,missions TEXT null,wasMinister BOOLEAN,contact TEXT null,orderDeputyMayor INTEGER,orderVicePresident INTEGER,listeContact VARCHAR(2000) null,resumeFonction STRING null,imageId LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table official_Official";
 
@@ -144,88 +137,48 @@ public class OfficialModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.official.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.official.model.Official"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.official.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.official.model.Official"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.official.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.official.model.Official"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long MODIFIEDDATE_COLUMN_BITMASK = 8L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Official toModel(OfficialSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Official model = new OfficialImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setOfficialId(soapModel.getOfficialId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setLastPublishDate(soapModel.getLastPublishDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setGender(soapModel.getGender());
-		model.setLastName(soapModel.getLastName());
-		model.setFirstName(soapModel.getFirstName());
-		model.setThematicDelegation(soapModel.getThematicDelegation());
-		model.setMissions(soapModel.getMissions());
-		model.setWasMinister(soapModel.isWasMinister());
-		model.setContact(soapModel.getContact());
-		model.setOrderDeputyMayor(soapModel.getOrderDeputyMayor());
-		model.setOrderVicePresident(soapModel.getOrderVicePresident());
-		model.setImageId(soapModel.getImageId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Official> toModels(OfficialSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Official> models = new ArrayList<Official>(soapModels.length);
-
-		for (OfficialSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.official.service.util.PropsUtil.get(
@@ -282,9 +235,6 @@ public class OfficialModelImpl
 				attributeName, attributeGetterFunction.apply((Official)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -309,539 +259,148 @@ public class OfficialModelImpl
 	public Map<String, Function<Official, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Official, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Official>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Official.class.getClassLoader(), Official.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<Official, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Official> constructor =
-				(Constructor<Official>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Official, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Official, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Official::getUuid);
+			attributeGetterFunctions.put("officialId", Official::getOfficialId);
+			attributeGetterFunctions.put("groupId", Official::getGroupId);
+			attributeGetterFunctions.put("companyId", Official::getCompanyId);
+			attributeGetterFunctions.put("userId", Official::getUserId);
+			attributeGetterFunctions.put("userName", Official::getUserName);
+			attributeGetterFunctions.put("createDate", Official::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Official::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", Official::getLastPublishDate);
+			attributeGetterFunctions.put("status", Official::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Official::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Official::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Official::getStatusDate);
+			attributeGetterFunctions.put("gender", Official::getGender);
+			attributeGetterFunctions.put("lastName", Official::getLastName);
+			attributeGetterFunctions.put("firstName", Official::getFirstName);
+			attributeGetterFunctions.put(
+				"thematicDelegation", Official::getThematicDelegation);
+			attributeGetterFunctions.put("missions", Official::getMissions);
+			attributeGetterFunctions.put(
+				"wasMinister", Official::getWasMinister);
+			attributeGetterFunctions.put("contact", Official::getContact);
+			attributeGetterFunctions.put(
+				"orderDeputyMayor", Official::getOrderDeputyMayor);
+			attributeGetterFunctions.put(
+				"orderVicePresident", Official::getOrderVicePresident);
+			attributeGetterFunctions.put(
+				"listeContact", Official::getListeContact);
+			attributeGetterFunctions.put(
+				"resumeFonction", Official::getResumeFonction);
+			attributeGetterFunctions.put("imageId", Official::getImageId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Official, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Official, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Official, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Official, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Official, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Official, String>)Official::setUuid);
+			attributeSetterBiConsumers.put(
+				"officialId",
+				(BiConsumer<Official, Long>)Official::setOfficialId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Official, Long>)Official::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Official, Long>)Official::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Official, Long>)Official::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Official, String>)Official::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Official, Date>)Official::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Official, Date>)Official::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<Official, Date>)Official::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Official, Integer>)Official::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Official, Long>)Official::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Official, String>)Official::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Official, Date>)Official::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"gender", (BiConsumer<Official, Integer>)Official::setGender);
+			attributeSetterBiConsumers.put(
+				"lastName",
+				(BiConsumer<Official, String>)Official::setLastName);
+			attributeSetterBiConsumers.put(
+				"firstName",
+				(BiConsumer<Official, String>)Official::setFirstName);
+			attributeSetterBiConsumers.put(
+				"thematicDelegation",
+				(BiConsumer<Official, String>)Official::setThematicDelegation);
+			attributeSetterBiConsumers.put(
+				"missions",
+				(BiConsumer<Official, String>)Official::setMissions);
+			attributeSetterBiConsumers.put(
+				"wasMinister",
+				(BiConsumer<Official, Boolean>)Official::setWasMinister);
+			attributeSetterBiConsumers.put(
+				"contact", (BiConsumer<Official, String>)Official::setContact);
+			attributeSetterBiConsumers.put(
+				"orderDeputyMayor",
+				(BiConsumer<Official, Integer>)Official::setOrderDeputyMayor);
+			attributeSetterBiConsumers.put(
+				"orderVicePresident",
+				(BiConsumer<Official, Integer>)Official::setOrderVicePresident);
+			attributeSetterBiConsumers.put(
+				"listeContact",
+				(BiConsumer<Official, String>)Official::setListeContact);
+			attributeSetterBiConsumers.put(
+				"resumeFonction",
+				(BiConsumer<Official, String>)Official::setResumeFonction);
+			attributeSetterBiConsumers.put(
+				"imageId", (BiConsumer<Official, Long>)Official::setImageId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<Official, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Official, Object>>();
-		Map<String, BiConsumer<Official, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Official, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object uuidObject) {
-					official.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"officialId",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getOfficialId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"officialId",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object officialIdObject) {
-					official.setOfficialId((Long)officialIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object groupIdObject) {
-					official.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object companyIdObject) {
-					official.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object userIdObject) {
-					official.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object userNameObject) {
-					official.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object createDateObject) {
-					official.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(
-					Official official, Object modifiedDateObject) {
-
-					official.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getLastPublishDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(
-					Official official, Object lastPublishDateObject) {
-
-					official.setLastPublishDate((Date)lastPublishDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object statusObject) {
-					official.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(
-					Official official, Object statusByUserIdObject) {
-
-					official.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(
-					Official official, Object statusByUserNameObject) {
-
-					official.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object statusDateObject) {
-					official.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"gender",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getGender();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"gender",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object genderObject) {
-					official.setGender((Integer)genderObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastName",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getLastName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"lastName",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object lastNameObject) {
-					official.setLastName((String)lastNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"firstName",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getFirstName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"firstName",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object firstNameObject) {
-					official.setFirstName((String)firstNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"thematicDelegation",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getThematicDelegation();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"thematicDelegation",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(
-					Official official, Object thematicDelegationObject) {
-
-					official.setThematicDelegation(
-						(String)thematicDelegationObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"missions",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getMissions();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"missions",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object missionsObject) {
-					official.setMissions((String)missionsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"wasMinister",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getWasMinister();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"wasMinister",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(
-					Official official, Object wasMinisterObject) {
-
-					official.setWasMinister((Boolean)wasMinisterObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"contact",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getContact();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"contact",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object contactObject) {
-					official.setContact((String)contactObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"orderDeputyMayor",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getOrderDeputyMayor();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"orderDeputyMayor",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(
-					Official official, Object orderDeputyMayorObject) {
-
-					official.setOrderDeputyMayor(
-						(Integer)orderDeputyMayorObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"orderVicePresident",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getOrderVicePresident();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"orderVicePresident",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(
-					Official official, Object orderVicePresidentObject) {
-
-					official.setOrderVicePresident(
-						(Integer)orderVicePresidentObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageId",
-			new Function<Official, Object>() {
-
-				@Override
-				public Object apply(Official official) {
-					return official.getImageId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"imageId",
-			new BiConsumer<Official, Object>() {
-
-				@Override
-				public void accept(Official official, Object imageIdObject) {
-					official.setImageId((Long)imageIdObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -857,17 +416,20 @@ public class OfficialModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -878,6 +440,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setOfficialId(long officialId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_officialId = officialId;
 	}
 
@@ -889,19 +455,20 @@ public class OfficialModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -912,19 +479,21 @@ public class OfficialModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -935,6 +504,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -967,6 +540,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -978,6 +555,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -995,7 +576,9 @@ public class OfficialModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -1008,6 +591,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -1019,6 +606,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -1030,6 +621,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1062,6 +657,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1073,6 +672,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1084,6 +687,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setGender(int gender) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_gender = gender;
 	}
 
@@ -1100,6 +707,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setLastName(String lastName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastName = lastName;
 	}
 
@@ -1116,6 +727,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setFirstName(String firstName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_firstName = firstName;
 	}
 
@@ -1176,6 +791,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setThematicDelegation(String thematicDelegation) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_thematicDelegation = thematicDelegation;
 	}
 
@@ -1290,6 +909,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setMissions(String missions) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_missions = missions;
 	}
 
@@ -1356,6 +979,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setWasMinister(boolean wasMinister) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_wasMinister = wasMinister;
 	}
 
@@ -1415,6 +1042,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setContact(String contact) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_contact = contact;
 	}
 
@@ -1475,6 +1106,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setOrderDeputyMayor(int orderDeputyMayor) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_orderDeputyMayor = orderDeputyMayor;
 	}
 
@@ -1486,7 +1121,144 @@ public class OfficialModelImpl
 
 	@Override
 	public void setOrderVicePresident(int orderVicePresident) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_orderVicePresident = orderVicePresident;
+	}
+
+	@JSON
+	@Override
+	public String getListeContact() {
+		if (_listeContact == null) {
+			return "";
+		}
+		else {
+			return _listeContact;
+		}
+	}
+
+	@Override
+	public void setListeContact(String listeContact) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_listeContact = listeContact;
+	}
+
+	@JSON
+	@Override
+	public String getResumeFonction() {
+		if (_resumeFonction == null) {
+			return "";
+		}
+		else {
+			return _resumeFonction;
+		}
+	}
+
+	@Override
+	public String getResumeFonction(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getResumeFonction(languageId);
+	}
+
+	@Override
+	public String getResumeFonction(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getResumeFonction(languageId, useDefault);
+	}
+
+	@Override
+	public String getResumeFonction(String languageId) {
+		return LocalizationUtil.getLocalization(
+			getResumeFonction(), languageId);
+	}
+
+	@Override
+	public String getResumeFonction(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getResumeFonction(), languageId, useDefault);
+	}
+
+	@Override
+	public String getResumeFonctionCurrentLanguageId() {
+		return _resumeFonctionCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getResumeFonctionCurrentValue() {
+		Locale locale = getLocale(_resumeFonctionCurrentLanguageId);
+
+		return getResumeFonction(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getResumeFonctionMap() {
+		return LocalizationUtil.getLocalizationMap(getResumeFonction());
+	}
+
+	@Override
+	public void setResumeFonction(String resumeFonction) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_resumeFonction = resumeFonction;
+	}
+
+	@Override
+	public void setResumeFonction(String resumeFonction, Locale locale) {
+		setResumeFonction(resumeFonction, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setResumeFonction(
+		String resumeFonction, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(resumeFonction)) {
+			setResumeFonction(
+				LocalizationUtil.updateLocalization(
+					getResumeFonction(), "ResumeFonction", resumeFonction,
+					languageId, defaultLanguageId));
+		}
+		else {
+			setResumeFonction(
+				LocalizationUtil.removeLocalization(
+					getResumeFonction(), "ResumeFonction", languageId));
+		}
+	}
+
+	@Override
+	public void setResumeFonctionCurrentLanguageId(String languageId) {
+		_resumeFonctionCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setResumeFonctionMap(Map<Locale, String> resumeFonctionMap) {
+		setResumeFonctionMap(resumeFonctionMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setResumeFonctionMap(
+		Map<Locale, String> resumeFonctionMap, Locale defaultLocale) {
+
+		if (resumeFonctionMap == null) {
+			return;
+		}
+
+		setResumeFonction(
+			LocalizationUtil.updateLocalization(
+				resumeFonctionMap, getResumeFonction(), "ResumeFonction",
+				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
 	@JSON
@@ -1497,6 +1269,10 @@ public class OfficialModelImpl
 
 	@Override
 	public void setImageId(Long imageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageId = imageId;
 	}
 
@@ -1587,6 +1363,26 @@ public class OfficialModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1634,6 +1430,17 @@ public class OfficialModelImpl
 		Map<Locale, String> contactMap = getContactMap();
 
 		for (Map.Entry<Locale, String> entry : contactMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
+		Map<Locale, String> resumeFonctionMap = getResumeFonctionMap();
+
+		for (Map.Entry<Locale, String> entry : resumeFonctionMap.entrySet()) {
 			Locale locale = entry.getKey();
 			String value = entry.getValue();
 
@@ -1713,6 +1520,17 @@ public class OfficialModelImpl
 		else {
 			setContact(getContact(defaultLocale), defaultLocale, defaultLocale);
 		}
+
+		String resumeFonction = getResumeFonction(defaultLocale);
+
+		if (Validator.isNull(resumeFonction)) {
+			setResumeFonction(
+				getResumeFonction(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setResumeFonction(
+				getResumeFonction(defaultLocale), defaultLocale, defaultLocale);
+		}
 	}
 
 	@Override
@@ -1756,9 +1574,62 @@ public class OfficialModelImpl
 		officialImpl.setContact(getContact());
 		officialImpl.setOrderDeputyMayor(getOrderDeputyMayor());
 		officialImpl.setOrderVicePresident(getOrderVicePresident());
+		officialImpl.setListeContact(getListeContact());
+		officialImpl.setResumeFonction(getResumeFonction());
 		officialImpl.setImageId(getImageId());
 
 		officialImpl.resetOriginalValues();
+
+		return officialImpl;
+	}
+
+	@Override
+	public Official cloneWithOriginalValues() {
+		OfficialImpl officialImpl = new OfficialImpl();
+
+		officialImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		officialImpl.setOfficialId(
+			this.<Long>getColumnOriginalValue("officialId"));
+		officialImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		officialImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		officialImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		officialImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		officialImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		officialImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		officialImpl.setLastPublishDate(
+			this.<Date>getColumnOriginalValue("lastPublishDate"));
+		officialImpl.setStatus(this.<Integer>getColumnOriginalValue("status"));
+		officialImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		officialImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		officialImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		officialImpl.setGender(this.<Integer>getColumnOriginalValue("gender"));
+		officialImpl.setLastName(
+			this.<String>getColumnOriginalValue("lastName"));
+		officialImpl.setFirstName(
+			this.<String>getColumnOriginalValue("firstName"));
+		officialImpl.setThematicDelegation(
+			this.<String>getColumnOriginalValue("thematicDelegation"));
+		officialImpl.setMissions(
+			this.<String>getColumnOriginalValue("missions"));
+		officialImpl.setWasMinister(
+			this.<Boolean>getColumnOriginalValue("wasMinister"));
+		officialImpl.setContact(this.<String>getColumnOriginalValue("contact"));
+		officialImpl.setOrderDeputyMayor(
+			this.<Integer>getColumnOriginalValue("orderDeputyMayor"));
+		officialImpl.setOrderVicePresident(
+			this.<Integer>getColumnOriginalValue("orderVicePresident"));
+		officialImpl.setListeContact(
+			this.<String>getColumnOriginalValue("listeContact"));
+		officialImpl.setResumeFonction(
+			this.<String>getColumnOriginalValue("resumeFonction"));
+		officialImpl.setImageId(this.<Long>getColumnOriginalValue("imageId"));
 
 		return officialImpl;
 	}
@@ -1806,11 +1677,19 @@ public class OfficialModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1818,21 +1697,11 @@ public class OfficialModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		OfficialModelImpl officialModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		officialModelImpl._originalUuid = officialModelImpl._uuid;
+		_setModifiedDate = false;
 
-		officialModelImpl._originalGroupId = officialModelImpl._groupId;
-
-		officialModelImpl._setOriginalGroupId = false;
-
-		officialModelImpl._originalCompanyId = officialModelImpl._companyId;
-
-		officialModelImpl._setOriginalCompanyId = false;
-
-		officialModelImpl._setModifiedDate = false;
-
-		officialModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1961,6 +1830,22 @@ public class OfficialModelImpl
 
 		officialCacheModel.orderVicePresident = getOrderVicePresident();
 
+		officialCacheModel.listeContact = getListeContact();
+
+		String listeContact = officialCacheModel.listeContact;
+
+		if ((listeContact != null) && (listeContact.length() == 0)) {
+			officialCacheModel.listeContact = null;
+		}
+
+		officialCacheModel.resumeFonction = getResumeFonction();
+
+		String resumeFonction = officialCacheModel.resumeFonction;
+
+		if ((resumeFonction != null) && (resumeFonction.length() == 0)) {
+			officialCacheModel.resumeFonction = null;
+		}
+
 		Long imageId = getImageId();
 
 		if (imageId != null) {
@@ -1976,7 +1861,7 @@ public class OfficialModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1987,9 +1872,26 @@ public class OfficialModelImpl
 			Function<Official, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Official)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Official)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -2002,53 +1904,19 @@ public class OfficialModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Official, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Official, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Official, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Official)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Official>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Official.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _officialId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -2071,7 +1939,142 @@ public class OfficialModelImpl
 	private String _contactCurrentLanguageId;
 	private int _orderDeputyMayor;
 	private int _orderVicePresident;
+	private String _listeContact;
+	private String _resumeFonction;
+	private String _resumeFonctionCurrentLanguageId;
 	private Long _imageId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Official, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Official)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("officialId", _officialId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("lastPublishDate", _lastPublishDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("gender", _gender);
+		_columnOriginalValues.put("lastName", _lastName);
+		_columnOriginalValues.put("firstName", _firstName);
+		_columnOriginalValues.put("thematicDelegation", _thematicDelegation);
+		_columnOriginalValues.put("missions", _missions);
+		_columnOriginalValues.put("wasMinister", _wasMinister);
+		_columnOriginalValues.put("contact", _contact);
+		_columnOriginalValues.put("orderDeputyMayor", _orderDeputyMayor);
+		_columnOriginalValues.put("orderVicePresident", _orderVicePresident);
+		_columnOriginalValues.put("listeContact", _listeContact);
+		_columnOriginalValues.put("resumeFonction", _resumeFonction);
+		_columnOriginalValues.put("imageId", _imageId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("officialId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("lastPublishDate", 256L);
+
+		columnBitmasks.put("status", 512L);
+
+		columnBitmasks.put("statusByUserId", 1024L);
+
+		columnBitmasks.put("statusByUserName", 2048L);
+
+		columnBitmasks.put("statusDate", 4096L);
+
+		columnBitmasks.put("gender", 8192L);
+
+		columnBitmasks.put("lastName", 16384L);
+
+		columnBitmasks.put("firstName", 32768L);
+
+		columnBitmasks.put("thematicDelegation", 65536L);
+
+		columnBitmasks.put("missions", 131072L);
+
+		columnBitmasks.put("wasMinister", 262144L);
+
+		columnBitmasks.put("contact", 524288L);
+
+		columnBitmasks.put("orderDeputyMayor", 1048576L);
+
+		columnBitmasks.put("orderVicePresident", 2097152L);
+
+		columnBitmasks.put("listeContact", 4194304L);
+
+		columnBitmasks.put("resumeFonction", 8388608L);
+
+		columnBitmasks.put("imageId", 16777216L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Official _escapedModel;
 

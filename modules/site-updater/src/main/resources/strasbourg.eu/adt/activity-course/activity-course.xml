@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.activity.model.ActivityCourse</className>
+    <template>
+        <script>course-detail.ftl</script>
+        <name>Détail cours d'activité</name>
+        <key>1617727</key>
+    </template>
+</root>

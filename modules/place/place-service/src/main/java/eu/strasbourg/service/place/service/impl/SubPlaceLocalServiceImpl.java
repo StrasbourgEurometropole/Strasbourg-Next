@@ -14,11 +14,7 @@
 
 package eu.strasbourg.service.place.service.impl;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -26,13 +22,16 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.ScheduleException;
 import eu.strasbourg.service.place.model.Slot;
 import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.service.place.service.base.SubPlaceLocalServiceBaseImpl;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The implementation of the sub place local service.

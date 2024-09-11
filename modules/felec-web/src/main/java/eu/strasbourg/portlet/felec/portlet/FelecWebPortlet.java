@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
+import javax.portlet.*;
 
 import org.osgi.service.component.annotations.Component;
 
@@ -29,24 +26,56 @@ import com.liferay.portal.kernel.util.Validator;
 public class FelecWebPortlet extends MVCPortlet {
 
 	@Override
+	public void render(RenderRequest renderRequest,
+					   RenderResponse renderResponse) throws IOException, PortletException {
+		renderRequest.setAttribute("dc", new FelecWebDisplayContext(renderRequest, renderResponse));
+		super.render(renderRequest, renderResponse);
+	}
+	@Override
 	public void processAction(ActionRequest actionRequest,
 		ActionResponse actionResponse) throws IOException, PortletException {
 		String name = ParamUtil.getString(actionRequest, "name");
-
 		String firstName = ParamUtil.getString(actionRequest, "firstname");
 		Date birthDate = ParamUtil.getDate(actionRequest, "birthdate",
-			new SimpleDateFormat("dd/MM/yyyy"));
+			new SimpleDateFormat("yyyy-MM-dd"));
 		String birthPlace = ParamUtil.getString(actionRequest, "birthplace");
-		if (Validator.isNull(name) || Validator.isNull(firstName) || Validator.isNull(birthPlace)
-			|| Validator.isNull(ParamUtil.getString(actionRequest, "birthdate"))) {
-			SessionErrors.add(actionRequest, "all-fields-required");
-		} else if (name.contains("<") || firstName.contains("<")
-			|| birthPlace.contains("<")) {
-			SessionErrors.add(actionRequest, "invalid-characters");
-		} else if (!ParamUtil.getString(actionRequest, "birthdate")
-			.matches("^[0-3]?[0-9]/[0-1]?[0-9]/[1-2][0-9]{3}$")) {
-			SessionErrors.add(actionRequest, "date-not-valid");
-		} else {
+
+		if (Validator.isNull(name)) {
+			SessionErrors.add(actionRequest, "name-required");
+		}
+
+		if (Validator.isNull(firstName)) {
+			SessionErrors.add(actionRequest, "first-name-required");
+		}
+
+		if (Validator.isNull(birthPlace)) {
+			SessionErrors.add(actionRequest, "birthplace-required");
+		}
+
+		String birthdate = ParamUtil.getString(actionRequest, "birthdate");
+		if (Validator.isNull(birthdate)) {
+			SessionErrors.add(actionRequest, "birthdate-required");
+		}
+		else {
+			if (!birthdate.matches("^[1-2][0-9]{3}-[0-1]?[0-9]-[0-3]?[0-9]$")) {
+				SessionErrors.add(actionRequest, "date-not-valid");
+			}
+		}
+
+		if (birthPlace.contains("<")) {
+			SessionErrors.add(actionRequest, "invalid-character-in-birthplace");
+		}
+
+		if (name.contains("<")) {
+			SessionErrors.add(actionRequest, "invalid-character-in-name");
+		}
+
+		if (firstName.contains("<")) {
+			SessionErrors.add(actionRequest, "invalid-character-in-first-name");
+		}
+
+
+		if (SessionErrors.isEmpty(actionRequest)) {
 			FelecResponse felecResponse = FelecWebServiceClient
 				.getResponse(name, firstName, birthDate, birthPlace);
 			actionRequest.setAttribute("felecResponse", felecResponse);

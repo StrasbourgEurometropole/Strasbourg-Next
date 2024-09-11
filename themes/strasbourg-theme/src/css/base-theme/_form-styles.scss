@@ -1,0 +1,306 @@
+.st-page-wrapper .form-styles {
+	.st-grid-fields {
+		--column-gap: 20px;
+		--row-gap: 24px;
+	}
+
+	.st-text-mandatory {
+		@include ft('', 14px, 400, $c_pink, 1);
+	}
+
+	.st-alert-form {
+		padding: 8px 10px;
+		@include ft('', 14px, 400, $c_white, 1);
+		border: 1px solid $c_white;
+		border-radius: $border-radius;
+
+		&.st--has-error {
+			color: $c_pink;
+			border-color: $c_pink;
+		}
+
+		li + li {
+			margin-top: 8px;
+		}
+	}
+
+	.st-alert-form__content {
+		a {
+			color: inherit;
+		}
+	}
+
+	label,
+	.label-fake {
+		display: inline-block;
+		margin-bottom: 5px;
+		@include ft('', 14px, 500, $c_sub, 1.3);
+		cursor: pointer;
+	}
+
+	.st-field-required {
+		color: $c_pink;
+	}
+
+
+	// Inputs classiques
+	// --------------------------------------
+	input[type="text"],
+	input[type="email"],
+	input[type="password"],
+	input[type="number"],
+	input[type="date"],
+	input[type="tel"],
+	textarea {
+		@include create-outline();
+		@include ft('', 14px, 400, $c_white, 1.42);
+		width: 100%;
+		padding: 18px 20px;
+		border: 1px solid color-mix(in srgb, $c_white 50%, transparent);
+		border-radius: $border-radius;
+		background-color: transparent;
+		@include transition(color, border-color);
+
+		@include mobile {
+			padding: 18px 16px;
+		}
+
+		&:hover {
+			border-color: $c_white;
+		}
+		&:focus {
+			border-color: $c_sub;
+		}
+
+		&::placeholder {
+			color: color-mix(in srgb, $c_white 50%, transparent);
+		}
+	}
+
+	.st-group-field.st--has-error {
+		input,
+		select,
+		textarea:not(:focus) {
+			border-color: $c_pink;
+		}
+	}
+
+
+	// Custom select
+	// --------------------------------------
+	.st-field-select {
+		display: grid;
+		grid-template-areas: "select";
+		grid-template-columns: minmax(10px, 1fr);
+		align-items: center;
+		width: 100%;
+		min-width: 100px;
+
+		&:before {
+			grid-area: select;
+			justify-self: end;
+			@include icomoon($st-icon-arrow-down);
+			font-size: 10px;
+			color: $c_white;
+			margin-right: 20px;
+			pointer-events: none;
+
+			@include mobile {
+				margin-right: 16px;
+			}
+		}
+
+		select {
+			@include reset-select;
+			grid-area: select;
+			padding: 19px 40px 19px 20px;
+			@include ft('', 14px, 400, $c_white, 1.42);
+			border: 1px solid color-mix(in srgb, $c_white 50%, transparent);
+			border-radius: $border-radius;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			@include transition(border-color);
+
+			@include mobile {
+				padding: 19px 40px 19px 16px;
+			}
+
+			&:hover {
+				border-color: $c_white;
+			}
+			&:focus {
+				border-color: $c_sub;
+			}
+		}
+
+		select:invalid {
+			color: color-mix(in srgb, $c_white 50%, transparent);
+		}
+	}
+
+
+	// Champ texte + bouton pour se localiser
+	// --------------------------------------
+	.st-field-location {
+		display: grid;
+		grid-template-areas: "input button";
+		grid-template-columns: minmax(10px, 1fr) auto;
+		gap: 10px;
+
+		input,
+		.st-select {
+			grid-area: input;
+		}
+
+		.st-btn-localize {
+			@include create-outline;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 60px;
+			height: 60px;
+			font-size: 16px;
+			border: 1px solid color-mix(in srgb, $c_white 50%, transparent);
+			border-radius: $border-radius;
+			@include transition(border-color);
+
+			[class^="st-icon-"], [class*=" st-icon-"] {
+				color: $c_sub;
+			}
+
+			&:hover {
+				border-color: $c_white;
+			}
+
+			&:focus {
+				border-color: $c_sub;
+			}
+		}
+	}
+
+
+	// Champ date
+	// --------------------------------------
+	.st-field-date {
+		display: grid;
+		grid-template-areas: "input";
+		align-items: center;
+		width: 100%;
+		min-width: 100px;
+
+		&:before {
+			grid-area: input;
+			justify-self: end;
+			@include icomoon($st-icon-agenda);
+			font-size: 16px;
+			color: $c_white;
+			margin-right: 20px;
+			pointer-events: none;
+
+			@include mobile {
+				margin-right: 16px;
+			}
+			
+			// pour recouvrir l'icône natif qu'on ne peut pas maquer sur FF
+			position: relative;
+			z-index: 1;
+			padding: 4px 0 4px 4px;
+			background-color: $c_main;
+		}
+
+		input {
+			grid-area: input;
+		}
+	}
+
+
+	// Boutons radio et checkboxs
+	// --------------------------------------
+
+	legend {
+		@include ft('', 14px, 700, $c_white, 1.5);
+		margin-bottom: 15px;
+	}
+
+
+	// container vertical ou horizontal
+	.st-group-radio {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+
+		> * + * {
+			margin-top: 10px;
+		}
+
+		&.st--horizontal {
+			@include min-tablet-portrait {
+				flex-direction: initial;
+				align-items: initial;
+
+				> * + * {
+					margin-top: initial;
+					margin-left: 20px;
+				}
+			}
+		}
+	}
+
+
+	.st-field-checkbox,
+	.st-field-radio {
+		display: grid;
+		grid-template-columns: 20px auto;
+		gap: 10px;
+		margin-bottom: initial;
+		@include ft('', 14px, 500, $c_white, 1.42);
+
+		input[type="checkbox"],
+		input[type="radio"] {
+			@include create-outline();
+			appearance: none;
+			display: grid;
+			place-content: center;
+			width: 20px;
+			height: 20px;
+			border: 1px solid color-mix(in srgb, $c_white 50%, transparent);
+			transform: translateY(-1px);
+			cursor: pointer;
+			@include transition(border-color);
+
+			&:before {
+				content: "";
+				width: 12px;
+				height: 12px;
+				opacity: 0;
+				transform: scale(0.5);
+				background-color: $c_sub;
+				@include transition(opacity 150ms, transform 150ms);
+			}
+
+			&:checked:before {
+				opacity: initial;
+				transform: initial;
+			}
+
+			&:hover {
+				border-color: $c_white;
+			}
+			&:focus {
+				border-color: $c_sub;
+			}
+		}
+
+		input[type="checkbox"] {
+			border-radius: $border-radius-small;
+		}
+
+		input[type="radio"] {
+			border-radius: 50%;
+
+			&:before {
+				border-radius: 50%;
+			}
+		}
+	}
+}

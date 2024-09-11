@@ -14,7 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -22,6 +21,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.BooleanClause;
 import com.liferay.portal.kernel.search.BooleanClauseFactoryUtil;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
@@ -55,6 +56,7 @@ import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.annotation.versioning.ProviderType;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
@@ -543,7 +545,7 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 	        }
 		}
 		catch(Exception ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage(), ex);
 		}
 	    
 		return suggestions;
@@ -615,4 +617,6 @@ public class InitiativeImpl extends InitiativeBaseImpl {
 
 		return jsonInitiative;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

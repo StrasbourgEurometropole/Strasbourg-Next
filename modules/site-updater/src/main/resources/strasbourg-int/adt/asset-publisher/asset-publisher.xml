@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.asset.kernel.model.AssetEntry</className>
+    <template>
+        <script>news-list.ftl</script>
+        <name>Liste d'actualités</name>
+        <key>4906342</key>
+    </template>
+    <template>
+        <script>news-thumbnail.ftl</script>
+        <name>Vignette actualité</name>
+        <key>4906347</key>
+    </template>
+    <template>
+        <script>place-list.ftl</script>
+        <name>Liste de lieux</name>
+        <key>4906444</key>
+    </template>
+    <template>
+        <script>useful-links.ftl</script>
+        <name>Liens utiles</name>
+        <key>4906438</key>
+    </template>
+</root>

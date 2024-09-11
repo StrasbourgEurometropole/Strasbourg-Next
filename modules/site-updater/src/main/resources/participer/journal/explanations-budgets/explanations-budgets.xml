@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Explication budget participatif</name>
+        <key>3873865</key>
+        <definition>explanations-budgets-structure.json</definition>
+        <layout>explanations-budgets-layout.json</layout>
+    </structure>
+    <template>
+        <name>Explications budget participatif</name>
+        <key>3873718</key>
+        <script>explanations-budgets.ftl</script>
+    </template>
+</root>

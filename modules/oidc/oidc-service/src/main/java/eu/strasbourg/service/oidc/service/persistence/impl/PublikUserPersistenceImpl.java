@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.oidc.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -26,30 +18,30 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.oidc.exception.NoSuchPublikUserException;
 import eu.strasbourg.service.oidc.model.PublikUser;
+import eu.strasbourg.service.oidc.model.PublikUserTable;
 import eu.strasbourg.service.oidc.model.impl.PublikUserImpl;
 import eu.strasbourg.service.oidc.model.impl.PublikUserModelImpl;
 import eu.strasbourg.service.oidc.service.persistence.PublikUserPersistence;
+import eu.strasbourg.service.oidc.service.persistence.PublikUserUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -250,10 +242,6 @@ public class PublikUserPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -602,8 +590,6 @@ public class PublikUserPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -747,11 +733,6 @@ public class PublikUserPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByPublikId, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -834,8 +815,6 @@ public class PublikUserPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -857,21 +836,14 @@ public class PublikUserPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(PublikUser.class);
+
+		setModelImplClass(PublikUserImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(PublikUserTable.INSTANCE);
 	}
 
 	/**
@@ -882,15 +854,14 @@ public class PublikUserPersistenceImpl
 	@Override
 	public void cacheResult(PublikUser publikUser) {
 		entityCache.putResult(
-			PublikUserModelImpl.ENTITY_CACHE_ENABLED, PublikUserImpl.class,
-			publikUser.getPrimaryKey(), publikUser);
+			PublikUserImpl.class, publikUser.getPrimaryKey(), publikUser);
 
 		finderCache.putResult(
 			_finderPathFetchByPublikId, new Object[] {publikUser.getPublikId()},
 			publikUser);
-
-		publikUser.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the publik users in the entity cache if it is enabled.
@@ -899,15 +870,18 @@ public class PublikUserPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<PublikUser> publikUsers) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (publikUsers.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (PublikUser publikUser : publikUsers) {
 			if (entityCache.getResult(
-					PublikUserModelImpl.ENTITY_CACHE_ENABLED,
 					PublikUserImpl.class, publikUser.getPrimaryKey()) == null) {
 
 				cacheResult(publikUser);
-			}
-			else {
-				publikUser.resetOriginalValues();
 			}
 		}
 	}
@@ -923,9 +897,7 @@ public class PublikUserPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(PublikUserImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(PublikUserImpl.class);
 	}
 
 	/**
@@ -937,39 +909,22 @@ public class PublikUserPersistenceImpl
 	 */
 	@Override
 	public void clearCache(PublikUser publikUser) {
-		entityCache.removeResult(
-			PublikUserModelImpl.ENTITY_CACHE_ENABLED, PublikUserImpl.class,
-			publikUser.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((PublikUserModelImpl)publikUser, true);
+		entityCache.removeResult(PublikUserImpl.class, publikUser);
 	}
 
 	@Override
 	public void clearCache(List<PublikUser> publikUsers) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (PublikUser publikUser : publikUsers) {
-			entityCache.removeResult(
-				PublikUserModelImpl.ENTITY_CACHE_ENABLED, PublikUserImpl.class,
-				publikUser.getPrimaryKey());
-
-			clearUniqueFindersCache((PublikUserModelImpl)publikUser, true);
+			entityCache.removeResult(PublikUserImpl.class, publikUser);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(PublikUserImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				PublikUserModelImpl.ENTITY_CACHE_ENABLED, PublikUserImpl.class,
-				primaryKey);
+			entityCache.removeResult(PublikUserImpl.class, primaryKey);
 		}
 	}
 
@@ -979,31 +934,9 @@ public class PublikUserPersistenceImpl
 		Object[] args = new Object[] {publikUserModelImpl.getPublikId()};
 
 		finderCache.putResult(
-			_finderPathCountByPublikId, args, Long.valueOf(1), false);
+			_finderPathCountByPublikId, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathFetchByPublikId, args, publikUserModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		PublikUserModelImpl publikUserModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {publikUserModelImpl.getPublikId()};
-
-			finderCache.removeResult(_finderPathCountByPublikId, args);
-			finderCache.removeResult(_finderPathFetchByPublikId, args);
-		}
-
-		if ((publikUserModelImpl.getColumnBitmask() &
-			 _finderPathFetchByPublikId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				publikUserModelImpl.getOriginalPublikId()
-			};
-
-			finderCache.removeResult(_finderPathCountByPublikId, args);
-			finderCache.removeResult(_finderPathFetchByPublikId, args);
-		}
+			_finderPathFetchByPublikId, args, publikUserModelImpl);
 	}
 
 	/**
@@ -1143,23 +1076,24 @@ public class PublikUserPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (publikUser.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				publikUser.setCreateDate(now);
+				publikUser.setCreateDate(date);
 			}
 			else {
-				publikUser.setCreateDate(serviceContext.getCreateDate(now));
+				publikUser.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!publikUserModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				publikUser.setModifiedDate(now);
+				publikUser.setModifiedDate(date);
 			}
 			else {
-				publikUser.setModifiedDate(serviceContext.getModifiedDate(now));
+				publikUser.setModifiedDate(
+					serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -1168,10 +1102,8 @@ public class PublikUserPersistenceImpl
 		try {
 			session = openSession();
 
-			if (publikUser.isNew()) {
+			if (isNew) {
 				session.save(publikUser);
-
-				publikUser.setNew(false);
 			}
 			else {
 				publikUser = (PublikUser)session.merge(publikUser);
@@ -1184,49 +1116,14 @@ public class PublikUserPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!PublikUserModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {publikUserModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((publikUserModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					publikUserModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {publikUserModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-		}
-
 		entityCache.putResult(
-			PublikUserModelImpl.ENTITY_CACHE_ENABLED, PublikUserImpl.class,
-			publikUser.getPrimaryKey(), publikUser, false);
+			PublikUserImpl.class, publikUserModelImpl, false, true);
 
-		clearUniqueFindersCache(publikUserModelImpl, false);
 		cacheUniqueFindersCache(publikUserModelImpl);
+
+		if (isNew) {
+			publikUser.setNew(false);
+		}
 
 		publikUser.resetOriginalValues();
 
@@ -1275,161 +1172,12 @@ public class PublikUserPersistenceImpl
 	/**
 	 * Returns the publik user with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the publik user
-	 * @return the publik user, or <code>null</code> if a publik user with the primary key could not be found
-	 */
-	@Override
-	public PublikUser fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			PublikUserModelImpl.ENTITY_CACHE_ENABLED, PublikUserImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		PublikUser publikUser = (PublikUser)serializable;
-
-		if (publikUser == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				publikUser = (PublikUser)session.get(
-					PublikUserImpl.class, primaryKey);
-
-				if (publikUser != null) {
-					cacheResult(publikUser);
-				}
-				else {
-					entityCache.putResult(
-						PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-						PublikUserImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-					PublikUserImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return publikUser;
-	}
-
-	/**
-	 * Returns the publik user with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param publikUserLiferayId the primary key of the publik user
 	 * @return the publik user, or <code>null</code> if a publik user with the primary key could not be found
 	 */
 	@Override
 	public PublikUser fetchByPrimaryKey(long publikUserLiferayId) {
 		return fetchByPrimaryKey((Serializable)publikUserLiferayId);
-	}
-
-	@Override
-	public Map<Serializable, PublikUser> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, PublikUser> map =
-			new HashMap<Serializable, PublikUser>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			PublikUser publikUser = fetchByPrimaryKey(primaryKey);
-
-			if (publikUser != null) {
-				map.put(primaryKey, publikUser);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				PublikUserModelImpl.ENTITY_CACHE_ENABLED, PublikUserImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (PublikUser)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_PUBLIKUSER_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (PublikUser publikUser : (List<PublikUser>)query.list()) {
-				map.put(publikUser.getPrimaryKeyObj(), publikUser);
-
-				cacheResult(publikUser);
-
-				uncachedPrimaryKeys.remove(publikUser.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-					PublikUserImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1556,10 +1304,6 @@ public class PublikUserPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1605,9 +1349,6 @@ public class PublikUserPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1624,6 +1365,21 @@ public class PublikUserPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "publikUserLiferayId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_PUBLIKUSER;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return PublikUserModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1632,65 +1388,56 @@ public class PublikUserPersistenceImpl
 	 * Initializes the publik user persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserModelImpl.FINDER_CACHE_ENABLED, PublikUserImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserModelImpl.FINDER_CACHE_ENABLED, PublikUserImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserModelImpl.FINDER_CACHE_ENABLED, PublikUserImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserModelImpl.FINDER_CACHE_ENABLED, PublikUserImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			PublikUserModelImpl.UUID_COLUMN_BITMASK |
-			PublikUserModelImpl.LASTNAME_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByPublikId = new FinderPath(
-			PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserModelImpl.FINDER_CACHE_ENABLED, PublikUserImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByPublikId",
-			new String[] {String.class.getName()},
-			PublikUserModelImpl.PUBLIKID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"publikId"},
+			true);
 
 		_finderPathCountByPublikId = new FinderPath(
-			PublikUserModelImpl.ENTITY_CACHE_ENABLED,
-			PublikUserModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"publikId"},
+			false);
+
+		PublikUserUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		PublikUserUtil.setPersistence(null);
+
 		entityCache.removeCache(PublikUserImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1701,9 +1448,6 @@ public class PublikUserPersistenceImpl
 
 	private static final String _SQL_SELECT_PUBLIKUSER =
 		"SELECT publikUser FROM PublikUser publikUser";
-
-	private static final String _SQL_SELECT_PUBLIKUSER_WHERE_PKS_IN =
-		"SELECT publikUser FROM PublikUser publikUser WHERE publikUserLiferayId IN (";
 
 	private static final String _SQL_SELECT_PUBLIKUSER_WHERE =
 		"SELECT publikUser FROM PublikUser publikUser WHERE ";
@@ -1727,5 +1471,10 @@ public class PublikUserPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

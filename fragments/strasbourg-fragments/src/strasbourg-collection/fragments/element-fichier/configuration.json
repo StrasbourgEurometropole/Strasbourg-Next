@@ -1,0 +1,39 @@
+{
+  "fieldSets": [
+    {
+      "fields": [
+        {
+          "label": "select-content",
+          "name": "fileSelector",
+          "type": "itemSelector",
+          "typeOptions": {
+            "itemType": "com.liferay.portal.kernel.repository.model.FileEntry",
+						"mimeTypes": [
+              "application/pdf"
+            ]
+          }
+        },
+        {
+          "label": "Ouvrir dans un nouvel onglet",
+          "name": "openInNewTab",
+          "type": "checkbox",
+          "defaultValue": false
+        },
+				{
+                    "name": "displayStyle",
+                    "label": "Style d'affichage",
+          "description": "Choisissez le style d'affichage du lien (complet ou compact). Cela doit être la même valeur que celle choisie pour le conteneur du bloc.",
+          "type": "select",
+                    "dataType": "string",
+                    "typeOptions": {
+                        "validValues": [
+                            {"value": "complete", label: "Complet"},
+                            {"value": "compact", label: "Compact"}
+                        ]
+                    },
+                    "defaultValue": "complete"
+                }
+      ]
+    }
+  ]
+}

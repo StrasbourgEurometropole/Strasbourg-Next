@@ -24,6 +24,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.*;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -65,7 +66,7 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
                 PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
                         PortletRequest.RENDER_PHASE);
 
-                response.setRenderParameter("returnURL", returnURL.toString());
+                response.setRenderParameter("backURL", returnURL.toString());
                 response.setRenderParameter("cmd", "editCouncilSession");
                 response.setRenderParameter("mvcPath", "/council-bo-edit-council-session.jsp");
                 return false;
@@ -94,8 +95,11 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
 
             // Mise à jour de l'entrée en base
             this.councilSessionLocalService.updateCouncilSession(councilSession, sc);
+            response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
         } catch (PortalException e) {
+            log.error(e);
+        } catch (IOException e) {
             log.error(e);
         }
         return true;
@@ -141,7 +145,7 @@ public class SaveCouncilSessionActionCommand implements MVCActionCommand {
         List<CouncilSession> councilSessionListByType = CouncilSessionLocalServiceUtil.findByTypeId(this.typeId); // tous les conseils d'un type (passés et futurs)
 
         List<Date> datesForCouncilsToCome = councilSessions.stream().map(CouncilSessionModel::getDate).collect(Collectors.toList());
-        List<Date> datesForCouncilsOfType = councilSessionListByType.stream().map(CouncilSessionModel::getDate).collect(Collectors.toList());
+        List<Date> datesForCouncilsOfType = councilSessionListByType.stream().filter(x -> x.getCouncilSessionId() != this.councilSessionId).map(CouncilSessionModel::getDate).collect(Collectors.toList());
 
         List<Date> commonDatesList = datesForCouncilsOfType.stream()
                 .filter(councilDate -> datesForCouncilsToCome.contains(councilDate)).collect(Collectors.toList());

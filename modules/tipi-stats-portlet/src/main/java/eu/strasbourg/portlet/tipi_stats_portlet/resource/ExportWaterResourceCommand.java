@@ -1,25 +1,24 @@
 package eu.strasbourg.portlet.tipi_stats_portlet.resource;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import com.liferay.portal.kernel.portlet.PortletResponseUtil;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
+import com.liferay.petra.string.CharPool;
+import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.StringBundler;
+import eu.strasbourg.service.tipi.model.TipiEntry;
+import eu.strasbourg.service.tipi.service.TipiEntryLocalServiceUtil;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.portlet.PortletResponseUtil;
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
-import com.liferay.portal.kernel.util.CharPool;
-import com.liferay.portal.kernel.util.ContentTypes;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.StringBundler;
-
-import eu.strasbourg.service.tipi.model.TipiEntry;
-import eu.strasbourg.service.tipi.service.TipiEntryLocalServiceUtil;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 /**
  * Export d'une campagne au format JSON
@@ -68,8 +67,10 @@ public class ExportWaterResourceCommand implements MVCResourceCommand {
 					fileName, bytes, contentType);
 
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage(), ex);
 		}
 		return false;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

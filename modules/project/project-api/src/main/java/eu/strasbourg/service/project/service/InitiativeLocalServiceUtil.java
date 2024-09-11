@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.project.model.Initiative;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for Initiative. This utility wraps
@@ -48,9 +48,7 @@ public class InitiativeLocalServiceUtil {
 	 * @param initiative the initiative
 	 * @return the initiative that was added
 	 */
-	public static eu.strasbourg.service.project.model.Initiative addInitiative(
-		eu.strasbourg.service.project.model.Initiative initiative) {
-
+	public static Initiative addInitiative(Initiative initiative) {
 		return getService().addInitiative(initiative);
 	}
 
@@ -60,21 +58,28 @@ public class InitiativeLocalServiceUtil {
 	 * @param initiativeId the primary key for the new initiative
 	 * @return the new initiative
 	 */
-	public static eu.strasbourg.service.project.model.Initiative
-		createInitiative(long initiativeId) {
-
+	public static Initiative createInitiative(long initiativeId) {
 		return getService().createInitiative(initiativeId);
 	}
 
 	/**
 	 * Crée une initiative vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.project.model.Initiative
-			createInitiative(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Initiative createInitiative(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createInitiative(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -87,10 +92,7 @@ public class InitiativeLocalServiceUtil {
 	 * @param initiative the initiative
 	 * @return the initiative that was removed
 	 */
-	public static eu.strasbourg.service.project.model.Initiative
-		deleteInitiative(
-			eu.strasbourg.service.project.model.Initiative initiative) {
-
+	public static Initiative deleteInitiative(Initiative initiative) {
 		return getService().deleteInitiative(initiative);
 	}
 
@@ -105,9 +107,8 @@ public class InitiativeLocalServiceUtil {
 	 * @return the initiative that was removed
 	 * @throws PortalException if a initiative with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Initiative
-			deleteInitiative(long initiativeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Initiative deleteInitiative(long initiativeId)
+		throws PortalException {
 
 		return getService().deleteInitiative(initiativeId);
 	}
@@ -115,17 +116,22 @@ public class InitiativeLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -135,9 +141,7 @@ public class InitiativeLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -153,9 +157,8 @@ public class InitiativeLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -173,10 +176,9 @@ public class InitiativeLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -188,9 +190,7 @@ public class InitiativeLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -202,15 +202,13 @@ public class InitiativeLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.project.model.Initiative
-		fetchInitiative(long initiativeId) {
-
+	public static Initiative fetchInitiative(long initiativeId) {
 		return getService().fetchInitiative(initiativeId);
 	}
 
@@ -221,8 +219,8 @@ public class InitiativeLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching initiative, or <code>null</code> if a matching initiative could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Initiative
-		fetchInitiativeByUuidAndGroupId(String uuid, long groupId) {
+	public static Initiative fetchInitiativeByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchInitiativeByUuidAndGroupId(uuid, groupId);
 	}
@@ -230,8 +228,8 @@ public class InitiativeLocalServiceUtil {
 	/**
 	 * Recherche par mot clés
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Initiative>
-		findByKeyword(String keyword, long groupId, int start, int end) {
+	public static List<Initiative> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -243,14 +241,12 @@ public class InitiativeLocalServiceUtil {
 		return getService().findByKeywordCount(keyword, groupId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.project.model.Initiative>
-		findByPublikUserId(String publikUserId) {
-
+	public static List<Initiative> findByPublikUserId(String publikUserId) {
 		return getService().findByPublikUserId(publikUserId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.project.model.Initiative>
-		findHelpedByPublikUserId(String publikUserId) {
+	public static List<Initiative> findHelpedByPublikUserId(
+		String publikUserId) {
 
 		return getService().findHelpedByPublikUserId(publikUserId);
 	}
@@ -264,15 +260,11 @@ public class InitiativeLocalServiceUtil {
 	/**
 	 * Retourne toutes les initiatives d'un groupe
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Initiative>
-		getByGroupId(long groupId) {
-
+	public static List<Initiative> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.project.model.Initiative>
-		getByPublikUserID(String publikId) {
-
+	public static List<Initiative> getByPublikUserID(String publikId) {
 		return getService().getByPublikUserID(publikId);
 	}
 
@@ -298,9 +290,8 @@ public class InitiativeLocalServiceUtil {
 	 * @return the initiative
 	 * @throws PortalException if a initiative with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Initiative getInitiative(
-			long initiativeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Initiative getInitiative(long initiativeId)
+		throws PortalException {
 
 		return getService().getInitiative(initiativeId);
 	}
@@ -313,9 +304,9 @@ public class InitiativeLocalServiceUtil {
 	 * @return the matching initiative
 	 * @throws PortalException if a matching initiative could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Initiative
-			getInitiativeByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Initiative getInitiativeByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getInitiativeByUuidAndGroupId(uuid, groupId);
 	}
@@ -331,9 +322,7 @@ public class InitiativeLocalServiceUtil {
 	 * @param end the upper bound of the range of initiatives (not inclusive)
 	 * @return the range of initiatives
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Initiative>
-		getInitiatives(int start, int end) {
-
+	public static List<Initiative> getInitiatives(int start, int end) {
 		return getService().getInitiatives(start, end);
 	}
 
@@ -344,8 +333,8 @@ public class InitiativeLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching initiatives, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Initiative>
-		getInitiativesByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Initiative> getInitiativesByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getInitiativesByUuidAndCompanyId(uuid, companyId);
 	}
@@ -360,12 +349,9 @@ public class InitiativeLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching initiatives, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Initiative>
-		getInitiativesByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.project.model.Initiative>
-					orderByComparator) {
+	public static List<Initiative> getInitiativesByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Initiative> orderByComparator) {
 
 		return getService().getInitiativesByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -387,9 +373,7 @@ public class InitiativeLocalServiceUtil {
 	 * @param delta Nombre de resultats max voulu
 	 * @return Liste d'initiatives les plus commentes triee.
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Initiative>
-		getMostCommented(long groupId, int delta) {
-
+	public static List<Initiative> getMostCommented(long groupId, int delta) {
 		return getService().getMostCommented(groupId, delta);
 	}
 
@@ -400,9 +384,7 @@ public class InitiativeLocalServiceUtil {
 	 * @param delta Nombre de resultats max voulu
 	 * @return Liste d'initiatives les plus aidé triee.
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Initiative>
-		getMostHelped(long groupId, int delta) {
-
+	public static List<Initiative> getMostHelped(long groupId, int delta) {
 		return getService().getMostHelped(groupId, delta);
 	}
 
@@ -413,9 +395,7 @@ public class InitiativeLocalServiceUtil {
 	 * @param delta Nombre de resultats max voulu
 	 * @return Liste d'initiatives les plus aidé triee.
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Initiative>
-		getMostLiked(long groupId, int delta) {
-
+	public static List<Initiative> getMostLiked(long groupId, int delta) {
 		return getService().getMostLiked(groupId, delta);
 	}
 
@@ -431,9 +411,8 @@ public class InitiativeLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -441,9 +420,7 @@ public class InitiativeLocalServiceUtil {
 	/**
 	 * Retourne toutes les initiatives publiées d'un groupe
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Initiative>
-		getPublishedByGroupId(long groupId) {
-
+	public static List<Initiative> getPublishedByGroupId(long groupId) {
 		return getService().getPublishedByGroupId(groupId);
 	}
 
@@ -453,9 +430,7 @@ public class InitiativeLocalServiceUtil {
 	 * @param groupId ID du site
 	 * @return Liste des initiatives triee par nombre de commentaires
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Initiative>
-		getSortedByNbComments(long groupId) {
-
+	public static List<Initiative> getSortedByNbComments(long groupId) {
 		return getService().getSortedByNbComments(groupId);
 	}
 
@@ -465,9 +440,7 @@ public class InitiativeLocalServiceUtil {
 	 * @param groupId ID du site
 	 * @return Liste des budgets participatifs triee par nombre de soutiens
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Initiative>
-		getSortedByNbHelps(long groupId) {
-
+	public static List<Initiative> getSortedByNbHelps(long groupId) {
 		return getService().getSortedByNbHelps(groupId);
 	}
 
@@ -477,18 +450,15 @@ public class InitiativeLocalServiceUtil {
 	 * @param groupId ID du site
 	 * @return Liste d'initiatives triee par nombre de soutiens
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Initiative>
-		getSortedByNbLikes(long groupId) {
-
+	public static List<Initiative> getSortedByNbLikes(long groupId) {
 		return getService().getSortedByNbLikes(groupId);
 	}
 
 	/**
 	 * Supprime une initiative
 	 */
-	public static eu.strasbourg.service.project.model.Initiative
-			removeInitiative(long initiativeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Initiative removeInitiative(long initiativeId)
+		throws PortalException {
 
 		return getService().removeInitiative(initiativeId);
 	}
@@ -503,10 +473,7 @@ public class InitiativeLocalServiceUtil {
 	 * @param initiative the initiative
 	 * @return the initiative that was updated
 	 */
-	public static eu.strasbourg.service.project.model.Initiative
-		updateInitiative(
-			eu.strasbourg.service.project.model.Initiative initiative) {
-
+	public static Initiative updateInitiative(Initiative initiative) {
 		return getService().updateInitiative(initiative);
 	}
 
@@ -515,11 +482,10 @@ public class InitiativeLocalServiceUtil {
 	 *
 	 * @throws IOException
 	 */
-	public static eu.strasbourg.service.project.model.Initiative
-			updateInitiative(
-				eu.strasbourg.service.project.model.Initiative initiative,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Initiative updateInitiative(
+			Initiative initiative,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateInitiative(initiative, sc);
 	}
@@ -527,10 +493,8 @@ public class InitiativeLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'initiative "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.project.model.Initiative initiative,
-			int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(Initiative initiative, int status)
+		throws PortalException {
 
 		getService().updateStatus(initiative, status);
 	}
@@ -538,36 +502,24 @@ public class InitiativeLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'initiative par le framework workflow
 	 */
-	public static eu.strasbourg.service.project.model.Initiative updateStatus(
+	public static Initiative updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
 	}
 
 	public static InitiativeLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<InitiativeLocalService, InitiativeLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(InitiativeLocalService.class);
-
-		ServiceTracker<InitiativeLocalService, InitiativeLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<InitiativeLocalService, InitiativeLocalService>(
-						bundle.getBundleContext(), InitiativeLocalService.class,
-						null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(InitiativeLocalService service) {
+		_service = service;
 	}
+
+	private static volatile InitiativeLocalService _service;
 
 }

@@ -1,20 +1,12 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service;
 
 import com.liferay.portal.kernel.service.ServiceWrapper;
+import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 /**
  * Provides a wrapper for {@link CacheAlertJSONLocalService}.
@@ -26,6 +18,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class CacheAlertJSONLocalServiceWrapper
 	implements CacheAlertJSONLocalService,
 			   ServiceWrapper<CacheAlertJSONLocalService> {
+
+	public CacheAlertJSONLocalServiceWrapper() {
+		this(null);
+	}
 
 	public CacheAlertJSONLocalServiceWrapper(
 		CacheAlertJSONLocalService cacheAlertJSONLocalService) {
@@ -61,6 +57,17 @@ public class CacheAlertJSONLocalServiceWrapper
 		long cacheId) {
 
 		return _cacheAlertJSONLocalService.createCacheAlertJSON(cacheId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
+	public com.liferay.portal.kernel.model.PersistedModel createPersistedModel(
+			java.io.Serializable primaryKeyObj)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _cacheAlertJSONLocalService.createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -108,6 +115,18 @@ public class CacheAlertJSONLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _cacheAlertJSONLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public <T> T dslQuery(com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+		return _cacheAlertJSONLocalService.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(
+		com.liferay.petra.sql.dsl.query.DSLQuery dslQuery) {
+
+		return _cacheAlertJSONLocalService.dslQueryCount(dslQuery);
 	}
 
 	@Override
@@ -309,6 +328,11 @@ public class CacheAlertJSONLocalServiceWrapper
 	@Override
 	public void updateJsonAlert() {
 		_cacheAlertJSONLocalService.updateJsonAlert();
+	}
+
+	@Override
+	public BasePersistence<?> getBasePersistence() {
+		return _cacheAlertJSONLocalService.getBasePersistence();
 	}
 
 	@Override

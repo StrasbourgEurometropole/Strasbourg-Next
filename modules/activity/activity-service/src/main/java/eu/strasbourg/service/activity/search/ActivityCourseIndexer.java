@@ -1,13 +1,5 @@
 package eu.strasbourg.service.activity.search;
 
-import java.util.List;
-import java.util.Locale;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -15,17 +7,26 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.search.BaseIndexer;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-
+import com.liferay.portal.kernel.util.PortalUtil;
 import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.activity.service.ActivityCourseLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import java.util.List;
+import java.util.Locale;
 
 @Component(immediate = true, service = Indexer.class)
 public class ActivityCourseIndexer extends BaseIndexer<ActivityCourse> {
@@ -33,6 +34,10 @@ public class ActivityCourseIndexer extends BaseIndexer<ActivityCourse> {
 	public static final String CLASS_NAME = ActivityCourse.class.getName();
 
 	public ActivityCourseIndexer() {
+		setDefaultSelectedFieldNames(
+				Field.ASSET_TAG_NAMES, Field.COMPANY_ID, Field.CONTENT,
+				Field.ENTRY_CLASS_NAME, Field.ENTRY_CLASS_PK, Field.GROUP_ID,
+				Field.MODIFIED_DATE, Field.SCOPE_GROUP_ID, Field.TITLE, Field.UID);
 		setFilterSearch(true);
 		setPermissionAware(true);
 	}
@@ -62,11 +67,15 @@ public class ActivityCourseIndexer extends BaseIndexer<ActivityCourse> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(activityCourse.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+
+		IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
 			assetCategories);
 
 		document.addLocalizedText(Field.TITLE, activityCourse.getNameMap());
 		document.addNumber(Field.STATUS, activityCourse.getStatus());
+		// little hack to allow guest user to see the activityCourse
+		Company company  = CompanyLocalServiceUtil.fetchCompany(activityCourse.getCompanyId());
+		document.addKeyword("sharedToUserId", List.of(company.getGuestUser().getUserId()).toArray(new Long[1]));
 		return document;
 	}
 
@@ -94,8 +103,7 @@ public class ActivityCourseIndexer extends BaseIndexer<ActivityCourse> {
 	protected void doReindex(ActivityCourse activityCourse) throws Exception {
 		Document document = getDocument(activityCourse);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			activityCourse.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(activityCourse.getCompanyId(), document);
 
 	}
 
@@ -128,7 +136,6 @@ public class ActivityCourseIndexer extends BaseIndexer<ActivityCourse> {
 
 			});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

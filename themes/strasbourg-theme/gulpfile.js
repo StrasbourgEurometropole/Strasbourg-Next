@@ -1,78 +1,61 @@
+/**
+ * © 2017 Liferay, Inc. <https://liferay.com>
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 'use strict';
 
 var gulp = require('gulp');
 var liferayThemeTasks = require('liferay-theme-tasks');
-var plugins = require('gulp-load-plugins')({
-    rename: {
-        'gulp-clean-css': 'cleancss',
-        'gulp-sass-import-json': 'jsonToSass',
-        'gulp-ruby-sass': 'rubysass',
-        'gulp-require-tasks': 'requireTask',
-        'gulp-ext-replace': 'extReplace',
-        'gulp-sass-glob': 'globs'
-    }
-});
-var rename = require('gulp-rename');
-var globSass = require('gulp-sass-glob-import');
+var uglify = require('gulp-uglify');
+const concat = require('gulp-concat');
+var sourcemaps = require('gulp-sourcemaps');
+const sassGlob = require('gulp-sass-glob');
+var runSequence = require('gulp4-run-sequence').use(gulp);
+var postcss = require('gulp-postcss');
 var cleancss = require('gulp-clean-css');
-var del = require('del');
-var runSequence = require('run-sequence').use(gulp);
-const uglify = require('gulp-uglify');
+
+/** Gestion de erreurs */
+function onError(err) {
+    console.log(err.toString());
+    this.emit('end');
+}
+
 
 liferayThemeTasks.registerTasks({
-  gulp: gulp,
-  hookFn: function(gulp) {
-    gulp.task('build:r2', function(done) {
-      const plugins = require('gulp-load-plugins')();
-  
-      return gulp
-        .src(['./build/css/*.css','!./build/css/*_rtl.css'])
-    });
+    gulp,
+    sassOptions: {
+        quietDeps: true,
+        sassOptions: {
+            quietDeps: true,
+        },
+    },
+    hookFn: function(gulp) {
+        gulp.task('sassGlob', function() {
+            return gulp
+                .src('./build/_css/*.scss')
+                .pipe(sassGlob())
+                .pipe(gulp.dest('./build/_css/'));
+        });
+        gulp.hook('before:build:compile-css', function(done) {
+            runSequence('sassGlob', done);
+        });
+        gulp.hook('before:build:war', function(done) {
+            // Fires before build `war` task
+            gulp.src([
+                    'build/js/libs/splide.min.js',
+                    'build/js/libs/*.js',
+                    'build/js/libs/**/*.js',
+                    'build/js/*.js',
+                    'build/js/**/*.js'
+                ]
+            )
+                .pipe(concat("main.js")).on('error', onError)
+                //.pipe(uglify())
+                .pipe(gulp.dest('./build/js'))
+                .on('end', done);
+        });
 
-    gulp.hook('after:build:move-compiled-css', function(done) {
-        runSequence('remove-maps', 'remove-scss', 'remove-node-modules', done);
-    })
-  }
-});
-
-gulp.task('remove-maps', cb => {
-	del('./build/**/*.map').then(() => cb());
-});
-
-gulp.task('remove-scss', cb => {
-	del('./build/**/*.scss').then(() => cb());
-});
-
-gulp.task('remove-node-modules', cb => {
-	del('./build/node_modules').then(() => cb());
-});
-
-gulp.task('css', function() {
-  return gulp.src('./custom/strasbourg.scss')
-    .pipe(plugins.sourcemaps.init())
-    .pipe(globSass())
-    .pipe(plugins.plumber({
-        errorHandler: function (err) {
-            console.log(err);
-            this.emit('end');
-        }
-    })) 
-    .pipe(plugins.sass({
-      sourceComments: 'map'
-    }))
-    .pipe(cleancss({keepBreaks: false}))
-    .pipe(plugins.autoprefixer())  
-    .pipe(plugins.sourcemaps.write('.'))
-    .pipe(gulp.dest('./src/css/'))
-});
-
-gulp.task('js', function(){
-    return gulp.src('./custom/strasbourg.js')
-        //.pipe(plugins.sourcemaps.init())
-        .pipe(plugins.plumber())
-        .pipe(plugins.include())
-        .on('error', console.log)
-        //.pipe(plugins.sourcemaps.write('.'))
-        .pipe(uglify())
-        .pipe(gulp.dest('src/js/'));
+    }
 });

@@ -14,18 +14,7 @@
 
 package eu.strasbourg.service.activity.service.impl;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
-
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -61,14 +50,25 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityCourse;
 import eu.strasbourg.service.activity.model.ActivityCoursePlace;
 import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
 import eu.strasbourg.service.activity.model.PlaceAgenda;
 import eu.strasbourg.service.activity.service.base.ActivityLocalServiceBaseImpl;
+import org.osgi.annotation.versioning.ProviderType;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the activity local service.
@@ -231,10 +231,8 @@ public class ActivityLocalServiceImpl extends ActivityLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Supprime le lien avec les catégories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(categoryId, entry.getEntryId());
-			}
-
+			AssetEntryAssetCategoryRelLocalServiceUtil.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Supprime le lien avec les tags
 			long[] tagIds = AssetEntryLocalServiceUtil.getAssetTagPrimaryKeys(entry.getEntryId());
 			for (int i = 0; i < tagIds.length; i++) {
@@ -495,5 +493,4 @@ public class ActivityLocalServiceImpl extends ActivityLocalServiceBaseImpl {
 		Map<Object, Boolean> seen = new ConcurrentHashMap<>();
 		return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
 	}
-
 }

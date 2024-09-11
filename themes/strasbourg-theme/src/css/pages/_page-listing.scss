@@ -1,0 +1,229 @@
+.st-listing{
+	.btn-line{
+		display: flex;
+		justify-content: right;
+		padding-top: 20px;
+	}
+}
+
+.st-listing-cards {
+	// Grille de 2 colonnes de card horizontales
+	.st-cards-wrapper.st--has-cards-horizontal {
+		column-gap: 40px;
+		row-gap: 20px;
+
+		@include tablet-small {
+			column-gap: 20px;
+		}
+
+		@include mobile {
+			row-gap: 10px;
+		}
+
+		.st-card-container {
+			height: auto;
+		}
+	}
+
+	// Grille de 4 colonnes de card verticales
+	.st-cards-wrapper.st--has-cards-vertical {
+		column-gap: 20px;
+		row-gap: 40px;
+
+		@include mobile {
+			row-gap: 10px;
+
+			// Passage des cards en vue horizontale sur mobile
+			.st-card-container {
+				height: auto;
+			}
+			.st-card {
+				@include card-horizontal();
+			}
+		}
+	}
+}
+
+.st-listing-results {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 26px;
+
+	@include mobile {
+		flex-direction: column;
+		justify-content: initial;
+		align-items: initial;
+	}
+
+	.st-results {
+		@include ft('', 14px, 700, $c_white, 1.14);
+		@include letter-spacing(25);
+	}
+
+	// Custom select
+	// --------------------------------------
+	.st-results-filter {
+		display: flex;
+		align-items: center;
+		text-align: right;
+
+		label {
+			@include ft('', 14px, 300, $c_txt, 1.14);
+			@include letter-spacing(25);
+			flex-shrink: 0;
+		}
+	}
+
+	.st-results-select {
+		display: grid;
+		grid-template-areas: "select";
+		grid-template-columns: minmax(10px, 1fr);
+		align-items: center;
+
+		&:before {
+			grid-area: select;
+			justify-self: end;
+			@include icomoon($st-icon-arrow-down);
+			font-size: 10px;
+			color: $c_white;
+			pointer-events: none;
+		}
+
+		select {
+			@include reset-select;
+			grid-area: select;
+			padding: 6px 14px 6px 10px;
+			@include ft('', 14px, 700, $c_white, 1.14);
+			@include letter-spacing(25);
+			&:hover,
+			&:focus {
+				color: $c_sub;
+			}
+		}
+	}
+	
+	
+	// --modifiers
+	&.st--in-barre-sticky {
+		flex-direction: column;
+		align-items: initial;
+		justify-content: initial;
+		margin-bottom: initial;
+		flex-grow: 1;
+
+		.st-results {
+			@include mobile {
+				font-size: 11px;
+			}
+		}
+
+		.st-results-filter {
+			text-align: initial;
+			padding-right: 20px;
+		}
+
+		label {
+			margin-bottom: initial;
+
+			@include mobile {
+				font-size: 11px;
+			}
+		}
+
+		@include mobile {
+			.st-results-select {
+				&:before {
+					font-size: 8px;
+				}
+
+				select {
+					font-size: 11px;
+					padding: 4px 12px 4px 6px;
+				}
+			}
+		}
+	}
+}
+
+
+// Listing agenda
+// ==========================================================================
+
+// Filtres de date dans la page de listing d'agenda
+.st-filters-agenda {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	--col-gap: 10px;
+	--row-gap: 10px;
+	margin-left: calc(var(--col-gap) * -1);
+	margin-top: calc(var(--row-gap) * -1);
+
+	.st-btn {
+		padding: 16px 28px;
+	}
+}
+
+.st-listing-cards.st--listing-agenda {
+	.st-date-wrapper {
+		position: relative;
+		padding-bottom: 30px;
+
+		&:last-child {
+			padding-bottom: initial;
+
+			&:before {
+				display: none;
+			}
+		}
+		
+		&.st--is-empty {
+			padding-bottom: initial;
+
+			.st-date-title {
+				color: $c_txt;
+
+				@include mobile {
+					padding-bottom: 26px;
+				}
+			}
+		}
+
+		&:before {
+			@include pseudo-block(100%, 1px);
+			bottom: 0;
+			background-image: url("../images/deco/dotted-line.svg");
+			background-repeat: repeat-x;
+			opacity: 0.25;
+		}
+
+		.st-date-title {
+			display: block;
+			padding: 0 0 26px;
+			@include ft('', 18px, 400, $c_white, 1);
+			@include letter-spacing(25);
+
+			strong {
+				font-weight: 700;
+			}
+
+			@include mobile {
+				padding-bottom: 16px;
+			}
+		}
+	}
+
+	.st-date-wrapper + .st-date-wrapper .st-date-title {
+		padding-top: 26px;
+	}
+}
+
+
+.st-listing-introduction {
+	margin-bottom: 35px;
+
+	@include mobile {
+		margin-bottom: 25px;
+	}
+}

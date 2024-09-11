@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<root>
+    <structure>
+        <key>2531709</key>
+        <name>Accueil</name>
+        <definition>home-definition.json</definition>
+        <layout>home-layout.json</layout>
+    </structure>
+    <template>
+        <key>2531714</key>
+        <name>Accueil</name>
+        <cacheable>true</cacheable>
+        <script>home.ftl</script>
+    </template>
+</root>

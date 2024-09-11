@@ -1,34 +1,24 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.comment.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
-import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedAuditedModel;
 import com.liferay.portal.kernel.model.WorkflowedModel;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
 
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model interface for the Comment service. Represents a row in the &quot;comment_Comment&quot; database table, with each column mapped to a property of this class.
@@ -43,8 +33,8 @@ import java.util.Date;
  */
 @ProviderType
 public interface CommentModel
-	extends BaseModel<Comment>, GroupedModel, ShardedModel, StagedAuditedModel,
-			WorkflowedModel {
+	extends BaseModel<Comment>, GroupedModel, LocalizedModel, ShardedModel,
+			StagedAuditedModel, WorkflowedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -296,8 +286,58 @@ public interface CommentModel
 	 *
 	 * @return the text of this comment
 	 */
-	@AutoEscape
 	public String getText();
+
+	/**
+	 * Returns the localized text of this comment in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized text of this comment
+	 */
+	@AutoEscape
+	public String getText(Locale locale);
+
+	/**
+	 * Returns the localized text of this comment in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized text of this comment. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getText(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized text of this comment in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized text of this comment
+	 */
+	@AutoEscape
+	public String getText(String languageId);
+
+	/**
+	 * Returns the localized text of this comment in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized text of this comment
+	 */
+	@AutoEscape
+	public String getText(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getTextCurrentLanguageId();
+
+	@AutoEscape
+	public String getTextCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized texts of this comment.
+	 *
+	 * @return the locales and localized texts of this comment
+	 */
+	public Map<Locale, String> getTextMap();
 
 	/**
 	 * Sets the text of this comment.
@@ -305,6 +345,40 @@ public interface CommentModel
 	 * @param text the text of this comment
 	 */
 	public void setText(String text);
+
+	/**
+	 * Sets the localized text of this comment in the language.
+	 *
+	 * @param text the localized text of this comment
+	 * @param locale the locale of the language
+	 */
+	public void setText(String text, Locale locale);
+
+	/**
+	 * Sets the localized text of this comment in the language, and sets the default locale.
+	 *
+	 * @param text the localized text of this comment
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setText(String text, Locale locale, Locale defaultLocale);
+
+	public void setTextCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized texts of this comment from the map of locales and localized texts.
+	 *
+	 * @param textMap the locales and localized texts of this comment
+	 */
+	public void setTextMap(Map<Locale, String> textMap);
+
+	/**
+	 * Sets the localized texts of this comment from the map of locales and localized texts, and sets the default locale.
+	 *
+	 * @param textMap the locales and localized texts of this comment
+	 * @param defaultLocale the default locale
+	 */
+	public void setTextMap(Map<Locale, String> textMap, Locale defaultLocale);
 
 	/**
 	 * Returns the level of this comment.
@@ -472,61 +546,23 @@ public interface CommentModel
 	public boolean isScheduled();
 
 	@Override
-	public boolean isNew();
+	public String[] getAvailableLanguageIds();
 
 	@Override
-	public void setNew(boolean n);
+	public String getDefaultLanguageId();
 
 	@Override
-	public boolean isCachedModel();
+	public void prepareLocalizedFieldsForImport() throws LocaleException;
 
 	@Override
-	public void setCachedModel(boolean cachedModel);
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException;
 
 	@Override
-	public boolean isEscapedModel();
+	public Comment cloneWithOriginalValues();
 
-	@Override
-	public Serializable getPrimaryKeyObj();
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj);
-
-	@Override
-	public ExpandoBridge getExpandoBridge();
-
-	@Override
-	public void setExpandoBridgeAttributes(BaseModel<?> baseModel);
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge);
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext);
-
-	@Override
-	public Object clone();
-
-	@Override
-	public int compareTo(eu.strasbourg.service.comment.model.Comment comment);
-
-	@Override
-	public int hashCode();
-
-	@Override
-	public CacheModel<eu.strasbourg.service.comment.model.Comment>
-		toCacheModel();
-
-	@Override
-	public eu.strasbourg.service.comment.model.Comment toEscapedModel();
-
-	@Override
-	public eu.strasbourg.service.comment.model.Comment toUnescapedModel();
-
-	@Override
-	public String toString();
-
-	@Override
-	public String toXmlString();
+	public default String toXmlString() {
+		return null;
+	}
 
 }

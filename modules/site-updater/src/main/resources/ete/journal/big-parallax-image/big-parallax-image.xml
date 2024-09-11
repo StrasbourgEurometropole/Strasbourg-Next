@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Grande image parallaxe</name>
+        <key>1572884</key>
+        <definition>big-parallax-image-structure.json</definition>
+        <layout>big-parallax-image-layout.json</layout>
+    </structure>
+    <template>
+        <name>Grande image parallaxe</name>
+        <key>1572912</key>
+        <script>big-parallax-image.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

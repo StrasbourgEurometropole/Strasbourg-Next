@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.gtfs.model.Trip;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for Trip. This utility wraps
@@ -48,10 +48,18 @@ public class TripLocalServiceUtil {
 	 * @param trip the trip
 	 * @return the trip that was added
 	 */
-	public static eu.strasbourg.service.gtfs.model.Trip addTrip(
-		eu.strasbourg.service.gtfs.model.Trip trip) {
-
+	public static Trip addTrip(Trip trip) {
 		return getService().addTrip(trip);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -60,16 +68,16 @@ public class TripLocalServiceUtil {
 	 * @param id the primary key for the new trip
 	 * @return the new trip
 	 */
-	public static eu.strasbourg.service.gtfs.model.Trip createTrip(long id) {
+	public static Trip createTrip(long id) {
 		return getService().createTrip(id);
 	}
 
 	/**
 	 * Crée une agence vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.gtfs.model.Trip createTrip(
+	public static Trip createTrip(
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createTrip(sc);
 	}
@@ -77,9 +85,9 @@ public class TripLocalServiceUtil {
 	/**
 	 * Crée un voyage à partir d'une entrée GTFS
 	 */
-	public static eu.strasbourg.service.gtfs.model.Trip createTripFromGTFS(
+	public static Trip createTripFromGTFS(
 			eu.strasbourg.utils.models.TripsGTFS entry)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createTripFromGTFS(entry);
 	}
@@ -87,10 +95,9 @@ public class TripLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -106,9 +113,7 @@ public class TripLocalServiceUtil {
 	 * @return the trip that was removed
 	 * @throws PortalException if a trip with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.Trip deleteTrip(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Trip deleteTrip(long id) throws PortalException {
 		return getService().deleteTrip(id);
 	}
 
@@ -122,15 +127,19 @@ public class TripLocalServiceUtil {
 	 * @param trip the trip
 	 * @return the trip that was removed
 	 */
-	public static eu.strasbourg.service.gtfs.model.Trip deleteTrip(
-		eu.strasbourg.service.gtfs.model.Trip trip) {
-
+	public static Trip deleteTrip(Trip trip) {
 		return getService().deleteTrip(trip);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -140,9 +149,7 @@ public class TripLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -158,9 +165,8 @@ public class TripLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -178,10 +184,9 @@ public class TripLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -193,9 +198,7 @@ public class TripLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -207,13 +210,13 @@ public class TripLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.gtfs.model.Trip fetchTrip(long id) {
+	public static Trip fetchTrip(long id) {
 		return getService().fetchTrip(id);
 	}
 
@@ -242,9 +245,8 @@ public class TripLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -256,18 +258,14 @@ public class TripLocalServiceUtil {
 	 * @return the trip
 	 * @throws PortalException if a trip with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.Trip getTrip(long id)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Trip getTrip(long id) throws PortalException {
 		return getService().getTrip(id);
 	}
 
 	/**
 	 * Rechercher les voyages disponibles aujourd'hui pour id d'arret donne
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Trip>
-		getTripAvailableForStop(String stopId) {
-
+	public static List<Trip> getTripAvailableForStop(String stopId) {
 		return getService().getTripAvailableForStop(stopId);
 	}
 
@@ -282,9 +280,7 @@ public class TripLocalServiceUtil {
 	 * @param end the upper bound of the range of trips (not inclusive)
 	 * @return the range of trips
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Trip>
-		getTrips(int start, int end) {
-
+	public static List<Trip> getTrips(int start, int end) {
 		return getService().getTrips(start, end);
 	}
 
@@ -301,8 +297,8 @@ public class TripLocalServiceUtil {
 	 * Import des voyage sous le format de données GTFS
 	 */
 	public static void importFromGTFS(
-			java.util.Map<String, eu.strasbourg.utils.models.TripsGTFS> data)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, eu.strasbourg.utils.models.TripsGTFS> data)
+		throws PortalException {
 
 		getService().importFromGTFS(data);
 	}
@@ -310,18 +306,14 @@ public class TripLocalServiceUtil {
 	/**
 	 * Supprime toutes les Trips
 	 */
-	public static void removeAllTrips()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static void removeAllTrips() throws PortalException {
 		getService().removeAllTrips();
 	}
 
 	/**
 	 * Supprime une agence
 	 */
-	public static eu.strasbourg.service.gtfs.model.Trip removeTrip(long tripId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Trip removeTrip(long tripId) throws PortalException {
 		return getService().removeTrip(tripId);
 	}
 
@@ -335,9 +327,7 @@ public class TripLocalServiceUtil {
 	 * @param trip the trip
 	 * @return the trip that was updated
 	 */
-	public static eu.strasbourg.service.gtfs.model.Trip updateTrip(
-		eu.strasbourg.service.gtfs.model.Trip trip) {
-
+	public static Trip updateTrip(Trip trip) {
 		return getService().updateTrip(trip);
 	}
 
@@ -346,31 +336,21 @@ public class TripLocalServiceUtil {
 	 *
 	 * @throws IOException
 	 */
-	public static eu.strasbourg.service.gtfs.model.Trip updateTrip(
-			eu.strasbourg.service.gtfs.model.Trip trip,
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Trip updateTrip(
+			Trip trip, com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateTrip(trip, sc);
 	}
 
 	public static TripLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<TripLocalService, TripLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(TripLocalService.class);
-
-		ServiceTracker<TripLocalService, TripLocalService> serviceTracker =
-			new ServiceTracker<TripLocalService, TripLocalService>(
-				bundle.getBundleContext(), TripLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(TripLocalService service) {
+		_service = service;
 	}
+
+	private static volatile TripLocalService _service;
 
 }

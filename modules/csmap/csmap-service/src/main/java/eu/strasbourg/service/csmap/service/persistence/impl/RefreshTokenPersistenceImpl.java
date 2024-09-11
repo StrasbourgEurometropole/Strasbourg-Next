@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.csmap.service.persistence.impl;
@@ -26,9 +17,13 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -37,9 +32,11 @@ import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
 import eu.strasbourg.service.csmap.exception.NoSuchRefreshTokenException;
 import eu.strasbourg.service.csmap.model.RefreshToken;
+import eu.strasbourg.service.csmap.model.RefreshTokenTable;
 import eu.strasbourg.service.csmap.model.impl.RefreshTokenImpl;
 import eu.strasbourg.service.csmap.model.impl.RefreshTokenModelImpl;
 import eu.strasbourg.service.csmap.service.persistence.RefreshTokenPersistence;
+import eu.strasbourg.service.csmap.service.persistence.RefreshTokenUtil;
 import eu.strasbourg.service.csmap.service.persistence.impl.constants.csmapPersistenceConstants;
 
 import java.io.Serializable;
@@ -47,6 +44,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -257,10 +255,6 @@ public class RefreshTokenPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -609,8 +603,6 @@ public class RefreshTokenPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -769,11 +761,6 @@ public class RefreshTokenPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByValue, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -856,8 +843,6 @@ public class RefreshTokenPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -874,6 +859,542 @@ public class RefreshTokenPersistenceImpl
 	private static final String _FINDER_COLUMN_VALUE_VALUE_3 =
 		"(refreshToken.value IS NULL OR refreshToken.value = '')";
 
+	private FinderPath _finderPathWithPaginationFindByPublikId;
+	private FinderPath _finderPathWithoutPaginationFindByPublikId;
+	private FinderPath _finderPathCountByPublikId;
+
+	/**
+	 * Returns all the refresh tokens where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @return the matching refresh tokens
+	 */
+	@Override
+	public List<RefreshToken> findByPublikId(String publikId) {
+		return findByPublikId(
+			publikId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the refresh tokens where publikId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>RefreshTokenModelImpl</code>.
+	 * </p>
+	 *
+	 * @param publikId the publik ID
+	 * @param start the lower bound of the range of refresh tokens
+	 * @param end the upper bound of the range of refresh tokens (not inclusive)
+	 * @return the range of matching refresh tokens
+	 */
+	@Override
+	public List<RefreshToken> findByPublikId(
+		String publikId, int start, int end) {
+
+		return findByPublikId(publikId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the refresh tokens where publikId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>RefreshTokenModelImpl</code>.
+	 * </p>
+	 *
+	 * @param publikId the publik ID
+	 * @param start the lower bound of the range of refresh tokens
+	 * @param end the upper bound of the range of refresh tokens (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching refresh tokens
+	 */
+	@Override
+	public List<RefreshToken> findByPublikId(
+		String publikId, int start, int end,
+		OrderByComparator<RefreshToken> orderByComparator) {
+
+		return findByPublikId(publikId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the refresh tokens where publikId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>RefreshTokenModelImpl</code>.
+	 * </p>
+	 *
+	 * @param publikId the publik ID
+	 * @param start the lower bound of the range of refresh tokens
+	 * @param end the upper bound of the range of refresh tokens (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching refresh tokens
+	 */
+	@Override
+	public List<RefreshToken> findByPublikId(
+		String publikId, int start, int end,
+		OrderByComparator<RefreshToken> orderByComparator,
+		boolean useFinderCache) {
+
+		publikId = Objects.toString(publikId, "");
+
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			if (useFinderCache) {
+				finderPath = _finderPathWithoutPaginationFindByPublikId;
+				finderArgs = new Object[] {publikId};
+			}
+		}
+		else if (useFinderCache) {
+			finderPath = _finderPathWithPaginationFindByPublikId;
+			finderArgs = new Object[] {publikId, start, end, orderByComparator};
+		}
+
+		List<RefreshToken> list = null;
+
+		if (useFinderCache) {
+			list = (List<RefreshToken>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (RefreshToken refreshToken : list) {
+					if (!publikId.equals(refreshToken.getPublikId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler sb = null;
+
+			if (orderByComparator != null) {
+				sb = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				sb = new StringBundler(3);
+			}
+
+			sb.append(_SQL_SELECT_REFRESHTOKEN_WHERE);
+
+			boolean bindPublikId = false;
+
+			if (publikId.isEmpty()) {
+				sb.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
+			}
+			else {
+				bindPublikId = true;
+
+				sb.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else {
+				sb.append(RefreshTokenModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindPublikId) {
+					queryPos.add(publikId);
+				}
+
+				list = (List<RefreshToken>)QueryUtil.list(
+					query, getDialect(), start, end);
+
+				cacheResult(list);
+
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first refresh token in the ordered set where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching refresh token
+	 * @throws NoSuchRefreshTokenException if a matching refresh token could not be found
+	 */
+	@Override
+	public RefreshToken findByPublikId_First(
+			String publikId, OrderByComparator<RefreshToken> orderByComparator)
+		throws NoSuchRefreshTokenException {
+
+		RefreshToken refreshToken = fetchByPublikId_First(
+			publikId, orderByComparator);
+
+		if (refreshToken != null) {
+			return refreshToken;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("publikId=");
+		sb.append(publikId);
+
+		sb.append("}");
+
+		throw new NoSuchRefreshTokenException(sb.toString());
+	}
+
+	/**
+	 * Returns the first refresh token in the ordered set where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching refresh token, or <code>null</code> if a matching refresh token could not be found
+	 */
+	@Override
+	public RefreshToken fetchByPublikId_First(
+		String publikId, OrderByComparator<RefreshToken> orderByComparator) {
+
+		List<RefreshToken> list = findByPublikId(
+			publikId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last refresh token in the ordered set where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching refresh token
+	 * @throws NoSuchRefreshTokenException if a matching refresh token could not be found
+	 */
+	@Override
+	public RefreshToken findByPublikId_Last(
+			String publikId, OrderByComparator<RefreshToken> orderByComparator)
+		throws NoSuchRefreshTokenException {
+
+		RefreshToken refreshToken = fetchByPublikId_Last(
+			publikId, orderByComparator);
+
+		if (refreshToken != null) {
+			return refreshToken;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("publikId=");
+		sb.append(publikId);
+
+		sb.append("}");
+
+		throw new NoSuchRefreshTokenException(sb.toString());
+	}
+
+	/**
+	 * Returns the last refresh token in the ordered set where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching refresh token, or <code>null</code> if a matching refresh token could not be found
+	 */
+	@Override
+	public RefreshToken fetchByPublikId_Last(
+		String publikId, OrderByComparator<RefreshToken> orderByComparator) {
+
+		int count = countByPublikId(publikId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<RefreshToken> list = findByPublikId(
+			publikId, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the refresh tokens before and after the current refresh token in the ordered set where publikId = &#63;.
+	 *
+	 * @param refreshTokenId the primary key of the current refresh token
+	 * @param publikId the publik ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next refresh token
+	 * @throws NoSuchRefreshTokenException if a refresh token with the primary key could not be found
+	 */
+	@Override
+	public RefreshToken[] findByPublikId_PrevAndNext(
+			long refreshTokenId, String publikId,
+			OrderByComparator<RefreshToken> orderByComparator)
+		throws NoSuchRefreshTokenException {
+
+		publikId = Objects.toString(publikId, "");
+
+		RefreshToken refreshToken = findByPrimaryKey(refreshTokenId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			RefreshToken[] array = new RefreshTokenImpl[3];
+
+			array[0] = getByPublikId_PrevAndNext(
+				session, refreshToken, publikId, orderByComparator, true);
+
+			array[1] = refreshToken;
+
+			array[2] = getByPublikId_PrevAndNext(
+				session, refreshToken, publikId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected RefreshToken getByPublikId_PrevAndNext(
+		Session session, RefreshToken refreshToken, String publikId,
+		OrderByComparator<RefreshToken> orderByComparator, boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(3);
+		}
+
+		sb.append(_SQL_SELECT_REFRESHTOKEN_WHERE);
+
+		boolean bindPublikId = false;
+
+		if (publikId.isEmpty()) {
+			sb.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
+		}
+		else {
+			bindPublikId = true;
+
+			sb.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			sb.append(RefreshTokenModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = sb.toString();
+
+		Query query = session.createQuery(sql);
+
+		query.setFirstResult(0);
+		query.setMaxResults(2);
+
+		QueryPos queryPos = QueryPos.getInstance(query);
+
+		if (bindPublikId) {
+			queryPos.add(publikId);
+		}
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(refreshToken)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<RefreshToken> list = query.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the refresh tokens where publikId = &#63; from the database.
+	 *
+	 * @param publikId the publik ID
+	 */
+	@Override
+	public void removeByPublikId(String publikId) {
+		for (RefreshToken refreshToken :
+				findByPublikId(
+					publikId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
+			remove(refreshToken);
+		}
+	}
+
+	/**
+	 * Returns the number of refresh tokens where publikId = &#63;.
+	 *
+	 * @param publikId the publik ID
+	 * @return the number of matching refresh tokens
+	 */
+	@Override
+	public int countByPublikId(String publikId) {
+		publikId = Objects.toString(publikId, "");
+
+		FinderPath finderPath = _finderPathCountByPublikId;
+
+		Object[] finderArgs = new Object[] {publikId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_REFRESHTOKEN_WHERE);
+
+			boolean bindPublikId = false;
+
+			if (publikId.isEmpty()) {
+				sb.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_3);
+			}
+			else {
+				bindPublikId = true;
+
+				sb.append(_FINDER_COLUMN_PUBLIKID_PUBLIKID_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindPublikId) {
+					queryPos.add(publikId);
+				}
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_2 =
+		"refreshToken.publikId = ?";
+
+	private static final String _FINDER_COLUMN_PUBLIKID_PUBLIKID_3 =
+		"(refreshToken.publikId IS NULL OR refreshToken.publikId = '')";
+
 	public RefreshTokenPersistenceImpl() {
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
@@ -885,6 +1406,8 @@ public class RefreshTokenPersistenceImpl
 
 		setModelImplClass(RefreshTokenImpl.class);
 		setModelPKClass(long.class);
+
+		setTable(RefreshTokenTable.INSTANCE);
 	}
 
 	/**
@@ -895,15 +1418,14 @@ public class RefreshTokenPersistenceImpl
 	@Override
 	public void cacheResult(RefreshToken refreshToken) {
 		entityCache.putResult(
-			entityCacheEnabled, RefreshTokenImpl.class,
-			refreshToken.getPrimaryKey(), refreshToken);
+			RefreshTokenImpl.class, refreshToken.getPrimaryKey(), refreshToken);
 
 		finderCache.putResult(
 			_finderPathFetchByValue, new Object[] {refreshToken.getValue()},
 			refreshToken);
-
-		refreshToken.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the refresh tokens in the entity cache if it is enabled.
@@ -912,15 +1434,19 @@ public class RefreshTokenPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<RefreshToken> refreshTokens) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (refreshTokens.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (RefreshToken refreshToken : refreshTokens) {
 			if (entityCache.getResult(
-					entityCacheEnabled, RefreshTokenImpl.class,
-					refreshToken.getPrimaryKey()) == null) {
+					RefreshTokenImpl.class, refreshToken.getPrimaryKey()) ==
+						null) {
 
 				cacheResult(refreshToken);
-			}
-			else {
-				refreshToken.resetOriginalValues();
 			}
 		}
 	}
@@ -936,9 +1462,7 @@ public class RefreshTokenPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(RefreshTokenImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(RefreshTokenImpl.class);
 	}
 
 	/**
@@ -950,38 +1474,22 @@ public class RefreshTokenPersistenceImpl
 	 */
 	@Override
 	public void clearCache(RefreshToken refreshToken) {
-		entityCache.removeResult(
-			entityCacheEnabled, RefreshTokenImpl.class,
-			refreshToken.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((RefreshTokenModelImpl)refreshToken, true);
+		entityCache.removeResult(RefreshTokenImpl.class, refreshToken);
 	}
 
 	@Override
 	public void clearCache(List<RefreshToken> refreshTokens) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (RefreshToken refreshToken : refreshTokens) {
-			entityCache.removeResult(
-				entityCacheEnabled, RefreshTokenImpl.class,
-				refreshToken.getPrimaryKey());
-
-			clearUniqueFindersCache((RefreshTokenModelImpl)refreshToken, true);
+			entityCache.removeResult(RefreshTokenImpl.class, refreshToken);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(RefreshTokenImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				entityCacheEnabled, RefreshTokenImpl.class, primaryKey);
+			entityCache.removeResult(RefreshTokenImpl.class, primaryKey);
 		}
 	}
 
@@ -990,32 +1498,9 @@ public class RefreshTokenPersistenceImpl
 
 		Object[] args = new Object[] {refreshTokenModelImpl.getValue()};
 
+		finderCache.putResult(_finderPathCountByValue, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByValue, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByValue, args, refreshTokenModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		RefreshTokenModelImpl refreshTokenModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {refreshTokenModelImpl.getValue()};
-
-			finderCache.removeResult(_finderPathCountByValue, args);
-			finderCache.removeResult(_finderPathFetchByValue, args);
-		}
-
-		if ((refreshTokenModelImpl.getColumnBitmask() &
-			 _finderPathFetchByValue.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				refreshTokenModelImpl.getOriginalValue()
-			};
-
-			finderCache.removeResult(_finderPathCountByValue, args);
-			finderCache.removeResult(_finderPathFetchByValue, args);
-		}
+			_finderPathFetchByValue, args, refreshTokenModelImpl);
 	}
 
 	/**
@@ -1153,15 +1638,27 @@ public class RefreshTokenPersistenceImpl
 			refreshToken.setUuid(uuid);
 		}
 
+		if (isNew && (refreshToken.getCreateDate() == null)) {
+			ServiceContext serviceContext =
+				ServiceContextThreadLocal.getServiceContext();
+
+			Date date = new Date();
+
+			if (serviceContext == null) {
+				refreshToken.setCreateDate(date);
+			}
+			else {
+				refreshToken.setCreateDate(serviceContext.getCreateDate(date));
+			}
+		}
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			if (refreshToken.isNew()) {
+			if (isNew) {
 				session.save(refreshToken);
-
-				refreshToken.setNew(false);
 			}
 			else {
 				refreshToken = (RefreshToken)session.merge(refreshToken);
@@ -1174,49 +1671,14 @@ public class RefreshTokenPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {refreshTokenModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((refreshTokenModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					refreshTokenModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {refreshTokenModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-		}
-
 		entityCache.putResult(
-			entityCacheEnabled, RefreshTokenImpl.class,
-			refreshToken.getPrimaryKey(), refreshToken, false);
+			RefreshTokenImpl.class, refreshTokenModelImpl, false, true);
 
-		clearUniqueFindersCache(refreshTokenModelImpl, false);
 		cacheUniqueFindersCache(refreshTokenModelImpl);
+
+		if (isNew) {
+			refreshToken.setNew(false);
+		}
 
 		refreshToken.resetOriginalValues();
 
@@ -1397,10 +1859,6 @@ public class RefreshTokenPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1446,9 +1904,6 @@ public class RefreshTokenPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1489,61 +1944,75 @@ public class RefreshTokenPersistenceImpl
 	 */
 	@Activate
 	public void activate() {
-		RefreshTokenModelImpl.setEntityCacheEnabled(entityCacheEnabled);
-		RefreshTokenModelImpl.setFinderCacheEnabled(finderCacheEnabled);
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, RefreshTokenImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, RefreshTokenImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, RefreshTokenImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, RefreshTokenImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			RefreshTokenModelImpl.UUID_COLUMN_BITMASK |
-			RefreshTokenModelImpl.CREATEDATE_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByValue = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, RefreshTokenImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByValue",
-			new String[] {String.class.getName()},
-			RefreshTokenModelImpl.VALUE_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"value"},
+			true);
 
 		_finderPathCountByValue = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByValue",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"value"},
+			false);
+
+		_finderPathWithPaginationFindByPublikId = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikId",
+			new String[] {
+				String.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			},
+			new String[] {"publikId"}, true);
+
+		_finderPathWithoutPaginationFindByPublikId = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikId",
+			new String[] {String.class.getName()}, new String[] {"publikId"},
+			true);
+
+		_finderPathCountByPublikId = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikId",
+			new String[] {String.class.getName()}, new String[] {"publikId"},
+			false);
+
+		RefreshTokenUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
+		RefreshTokenUtil.setPersistence(null);
+
 		entityCache.removeCache(RefreshTokenImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
@@ -1552,12 +2021,6 @@ public class RefreshTokenPersistenceImpl
 		unbind = "-"
 	)
 	public void setConfiguration(Configuration configuration) {
-		super.setConfiguration(configuration);
-
-		_columnBitmaskEnabled = GetterUtil.getBoolean(
-			configuration.get(
-				"value.object.column.bitmask.enabled.eu.strasbourg.service.csmap.model.RefreshToken"),
-			true);
 	}
 
 	@Override
@@ -1577,8 +2040,6 @@ public class RefreshTokenPersistenceImpl
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
-
-	private boolean _columnBitmaskEnabled;
 
 	@Reference
 	protected EntityCache entityCache;
@@ -1612,13 +2073,9 @@ public class RefreshTokenPersistenceImpl
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
 
-	static {
-		try {
-			Class.forName(csmapPersistenceConstants.class.getName());
-		}
-		catch (ClassNotFoundException classNotFoundException) {
-			throw new ExceptionInInitializerError(classNotFoundException);
-		}
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
 
 }

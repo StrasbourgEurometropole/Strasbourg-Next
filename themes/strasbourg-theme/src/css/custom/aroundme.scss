@@ -1,0 +1,310 @@
+
+
+#wi-aroundme{
+    max-width: 1120px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+}
+
+.hidden {
+    display: none;
+}
+
+
+.st-page-wrapper {
+    .aroundme--h1, .aroundme--h2, .aroundme--h3  {
+        display: block;
+        font-size: 30px;
+        font-weight: 600;
+        color: #FFFFFF;
+        line-height: 1;
+        max-width: 1120px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 50px;
+        @media screen and (min-width: 1280px) {
+                margin-left: auto;
+                margin-right: auto;
+        }
+    }
+    #aroundme {
+        #aroundme__side {
+            @media screen and (max-width: 350px) {
+               width: 270px;
+            }
+        }
+
+        #aroundme__center {
+            .aroundme__map {
+                @media only screen and (max-width: 767px) {
+                    height: 400px;
+                }
+            }
+        }
+
+        .top__overflow
+        {
+            form {
+                .filtres__list {
+                    h2 {
+                        @include ft($f_txt, $s_h3, 600, $c_white);
+                    }
+                    .filtres__list {
+                    display: flex;
+                        flex-wrap: wrap;
+                        .grid-item {
+                            margin: 0;
+                        }
+                    }
+                    }
+                }
+            }
+
+
+        .filtres--category .filtres__item [type=checkbox] + label {
+            @include ft($f_txt, $s_link_small, 400, $c_sub);
+        }
+
+        .filtres--poi .filtres__title {
+            display: none;
+        }
+        .side__overflow {
+                --scrollbar-width: 10px;
+                --track-color: #51555A;
+                --thumb-color: #2AD783;
+                --thumb-hover-color: #FFFFFF;
+                /* Firefox */
+                scrollbar-width: auto; /* can also be normal, or none, to not render scrollbar */
+                scrollbar-height: auto; /* can also be normal, or none, to not render scrollbar */
+                scrollbar-color: var(--thumb-color) var(--track-color); /* foreground background */
+                /* Webkit / Blink */
+            @media screen and (max-width: 599px) {
+                --custom-scrollbar-width: 8px;
+            }
+            &::-webkit-scrollbar {
+                width: var(--scrollbar-width);
+                height: var(--scrollbar-width);
+            }
+            &::-webkit-scrollbar-thumb {
+                background-color: var(--thumb-color);
+                border-radius: 5px;
+            }
+            &::-webkit-scrollbar-thumb:hover {
+                background-color: var(--thumb-hover-color);
+            }
+            &::-webkit-scrollbar-track {
+                background-color: var(--track-color);
+                border-radius: 5px;
+            }
+
+            form .filtres__list h2 {
+                @include ft($f_txt, $s_h3, 600, $c_white);
+            }
+
+        }
+        .leaflet-pane .leaflet-popup-content {
+            background-color: $c_greydark;
+
+        }
+
+        a.add-favorites {
+            @include st-btn();
+            font-size: $s_link_small !important;
+            color: $c_white !important;
+            &:after {
+                @include icomoon($st-icon-favorite);
+                color: $c_sub;
+                font-size: 16px;
+                margin-left: 15px;
+                @include transition(color);
+
+            }
+            @include can-hover {
+                &:after {
+                    color: $c_main !important;
+                }
+
+            }
+        }
+
+        .infowindow__content:not(:empty) {
+            .infowindow__title-block {
+                .infowindow__name {
+                    @include ft($f_txt, $s_link, bold, $c_white);
+                }
+            }
+            .infowindow__address:not(:empty) {
+                @include ft($f_txt, 12px, 300, $c_txt, 1.16);
+                @include letter-spacing(25);
+                font-style: italic;
+                display: flex;
+                align-items: center;
+                padding: 10px 0;
+
+                &:before {
+                    @include icomoon($st-icon-location);
+                    font-size: 14px;
+                    color: $c_txt;
+                    margin-right: 3px;
+                }
+            }
+
+            .infowindow__bottom {
+                border-top: none;
+                justify-content: center;
+                padding-top: 0;
+                padding-bottom: 15px;
+            }
+            .infowindow__middle {
+                .infowindow__left {
+                    display: flex;
+                    flex-direction: column;
+                    .infowindow__opened {
+                        display: inline-block;
+                        padding: 8px;
+                        @include ft('', 12px, 70, $c_white, 1);
+                        @include letter-spacing(100);
+                        text-transform: uppercase;
+                    }
+                    .infowindow__schedules {
+                        @include ft($f_txt, $s_link_small, 400, $c_sub);
+                        text-transform: uppercase;
+                        background-color: transparent;
+                        padding: 8px;
+                    }
+                }
+
+                .infowindow__right {
+                    .infowindow__opened {
+                        display: inline-block;
+                        padding: 8px;
+                        @include ft('', 12px, 70, $c_white, 1.2);
+                        @include letter-spacing(100);
+                        text-transform: uppercase;
+                    }
+                    .infowindow__frequentation {
+                        font-size:1.5rem;
+                    }
+                    .crowded-label {
+                        display: inline-block;
+                        padding: 8px;
+                        @include ft($f_txt, $s_link_small, 400, $c_white);
+                        @include letter-spacing(100);
+                    }
+                }
+
+                border-top: none;
+                .tram-destination {
+                    .tram-destination-name {
+                        p {
+                            @include ft($f_txt, $s_link, 400, $c_white);
+                        }
+
+                    }
+                    .tram-destination-schedule {
+                        @include ft($f_txt, $s_link_small, 400, $c_sub);
+
+                    }
+                }
+
+            }
+
+
+
+        }
+        .infowindow__close {
+            background-image: none;
+            @include create-outline;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            color: $c_main;
+            background-color: $c_pink;
+            border-radius: $border-radius-small;
+            @include transition(background-color);
+
+            @include mobile {
+                width: 44px;
+                height: 44px;
+                border-radius: $border-radius;
+            }
+
+            @include can-hover {
+                background-color: $c_white;
+            }
+
+            &:before {
+                @include icomoon($st-icon-close);
+                font-size: 12px;
+
+                @include mobile {
+                    font-size: 12px;
+                }
+            }
+        }
+        .infowindow__url {
+            a {
+                @include ft($f_txt, $s_p, 600, $c_main, 1);
+                text-align: center;
+                @include letter-spacing(25);
+                background-color: $c_sub;
+                @include transition(color, background-color, border-color);
+
+                @include can-hover {
+                    color: $c_main !important;
+                    border-color: transparent;
+                    background-color: $c_white;
+                }
+
+                @include min-tablet-portrait {
+                    margin-left: auto;
+                }
+
+                @include mobile {
+                    font-size: 12px;
+                }
+            }
+        }
+        .liste {
+            padding-top: 20px;
+        }
+        .filtres--poi {
+            background-color: $c_greydark;
+            .filtres__title {
+                color: $c_white;
+            }
+        }
+        .filtres__list {
+
+            .filtres__item {
+                background-color: $c_greydark;
+                border-radius: 5px;
+                border: 1px solid rgba(255,255,255,.25);
+                margin-bottom: 10px;
+                padding: 10px;
+                a.infowindow__name {
+                    background-color: transparent;
+                    @include ft($f_txt, $s_h3, 600, $c_white);
+                    letter-spacing: normal;
+                }
+                .types {
+                    @include ft($f_txt, $s_link_small, 400, $c_sub);
+                    text-transform: uppercase;
+                    background-color: transparent;
+                    padding-bottom: 15px ;
+                }
+
+                div:not([class]) {
+                    background-color: transparent !important;
+                    padding: 0 !important;
+                }
+
+            }
+        }
+    }
+}

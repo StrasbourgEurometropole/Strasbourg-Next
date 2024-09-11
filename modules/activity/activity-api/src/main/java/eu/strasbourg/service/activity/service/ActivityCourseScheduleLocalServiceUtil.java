@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.activity.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for ActivityCourseSchedule. This utility wraps
@@ -48,10 +47,8 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	 * @param activityCourseSchedule the activity course schedule
 	 * @return the activity course schedule that was added
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourseSchedule
-		addActivityCourseSchedule(
-			eu.strasbourg.service.activity.model.ActivityCourseSchedule
-				activityCourseSchedule) {
+	public static ActivityCourseSchedule addActivityCourseSchedule(
+		ActivityCourseSchedule activityCourseSchedule) {
 
 		return getService().addActivityCourseSchedule(activityCourseSchedule);
 	}
@@ -62,8 +59,8 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	 * @param activityCourseScheduleId the primary key for the new activity course schedule
 	 * @return the new activity course schedule
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourseSchedule
-		createActivityCourseSchedule(long activityCourseScheduleId) {
+	public static ActivityCourseSchedule createActivityCourseSchedule(
+		long activityCourseScheduleId) {
 
 		return getService().createActivityCourseSchedule(
 			activityCourseScheduleId);
@@ -72,12 +69,21 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	/**
 	 * Crée une activité vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourseSchedule
-			createActivityCourseSchedule(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityCourseSchedule createActivityCourseSchedule(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createActivityCourseSchedule(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -90,10 +96,8 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	 * @param activityCourseSchedule the activity course schedule
 	 * @return the activity course schedule that was removed
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourseSchedule
-		deleteActivityCourseSchedule(
-			eu.strasbourg.service.activity.model.ActivityCourseSchedule
-				activityCourseSchedule) {
+	public static ActivityCourseSchedule deleteActivityCourseSchedule(
+		ActivityCourseSchedule activityCourseSchedule) {
 
 		return getService().deleteActivityCourseSchedule(
 			activityCourseSchedule);
@@ -110,9 +114,9 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	 * @return the activity course schedule that was removed
 	 * @throws PortalException if a activity course schedule with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourseSchedule
-			deleteActivityCourseSchedule(long activityCourseScheduleId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityCourseSchedule deleteActivityCourseSchedule(
+			long activityCourseScheduleId)
+		throws PortalException {
 
 		return getService().deleteActivityCourseSchedule(
 			activityCourseScheduleId);
@@ -121,17 +125,22 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -141,9 +150,7 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -159,9 +166,8 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -179,10 +185,9 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -194,9 +199,7 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -208,14 +211,14 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.activity.model.ActivityCourseSchedule
-		fetchActivityCourseSchedule(long activityCourseScheduleId) {
+	public static ActivityCourseSchedule fetchActivityCourseSchedule(
+		long activityCourseScheduleId) {
 
 		return getService().fetchActivityCourseSchedule(
 			activityCourseScheduleId);
@@ -228,7 +231,7 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching activity course schedule, or <code>null</code> if a matching activity course schedule could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourseSchedule
+	public static ActivityCourseSchedule
 		fetchActivityCourseScheduleByUuidAndGroupId(String uuid, long groupId) {
 
 		return getService().fetchActivityCourseScheduleByUuidAndGroupId(
@@ -239,11 +242,8 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	 * Retourne la liste des horaires pour une liste de jours donnés sur une
 	 * plage horaire donnée
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityCourseSchedule>
-			findByDaysAndTimes(
-				long groupId, boolean[] days, String startTime,
-				String endTime) {
+	public static List<ActivityCourseSchedule> findByDaysAndTimes(
+		long groupId, boolean[] days, String startTime, String endTime) {
 
 		return getService().findByDaysAndTimes(
 			groupId, days, startTime, endTime);
@@ -252,9 +252,8 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	/**
 	 * Lance une recherche par mots-clés
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityCourseSchedule>
-			findByKeyword(String keyword, long groupId, int start, int end) {
+	public static List<ActivityCourseSchedule> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -272,9 +271,9 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	 * @return the activity course schedule
 	 * @throws PortalException if a activity course schedule with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourseSchedule
-			getActivityCourseSchedule(long activityCourseScheduleId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityCourseSchedule getActivityCourseSchedule(
+			long activityCourseScheduleId)
+		throws PortalException {
 
 		return getService().getActivityCourseSchedule(activityCourseScheduleId);
 	}
@@ -287,9 +286,9 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	 * @return the matching activity course schedule
 	 * @throws PortalException if a matching activity course schedule could not be found
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourseSchedule
+	public static ActivityCourseSchedule
 			getActivityCourseScheduleByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getActivityCourseScheduleByUuidAndGroupId(
 			uuid, groupId);
@@ -306,9 +305,8 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	 * @param end the upper bound of the range of activity course schedules (not inclusive)
 	 * @return the range of activity course schedules
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityCourseSchedule>
-			getActivityCourseSchedules(int start, int end) {
+	public static List<ActivityCourseSchedule> getActivityCourseSchedules(
+		int start, int end) {
 
 		return getService().getActivityCourseSchedules(start, end);
 	}
@@ -320,10 +318,9 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching activity course schedules, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityCourseSchedule>
-			getActivityCourseSchedulesByUuidAndCompanyId(
-				String uuid, long companyId) {
+	public static List<ActivityCourseSchedule>
+		getActivityCourseSchedulesByUuidAndCompanyId(
+			String uuid, long companyId) {
 
 		return getService().getActivityCourseSchedulesByUuidAndCompanyId(
 			uuid, companyId);
@@ -339,13 +336,10 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching activity course schedules, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityCourseSchedule>
-			getActivityCourseSchedulesByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.activity.model.
-						ActivityCourseSchedule> orderByComparator) {
+	public static List<ActivityCourseSchedule>
+		getActivityCourseSchedulesByUuidAndCompanyId(
+			String uuid, long companyId, int start, int end,
+			OrderByComparator<ActivityCourseSchedule> orderByComparator) {
 
 		return getService().getActivityCourseSchedulesByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -363,7 +357,7 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à l'entité
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -372,9 +366,8 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	/**
 	 * Retourne les horaires d'un cours dans un lieu
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityCourseSchedule>
-			getByActivityCoursePlace(long activityCoursePlaceId) {
+	public static List<ActivityCourseSchedule> getByActivityCoursePlace(
+		long activityCoursePlaceId) {
 
 		return getService().getByActivityCoursePlace(activityCoursePlaceId);
 	}
@@ -382,10 +375,7 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	/**
 	 * Retourne toutes les éditions d'un groupe
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.activity.model.ActivityCourseSchedule>
-			getByGroupId(long groupId) {
-
+	public static List<ActivityCourseSchedule> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
@@ -416,9 +406,8 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -426,9 +415,9 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	/**
 	 * Supprime une entité
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourseSchedule
-			removeActivityCourseSchedule(long activityCourseScheduleId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityCourseSchedule removeActivityCourseSchedule(
+			long activityCourseScheduleId)
+		throws PortalException {
 
 		return getService().removeActivityCourseSchedule(
 			activityCourseScheduleId);
@@ -454,10 +443,8 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	 * @param activityCourseSchedule the activity course schedule
 	 * @return the activity course schedule that was updated
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourseSchedule
-		updateActivityCourseSchedule(
-			eu.strasbourg.service.activity.model.ActivityCourseSchedule
-				activityCourseSchedule) {
+	public static ActivityCourseSchedule updateActivityCourseSchedule(
+		ActivityCourseSchedule activityCourseSchedule) {
 
 		return getService().updateActivityCourseSchedule(
 			activityCourseSchedule);
@@ -466,41 +453,23 @@ public class ActivityCourseScheduleLocalServiceUtil {
 	/**
 	 * Met à jour une activité et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.activity.model.ActivityCourseSchedule
-			updateActivityCourseSchedule(
-				eu.strasbourg.service.activity.model.ActivityCourseSchedule
-					activityCourseSchedule,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ActivityCourseSchedule updateActivityCourseSchedule(
+			ActivityCourseSchedule activityCourseSchedule,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateActivityCourseSchedule(
 			activityCourseSchedule, sc);
 	}
 
 	public static ActivityCourseScheduleLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<ActivityCourseScheduleLocalService, ActivityCourseScheduleLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			ActivityCourseScheduleLocalService.class);
-
-		ServiceTracker
-			<ActivityCourseScheduleLocalService,
-			 ActivityCourseScheduleLocalService> serviceTracker =
-				new ServiceTracker
-					<ActivityCourseScheduleLocalService,
-					 ActivityCourseScheduleLocalService>(
-						 bundle.getBundleContext(),
-						 ActivityCourseScheduleLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(ActivityCourseScheduleLocalService service) {
+		_service = service;
 	}
+
+	private static volatile ActivityCourseScheduleLocalService _service;
 
 }

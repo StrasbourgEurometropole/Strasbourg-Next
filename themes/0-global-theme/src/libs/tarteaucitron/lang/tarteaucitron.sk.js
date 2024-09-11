@@ -1,4 +1,5 @@
 /*global tarteaucitron */
+/* min ready */
 tarteaucitron.lang = {
     "middleBarHead": "☝ 🍪",
     "adblock": "Ahoj! Táto stránka je transparentná a umožňuje vám vybrať služby tretích strán, ktoré chcete povoliť.",
@@ -36,6 +37,7 @@ tarteaucitron.lang = {
     "title": "Panel riadenia súborov cookie",
     "cookieDetail": "Podrobnosti súboru cookie pre",
     "ourSite": "na našich stránkach",
+    "modalWindow": "(modálne okno)",
     "newWindow": "(nové okno)",
     "allowAll": "Povoľte všetky súbory cookie",
     "denyAll": "Odmietnuť všetky súbory cookie",

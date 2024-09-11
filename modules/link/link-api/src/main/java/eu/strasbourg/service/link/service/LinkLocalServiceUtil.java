@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.link.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.link.model.Link;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for Link. This utility wraps
@@ -48,9 +48,7 @@ public class LinkLocalServiceUtil {
 	 * @param link the link
 	 * @return the link that was added
 	 */
-	public static eu.strasbourg.service.link.model.Link addLink(
-		eu.strasbourg.service.link.model.Link link) {
-
+	public static Link addLink(Link link) {
 		return getService().addLink(link);
 	}
 
@@ -60,20 +58,28 @@ public class LinkLocalServiceUtil {
 	 * @param linkId the primary key for the new link
 	 * @return the new link
 	 */
-	public static eu.strasbourg.service.link.model.Link createLink(
-		long linkId) {
-
+	public static Link createLink(long linkId) {
 		return getService().createLink(linkId);
 	}
 
 	/**
 	 * Crée un lien vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.link.model.Link createLink(
+	public static Link createLink(
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createLink(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -86,9 +92,7 @@ public class LinkLocalServiceUtil {
 	 * @param link the link
 	 * @return the link that was removed
 	 */
-	public static eu.strasbourg.service.link.model.Link deleteLink(
-		eu.strasbourg.service.link.model.Link link) {
-
+	public static Link deleteLink(Link link) {
 		return getService().deleteLink(link);
 	}
 
@@ -103,26 +107,29 @@ public class LinkLocalServiceUtil {
 	 * @return the link that was removed
 	 * @throws PortalException if a link with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.link.model.Link deleteLink(long linkId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Link deleteLink(long linkId) throws PortalException {
 		return getService().deleteLink(linkId);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -132,9 +139,7 @@ public class LinkLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -150,9 +155,8 @@ public class LinkLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -170,10 +174,9 @@ public class LinkLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -185,9 +188,7 @@ public class LinkLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -199,13 +200,13 @@ public class LinkLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.link.model.Link fetchLink(long linkId) {
+	public static Link fetchLink(long linkId) {
 		return getService().fetchLink(linkId);
 	}
 
@@ -216,17 +217,15 @@ public class LinkLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching link, or <code>null</code> if a matching link could not be found
 	 */
-	public static eu.strasbourg.service.link.model.Link
-		fetchLinkByUuidAndGroupId(String uuid, long groupId) {
-
+	public static Link fetchLinkByUuidAndGroupId(String uuid, long groupId) {
 		return getService().fetchLinkByUuidAndGroupId(uuid, groupId);
 	}
 
 	/**
 	 * Recherche par mot clés
 	 */
-	public static java.util.List<eu.strasbourg.service.link.model.Link>
-		findByKeyword(String keyword, long groupId, int start, int end) {
+	public static List<Link> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -247,7 +246,7 @@ public class LinkLocalServiceUtil {
 	/**
 	 * Retourne les vocabulaires rattachés à l'entité Link
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -256,9 +255,7 @@ public class LinkLocalServiceUtil {
 	/**
 	 * Retourne tous les liens d'un groupe
 	 */
-	public static java.util.List<eu.strasbourg.service.link.model.Link>
-		getByGroupId(long groupId) {
-
+	public static List<Link> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
@@ -284,9 +281,7 @@ public class LinkLocalServiceUtil {
 	 * @return the link
 	 * @throws PortalException if a link with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.link.model.Link getLink(long linkId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Link getLink(long linkId) throws PortalException {
 		return getService().getLink(linkId);
 	}
 
@@ -298,9 +293,8 @@ public class LinkLocalServiceUtil {
 	 * @return the matching link
 	 * @throws PortalException if a matching link could not be found
 	 */
-	public static eu.strasbourg.service.link.model.Link getLinkByUuidAndGroupId(
-			String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Link getLinkByUuidAndGroupId(String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getLinkByUuidAndGroupId(uuid, groupId);
 	}
@@ -316,9 +310,7 @@ public class LinkLocalServiceUtil {
 	 * @param end the upper bound of the range of links (not inclusive)
 	 * @return the range of links
 	 */
-	public static java.util.List<eu.strasbourg.service.link.model.Link>
-		getLinks(int start, int end) {
-
+	public static List<Link> getLinks(int start, int end) {
 		return getService().getLinks(start, end);
 	}
 
@@ -329,8 +321,8 @@ public class LinkLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching links, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.link.model.Link>
-		getLinksByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Link> getLinksByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getLinksByUuidAndCompanyId(uuid, companyId);
 	}
@@ -345,11 +337,9 @@ public class LinkLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching links, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.link.model.Link>
-		getLinksByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.link.model.Link> orderByComparator) {
+	public static List<Link> getLinksByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Link> orderByComparator) {
 
 		return getService().getLinksByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -376,9 +366,8 @@ public class LinkLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -386,9 +375,7 @@ public class LinkLocalServiceUtil {
 	/**
 	 * Supprime un lien
 	 */
-	public static eu.strasbourg.service.link.model.Link removeLink(long linkId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Link removeLink(long linkId) throws PortalException {
 		return getService().removeLink(linkId);
 	}
 
@@ -412,19 +399,16 @@ public class LinkLocalServiceUtil {
 	 * @param link the link
 	 * @return the link that was updated
 	 */
-	public static eu.strasbourg.service.link.model.Link updateLink(
-		eu.strasbourg.service.link.model.Link link) {
-
+	public static Link updateLink(Link link) {
 		return getService().updateLink(link);
 	}
 
 	/**
 	 * Met à jour un lien et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.link.model.Link updateLink(
-			eu.strasbourg.service.link.model.Link link,
-			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Link updateLink(
+			Link link, com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateLink(link, sc);
 	}
@@ -432,9 +416,8 @@ public class LinkLocalServiceUtil {
 	/**
 	 * Met à jour le statut du lien "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.link.model.Link link, int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(Link link, int status)
+		throws PortalException {
 
 		getService().updateStatus(link, status);
 	}
@@ -442,33 +425,24 @@ public class LinkLocalServiceUtil {
 	/**
 	 * Met à jour le statut du lien par le framework workflow
 	 */
-	public static eu.strasbourg.service.link.model.Link updateStatus(
+	public static Link updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
 	}
 
 	public static LinkLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<LinkLocalService, LinkLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(LinkLocalService.class);
-
-		ServiceTracker<LinkLocalService, LinkLocalService> serviceTracker =
-			new ServiceTracker<LinkLocalService, LinkLocalService>(
-				bundle.getBundleContext(), LinkLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(LinkLocalService service) {
+		_service = service;
 	}
+
+	private static volatile LinkLocalService _service;
 
 }

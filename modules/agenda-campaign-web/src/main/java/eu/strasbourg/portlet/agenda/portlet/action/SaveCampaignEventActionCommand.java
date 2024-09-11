@@ -18,7 +18,6 @@ package eu.strasbourg.portlet.agenda.portlet.action;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Contact;
@@ -65,7 +64,6 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import java.io.File;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -127,7 +125,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			// encore
 			if (user.getPhones().size() == 0) {
 				List<ListType> listTypes = ListTypeLocalServiceUtil
-					.getListTypes(
+					.getListTypes(0,
 						Contact.class.getName() + ListTypeConstants.PHONE);
 				if (listTypes.size() > 0) {
 					PhoneLocalServiceUtil.addPhone(user.getUserId(),
@@ -188,16 +186,26 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			UploadPortletRequest uploadRequest = PortalUtil
 				.getUploadPortletRequest(request);
 			File image = uploadRequest.getFile("image");
-			long imageId = 0;
+			long imageId = campaignEvent.getImageId();
 			if (image != null && image.exists()) {
 				byte[] imageBytes = FileUtil.getBytes(image);
 				DLFolder folder = DLFolderLocalServiceUtil
 					.getFolder(themeDisplay.getScopeGroupId(), 0, "uploads");
 				FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
-					sc.getUserId(), folder.getRepositoryId(),
-					folder.getFolderId(), image.getName(),
-					MimeTypesUtil.getContentType(image), image.getName(), "",
-					"", imageBytes, sc);
+						null,
+						sc.getUserId(),
+						folder.getRepositoryId(),
+						folder.getFolderId(),
+						image.getName(),
+						MimeTypesUtil.getContentType(image),
+						image.getName(),
+						null,
+						"",
+						"",
+						imageBytes,
+						null,
+						null,
+						sc);
 				
 				imageId = fileEntry.getFileEntryId();
 				campaignEvent.setImageId(imageId);
@@ -212,10 +220,20 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 				DLFolder folder = DLFolderLocalServiceUtil
 					.getFolder(themeDisplay.getScopeGroupId(), 0, "uploads");
 				FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
-					sc.getUserId(), folder.getRepositoryId(),
-					folder.getFolderId(), webImage.getName(),
-					MimeTypesUtil.getContentType(webImage), webImage.getName(),
-					"", "", imageBytes, sc);
+						null,
+						sc.getUserId(),
+						folder.getRepositoryId(),
+						folder.getFolderId(),
+						webImage.getName(),
+						MimeTypesUtil.getContentType(webImage),
+						webImage.getName(),
+						null,
+						"",
+						"",
+						imageBytes,
+						null,
+						null,
+						sc);
 				campaignEvent.setWebImageId(fileEntry.getFileEntryId());
 			}
 			else {

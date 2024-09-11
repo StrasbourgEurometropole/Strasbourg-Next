@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Image + texte 2 colonnes</name>
+        <key>6009546</key>
+        <definition>Image+texte-2-colonnes-structure.json</definition>
+        <layout>Image+texte-2-colonnes-layout.json</layout>
+    </structure>
+    <template>
+        <name>Image + texte 2 colonnes</name>
+        <key>6009699</key>
+        <script>Image + texte 2 colonnes.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

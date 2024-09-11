@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for GoogleMyBusinessHistoric. This utility wraps
@@ -48,10 +48,8 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 * @param googleMyBusinessHistoric the google my business historic
 	 * @return the google my business historic that was added
 	 */
-	public static eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-		addGoogleMyBusinessHistoric(
-			eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-				googleMyBusinessHistoric) {
+	public static GoogleMyBusinessHistoric addGoogleMyBusinessHistoric(
+		GoogleMyBusinessHistoric googleMyBusinessHistoric) {
 
 		return getService().addGoogleMyBusinessHistoric(
 			googleMyBusinessHistoric);
@@ -63,22 +61,31 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 * @param googleMyBusinessHistoricId the primary key for the new google my business historic
 	 * @return the new google my business historic
 	 */
-	public static eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-		createGoogleMyBusinessHistoric(long googleMyBusinessHistoricId) {
+	public static GoogleMyBusinessHistoric createGoogleMyBusinessHistoric(
+		long googleMyBusinessHistoricId) {
 
 		return getService().createGoogleMyBusinessHistoric(
 			googleMyBusinessHistoricId);
 	}
 
 	/**
-	 * Crée une entree google mybusiness vide avec une PK, non ajouté à la base de donnée
+	 * Crée une entrée googleMyBusiness vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-			createGoogleMyBusinessHistoric(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static GoogleMyBusinessHistoric createGoogleMyBusinessHistoric(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createGoogleMyBusinessHistoric(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -91,10 +98,8 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 * @param googleMyBusinessHistoric the google my business historic
 	 * @return the google my business historic that was removed
 	 */
-	public static eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-		deleteGoogleMyBusinessHistoric(
-			eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-				googleMyBusinessHistoric) {
+	public static GoogleMyBusinessHistoric deleteGoogleMyBusinessHistoric(
+		GoogleMyBusinessHistoric googleMyBusinessHistoric) {
 
 		return getService().deleteGoogleMyBusinessHistoric(
 			googleMyBusinessHistoric);
@@ -111,9 +116,9 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 * @return the google my business historic that was removed
 	 * @throws PortalException if a google my business historic with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-			deleteGoogleMyBusinessHistoric(long googleMyBusinessHistoricId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static GoogleMyBusinessHistoric deleteGoogleMyBusinessHistoric(
+			long googleMyBusinessHistoricId)
+		throws PortalException {
 
 		return getService().deleteGoogleMyBusinessHistoric(
 			googleMyBusinessHistoricId);
@@ -122,10 +127,9 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -135,15 +139,20 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 */
 	public static void doSynchronisation(
 		com.liferay.portal.kernel.service.ServiceContext sc,
-		eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-			googleMyBusinessHistoric) {
+		GoogleMyBusinessHistoric googleMyBusinessHistoric) {
 
 		getService().doSynchronisation(sc, googleMyBusinessHistoric);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -153,9 +162,7 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -171,9 +178,8 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -191,10 +197,9 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -206,9 +211,7 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -220,14 +223,14 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-		fetchGoogleMyBusinessHistoric(long googleMyBusinessHistoricId) {
+	public static GoogleMyBusinessHistoric fetchGoogleMyBusinessHistoric(
+		long googleMyBusinessHistoricId) {
 
 		return getService().fetchGoogleMyBusinessHistoric(
 			googleMyBusinessHistoricId);
@@ -240,7 +243,7 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching google my business historic, or <code>null</code> if a matching google my business historic could not be found
 	 */
-	public static eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
+	public static GoogleMyBusinessHistoric
 		fetchGoogleMyBusinessHistoricByUuidAndGroupId(
 			String uuid, long groupId) {
 
@@ -251,9 +254,8 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	/**
 	 * Recherche par mot clés
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.place.model.GoogleMyBusinessHistoric>
-			findByKeyword(String keyword, long groupId, int start, int end) {
+	public static List<GoogleMyBusinessHistoric> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -274,7 +276,7 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à google mybusiness
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -283,10 +285,7 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	/**
 	 * Retourne tous les google mybusiness d'un groupe
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.place.model.GoogleMyBusinessHistoric>
-			getByGroupId(long groupId) {
-
+	public static List<GoogleMyBusinessHistoric> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
@@ -305,9 +304,9 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 * @return the google my business historic
 	 * @throws PortalException if a google my business historic with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-			getGoogleMyBusinessHistoric(long googleMyBusinessHistoricId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static GoogleMyBusinessHistoric getGoogleMyBusinessHistoric(
+			long googleMyBusinessHistoricId)
+		throws PortalException {
 
 		return getService().getGoogleMyBusinessHistoric(
 			googleMyBusinessHistoricId);
@@ -321,10 +320,10 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 * @return the matching google my business historic
 	 * @throws PortalException if a matching google my business historic could not be found
 	 */
-	public static eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
+	public static GoogleMyBusinessHistoric
 			getGoogleMyBusinessHistoricByUuidAndGroupId(
 				String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().getGoogleMyBusinessHistoricByUuidAndGroupId(
 			uuid, groupId);
@@ -341,9 +340,8 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 * @param end the upper bound of the range of google my business historics (not inclusive)
 	 * @return the range of google my business historics
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.place.model.GoogleMyBusinessHistoric>
-			getGoogleMyBusinessHistorics(int start, int end) {
+	public static List<GoogleMyBusinessHistoric> getGoogleMyBusinessHistorics(
+		int start, int end) {
 
 		return getService().getGoogleMyBusinessHistorics(start, end);
 	}
@@ -355,10 +353,9 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching google my business historics, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.place.model.GoogleMyBusinessHistoric>
-			getGoogleMyBusinessHistoricsByUuidAndCompanyId(
-				String uuid, long companyId) {
+	public static List<GoogleMyBusinessHistoric>
+		getGoogleMyBusinessHistoricsByUuidAndCompanyId(
+			String uuid, long companyId) {
 
 		return getService().getGoogleMyBusinessHistoricsByUuidAndCompanyId(
 			uuid, companyId);
@@ -374,13 +371,10 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching google my business historics, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.place.model.GoogleMyBusinessHistoric>
-			getGoogleMyBusinessHistoricsByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.place.model.GoogleMyBusinessHistoric>
-						orderByComparator) {
+	public static List<GoogleMyBusinessHistoric>
+		getGoogleMyBusinessHistoricsByUuidAndCompanyId(
+			String uuid, long companyId, int start, int end,
+			OrderByComparator<GoogleMyBusinessHistoric> orderByComparator) {
 
 		return getService().getGoogleMyBusinessHistoricsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -414,9 +408,8 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -424,9 +417,9 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	/**
 	 * Supprime l'entree google mybusiness
 	 */
-	public static eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-			removeGoogleMyBusinessHistoric(long googleMyBusinessHistoricId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static GoogleMyBusinessHistoric removeGoogleMyBusinessHistoric(
+			long googleMyBusinessHistoricId)
+		throws PortalException {
 
 		return getService().removeGoogleMyBusinessHistoric(
 			googleMyBusinessHistoricId);
@@ -442,10 +435,8 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 * @param googleMyBusinessHistoric the google my business historic
 	 * @return the google my business historic that was updated
 	 */
-	public static eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-		updateGoogleMyBusinessHistoric(
-			eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-				googleMyBusinessHistoric) {
+	public static GoogleMyBusinessHistoric updateGoogleMyBusinessHistoric(
+		GoogleMyBusinessHistoric googleMyBusinessHistoric) {
 
 		return getService().updateGoogleMyBusinessHistoric(
 			googleMyBusinessHistoric);
@@ -456,12 +447,10 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 *
 	 * @throws PortalException
 	 */
-	public static eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-			updateGoogleMyBusinessHistoric(
-				eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-					googleMyBusinessHistoric,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static GoogleMyBusinessHistoric updateGoogleMyBusinessHistoric(
+			GoogleMyBusinessHistoric googleMyBusinessHistoric,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateGoogleMyBusinessHistoric(
 			googleMyBusinessHistoric, sc);
@@ -471,10 +460,8 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	 * Met à jour le statut de l'entree google mybusiness "manuellement" (pas via le workflow)
 	 */
 	public static void updateStatus(
-			eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-				googleMyBusinessHistoric,
-			int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			GoogleMyBusinessHistoric googleMyBusinessHistoric, int status)
+		throws PortalException {
 
 		getService().updateStatus(googleMyBusinessHistoric, status);
 	}
@@ -482,41 +469,26 @@ public class GoogleMyBusinessHistoricLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'entree google mybusiness par le framework workflow
 	 */
-	public static eu.strasbourg.service.place.model.GoogleMyBusinessHistoric
-			updateStatus(
-				long userId, long entryId, int status,
-				com.liferay.portal.kernel.service.ServiceContext sc,
-				java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static GoogleMyBusinessHistoric updateStatus(
+			long userId, long entryId, int status,
+			com.liferay.portal.kernel.service.ServiceContext sc,
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
 	}
 
 	public static GoogleMyBusinessHistoricLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<GoogleMyBusinessHistoricLocalService,
-		 GoogleMyBusinessHistoricLocalService> _serviceTracker;
+	public static void setService(
+		GoogleMyBusinessHistoricLocalService service) {
 
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			GoogleMyBusinessHistoricLocalService.class);
-
-		ServiceTracker
-			<GoogleMyBusinessHistoricLocalService,
-			 GoogleMyBusinessHistoricLocalService> serviceTracker =
-				new ServiceTracker
-					<GoogleMyBusinessHistoricLocalService,
-					 GoogleMyBusinessHistoricLocalService>(
-						 bundle.getBundleContext(),
-						 GoogleMyBusinessHistoricLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+		_service = service;
 	}
+
+	private static volatile GoogleMyBusinessHistoricLocalService _service;
 
 }

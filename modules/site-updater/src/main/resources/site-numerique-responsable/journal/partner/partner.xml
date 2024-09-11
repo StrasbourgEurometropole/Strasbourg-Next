@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Partenaire</name>
+        <key>237243547</key>
+        <definition>partner-structure.json</definition>
+        <layout>partner-layout.json</layout>
+    </structure>
+</root>

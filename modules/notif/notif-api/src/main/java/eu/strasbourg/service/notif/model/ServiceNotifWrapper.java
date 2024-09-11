@@ -1,29 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notif.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,11 @@ import java.util.Objects;
  * @generated
  */
 public class ServiceNotifWrapper
+	extends BaseModelWrapper<ServiceNotif>
 	implements ModelWrapper<ServiceNotif>, ServiceNotif {
 
 	public ServiceNotifWrapper(ServiceNotif serviceNotif) {
-		_serviceNotif = serviceNotif;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return ServiceNotif.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return ServiceNotif.class.getName();
+		super(serviceNotif);
 	}
 
 	@Override
@@ -129,15 +107,8 @@ public class ServiceNotifWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new ServiceNotifWrapper((ServiceNotif)_serviceNotif.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.notif.model.ServiceNotif serviceNotif) {
-
-		return _serviceNotif.compareTo(serviceNotif);
+	public ServiceNotif cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -147,7 +118,7 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _serviceNotif.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -157,7 +128,7 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public String getCsmapSubscriptionLabel() {
-		return _serviceNotif.getCsmapSubscriptionLabel();
+		return model.getCsmapSubscriptionLabel();
 	}
 
 	/**
@@ -167,7 +138,7 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public boolean getCsmapSubscriptionMandatory() {
-		return _serviceNotif.getCsmapSubscriptionMandatory();
+		return model.getCsmapSubscriptionMandatory();
 	}
 
 	/**
@@ -177,12 +148,7 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public String getCsmapTopic() {
-		return _serviceNotif.getCsmapTopic();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _serviceNotif.getExpandoBridge();
+		return model.getCsmapTopic();
 	}
 
 	/**
@@ -192,7 +158,7 @@ public class ServiceNotifWrapper
 	public java.util.List<eu.strasbourg.service.notif.model.Message>
 		getMessages() {
 
-		return _serviceNotif.getMessages();
+		return model.getMessages();
 	}
 
 	/**
@@ -202,7 +168,7 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _serviceNotif.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -212,7 +178,7 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public String getName() {
-		return _serviceNotif.getName();
+		return model.getName();
 	}
 
 	/**
@@ -222,7 +188,7 @@ public class ServiceNotifWrapper
 	public java.util.List<eu.strasbourg.service.notif.model.NatureNotif>
 		getNatures() {
 
-		return _serviceNotif.getNatures();
+		return model.getNatures();
 	}
 
 	/**
@@ -232,7 +198,7 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public long getOrganisationId() {
-		return _serviceNotif.getOrganisationId();
+		return model.getOrganisationId();
 	}
 
 	/**
@@ -242,7 +208,7 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public long getPictoId() {
-		return _serviceNotif.getPictoId();
+		return model.getPictoId();
 	}
 
 	/**
@@ -252,12 +218,7 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _serviceNotif.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _serviceNotif.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -267,17 +228,7 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public long getServiceId() {
-		return _serviceNotif.getServiceId();
-	}
-
-	@Override
-	public int hashCode() {
-		return _serviceNotif.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _serviceNotif.isCachedModel();
+		return model.getServiceId();
 	}
 
 	/**
@@ -287,27 +238,12 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public boolean isCsmapSubscriptionMandatory() {
-		return _serviceNotif.isCsmapSubscriptionMandatory();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _serviceNotif.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _serviceNotif.isNew();
+		return model.isCsmapSubscriptionMandatory();
 	}
 
 	@Override
 	public void persist() {
-		_serviceNotif.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_serviceNotif.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -317,7 +253,7 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_serviceNotif.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -327,7 +263,7 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public void setCsmapSubscriptionLabel(String csmapSubscriptionLabel) {
-		_serviceNotif.setCsmapSubscriptionLabel(csmapSubscriptionLabel);
+		model.setCsmapSubscriptionLabel(csmapSubscriptionLabel);
 	}
 
 	/**
@@ -339,7 +275,7 @@ public class ServiceNotifWrapper
 	public void setCsmapSubscriptionMandatory(
 		boolean csmapSubscriptionMandatory) {
 
-		_serviceNotif.setCsmapSubscriptionMandatory(csmapSubscriptionMandatory);
+		model.setCsmapSubscriptionMandatory(csmapSubscriptionMandatory);
 	}
 
 	/**
@@ -349,24 +285,7 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public void setCsmapTopic(String csmapTopic) {
-		_serviceNotif.setCsmapTopic(csmapTopic);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_serviceNotif.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_serviceNotif.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_serviceNotif.setExpandoBridgeAttributes(serviceContext);
+		model.setCsmapTopic(csmapTopic);
 	}
 
 	/**
@@ -376,7 +295,7 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_serviceNotif.setModifiedDate(modifiedDate);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -386,12 +305,7 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public void setName(String name) {
-		_serviceNotif.setName(name);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_serviceNotif.setNew(n);
+		model.setName(name);
 	}
 
 	/**
@@ -401,7 +315,7 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public void setOrganisationId(long organisationId) {
-		_serviceNotif.setOrganisationId(organisationId);
+		model.setOrganisationId(organisationId);
 	}
 
 	/**
@@ -411,7 +325,7 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public void setPictoId(long pictoId) {
-		_serviceNotif.setPictoId(pictoId);
+		model.setPictoId(pictoId);
 	}
 
 	/**
@@ -421,12 +335,7 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_serviceNotif.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_serviceNotif.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -436,75 +345,17 @@ public class ServiceNotifWrapper
 	 */
 	@Override
 	public void setServiceId(long serviceId) {
-		_serviceNotif.setServiceId(serviceId);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.notif.model.ServiceNotif> toCacheModel() {
-
-		return _serviceNotif.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.notif.model.ServiceNotif toEscapedModel() {
-		return new ServiceNotifWrapper(_serviceNotif.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _serviceNotif.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.notif.model.ServiceNotif toUnescapedModel() {
-		return new ServiceNotifWrapper(_serviceNotif.toUnescapedModel());
+		model.setServiceId(serviceId);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _serviceNotif.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof ServiceNotifWrapper)) {
-			return false;
-		}
-
-		ServiceNotifWrapper serviceNotifWrapper = (ServiceNotifWrapper)object;
-
-		if (Objects.equals(_serviceNotif, serviceNotifWrapper._serviceNotif)) {
-			return true;
-		}
-
-		return false;
+	protected ServiceNotifWrapper wrap(ServiceNotif serviceNotif) {
+		return new ServiceNotifWrapper(serviceNotif);
 	}
-
-	@Override
-	public ServiceNotif getWrappedModel() {
-		return _serviceNotif;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _serviceNotif.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _serviceNotif.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_serviceNotif.resetOriginalValues();
-	}
-
-	private final ServiceNotif _serviceNotif;
 
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.video.model.Video</className>
+    <template>
+        <script>video-detail.ftl</script>
+        <name>Détail vidéo</name>
+        <key>264675253</key>
+    </template>
+    <template>
+        <script>video-thumbnail.ftl</script>
+        <name>Vignette vidéo</name>
+        <key>264675247</key>
+    </template>
+</root>

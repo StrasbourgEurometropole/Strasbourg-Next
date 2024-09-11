@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.formSendRecordField.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,30 +19,30 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.formSendRecordField.exception.NoSuchFormSendRecordFieldSignalementException;
 import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalement;
+import eu.strasbourg.service.formSendRecordField.model.FormSendRecordFieldSignalementTable;
 import eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldSignalementImpl;
 import eu.strasbourg.service.formSendRecordField.model.impl.FormSendRecordFieldSignalementModelImpl;
 import eu.strasbourg.service.formSendRecordField.service.persistence.FormSendRecordFieldSignalementPersistence;
+import eu.strasbourg.service.formSendRecordField.service.persistence.FormSendRecordFieldSignalementUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -259,10 +251,6 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -626,8 +614,6 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -793,11 +779,6 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -888,8 +869,6 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1097,10 +1076,6 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1487,8 +1462,6 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1668,10 +1641,6 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2010,8 +1979,6 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2200,10 +2167,6 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2568,8 +2531,6 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2755,10 +2716,6 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3104,8 +3061,6 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3125,21 +3080,14 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(FormSendRecordFieldSignalement.class);
+
+		setModelImplClass(FormSendRecordFieldSignalementImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(FormSendRecordFieldSignalementTable.INSTANCE);
 	}
 
 	/**
@@ -3152,7 +3100,6 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement) {
 
 		entityCache.putResult(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
 			FormSendRecordFieldSignalementImpl.class,
 			formSendRecordFieldSignalement.getPrimaryKey(),
 			formSendRecordFieldSignalement);
@@ -3164,9 +3111,9 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 				formSendRecordFieldSignalement.getGroupId()
 			},
 			formSendRecordFieldSignalement);
-
-		formSendRecordFieldSignalement.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the form send record field signalements in the entity cache if it is enabled.
@@ -3177,19 +3124,22 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	public void cacheResult(
 		List<FormSendRecordFieldSignalement> formSendRecordFieldSignalements) {
 
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (formSendRecordFieldSignalements.size() >
+				 _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (FormSendRecordFieldSignalement formSendRecordFieldSignalement :
 				formSendRecordFieldSignalements) {
 
 			if (entityCache.getResult(
-					FormSendRecordFieldSignalementModelImpl.
-						ENTITY_CACHE_ENABLED,
 					FormSendRecordFieldSignalementImpl.class,
 					formSendRecordFieldSignalement.getPrimaryKey()) == null) {
 
 				cacheResult(formSendRecordFieldSignalement);
-			}
-			else {
-				formSendRecordFieldSignalement.resetOriginalValues();
 			}
 		}
 	}
@@ -3205,9 +3155,7 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(FormSendRecordFieldSignalementImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(FormSendRecordFieldSignalementImpl.class);
 	}
 
 	/**
@@ -3222,49 +3170,29 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement) {
 
 		entityCache.removeResult(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
 			FormSendRecordFieldSignalementImpl.class,
-			formSendRecordFieldSignalement.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(FormSendRecordFieldSignalementModelImpl)
-				formSendRecordFieldSignalement,
-			true);
+			formSendRecordFieldSignalement);
 	}
 
 	@Override
 	public void clearCache(
 		List<FormSendRecordFieldSignalement> formSendRecordFieldSignalements) {
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (FormSendRecordFieldSignalement formSendRecordFieldSignalement :
 				formSendRecordFieldSignalements) {
 
 			entityCache.removeResult(
-				FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
 				FormSendRecordFieldSignalementImpl.class,
-				formSendRecordFieldSignalement.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(FormSendRecordFieldSignalementModelImpl)
-					formSendRecordFieldSignalement,
-				true);
+				formSendRecordFieldSignalement);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(FormSendRecordFieldSignalementImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
-				FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
 				FormSendRecordFieldSignalementImpl.class, primaryKey);
 		}
 	}
@@ -3278,39 +3206,10 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 			formSendRecordFieldSignalementModelImpl.getGroupId()
 		};
 
-		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
 		finderCache.putResult(
 			_finderPathFetchByUUID_G, args,
-			formSendRecordFieldSignalementModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		FormSendRecordFieldSignalementModelImpl
-			formSendRecordFieldSignalementModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				formSendRecordFieldSignalementModelImpl.getUuid(),
-				formSendRecordFieldSignalementModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((formSendRecordFieldSignalementModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				formSendRecordFieldSignalementModelImpl.getOriginalUuid(),
-				formSendRecordFieldSignalementModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+			formSendRecordFieldSignalementModelImpl);
 	}
 
 	/**
@@ -3470,25 +3369,25 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (formSendRecordFieldSignalement.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				formSendRecordFieldSignalement.setCreateDate(now);
+				formSendRecordFieldSignalement.setCreateDate(date);
 			}
 			else {
 				formSendRecordFieldSignalement.setCreateDate(
-					serviceContext.getCreateDate(now));
+					serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!formSendRecordFieldSignalementModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				formSendRecordFieldSignalement.setModifiedDate(now);
+				formSendRecordFieldSignalement.setModifiedDate(date);
 			}
 			else {
 				formSendRecordFieldSignalement.setModifiedDate(
-					serviceContext.getModifiedDate(now));
+					serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -3497,10 +3396,8 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 		try {
 			session = openSession();
 
-			if (formSendRecordFieldSignalement.isNew()) {
+			if (isNew) {
 				session.save(formSendRecordFieldSignalement);
-
-				formSendRecordFieldSignalement.setNew(false);
 			}
 			else {
 				formSendRecordFieldSignalement =
@@ -3515,184 +3412,15 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!FormSendRecordFieldSignalementModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				formSendRecordFieldSignalementModelImpl.getUuid()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				formSendRecordFieldSignalementModelImpl.getUuid(),
-				formSendRecordFieldSignalementModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {
-				formSendRecordFieldSignalementModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {
-				formSendRecordFieldSignalementModelImpl.getPublikId()
-			};
-
-			finderCache.removeResult(_finderPathCountByPublikId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPublikId, args);
-
-			args = new Object[] {
-				formSendRecordFieldSignalementModelImpl.
-					getFormSendRecordFieldId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByFormSendRecordFieldId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByFormSendRecordFieldId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((formSendRecordFieldSignalementModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					formSendRecordFieldSignalementModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {
-					formSendRecordFieldSignalementModelImpl.getUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((formSendRecordFieldSignalementModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					formSendRecordFieldSignalementModelImpl.getOriginalUuid(),
-					formSendRecordFieldSignalementModelImpl.
-						getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					formSendRecordFieldSignalementModelImpl.getUuid(),
-					formSendRecordFieldSignalementModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((formSendRecordFieldSignalementModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					formSendRecordFieldSignalementModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {
-					formSendRecordFieldSignalementModelImpl.getGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((formSendRecordFieldSignalementModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPublikId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					formSendRecordFieldSignalementModelImpl.
-						getOriginalPublikId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikId, args);
-
-				args = new Object[] {
-					formSendRecordFieldSignalementModelImpl.getPublikId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikId, args);
-			}
-
-			if ((formSendRecordFieldSignalementModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByFormSendRecordFieldId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					formSendRecordFieldSignalementModelImpl.
-						getOriginalFormSendRecordFieldId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByFormSendRecordFieldId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByFormSendRecordFieldId,
-					args);
-
-				args = new Object[] {
-					formSendRecordFieldSignalementModelImpl.
-						getFormSendRecordFieldId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByFormSendRecordFieldId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByFormSendRecordFieldId,
-					args);
-			}
-		}
-
 		entityCache.putResult(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
 			FormSendRecordFieldSignalementImpl.class,
-			formSendRecordFieldSignalement.getPrimaryKey(),
-			formSendRecordFieldSignalement, false);
+			formSendRecordFieldSignalementModelImpl, false, true);
 
-		clearUniqueFindersCache(formSendRecordFieldSignalementModelImpl, false);
 		cacheUniqueFindersCache(formSendRecordFieldSignalementModelImpl);
+
+		if (isNew) {
+			formSendRecordFieldSignalement.setNew(false);
+		}
 
 		formSendRecordFieldSignalement.resetOriginalValues();
 
@@ -3743,64 +3471,6 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	/**
 	 * Returns the form send record field signalement with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the form send record field signalement
-	 * @return the form send record field signalement, or <code>null</code> if a form send record field signalement with the primary key could not be found
-	 */
-	@Override
-	public FormSendRecordFieldSignalement fetchByPrimaryKey(
-		Serializable primaryKey) {
-
-		Serializable serializable = entityCache.getResult(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		FormSendRecordFieldSignalement formSendRecordFieldSignalement =
-			(FormSendRecordFieldSignalement)serializable;
-
-		if (formSendRecordFieldSignalement == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				formSendRecordFieldSignalement =
-					(FormSendRecordFieldSignalement)session.get(
-						FormSendRecordFieldSignalementImpl.class, primaryKey);
-
-				if (formSendRecordFieldSignalement != null) {
-					cacheResult(formSendRecordFieldSignalement);
-				}
-				else {
-					entityCache.putResult(
-						FormSendRecordFieldSignalementModelImpl.
-							ENTITY_CACHE_ENABLED,
-						FormSendRecordFieldSignalementImpl.class, primaryKey,
-						nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					FormSendRecordFieldSignalementModelImpl.
-						ENTITY_CACHE_ENABLED,
-					FormSendRecordFieldSignalementImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return formSendRecordFieldSignalement;
-	}
-
-	/**
-	 * Returns the form send record field signalement with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param signalementId the primary key of the form send record field signalement
 	 * @return the form send record field signalement, or <code>null</code> if a form send record field signalement with the primary key could not be found
 	 */
@@ -3809,114 +3479,6 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 		long signalementId) {
 
 		return fetchByPrimaryKey((Serializable)signalementId);
-	}
-
-	@Override
-	public Map<Serializable, FormSendRecordFieldSignalement> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, FormSendRecordFieldSignalement> map =
-			new HashMap<Serializable, FormSendRecordFieldSignalement>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			FormSendRecordFieldSignalement formSendRecordFieldSignalement =
-				fetchByPrimaryKey(primaryKey);
-
-			if (formSendRecordFieldSignalement != null) {
-				map.put(primaryKey, formSendRecordFieldSignalement);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-				FormSendRecordFieldSignalementImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(
-						primaryKey,
-						(FormSendRecordFieldSignalement)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_FORMSENDRECORDFIELDSIGNALEMENT_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (FormSendRecordFieldSignalement formSendRecordFieldSignalement :
-					(List<FormSendRecordFieldSignalement>)query.list()) {
-
-				map.put(
-					formSendRecordFieldSignalement.getPrimaryKeyObj(),
-					formSendRecordFieldSignalement);
-
-				cacheResult(formSendRecordFieldSignalement);
-
-				uncachedPrimaryKeys.remove(
-					formSendRecordFieldSignalement.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					FormSendRecordFieldSignalementModelImpl.
-						ENTITY_CACHE_ENABLED,
-					FormSendRecordFieldSignalementImpl.class, primaryKey,
-					nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -4046,10 +3608,6 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -4098,9 +3656,6 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -4117,6 +3672,21 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "signalementId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_FORMSENDRECORDFIELDSIGNALEMENT;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return FormSendRecordFieldSignalementModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -4125,182 +3695,133 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 	 * Initializes the form send record field signalement persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			FormSendRecordFieldSignalementImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			FormSendRecordFieldSignalementImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			FormSendRecordFieldSignalementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			FormSendRecordFieldSignalementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			FormSendRecordFieldSignalementModelImpl.UUID_COLUMN_BITMASK |
-			FormSendRecordFieldSignalementModelImpl.CREATEDATE_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByUuid", new String[] {String.class.getName()});
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			FormSendRecordFieldSignalementImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByUUID_G",
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			FormSendRecordFieldSignalementModelImpl.UUID_COLUMN_BITMASK |
-			FormSendRecordFieldSignalementModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			FormSendRecordFieldSignalementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			FormSendRecordFieldSignalementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			FormSendRecordFieldSignalementModelImpl.UUID_COLUMN_BITMASK |
-			FormSendRecordFieldSignalementModelImpl.COMPANYID_COLUMN_BITMASK |
-			FormSendRecordFieldSignalementModelImpl.CREATEDATE_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			FormSendRecordFieldSignalementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			FormSendRecordFieldSignalementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			FormSendRecordFieldSignalementModelImpl.GROUPID_COLUMN_BITMASK |
-			FormSendRecordFieldSignalementModelImpl.CREATEDATE_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByGroupId", new String[] {Long.class.getName()});
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
 
 		_finderPathWithPaginationFindByPublikId = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			FormSendRecordFieldSignalementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"publikId"}, true);
 
 		_finderPathWithoutPaginationFindByPublikId = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			FormSendRecordFieldSignalementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikId",
-			new String[] {String.class.getName()},
-			FormSendRecordFieldSignalementModelImpl.PUBLIKID_COLUMN_BITMASK |
-			FormSendRecordFieldSignalementModelImpl.CREATEDATE_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"publikId"},
+			true);
 
 		_finderPathCountByPublikId = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByPublikId", new String[] {String.class.getName()});
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikId",
+			new String[] {String.class.getName()}, new String[] {"publikId"},
+			false);
 
 		_finderPathWithPaginationFindByFormSendRecordFieldId = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			FormSendRecordFieldSignalementImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByFormSendRecordFieldId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"formSendRecordFieldId"}, true);
 
 		_finderPathWithoutPaginationFindByFormSendRecordFieldId =
 			new FinderPath(
-				FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-				FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-				FormSendRecordFieldSignalementImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByFormSendRecordFieldId",
 				new String[] {Long.class.getName()},
-				FormSendRecordFieldSignalementModelImpl.
-					FORMSENDRECORDFIELDID_COLUMN_BITMASK |
-				FormSendRecordFieldSignalementModelImpl.
-					CREATEDATE_COLUMN_BITMASK);
+				new String[] {"formSendRecordFieldId"}, true);
 
 		_finderPathCountByFormSendRecordFieldId = new FinderPath(
-			FormSendRecordFieldSignalementModelImpl.ENTITY_CACHE_ENABLED,
-			FormSendRecordFieldSignalementModelImpl.FINDER_CACHE_ENABLED,
-			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByFormSendRecordFieldId",
-			new String[] {Long.class.getName()});
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByFormSendRecordFieldId", new String[] {Long.class.getName()},
+			new String[] {"formSendRecordFieldId"}, false);
+
+		FormSendRecordFieldSignalementUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		FormSendRecordFieldSignalementUtil.setPersistence(null);
+
 		entityCache.removeCache(
 			FormSendRecordFieldSignalementImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -4311,10 +3832,6 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 
 	private static final String _SQL_SELECT_FORMSENDRECORDFIELDSIGNALEMENT =
 		"SELECT formSendRecordFieldSignalement FROM FormSendRecordFieldSignalement formSendRecordFieldSignalement";
-
-	private static final String
-		_SQL_SELECT_FORMSENDRECORDFIELDSIGNALEMENT_WHERE_PKS_IN =
-			"SELECT formSendRecordFieldSignalement FROM FormSendRecordFieldSignalement formSendRecordFieldSignalement WHERE signalementId IN (";
 
 	private static final String
 		_SQL_SELECT_FORMSENDRECORDFIELDSIGNALEMENT_WHERE =
@@ -4341,5 +3858,10 @@ public class FormSendRecordFieldSignalementPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

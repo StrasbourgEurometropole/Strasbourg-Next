@@ -14,21 +14,17 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
+import eu.strasbourg.utils.PortalHelper;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -41,6 +37,17 @@ import eu.strasbourg.service.gtfs.service.AlertLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.ArretServiceUtil;
 import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * The extended model implementation for the Arret service. Represents a row in the &quot;gtfs_Arret&quot; database table, with each column mapped to a property of this class.
@@ -113,6 +120,12 @@ public class ArretImpl extends ArretBaseImpl {
 
         return  alerts;
     }
+	/**
+	 * Renvoie le count des Alertes en cours ou à venir de cet arret
+	 */
+	public long getCountAlertsActives() {
+	 	return  AlertLocalServiceUtil.getCountAlertsActives(this.getArretId());
+	}
 
 	/**
 	 * Renvoie la correspondance du type d'arret en format texte
@@ -184,7 +197,7 @@ public class ArretImpl extends ArretBaseImpl {
 		properties.put("icon", "/o/mapweb/images/picto_" + this.getTypeText().toLowerCase() + ".png");
 
 		// vérifi si l'arrêt a une alerte
-		if(this.getAlertsActives().size() > 0)
+		if(this.getCountAlertsActives() > 0)
 			properties.put("alert", true);
 
 		// récupère les numéros de lignes de l'arrêt
@@ -207,7 +220,7 @@ public class ArretImpl extends ArretBaseImpl {
 		}
 		if (group != null) {
 			String url = "";
-			String virtualHostName = group.getPublicLayoutSet().getVirtualHostname();
+			String virtualHostName=PortalHelper.getVirtualHostname(group, Locale.FRANCE.getLanguage());
 			if (virtualHostName.isEmpty()) {
 				url = "/web" + group.getFriendlyURL() + "/";
 			} else {

@@ -1,17 +1,27 @@
 .pro-page-budget-participatif {
+	.pro-btn-transparent {
+		color: $c_orange;
+		border-color: $c_orange;
+		&:hover, &:focus {
+			background: $c_orange;
+			color: $c_txt;
+		}
+	}
+
 
 	.pro-timer {
 		position: relative;
+		margin-top: 20px;
 	}
 
 	> .container {
 		position: relative;
 		width: 1060px;
-		@media screen and (max-width: 1200px) {
+		@media screen and (max-width: 1100px) {
 			max-width: 970px;
 			padding: 0 15px;
 		}
-		@media screen and(max-width: 992px) {
+		@media screen and (max-width: 1100px) {
 			max-width: 750px;
 		}
 		@include mobile {
@@ -31,7 +41,10 @@
 		}
 		h1 {
 			@include ft($f_hx, 6.250em, 700, $c_white, 1em);
-			text-transform: uppercase;
+			p {
+				color: $c_white;
+			}
+
 			@include tablet_landscape {
 				font-size: 6em;
 			}
@@ -50,27 +63,6 @@
 				@include ft($f_hx, 0.600em, 700, $c_white, 1.3em);
 				@include mobile {
 					color: $c_txt;
-				}
-				&:after {
-					content: '';
-					position: absolute;
-					bottom: 14px;
-					right: 0;
-					width: 325px;
-					height: 20px;
-					background: $c_main;
-					@include tablet_landscape {
-						width: 315px;
-					}
-					@include tablet_portrait {
-						width: 205px;
-						height: 10px;
-						bottom: 9px;
-					}
-					@include mobile {
-						bottom: 8px;
-						width: 175px;
-					}
 				}
 			}
 		}
@@ -106,7 +98,7 @@
 			}
 			&:before {
 				content: '';
-				background: url(../../assets/images/background/bg-yellow.png);
+				background: url(../../assets/images/background/bg-orange.png);
 				position: absolute;
 				left: -100px;
 				top: 30px;
@@ -163,18 +155,18 @@
 				@include ft($f_txt, 1em, 400, $c_txt, 1.625em);
 				margin-bottom: 10px;
 				a {
-					color: #154;
+					color: black;
 					text-decoration: underline;
 					&:hover, &:focus {
-						color: $c_txt;
+						color: $c_white;
 					}
 				}
 			}
 			a {
-				color: #154;
+				color: black;
 				text-decoration: underline;
 				&:hover, &:focus {
-					color: $c_txt;
+					color: $c_white;
 				}
 			}
 			figure {
@@ -205,8 +197,9 @@
 				margin-top: -20px;
 			}
 			h3 {
-				@include ft($f_hx, 1.250em, 700, $c_white, 1.3em);
-				text-transform: uppercase;
+				@include ft($f_hx, 1.4em, 700, $c_white, 1em);
+				letter-spacing: -0.5px;
+
 			}
 			ul {
 				li {
@@ -231,7 +224,7 @@
 							left: 0;
 							right: 0;
 							bottom: 0;
-							background: $c_main;
+							background: $c_orange;
 							height: 1px;
 							@include addTransition();
 
@@ -301,7 +294,7 @@
 				bottom: -10px;
 				width: calc(100% - 30px);
 				height: 10px;
-				background: $c_main;
+				background: $c_orange;
 			}
 			@include mobile {
 				padding: 15px 15px 30px 15px;
@@ -327,7 +320,7 @@
 		}
 		h3 {
 			@include ft($f_hx, 1.5em, 700, $c_txt, 1.125em);
-			text-transform: uppercase;
+
 			margin-bottom: 15px;
 		}
 		p {
@@ -358,7 +351,7 @@
 					top: 11px;
 					width: 13px;
 					height: 4px;
-					background: $c_main;
+					@include addDynamicBackground();
 				}
 				a {
 					color: $c_txt;
@@ -375,7 +368,7 @@
 			position: absolute;
 			width: 160px;
 			height: 160px;
-			background: $c_main;
+			background: $c_orange;
 			border-radius: 50%;
 			display: block;
 			@include mobile {
@@ -457,7 +450,7 @@
 				top: -30px;
 				width: 150px;
 				height: 10px;
-				background: $c_main;
+				background: $c_orange;
 				transform: rotate(65deg);
 				@include mobile {
 					content: none;
@@ -496,7 +489,7 @@
 				top: -30px;
 				width: 200px;
 				height: 10px;
-				background: $c_main;
+				background: $c_orange;
 				transform: rotate(-65deg);
 				@include mobile {
 					content: none;
@@ -526,7 +519,7 @@
 			.pro-circle-left {
 				width: 13px;
 				height: 13px;
-				background: $c_main;
+				background: $c_orange;
 				border-radius: 50%;
 				position: absolute;
 				right: 205px;
@@ -542,7 +535,7 @@
 			.pro-circle-right {
 				width: 55px;
 				height: 55px;
-				background: $c_main;
+				background: $c_orange;
 				border-radius: 50%;
 				position: absolute;
 				right: 130px;
@@ -566,7 +559,7 @@
 				top: -30px;
 				width: 200px;
 				height: 10px;
-				background: $c_main;
+				background: $c_orange;
 				transform: rotate(75deg);
 				@include mobile {
 					content: none
@@ -600,7 +593,7 @@
 			.pro-circle-left {
 				width: 22px;
 				height: 22px;
-				background: $c_main;
+				background: $c_orange;
 				border-radius: 50%;
 				position: absolute;
 				left: 70px;
@@ -614,7 +607,7 @@
 			.pro-circle-right {
 				width: 13px;
 				height: 13px;
-				background: $c_main;
+				background: $c_orange;
 				border-radius: 50%;
 				position: absolute;
 				right: 70px;

@@ -15,7 +15,6 @@
 package eu.strasbourg.service.gtfs.service.impl;
 
 import com.liferay.portal.kernel.json.JSONArray;
-
 import eu.strasbourg.service.gtfs.service.LigneLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.base.LigneServiceBaseImpl;
 

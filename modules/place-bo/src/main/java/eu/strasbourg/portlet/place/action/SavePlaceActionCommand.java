@@ -15,9 +15,12 @@
  */
 package eu.strasbourg.portlet.place.action;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -31,6 +34,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.place.util.PlacePermissionUtils;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.ScheduleException;
@@ -51,6 +55,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -78,14 +83,15 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 
 				String portletName = (String) request
 						.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				PortletURL backURL = PortletURLFactoryUtil.create(request,
 						portletName, td.getPlid(),
 						PortletRequest.RENDER_PHASE);
-				returnURL.setParameter("tab", request.getParameter("tab"));
+				backURL.setParameter("tab", request.getParameter("tab"));
 
-				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("backURL", backURL.toString());
 				response.setRenderParameter("mvcPath",
 						"/place-bo-edit-place.jsp");
+				response.setRenderParameter("cmd", "savePlace");
 				return false;
 			}
 
@@ -312,6 +318,9 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 							if (!period.getDefaultPeriod()) {
 								period.setStartDate(startDatePeriod);
 								period.setEndDate(endDatePeriod);
+							}else{
+								period.setStartDate(null);
+								period.setEndDate(null);
 							}
 							period.setAlwaysOpen(alwaysOpen);
 							period.setPlaceId(place.getPlaceId());
@@ -491,11 +500,14 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 			}
 
 			_placeLocalService.updatePlace(place, sc);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+			_log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 
 	/**
@@ -503,6 +515,18 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 	 */
 	private boolean validate(ActionRequest request) {
 		boolean isValid = true;
+
+		// vérifie que l'utilisateur à le droit d'éditer ce lieu
+		long placeId = ParamUtil.getLong(request, "placeId");
+		Place place = _placeLocalService.fetchPlace(placeId);
+		if (Validator.isNotNull(place)) {
+			ThemeDisplay themeDisplay = (ThemeDisplay) request
+					.getAttribute(WebKeys.THEME_DISPLAY);
+			if (!PlacePermissionUtils.hasEditPermission(themeDisplay, place)) {
+				SessionErrors.add(request, "permission-error");
+				isValid = false;
+			}
+		}
 
 		// Alias
 		if (Validator.isNull(ParamUtil.getString(request, "alias"))) {

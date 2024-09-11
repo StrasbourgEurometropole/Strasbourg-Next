@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.formSendRecordField.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,23 +23,14 @@ import java.util.Objects;
  * @generated
  */
 public class FormSendRecordFieldSignalementWrapper
+	extends BaseModelWrapper<FormSendRecordFieldSignalement>
 	implements FormSendRecordFieldSignalement,
 			   ModelWrapper<FormSendRecordFieldSignalement> {
 
 	public FormSendRecordFieldSignalementWrapper(
 		FormSendRecordFieldSignalement formSendRecordFieldSignalement) {
 
-		_formSendRecordFieldSignalement = formSendRecordFieldSignalement;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return FormSendRecordFieldSignalement.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return FormSendRecordFieldSignalement.class.getName();
+		super(formSendRecordFieldSignalement);
 	}
 
 	@Override
@@ -166,24 +144,13 @@ public class FormSendRecordFieldSignalementWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new FormSendRecordFieldSignalementWrapper(
-			(FormSendRecordFieldSignalement)
-				_formSendRecordFieldSignalement.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.formSendRecordField.model.
-			FormSendRecordFieldSignalement formSendRecordFieldSignalement) {
-
-		return _formSendRecordFieldSignalement.compareTo(
-			formSendRecordFieldSignalement);
+	public FormSendRecordFieldSignalement cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	@Override
 	public String getCategorieName() {
-		return _formSendRecordFieldSignalement.getCategorieName();
+		return model.getCategorieName();
 	}
 
 	/**
@@ -194,7 +161,7 @@ public class FormSendRecordFieldSignalementWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategoriesByAssetEntry() {
 
-		return _formSendRecordFieldSignalement.getCategoriesByAssetEntry();
+		return model.getCategoriesByAssetEntry();
 	}
 
 	/**
@@ -204,7 +171,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _formSendRecordFieldSignalement.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -214,12 +181,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _formSendRecordFieldSignalement.getCreateDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _formSendRecordFieldSignalement.getExpandoBridge();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -229,7 +191,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public long getFormSendRecordFieldId() {
-		return _formSendRecordFieldSignalement.getFormSendRecordFieldId();
+		return model.getFormSendRecordFieldId();
 	}
 
 	/**
@@ -239,7 +201,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _formSendRecordFieldSignalement.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -249,7 +211,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _formSendRecordFieldSignalement.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -259,12 +221,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _formSendRecordFieldSignalement.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _formSendRecordFieldSignalement.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -274,7 +231,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public String getPublikId() {
-		return _formSendRecordFieldSignalement.getPublikId();
+		return model.getPublikId();
 	}
 
 	/**
@@ -282,7 +239,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public eu.strasbourg.service.oidc.model.PublikUser getSignalementAuthor() {
-		return _formSendRecordFieldSignalement.getSignalementAuthor();
+		return model.getSignalementAuthor();
 	}
 
 	/**
@@ -290,7 +247,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public String getSignalementAuthorLabel() {
-		return _formSendRecordFieldSignalement.getSignalementAuthorLabel();
+		return model.getSignalementAuthorLabel();
 	}
 
 	/**
@@ -300,7 +257,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public long getSignalementId() {
-		return _formSendRecordFieldSignalement.getSignalementId();
+		return model.getSignalementId();
 	}
 
 	/**
@@ -310,7 +267,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _formSendRecordFieldSignalement.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -320,7 +277,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _formSendRecordFieldSignalement.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -330,7 +287,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _formSendRecordFieldSignalement.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -340,7 +297,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _formSendRecordFieldSignalement.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -350,7 +307,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _formSendRecordFieldSignalement.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -360,7 +317,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _formSendRecordFieldSignalement.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -370,7 +327,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _formSendRecordFieldSignalement.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -380,7 +337,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _formSendRecordFieldSignalement.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -390,12 +347,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _formSendRecordFieldSignalement.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _formSendRecordFieldSignalement.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -405,12 +357,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _formSendRecordFieldSignalement.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _formSendRecordFieldSignalement.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -420,7 +367,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _formSendRecordFieldSignalement.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -430,12 +377,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _formSendRecordFieldSignalement.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _formSendRecordFieldSignalement.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -445,7 +387,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _formSendRecordFieldSignalement.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -455,7 +397,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _formSendRecordFieldSignalement.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -465,12 +407,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _formSendRecordFieldSignalement.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _formSendRecordFieldSignalement.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -480,7 +417,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _formSendRecordFieldSignalement.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -490,17 +427,12 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _formSendRecordFieldSignalement.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_formSendRecordFieldSignalement.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_formSendRecordFieldSignalement.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -510,7 +442,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_formSendRecordFieldSignalement.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -520,26 +452,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_formSendRecordFieldSignalement.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_formSendRecordFieldSignalement.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_formSendRecordFieldSignalement.setExpandoBridgeAttributes(
-			expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_formSendRecordFieldSignalement.setExpandoBridgeAttributes(
-			serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -549,8 +462,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public void setFormSendRecordFieldId(long formSendRecordFieldId) {
-		_formSendRecordFieldSignalement.setFormSendRecordFieldId(
-			formSendRecordFieldId);
+		model.setFormSendRecordFieldId(formSendRecordFieldId);
 	}
 
 	/**
@@ -560,7 +472,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_formSendRecordFieldSignalement.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -570,12 +482,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_formSendRecordFieldSignalement.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_formSendRecordFieldSignalement.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -585,12 +492,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_formSendRecordFieldSignalement.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_formSendRecordFieldSignalement.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -600,7 +502,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public void setPublikId(String publikId) {
-		_formSendRecordFieldSignalement.setPublikId(publikId);
+		model.setPublikId(publikId);
 	}
 
 	/**
@@ -610,7 +512,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public void setSignalementId(long signalementId) {
-		_formSendRecordFieldSignalement.setSignalementId(signalementId);
+		model.setSignalementId(signalementId);
 	}
 
 	/**
@@ -620,7 +522,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_formSendRecordFieldSignalement.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -630,7 +532,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_formSendRecordFieldSignalement.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -640,7 +542,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_formSendRecordFieldSignalement.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -650,7 +552,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_formSendRecordFieldSignalement.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -660,7 +562,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_formSendRecordFieldSignalement.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -670,7 +572,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_formSendRecordFieldSignalement.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -680,7 +582,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_formSendRecordFieldSignalement.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -690,7 +592,7 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_formSendRecordFieldSignalement.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -700,94 +602,25 @@ public class FormSendRecordFieldSignalementWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_formSendRecordFieldSignalement.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.formSendRecordField.model.
-			FormSendRecordFieldSignalement> toCacheModel() {
-
-		return _formSendRecordFieldSignalement.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.formSendRecordField.model.
-		FormSendRecordFieldSignalement toEscapedModel() {
-
-		return new FormSendRecordFieldSignalementWrapper(
-			_formSendRecordFieldSignalement.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _formSendRecordFieldSignalement.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.formSendRecordField.model.
-		FormSendRecordFieldSignalement toUnescapedModel() {
-
-		return new FormSendRecordFieldSignalementWrapper(
-			_formSendRecordFieldSignalement.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _formSendRecordFieldSignalement.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof FormSendRecordFieldSignalementWrapper)) {
-			return false;
-		}
-
-		FormSendRecordFieldSignalementWrapper
-			formSendRecordFieldSignalementWrapper =
-				(FormSendRecordFieldSignalementWrapper)object;
-
-		if (Objects.equals(
-				_formSendRecordFieldSignalement,
-				formSendRecordFieldSignalementWrapper.
-					_formSendRecordFieldSignalement)) {
-
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _formSendRecordFieldSignalement.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public FormSendRecordFieldSignalement getWrappedModel() {
-		return _formSendRecordFieldSignalement;
-	}
+	protected FormSendRecordFieldSignalementWrapper wrap(
+		FormSendRecordFieldSignalement formSendRecordFieldSignalement) {
 
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _formSendRecordFieldSignalement.isEntityCacheEnabled();
+		return new FormSendRecordFieldSignalementWrapper(
+			formSendRecordFieldSignalement);
 	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _formSendRecordFieldSignalement.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_formSendRecordFieldSignalement.resetOriginalValues();
-	}
-
-	private final FormSendRecordFieldSignalement
-		_formSendRecordFieldSignalement;
 
 }

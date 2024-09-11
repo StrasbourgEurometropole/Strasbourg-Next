@@ -1,0 +1,104 @@
+#global{
+    #pre-header {
+        display: none;
+
+        @include RWD(tablet_portrait){
+            display: block;
+            background: $color_txt;
+            height: 40px;
+        }
+
+        .pre-header-inner{
+            padding: 0 100px 0 20px;
+            display: flex;
+    
+            @include RWD(tablet_landscape){
+                padding-right: 130px;
+            }
+
+            .strasbourg-eu-logo {
+                display: inline-block;
+                margin-right: auto;
+
+                img {
+                    width: 128px;
+                    margin: 10px 0 6px 0;
+                }
+            }
+
+            .portlet-journal-content {
+                margin-top: -1px;
+
+                .accessibility-menu {
+                    display: flex;
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                    line-height: 0;
+                    
+                    .access-item:hover {
+                        background: rgba(255, 255, 255, 0.07);
+                    }
+
+                    li.access-item {
+                        display: inline-block;
+                        border-left: 1px solid #5e5e5e;
+                    
+                        a {
+                            display: table-cell;
+                            vertical-align: middle;
+                            padding: 0 13px;
+                            height: 40px;
+                            @include ft($proximaNova, 0.875rem, 400, white, 1.25rem, "");
+                            text-decoration: none;
+                        }
+                    }
+                }
+            }
+                    
+            .access-item.language {
+                border-left: 1px solid #5e5e5e;          
+
+                .language-menu {
+                    padding: 0 0 0 10px;
+    
+                    ul {
+                        display: flex;
+                        list-style: none;
+                        padding: 0;
+                        margin: 0;
+                        line-height: 0;
+            
+                        li {    
+                            display: inline-block;
+            
+                            a {
+                                display: table-cell;
+                                vertical-align: middle;
+                                padding: 0 5px;
+                                height: 40px;
+                                @include ft($proximaNova, 0.875rem, 400, #999999, 1.25rem, "");
+                                text-decoration: none;
+                                fill: #999999;
+    
+                                &:hover {
+                                    color: white;
+                                    fill: white;
+                                }
+                            }
+    
+                            &.active a {
+                                color: white;
+                                fill: white;
+                            }
+                        }
+                    }
+    
+                    a:hover{
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+    }
+}

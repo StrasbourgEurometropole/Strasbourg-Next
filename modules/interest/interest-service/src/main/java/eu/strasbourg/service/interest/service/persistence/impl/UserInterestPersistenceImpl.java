@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.interest.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,25 +16,27 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.interest.exception.NoSuchUserInterestException;
 import eu.strasbourg.service.interest.model.UserInterest;
+import eu.strasbourg.service.interest.model.UserInterestTable;
 import eu.strasbourg.service.interest.model.impl.UserInterestImpl;
 import eu.strasbourg.service.interest.model.impl.UserInterestModelImpl;
 import eu.strasbourg.service.interest.service.persistence.UserInterestPK;
 import eu.strasbourg.service.interest.service.persistence.UserInterestPersistence;
+import eu.strasbourg.service.interest.service.persistence.UserInterestUtil;
 
 import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -237,10 +231,6 @@ public class UserInterestPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -567,8 +557,6 @@ public class UserInterestPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -753,10 +741,6 @@ public class UserInterestPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1113,8 +1097,6 @@ public class UserInterestPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1133,6 +1115,11 @@ public class UserInterestPersistenceImpl
 
 	public UserInterestPersistenceImpl() {
 		setModelClass(UserInterest.class);
+
+		setModelImplClass(UserInterestImpl.class);
+		setModelPKClass(UserInterestPK.class);
+
+		setTable(UserInterestTable.INSTANCE);
 	}
 
 	/**
@@ -1143,11 +1130,10 @@ public class UserInterestPersistenceImpl
 	@Override
 	public void cacheResult(UserInterest userInterest) {
 		entityCache.putResult(
-			UserInterestModelImpl.ENTITY_CACHE_ENABLED, UserInterestImpl.class,
-			userInterest.getPrimaryKey(), userInterest);
-
-		userInterest.resetOriginalValues();
+			UserInterestImpl.class, userInterest.getPrimaryKey(), userInterest);
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the user interests in the entity cache if it is enabled.
@@ -1156,16 +1142,19 @@ public class UserInterestPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<UserInterest> userInterests) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (userInterests.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (UserInterest userInterest : userInterests) {
 			if (entityCache.getResult(
-					UserInterestModelImpl.ENTITY_CACHE_ENABLED,
 					UserInterestImpl.class, userInterest.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(userInterest);
-			}
-			else {
-				userInterest.resetOriginalValues();
 			}
 		}
 	}
@@ -1181,9 +1170,7 @@ public class UserInterestPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(UserInterestImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(UserInterestImpl.class);
 	}
 
 	/**
@@ -1195,35 +1182,22 @@ public class UserInterestPersistenceImpl
 	 */
 	@Override
 	public void clearCache(UserInterest userInterest) {
-		entityCache.removeResult(
-			UserInterestModelImpl.ENTITY_CACHE_ENABLED, UserInterestImpl.class,
-			userInterest.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(UserInterestImpl.class, userInterest);
 	}
 
 	@Override
 	public void clearCache(List<UserInterest> userInterests) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (UserInterest userInterest : userInterests) {
-			entityCache.removeResult(
-				UserInterestModelImpl.ENTITY_CACHE_ENABLED,
-				UserInterestImpl.class, userInterest.getPrimaryKey());
+			entityCache.removeResult(UserInterestImpl.class, userInterest);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(UserInterestImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				UserInterestModelImpl.ENTITY_CACHE_ENABLED,
-				UserInterestImpl.class, primaryKey);
+			entityCache.removeResult(UserInterestImpl.class, primaryKey);
 		}
 	}
 
@@ -1357,10 +1331,8 @@ public class UserInterestPersistenceImpl
 		try {
 			session = openSession();
 
-			if (userInterest.isNew()) {
+			if (isNew) {
 				session.save(userInterest);
-
-				userInterest.setNew(false);
 			}
 			else {
 				userInterest = (UserInterest)session.merge(userInterest);
@@ -1373,73 +1345,12 @@ public class UserInterestPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!UserInterestModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				userInterestModelImpl.getInterestId()
-			};
-
-			finderCache.removeResult(_finderPathCountByInterestId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByInterestId, args);
-
-			args = new Object[] {userInterestModelImpl.getPublikUserId()};
-
-			finderCache.removeResult(_finderPathCountByPublikUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPublikUserId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((userInterestModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByInterestId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					userInterestModelImpl.getOriginalInterestId()
-				};
-
-				finderCache.removeResult(_finderPathCountByInterestId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByInterestId, args);
-
-				args = new Object[] {userInterestModelImpl.getInterestId()};
-
-				finderCache.removeResult(_finderPathCountByInterestId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByInterestId, args);
-			}
-
-			if ((userInterestModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPublikUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					userInterestModelImpl.getOriginalPublikUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-
-				args = new Object[] {userInterestModelImpl.getPublikUserId()};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-			}
-		}
-
 		entityCache.putResult(
-			UserInterestModelImpl.ENTITY_CACHE_ENABLED, UserInterestImpl.class,
-			userInterest.getPrimaryKey(), userInterest, false);
+			UserInterestImpl.class, userInterestModelImpl, false, true);
+
+		if (isNew) {
+			userInterest.setNew(false);
+		}
 
 		userInterest.resetOriginalValues();
 
@@ -1488,85 +1399,12 @@ public class UserInterestPersistenceImpl
 	/**
 	 * Returns the user interest with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the user interest
-	 * @return the user interest, or <code>null</code> if a user interest with the primary key could not be found
-	 */
-	@Override
-	public UserInterest fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			UserInterestModelImpl.ENTITY_CACHE_ENABLED, UserInterestImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		UserInterest userInterest = (UserInterest)serializable;
-
-		if (userInterest == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				userInterest = (UserInterest)session.get(
-					UserInterestImpl.class, primaryKey);
-
-				if (userInterest != null) {
-					cacheResult(userInterest);
-				}
-				else {
-					entityCache.putResult(
-						UserInterestModelImpl.ENTITY_CACHE_ENABLED,
-						UserInterestImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					UserInterestModelImpl.ENTITY_CACHE_ENABLED,
-					UserInterestImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return userInterest;
-	}
-
-	/**
-	 * Returns the user interest with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param userInterestPK the primary key of the user interest
 	 * @return the user interest, or <code>null</code> if a user interest with the primary key could not be found
 	 */
 	@Override
 	public UserInterest fetchByPrimaryKey(UserInterestPK userInterestPK) {
 		return fetchByPrimaryKey((Serializable)userInterestPK);
-	}
-
-	@Override
-	public Map<Serializable, UserInterest> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, UserInterest> map =
-			new HashMap<Serializable, UserInterest>();
-
-		for (Serializable primaryKey : primaryKeys) {
-			UserInterest userInterest = fetchByPrimaryKey(primaryKey);
-
-			if (userInterest != null) {
-				map.put(primaryKey, userInterest);
-			}
-		}
-
-		return map;
 	}
 
 	/**
@@ -1693,10 +1531,6 @@ public class UserInterestPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1742,9 +1576,6 @@ public class UserInterestPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1761,6 +1592,21 @@ public class UserInterestPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "userInterestPK";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_USERINTEREST;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return UserInterestModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1769,73 +1615,64 @@ public class UserInterestPersistenceImpl
 	 * Initializes the user interest persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			UserInterestModelImpl.ENTITY_CACHE_ENABLED,
-			UserInterestModelImpl.FINDER_CACHE_ENABLED, UserInterestImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			UserInterestModelImpl.ENTITY_CACHE_ENABLED,
-			UserInterestModelImpl.FINDER_CACHE_ENABLED, UserInterestImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			UserInterestModelImpl.ENTITY_CACHE_ENABLED,
-			UserInterestModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByInterestId = new FinderPath(
-			UserInterestModelImpl.ENTITY_CACHE_ENABLED,
-			UserInterestModelImpl.FINDER_CACHE_ENABLED, UserInterestImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByInterestId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"interestId"}, true);
 
 		_finderPathWithoutPaginationFindByInterestId = new FinderPath(
-			UserInterestModelImpl.ENTITY_CACHE_ENABLED,
-			UserInterestModelImpl.FINDER_CACHE_ENABLED, UserInterestImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByInterestId",
-			new String[] {Long.class.getName()},
-			UserInterestModelImpl.INTERESTID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"interestId"},
+			true);
 
 		_finderPathCountByInterestId = new FinderPath(
-			UserInterestModelImpl.ENTITY_CACHE_ENABLED,
-			UserInterestModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByInterestId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"interestId"},
+			false);
 
 		_finderPathWithPaginationFindByPublikUserId = new FinderPath(
-			UserInterestModelImpl.ENTITY_CACHE_ENABLED,
-			UserInterestModelImpl.FINDER_CACHE_ENABLED, UserInterestImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"publikUserId"}, true);
 
 		_finderPathWithoutPaginationFindByPublikUserId = new FinderPath(
-			UserInterestModelImpl.ENTITY_CACHE_ENABLED,
-			UserInterestModelImpl.FINDER_CACHE_ENABLED, UserInterestImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
 			new String[] {String.class.getName()},
-			UserInterestModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
+			new String[] {"publikUserId"}, true);
 
 		_finderPathCountByPublikUserId = new FinderPath(
-			UserInterestModelImpl.ENTITY_CACHE_ENABLED,
-			UserInterestModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()},
+			new String[] {"publikUserId"}, false);
+
+		UserInterestUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		UserInterestUtil.setPersistence(null);
+
 		entityCache.removeCache(UserInterestImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1869,5 +1706,10 @@ public class UserInterestPersistenceImpl
 
 	private static final Set<String> _compoundPKColumnNames = SetUtil.fromArray(
 		new String[] {"interestId", "publikUserId"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

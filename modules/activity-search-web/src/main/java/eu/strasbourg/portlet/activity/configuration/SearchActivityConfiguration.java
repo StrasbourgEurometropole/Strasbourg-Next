@@ -1,8 +1,7 @@
 package eu.strasbourg.portlet.activity.configuration;
 
-import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
-
 import aQute.bnd.annotation.metatype.Meta;
+import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
 
 @ExtendedObjectClassDefinition(
 	category = "Strasbourg",
@@ -60,6 +59,12 @@ public interface SearchActivityConfiguration {
 
 	@Meta.AD(name = "territoryNames", deflt = "", required = false)
 	public String territoryNames();
+
+	@Meta.AD(name = "sortingField", deflt = "order", required = false)
+	public String sortingField();
+
+	@Meta.AD(name = "sortingType", deflt = "asc", required = false)
+	public String sortingType();
 
 
 	@Meta.AD(name = "textXML", deflt = "", required = false)

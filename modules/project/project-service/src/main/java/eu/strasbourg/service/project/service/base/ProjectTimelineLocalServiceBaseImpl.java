@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service.base;
 
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
@@ -27,12 +19,13 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalServiceImpl;
-import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
@@ -43,6 +36,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalService;
+import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifFinder;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence;
 import eu.strasbourg.service.project.service.persistence.BudgetPhasePersistence;
@@ -55,6 +49,7 @@ import eu.strasbourg.service.project.service.persistence.PlacitPlacePersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectFollowedPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence;
+import eu.strasbourg.service.project.service.persistence.SaisineObservatoirePersistence;
 import eu.strasbourg.service.project.service.persistence.SignatairePersistence;
 
 import java.io.Serializable;
@@ -81,7 +76,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>ProjectTimelineLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>ProjectTimelineLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ProjectTimelineLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -149,6 +144,18 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 		ProjectTimeline projectTimeline) {
 
 		return projectTimelinePersistence.remove(projectTimeline);
+	}
+
+	@Override
+	public <T> T dslQuery(DSLQuery dslQuery) {
+		return projectTimelinePersistence.dslQuery(dslQuery);
+	}
+
+	@Override
+	public int dslQueryCount(DSLQuery dslQuery) {
+		Long count = dslQuery(dslQuery);
+
+		return count.intValue();
 	}
 
 	@Override
@@ -303,13 +310,30 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	 * @throws PortalException
 	 */
 	@Override
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
+
+		return projectTimelinePersistence.create(
+			((Long)primaryKeyObj).longValue());
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException {
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				"Implement ProjectTimelineLocalServiceImpl#deleteProjectTimeline(ProjectTimeline) to avoid orphaned data");
+		}
 
 		return projectTimelineLocalService.deleteProjectTimeline(
 			(ProjectTimeline)persistedModel);
 	}
 
+	@Override
 	public BasePersistence<ProjectTimeline> getBasePersistence() {
 		return projectTimelinePersistence;
 	}
@@ -857,6 +881,49 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the saisine observatoire local service.
+	 *
+	 * @return the saisine observatoire local service
+	 */
+	public eu.strasbourg.service.project.service.SaisineObservatoireLocalService
+		getSaisineObservatoireLocalService() {
+
+		return saisineObservatoireLocalService;
+	}
+
+	/**
+	 * Sets the saisine observatoire local service.
+	 *
+	 * @param saisineObservatoireLocalService the saisine observatoire local service
+	 */
+	public void setSaisineObservatoireLocalService(
+		eu.strasbourg.service.project.service.SaisineObservatoireLocalService
+			saisineObservatoireLocalService) {
+
+		this.saisineObservatoireLocalService = saisineObservatoireLocalService;
+	}
+
+	/**
+	 * Returns the saisine observatoire persistence.
+	 *
+	 * @return the saisine observatoire persistence
+	 */
+	public SaisineObservatoirePersistence getSaisineObservatoirePersistence() {
+		return saisineObservatoirePersistence;
+	}
+
+	/**
+	 * Sets the saisine observatoire persistence.
+	 *
+	 * @param saisineObservatoirePersistence the saisine observatoire persistence
+	 */
+	public void setSaisineObservatoirePersistence(
+		SaisineObservatoirePersistence saisineObservatoirePersistence) {
+
+		this.saisineObservatoirePersistence = saisineObservatoirePersistence;
+	}
+
+	/**
 	 * Returns the signataire local service.
 	 *
 	 * @return the signataire local service
@@ -1029,14 +1096,11 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		persistedModelLocalServiceRegistry.register(
-			"eu.strasbourg.service.project.model.ProjectTimeline",
-			projectTimelineLocalService);
+		ProjectTimelineLocalServiceUtil.setService(projectTimelineLocalService);
 	}
 
 	public void destroy() {
-		persistedModelLocalServiceRegistry.unregister(
-			"eu.strasbourg.service.project.model.ProjectTimeline");
+		ProjectTimelineLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -1182,6 +1246,16 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	protected ProjectTimelinePersistence projectTimelinePersistence;
 
 	@BeanReference(
+		type = eu.strasbourg.service.project.service.SaisineObservatoireLocalService.class
+	)
+	protected
+		eu.strasbourg.service.project.service.SaisineObservatoireLocalService
+			saisineObservatoireLocalService;
+
+	@BeanReference(type = SaisineObservatoirePersistence.class)
+	protected SaisineObservatoirePersistence saisineObservatoirePersistence;
+
+	@BeanReference(
 		type = eu.strasbourg.service.project.service.SignataireLocalService.class
 	)
 	protected eu.strasbourg.service.project.service.SignataireLocalService
@@ -1220,8 +1294,7 @@ public abstract class ProjectTimelineLocalServiceBaseImpl
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
 
-	@ServiceReference(type = PersistedModelLocalServiceRegistry.class)
-	protected PersistedModelLocalServiceRegistry
-		persistedModelLocalServiceRegistry;
+	private static final Log _log = LogFactoryUtil.getLog(
+		ProjectTimelineLocalServiceBaseImpl.class);
 
 }

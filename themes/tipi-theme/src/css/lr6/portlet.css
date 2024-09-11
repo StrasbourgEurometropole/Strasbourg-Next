@@ -50,7 +50,7 @@ body.portlet {
 }
 
 .portlet-icon-back {
-	background: url(../images/arrows/01_left.png) no-repeat 0 50%;
+	background: url(src/images/arrows/01_left.png) no-repeat 0 50%;
 	font-weight: bold;
 	padding: 5px 5px 5px 18px;
 }
@@ -155,24 +155,24 @@ body.portlet {
 }
 
 .aui-dd-draggable .portlet-title-default {
-	background: url(../images/portlet/draggable_borderless.png) no-repeat 0 50%;
+	background: url(src/images/portlet/draggable_borderless.png) no-repeat 0 50%;
 	cursor: move;
 	padding-left: 20px;
 }
 
 .portlet-borderless-bar .portlet-back a {
-	background-image: url(../images/portlet/return_borderless.png);
+	background-image: url(src/images/portlet/return_borderless.png);
 	height: auto;
 	text-indent: 0;
 	width: auto;
 }
 
 .portlet-borderless-bar .portlet-close a {
-	background-image: url(../images/portlet/close_borderless.png);
+	background-image: url(src/images/portlet/close_borderless.png);
 }
 
 .portlet-borderless-bar .portlet-options li.lfr-trigger strong a {
-	background-image: url(../images/portlet/options_borderless.png);
+	background-image: url(src/images/portlet/options_borderless.png);
 }
 
 .portlet-borderless-bar .portlet-title-default, .portlet-borderless-bar .portlet-actions {
@@ -217,7 +217,7 @@ body.portlet {
 /* ---------- Help messages, general additional information, etc. ---------- */
 
 .portlet-msg-info {
-	background: #DFF4FF url(../images/messages/info.png) no-repeat 6px 50%;
+	background: #DFF4FF url(src/images/messages/info.png) no-repeat 6px 50%;
 	border: 1px solid #A7CEDF;
 	color: #34404F;
 	display: block;
@@ -228,13 +228,13 @@ body.portlet {
 }
 
 .portlet-msg-info.pending {
-	background-image: url(../images/common/time.png);
+	background-image: url(src/images/common/time.png);
 }
 
 /* ---------- Error messages ---------- */
 
 .portlet-msg-error {
-	background: #FDD url(../images/messages/error.png) no-repeat 6px 50%;
+	background: #FDD url(src/images/messages/error.png) no-repeat 6px 50%;
 	border: 1px solid #F00;
 	display: block;
 	font-weight: bold;
@@ -246,7 +246,7 @@ body.portlet {
 /* ---------- Warning messages ---------- */
 
 .portlet-msg-alert {
-	background: #FFC url(../images/messages/alert.png) no-repeat 6px 20%;
+	background: #FFC url(src/images/messages/alert.png) no-repeat 6px 20%;
 	border: 1px solid #FC0;
 	display: block;
 	font-weight: bold;
@@ -258,7 +258,7 @@ body.portlet {
 /* ---------- Success messages ---------- */
 
 .portlet-msg-success {
-	background: #F4FDEF url(../images/messages/success.png) no-repeat 6px 50%;
+	background: #F4FDEF url(src/images/messages/success.png) no-repeat 6px 50%;
 	border: 1px solid #ACDFA7;
 	color: #384F34;
 	display: block;
@@ -435,7 +435,7 @@ body.portlet {
 }
 
 .restricted td.col-1, .alt.restricted td.col-1 {
-	background-image: url(../images/messages/error.png);
+	background-image: url(src/images/messages/error.png);
 	background-position: 5px 50%;
 	background-repeat: no-repeat;
 	padding-left: 28px;
@@ -451,23 +451,23 @@ body.portlet {
 }
 
 .results-row.lfr-role-guest .col-1, .results-row.hover.lfr-role-guest .col-1 {
-	background-image: url(../images/common/guest_icon.png);
+	background-image: url(src/images/common/guest_icon.png);
 }
 
 .results-row.lfr-role-regular .col-1, .results-row.hover.lfr-role-regular .col-1 {
-	background-image: url(../images/common/user_icon.png);
+	background-image: url(src/images/common/user_icon.png);
 }
 
 .results-row.lfr-role-community .col-1, .results-row.hover.lfr-role-community .col-1 {
-	background-image: url(../images/common/community_icon.png);
+	background-image: url(src/images/common/community_icon.png);
 }
 
 .results-row.lfr-role-organization .col-1, .results-row.hover.lfr-role-organization .col-1 {
-	background-image: url(../images/common/organization_icon.png);
+	background-image: url(src/images/common/organization_icon.png);
 }
 
 .results-row.lfr-role-team .col-1, .results-row.hover.lfr-role-team .col-1 {
-	background-image: url(../images/common/team_icon.png);
+	background-image: url(src/images/common/team_icon.png);
 }
 
 /* ---------- Miscellaneous component styles ---------- */
@@ -484,7 +484,7 @@ body.portlet {
 }
 
 .lfr-actions, .lfr-actions ul {
-	background: #FFF url(../images/forms/button.png) repeat-x 0 100%;
+	background: #FFF url(src/images/forms/button.png) repeat-x 0 100%;
 	border: 1px solid;
 	border-color: #DEDEDE #BFBFBF #BFBFBF #DEDEDE;
 }
@@ -537,7 +537,7 @@ body.portlet {
 }
 
 .lfr-actions.portlet-options .lfr-trigger strong a {
-	background-image: url(../images/portlet/options.png);
+	background-image: url(src/images/portlet/options.png);
 	background-position: 0 0;
 	display: block;
 	font-size: 0;
@@ -548,7 +548,7 @@ body.portlet {
 }
 
 .visible.portlet-options .lfr-trigger strong a {
-	background-image: url(../images/portlet/options_selected.png);
+	background-image: url(src/images/portlet/options_selected.png);
 }
 
 /* ---------- Calendar taglib ---------- */

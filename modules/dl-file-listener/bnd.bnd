@@ -1,0 +1,4 @@
+Bundle-Name: dl-file-listener
+Bundle-SymbolicName: eu.strasbourg.listener.dlFile
+Bundle-Version: 1.0.0
+Export-Package: eu.strasbourg.listener.dlFile.constants

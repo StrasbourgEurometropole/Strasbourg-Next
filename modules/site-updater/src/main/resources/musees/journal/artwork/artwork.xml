@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Oeuvre</name>
+        <key>415969496</key>
+        <definition>artwork-structure.json</definition>
+        <layout>artwork-layout.json</layout>
+    </structure>
+</root>

@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.project.model.PlacitPlace;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for PlacitPlace. This utility wraps
@@ -48,11 +47,18 @@ public class PlacitPlaceLocalServiceUtil {
 	 * @param placitPlace the placit place
 	 * @return the placit place that was added
 	 */
-	public static eu.strasbourg.service.project.model.PlacitPlace
-		addPlacitPlace(
-			eu.strasbourg.service.project.model.PlacitPlace placitPlace) {
-
+	public static PlacitPlace addPlacitPlace(PlacitPlace placitPlace) {
 		return getService().addPlacitPlace(placitPlace);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -61,19 +67,16 @@ public class PlacitPlaceLocalServiceUtil {
 	 * @param placitPlaceId the primary key for the new placit place
 	 * @return the new placit place
 	 */
-	public static eu.strasbourg.service.project.model.PlacitPlace
-		createPlacitPlace(long placitPlaceId) {
-
+	public static PlacitPlace createPlacitPlace(long placitPlaceId) {
 		return getService().createPlacitPlace(placitPlaceId);
 	}
 
 	/**
 	 * Crée un lieu Placit vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.project.model.PlacitPlace
-			createPlacitPlace(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PlacitPlace createPlacitPlace(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createPlacitPlace(sc);
 	}
@@ -81,10 +84,9 @@ public class PlacitPlaceLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -100,9 +102,8 @@ public class PlacitPlaceLocalServiceUtil {
 	 * @return the placit place that was removed
 	 * @throws PortalException if a placit place with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.PlacitPlace
-			deletePlacitPlace(long placitPlaceId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PlacitPlace deletePlacitPlace(long placitPlaceId)
+		throws PortalException {
 
 		return getService().deletePlacitPlace(placitPlaceId);
 	}
@@ -117,16 +118,19 @@ public class PlacitPlaceLocalServiceUtil {
 	 * @param placitPlace the placit place
 	 * @return the placit place that was removed
 	 */
-	public static eu.strasbourg.service.project.model.PlacitPlace
-		deletePlacitPlace(
-			eu.strasbourg.service.project.model.PlacitPlace placitPlace) {
-
+	public static PlacitPlace deletePlacitPlace(PlacitPlace placitPlace) {
 		return getService().deletePlacitPlace(placitPlace);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -136,9 +140,7 @@ public class PlacitPlaceLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -154,9 +156,8 @@ public class PlacitPlaceLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -174,10 +175,9 @@ public class PlacitPlaceLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -189,9 +189,7 @@ public class PlacitPlaceLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -203,15 +201,13 @@ public class PlacitPlaceLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.project.model.PlacitPlace
-		fetchPlacitPlace(long placitPlaceId) {
-
+	public static PlacitPlace fetchPlacitPlace(long placitPlaceId) {
 		return getService().fetchPlacitPlace(placitPlaceId);
 	}
 
@@ -222,8 +218,8 @@ public class PlacitPlaceLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching placit place, or <code>null</code> if a matching placit place could not be found
 	 */
-	public static eu.strasbourg.service.project.model.PlacitPlace
-		fetchPlacitPlaceByUuidAndGroupId(String uuid, long groupId) {
+	public static PlacitPlace fetchPlacitPlaceByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchPlacitPlaceByUuidAndGroupId(uuid, groupId);
 	}
@@ -231,19 +227,15 @@ public class PlacitPlaceLocalServiceUtil {
 	/**
 	 * Lance une recherche par liste d'ids
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.PlacitPlace> findByIds(
-			java.util.List<Long> placitPlaceIds) {
-
+	public static List<PlacitPlace> findByIds(List<Long> placitPlaceIds) {
 		return getService().findByIds(placitPlaceIds);
 	}
 
 	/**
 	 * Lance une recherche par mots-clés
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.PlacitPlace> findByKeyword(
-			String keyword, long groupId, int start, int end) {
+	public static List<PlacitPlace> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -257,7 +249,7 @@ public class PlacitPlaceLocalServiceUtil {
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à l'entité
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -266,9 +258,8 @@ public class PlacitPlaceLocalServiceUtil {
 	/**
 	 * Retourne les lieux d'une participation
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.PlacitPlace>
-			getByBudgetParticipatif(long budgetParticipatifId) {
+	public static List<PlacitPlace> getByBudgetParticipatif(
+		long budgetParticipatifId) {
 
 		return getService().getByBudgetParticipatif(budgetParticipatifId);
 	}
@@ -276,60 +267,48 @@ public class PlacitPlaceLocalServiceUtil {
 	/**
 	 * Retourne tous les lieux Placit d'un groupe
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.PlacitPlace> getByGroupId(
-			long groupId) {
-
+	public static List<PlacitPlace> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
 	/**
 	 * Retourne les lieux d'une initiative
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.PlacitPlace> getByInitiative(
-			long initiativeId) {
-
+	public static List<PlacitPlace> getByInitiative(long initiativeId) {
 		return getService().getByInitiative(initiativeId);
 	}
 
 	/**
 	 * Retourne les lieux d'une participation
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.PlacitPlace> getByParticipation(
-			long participationId) {
-
+	public static List<PlacitPlace> getByParticipation(long participationId) {
 		return getService().getByParticipation(participationId);
 	}
 
 	/**
 	 * Retourne les lieux d'une participation
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.PlacitPlace> getByPetition(
-			long petitionId) {
-
+	public static List<PlacitPlace> getByPetition(long petitionId) {
 		return getService().getByPetition(petitionId);
 	}
 
 	/**
 	 * Retourne les lieux d'un projet
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.PlacitPlace> getByProject(
-			long projectId) {
-
+	public static List<PlacitPlace> getByProject(long projectId) {
 		return getService().getByProject(projectId);
+	}
+
+	public static List<PlacitPlace> getBySaisineObservatoire(
+		long saisineObservatoireId) {
+
+		return getService().getBySaisineObservatoire(saisineObservatoireId);
 	}
 
 	/**
 	 * Retourne toutes les lieux de cours d'un lieu
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.PlacitPlace> getBySigId(
-			String sigId) {
-
+	public static List<PlacitPlace> getBySigId(String sigId) {
 		return getService().getBySigId(sigId);
 	}
 
@@ -360,9 +339,8 @@ public class PlacitPlaceLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -374,9 +352,8 @@ public class PlacitPlaceLocalServiceUtil {
 	 * @return the placit place
 	 * @throws PortalException if a placit place with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.PlacitPlace
-			getPlacitPlace(long placitPlaceId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PlacitPlace getPlacitPlace(long placitPlaceId)
+		throws PortalException {
 
 		return getService().getPlacitPlace(placitPlaceId);
 	}
@@ -389,9 +366,9 @@ public class PlacitPlaceLocalServiceUtil {
 	 * @return the matching placit place
 	 * @throws PortalException if a matching placit place could not be found
 	 */
-	public static eu.strasbourg.service.project.model.PlacitPlace
-			getPlacitPlaceByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PlacitPlace getPlacitPlaceByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getPlacitPlaceByUuidAndGroupId(uuid, groupId);
 	}
@@ -407,10 +384,7 @@ public class PlacitPlaceLocalServiceUtil {
 	 * @param end the upper bound of the range of placit places (not inclusive)
 	 * @return the range of placit places
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.PlacitPlace> getPlacitPlaces(
-			int start, int end) {
-
+	public static List<PlacitPlace> getPlacitPlaces(int start, int end) {
 		return getService().getPlacitPlaces(start, end);
 	}
 
@@ -421,9 +395,8 @@ public class PlacitPlaceLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching placit places, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.PlacitPlace>
-			getPlacitPlacesByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<PlacitPlace> getPlacitPlacesByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getPlacitPlacesByUuidAndCompanyId(uuid, companyId);
 	}
@@ -438,13 +411,9 @@ public class PlacitPlaceLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching placit places, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.PlacitPlace>
-			getPlacitPlacesByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.project.model.PlacitPlace>
-						orderByComparator) {
+	public static List<PlacitPlace> getPlacitPlacesByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<PlacitPlace> orderByComparator) {
 
 		return getService().getPlacitPlacesByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -462,9 +431,8 @@ public class PlacitPlaceLocalServiceUtil {
 	/**
 	 * Supprime une entité
 	 */
-	public static eu.strasbourg.service.project.model.PlacitPlace
-			removePlacitPlace(long placitPlaceId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PlacitPlace removePlacitPlace(long placitPlaceId)
+		throws PortalException {
 
 		return getService().removePlacitPlace(placitPlaceId);
 	}
@@ -489,45 +457,29 @@ public class PlacitPlaceLocalServiceUtil {
 	 * @param placitPlace the placit place
 	 * @return the placit place that was updated
 	 */
-	public static eu.strasbourg.service.project.model.PlacitPlace
-		updatePlacitPlace(
-			eu.strasbourg.service.project.model.PlacitPlace placitPlace) {
-
+	public static PlacitPlace updatePlacitPlace(PlacitPlace placitPlace) {
 		return getService().updatePlacitPlace(placitPlace);
 	}
 
 	/**
 	 * Met à jour un lieu Placit et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.project.model.PlacitPlace
-			updatePlacitPlace(
-				eu.strasbourg.service.project.model.PlacitPlace placitPlace,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PlacitPlace updatePlacitPlace(
+			PlacitPlace placitPlace,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updatePlacitPlace(placitPlace, sc);
 	}
 
 	public static PlacitPlaceLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<PlacitPlaceLocalService, PlacitPlaceLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(PlacitPlaceLocalService.class);
-
-		ServiceTracker<PlacitPlaceLocalService, PlacitPlaceLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<PlacitPlaceLocalService, PlacitPlaceLocalService>(
-						bundle.getBundleContext(),
-						PlacitPlaceLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(PlacitPlaceLocalService service) {
+		_service = service;
 	}
+
+	private static volatile PlacitPlaceLocalService _service;
 
 }

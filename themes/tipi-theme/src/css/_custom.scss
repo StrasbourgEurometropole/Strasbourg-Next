@@ -194,7 +194,12 @@ body{
 	}
 	
 	.footer-top .social-network ul li a.btn-twitter {
-		background-image: url(/o/tipi-theme/images/icone/icone-twitter.jpg);
+		background-image: url(/o/tipi-theme/images/x.svg);
+		background-color: white;
+		height: 20px;
+		background-size: 16px;
+		background-position: center;
+		border-radius: 4px;
 	}
 	
 	.footer-top .social-network ul li a.btn-netvibes {
@@ -240,4 +245,16 @@ body{
       }
     }
   }
+}
+
+.radio label, .checkbox label {
+    padding-left: 20px !important;
+}
+
+.radio input[type='radio'], .radio-inline input[type='radio'], .checkbox input[type='checkbox'], .checkbox-inline input[type='checkbox'] {
+    margin-left: -20px !important;
+}
+
+.price-field .price:not(.compact){
+	display: inline-block;
 }

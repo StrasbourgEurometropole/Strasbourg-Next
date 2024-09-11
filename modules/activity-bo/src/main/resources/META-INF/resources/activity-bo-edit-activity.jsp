@@ -1,22 +1,21 @@
 <%@ include file="/activity-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.activity.model.Activity"%>
 
-<liferay-portlet:renderURL varImpl="activitiesURL">
-	<portlet:param name="tab" value="activities" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteActivity" var="deleteActivityURL">
 	<portlet:param name="cmd" value="deleteActivity" />
 	<portlet:param name="tab" value="activities" />
+	<portlet:param name="mvcPath" value="/activity-bo-view-activities.jsp" />
 	<portlet:param name="activityId"
 		value="${not empty dc.activity ? dc.activity.activityId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveActivity" varImpl="saveActivityURL">
-	<portlet:param name="cmd" value="saveActivity" />
+	<portlet:param name="backURL" value="${param.backURL}" />
+	<portlet:param name="tab" value="activity" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
 	
 	<aui:form action="${saveActivityURL}" method="post" name="fm">
@@ -25,7 +24,7 @@
 			id="translationManager" />
 
 		<aui:model-context bean="${dc.activity}" model="<%=Activity.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="activityId" type="hidden" />
 
 			<aui:fieldset collapsed="true" collapsible="true"
@@ -37,31 +36,39 @@
 				</aui:input>
 				
 				<aui:input name="description" />
-				
-				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
+
+				<aui:input name="order" />
+
+				<liferay-asset:asset-categories-selector
+						className="<%= Activity.class.getName() %>"
+						classPK="${dc.activity.activityId}"
+				/>
 				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
 				<div class="has-error">
 					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
 							function (val, fieldNode, ruleValue) {
 								var validated = true;
-								var fields = document.querySelectorAll('.categories-selectors > .field-content');
+								var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
 								for (var i = 0; i < fields.length; i++) {
 									fieldContent = fields[i];
-								    if ($(fieldContent).find('.icon-asterisk').length > 0
-								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
-								    	validated = false;
-								    	event.preventDefault();
-								    	break;
-								    }
+									if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
+										&& $(fieldContent).find('input[type="hidden"]').length == 0) {
+										validated = false;
+										event.preventDefault();
+										break;
+									}
 								}
 								return validated;
 							}
 						</aui:validator>
 					</aui:input>
 				</div>
-				
-				<aui:input name="tags" type="assetTags" />
+
+				<liferay-asset:asset-tags-selector
+						className="<%= Activity.class.getName() %>"
+						classPK="${dc.activity.activityId}"
+				/>
 				
 				<strasbourg-picker:image label="eu.illustration-image" name="imageId"
 					required="false" value="${dc.activity.imageId}" /> 
@@ -82,7 +89,7 @@
 				
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 		
 		<aui:button-row>
 			<c:if test="${(dc.hasPermission('ADD_ACTIVITY') and empty dc.activity or dc.hasPermission('EDIT_ACTIVITY') and not empty dc.activity) and empty themeDisplay.scopeGroup.getStagingGroup()}">
@@ -96,7 +103,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Actualité</name>
+        <key>237243542</key>
+        <definition>news-structure.json</definition>
+        <layout>news-layout.json</layout>
+    </structure>
+</root>

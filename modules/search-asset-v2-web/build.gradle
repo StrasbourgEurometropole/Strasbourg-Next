@@ -1,0 +1,20 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
+	compileInclude group: 'com.itextpdf', name: 'html2pdf', version: '5.0.3'
+
+	compileInclude group: 'org.apache.commons', name: 'commons-lang3', version: '3.14.0'
+
+	implementation project (':modules:utils')
+	implementation project (':modules:edition:edition-api')
+	implementation project (':modules:official:official-api')
+	implementation project (':modules:search-log:search-log-api')
+	implementation project (':modules:video:video-api')
+	implementation project (':modules:activity:activity-api')
+	implementation project (':modules:agenda:agenda-api')
+	implementation project (':modules:interest:interest-api')
+	implementation project (':modules:link:link-api')
+	implementation project (':modules:place:place-api')
+	implementation project (':modules:project:project-api')
+	implementation project (':modules:help:help-api')
+	implementation project (':modules:oidc:oidc-api')
+}

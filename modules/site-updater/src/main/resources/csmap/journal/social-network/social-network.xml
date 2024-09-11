@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Réseaux sociaux</name>
+        <key>95264183</key>
+        <definition>social-network-structure.json</definition>
+        <layout>social-network-layout.json</layout>
+    </structure>
+</root>

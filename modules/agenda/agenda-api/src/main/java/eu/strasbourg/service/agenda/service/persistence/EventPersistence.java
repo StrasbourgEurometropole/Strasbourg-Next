@@ -1,31 +1,18 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service.persistence;
-
-import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.agenda.exception.NoSuchEventException;
 import eu.strasbourg.service.agenda.model.Event;
 
-import java.io.Serializable;
-
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the event service.
@@ -46,9 +33,6 @@ public interface EventPersistence extends BasePersistence<Event> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link EventUtil} to access the event persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, Event> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the events where uuid = &#63;.
@@ -1868,16 +1852,18 @@ public interface EventPersistence extends BasePersistence<Event> {
 	 *
 	 * @param pk the primary key of the event
 	 * @param manifestationPK the primary key of the manifestation
+	 * @return <code>true</code> if an association between the event and the manifestation was added; <code>false</code> if they were already associated
 	 */
-	public void addManifestation(long pk, long manifestationPK);
+	public boolean addManifestation(long pk, long manifestationPK);
 
 	/**
 	 * Adds an association between the event and the manifestation. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	 *
 	 * @param pk the primary key of the event
 	 * @param manifestation the manifestation
+	 * @return <code>true</code> if an association between the event and the manifestation was added; <code>false</code> if they were already associated
 	 */
-	public void addManifestation(
+	public boolean addManifestation(
 		long pk,
 		eu.strasbourg.service.agenda.model.Manifestation manifestation);
 
@@ -1886,16 +1872,18 @@ public interface EventPersistence extends BasePersistence<Event> {
 	 *
 	 * @param pk the primary key of the event
 	 * @param manifestationPKs the primary keys of the manifestations
+	 * @return <code>true</code> if at least one association between the event and the manifestations was added; <code>false</code> if they were all already associated
 	 */
-	public void addManifestations(long pk, long[] manifestationPKs);
+	public boolean addManifestations(long pk, long[] manifestationPKs);
 
 	/**
 	 * Adds an association between the event and the manifestations. Also notifies the appropriate model listeners and clears the mapping table finder cache.
 	 *
 	 * @param pk the primary key of the event
 	 * @param manifestations the manifestations
+	 * @return <code>true</code> if at least one association between the event and the manifestations was added; <code>false</code> if they were all already associated
 	 */
-	public void addManifestations(
+	public boolean addManifestations(
 		long pk,
 		java.util.List<eu.strasbourg.service.agenda.model.Manifestation>
 			manifestations);
@@ -1962,8 +1950,5 @@ public interface EventPersistence extends BasePersistence<Event> {
 		long pk,
 		java.util.List<eu.strasbourg.service.agenda.model.Manifestation>
 			manifestations);
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

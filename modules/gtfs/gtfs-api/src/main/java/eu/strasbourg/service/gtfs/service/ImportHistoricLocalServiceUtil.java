@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.gtfs.model.ImportHistoric;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for ImportHistoric. This utility wraps
@@ -48,9 +48,8 @@ public class ImportHistoricLocalServiceUtil {
 	 * @param importHistoric the import historic
 	 * @return the import historic that was added
 	 */
-	public static eu.strasbourg.service.gtfs.model.ImportHistoric
-		addImportHistoric(
-			eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric) {
+	public static ImportHistoric addImportHistoric(
+		ImportHistoric importHistoric) {
 
 		return getService().addImportHistoric(importHistoric);
 	}
@@ -61,21 +60,28 @@ public class ImportHistoricLocalServiceUtil {
 	 * @param importHistoricId the primary key for the new import historic
 	 * @return the new import historic
 	 */
-	public static eu.strasbourg.service.gtfs.model.ImportHistoric
-		createImportHistoric(long importHistoricId) {
-
+	public static ImportHistoric createImportHistoric(long importHistoricId) {
 		return getService().createImportHistoric(importHistoricId);
 	}
 
 	/**
 	 * Crée une entree d'import vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.gtfs.model.ImportHistoric
-			createImportHistoric(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ImportHistoric createImportHistoric(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createImportHistoric(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -88,9 +94,8 @@ public class ImportHistoricLocalServiceUtil {
 	 * @param importHistoric the import historic
 	 * @return the import historic that was removed
 	 */
-	public static eu.strasbourg.service.gtfs.model.ImportHistoric
-		deleteImportHistoric(
-			eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric) {
+	public static ImportHistoric deleteImportHistoric(
+		ImportHistoric importHistoric) {
 
 		return getService().deleteImportHistoric(importHistoric);
 	}
@@ -106,9 +111,8 @@ public class ImportHistoricLocalServiceUtil {
 	 * @return the import historic that was removed
 	 * @throws PortalException if a import historic with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.ImportHistoric
-			deleteImportHistoric(long importHistoricId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ImportHistoric deleteImportHistoric(long importHistoricId)
+		throws PortalException {
 
 		return getService().deleteImportHistoric(importHistoricId);
 	}
@@ -123,10 +127,9 @@ public class ImportHistoricLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -136,14 +139,20 @@ public class ImportHistoricLocalServiceUtil {
 	 */
 	public static void doImportGTFS(
 		com.liferay.portal.kernel.service.ServiceContext sc,
-		eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric) {
+		ImportHistoric importHistoric) {
 
 		getService().doImportGTFS(sc, importHistoric);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -153,9 +162,7 @@ public class ImportHistoricLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -171,9 +178,8 @@ public class ImportHistoricLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -191,10 +197,9 @@ public class ImportHistoricLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -206,9 +211,7 @@ public class ImportHistoricLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -220,15 +223,13 @@ public class ImportHistoricLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.gtfs.model.ImportHistoric
-		fetchImportHistoric(long importHistoricId) {
-
+	public static ImportHistoric fetchImportHistoric(long importHistoricId) {
 		return getService().fetchImportHistoric(importHistoricId);
 	}
 
@@ -239,8 +240,8 @@ public class ImportHistoricLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching import historic, or <code>null</code> if a matching import historic could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.ImportHistoric
-		fetchImportHistoricByUuidAndGroupId(String uuid, long groupId) {
+	public static ImportHistoric fetchImportHistoricByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchImportHistoricByUuidAndGroupId(uuid, groupId);
 	}
@@ -248,9 +249,8 @@ public class ImportHistoricLocalServiceUtil {
 	/**
 	 * Recherche par mot clés
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.gtfs.model.ImportHistoric> findByKeyword(
-			String keyword, long groupId, int start, int end) {
+	public static List<ImportHistoric> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -271,7 +271,7 @@ public class ImportHistoricLocalServiceUtil {
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à un projet
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -280,10 +280,7 @@ public class ImportHistoricLocalServiceUtil {
 	/**
 	 * Retourne tous les projets d'un groupe
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.gtfs.model.ImportHistoric> getByGroupId(
-			long groupId) {
-
+	public static List<ImportHistoric> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
@@ -302,9 +299,8 @@ public class ImportHistoricLocalServiceUtil {
 	 * @return the import historic
 	 * @throws PortalException if a import historic with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.ImportHistoric
-			getImportHistoric(long importHistoricId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ImportHistoric getImportHistoric(long importHistoricId)
+		throws PortalException {
 
 		return getService().getImportHistoric(importHistoricId);
 	}
@@ -317,9 +313,9 @@ public class ImportHistoricLocalServiceUtil {
 	 * @return the matching import historic
 	 * @throws PortalException if a matching import historic could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.ImportHistoric
-			getImportHistoricByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ImportHistoric getImportHistoricByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getImportHistoricByUuidAndGroupId(uuid, groupId);
 	}
@@ -335,10 +331,7 @@ public class ImportHistoricLocalServiceUtil {
 	 * @param end the upper bound of the range of import historics (not inclusive)
 	 * @return the range of import historics
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.gtfs.model.ImportHistoric> getImportHistorics(
-			int start, int end) {
-
+	public static List<ImportHistoric> getImportHistorics(int start, int end) {
 		return getService().getImportHistorics(start, end);
 	}
 
@@ -349,9 +342,8 @@ public class ImportHistoricLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching import historics, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.gtfs.model.ImportHistoric>
-			getImportHistoricsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<ImportHistoric> getImportHistoricsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getImportHistoricsByUuidAndCompanyId(
 			uuid, companyId);
@@ -367,13 +359,9 @@ public class ImportHistoricLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching import historics, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.gtfs.model.ImportHistoric>
-			getImportHistoricsByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.gtfs.model.ImportHistoric>
-						orderByComparator) {
+	public static List<ImportHistoric> getImportHistoricsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<ImportHistoric> orderByComparator) {
 
 		return getService().getImportHistoricsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -398,9 +386,8 @@ public class ImportHistoricLocalServiceUtil {
 	/**
 	 * Retourne le dernier historique d'import
 	 */
-	public static eu.strasbourg.service.gtfs.model.ImportHistoric
-		getLatestImportHistoric(
-			eu.strasbourg.service.gtfs.model.ImportHistoric notCurrent) {
+	public static ImportHistoric getLatestImportHistoric(
+		ImportHistoric notCurrent) {
 
 		return getService().getLatestImportHistoric(notCurrent);
 	}
@@ -417,9 +404,8 @@ public class ImportHistoricLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -427,9 +413,8 @@ public class ImportHistoricLocalServiceUtil {
 	/**
 	 * Supprime l'entree d'import
 	 */
-	public static eu.strasbourg.service.gtfs.model.ImportHistoric
-			removeImportHistoric(long importHistoricId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ImportHistoric removeImportHistoric(long importHistoricId)
+		throws PortalException {
 
 		return getService().removeImportHistoric(importHistoricId);
 	}
@@ -444,9 +429,8 @@ public class ImportHistoricLocalServiceUtil {
 	 * @param importHistoric the import historic
 	 * @return the import historic that was updated
 	 */
-	public static eu.strasbourg.service.gtfs.model.ImportHistoric
-		updateImportHistoric(
-			eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric) {
+	public static ImportHistoric updateImportHistoric(
+		ImportHistoric importHistoric) {
 
 		return getService().updateImportHistoric(importHistoric);
 	}
@@ -456,11 +440,10 @@ public class ImportHistoricLocalServiceUtil {
 	 *
 	 * @throws IOException
 	 */
-	public static eu.strasbourg.service.gtfs.model.ImportHistoric
-			updateImportHistoric(
-				eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static ImportHistoric updateImportHistoric(
+			ImportHistoric importHistoric,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateImportHistoric(importHistoric, sc);
 	}
@@ -468,10 +451,8 @@ public class ImportHistoricLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'entree d'import "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.gtfs.model.ImportHistoric importHistoric,
-			int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(ImportHistoric importHistoric, int status)
+		throws PortalException {
 
 		getService().updateStatus(importHistoric, status);
 	}
@@ -479,38 +460,24 @@ public class ImportHistoricLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'entree d'import par le framework workflow
 	 */
-	public static eu.strasbourg.service.gtfs.model.ImportHistoric updateStatus(
+	public static ImportHistoric updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
 	}
 
 	public static ImportHistoricLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<ImportHistoricLocalService, ImportHistoricLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			ImportHistoricLocalService.class);
-
-		ServiceTracker<ImportHistoricLocalService, ImportHistoricLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<ImportHistoricLocalService, ImportHistoricLocalService>(
-						bundle.getBundleContext(),
-						ImportHistoricLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(ImportHistoricLocalService service) {
+		_service = service;
 	}
+
+	private static volatile ImportHistoricLocalService _service;
 
 }

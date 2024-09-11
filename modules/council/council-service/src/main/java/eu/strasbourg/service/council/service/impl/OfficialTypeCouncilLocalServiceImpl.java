@@ -17,14 +17,11 @@ package eu.strasbourg.service.council.service.impl;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import eu.strasbourg.service.council.model.OfficialTypeCouncil;
-import eu.strasbourg.service.council.model.Vote;
 import eu.strasbourg.service.council.service.base.OfficialTypeCouncilLocalServiceBaseImpl;
 import eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPK;
-import eu.strasbourg.service.council.service.persistence.VotePK;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * The implementation of the official type council local service.

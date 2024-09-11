@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- * <p>
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * <p>
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -14,16 +14,17 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.asset.kernel.service.persistence.AssetEntryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.BooleanClause;
 import com.liferay.portal.kernel.search.BooleanClauseFactoryUtil;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
@@ -63,6 +64,7 @@ import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.CategoryNames;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.annotation.versioning.ProviderType;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
@@ -72,18 +74,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Stream;
 
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_ACCEPTABLE;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_CANCELLED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_FEASIBLE;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_IN_PROGRESS;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_LAUREAT;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_MERGED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_ACCEPTABLE;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_FEASIBLE;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_NON_SELECTED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_REALIZED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_SUBMITTED;
-import static eu.strasbourg.service.project.constants.ParticiperCategories.BP_SUSPENDED;
+import static eu.strasbourg.service.project.constants.ParticiperCategories.*;
 
 /**
  * The extended model implementation for the BudgetParticipatif service. Represents a row in the &quot;project_BudgetParticipatif&quot; database table, with each column mapped to a property of this class.
@@ -292,7 +283,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     public String getDistrictLabel(Locale locale) {
         List<AssetCategory> districts = getDistrictCategories();
 		List<AssetCategory> cities = getCityCategories();
-        return AssetVocabularyHelper.getDistrictTitleForCity(locale, districts, cities, CategoryNames.OLD_STRASBOURG);
+        return AssetVocabularyHelper.getDistrictTitleForCity(locale, districts, cities, List.of(CategoryNames.OLD_STRASBOURG, CategoryNames.STRASBOURG));
     }
 
     /**
@@ -463,7 +454,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 			try {
 				return BudgetPhaseLocalServiceUtil.getBudgetPhase(this.getBudgetPhaseId());
 			} catch (PortalException e) {
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + this.getBudgetPhaseId());
 			}
     	}
     	return null;
@@ -571,8 +562,8 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     	AssetCategory category = AssetVocabularyHelper.getCategory(status.getName(), groupID);
     	
     	if(!statuses.isEmpty())
-    		AssetEntryUtil.removeAssetCategory(entry.getEntryId(), statuses.get(0));
-    	
+		AssetEntryAssetCategoryRelLocalServiceUtil.deleteAssetEntryAssetCategoryRel
+				(entry.getEntryId(), statuses.get(0).getCategoryId());
     	AssetVocabularyHelper.addCategoryToAssetEntry(category, entry);
     }
     
@@ -658,7 +649,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	        }
 		}
 		catch(Exception ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage(), ex);
 		}
 	    
 		return suggestions;
@@ -687,8 +678,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     		try {
 				result = BudgetParticipatifLocalServiceUtil.getBudgetParticipatif(this.getParentId());
 			} catch (PortalException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + this.getParentId());
 			}
     	}
     	
@@ -795,44 +785,47 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 		case 4:
 		case 9:
 		case 10:
-			return "<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.analyse.in.progress") + "</p>";
+			return "<span>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.analyse.in.progress") + "</span>";
 		case 7:
-			return "<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.vote.ended") + "</p>";
+			return "<span>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.vote.ended") + "</span>";
 		case 13:
 		case 14:
 		case 15:
 		case 16:
 		case 17:
 		case 18:
-			return "<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.acceptable") + "</p>";
+			return "<span>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.acceptable") + "</span>";
 		case 19:
 		case 23:
 		case 24:
-			return "<p><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " +
-					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</p>";
+			return "<span><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " +
+					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</span>";
 		case 25:
 		case 28:
 		case 29:
 		case 30:
-			return "<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.feasible") + "</p>";
+			return "<span>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.feasible") + "</span>";
 		case 31:
 		case 36:
-			return "<p><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " + 
-					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes.laureat") + "</p>";
+			return "<p><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " +
+					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes") + "</p><span>" +
+					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes.laureat") + "</span>";
 		case 37:
 		case 42:
-			return "<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.selected") + "</p>";
+			return "<span>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.non.selected") + "</span>";
 		case 43:
 		case 48:
-			return "<p>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.cancelled") + "</p>";
+			return "<span>" + LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.cancelled") + "</span>";
 		case 49:
 		case 54:
-			return "<p><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " + 
-					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.realized") + "</p>";
+			return "<p><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " +
+					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes.votes") + "</p><span>" +
+					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.realized") + "</span>";
 		case 55:
 		case 60:
-			return "<p><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " + 
-					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.suspended") + "</p>";
+			return "<p><strong id=\"nbEntrySupports\">" + this.getNbSupports() + "</strong> " +
+					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.votes.votes") + "</p><span>" +
+					LanguageUtil.get(request ,"eu.strasbourg.service.project.model.BudgetParticipatif.suspended") + "</span>";
 		default:
 			return "";
 		}
@@ -1036,5 +1029,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     	
     	return result;
     }
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 
 }

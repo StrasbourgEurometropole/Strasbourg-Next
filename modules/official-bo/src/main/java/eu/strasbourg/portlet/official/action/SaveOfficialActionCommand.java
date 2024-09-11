@@ -15,6 +15,7 @@
  */
 package eu.strasbourg.portlet.official.action;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -71,14 +72,15 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 						.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request
 						.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				PortletURL backURL = PortletURLFactoryUtil.create(request,
 						portletName, themeDisplay.getPlid(),
 						PortletRequest.RENDER_PHASE);
-				returnURL.setParameter("tab", request.getParameter("tab"));
+				backURL.setParameter("tab", request.getParameter("tab"));
 
-				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("backURL", backURL.toString());
 				response.setRenderParameter("mvcPath",
 						"/official-bo-edit-official.jsp");
+				response.setRenderParameter("cmd", "saveOfficial");
 				return false;
 			}
 
@@ -115,6 +117,15 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 			Map<Locale, String> missions = LocalizationUtil
 					.getLocalizationMap(request, "missions");
 			official.setMissionsMap(missions);
+
+			String listeContact = ParamUtil.getString(request, "listeContact");
+			official.setListeContact(listeContact);
+
+
+			Map<Locale, String> resumeFonction = LocalizationUtil
+					.getLocalizationMap(request, "resumeFonction");
+
+			official.setResumeFonctionMap(resumeFonction);
 
 			boolean wasMinister = ParamUtil.getBoolean(request, "wasMinister");
 			official.setWasMinister(wasMinister);
@@ -200,12 +211,15 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 			AssetEntryLocalServiceUtil.updateEntry(sc.getUserId(),
 					official.getGroupId(), Official.class.getName(),
 					official.getOfficialId(), categoryIds, null);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
 		} catch (PortalException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+			_log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 
 	/**
@@ -220,10 +234,36 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 			isValid = false;
 		}
 
+		// listeContact, verif si separateur est bien un , et que chaque element est un mail
+		String listeContact = ParamUtil.getString(request, "listeContact");
+		if (Validator.isNotNull(listeContact)) {
+			String[] listeContactSplit = listeContact.split(",");
+			for (String contact : listeContactSplit) {
+				if (!Validator.isEmailAddress(contact)) {
+					SessionErrors.add(request, "email-error");
+					isValid = false;
+					break;
+				}
+			}
+		}
+
+
 		// Prénom
 		if (Validator.isNull(ParamUtil.getString(request, "firstName"))) {
 			SessionErrors.add(request, "name-error");
 			isValid = false;
+		}
+
+		// listeContact, verif si separateur est bien un , et que chaque element est un mail
+		if (Validator.isNotNull(listeContact)) {
+			String[] listeContactSplit = listeContact.split(",");
+			for (String contact : listeContactSplit) {
+				if (!Validator.isEmailAddress(contact)) {
+					SessionErrors.add(request, "email-error");
+					isValid = false;
+					break;
+				}
+			}
 		}
 
 		// Photo

@@ -18,17 +18,20 @@
 	            </c:if>
 	            <liferay-portlet:actionURL name="contact" var="contactURL" />
 	            <form method="post" action="${contactURL}">
+	                <div class="form-group message">
+                        <span><liferay-ui:message key="contact.required-fields" /></span>
+	                </div>
 	                <div class="form-group">
-	                    <label for="name"><liferay-ui:message key="contact.lastname" /></label>
-	                    <input type="text" class="form-control" id="lastName" name="lastName" value="${param.lastName}" aria-label="<liferay-ui:message key='contact.your-lastname' />">
+	                    <label for="lastName"><liferay-ui:message key="contact.lastname" /></label>
+	                    <input type="text" autocomplete="family-name" class="form-control" id="lastName" name="lastName" value="${param.lastName}" aria-label="<liferay-ui:message key='contact.your-lastname' />">
 	                </div>
 	                <div class="form-group">
 	                    <label for="firstname"><liferay-ui:message key="contact.firstname" /></label>
-	                    <input type="text" class="form-control" id="firstName" name="firstName" value="${param.firstName}" aria-label="<liferay-ui:message key='contact.your-firstname' />">
+	                    <input type="text" autocomplete="given-name" class="form-control" id="firstName" name="firstName" value="${param.firstName}" aria-label="<liferay-ui:message key='contact.your-firstname' />">
 	                </div>
 	                <div class="form-group">
-	                    <label for="email"><liferay-ui:message key="contact.mail" /></label>
-	                    <input type="email" class="form-control" id="emailFrom" name="emailFrom" value="${param.emailFrom}" aria-label="<liferay-ui:message key='contact.your-mail' />">
+	                    <label for="emailFrom"><liferay-ui:message key="contact.mail" /></label>
+	                    <input type="email" autocomplete="email" class="form-control" id="emailFrom" name="emailFrom" value="${param.emailFrom}" aria-label="<liferay-ui:message key='contact.your-mail' />">
 	                </div>
 	                <div class="form-group" style="visibility: hidden;">
 	                    <label for="tel">Phone</label>
@@ -37,7 +40,6 @@
 	                <div class="form-group mns-textarea">
 	                    <label for="demande"><liferay-ui:message key="contact.request" /></label>
 	                    <textarea class="form-control" rows="3" id="demande" name="content" aria-label="<liferay-ui:message key='contact.your-message' />">${param.content}</textarea>
-	                    <span><liferay-ui:message key="contact.required-fields" /></span>
 	                </div>
 	                <div class="checkbox">
 	                    <label>

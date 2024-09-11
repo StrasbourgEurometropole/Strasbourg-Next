@@ -4,8 +4,10 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Document;
@@ -13,6 +15,7 @@ import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
+import com.liferay.portal.kernel.security.auth.AuthTokenUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -27,8 +30,10 @@ import eu.strasbourg.service.activity.service.PracticeLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyAccessor;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.Pager;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import eu.strasbourg.utils.display.context.BaseDisplayContext;
 
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
@@ -41,15 +46,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class SearchAssociationDisplayContext {
+public class SearchAssociationDisplayContext extends BaseDisplayContext {
 
     public SearchAssociationDisplayContext(RenderRequest request, RenderResponse response) throws PortalException {
-
-        this._response = response;
-        this._request = request;
-        this._themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
-        this._configuration = this._themeDisplay.getPortletDisplay()
-                .getPortletInstanceConfiguration(SearchAssociationConfiguration.class);
+        super(request, response);
+        this._configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssociationConfiguration.class, _themeDisplay);
         this.initSearchContainer();
         if (this.isUserSearch() || ParamUtil.getBoolean(this._request, "paginate")) {
             this.initEntries();
@@ -180,14 +181,6 @@ public class SearchAssociationDisplayContext {
 
         List<AssetEntry> results = new ArrayList<AssetEntry>();
         if (this._hits != null) {
-            int i = 0;
-            for (float s : this._hits.getScores()) {
-                _log.info(GetterUtil.getString(this._hits.getDocs()[i].get(Field.TITLE)) + " : " + s);
-                i++;
-                if (i > 10)
-                    break;
-            }
-
             List<Long> associationList = new ArrayList<Long>();
             for (Document document : this._hits.getDocs()) {
                 AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
@@ -204,7 +197,7 @@ public class SearchAssociationDisplayContext {
             }
             // on tri les associations par nom
             results.sort(Comparator.comparing(AssetEntry::getTitle));
-            this.getSearchContainer().setTotal(results.size());
+            this.getSearchContainer().setResultsAndTotal(results);
         }
 
         int start = this._searchContainer.getStart();
@@ -433,7 +426,7 @@ public class SearchAssociationDisplayContext {
     public String getURLForPage(long pageIndex) {
         PortletURL url = this.getSearchContainer().getIteratorURL();
         url.setParameter("cur", String.valueOf(pageIndex));
-        String valueToReturn = url.toString();
+        String valueToReturn = url + "&p_auth=" + AuthTokenUtil.getToken(PortalUtil.getHttpServletRequest(this._request));
         url.setParameter("cur", String.valueOf(this.getSearchContainer().getCur()));
         return valueToReturn;
     }
@@ -442,7 +435,8 @@ public class SearchAssociationDisplayContext {
      * Retourne l'URL de la page d'accueil
      */
     public String getHomeURL() {
-        if (this._themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname() != null
+        String virtualHostName= PortalHelper.getVirtualHostname(this._themeDisplay.getScopeGroup(),this._themeDisplay.getLanguageId());
+        if (Validator.isNotNull(virtualHostName)
                 || this._themeDisplay.getScopeGroup().isStagingGroup()) {
             return "/web" + this._themeDisplay.getScopeGroup().getFriendlyURL() + "/";
         } else {
@@ -451,11 +445,26 @@ public class SearchAssociationDisplayContext {
 
     }
 
+    /**
+     * Retourne le titre du portlet configuré dans la configuration Look And
+     * Feel s'il existe et si "utiliser le titre personnalisé" est coché, sinon
+     * à partir de la clé de traduction passée en paramètre
+     */
+    public String getPortletTitle(String key) {
+        String titleFromLanguageKey = LanguageUtil.get(PortalUtil.getHttpServletRequest(this._request), key);
+        String useCustomPortletPreference = this._request.getPreferences().getValue("portletSetupUseCustomTitle",
+                "false");
+        boolean useCustomPortlet = GetterUtil.get(useCustomPortletPreference, false);
+        if (useCustomPortlet) {
+            String preferenceKey = "portletSetupTitle_" + this._themeDisplay.getLocale().toString();
+            return this._request.getPreferences().getValue(preferenceKey, titleFromLanguageKey);
+        } else {
+            return titleFromLanguageKey;
+        }
+    }
+
     private static Log _log = LogFactoryUtil.getLog(SearchAssociationDisplayContext.class);
 
-    private final RenderRequest _request;
-    private final RenderResponse _response;
-    private final ThemeDisplay _themeDisplay;
     private SearchAssociationConfiguration _configuration;
 
     private SearchContainer<AssetEntry> _searchContainer;

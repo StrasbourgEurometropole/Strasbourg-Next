@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,29 +16,29 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.place.exception.NoSuchSlotException;
 import eu.strasbourg.service.place.model.Slot;
+import eu.strasbourg.service.place.model.SlotTable;
 import eu.strasbourg.service.place.model.impl.SlotImpl;
 import eu.strasbourg.service.place.model.impl.SlotModelImpl;
 import eu.strasbourg.service.place.service.persistence.SlotPersistence;
+import eu.strasbourg.service.place.service.persistence.SlotUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -246,10 +238,6 @@ public class SlotPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -596,8 +584,6 @@ public class SlotPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -765,10 +751,6 @@ public class SlotPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1092,8 +1074,6 @@ public class SlotPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1262,10 +1242,6 @@ public class SlotPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1589,8 +1565,6 @@ public class SlotPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1610,21 +1584,14 @@ public class SlotPersistenceImpl
 		dbColumnNames.put("uuid", "uuid_");
 		dbColumnNames.put("comment", "comment_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Slot.class);
+
+		setModelImplClass(SlotImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(SlotTable.INSTANCE);
 	}
 
 	/**
@@ -1634,12 +1601,10 @@ public class SlotPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(Slot slot) {
-		entityCache.putResult(
-			SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class,
-			slot.getPrimaryKey(), slot);
-
-		slot.resetOriginalValues();
+		entityCache.putResult(SlotImpl.class, slot.getPrimaryKey(), slot);
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the slots in the entity cache if it is enabled.
@@ -1648,15 +1613,18 @@ public class SlotPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Slot> slots) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (slots.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Slot slot : slots) {
-			if (entityCache.getResult(
-					SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class,
-					slot.getPrimaryKey()) == null) {
+			if (entityCache.getResult(SlotImpl.class, slot.getPrimaryKey()) ==
+					null) {
 
 				cacheResult(slot);
-			}
-			else {
-				slot.resetOriginalValues();
 			}
 		}
 	}
@@ -1672,9 +1640,7 @@ public class SlotPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(SlotImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(SlotImpl.class);
 	}
 
 	/**
@@ -1686,34 +1652,22 @@ public class SlotPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Slot slot) {
-		entityCache.removeResult(
-			SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class,
-			slot.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(SlotImpl.class, slot);
 	}
 
 	@Override
 	public void clearCache(List<Slot> slots) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Slot slot : slots) {
-			entityCache.removeResult(
-				SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class,
-				slot.getPrimaryKey());
+			entityCache.removeResult(SlotImpl.class, slot);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(SlotImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class, primaryKey);
+			entityCache.removeResult(SlotImpl.class, primaryKey);
 		}
 	}
 
@@ -1850,10 +1804,8 @@ public class SlotPersistenceImpl
 		try {
 			session = openSession();
 
-			if (slot.isNew()) {
+			if (isNew) {
 				session.save(slot);
-
-				slot.setNew(false);
 			}
 			else {
 				slot = (Slot)session.merge(slot);
@@ -1866,94 +1818,11 @@ public class SlotPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(SlotImpl.class, slotModelImpl, false, true);
 
-		if (!SlotModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		if (isNew) {
+			slot.setNew(false);
 		}
-		else if (isNew) {
-			Object[] args = new Object[] {slotModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {slotModelImpl.getPeriodId()};
-
-			finderCache.removeResult(_finderPathCountByPeriodId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPeriodId, args);
-
-			args = new Object[] {slotModelImpl.getSubPlaceId()};
-
-			finderCache.removeResult(_finderPathCountBySubPlaceId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindBySubPlaceId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((slotModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {slotModelImpl.getOriginalUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {slotModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((slotModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPeriodId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					slotModelImpl.getOriginalPeriodId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPeriodId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPeriodId, args);
-
-				args = new Object[] {slotModelImpl.getPeriodId()};
-
-				finderCache.removeResult(_finderPathCountByPeriodId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPeriodId, args);
-			}
-
-			if ((slotModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindBySubPlaceId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					slotModelImpl.getOriginalSubPlaceId()
-				};
-
-				finderCache.removeResult(_finderPathCountBySubPlaceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindBySubPlaceId, args);
-
-				args = new Object[] {slotModelImpl.getSubPlaceId()};
-
-				finderCache.removeResult(_finderPathCountBySubPlaceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindBySubPlaceId, args);
-			}
-		}
-
-		entityCache.putResult(
-			SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class,
-			slot.getPrimaryKey(), slot, false);
 
 		slot.resetOriginalValues();
 
@@ -2000,157 +1869,12 @@ public class SlotPersistenceImpl
 	/**
 	 * Returns the slot with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the slot
-	 * @return the slot, or <code>null</code> if a slot with the primary key could not be found
-	 */
-	@Override
-	public Slot fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Slot slot = (Slot)serializable;
-
-		if (slot == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				slot = (Slot)session.get(SlotImpl.class, primaryKey);
-
-				if (slot != null) {
-					cacheResult(slot);
-				}
-				else {
-					entityCache.putResult(
-						SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class,
-						primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return slot;
-	}
-
-	/**
-	 * Returns the slot with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param slotId the primary key of the slot
 	 * @return the slot, or <code>null</code> if a slot with the primary key could not be found
 	 */
 	@Override
 	public Slot fetchByPrimaryKey(long slotId) {
 		return fetchByPrimaryKey((Serializable)slotId);
-	}
-
-	@Override
-	public Map<Serializable, Slot> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Slot> map = new HashMap<Serializable, Slot>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Slot slot = fetchByPrimaryKey(primaryKey);
-
-			if (slot != null) {
-				map.put(primaryKey, slot);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Slot)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_SLOT_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Slot slot : (List<Slot>)query.list()) {
-				map.put(slot.getPrimaryKeyObj(), slot);
-
-				cacheResult(slot);
-
-				uncachedPrimaryKeys.remove(slot.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					SlotModelImpl.ENTITY_CACHE_ENABLED, SlotImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2277,10 +2001,6 @@ public class SlotPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2326,9 +2046,6 @@ public class SlotPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2345,6 +2062,21 @@ public class SlotPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "slotId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_SLOT;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return SlotModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2353,95 +2085,82 @@ public class SlotPersistenceImpl
 	 * Initializes the slot persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			SlotModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathWithPaginationFindByPeriodId = new FinderPath(
-			SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPeriodId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"periodId"}, true);
 
 		_finderPathWithoutPaginationFindByPeriodId = new FinderPath(
-			SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPeriodId",
-			new String[] {Long.class.getName()},
-			SlotModelImpl.PERIODID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"periodId"},
+			true);
 
 		_finderPathCountByPeriodId = new FinderPath(
-			SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPeriodId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"periodId"},
+			false);
 
 		_finderPathWithPaginationFindBySubPlaceId = new FinderPath(
-			SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySubPlaceId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"subPlaceId"}, true);
 
 		_finderPathWithoutPaginationFindBySubPlaceId = new FinderPath(
-			SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, SlotImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBySubPlaceId",
-			new String[] {Long.class.getName()},
-			SlotModelImpl.SUBPLACEID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"subPlaceId"},
+			true);
 
 		_finderPathCountBySubPlaceId = new FinderPath(
-			SlotModelImpl.ENTITY_CACHE_ENABLED,
-			SlotModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySubPlaceId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"subPlaceId"},
+			false);
+
+		SlotUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		SlotUtil.setPersistence(null);
+
 		entityCache.removeCache(SlotImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -2451,9 +2170,6 @@ public class SlotPersistenceImpl
 	protected FinderCache finderCache;
 
 	private static final String _SQL_SELECT_SLOT = "SELECT slot FROM Slot slot";
-
-	private static final String _SQL_SELECT_SLOT_WHERE_PKS_IN =
-		"SELECT slot FROM Slot slot WHERE slotId IN (";
 
 	private static final String _SQL_SELECT_SLOT_WHERE =
 		"SELECT slot FROM Slot slot WHERE ";
@@ -2477,5 +2193,10 @@ public class SlotPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "comment"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

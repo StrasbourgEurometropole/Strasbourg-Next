@@ -1,0 +1,35 @@
+.st-page-welcome {
+    .st-charte-summary {
+        display: flex;
+        flex-direction: column;
+        padding: 0 40px;
+        border: 1px solid color-mix(in srgb, $c_white 25%, transparent);
+        border-radius: $border-radius;
+
+        @include mobile {
+            padding: 0 20px;
+        }
+
+        li {
+            & + li {
+                border-top: 1px dashed color-mix(in srgb, $c_white 25%, transparent);
+            }
+
+            a {
+                @include create-outline;
+                @include ft($f_txt, $s_p, 300, $c_sub, 1.5);
+                text-transform: uppercase;
+                display: block;
+                padding: 36px 0;
+                @include transition(color);
+
+                @include mobile {
+                    padding: 20px 0;
+                }
+                @include can-hover {
+                    color: $c_white;
+                }
+            }
+        }
+    }
+}

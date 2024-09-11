@@ -1,3 +1,4 @@
 Bundle-SymbolicName: comment.web
 Bundle-Version: 1.31.0
 Web-ContextPath: /commentweb
+-fixupmessages "Classes found in the wrong directory"; restrict:=error; is:=warning

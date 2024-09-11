@@ -1,22 +1,12 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.service;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
@@ -30,6 +20,7 @@ import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.spring.osgi.OSGiBeanProperties;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -39,8 +30,12 @@ import eu.strasbourg.service.council.model.CouncilSession;
 
 import java.io.Serializable;
 
-import java.util.*;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * Provides the local service interface for CouncilSession. Methods of this
@@ -52,6 +47,11 @@ import java.util.List;
  * @see CouncilSessionLocalServiceUtil
  * @generated
  */
+@OSGiBeanProperties(
+	property = {
+		"model.class.name=eu.strasbourg.service.council.model.CouncilSession"
+	}
+)
 @ProviderType
 @Transactional(
 	isolation = Isolation.PORTAL,
@@ -63,7 +63,7 @@ public interface CouncilSessionLocalService
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link CouncilSessionLocalServiceUtil} to access the council session local service. Add custom service methods to <code>eu.strasbourg.service.council.service.impl.CouncilSessionLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.council.service.impl.CouncilSessionLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the council session local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link CouncilSessionLocalServiceUtil} if injection and service tracking are not available.
 	 */
 
 	/**
@@ -83,7 +83,7 @@ public interface CouncilSessionLocalService
 	 * Calcul de la date pour trouver le conseil
 	 * Si la date du jour moins 6h est sur le jour d'avant, alors on fait la recherche sur le jour d'avant
 	 */
-	public java.util.GregorianCalendar calculDateForFindCouncil();
+	public GregorianCalendar calculDateForFindCouncil();
 
 	/**
 	 * Creates a new council session with the primary key. Does not add the council session to the database.
@@ -98,6 +98,12 @@ public interface CouncilSessionLocalService
 	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
 	 */
 	public CouncilSession createCouncilSession(ServiceContext sc)
+		throws PortalException;
+
+	/**
+	 * @throws PortalException
+	 */
+	public PersistedModel createPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
 	/**
@@ -134,6 +140,12 @@ public interface CouncilSessionLocalService
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public <T> T dslQuery(DSLQuery dslQuery);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int dslQueryCount(DSLQuery dslQuery);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();
@@ -218,7 +230,7 @@ public interface CouncilSessionLocalService
 	/**
 	 * Recherche par Date de CouncilSession
 	 */
-	public List<CouncilSession> findByDate(java.util.Date date);
+	public List<CouncilSession> findByDate(Date date);
 
 	/**
 	 * Recherche par titre de CouncilSession
@@ -313,7 +325,7 @@ public interface CouncilSessionLocalService
 	 * Retourne les conseils dont la date est égale ou supérieure à celle passée en paramètre
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<CouncilSession> getFutureCouncilSessions(java.util.Date date);
+	public List<CouncilSession> getFutureCouncilSessions(Date date);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
@@ -383,7 +395,7 @@ public interface CouncilSessionLocalService
 	 */
 	public CouncilSession updateStatus(
 			long userId, long entryId, int status, ServiceContext sc,
-			java.util.Map<String, Serializable> workflowContext)
+			Map<String, Serializable> workflowContext)
 		throws PortalException;
 
 }

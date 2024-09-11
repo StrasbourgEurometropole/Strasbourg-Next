@@ -1,0 +1,516 @@
+
+
+.st-page-wrapper {
+	// Styles de textes globaux
+	// ==========================================================================
+	h1,
+	.st-h1 {
+		display: block;
+		@include ft($f_hx, 45px, 600, $c_white, 1);
+
+		@include tablet_portrait {
+			font-size: 36px;
+		}
+		@include mobile {
+			font-size: 26px;
+		}
+	}
+
+	h2,
+	.st-h2 {
+		display: block;
+		@include ft($f_hx, 30px, 600, $c_white, 1);
+
+		@include tablet_portrait {
+			font-size: 26px;
+		}
+		@include mobile {
+			font-size: 20px;
+		}
+	}
+
+	h3,
+	.st-h3 {
+		display: block;
+		@include ft($f_hx, 18px, 700, $c_white, 1.33);
+		@include letter-spacing(25);
+
+		@include tablet_portrait {
+			font-size: 17px;
+		}
+		@include mobile {
+			font-size: 16px;
+		}
+	}
+
+
+	// Styles de textes additionnels
+	// ==========================================================================
+	.st-surtitre {
+		display: block;
+		@include ft($f_txt, 18px, 700, $c_white, 1.33);
+		@include letter-spacing(25);
+
+		@include tablet-portrait {
+			font-size: 16px;
+		}
+	}
+
+	.st-surtitre-cat {
+		display: block;
+		@include ft($f_txt, 12px, 400, $c_sub, 1.16);
+		@include letter-spacing(25);
+		text-transform: uppercase;
+
+		@include tablet-portrait {
+			font-size: 11px;
+		}
+	}
+
+	.st-location {
+		@include ft($f_txt, 12px, 300, $c_txt, 1.16);
+		@include letter-spacing(25);
+		font-style: italic;
+		display: flex;
+		align-items: center;
+
+		&:before {
+			@include icomoon($st-icon-location);
+			font-size: 14px;
+			color: $c_txt;
+			margin-right: 3px;
+		}
+	}
+
+	.st-text-small {
+		@include ft('', 12px, '', $c_txt, 1.16);
+		@include letter-spacing(25);
+	}
+
+	.st-title-medium {
+		@include ft('', 16px, 700, $c_white, 1);
+
+		@include mobile {
+			font-size: 14px;
+		}
+	}
+
+	.st-text-bold-white {
+		@include ft('', 14px, 700, $c_white, 1.5);
+	}
+}
+
+
+
+// Styles et positionnement au sein d'un bloc de texte
+// ==========================================================================
+
+.st-text-styles, .component-paragraph, .component-html {
+
+	@include ft($f_txt, 16px, 300, $c_txt, 1.5);
+	@include letter-spacing(25);
+	display: block;
+	margin-bottom: 15px;
+
+	@include mobile {
+		font-size: 14px;
+		line-height: 1.43;
+	}
+
+	& + .st-btn-primary,
+	& + .st-btn {
+		margin-top: 10px;
+	}
+
+	strong {
+		color: $c_white;
+	}
+
+	// Alignement
+	&.st-aligncenter {
+		margin-left: auto;
+		margin-right: auto;
+
+		> * {
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+
+	&.st-alignright {
+		margin-left: auto;
+		margin-right: 0;
+
+		> * {
+			margin-left: auto;
+			margin-right: 0;
+		}
+	}
+
+	// Gestion des alignements et du max-width des éléments
+	> * {
+		position: relative;
+
+		&:first-child {
+			margin-top: 0 !important;
+		}
+
+		&:last-child {
+			margin-bottom: 0 !important;
+
+			.st-btn {
+				margin-bottom: 0;
+			}
+		}
+
+		&.st-aligncenter, &[style*="text-align: center"] {
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		&.st-alignright, &[style*="text-align: right"] {
+			margin-left: auto;
+			margin-right: 0;
+		}
+
+		&[style*="text-align: justify"] {
+			margin-left: 0;
+			margin-right: 0;
+			max-width: 100% !important;
+		}
+	}
+
+	video {
+		height: auto;
+		width: 100%;
+	}
+
+	.st-surtitre {
+		margin-top: 35px;
+		margin-bottom: 30px;
+
+		@include tablet-portrait {
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+
+		& + h2,
+		& + .st-h2 {
+			margin-top: -20px;
+
+			@include mobile {
+				margin-top: -5px;
+			}
+		}
+
+		& + h3,
+		& + .st-h3 {
+			margin-top: -15px;
+
+			@include tablet-portrait {
+				margin-top: -5px;
+			}
+		}
+
+		& + p {
+			margin-top: -10px;
+		}
+	}
+
+	h1, .st-h1 {
+		margin-bottom: 30px;
+
+		@include tablet-portrait {
+			margin-bottom: 20px;
+		}
+
+		@include mobile {
+			margin-bottom: 10px;
+		}
+
+		& + p {
+			margin-top: 10px;
+		}
+	}
+
+	h2, .st-h2 {
+		margin-top: 60px;
+		margin-bottom: 35px;
+
+		@include tablet-portrait {
+			margin-top: 40px;
+			margin-bottom: 26px;
+		}
+
+		@include mobile {
+			margin-top: 30px;
+			margin-bottom: 20px;
+		}
+
+		& + .st-surtitre {
+			margin-top: 0;
+		}
+
+		& + h3,
+		& + .st-h3 {
+			margin-top: -10px;
+
+			@include tablet-portrait {
+				margin-top: 0;
+			}
+		}
+
+		& + .st-btn-primary,
+		& + .st-btn {
+			margin-top: 10px;
+		}
+	}
+
+	h3, .st-h3 {
+		margin-top: 40px;
+		margin-bottom: 30px;
+
+		@include tablet-portrait {
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+
+		& + .st-surtitre {
+			margin-top: -15px;
+			margin-bottom: 25px;
+
+			@include tablet-portrait {
+				margin-top: -10px;
+			}
+			@include mobile {
+				margin-bottom: 20px;
+			}
+		}
+
+		& + .st-btn-primary, & + .st-btn {
+			margin-top: 10px;
+		}
+	}
+
+	p {
+		@include ft($f_txt, 16px, 300, $c_txt, 1.5);
+		@include letter-spacing(25);
+		display: block;
+		margin-bottom: 15px;
+
+		@include mobile {
+			font-size: 14px;
+			line-height: 1.43;
+		}
+
+		& + .st-btn-primary,
+		& + .st-btn {
+			margin-top: 10px;
+		}
+
+		strong {
+			color: $c_white;
+		}
+	}
+
+	.st-text-bold-white {
+		margin-bottom: 15px;
+	}
+
+	li {
+		position: relative;
+		@include ft($f_txt, $s_p, 300, $c_txt, 1.5);
+
+		&[style*="text-align: center"] {
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		&[style*="text-align: right"] {
+			margin-left: auto;
+			margin-right: 0;
+		}
+	}
+
+	ul {
+		padding: 0;
+		margin-left: 0px;
+		margin-right: 0px;
+		margin-bottom: 15px;
+		list-style-type: none;
+
+		li {
+			padding: 9px 0 9px 12px;
+
+			&[style*="text-align: right"] {
+				padding: 6px 30px 6px 0;
+
+				&:before {
+					left: auto;
+					right: 0;
+				}
+			}
+
+			&[style*="text-align: center"] {
+				padding: 6px 0px 6px 0;
+
+				&:before {
+					display: none;
+				}
+
+				&:after {
+					content: "";
+					display: block;
+					width: 4px;
+					height: 4px;
+					border-radius: 50%;
+					background-color: $c_sub;
+					position: relative;
+					left: 50%;
+					transform: translateX(-50%);
+					bottom: -7px;
+				}
+
+				&:last-of-type {
+					&:after {
+						display: none;
+					}
+				}
+			}
+
+			&:before {
+				content: '';
+				position: absolute;
+				left: 0;
+				top: 18px;
+				width: 4px;
+				height: 4px;
+				border-radius: 50%;
+				background: $c_sub;
+			}
+
+			p {
+				margin-bottom: 0px;
+			}
+		}
+	}
+
+	ol {
+		padding: 0;
+		margin-bottom: 15px;
+		list-style-type: decimal;
+		list-style-position: inside;
+
+		li {
+			list-style-type: decimal;
+			padding: 5px 0;
+		}
+	}
+
+	a {
+		@include create-outline;
+		color: $c_sub;
+		text-decoration: underline;
+		@include transition(color);
+
+		@include can-hover {
+			color: $c_white;
+		}
+	}
+
+	blockquote {
+		@include ft($f_txt, $s_small_title, 300, $c_txt, 1.4);
+		position: relative;
+		font-style: italic;
+		margin: 35px 0 35px 0;
+		border-left: 0;
+
+		@include mobile {
+			margin: 30px 0;
+			font-size: 16px;
+			line-height: 1.37;
+		}
+
+		&:before {
+			content: '';
+			display: block;
+			width: 1px;
+			height: 100%;
+			background-color: $c_greydark;
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+
+		p {
+			@include ft($f_txt, 20px, 400, var(--color-text), 1.45);
+			position: relative;
+			font-style: italic;
+			padding: 0 12px 0 20px;
+
+			@include mobile {
+				font-size: 16px;
+				line-height: 1.37;
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	.st-btn {
+		margin-top: 15px;
+		margin-bottom: 20px;
+
+		@include mobile {
+			margin-bottom: 5px;
+		}
+	}
+}
+
+.st-text-mentions {
+	@include ft('', 12px, '', $c_txt, 1.16);
+	@include letter-spacing(25);
+
+	.st-title-mentions {
+		@include ft('', 13px, 700, $c_white, '');
+		margin-bottom: 16px;
+	}
+
+	p {
+		margin-bottom: 16px;
+
+		strong {
+			color: $c_white;
+		}
+	}
+
+	a {
+		color: $c_white;
+		font-weight: 700;
+		text-decoration: underline;
+
+		@include can-hover {
+			color: $c_sub;
+		}
+	}
+}
+
+.st-page-wrapper .st-link-overlay {
+	@include create-outline;
+	color: $c_sub;
+	text-decoration: none;
+	font-weight: 600;
+	@include transition(color);
+
+	&:before {
+		@include icomoon($st-icon-info);
+		margin-right: 3px;
+	}
+
+	@include can-hover {
+		color: $c_white;
+		text-decoration: underline;
+	}
+}

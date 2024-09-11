@@ -14,9 +14,9 @@
 
 package eu.strasbourg.service.oidc.model.impl;
 
-import java.util.Date;
+import org.osgi.annotation.versioning.ProviderType;
 
-import aQute.bnd.annotation.ProviderType;
+import java.util.Date;
 
 /**
  * The extended model implementation for the PublikUser service. Represents a row in the &quot;publik_PublikUser&quot; database table, with each column mapped to a property of this class.

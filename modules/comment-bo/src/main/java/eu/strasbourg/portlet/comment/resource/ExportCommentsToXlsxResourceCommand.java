@@ -6,6 +6,8 @@ import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -36,7 +38,6 @@ public class ExportCommentsToXlsxResourceCommand implements MVCResourceCommand {
 			throws PortletException {
 		resourceResponse.setContentType("application/force-download");
 		resourceResponse.setProperty("content-disposition", "attachment; filename=Commentaires.xlsx");
-		//String commentIds = ParamUtil.getString(resourceRequest, "commentIds");
 		ThemeDisplay themeDisplay = (ThemeDisplay)resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		long groupId = themeDisplay.getScopeGroupId();
 
@@ -44,9 +45,11 @@ public class ExportCommentsToXlsxResourceCommand implements MVCResourceCommand {
 			commentsXlsExporter.exportComments(resourceResponse.getPortletOutputStream(), groupId);
 			resourceResponse.getPortletOutputStream().flush();
 		} catch (IOException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 
 		return true;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

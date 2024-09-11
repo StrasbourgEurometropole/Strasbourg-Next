@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.favorite.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.favorite.model.Favorite;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for Favorite. This utility wraps
@@ -48,18 +47,14 @@ public class FavoriteLocalServiceUtil {
 	 * @param favorite the favorite
 	 * @return the favorite that was added
 	 */
-	public static eu.strasbourg.service.favorite.model.Favorite addFavorite(
-		eu.strasbourg.service.favorite.model.Favorite favorite) {
-
+	public static Favorite addFavorite(Favorite favorite) {
 		return getService().addFavorite(favorite);
 	}
 
 	/**
 	 * Crée un nouveau favoris
 	 */
-	public static eu.strasbourg.service.favorite.model.Favorite
-		createFavorite() {
-
+	public static Favorite createFavorite() {
 		return getService().createFavorite();
 	}
 
@@ -69,10 +64,18 @@ public class FavoriteLocalServiceUtil {
 	 * @param favoriteId the primary key for the new favorite
 	 * @return the new favorite
 	 */
-	public static eu.strasbourg.service.favorite.model.Favorite createFavorite(
-		long favoriteId) {
-
+	public static Favorite createFavorite(long favoriteId) {
 		return getService().createFavorite(favoriteId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -85,9 +88,7 @@ public class FavoriteLocalServiceUtil {
 	 * @param favorite the favorite
 	 * @return the favorite that was removed
 	 */
-	public static eu.strasbourg.service.favorite.model.Favorite deleteFavorite(
-		eu.strasbourg.service.favorite.model.Favorite favorite) {
-
+	public static Favorite deleteFavorite(Favorite favorite) {
 		return getService().deleteFavorite(favorite);
 	}
 
@@ -102,9 +103,8 @@ public class FavoriteLocalServiceUtil {
 	 * @return the favorite that was removed
 	 * @throws PortalException if a favorite with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.favorite.model.Favorite deleteFavorite(
-			long favoriteId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Favorite deleteFavorite(long favoriteId)
+		throws PortalException {
 
 		return getService().deleteFavorite(favoriteId);
 	}
@@ -118,17 +118,22 @@ public class FavoriteLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -138,9 +143,7 @@ public class FavoriteLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -156,9 +159,8 @@ public class FavoriteLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -176,10 +178,9 @@ public class FavoriteLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -191,9 +192,7 @@ public class FavoriteLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -205,15 +204,13 @@ public class FavoriteLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.favorite.model.Favorite fetchFavorite(
-		long favoriteId) {
-
+	public static Favorite fetchFavorite(long favoriteId) {
 		return getService().fetchFavorite(favoriteId);
 	}
 
@@ -226,16 +223,14 @@ public class FavoriteLocalServiceUtil {
 	/**
 	 * Retourne la liste des favoris d'un utilisateur
 	 */
-	public static java.util.List<eu.strasbourg.service.favorite.model.Favorite>
-		getByPublikUser(String publikUserId) {
-
+	public static List<Favorite> getByPublikUser(String publikUserId) {
 		return getService().getByPublikUser(publikUserId);
 	}
 
 	/**
 	 * Retourne le favori qui possede les memes donnees
 	 */
-	public static java.util.List<eu.strasbourg.service.favorite.model.Favorite>
+	public static List<Favorite>
 		getByTypeIdAndEntityIdAndPublikUserIdAndContent(
 			long type, long entityId, String publikUserId, String content) {
 
@@ -246,17 +241,15 @@ public class FavoriteLocalServiceUtil {
 	/**
 	 * Retourne la liste des favoris liferay passés en paramètre
 	 */
-	public static java.util.List<eu.strasbourg.service.favorite.model.Favorite>
-		getCSMapFavoriteById(java.util.List<Long> favoriteIds) {
-
+	public static List<Favorite> getCSMapFavoriteById(List<Long> favoriteIds) {
 		return getService().getCSMapFavoriteById(favoriteIds);
 	}
 
 	/**
 	 * Retourne la liste des favoris liferay d'un utilisateur
 	 */
-	public static java.util.List<eu.strasbourg.service.favorite.model.Favorite>
-		getCSMapFavoriteByPublikUser(String publikUserId) {
+	public static List<Favorite> getCSMapFavoriteByPublikUser(
+		String publikUserId) {
 
 		return getService().getCSMapFavoriteByPublikUser(publikUserId);
 	}
@@ -268,10 +261,7 @@ public class FavoriteLocalServiceUtil {
 	 * @return the favorite
 	 * @throws PortalException if a favorite with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.favorite.model.Favorite getFavorite(
-			long favoriteId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Favorite getFavorite(long favoriteId) throws PortalException {
 		return getService().getFavorite(favoriteId);
 	}
 
@@ -286,9 +276,7 @@ public class FavoriteLocalServiceUtil {
 	 * @param end the upper bound of the range of favorites (not inclusive)
 	 * @return the range of favorites
 	 */
-	public static java.util.List<eu.strasbourg.service.favorite.model.Favorite>
-		getFavorites(int start, int end) {
-
+	public static List<Favorite> getFavorites(int start, int end) {
 		return getService().getFavorites(start, end);
 	}
 
@@ -318,8 +306,8 @@ public class FavoriteLocalServiceUtil {
 	/**
 	 * Retourne la liste des favoris liferay d'un utilisateur
 	 */
-	public static java.util.List<eu.strasbourg.service.favorite.model.Favorite>
-		getLiferayFavoriteByPublikUser(String publikUserId) {
+	public static List<Favorite> getLiferayFavoriteByPublikUser(
+		String publikUserId) {
 
 		return getService().getLiferayFavoriteByPublikUser(publikUserId);
 	}
@@ -336,11 +324,19 @@ public class FavoriteLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
+	}
+
+	/**
+	 * Retourne si l'entité est un favori
+	 */
+	public static boolean isFavorite(
+		long entityId, long typeId, String publikUserId) {
+
+		return getService().isFavorite(entityId, typeId, publikUserId);
 	}
 
 	/**
@@ -353,31 +349,18 @@ public class FavoriteLocalServiceUtil {
 	 * @param favorite the favorite
 	 * @return the favorite that was updated
 	 */
-	public static eu.strasbourg.service.favorite.model.Favorite updateFavorite(
-		eu.strasbourg.service.favorite.model.Favorite favorite) {
-
+	public static Favorite updateFavorite(Favorite favorite) {
 		return getService().updateFavorite(favorite);
 	}
 
 	public static FavoriteLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<FavoriteLocalService, FavoriteLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(FavoriteLocalService.class);
-
-		ServiceTracker<FavoriteLocalService, FavoriteLocalService>
-			serviceTracker =
-				new ServiceTracker<FavoriteLocalService, FavoriteLocalService>(
-					bundle.getBundleContext(), FavoriteLocalService.class,
-					null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(FavoriteLocalService service) {
+		_service = service;
 	}
+
+	private static volatile FavoriteLocalService _service;
 
 }

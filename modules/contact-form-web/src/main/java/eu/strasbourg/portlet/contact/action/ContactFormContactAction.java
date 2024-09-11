@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.contact.action;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -8,7 +9,11 @@ import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
-import com.liferay.portal.kernel.template.*;
+import com.liferay.portal.kernel.template.Template;
+import com.liferay.portal.kernel.template.TemplateConstants;
+import com.liferay.portal.kernel.template.TemplateManagerUtil;
+import com.liferay.portal.kernel.template.TemplateResource;
+import com.liferay.portal.kernel.template.URLTemplateResource;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -57,8 +62,7 @@ public class ContactFormContactAction implements MVCActionCommand {
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
         ContactFormConfiguration portletConfiguration = null;
         try {
-            portletConfiguration = themeDisplay.getPortletDisplay()
-                    .getPortletInstanceConfiguration(ContactFormConfiguration.class);
+            portletConfiguration = ConfigurationProviderUtil.getPortletInstanceConfiguration(ContactFormConfiguration.class, themeDisplay);
         } catch (ConfigurationException e) {
             SessionErrors.add(request, "unknown-error");
             return false;
@@ -114,11 +118,11 @@ public class ContactFormContactAction implements MVCActionCommand {
         }
         if (!Validator.isEmailAddress(emailFrom)) {
             // Validité de l'adresse mail
-            SessionErrors.add(request, "invalid-mail");
+            SessionErrors.add(request, "invalid-mail-error");
             hasError = true;
         }
         if (hasError) {
-            return false;
+            return true;
         }
 
         // Envoi du mail au service
@@ -270,6 +274,7 @@ public class ContactFormContactAction implements MVCActionCommand {
             log.error(e);
         }
         return true;
+
     }
 
 }

@@ -1,0 +1,37 @@
+<div class="st-barre-listing-sit">
+	<div class="st-barre-inner st-wrapper form-styles">
+		<div class="col-right">
+			<button class="st-btn st--btn-filtres" data-overlay-open="st-overlay-filters">Filtrer</button>
+		</div>
+	</div>
+</div>
+
+
+<div id="st-overlay-filters" class="st-overlay st-overlay-filters" role="dialog" aria-modal="true" tabindex="0" aria-label="Modale de filtres">
+    <button class="st-btn-close" data-overlay-close="st-overlay-filters" aria-label="Fermer"></button>
+
+    <form action="#" method="get" class="st-overlay__inner form-styles" onsubmit="return submitFilterForm(event)">
+        <div class="st-overlay__body st-custom-scrollbar">
+
+            <div class="st-overlay__heading">
+                <span class="st-title-overlay st-h2">Agenda</span>
+                <span class="st-surtitre-cat">Filtrer les événements</span>
+            </div>
+					<div id="zone-bar" data-fragment-namespace="${fragmentEntryLinkNamespace}">
+						<lfr-drop-zone data-lfr-drop-zone-id="zone-bar" data-lfr-priority="1"></lfr-drop-zone>
+					</div>
+					
+					<div id="zone-overlay" data-fragment-namespace="${fragmentEntryLinkNamespace}">
+						<lfr-drop-zone data-lfr-drop-zone-id="zone-overlay" data-lfr-priority="2" ></lfr-drop-zone>
+					</div>
+					
+        <div>
+            <button class="st-btn-reset-filters st-js-btn-reset-filters">Réinitialiser les filtres</button>
+            <button class="st-btn st--btn-secondary-ghost" type="submit">Appliquer &amp; fermer</button>
+        </div>
+        </div>
+
+
+    </form>
+
+</div>

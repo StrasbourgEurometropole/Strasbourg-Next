@@ -1,7 +1,5 @@
 package eu.strasbourg.portlet.projectpopup.resource;
 
-import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetCategoryModel;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
@@ -38,7 +36,6 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.Initiative;
 import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
@@ -62,9 +59,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
-
-import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
 
 @Component(
     immediate = true,
@@ -273,8 +267,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
 			// envoi du mail aux utilisateurs
 			MailHelper.sendMailWithBCCWithHTML(fromAddress, toAddresses, bccAddress, subject, mailBody);
 		} catch (Exception e) {
-			_log.error(e);
-			e.printStackTrace();
+            _log.error(e.getMessage(), e);
 		}
     }
 	
@@ -313,11 +306,11 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
                                 									"Uploads");
                 // Ajout du fichier
                 FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
-                        sc.getUserId(), folder.getRepositoryId(),
+                        null, sc.getUserId(), folder.getRepositoryId(),
                         folder.getFolderId(), photo.getName(),
                         MimeTypesUtil.getContentType(photo),
-                        photo.getName(), initiative.getTitle(),
-                        "", imageBytes, sc);
+                        photo.getName(), "", initiative.getTitle(),
+                        "", imageBytes, null, null, sc);
                 // Lien de l'image a l'entite
                 initiative.setImageId(fileEntry.getFileEntryId());
                 

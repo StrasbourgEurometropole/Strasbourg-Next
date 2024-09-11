@@ -1,29 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.search.log.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,20 +21,12 @@ import java.util.Objects;
  * @see SearchLog
  * @generated
  */
-public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
+public class SearchLogWrapper
+	extends BaseModelWrapper<SearchLog>
+	implements ModelWrapper<SearchLog>, SearchLog {
 
 	public SearchLogWrapper(SearchLog searchLog) {
-		_searchLog = searchLog;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return SearchLog.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return SearchLog.class.getName();
+		super(searchLog);
 	}
 
 	@Override
@@ -209,15 +188,8 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	}
 
 	@Override
-	public Object clone() {
-		return new SearchLogWrapper((SearchLog)_searchLog.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.search.log.model.SearchLog searchLog) {
-
-		return _searchLog.compareTo(searchLog);
+	public SearchLog cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -227,12 +199,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public Date getDate() {
-		return _searchLog.getDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _searchLog.getExpandoBridge();
+		return model.getDate();
 	}
 
 	/**
@@ -242,7 +209,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public long getGroupId() {
-		return _searchLog.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -252,7 +219,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public String getKeywords() {
-		return _searchLog.getKeywords();
+		return model.getKeywords();
 	}
 
 	/**
@@ -262,7 +229,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public String getLanguage() {
-		return _searchLog.getLanguage();
+		return model.getLanguage();
 	}
 
 	/**
@@ -272,7 +239,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public String getLayoutFriendlyURL() {
-		return _searchLog.getLayoutFriendlyURL();
+		return model.getLayoutFriendlyURL();
 	}
 
 	/**
@@ -282,7 +249,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public Long getLayoutId() {
-		return _searchLog.getLayoutId();
+		return model.getLayoutId();
 	}
 
 	/**
@@ -292,12 +259,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _searchLog.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _searchLog.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -307,7 +269,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public long getResult1ClassId() {
-		return _searchLog.getResult1ClassId();
+		return model.getResult1ClassId();
 	}
 
 	/**
@@ -317,7 +279,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public long getResult1ClassPK() {
-		return _searchLog.getResult1ClassPK();
+		return model.getResult1ClassPK();
 	}
 
 	/**
@@ -327,7 +289,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public String getResult1Title() {
-		return _searchLog.getResult1Title();
+		return model.getResult1Title();
 	}
 
 	/**
@@ -337,7 +299,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public long getResult2ClassId() {
-		return _searchLog.getResult2ClassId();
+		return model.getResult2ClassId();
 	}
 
 	/**
@@ -347,7 +309,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public long getResult2ClassPK() {
-		return _searchLog.getResult2ClassPK();
+		return model.getResult2ClassPK();
 	}
 
 	/**
@@ -357,7 +319,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public String getResult2Title() {
-		return _searchLog.getResult2Title();
+		return model.getResult2Title();
 	}
 
 	/**
@@ -367,7 +329,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public long getResult3ClassId() {
-		return _searchLog.getResult3ClassId();
+		return model.getResult3ClassId();
 	}
 
 	/**
@@ -377,7 +339,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public long getResult3ClassPK() {
-		return _searchLog.getResult3ClassPK();
+		return model.getResult3ClassPK();
 	}
 
 	/**
@@ -387,7 +349,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public String getResult3Title() {
-		return _searchLog.getResult3Title();
+		return model.getResult3Title();
 	}
 
 	/**
@@ -397,7 +359,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public long getResultCount() {
-		return _searchLog.getResultCount();
+		return model.getResultCount();
 	}
 
 	/**
@@ -407,7 +369,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public long getSearchLogId() {
-		return _searchLog.getSearchLogId();
+		return model.getSearchLogId();
 	}
 
 	/**
@@ -417,7 +379,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public long getSearchTime() {
-		return _searchLog.getSearchTime();
+		return model.getSearchTime();
 	}
 
 	/**
@@ -427,7 +389,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public long getUserTargetClassId() {
-		return _searchLog.getUserTargetClassId();
+		return model.getUserTargetClassId();
 	}
 
 	/**
@@ -437,7 +399,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public long getUserTargetClassPK() {
-		return _searchLog.getUserTargetClassPK();
+		return model.getUserTargetClassPK();
 	}
 
 	/**
@@ -447,37 +409,12 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public String getUserTargetTitle() {
-		return _searchLog.getUserTargetTitle();
-	}
-
-	@Override
-	public int hashCode() {
-		return _searchLog.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _searchLog.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _searchLog.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _searchLog.isNew();
+		return model.getUserTargetTitle();
 	}
 
 	@Override
 	public void persist() {
-		_searchLog.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_searchLog.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -487,24 +424,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setDate(Date date) {
-		_searchLog.setDate(date);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_searchLog.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_searchLog.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_searchLog.setExpandoBridgeAttributes(serviceContext);
+		model.setDate(date);
 	}
 
 	/**
@@ -514,7 +434,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_searchLog.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -524,7 +444,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setKeywords(String keywords) {
-		_searchLog.setKeywords(keywords);
+		model.setKeywords(keywords);
 	}
 
 	/**
@@ -534,7 +454,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setLanguage(String language) {
-		_searchLog.setLanguage(language);
+		model.setLanguage(language);
 	}
 
 	/**
@@ -544,7 +464,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setLayoutFriendlyURL(String layoutFriendlyURL) {
-		_searchLog.setLayoutFriendlyURL(layoutFriendlyURL);
+		model.setLayoutFriendlyURL(layoutFriendlyURL);
 	}
 
 	/**
@@ -554,12 +474,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setLayoutId(Long layoutId) {
-		_searchLog.setLayoutId(layoutId);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_searchLog.setNew(n);
+		model.setLayoutId(layoutId);
 	}
 
 	/**
@@ -569,12 +484,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_searchLog.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_searchLog.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -584,7 +494,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setResult1ClassId(long result1ClassId) {
-		_searchLog.setResult1ClassId(result1ClassId);
+		model.setResult1ClassId(result1ClassId);
 	}
 
 	/**
@@ -594,7 +504,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setResult1ClassPK(long result1ClassPK) {
-		_searchLog.setResult1ClassPK(result1ClassPK);
+		model.setResult1ClassPK(result1ClassPK);
 	}
 
 	/**
@@ -604,7 +514,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setResult1Title(String result1Title) {
-		_searchLog.setResult1Title(result1Title);
+		model.setResult1Title(result1Title);
 	}
 
 	/**
@@ -614,7 +524,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setResult2ClassId(long result2ClassId) {
-		_searchLog.setResult2ClassId(result2ClassId);
+		model.setResult2ClassId(result2ClassId);
 	}
 
 	/**
@@ -624,7 +534,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setResult2ClassPK(long result2ClassPK) {
-		_searchLog.setResult2ClassPK(result2ClassPK);
+		model.setResult2ClassPK(result2ClassPK);
 	}
 
 	/**
@@ -634,7 +544,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setResult2Title(String result2Title) {
-		_searchLog.setResult2Title(result2Title);
+		model.setResult2Title(result2Title);
 	}
 
 	/**
@@ -644,7 +554,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setResult3ClassId(long result3ClassId) {
-		_searchLog.setResult3ClassId(result3ClassId);
+		model.setResult3ClassId(result3ClassId);
 	}
 
 	/**
@@ -654,7 +564,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setResult3ClassPK(long result3ClassPK) {
-		_searchLog.setResult3ClassPK(result3ClassPK);
+		model.setResult3ClassPK(result3ClassPK);
 	}
 
 	/**
@@ -664,7 +574,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setResult3Title(String result3Title) {
-		_searchLog.setResult3Title(result3Title);
+		model.setResult3Title(result3Title);
 	}
 
 	/**
@@ -674,7 +584,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setResultCount(long resultCount) {
-		_searchLog.setResultCount(resultCount);
+		model.setResultCount(resultCount);
 	}
 
 	/**
@@ -684,7 +594,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setSearchLogId(long searchLogId) {
-		_searchLog.setSearchLogId(searchLogId);
+		model.setSearchLogId(searchLogId);
 	}
 
 	/**
@@ -694,7 +604,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setSearchTime(long searchTime) {
-		_searchLog.setSearchTime(searchTime);
+		model.setSearchTime(searchTime);
 	}
 
 	/**
@@ -704,7 +614,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setUserTargetClassId(long userTargetClassId) {
-		_searchLog.setUserTargetClassId(userTargetClassId);
+		model.setUserTargetClassId(userTargetClassId);
 	}
 
 	/**
@@ -714,7 +624,7 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setUserTargetClassPK(long userTargetClassPK) {
-		_searchLog.setUserTargetClassPK(userTargetClassPK);
+		model.setUserTargetClassPK(userTargetClassPK);
 	}
 
 	/**
@@ -724,75 +634,17 @@ public class SearchLogWrapper implements ModelWrapper<SearchLog>, SearchLog {
 	 */
 	@Override
 	public void setUserTargetTitle(String userTargetTitle) {
-		_searchLog.setUserTargetTitle(userTargetTitle);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.search.log.model.SearchLog> toCacheModel() {
-
-		return _searchLog.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.search.log.model.SearchLog toEscapedModel() {
-		return new SearchLogWrapper(_searchLog.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _searchLog.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.search.log.model.SearchLog toUnescapedModel() {
-		return new SearchLogWrapper(_searchLog.toUnescapedModel());
+		model.setUserTargetTitle(userTargetTitle);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _searchLog.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof SearchLogWrapper)) {
-			return false;
-		}
-
-		SearchLogWrapper searchLogWrapper = (SearchLogWrapper)object;
-
-		if (Objects.equals(_searchLog, searchLogWrapper._searchLog)) {
-			return true;
-		}
-
-		return false;
+	protected SearchLogWrapper wrap(SearchLog searchLog) {
+		return new SearchLogWrapper(searchLog);
 	}
-
-	@Override
-	public SearchLog getWrappedModel() {
-		return _searchLog;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _searchLog.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _searchLog.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_searchLog.resetOriginalValues();
-	}
-
-	private final SearchLog _searchLog;
 
 }

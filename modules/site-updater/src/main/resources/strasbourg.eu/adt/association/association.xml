@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.activity.model.Association</className>
+    <template>
+        <script>association-detail.ftl</script>
+        <name>Détail Association</name>
+        <key>9402046</key>
+    </template>
+    <template>
+        <script>association-thumbnail.ftl</script>
+        <name>Vignette association</name>
+        <key>9402052</key>
+    </template>
+</root>

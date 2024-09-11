@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.project.model.Project;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for Project. This utility wraps
@@ -48,10 +48,18 @@ public class ProjectLocalServiceUtil {
 	 * @param project the project
 	 * @return the project that was added
 	 */
-	public static eu.strasbourg.service.project.model.Project addProject(
-		eu.strasbourg.service.project.model.Project project) {
-
+	public static Project addProject(Project project) {
 		return getService().addProject(project);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -60,18 +68,16 @@ public class ProjectLocalServiceUtil {
 	 * @param projectId the primary key for the new project
 	 * @return the new project
 	 */
-	public static eu.strasbourg.service.project.model.Project createProject(
-		long projectId) {
-
+	public static Project createProject(long projectId) {
 		return getService().createProject(projectId);
 	}
 
 	/**
 	 * Crée un projet vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.project.model.Project createProject(
+	public static Project createProject(
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createProject(sc);
 	}
@@ -79,10 +85,9 @@ public class ProjectLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -98,10 +103,7 @@ public class ProjectLocalServiceUtil {
 	 * @return the project that was removed
 	 * @throws PortalException if a project with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Project deleteProject(
-			long projectId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Project deleteProject(long projectId) throws PortalException {
 		return getService().deleteProject(projectId);
 	}
 
@@ -115,15 +117,19 @@ public class ProjectLocalServiceUtil {
 	 * @param project the project
 	 * @return the project that was removed
 	 */
-	public static eu.strasbourg.service.project.model.Project deleteProject(
-		eu.strasbourg.service.project.model.Project project) {
-
+	public static Project deleteProject(Project project) {
 		return getService().deleteProject(project);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -133,9 +139,7 @@ public class ProjectLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -151,9 +155,8 @@ public class ProjectLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -171,10 +174,9 @@ public class ProjectLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -186,9 +188,7 @@ public class ProjectLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -200,15 +200,13 @@ public class ProjectLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.project.model.Project fetchProject(
-		long projectId) {
-
+	public static Project fetchProject(long projectId) {
 		return getService().fetchProject(projectId);
 	}
 
@@ -219,8 +217,8 @@ public class ProjectLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching project, or <code>null</code> if a matching project could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Project
-		fetchProjectByUuidAndGroupId(String uuid, long groupId) {
+	public static Project fetchProjectByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchProjectByUuidAndGroupId(uuid, groupId);
 	}
@@ -228,17 +226,15 @@ public class ProjectLocalServiceUtil {
 	/**
 	 * Recherche par ID de catégorie
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Project>
-		findByCategoryIds(long[] categoryIds) {
-
+	public static List<Project> findByCategoryIds(long[] categoryIds) {
 		return getService().findByCategoryIds(categoryIds);
 	}
 
 	/**
 	 * Recherche par mot clés
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Project>
-		findByKeyword(String keyword, long groupId, int start, int end) {
+	public static List<Project> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -250,8 +246,8 @@ public class ProjectLocalServiceUtil {
 		return getService().findByKeywordCount(keyword, groupId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.project.model.Project>
-		findProjectFollowedByProjectId(String publicId) {
+	public static List<Project> findProjectFollowedByProjectId(
+		String publicId) {
 
 		return getService().findProjectFollowedByProjectId(publicId);
 	}
@@ -265,7 +261,7 @@ public class ProjectLocalServiceUtil {
 	/**
 	 * Renvoie la liste des vocabulaires rattachés à un projet
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -274,9 +270,7 @@ public class ProjectLocalServiceUtil {
 	/**
 	 * Retourne tous les projets d'un groupe
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Project>
-		getByGroupId(long groupId) {
-
+	public static List<Project> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
@@ -307,9 +301,8 @@ public class ProjectLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -321,10 +314,7 @@ public class ProjectLocalServiceUtil {
 	 * @return the project
 	 * @throws PortalException if a project with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Project getProject(
-			long projectId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Project getProject(long projectId) throws PortalException {
 		return getService().getProject(projectId);
 	}
 
@@ -336,9 +326,8 @@ public class ProjectLocalServiceUtil {
 	 * @return the matching project
 	 * @throws PortalException if a matching project could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Project
-			getProjectByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Project getProjectByUuidAndGroupId(String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getProjectByUuidAndGroupId(uuid, groupId);
 	}
@@ -354,9 +343,7 @@ public class ProjectLocalServiceUtil {
 	 * @param end the upper bound of the range of projects (not inclusive)
 	 * @return the range of projects
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Project>
-		getProjects(int start, int end) {
-
+	public static List<Project> getProjects(int start, int end) {
 		return getService().getProjects(start, end);
 	}
 
@@ -367,8 +354,8 @@ public class ProjectLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching projects, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Project>
-		getProjectsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Project> getProjectsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getProjectsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -383,12 +370,9 @@ public class ProjectLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching projects, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Project>
-		getProjectsByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.project.model.Project>
-					orderByComparator) {
+	public static List<Project> getProjectsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Project> orderByComparator) {
 
 		return getService().getProjectsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -406,19 +390,14 @@ public class ProjectLocalServiceUtil {
 	/**
 	 * Retourne tous les projets publiés d'un groupe
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Project>
-		getPublishedByGroupId(long groupId) {
-
+	public static List<Project> getPublishedByGroupId(long groupId) {
 		return getService().getPublishedByGroupId(groupId);
 	}
 
 	/**
 	 * Supprime un projet
 	 */
-	public static eu.strasbourg.service.project.model.Project removeProject(
-			long projectId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Project removeProject(long projectId) throws PortalException {
 		return getService().removeProject(projectId);
 	}
 
@@ -432,9 +411,7 @@ public class ProjectLocalServiceUtil {
 	 * @param project the project
 	 * @return the project that was updated
 	 */
-	public static eu.strasbourg.service.project.model.Project updateProject(
-		eu.strasbourg.service.project.model.Project project) {
-
+	public static Project updateProject(Project project) {
 		return getService().updateProject(project);
 	}
 
@@ -443,10 +420,10 @@ public class ProjectLocalServiceUtil {
 	 *
 	 * @throws IOException
 	 */
-	public static eu.strasbourg.service.project.model.Project updateProject(
-			eu.strasbourg.service.project.model.Project project,
+	public static Project updateProject(
+			Project project,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().updateProject(project, sc);
 	}
@@ -454,11 +431,11 @@ public class ProjectLocalServiceUtil {
 	/**
 	 * Met à jour le statut du projet par le framework workflow
 	 */
-	public static eu.strasbourg.service.project.model.Project updateStatus(
+	public static Project updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
@@ -467,31 +444,20 @@ public class ProjectLocalServiceUtil {
 	/**
 	 * Met à jour le statut du projet "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.project.model.Project project, int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(Project project, int status)
+		throws PortalException {
 
 		getService().updateStatus(project, status);
 	}
 
 	public static ProjectLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<ProjectLocalService, ProjectLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(ProjectLocalService.class);
-
-		ServiceTracker<ProjectLocalService, ProjectLocalService>
-			serviceTracker =
-				new ServiceTracker<ProjectLocalService, ProjectLocalService>(
-					bundle.getBundleContext(), ProjectLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(ProjectLocalService service) {
+		_service = service;
 	}
+
+	private static volatile ProjectLocalService _service;
 
 }

@@ -1,9 +1,9 @@
 package eu.strasbourg.portlet.sectorized.display.context;
 
+import eu.strasbourg.service.place.model.Place;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import eu.strasbourg.service.place.model.Place;
 
 public class SectorizedPlacesDisplayContext {
 

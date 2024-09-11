@@ -32,8 +32,7 @@ public class SelectionActionCommand implements MVCActionCommand {
 		String tab = ParamUtil.getString(actionRequest, "tab");
 
 		try {
-			long[] selectionIds = StringUtil.split(
-					ParamUtil.getString(actionRequest, "selectionIds"), 0L);
+			long[] selectionIds = ParamUtil.getLongValues(actionRequest, "rowIds");
 
 			for (long entryId : selectionIds) {
 				switch (ParamUtil.getString(actionRequest, "cmd")) {

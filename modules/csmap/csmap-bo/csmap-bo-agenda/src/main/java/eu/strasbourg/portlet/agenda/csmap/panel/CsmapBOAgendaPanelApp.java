@@ -4,7 +4,6 @@ import com.liferay.application.list.BasePanelApp;
 import com.liferay.application.list.PanelApp;
 import com.liferay.application.list.constants.PanelCategoryKeys;
 import com.liferay.portal.kernel.model.Portlet;
-import eu.strasbourg.portlet.agenda.csmap.constants.CsmapBoAgendaPortletKeys;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -12,7 +11,7 @@ import org.osgi.service.component.annotations.Reference;
 @Component(
 		immediate = true,
 		property = {
-				"panel.app.order:Integer=259",
+				"panel.app.order:Integer=462",
 				"panel.category.key=" + PanelCategoryKeys.SITE_ADMINISTRATION_CONTENT
 		},
 		service = PanelApp.class
@@ -25,11 +24,12 @@ public class CsmapBOAgendaPanelApp extends BasePanelApp {
 	}
 
 	@Override
-	@Reference(
-			target = "(javax.portlet.name=" + CsmapBoAgendaPortletKeys.CSMAPBOAGENDA + ")",
-			unbind = "-"
-	)
-	public void setPortlet(Portlet portlet) {
-		super.setPortlet(portlet);
+	public Portlet getPortlet() {
+		return _portlet;
 	}
+
+	@Reference(
+			target = "(javax.portlet.name=" + StrasbourgPortletKeys.CSMAP_BO_AGENDA + ")"
+	)
+	private Portlet _portlet;
 }

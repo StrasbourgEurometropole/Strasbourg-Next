@@ -15,6 +15,7 @@
  */
 package eu.strasbourg.portlet.place.action;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -63,14 +64,15 @@ public class SavePriceActionCommand implements MVCActionCommand {
 						.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request
 						.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				PortletURL backURL = PortletURLFactoryUtil.create(request,
 						portletName, themeDisplay.getPlid(),
 						PortletRequest.RENDER_PHASE);
-				returnURL.setParameter("tab", request.getParameter("tab"));
+				backURL.setParameter("tab", request.getParameter("tab"));
 
-				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("backURL", backURL.toString());
 				response.setRenderParameter("mvcPath",
 						"/place-bo-edit-price.jsp");
+				response.setRenderParameter("cmd", "savePrice");
 				return false;
 			}
 
@@ -104,11 +106,14 @@ public class SavePriceActionCommand implements MVCActionCommand {
 			}
 
 			_priceLocalService.updatePrice(price, sc);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+			_log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 
 	/**

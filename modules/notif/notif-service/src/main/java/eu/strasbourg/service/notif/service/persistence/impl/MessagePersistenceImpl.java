@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notif.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,25 +16,25 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.notif.exception.NoSuchMessageException;
 import eu.strasbourg.service.notif.model.Message;
+import eu.strasbourg.service.notif.model.MessageTable;
 import eu.strasbourg.service.notif.model.impl.MessageImpl;
 import eu.strasbourg.service.notif.model.impl.MessageModelImpl;
 import eu.strasbourg.service.notif.service.persistence.MessagePersistence;
+import eu.strasbourg.service.notif.service.persistence.MessageUtil;
 
 import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -231,10 +223,6 @@ public class MessagePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -559,8 +547,6 @@ public class MessagePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -576,6 +562,11 @@ public class MessagePersistenceImpl
 
 	public MessagePersistenceImpl() {
 		setModelClass(Message.class);
+
+		setModelImplClass(MessageImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(MessageTable.INSTANCE);
 	}
 
 	/**
@@ -586,11 +577,10 @@ public class MessagePersistenceImpl
 	@Override
 	public void cacheResult(Message message) {
 		entityCache.putResult(
-			MessageModelImpl.ENTITY_CACHE_ENABLED, MessageImpl.class,
-			message.getPrimaryKey(), message);
-
-		message.resetOriginalValues();
+			MessageImpl.class, message.getPrimaryKey(), message);
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the messages in the entity cache if it is enabled.
@@ -599,15 +589,18 @@ public class MessagePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Message> messages) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (messages.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Message message : messages) {
 			if (entityCache.getResult(
-					MessageModelImpl.ENTITY_CACHE_ENABLED, MessageImpl.class,
-					message.getPrimaryKey()) == null) {
+					MessageImpl.class, message.getPrimaryKey()) == null) {
 
 				cacheResult(message);
-			}
-			else {
-				message.resetOriginalValues();
 			}
 		}
 	}
@@ -623,9 +616,7 @@ public class MessagePersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(MessageImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(MessageImpl.class);
 	}
 
 	/**
@@ -637,35 +628,22 @@ public class MessagePersistenceImpl
 	 */
 	@Override
 	public void clearCache(Message message) {
-		entityCache.removeResult(
-			MessageModelImpl.ENTITY_CACHE_ENABLED, MessageImpl.class,
-			message.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(MessageImpl.class, message);
 	}
 
 	@Override
 	public void clearCache(List<Message> messages) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Message message : messages) {
-			entityCache.removeResult(
-				MessageModelImpl.ENTITY_CACHE_ENABLED, MessageImpl.class,
-				message.getPrimaryKey());
+			entityCache.removeResult(MessageImpl.class, message);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(MessageImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				MessageModelImpl.ENTITY_CACHE_ENABLED, MessageImpl.class,
-				primaryKey);
+			entityCache.removeResult(MessageImpl.class, primaryKey);
 		}
 	}
 
@@ -795,10 +773,8 @@ public class MessagePersistenceImpl
 		try {
 			session = openSession();
 
-			if (message.isNew()) {
+			if (isNew) {
 				session.save(message);
-
-				message.setNew(false);
 			}
 			else {
 				message = (Message)session.merge(message);
@@ -811,46 +787,11 @@ public class MessagePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(MessageImpl.class, messageModelImpl, false, true);
 
-		if (!MessageModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		if (isNew) {
+			message.setNew(false);
 		}
-		else if (isNew) {
-			Object[] args = new Object[] {messageModelImpl.getServiceId()};
-
-			finderCache.removeResult(_finderPathCountByServiceId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByServiceId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((messageModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByServiceId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					messageModelImpl.getOriginalServiceId()
-				};
-
-				finderCache.removeResult(_finderPathCountByServiceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByServiceId, args);
-
-				args = new Object[] {messageModelImpl.getServiceId()};
-
-				finderCache.removeResult(_finderPathCountByServiceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByServiceId, args);
-			}
-		}
-
-		entityCache.putResult(
-			MessageModelImpl.ENTITY_CACHE_ENABLED, MessageImpl.class,
-			message.getPrimaryKey(), message, false);
 
 		message.resetOriginalValues();
 
@@ -899,159 +840,12 @@ public class MessagePersistenceImpl
 	/**
 	 * Returns the message with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the message
-	 * @return the message, or <code>null</code> if a message with the primary key could not be found
-	 */
-	@Override
-	public Message fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			MessageModelImpl.ENTITY_CACHE_ENABLED, MessageImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Message message = (Message)serializable;
-
-		if (message == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				message = (Message)session.get(MessageImpl.class, primaryKey);
-
-				if (message != null) {
-					cacheResult(message);
-				}
-				else {
-					entityCache.putResult(
-						MessageModelImpl.ENTITY_CACHE_ENABLED,
-						MessageImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					MessageModelImpl.ENTITY_CACHE_ENABLED, MessageImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return message;
-	}
-
-	/**
-	 * Returns the message with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param messageId the primary key of the message
 	 * @return the message, or <code>null</code> if a message with the primary key could not be found
 	 */
 	@Override
 	public Message fetchByPrimaryKey(long messageId) {
 		return fetchByPrimaryKey((Serializable)messageId);
-	}
-
-	@Override
-	public Map<Serializable, Message> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Message> map = new HashMap<Serializable, Message>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Message message = fetchByPrimaryKey(primaryKey);
-
-			if (message != null) {
-				map.put(primaryKey, message);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				MessageModelImpl.ENTITY_CACHE_ENABLED, MessageImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Message)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_MESSAGE_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Message message : (List<Message>)query.list()) {
-				map.put(message.getPrimaryKeyObj(), message);
-
-				cacheResult(message);
-
-				uncachedPrimaryKeys.remove(message.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					MessageModelImpl.ENTITY_CACHE_ENABLED, MessageImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1178,10 +972,6 @@ public class MessagePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1227,9 +1017,6 @@ public class MessagePersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1241,6 +1028,21 @@ public class MessagePersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "messageId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_MESSAGE;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return MessageModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1249,51 +1051,46 @@ public class MessagePersistenceImpl
 	 * Initializes the message persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			MessageModelImpl.ENTITY_CACHE_ENABLED,
-			MessageModelImpl.FINDER_CACHE_ENABLED, MessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			MessageModelImpl.ENTITY_CACHE_ENABLED,
-			MessageModelImpl.FINDER_CACHE_ENABLED, MessageImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			MessageModelImpl.ENTITY_CACHE_ENABLED,
-			MessageModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByServiceId = new FinderPath(
-			MessageModelImpl.ENTITY_CACHE_ENABLED,
-			MessageModelImpl.FINDER_CACHE_ENABLED, MessageImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByServiceId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"serviceId"}, true);
 
 		_finderPathWithoutPaginationFindByServiceId = new FinderPath(
-			MessageModelImpl.ENTITY_CACHE_ENABLED,
-			MessageModelImpl.FINDER_CACHE_ENABLED, MessageImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByServiceId",
-			new String[] {Long.class.getName()},
-			MessageModelImpl.SERVICEID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"serviceId"},
+			true);
 
 		_finderPathCountByServiceId = new FinderPath(
-			MessageModelImpl.ENTITY_CACHE_ENABLED,
-			MessageModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByServiceId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"serviceId"},
+			false);
+
+		MessageUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		MessageUtil.setPersistence(null);
+
 		entityCache.removeCache(MessageImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1304,9 +1101,6 @@ public class MessagePersistenceImpl
 
 	private static final String _SQL_SELECT_MESSAGE =
 		"SELECT message FROM Message message";
-
-	private static final String _SQL_SELECT_MESSAGE_WHERE_PKS_IN =
-		"SELECT message FROM Message message WHERE messageId IN (";
 
 	private static final String _SQL_SELECT_MESSAGE_WHERE =
 		"SELECT message FROM Message message WHERE ";
@@ -1327,5 +1121,10 @@ public class MessagePersistenceImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		MessagePersistenceImpl.class);
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

@@ -14,10 +14,13 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -37,19 +40,17 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
+import eu.strasbourg.service.agenda.model.AgendaExport;
+import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
+import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalServiceUtil;
+import eu.strasbourg.service.agenda.service.base.AgendaExportLocalServiceBaseImpl;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import eu.strasbourg.service.agenda.model.AgendaExport;
-import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
-import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalService;
-import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalServiceUtil;
-import eu.strasbourg.service.agenda.service.base.AgendaExportLocalServiceBaseImpl;
-import eu.strasbourg.utils.AssetVocabularyHelper;
-import org.osgi.service.component.annotations.Reference;
 
 /**
  * The implementation of the agenda export local service.
@@ -240,10 +241,8 @@ public class AgendaExportLocalServiceImpl
 
 		if (entry != null) {
 			// Delete the link with categories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(categoryId, entry.getEntryId());
-			}
-
+			AssetEntryAssetCategoryRelLocalServiceUtil.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Delete the link with tags
 			long[] tagIds = AssetEntryLocalServiceUtil.getAssetTagPrimaryKeys(entry.getEntryId());
 			for (int i = 0; i < tagIds.length; i++) {
@@ -351,4 +350,7 @@ public class AgendaExportLocalServiceImpl
 
 		return agendaExportPersistence.countWithDynamicQuery(dynamicQuery);
 	}
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

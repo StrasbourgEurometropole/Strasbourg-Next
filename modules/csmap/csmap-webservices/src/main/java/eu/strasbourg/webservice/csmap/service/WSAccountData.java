@@ -6,10 +6,6 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.portlet.familySpace.Family;
-import eu.strasbourg.portlet.familySpace.FamilySpaceResponse;
-import eu.strasbourg.portlet.familySpace.FamilySpaceWebService;
-import eu.strasbourg.portlet.familySpace.Person;
 import eu.strasbourg.portlet.mediatheque.borrower.BorrowerResponse;
 import eu.strasbourg.portlet.mediatheque.borrower.BorrowerWebService;
 import eu.strasbourg.portlet.mediatheque.borrower.Media;
@@ -317,83 +313,17 @@ public class WSAccountData {
     }
 
     /**
-     * Appelle le WS Famille et renvoie les familles
+     * renvoie les infos du kiosque famille
      */
-    public static JSONObject getFamily(String publicUserId, int timeOut) {
+    public static JSONObject getFamily() {
 
         JSONObject response = JSONFactoryUtil.createJSONObject();
-        response.put(WSConstants.JSON_URL, StrasbourgPropsUtil.getFamilySpaceURL());
+        response.put(WSConstants.JSON_URL, StrasbourgPropsUtil.getFamilyKioskURL());
         response.put(WSConstants.JSON_LABELURL, WSConstants.FAMILY_SITE);
-
-        FamilySpaceResponse familySpaceResponse = FamilySpaceWebService.getResponse(publicUserId, timeOut);
-
-        // Pas de réponse
-        if (Validator.isNull(familySpaceResponse)) {
-            response.put(WSConstants.JSON_RESPONSE_CODE, 500);
-            response.put(WSConstants.JSON_ERROR_DESCRIPTION, "Une erreur technique est survenue");
-            response.put(WSConstants.JSON_ERROR_TECHNICAL, "Le service est momentan\u00E9ment indisponible, veuillez r\u00E9essayer ult\u00E9rieurement.");
-            return response;
-        }
-
+        response.put(WSConstants.JSON_MESSAGE, WSConstants.FAMILY_MESSAGE);
         response.put(WSConstants.JSON_RESPONSE_CODE, 200);
-
-        // Erreur renvoyé par le webservice
-        if (familySpaceResponse.getCodeRetour() == 1) {
-            response.put(WSConstants.JSON_MESSAGE, familySpaceResponse.getErreurDescription());
-            return response;
-        }
-
-        // Pas de comptes liés
-        if (familySpaceResponse.getCount() == 0) {
-            response.put(WSConstants.JSON_MESSAGE, WSConstants.FAMILY_MESSAGE);
-            return response;
-        }
-
-        // tout va bien :D
-        List<Family> families = familySpaceResponse.getFamilies();
-        JSONArray familiesJson = JSONFactoryUtil.createJSONArray();
-        for (Family family : families) {
-            JSONObject familyJson = JSONFactoryUtil.createJSONObject();
-            if(Validator.isNotNull(family.getIdFamily()))
-                familyJson.put("familyId", family.getIdFamily());
-
-            List<Person> persons = family.getPersons();
-            if (persons.isEmpty()) {
-                familyJson.put("messageNoKids", "Aucun enfant n'est actuellement inscrit \u00e0 la cantine scolaire");
-            } else {
-                JSONArray kidsJson = JSONFactoryUtil.createJSONArray();
-                for (Person person : persons) {
-                    JSONObject kidJson = JSONFactoryUtil.createJSONObject();
-                    kidJson.put("firstname", person.getFirstName());
-                    kidJson.put("lastname", person.getLastName());
-
-                    if (person.getHasLunchBooked()) {
-                        LocalDate firstBookingDate = person.getFirstBookingDate();
-                        LocalDate lastBookingDate = person.getLastBookingDate();
-                        StringBuilder stringBuilder = new StringBuilder();
-                        stringBuilder.append("R\u00e9serv\u00e9(s) \u00e0 partir du ")
-                                .append(firstBookingDate.format(formatter))
-                                .append(" jusqu'au ")
-                                .append(lastBookingDate.format(formatter));
-                        kidJson.put("lunchBookedPeriod", stringBuilder.toString());
-
-                        if (LocalDate.now().plusDays(13).isAfter(lastBookingDate)) {
-                            stringBuilder = new StringBuilder();
-                            stringBuilder.append("Le dernier jour r\u00e9serv\u00e9 est le ")
-                                    .append(lastBookingDate.format(formatter))
-                                    .append(", pensez \u00e0 r\u00e9server les repas de votre enfant le mercredi pr\u00e9c\u00e9dent le jour \u00e0 r\u00e9server.");
-                            kidJson.put("messageWarningLunchBooked", stringBuilder.toString());
-                        }
-                    }
-                    kidsJson.put(kidJson);
-                }
-                familyJson.put("kids", kidsJson);
-            }
-            familiesJson.put(familyJson);
-        }
-        response.put(WSConstants.JSON_FAMILIES, familiesJson);
-
         return response;
+
     }
 
     /**

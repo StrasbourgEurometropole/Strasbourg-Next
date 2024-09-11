@@ -6,10 +6,12 @@
 <liferay-portlet:actionURL name="saveNotification" varImpl="saveNotificationURL">
 	<portlet:param name="cmd" value="saveNotification" />
 	<portlet:param name="tab" value="notifications" />
+    <portlet:param name="mvcPath" value="/notif-bo-view-notifications.jsp" />
+    <portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body ejob-bo">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
 	<liferay-ui:error key="service-error" message="eu.strasbourg.notification.service-error" />
@@ -34,7 +36,7 @@
 
 		<%-- Propriete : definit l'entite de reference pour le formulaire--%>
 		<aui:model-context bean="${dc.notification}" model="<%=Notification.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+        <div class="sheet"><div class="panel-group panel-group-flush">
 
 			<%-- Champ : (cache) PK de l'entite --%>
 			<aui:input name="notificationId" type="hidden" />
@@ -206,7 +208,7 @@
                     </table>
                 </aui:fieldset>
             </c:if>
-		</aui:fieldset-group>
+        </div></div>
 
 		<%-- Composant : Menu de gestion de l'entite --%>
 		<aui:button-row>
@@ -229,8 +231,10 @@
             <liferay-portlet:actionURL name="deleteNotification" var="deleteNotificationURL">
                 <portlet:param name="cmd" value="deleteNotification" />
                 <portlet:param name="tab" value="notifications" />
+                <portlet:param name="mvcPath" value="/notif-bo-view-notifications.jsp" />
                 <portlet:param name="notificationId"
                     value="${not empty dc.notification ? dc.notification.notificationId : ''}" />
+                <portlet:param name="backURL" value="${param.backURL}" />
             </liferay-portlet:actionURL>
 			<c:if test="${not empty dc.notification && dc.hasPermission('DELETE_NOTIFICATION') and empty themeDisplay.scopeGroup.getStagingGroup()}">
                 <c:if test="${!dc.notification.new and dc.canUpdateOrDeleteNotification()}">
@@ -239,7 +243,7 @@
 			</c:if>
 
 			<%-- Composant : bouton de retour a la liste des entites --%>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 
 		</aui:button-row>
 

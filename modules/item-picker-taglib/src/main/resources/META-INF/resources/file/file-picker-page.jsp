@@ -11,7 +11,7 @@
 				</c:if>
 				<c:if test="${required}">
 					<span class="icon-asterisk text-warning"> 
-						<span class="hide-accessible"><liferay-ui:message key="required" /></span>
+						<span class="sr-only"><liferay-ui:message key="required" /></span>
 					</span>
 				</c:if>
 			</label>
@@ -47,20 +47,18 @@
 			</c:if>
 		</div>
 	</div>
-	<aui:script use="liferay-item-selector-dialog">
+	<aui:script>
 	// JS gérant l'ouverture du popup de selection du fichier
 	$('#<portlet:namespace />choose-file-${name}-${currentLocale}').on('click',
 		function(event) {
 			var multipleSelection = ${multiple};
 			var localized = ${localized};
 			var fieldName = localized ? '#<portlet:namespace />${name}_${currentLocale}' : '#<portlet:namespace />${name}';
-			var itemSelectorDialog = new A.LiferayItemSelectorDialog(
+			Liferay.Util.openSelectionModal(
 				{
-					eventName: 'itemSelected${name}${currentLocale.language}',
-					on: {
-						// Evénement déclenché lors de la sélection d'un fichier
-						selectedItemChange: function(event) {
-							var selectedItem = event.newVal;
+					selectEventName: 'itemSelected${name}${currentLocale.language}',
+					// Evénement déclenché lors de la sélection d'un fichier
+					onSelect: function(selectedItem) {
 							if (!!selectedItem && !!selectedItem.value) {
 								var itemValue = JSON.parse(selectedItem.value);
 								var htmlToAppend = '<li>'
@@ -82,14 +80,12 @@
 									$(fieldName).val(newValue);
 								}							
 							}
-						}
-					},
+						},
 					title: '<liferay-ui:message key="file"/>',
 					<c:set var="itemSelectorURLVarName" value="itemSelectorURL${currentLocale.language}" />
 					url: '${requestScope[itemSelectorURLVarName]}'
 				}
 			);
-			itemSelectorDialog.open();
 		}
 	);
 	// Suppression d'un fichier

@@ -1,21 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.strasbourg.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -24,25 +16,24 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.strasbourg.model.Strasbourg;
 import eu.strasbourg.service.strasbourg.model.StrasbourgModel;
-import eu.strasbourg.service.strasbourg.model.StrasbourgSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -97,63 +88,36 @@ public class StrasbourgModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.strasbourg.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.strasbourg.model.Strasbourg"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.strasbourg.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.strasbourg.model.Strasbourg"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.strasbourg.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.strasbourg.model.Strasbourg"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ID_COLUMN_BITMASK = 2L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Strasbourg toModel(StrasbourgSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Strasbourg model = new StrasbourgImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setId(soapModel.getId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Strasbourg> toModels(StrasbourgSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Strasbourg> models = new ArrayList<Strasbourg>(soapModels.length);
-
-		for (StrasbourgSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.strasbourg.service.util.PropsUtil.get(
@@ -210,9 +174,6 @@ public class StrasbourgModelImpl
 				attributeName, attributeGetterFunction.apply((Strasbourg)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -237,99 +198,51 @@ public class StrasbourgModelImpl
 	public Map<String, Function<Strasbourg, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Strasbourg, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Strasbourg>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Strasbourg.class.getClassLoader(), Strasbourg.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<Strasbourg, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Strasbourg> constructor =
-				(Constructor<Strasbourg>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Strasbourg, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Strasbourg, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Strasbourg::getUuid);
+			attributeGetterFunctions.put("id", Strasbourg::getId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Strasbourg, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Strasbourg, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<Strasbourg, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Strasbourg, Object>>();
-		Map<String, BiConsumer<Strasbourg, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Strasbourg, ?>>();
+		private static final Map<String, BiConsumer<Strasbourg, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Strasbourg, Object>() {
+		static {
+			Map<String, BiConsumer<Strasbourg, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Strasbourg, ?>>();
 
-				@Override
-				public Object apply(Strasbourg strasbourg) {
-					return strasbourg.getUuid();
-				}
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Strasbourg, String>)Strasbourg::setUuid);
+			attributeSetterBiConsumers.put(
+				"id", (BiConsumer<Strasbourg, Long>)Strasbourg::setId);
 
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Strasbourg, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(Strasbourg strasbourg, Object uuidObject) {
-					strasbourg.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"id",
-			new Function<Strasbourg, Object>() {
-
-				@Override
-				public Object apply(Strasbourg strasbourg) {
-					return strasbourg.getId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"id",
-			new BiConsumer<Strasbourg, Object>() {
-
-				@Override
-				public void accept(Strasbourg strasbourg, Object idObject) {
-					strasbourg.setId((Long)idObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -345,17 +258,20 @@ public class StrasbourgModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -366,10 +282,34 @@ public class StrasbourgModelImpl
 
 	@Override
 	public void setId(long id) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_id = id;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -409,6 +349,16 @@ public class StrasbourgModelImpl
 		strasbourgImpl.setId(getId());
 
 		strasbourgImpl.resetOriginalValues();
+
+		return strasbourgImpl;
+	}
+
+	@Override
+	public Strasbourg cloneWithOriginalValues() {
+		StrasbourgImpl strasbourgImpl = new StrasbourgImpl();
+
+		strasbourgImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		strasbourgImpl.setId(this.<Long>getColumnOriginalValue("id_"));
 
 		return strasbourgImpl;
 	}
@@ -455,11 +405,19 @@ public class StrasbourgModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -467,11 +425,9 @@ public class StrasbourgModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		StrasbourgModelImpl strasbourgModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		strasbourgModelImpl._originalUuid = strasbourgModelImpl._uuid;
-
-		strasbourgModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -497,7 +453,7 @@ public class StrasbourgModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -508,9 +464,26 @@ public class StrasbourgModelImpl
 			Function<Strasbourg, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Strasbourg)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Strasbourg)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -523,47 +496,81 @@ public class StrasbourgModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Strasbourg, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Strasbourg, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Strasbourg, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Strasbourg)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Strasbourg>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Strasbourg.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _id;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Strasbourg, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Strasbourg)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("id_", _id);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("id_", "id");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("id_", 2L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Strasbourg _escapedModel;
 

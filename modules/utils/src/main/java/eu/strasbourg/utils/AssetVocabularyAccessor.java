@@ -61,6 +61,30 @@ public class AssetVocabularyAccessor {
 			return null;
 		}		
 	}
+
+	public AssetVocabulary getSaisineDispositif(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.SAISINE_DISPOSITIF, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public AssetVocabulary getSaisineEnTantQue(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.SAISINE_EN_TANT_QUE, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public AssetVocabulary getSaisineStatus(long groupID) {
+		try {
+			return AssetVocabularyHelper.getVocabulary(VocabularyNames.SAISINE_STATUS, groupID);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 	
 	public AssetVocabulary getBudgetParticipatifStatus(long groupID) {
 		try {
@@ -209,78 +233,6 @@ public class AssetVocabularyAccessor {
 	public AssetVocabulary getCouncilOfficialActivity(long groupID) {
 		try {
 			return AssetVocabularyHelper.getVocabulary(VocabularyNames.COUNCIL_OFFICIAL_ACTIVITY, groupID);
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
-	public static AssetVocabulary getEJobFilieres(long groupID) {
-		try {
-			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_FILIERES, groupID);
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
-	public static AssetVocabulary getEJobCategories(long groupID) {
-		try {
-			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_CATEGORIES, groupID);
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
-	public static AssetVocabulary getEJobTypeRecrutement(long groupID) {
-		try {
-			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_TYPE_RECRUTEMENT, groupID);
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
-	public static AssetVocabulary getEJobDirection(long groupID) {
-		try {
-			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_DIRECTION, groupID);
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
-	public static AssetVocabulary getEJobNiveauEtude(long groupID) {
-		try {
-			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_NIVEAU_ETUDE, groupID);
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
-	public static AssetVocabulary getEJobFamille(long groupID) {
-		try {
-			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_FAMILLE, groupID);
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
-	public static AssetVocabulary getEJobContact(long groupID) {
-		try {
-			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_CONTACT, groupID);
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
-	public static AssetVocabulary getEJobTypePublication(long groupID) {
-		try {
-			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_INTERNE_EXTERNE, groupID);
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
-	public static AssetVocabulary getEJobMotif(long groupID) {
-		try {
-			return AssetVocabularyHelper.getVocabulary(VocabularyNames.EJOB_MOTIF, groupID);
 		} catch (Exception e) {
 			return null;
 		}

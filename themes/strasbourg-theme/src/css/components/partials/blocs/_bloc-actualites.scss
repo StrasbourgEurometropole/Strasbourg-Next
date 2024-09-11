@@ -1,0 +1,120 @@
+.st-bloc-actu {
+	.st-bloc-actu__inner {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.st-titre {
+		margin-bottom: 30px;
+
+		@include mobile {
+			margin-bottom: 16px;
+		}
+	}
+
+	.splide__track {
+		@include tablet-portrait {
+			margin-left: calc(var(--border-gutter) * -1);
+			margin-right: calc(var(--border-gutter) * -1);
+			padding-left: var(--border-gutter) !important;
+			padding-right: var(--border-gutter) !important;
+			-webkit-mask-image: linear-gradient(to left, transparent, red var(--border-gutter), red calc(100% - var(--border-gutter)), transparent);
+			//background-image: linear-gradient(to left, transparent, red var(--border-gutter), red calc(100% - var(--border-gutter)), transparent);
+		}
+	}
+
+	.st-cards-wrapper {
+		// passe du mode slider au mode grille
+		@include min-tablet-portrait {
+			display: grid !important;
+			gap: 20px;
+			grid-template-columns: repeat(4, minmax(10px, 1fr));
+		}
+
+		.splide__slide {
+			@include tablet-portrait {
+				width: calc(100% - 20px);
+				max-width: 220px;
+				margin-right: var(--slide-gap);
+			}
+		}
+	}
+
+	.st-btn-cta {
+		margin-top: 20px;
+
+		@include min-tablet-portrait {
+			margin-bottom: 20px;
+		}
+	}
+
+	.st-nav-dots {
+		margin-top: 20px;
+		justify-content: flex-end;
+	}
+
+	
+	// --modifiers
+	&.st--in-home {
+		.st-bloc-actu__inner {
+			padding-top: 40px;
+			padding-bottom: 40px;
+			border-bottom: 1px solid $c_border;
+		}
+
+		.st-btn-cta {
+			align-self: flex-end;
+		}
+
+		.st-cards-wrapper {
+			// passe du mode slider au mode grille
+			@include min-tablet-portrait {
+				> li:nth-child(1),
+				> li:nth-child(2) {
+					grid-column: span 2;
+				}
+			}
+		}
+
+		// actus dans un composant view-more seulement au-dessus de tablette
+		.st-component-container {
+			.st-limit-height {
+				--max-height-desktop: 41.875rem;
+				display: flex;
+				flex-direction: column;
+	
+				@include tablet-portrait {
+					max-height: initial;
+					overflow: initial;
+					padding-bottom: initial;
+	
+					&:after {
+						display: none;
+					}
+				}
+			}
+	
+			.st-show-more {
+				@include tablet-portrait {
+					display: none !important;
+				}
+			}
+		}
+	}
+
+	&.st--with-anchors {
+		// supprime les marges du wrapper pour les shadows du slider
+		@include tablet-portrait {
+			margin-left: initial;
+			margin-right: initial;
+		}
+
+		.st-bloc-actu__inner {
+			// remet les marges du wrapper pour les shadows du slider
+			@include tablet-portrait {
+				margin-left: var(--border-gutter);
+				margin-right: var(--border-gutter);
+			}
+		}
+	}
+}

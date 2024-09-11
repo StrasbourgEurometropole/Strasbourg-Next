@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Entête simple</name>
+        <key>6009581</key>
+        <definition>entete-simple-structure.json</definition>
+        <layout>entete-simple-layout.json</layout>
+    </structure>
+    <template>
+        <name>Entête simple</name>
+        <key>6009786</key>
+        <script>entete de page simple.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

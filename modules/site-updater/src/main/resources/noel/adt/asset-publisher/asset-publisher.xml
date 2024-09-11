@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.asset.kernel.model.AssetEntry</className>
+    <template>
+        <script>home-events-slider.ftl</script>
+        <name>Slider Home evenement</name>
+        <key>2206678</key>
+    </template>
+    <template>
+        <script>home-news.ftl</script>
+        <name>Actu accueil</name>
+        <key>2206684</key>
+    </template>
+    <template>
+        <script>all-news.ftl</script>
+        <name>Liste d'actualités</name>
+        <key>2208001</key>
+    </template>
+    <template>
+        <script>events-big-slider.ftl</script>
+        <name>Gros slider événements</name>
+        <key>2213029</key>
+    </template>
+    <template>
+        <script>events-slider.ftl</script>
+        <name>Slider evenement</name>
+        <key>2219202</key>
+    </template>
+    <template>
+        <script>web-content-thumbnail.ftl</script>
+        <name>Vignette contenu web</name>
+        <key>2219808</key>
+    </template>
+    <template>
+        <script>experience-events-slider.ftl</script>
+        <name>Experience slider événement</name>
+        <key>2238268</key>
+    </template>
+    <template>
+        <script>web-content-experience-thumbnail.ftl</script>
+        <name>Vignette experience</name>
+        <key>2244174</key>
+    </template>
+    <template>
+        <script>row-three-experiences-or-news.ftl</script>
+        <name>Actus/Experiences trois images</name>
+        <key>2332299</key>
+    </template>
+    <template>
+        <script>manifestation-events-slider.ftl</script>
+        <name>Slider evenements de manifestation</name>
+        <key>3581315</key>
+    </template>
+</root>

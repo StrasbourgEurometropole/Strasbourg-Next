@@ -1,5 +1,8 @@
 package eu.strasbourg.utils;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -49,6 +52,19 @@ public class DateHelper {
 		return dates;
 	}
 
+	/**
+	 * Retourne si la date est aujourd'hui en comparant les jours, mois et années
+	 */
+	public static boolean isToday(Date date) {
+		Calendar cal1 = Calendar.getInstance();
+		cal1.setTime(date);
+		Calendar cal2 = Calendar.getInstance();
+		cal2.setTime(new Date());
+		return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
+			&& cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH)
+			&& cal1.get(Calendar.DAY_OF_MONTH) == cal2
+				.get(Calendar.DAY_OF_MONTH);
+	}
 	
 	/**
 	 * Affichage simple d'une période avec une date de début et une date de fin
@@ -170,7 +186,7 @@ public class DateHelper {
 		try {
 			result = sdf.parse(date);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage() + " : " + date);
 		}
 
 		return result;
@@ -197,6 +213,9 @@ public class DateHelper {
 		} else if (locale.equals(Locale.US)) { // EEE dd MMMM yyyy
 			DateFormat df = new SimpleDateFormat("EEEE dd MMMM yyyy", Locale.US);
 			result = df.format(date);
+		} else {
+			DateFormat df = new SimpleDateFormat("EEEE dd MMMM yyyy", locale);
+			result = df.format(date);
 		}
 
 		return result;
@@ -217,7 +236,7 @@ public class DateHelper {
 	/**
 	 * Fournit une chaine représentant une date
 	 * 
-	 * @param dateTime
+	 * @param value
 	 * @return
 	 */
 	public static Date getShortDateFormatFromString(String value) {
@@ -251,4 +270,15 @@ public class DateHelper {
 		return Date.from(localDate.atZone(ZoneId.systemDefault()).toInstant());
 	}
 
+	private static final Log _log = LogFactoryUtil.getLog(DateHelper.class.getName());
+
+    public static <R> R formatIso8601(Date date) {
+		// format date to ISO 8601
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+		return (R) sdf.format(date);
+    }
+
+	public static long formatToLong(Date date) {
+		return date.getTime();
+	}
 }

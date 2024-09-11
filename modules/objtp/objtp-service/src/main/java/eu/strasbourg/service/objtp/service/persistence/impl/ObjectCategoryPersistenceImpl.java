@@ -1,48 +1,38 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.objtp.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
-import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.objtp.exception.NoSuchObjectCategoryException;
 import eu.strasbourg.service.objtp.model.ObjectCategory;
+import eu.strasbourg.service.objtp.model.ObjectCategoryTable;
 import eu.strasbourg.service.objtp.model.impl.ObjectCategoryImpl;
 import eu.strasbourg.service.objtp.model.impl.ObjectCategoryModelImpl;
 import eu.strasbourg.service.objtp.service.persistence.ObjectCategoryPersistence;
+import eu.strasbourg.service.objtp.service.persistence.ObjectCategoryUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -84,21 +74,14 @@ public class ObjectCategoryPersistenceImpl
 
 		dbColumnNames.put("code", "code_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(ObjectCategory.class);
+
+		setModelImplClass(ObjectCategoryImpl.class);
+		setModelPKClass(String.class);
+
+		setTable(ObjectCategoryTable.INSTANCE);
 	}
 
 	/**
@@ -109,12 +92,11 @@ public class ObjectCategoryPersistenceImpl
 	@Override
 	public void cacheResult(ObjectCategory objectCategory) {
 		entityCache.putResult(
-			ObjectCategoryModelImpl.ENTITY_CACHE_ENABLED,
 			ObjectCategoryImpl.class, objectCategory.getPrimaryKey(),
 			objectCategory);
-
-		objectCategory.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the object categories in the entity cache if it is enabled.
@@ -123,16 +105,20 @@ public class ObjectCategoryPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<ObjectCategory> objectCategories) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (objectCategories.size() >
+				 _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (ObjectCategory objectCategory : objectCategories) {
 			if (entityCache.getResult(
-					ObjectCategoryModelImpl.ENTITY_CACHE_ENABLED,
 					ObjectCategoryImpl.class, objectCategory.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(objectCategory);
-			}
-			else {
-				objectCategory.resetOriginalValues();
 			}
 		}
 	}
@@ -148,9 +134,7 @@ public class ObjectCategoryPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(ObjectCategoryImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ObjectCategoryImpl.class);
 	}
 
 	/**
@@ -162,35 +146,22 @@ public class ObjectCategoryPersistenceImpl
 	 */
 	@Override
 	public void clearCache(ObjectCategory objectCategory) {
-		entityCache.removeResult(
-			ObjectCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			ObjectCategoryImpl.class, objectCategory.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(ObjectCategoryImpl.class, objectCategory);
 	}
 
 	@Override
 	public void clearCache(List<ObjectCategory> objectCategories) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (ObjectCategory objectCategory : objectCategories) {
-			entityCache.removeResult(
-				ObjectCategoryModelImpl.ENTITY_CACHE_ENABLED,
-				ObjectCategoryImpl.class, objectCategory.getPrimaryKey());
+			entityCache.removeResult(ObjectCategoryImpl.class, objectCategory);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ObjectCategoryImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				ObjectCategoryModelImpl.ENTITY_CACHE_ENABLED,
-				ObjectCategoryImpl.class, primaryKey);
+			entityCache.removeResult(ObjectCategoryImpl.class, primaryKey);
 		}
 	}
 
@@ -305,10 +276,8 @@ public class ObjectCategoryPersistenceImpl
 		try {
 			session = openSession();
 
-			if (objectCategory.isNew()) {
+			if (isNew) {
 				session.save(objectCategory);
-
-				objectCategory.setNew(false);
 			}
 			else {
 				objectCategory = (ObjectCategory)session.merge(objectCategory);
@@ -321,18 +290,12 @@ public class ObjectCategoryPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(
+			ObjectCategoryImpl.class, objectCategory, false, true);
 
 		if (isNew) {
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
+			objectCategory.setNew(false);
 		}
-
-		entityCache.putResult(
-			ObjectCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			ObjectCategoryImpl.class, objectCategory.getPrimaryKey(),
-			objectCategory, false);
 
 		objectCategory.resetOriginalValues();
 
@@ -381,169 +344,12 @@ public class ObjectCategoryPersistenceImpl
 	/**
 	 * Returns the object category with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the object category
-	 * @return the object category, or <code>null</code> if a object category with the primary key could not be found
-	 */
-	@Override
-	public ObjectCategory fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			ObjectCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			ObjectCategoryImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		ObjectCategory objectCategory = (ObjectCategory)serializable;
-
-		if (objectCategory == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				objectCategory = (ObjectCategory)session.get(
-					ObjectCategoryImpl.class, primaryKey);
-
-				if (objectCategory != null) {
-					cacheResult(objectCategory);
-				}
-				else {
-					entityCache.putResult(
-						ObjectCategoryModelImpl.ENTITY_CACHE_ENABLED,
-						ObjectCategoryImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					ObjectCategoryModelImpl.ENTITY_CACHE_ENABLED,
-					ObjectCategoryImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return objectCategory;
-	}
-
-	/**
-	 * Returns the object category with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param code the primary key of the object category
 	 * @return the object category, or <code>null</code> if a object category with the primary key could not be found
 	 */
 	@Override
 	public ObjectCategory fetchByPrimaryKey(String code) {
 		return fetchByPrimaryKey((Serializable)code);
-	}
-
-	@Override
-	public Map<Serializable, ObjectCategory> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, ObjectCategory> map =
-			new HashMap<Serializable, ObjectCategory>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			ObjectCategory objectCategory = fetchByPrimaryKey(primaryKey);
-
-			if (objectCategory != null) {
-				map.put(primaryKey, objectCategory);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				ObjectCategoryModelImpl.ENTITY_CACHE_ENABLED,
-				ObjectCategoryImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (ObjectCategory)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_OBJECTCATEGORY_WHERE_PKS_IN);
-
-		for (int i = 0; i < uncachedPrimaryKeys.size(); i++) {
-			sb.append("?");
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			QueryPos queryPos = QueryPos.getInstance(query);
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				queryPos.add((String)primaryKey);
-			}
-
-			for (ObjectCategory objectCategory :
-					(List<ObjectCategory>)query.list()) {
-
-				map.put(objectCategory.getPrimaryKeyObj(), objectCategory);
-
-				cacheResult(objectCategory);
-
-				uncachedPrimaryKeys.remove(objectCategory.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					ObjectCategoryModelImpl.ENTITY_CACHE_ENABLED,
-					ObjectCategoryImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -671,10 +477,6 @@ public class ObjectCategoryPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -720,9 +522,6 @@ public class ObjectCategoryPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -739,6 +538,21 @@ public class ObjectCategoryPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "code_";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_OBJECTCATEGORY;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return ObjectCategoryModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -747,30 +561,28 @@ public class ObjectCategoryPersistenceImpl
 	 * Initializes the object category persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			ObjectCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			ObjectCategoryModelImpl.FINDER_CACHE_ENABLED,
-			ObjectCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			ObjectCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			ObjectCategoryModelImpl.FINDER_CACHE_ENABLED,
-			ObjectCategoryImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			ObjectCategoryModelImpl.ENTITY_CACHE_ENABLED,
-			ObjectCategoryModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
+
+		ObjectCategoryUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		ObjectCategoryUtil.setPersistence(null);
+
 		entityCache.removeCache(ObjectCategoryImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -781,9 +593,6 @@ public class ObjectCategoryPersistenceImpl
 
 	private static final String _SQL_SELECT_OBJECTCATEGORY =
 		"SELECT objectCategory FROM ObjectCategory objectCategory";
-
-	private static final String _SQL_SELECT_OBJECTCATEGORY_WHERE_PKS_IN =
-		"SELECT objectCategory FROM ObjectCategory objectCategory WHERE code_ IN (";
 
 	private static final String _SQL_COUNT_OBJECTCATEGORY =
 		"SELECT COUNT(objectCategory) FROM ObjectCategory objectCategory";
@@ -798,5 +607,10 @@ public class ObjectCategoryPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"code"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

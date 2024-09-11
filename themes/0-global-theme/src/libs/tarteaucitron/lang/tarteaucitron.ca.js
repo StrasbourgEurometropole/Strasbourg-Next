@@ -1,4 +1,5 @@
 /*global tarteaucitron */
+/* min ready */
 tarteaucitron.lang = {
     "middleBarHead": "☝ 🍪",
     "adblock": "Hola! Aquest lloc web és transparent i et dóna l'opció d'activar els serveis de tercers",
@@ -30,11 +31,13 @@ tarteaucitron.lang = {
     "more": "Llegir més",
     "source": "Veure lloc web oficial",
     "credit": "Gestor de galetes realitzat per tarteaucitron.js",
+    "noServices": "Aquest lloc web no utilitza cap cookie que requereixi el vostre consentiment.",
 
     "toggleInfoBox": "Mostra / oculta la informació sobre emmagatzematge de galetes",
     "title": "Panell de gestió de galetes",
     "cookieDetail": "Detalls de les galetes per a",
     "ourSite": "en la nostra web",
+    "modalWindow": "(finestra modale)",
     "newWindow": "(finestra nova)",
     "allowAll": "Permet totes les galetes",
     "denyAll": "Denega totes les galetes",

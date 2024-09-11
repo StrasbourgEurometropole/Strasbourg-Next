@@ -167,15 +167,8 @@ public class DuplicateEventActionCommand implements MVCActionCommand {
 
 			// Enregistrement en base
 			_eventLocalService.updateEvent(event, sc);
-			
-			// POST / REDIRECT / GET
-			ThemeDisplay themeDisplay = (ThemeDisplay) request
-				.getAttribute(WebKeys.THEME_DISPLAY);
-			String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
-			PortletURL renderURL = PortletURLFactoryUtil.create(request,
-				portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
-			renderURL.setParameter("tab", request.getParameter("tab"));
-			response.sendRedirect(renderURL.toString());
+
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
 		} catch (Exception e) {
 			_log.error(e);

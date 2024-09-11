@@ -1,29 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,20 +21,11 @@ import java.util.Objects;
  * @see Alert
  * @generated
  */
-public class AlertWrapper implements Alert, ModelWrapper<Alert> {
+public class AlertWrapper
+	extends BaseModelWrapper<Alert> implements Alert, ModelWrapper<Alert> {
 
 	public AlertWrapper(Alert alert) {
-		_alert = alert;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Alert.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Alert.class.getName();
+		super(alert);
 	}
 
 	@Override
@@ -125,13 +103,8 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	}
 
 	@Override
-	public Object clone() {
-		return new AlertWrapper((Alert)_alert.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.gtfs.model.Alert alert) {
-		return _alert.compareTo(alert);
+	public Alert cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -141,7 +114,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public long getAlertId() {
-		return _alert.getAlertId();
+		return model.getAlertId();
 	}
 
 	/**
@@ -151,12 +124,12 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public long getArretId() {
-		return _alert.getArretId();
+		return model.getArretId();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _alert.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -166,12 +139,12 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _alert.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _alert.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -181,12 +154,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public Date getEndDate() {
-		return _alert.getEndDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _alert.getExpandoBridge();
+		return model.getEndDate();
 	}
 
 	/**
@@ -196,7 +164,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _alert.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -206,7 +174,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getLigneAndDirection() {
-		return _alert.getLigneAndDirection();
+		return model.getLigneAndDirection();
 	}
 
 	/**
@@ -217,7 +185,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getLigneAndDirection(java.util.Locale locale) {
-		return _alert.getLigneAndDirection(locale);
+		return model.getLigneAndDirection(locale);
 	}
 
 	/**
@@ -231,7 +199,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	public String getLigneAndDirection(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _alert.getLigneAndDirection(locale, useDefault);
+		return model.getLigneAndDirection(locale, useDefault);
 	}
 
 	/**
@@ -242,7 +210,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getLigneAndDirection(String languageId) {
-		return _alert.getLigneAndDirection(languageId);
+		return model.getLigneAndDirection(languageId);
 	}
 
 	/**
@@ -254,17 +222,17 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getLigneAndDirection(String languageId, boolean useDefault) {
-		return _alert.getLigneAndDirection(languageId, useDefault);
+		return model.getLigneAndDirection(languageId, useDefault);
 	}
 
 	@Override
 	public String getLigneAndDirectionCurrentLanguageId() {
-		return _alert.getLigneAndDirectionCurrentLanguageId();
+		return model.getLigneAndDirectionCurrentLanguageId();
 	}
 
 	@Override
 	public String getLigneAndDirectionCurrentValue() {
-		return _alert.getLigneAndDirectionCurrentValue();
+		return model.getLigneAndDirectionCurrentValue();
 	}
 
 	/**
@@ -274,7 +242,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getLigneAndDirectionMap() {
-		return _alert.getLigneAndDirectionMap();
+		return model.getLigneAndDirectionMap();
 	}
 
 	/**
@@ -284,7 +252,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getPerturbation() {
-		return _alert.getPerturbation();
+		return model.getPerturbation();
 	}
 
 	/**
@@ -295,7 +263,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getPerturbation(java.util.Locale locale) {
-		return _alert.getPerturbation(locale);
+		return model.getPerturbation(locale);
 	}
 
 	/**
@@ -307,7 +275,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getPerturbation(java.util.Locale locale, boolean useDefault) {
-		return _alert.getPerturbation(locale, useDefault);
+		return model.getPerturbation(locale, useDefault);
 	}
 
 	/**
@@ -318,7 +286,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getPerturbation(String languageId) {
-		return _alert.getPerturbation(languageId);
+		return model.getPerturbation(languageId);
 	}
 
 	/**
@@ -330,17 +298,17 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getPerturbation(String languageId, boolean useDefault) {
-		return _alert.getPerturbation(languageId, useDefault);
+		return model.getPerturbation(languageId, useDefault);
 	}
 
 	@Override
 	public String getPerturbationCurrentLanguageId() {
-		return _alert.getPerturbationCurrentLanguageId();
+		return model.getPerturbationCurrentLanguageId();
 	}
 
 	@Override
 	public String getPerturbationCurrentValue() {
-		return _alert.getPerturbationCurrentValue();
+		return model.getPerturbationCurrentValue();
 	}
 
 	/**
@@ -350,7 +318,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getPerturbationMap() {
-		return _alert.getPerturbationMap();
+		return model.getPerturbationMap();
 	}
 
 	/**
@@ -360,12 +328,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _alert.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _alert.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -375,7 +338,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public Date getStartDate() {
-		return _alert.getStartDate();
+		return model.getStartDate();
 	}
 
 	/**
@@ -385,39 +348,19 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public String getUuid() {
-		return _alert.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _alert.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _alert.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _alert.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _alert.isNew();
+		return model.getUuid();
 	}
 
 	@Override
 	public void persist() {
-		_alert.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_alert.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -425,7 +368,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_alert.prepareLocalizedFieldsForImport(defaultImportLocale);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -435,7 +378,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setAlertId(long alertId) {
-		_alert.setAlertId(alertId);
+		model.setAlertId(alertId);
 	}
 
 	/**
@@ -445,12 +388,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setArretId(long arretId) {
-		_alert.setArretId(arretId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_alert.setCachedModel(cachedModel);
+		model.setArretId(arretId);
 	}
 
 	/**
@@ -460,7 +398,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_alert.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -470,24 +408,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setEndDate(Date endDate) {
-		_alert.setEndDate(endDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_alert.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_alert.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_alert.setExpandoBridgeAttributes(serviceContext);
+		model.setEndDate(endDate);
 	}
 
 	/**
@@ -497,7 +418,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_alert.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -507,7 +428,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setLigneAndDirection(String ligneAndDirection) {
-		_alert.setLigneAndDirection(ligneAndDirection);
+		model.setLigneAndDirection(ligneAndDirection);
 	}
 
 	/**
@@ -520,7 +441,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	public void setLigneAndDirection(
 		String ligneAndDirection, java.util.Locale locale) {
 
-		_alert.setLigneAndDirection(ligneAndDirection, locale);
+		model.setLigneAndDirection(ligneAndDirection, locale);
 	}
 
 	/**
@@ -535,12 +456,12 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 		String ligneAndDirection, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_alert.setLigneAndDirection(ligneAndDirection, locale, defaultLocale);
+		model.setLigneAndDirection(ligneAndDirection, locale, defaultLocale);
 	}
 
 	@Override
 	public void setLigneAndDirectionCurrentLanguageId(String languageId) {
-		_alert.setLigneAndDirectionCurrentLanguageId(languageId);
+		model.setLigneAndDirectionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -552,7 +473,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	public void setLigneAndDirectionMap(
 		Map<java.util.Locale, String> ligneAndDirectionMap) {
 
-		_alert.setLigneAndDirectionMap(ligneAndDirectionMap);
+		model.setLigneAndDirectionMap(ligneAndDirectionMap);
 	}
 
 	/**
@@ -566,12 +487,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 		Map<java.util.Locale, String> ligneAndDirectionMap,
 		java.util.Locale defaultLocale) {
 
-		_alert.setLigneAndDirectionMap(ligneAndDirectionMap, defaultLocale);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_alert.setNew(n);
+		model.setLigneAndDirectionMap(ligneAndDirectionMap, defaultLocale);
 	}
 
 	/**
@@ -581,7 +497,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setPerturbation(String perturbation) {
-		_alert.setPerturbation(perturbation);
+		model.setPerturbation(perturbation);
 	}
 
 	/**
@@ -592,7 +508,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setPerturbation(String perturbation, java.util.Locale locale) {
-		_alert.setPerturbation(perturbation, locale);
+		model.setPerturbation(perturbation, locale);
 	}
 
 	/**
@@ -607,12 +523,12 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 		String perturbation, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_alert.setPerturbation(perturbation, locale, defaultLocale);
+		model.setPerturbation(perturbation, locale, defaultLocale);
 	}
 
 	@Override
 	public void setPerturbationCurrentLanguageId(String languageId) {
-		_alert.setPerturbationCurrentLanguageId(languageId);
+		model.setPerturbationCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -624,7 +540,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	public void setPerturbationMap(
 		Map<java.util.Locale, String> perturbationMap) {
 
-		_alert.setPerturbationMap(perturbationMap);
+		model.setPerturbationMap(perturbationMap);
 	}
 
 	/**
@@ -638,7 +554,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 		Map<java.util.Locale, String> perturbationMap,
 		java.util.Locale defaultLocale) {
 
-		_alert.setPerturbationMap(perturbationMap, defaultLocale);
+		model.setPerturbationMap(perturbationMap, defaultLocale);
 	}
 
 	/**
@@ -648,12 +564,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_alert.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_alert.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -663,7 +574,7 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setStartDate(Date startDate) {
-		_alert.setStartDate(startDate);
+		model.setStartDate(startDate);
 	}
 
 	/**
@@ -673,75 +584,17 @@ public class AlertWrapper implements Alert, ModelWrapper<Alert> {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_alert.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.gtfs.model.Alert> toCacheModel() {
-
-		return _alert.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Alert toEscapedModel() {
-		return new AlertWrapper(_alert.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _alert.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Alert toUnescapedModel() {
-		return new AlertWrapper(_alert.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _alert.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof AlertWrapper)) {
-			return false;
-		}
-
-		AlertWrapper alertWrapper = (AlertWrapper)object;
-
-		if (Objects.equals(_alert, alertWrapper._alert)) {
-			return true;
-		}
-
-		return false;
+	protected AlertWrapper wrap(Alert alert) {
+		return new AlertWrapper(alert);
 	}
-
-	@Override
-	public Alert getWrappedModel() {
-		return _alert;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _alert.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _alert.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_alert.resetOriginalValues();
-	}
-
-	private final Alert _alert;
 
 }

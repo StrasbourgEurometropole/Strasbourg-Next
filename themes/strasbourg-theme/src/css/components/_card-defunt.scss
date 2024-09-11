@@ -1,0 +1,67 @@
+.st-card-defunt {
+	display: flex;
+	flex-direction: column;
+	padding: 40px 30px;
+	background-color: $c_greydark;
+	border-radius: $border-radius;
+
+	@include mobile {
+		padding: 30px 20px;
+	}
+
+	.st-title {
+		& + * {
+			margin-top: 20px;
+		}
+	}
+
+	.st-caption {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 40px;
+
+		@include tablet-small {
+			gap: 20px;
+		}
+
+		@include mobile {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		& + * {
+			margin-top: 20px;
+		}
+
+		.st-title-small {
+			@include ft('', 15px, 700, $c_white, 1);
+			@include letter-spacing(25);
+
+			@include mobile {
+				font-size: 14px;
+			}
+
+			& + * {
+				margin-top: 10px;
+			}
+
+			& +  .st-surtitre-cat {
+				margin-top: 4px;
+			}
+		}
+
+		a.st-title-small{
+			text-decoration: underline;
+			color: $c_sub;
+		}
+
+		.st-surtitre-cat {
+			& +  .st-title-small {
+				margin-top: 10px;
+			}
+		}
+	}
+
+	.st-btn {
+		align-self: flex-end;
+	}
+}

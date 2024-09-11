@@ -1,13 +1,5 @@
 package eu.strasbourg.service.activity.search;
 
-import java.util.List;
-import java.util.Locale;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -22,10 +14,16 @@ import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
-
 import eu.strasbourg.service.activity.model.ActivityOrganizer;
 import eu.strasbourg.service.activity.service.ActivityOrganizerLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import java.util.List;
+import java.util.Locale;
 
 @Component(immediate = true, service = Indexer.class)
 public class ActivityOrganizerIndexer extends BaseIndexer<ActivityOrganizer> {
@@ -62,7 +60,7 @@ public class ActivityOrganizerIndexer extends BaseIndexer<ActivityOrganizer> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(activityOrganizer.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+		IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
 			assetCategories);
 
 		document.addLocalizedText(Field.TITLE, activityOrganizer.getNameMap());
@@ -96,8 +94,7 @@ public class ActivityOrganizerIndexer extends BaseIndexer<ActivityOrganizer> {
 	protected void doReindex(ActivityOrganizer activityOrganizer) throws Exception {
 		Document document = getDocument(activityOrganizer);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			activityOrganizer.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(activityOrganizer.getCompanyId(), document);
 
 	}
 
@@ -129,8 +126,6 @@ public class ActivityOrganizerIndexer extends BaseIndexer<ActivityOrganizer> {
 				}
 
 			});
-
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 

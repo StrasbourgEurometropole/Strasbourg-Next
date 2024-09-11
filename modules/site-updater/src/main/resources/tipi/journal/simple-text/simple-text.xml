@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<root>
+    <structure>
+        <key>2091114</key>
+        <name>Texte simple</name>
+        <definition>simple-text-definition.json</definition>
+        <layout>simple-text-layout.json</layout>
+    </structure>
+    <template>
+        <key>2091119</key>
+        <name>Texte simple</name>
+        <cacheable>true</cacheable>
+        <script>simple-text.ftl</script>
+    </template>
+</root>

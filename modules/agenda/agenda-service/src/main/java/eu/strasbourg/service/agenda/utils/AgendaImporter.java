@@ -499,15 +499,6 @@ public class AgendaImporter {
 		// Validation des champs multilingues
 		List<Locale> locales = JSONHelper
 			.getLocalesUsedInJSON(jsonManifestation);
-		if(jsonManifestation.getString("title") != null){
-			for (char c : jsonManifestation.getString("title").toCharArray()) {
-				if((int) c > 5000){
-					reportLine.error(LanguageUtil.format(bundle,
-							"error-forbidden-char","title"));
-					break;
-				}
-			}
-		}
 		JSONObject jsonTitle = jsonManifestation.getJSONObject("title");
 		if (!JSONHelper.validateI18nField(jsonTitle, locales)) {
 			reportLine.error(LanguageUtil.get(bundle, "no-title"));
@@ -515,15 +506,6 @@ public class AgendaImporter {
 			String title = jsonTitle.getString("fr_FR", "[no-french-title]");
 			reportLine.setEntityName(
 				title.substring(0, title.length() > 200 ? 200 : title.length() - 1));
-		}
-		if(jsonManifestation.getString("description") != null){
-			for (char c : jsonManifestation.getString("description").toCharArray()) {
-				if((int) c > 5000){
-					reportLine.error(LanguageUtil.format(bundle,
-							"error-forbidden-char","description"));
-					break;
-				}
-			}
 		}
 		JSONObject jsonDescription = jsonManifestation
 			.getJSONObject("description");
@@ -624,8 +606,9 @@ public class AgendaImporter {
 					reportLine.setEntityId(manifestation.getManifestationId());
 					isCreated = true;
 				} catch (PortalException e) {
-					reportLine.error(LanguageUtil.get(bundle,
-						"error-while-creating-manifestation"));
+					reportLine.setLog(LanguageUtil.get(bundle, "error-while-creating-manifestation"));
+					reportLine.error(e.getMessage());
+					_log.error(e.getMessage(), e);
 					return reportLine;
 				}
 			}
@@ -635,7 +618,7 @@ public class AgendaImporter {
 					manifestation.getAssetEntry().getTagNames());
 			}
 
-			if(manifestation.getModifiedDateSource().compareTo(modifiedDateSource) != 0) {
+			if(Validator.isNull(manifestation.getModifiedDateSource()) || manifestation.getModifiedDateSource().compareTo(modifiedDateSource) != 0) {
 				// On set les champs obligatoires
 				manifestation.setIdSource(id);
 				manifestation.setSource(provider);
@@ -671,8 +654,9 @@ public class AgendaImporter {
 					else
 						reportLine.setStatus(ImportReportLineStatus.SUCCESS_MODIFIED);
 				} catch (PortalException e) {
-					reportLine.error(LanguageUtil.get(bundle,
-							"error-while-saving-manifestation"));
+					reportLine.setLog(LanguageUtil.get(bundle, "error-while-saving-manifestation"));
+					reportLine.error(e.getMessage());
+					_log.error(e.getMessage(), e);
 				}
 			}
 
@@ -775,30 +759,12 @@ public class AgendaImporter {
 
 		// Validation des champs multilingues
 		List<Locale> locales = JSONHelper.getLocalesUsedInJSON(jsonEvent);
-		if(jsonEvent.getString("title") != null){
-			for (char c : jsonEvent.getString("title").toCharArray()) {
-				if((int) c > 5000){
-					reportLine.error(LanguageUtil.format(bundle,
-							"error-forbidden-char","title"));
-					break;
-				}
-			}
-		}
 		JSONObject jsonTitle = jsonEvent.getJSONObject("title");
 		if (!JSONHelper.validateI18nField(jsonTitle, locales)) {
 			reportLine.error(LanguageUtil.get(bundle, "no-title"));
 		} else {
 			reportLine.setEntityName(
 				jsonTitle.getString("fr_FR", "[no-french-title]"));
-		}
-		if(jsonEvent.getString("description") != null){
-			for (char c : jsonEvent.getString("description").toCharArray()) {
-				if((int) c > 5000){
-					reportLine.error(LanguageUtil.format(bundle,
-							"error-forbidden-char","description"));
-					break;
-				}
-			}
 		}
 		JSONObject jsonDescription = jsonEvent.getJSONObject("description");
 		if (!JSONHelper.validateI18nField(jsonDescription, locales)) {
@@ -807,15 +773,6 @@ public class AgendaImporter {
 		if (isManualPlace) {
 			JSONObject jsonPlace = jsonEvent.getJSONObject("place");
 			if (jsonPlace != null) {
-				if(jsonPlace.getString("name") != null){
-					for (char c : jsonPlace.getString("name").toCharArray()) {
-						if((int) c > 5000){
-							reportLine.error(LanguageUtil.format(bundle,
-									"error-forbidden-char","name"));
-							break;
-						}
-					}
-				}
 				JSONObject jsonPlaceName = jsonPlace.getJSONObject("name");
 				if (!JSONHelper.validateI18nField(jsonPlaceName, locales)) {
 					reportLine.error(LanguageUtil.get(bundle, "no-place-name"));
@@ -834,15 +791,6 @@ public class AgendaImporter {
 			JSONObject jsonPeriod = jsonPeriods.getJSONObject(j);
 			String startDateString = jsonPeriod.getString("startDate");
 			String endDateString = jsonPeriod.getString("endDate");
-			if(jsonPeriod.getString("timeDetail") != null){
-				for (char c : jsonPeriod.getString("timeDetail").toCharArray()) {
-					if((int) c > 5000){
-						reportLine.error(LanguageUtil.format(bundle,
-								"error-forbidden-char","timeDetail"));
-						break;
-					}
-				}
-			}
 			JSONObject jsonTimeDetail = jsonPeriod.getJSONObject("timeDetail");
 			if (!JSONHelper.validateI18nField(jsonTimeDetail, locales)) {
 				reportLine
@@ -887,8 +835,9 @@ public class AgendaImporter {
 							}
 							periods.add(period);
 						} catch (PortalException e) {
-							reportLine.error(LanguageUtil.get(bundle,
-								"error-while-creating-period"));
+							reportLine.setLog(LanguageUtil.get(bundle, "error-while-creating-period"));
+							reportLine.error(e.getMessage());
+							_log.error(e.getMessage(), e);
 						}
 					}
 				}
@@ -972,8 +921,9 @@ public class AgendaImporter {
 					event = EventLocalServiceUtil.createEvent(sc);
 					isCreated = true;
 				} catch (PortalException e) {
-					reportLine.error(
-						LanguageUtil.get(bundle, "error-while-creating-event"));
+					reportLine.setLog(LanguageUtil.get(bundle, "error-while-creating-event"));
+					reportLine.error(e.getMessage());
+					_log.error(e.getMessage(), e);
 					ImportReportLineLocalServiceUtil
 						.updateImportReportLine(reportLine);
 					return reportLine;
@@ -1004,15 +954,6 @@ public class AgendaImporter {
 				event.setEmail(jsonEvent.getString("mail"));
 				event.setFree(freeEntry);
 				String jsonBookingURL = jsonEvent.getString("bookingURL");
-				if(Validator.isNotNull(jsonBookingURL)){
-					for (char c : jsonBookingURL.toCharArray()) {
-						if((int) c > 5000){
-							reportLine.error(LanguageUtil.format(bundle,
-									"error-forbidden-char","bookingURL"));
-							break;
-						}
-					}
-				}
 				event.setBookingURL(jsonBookingURL);
 
 				JSONObject jsonRegistration = jsonEvent.getJSONObject("registration");
@@ -1027,7 +968,7 @@ public class AgendaImporter {
 						registrationStartDate = dateFormat.parse(registrationStartDateString);
 						registrationEndDate = dateFormat.parse(registrationEndDateString);
 					} catch (ParseException e) {
-						e.printStackTrace();
+						_log.error(e.getMessage(), e);
 					}
 					event.setRegistrationStartDate(registrationStartDate);
 					event.setRegistrationEndDate(registrationEndDate);
@@ -1137,35 +1078,8 @@ public class AgendaImporter {
 
 				// Les champs multilingues
 				JSONObject jsonSubtitle = jsonEvent.getJSONObject("subtitle");
-				if (jsonEvent.getString("websiteURL") != null) {
-					for (char c : jsonEvent.getString("websiteURL").toCharArray()) {
-						if ((int) c > 5000) {
-							reportLine.error(LanguageUtil.format(bundle,
-									"error-forbidden-char", "websiteURL"));
-							break;
-						}
-					}
-				}
 				JSONObject jsonWebsiteURL = jsonEvent.getJSONObject("websiteURL");
-				if (jsonEvent.getString("websiteName") != null) {
-					for (char c : jsonEvent.getString("websiteName").toCharArray()) {
-						if ((int) c > 5000) {
-							reportLine.error(LanguageUtil.format(bundle,
-									"error-forbidden-char", "websiteName"));
-							break;
-						}
-					}
-				}
 				JSONObject jsonWebsiteName = jsonEvent.getJSONObject("websiteName");
-				if (jsonEvent.getString("price") != null) {
-					for (char c : jsonEvent.getString("price").toCharArray()) {
-						if ((int) c > 5000) {
-							reportLine.error(LanguageUtil.format(bundle,
-									"error-forbidden-char", "price"));
-							break;
-						}
-					}
-				}
 
 				JSONObject jsonPrice = jsonEvent.getJSONObject("price");
 				JSONObject jsonBookingDescription = jsonEvent.getJSONObject("bookingDescription");
@@ -1228,8 +1142,9 @@ public class AgendaImporter {
 					else
 						reportLine.setStatus(ImportReportLineStatus.SUCCESS_MODIFIED);
 				} catch (Exception e) {
-					reportLine.error(
-							LanguageUtil.get(bundle, "error-while-saving-event"));
+					reportLine.setLog(LanguageUtil.get(bundle, "error-while-saving-event"));
+					reportLine.error(e.getMessage());
+					_log.error(e.getMessage(), e);
 				}
 
 				// On enregistre le lien avec les manifestations
@@ -1322,7 +1237,7 @@ public class AgendaImporter {
 				}
 			}
 		} catch (PortalException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 		return categories;
 	}

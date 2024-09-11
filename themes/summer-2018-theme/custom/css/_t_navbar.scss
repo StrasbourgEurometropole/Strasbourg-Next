@@ -1,7 +1,7 @@
 #mns-global {
     #mns-header{
         position: relative;
-        z-index: 900;
+        z-index: 5;
         
         /* Fond noir pour la recherche */ 
         .mns-layer {
@@ -540,7 +540,7 @@
                                 padding: 12.5px 30px;
                                 height: auto;
 
-                                &:last-child(){
+                                &:last-child{
                                     padding-bottom: 25px;
                                 }
                             }

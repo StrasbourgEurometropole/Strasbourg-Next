@@ -87,7 +87,7 @@ canvas{
 	p{
 		@include ft($f_hx,0.938em, 700, $c_white, 1.6em);
 		text-align: center;
-		text-transform: uppercase;
+
 		display: block;
 		margin: 0;
 	}
@@ -349,7 +349,7 @@ canvas{
 	display: inline-block;
 	@include ft($f_hx,0.938em, 700, $c_txt, 1.6em);
 	text-align: center;
-	text-transform: uppercase;
+
 	display: block;
 	margin: 0;
 }
@@ -357,7 +357,7 @@ canvas{
 	display: none;
 	@include ft($f_hx,0.938em, 700, $c_txt, 1.6em);
 	text-align: center;
-	text-transform: uppercase;
+
 	display: block;
 	margin: 0;
 }

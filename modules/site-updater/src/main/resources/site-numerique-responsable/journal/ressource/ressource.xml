@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Ressource</name>
+        <key>237243537</key>
+        <definition>ressource-structure.json</definition>
+        <layout>ressource-layout.json</layout>
+    </structure>
+</root>

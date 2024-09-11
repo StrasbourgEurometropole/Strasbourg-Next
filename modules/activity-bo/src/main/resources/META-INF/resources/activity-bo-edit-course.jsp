@@ -1,23 +1,21 @@
 <%@ include file="/activity-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.activity.model.ActivityCourse"%>
 
-<liferay-portlet:renderURL varImpl="activityCoursesURL">
-	<portlet:param name="tab" value="activityCourses" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteActivityCourse" var="deleteActivityCourseURL">
 	<portlet:param name="cmd" value="deleteActivityCourse" />
 	<portlet:param name="tab" value="activityCourses" />
+	<portlet:param name="mvcPath" value="/activity-bo-view-courses.jsp" />
 	<portlet:param name="activityCourseId"
 		value="${not empty dc.activityCourse ? dc.activityCourse.activityCourseId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveActivityCourse" varImpl="saveActivityCourseURL">
-	<portlet:param name="cmd" value="saveActivityCourse" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 	<portlet:param name="tab" value="activityCourses" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="name-error" message="name-error" />
 	<liferay-ui:error key="activity-error" message="activity-error" />
 	<liferay-ui:error key="service-error" message="service-error" />
@@ -29,8 +27,8 @@
 			id="translationManager" />
 
 		<aui:model-context bean="${dc.activityCourse}" model="<%=ActivityCourse.class %>" />
-		<aui:fieldset-group markupView="lexicon">
-			<aui:input name="activityCourseId" type="hidden" />
+		<div class="sheet"><div class="panel-group panel-group-flush">
+		<aui:input name="activityCourseId" type="hidden" />
 	
 			<!-- Section généralités -->
 			<aui:fieldset collapsed="true" collapsible="true"
@@ -44,20 +42,27 @@
 				
 				<!-- Présentation -->
 				<aui:input name="presentation" />
+
+				<!-- Durée -->
+				<aui:input name="duration" helpMessage="duration-help" >
+						<aui:validator name="number" />
+				</aui:input>
 				
 				<!-- Catégories -->
-				<aui:input name="categories" type="assetCategories" wrapperCssClass="categories-selectors" />
+				<liferay-asset:asset-categories-selector
+						className="<%= ActivityCourse.class.getName() %>"
+						classPK="${dc.activityCourse.activityCourseId}"/>
 				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
 				<div class="has-error">
 					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
 							function (val, fieldNode, ruleValue) {
 								var validated = true;
-								var fields = document.querySelectorAll('.categories-selectors > .field-content');
+								var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
 								for (var i = 0; i < fields.length; i++) {
 									fieldContent = fields[i];
-								    if ($(fieldContent).find('.icon-asterisk').length > 0
-								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+								    if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
+								    	&& $(fieldContent).find('input[type="hidden"]').length == 0) {
 								    	validated = false;
 								    	event.preventDefault();
 								    	break;
@@ -152,7 +157,7 @@
 				</div>
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<aui:button-row>
 			<c:if test="${(dc.hasPermission('ADD_ACTIVITY_COURSE') and empty dc.activityCourse or dc.hasPermission('EDIT_ACTIVITY_COURSE') and not empty dc.activityCourse) and empty themeDisplay.scopeGroup.getStagingGroup()}">
@@ -166,7 +171,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>
@@ -174,9 +179,14 @@
 
 <liferay-portlet:actionURL name="getBareboneJSP" var="placeRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
 	<liferay-portlet:param name="mvcPath" value="/includes/course-place-row.jsp" />
+	<liferay-portlet:param name="cmd" value="editActivityCourse" />
+	<liferay-portlet:param name="tab" value="activityCourses" />
+
 </liferay-portlet:actionURL>
 <liferay-portlet:actionURL name="getBareboneJSP" var="placeScheduleRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
 	<liferay-portlet:param name="mvcPath" value="/includes/course-place-schedule-row.jsp" />
+	<liferay-portlet:param name="cmd" value="editActivityCourse" />
+	<liferay-portlet:param name="tab" value="activityCourses" />
 </liferay-portlet:actionURL>
 <liferay-util:html-top>
 	<script>

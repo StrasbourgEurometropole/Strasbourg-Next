@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,27 +16,27 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.project.exception.NoSuchProjectTimelineException;
 import eu.strasbourg.service.project.model.ProjectTimeline;
+import eu.strasbourg.service.project.model.ProjectTimelineTable;
 import eu.strasbourg.service.project.model.impl.ProjectTimelineImpl;
 import eu.strasbourg.service.project.model.impl.ProjectTimelineModelImpl;
 import eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence;
+import eu.strasbourg.service.project.service.persistence.ProjectTimelineUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -237,10 +229,6 @@ public class ProjectTimelinePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -571,8 +559,6 @@ public class ProjectTimelinePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -751,10 +737,6 @@ public class ProjectTimelinePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1092,8 +1074,6 @@ public class ProjectTimelinePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1113,21 +1093,14 @@ public class ProjectTimelinePersistenceImpl
 
 		dbColumnNames.put("date", "date_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(ProjectTimeline.class);
+
+		setModelImplClass(ProjectTimelineImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(ProjectTimelineTable.INSTANCE);
 	}
 
 	/**
@@ -1138,12 +1111,11 @@ public class ProjectTimelinePersistenceImpl
 	@Override
 	public void cacheResult(ProjectTimeline projectTimeline) {
 		entityCache.putResult(
-			ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
 			ProjectTimelineImpl.class, projectTimeline.getPrimaryKey(),
 			projectTimeline);
-
-		projectTimeline.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the project timelines in the entity cache if it is enabled.
@@ -1152,16 +1124,20 @@ public class ProjectTimelinePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<ProjectTimeline> projectTimelines) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (projectTimelines.size() >
+				 _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (ProjectTimeline projectTimeline : projectTimelines) {
 			if (entityCache.getResult(
-					ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
 					ProjectTimelineImpl.class,
 					projectTimeline.getPrimaryKey()) == null) {
 
 				cacheResult(projectTimeline);
-			}
-			else {
-				projectTimeline.resetOriginalValues();
 			}
 		}
 	}
@@ -1177,9 +1153,7 @@ public class ProjectTimelinePersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(ProjectTimelineImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ProjectTimelineImpl.class);
 	}
 
 	/**
@@ -1191,35 +1165,23 @@ public class ProjectTimelinePersistenceImpl
 	 */
 	@Override
 	public void clearCache(ProjectTimeline projectTimeline) {
-		entityCache.removeResult(
-			ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectTimelineImpl.class, projectTimeline.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(ProjectTimelineImpl.class, projectTimeline);
 	}
 
 	@Override
 	public void clearCache(List<ProjectTimeline> projectTimelines) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (ProjectTimeline projectTimeline : projectTimelines) {
 			entityCache.removeResult(
-				ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
-				ProjectTimelineImpl.class, projectTimeline.getPrimaryKey());
+				ProjectTimelineImpl.class, projectTimeline);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ProjectTimelineImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
-				ProjectTimelineImpl.class, primaryKey);
+			entityCache.removeResult(ProjectTimelineImpl.class, primaryKey);
 		}
 	}
 
@@ -1354,10 +1316,8 @@ public class ProjectTimelinePersistenceImpl
 		try {
 			session = openSession();
 
-			if (projectTimeline.isNew()) {
+			if (isNew) {
 				session.save(projectTimeline);
-
-				projectTimeline.setNew(false);
 			}
 			else {
 				projectTimeline = (ProjectTimeline)session.merge(
@@ -1371,83 +1331,12 @@ public class ProjectTimelinePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!ProjectTimelineModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				projectTimelineModelImpl.getProjectId()
-			};
-
-			finderCache.removeResult(_finderPathCountByProjectId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByProjectId, args);
-
-			args = new Object[] {
-				projectTimelineModelImpl.getBudgetParticipatifId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByBudgetParticipatifId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByBudgetParticipatifId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((projectTimelineModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByProjectId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					projectTimelineModelImpl.getOriginalProjectId()
-				};
-
-				finderCache.removeResult(_finderPathCountByProjectId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByProjectId, args);
-
-				args = new Object[] {projectTimelineModelImpl.getProjectId()};
-
-				finderCache.removeResult(_finderPathCountByProjectId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByProjectId, args);
-			}
-
-			if ((projectTimelineModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByBudgetParticipatifId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					projectTimelineModelImpl.getOriginalBudgetParticipatifId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByBudgetParticipatifId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByBudgetParticipatifId,
-					args);
-
-				args = new Object[] {
-					projectTimelineModelImpl.getBudgetParticipatifId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByBudgetParticipatifId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByBudgetParticipatifId,
-					args);
-			}
-		}
-
 		entityCache.putResult(
-			ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectTimelineImpl.class, projectTimeline.getPrimaryKey(),
-			projectTimeline, false);
+			ProjectTimelineImpl.class, projectTimelineModelImpl, false, true);
+
+		if (isNew) {
+			projectTimeline.setNew(false);
+		}
 
 		projectTimeline.resetOriginalValues();
 
@@ -1496,163 +1385,12 @@ public class ProjectTimelinePersistenceImpl
 	/**
 	 * Returns the project timeline with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the project timeline
-	 * @return the project timeline, or <code>null</code> if a project timeline with the primary key could not be found
-	 */
-	@Override
-	public ProjectTimeline fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectTimelineImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		ProjectTimeline projectTimeline = (ProjectTimeline)serializable;
-
-		if (projectTimeline == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				projectTimeline = (ProjectTimeline)session.get(
-					ProjectTimelineImpl.class, primaryKey);
-
-				if (projectTimeline != null) {
-					cacheResult(projectTimeline);
-				}
-				else {
-					entityCache.putResult(
-						ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
-						ProjectTimelineImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
-					ProjectTimelineImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return projectTimeline;
-	}
-
-	/**
-	 * Returns the project timeline with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param projectTimelineId the primary key of the project timeline
 	 * @return the project timeline, or <code>null</code> if a project timeline with the primary key could not be found
 	 */
 	@Override
 	public ProjectTimeline fetchByPrimaryKey(long projectTimelineId) {
 		return fetchByPrimaryKey((Serializable)projectTimelineId);
-	}
-
-	@Override
-	public Map<Serializable, ProjectTimeline> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, ProjectTimeline> map =
-			new HashMap<Serializable, ProjectTimeline>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			ProjectTimeline projectTimeline = fetchByPrimaryKey(primaryKey);
-
-			if (projectTimeline != null) {
-				map.put(primaryKey, projectTimeline);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
-				ProjectTimelineImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (ProjectTimeline)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_PROJECTTIMELINE_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (ProjectTimeline projectTimeline :
-					(List<ProjectTimeline>)query.list()) {
-
-				map.put(projectTimeline.getPrimaryKeyObj(), projectTimeline);
-
-				cacheResult(projectTimeline);
-
-				uncachedPrimaryKeys.remove(projectTimeline.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
-					ProjectTimelineImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1781,10 +1519,6 @@ public class ProjectTimelinePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1830,9 +1564,6 @@ public class ProjectTimelinePersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1849,6 +1580,21 @@ public class ProjectTimelinePersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "projectTimelineId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_PROJECTTIMELINE;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return ProjectTimelineModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1857,81 +1603,65 @@ public class ProjectTimelinePersistenceImpl
 	 * Initializes the project timeline persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectTimelineModelImpl.FINDER_CACHE_ENABLED,
-			ProjectTimelineImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectTimelineModelImpl.FINDER_CACHE_ENABLED,
-			ProjectTimelineImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectTimelineModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByProjectId = new FinderPath(
-			ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectTimelineModelImpl.FINDER_CACHE_ENABLED,
-			ProjectTimelineImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByProjectId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByProjectId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"projectId"}, true);
 
 		_finderPathWithoutPaginationFindByProjectId = new FinderPath(
-			ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectTimelineModelImpl.FINDER_CACHE_ENABLED,
-			ProjectTimelineImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByProjectId",
-			new String[] {Long.class.getName()},
-			ProjectTimelineModelImpl.PROJECTID_COLUMN_BITMASK |
-			ProjectTimelineModelImpl.DATE_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"projectId"},
+			true);
 
 		_finderPathCountByProjectId = new FinderPath(
-			ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectTimelineModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByProjectId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"projectId"},
+			false);
 
 		_finderPathWithPaginationFindByBudgetParticipatifId = new FinderPath(
-			ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectTimelineModelImpl.FINDER_CACHE_ENABLED,
-			ProjectTimelineImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByBudgetParticipatifId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"budgetParticipatifId"}, true);
 
 		_finderPathWithoutPaginationFindByBudgetParticipatifId = new FinderPath(
-			ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectTimelineModelImpl.FINDER_CACHE_ENABLED,
-			ProjectTimelineImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByBudgetParticipatifId", new String[] {Long.class.getName()},
-			ProjectTimelineModelImpl.BUDGETPARTICIPATIFID_COLUMN_BITMASK |
-			ProjectTimelineModelImpl.DATE_COLUMN_BITMASK);
+			new String[] {"budgetParticipatifId"}, true);
 
 		_finderPathCountByBudgetParticipatifId = new FinderPath(
-			ProjectTimelineModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectTimelineModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByBudgetParticipatifId", new String[] {Long.class.getName()});
+			"countByBudgetParticipatifId", new String[] {Long.class.getName()},
+			new String[] {"budgetParticipatifId"}, false);
+
+		ProjectTimelineUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		ProjectTimelineUtil.setPersistence(null);
+
 		entityCache.removeCache(ProjectTimelineImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1942,9 +1672,6 @@ public class ProjectTimelinePersistenceImpl
 
 	private static final String _SQL_SELECT_PROJECTTIMELINE =
 		"SELECT projectTimeline FROM ProjectTimeline projectTimeline";
-
-	private static final String _SQL_SELECT_PROJECTTIMELINE_WHERE_PKS_IN =
-		"SELECT projectTimeline FROM ProjectTimeline projectTimeline WHERE projectTimelineId IN (";
 
 	private static final String _SQL_SELECT_PROJECTTIMELINE_WHERE =
 		"SELECT projectTimeline FROM ProjectTimeline projectTimeline WHERE ";
@@ -1968,5 +1695,10 @@ public class ProjectTimelinePersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"date"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

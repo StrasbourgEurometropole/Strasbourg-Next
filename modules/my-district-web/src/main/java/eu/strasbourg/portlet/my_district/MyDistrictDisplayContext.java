@@ -7,8 +7,11 @@ import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -37,7 +40,12 @@ import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
 import eu.strasbourg.service.opendata.geo.district.OpenDataGeoDistrictService;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import eu.strasbourg.utils.*;
+import eu.strasbourg.utils.AssetPublisherTemplateHelper;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.JournalArticleHelper;
+import eu.strasbourg.utils.PortalHelper;
+import eu.strasbourg.utils.PublikApiClient;
+import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Reference;
 
@@ -77,10 +85,10 @@ public class MyDistrictDisplayContext {
         this.adictService = adict;
         this.openDataGeoDistrictService = openDataGeoDistrictService;
         try {
-            this.configuration = themeDisplay.getPortletDisplay()
-                    .getPortletInstanceConfiguration(MyDistrictConfiguration.class);
+            this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(MyDistrictConfiguration.class, themeDisplay);
+
         } catch (ConfigurationException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
     }
 
@@ -89,12 +97,12 @@ public class MyDistrictDisplayContext {
     }
 
     public String getVirtualHostName() {
-        return themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname();
+        return PortalHelper.getVirtualHostname(themeDisplay.getScopeGroup(),themeDisplay.getLanguageId());
     }
 
     public String getVirtualStrasbourgHostName() {
         Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(this.themeDisplay.getCompanyId(), "/strasbourg.eu");
-        return group.getPublicLayoutSet().getVirtualHostname();
+        return PortalHelper.getVirtualHostname(group,themeDisplay.getLanguageId());
     }
 
     // Récupération de l'id utilisateur
@@ -158,7 +166,7 @@ public class MyDistrictDisplayContext {
             try {
                 district = openDataGeoDistrictService.getDistrictByAddress(address, zipCode, city);
             } catch (Exception e) {
-                e.printStackTrace();
+                _log.error(e.getMessage() + " : address -> " + address + ", zipCode -> " + zipCode + ", city -> " + city);
                 hasError = true;
             }
         }
@@ -172,7 +180,7 @@ public class MyDistrictDisplayContext {
                             .getGlobalVocabulary(VocabularyNames.TERRITORY);
                     district = AssetVocabularyHelper.getCategoryByExternalId(territoryVocabulary, districtId);
                 } catch (PortalException e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage());
                 }
             }
         }
@@ -197,7 +205,7 @@ public class MyDistrictDisplayContext {
                     try {
                         assetEntries.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
                     } catch (PortalException e) {
-                        e.printStackTrace();
+                        _log.error(e.getMessage());
                     }
                 }
             }
@@ -241,7 +249,7 @@ public class MyDistrictDisplayContext {
                     try {
                         assetEntries.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
                     } catch (PortalException e) {
-                        e.printStackTrace();
+                        _log.error(e.getMessage() + " : " + entryRel);
                     }
                 }
             }
@@ -257,7 +265,7 @@ public class MyDistrictDisplayContext {
                 // ne garde que s'il est publié
                 assetEntries.removeIf(e -> !e.getVisible());
             } catch (PortalException e1) {
-                e1.printStackTrace();
+                _log.error(e1.getMessage());
             }
             if (!assetEntries.isEmpty()) {
                 townHall = PlaceLocalServiceUtil.fetchPlace(assetEntries.get(0).getClassPK());
@@ -295,7 +303,7 @@ public class MyDistrictDisplayContext {
                     try {
                         assetEntries.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
                     } catch (PortalException e) {
-                        e.printStackTrace();
+                        _log.error(e.getMessage() + " : " + entryRel);
                     }
                 }
             }
@@ -311,7 +319,7 @@ public class MyDistrictDisplayContext {
                 // ne garde que s'il est publié
                 assetEntries.removeIf(e -> !e.getVisible());
             } catch (PortalException e1) {
-                e1.printStackTrace();
+                _log.error(e1.getMessage());
             }
             if (!assetEntries.isEmpty()) {
                 territoryDirection = PlaceLocalServiceUtil.fetchPlace(assetEntries.get(0).getClassPK());
@@ -334,7 +342,7 @@ public class MyDistrictDisplayContext {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                _log.info(e.getMessage() + " : address -> " + address + ", zipCode -> " + zipCode + ", city -> " + city);
                 hasError = true;
             }
         }
@@ -426,7 +434,7 @@ public class MyDistrictDisplayContext {
                     try {
                         entries.add(AssetEntryLocalServiceUtil.getAssetEntry(entryRel.getAssetEntryId()));
                     } catch (PortalException e) {
-                        e.printStackTrace();
+                        _log.error(e.getMessage() + " : " + entryRel);
                     }
                 }
             }
@@ -478,4 +486,6 @@ public class MyDistrictDisplayContext {
     public void setOpenDataGeoDistrictService(OpenDataGeoDistrictService openDataGeoDistrictService) {
         this.openDataGeoDistrictService = openDataGeoDistrictService;
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(MyDistrictDisplayContext.class.getName());
 }

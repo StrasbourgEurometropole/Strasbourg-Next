@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.help.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.help.model.HelpRequest;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for HelpRequest. This utility wraps
@@ -48,9 +48,7 @@ public class HelpRequestLocalServiceUtil {
 	 * @param helpRequest the help request
 	 * @return the help request that was added
 	 */
-	public static eu.strasbourg.service.help.model.HelpRequest addHelpRequest(
-		eu.strasbourg.service.help.model.HelpRequest helpRequest) {
-
+	public static HelpRequest addHelpRequest(HelpRequest helpRequest) {
 		return getService().addHelpRequest(helpRequest);
 	}
 
@@ -60,9 +58,7 @@ public class HelpRequestLocalServiceUtil {
 	 * @param helpRequestId the primary key for the new help request
 	 * @return the new help request
 	 */
-	public static eu.strasbourg.service.help.model.HelpRequest
-		createHelpRequest(long helpRequestId) {
-
+	public static HelpRequest createHelpRequest(long helpRequestId) {
 		return getService().createHelpRequest(helpRequestId);
 	}
 
@@ -72,10 +68,20 @@ public class HelpRequestLocalServiceUtil {
 	 * @param sc Le contexte de la requete.
 	 * @return L'aide cree.
 	 */
-	public static eu.strasbourg.service.help.model.HelpRequest
-		createHelpRequest(com.liferay.portal.kernel.service.ServiceContext sc) {
+	public static HelpRequest createHelpRequest(
+		com.liferay.portal.kernel.service.ServiceContext sc) {
 
 		return getService().createHelpRequest(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -88,10 +94,7 @@ public class HelpRequestLocalServiceUtil {
 	 * @param helpRequest the help request
 	 * @return the help request that was removed
 	 */
-	public static eu.strasbourg.service.help.model.HelpRequest
-		deleteHelpRequest(
-			eu.strasbourg.service.help.model.HelpRequest helpRequest) {
-
+	public static HelpRequest deleteHelpRequest(HelpRequest helpRequest) {
 		return getService().deleteHelpRequest(helpRequest);
 	}
 
@@ -106,9 +109,8 @@ public class HelpRequestLocalServiceUtil {
 	 * @return the help request that was removed
 	 * @throws PortalException if a help request with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.help.model.HelpRequest
-			deleteHelpRequest(long helpRequestId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static HelpRequest deleteHelpRequest(long helpRequestId)
+		throws PortalException {
 
 		return getService().deleteHelpRequest(helpRequestId);
 	}
@@ -116,17 +118,22 @@ public class HelpRequestLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -136,9 +143,7 @@ public class HelpRequestLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -154,9 +159,8 @@ public class HelpRequestLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -174,10 +178,9 @@ public class HelpRequestLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -189,9 +192,7 @@ public class HelpRequestLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -203,15 +204,13 @@ public class HelpRequestLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.help.model.HelpRequest fetchHelpRequest(
-		long helpRequestId) {
-
+	public static HelpRequest fetchHelpRequest(long helpRequestId) {
 		return getService().fetchHelpRequest(helpRequestId);
 	}
 
@@ -222,8 +221,8 @@ public class HelpRequestLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching help request, or <code>null</code> if a matching help request could not be found
 	 */
-	public static eu.strasbourg.service.help.model.HelpRequest
-		fetchHelpRequestByUuidAndGroupId(String uuid, long groupId) {
+	public static HelpRequest fetchHelpRequestByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchHelpRequestByUuidAndGroupId(uuid, groupId);
 	}
@@ -231,8 +230,8 @@ public class HelpRequestLocalServiceUtil {
 	/**
 	 * Recherche par mot clés
 	 */
-	public static java.util.List<eu.strasbourg.service.help.model.HelpRequest>
-		findByKeyword(String keyword, long groupId, int start, int end) {
+	public static List<HelpRequest> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -253,18 +252,14 @@ public class HelpRequestLocalServiceUtil {
 	/**
 	 * Retourne la liste des demands d'aides pour une proposition
 	 */
-	public static java.util.List<eu.strasbourg.service.help.model.HelpRequest>
-		getByHelpProposalId(long helpRequestId) {
-
+	public static List<HelpRequest> getByHelpProposalId(long helpRequestId) {
 		return getService().getByHelpProposalId(helpRequestId);
 	}
 
 	/**
 	 * Retourne les demandes d'aides pour un utilisateur
 	 */
-	public static java.util.List<eu.strasbourg.service.help.model.HelpRequest>
-		getByPublikId(String publikId) {
-
+	public static List<HelpRequest> getByPublikId(String publikId) {
 		return getService().getByPublikId(publikId);
 	}
 
@@ -283,9 +278,8 @@ public class HelpRequestLocalServiceUtil {
 	 * @return the help request
 	 * @throws PortalException if a help request with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.help.model.HelpRequest getHelpRequest(
-			long helpRequestId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static HelpRequest getHelpRequest(long helpRequestId)
+		throws PortalException {
 
 		return getService().getHelpRequest(helpRequestId);
 	}
@@ -298,9 +292,9 @@ public class HelpRequestLocalServiceUtil {
 	 * @return the matching help request
 	 * @throws PortalException if a matching help request could not be found
 	 */
-	public static eu.strasbourg.service.help.model.HelpRequest
-			getHelpRequestByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static HelpRequest getHelpRequestByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getHelpRequestByUuidAndGroupId(uuid, groupId);
 	}
@@ -316,9 +310,7 @@ public class HelpRequestLocalServiceUtil {
 	 * @param end the upper bound of the range of help requests (not inclusive)
 	 * @return the range of help requests
 	 */
-	public static java.util.List<eu.strasbourg.service.help.model.HelpRequest>
-		getHelpRequests(int start, int end) {
-
+	public static List<HelpRequest> getHelpRequests(int start, int end) {
 		return getService().getHelpRequests(start, end);
 	}
 
@@ -329,8 +321,8 @@ public class HelpRequestLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching help requests, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.help.model.HelpRequest>
-		getHelpRequestsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<HelpRequest> getHelpRequestsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getHelpRequestsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -345,12 +337,9 @@ public class HelpRequestLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching help requests, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.help.model.HelpRequest>
-		getHelpRequestsByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.help.model.HelpRequest>
-					orderByComparator) {
+	public static List<HelpRequest> getHelpRequestsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<HelpRequest> orderByComparator) {
 
 		return getService().getHelpRequestsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -384,9 +373,8 @@ public class HelpRequestLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -402,9 +390,8 @@ public class HelpRequestLocalServiceUtil {
 	 *
 	 * @param helpRequestId Id de la demande d'aide
 	 */
-	public static eu.strasbourg.service.help.model.HelpRequest
-			removeHelpRequest(long helpRequestId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static HelpRequest removeHelpRequest(long helpRequestId)
+		throws PortalException {
 
 		return getService().removeHelpRequest(helpRequestId);
 	}
@@ -419,10 +406,7 @@ public class HelpRequestLocalServiceUtil {
 	 * @param helpRequest the help request
 	 * @return the help request that was updated
 	 */
-	public static eu.strasbourg.service.help.model.HelpRequest
-		updateHelpRequest(
-			eu.strasbourg.service.help.model.HelpRequest helpRequest) {
-
+	public static HelpRequest updateHelpRequest(HelpRequest helpRequest) {
 		return getService().updateHelpRequest(helpRequest);
 	}
 
@@ -431,11 +415,10 @@ public class HelpRequestLocalServiceUtil {
 	 *
 	 * @throws IOException
 	 */
-	public static eu.strasbourg.service.help.model.HelpRequest
-			updateHelpRequest(
-				eu.strasbourg.service.help.model.HelpRequest helpRequest,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static HelpRequest updateHelpRequest(
+			HelpRequest helpRequest,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateHelpRequest(helpRequest, sc);
 	}
@@ -443,10 +426,8 @@ public class HelpRequestLocalServiceUtil {
 	/**
 	 * Met à jour le statut de la helpProposal "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.help.model.HelpRequest helpRequest,
-			int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(HelpRequest helpRequest, int status)
+		throws PortalException {
 
 		getService().updateStatus(helpRequest, status);
 	}
@@ -454,36 +435,24 @@ public class HelpRequestLocalServiceUtil {
 	/**
 	 * Met à jour le statut de la helpProposal par le framework workflow
 	 */
-	public static eu.strasbourg.service.help.model.HelpRequest updateStatus(
+	public static HelpRequest updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
 	}
 
 	public static HelpRequestLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<HelpRequestLocalService, HelpRequestLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(HelpRequestLocalService.class);
-
-		ServiceTracker<HelpRequestLocalService, HelpRequestLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<HelpRequestLocalService, HelpRequestLocalService>(
-						bundle.getBundleContext(),
-						HelpRequestLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(HelpRequestLocalService service) {
+		_service = service;
 	}
+
+	private static volatile HelpRequestLocalService _service;
 
 }

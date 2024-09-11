@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.portal.kernel.model.LayoutSet</className>
+    <template>
+        <script>plan-du-site.ftl</script>
+        <name>Plan du site</name>
+        <key>9401977</key>
+    </template>
+</root>

@@ -2,6 +2,8 @@ package eu.strasbourg.portlet.objtp.configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -9,6 +11,7 @@ import javax.portlet.PortletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 
@@ -35,44 +38,45 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 public class ObjtpConfigurationAction extends DefaultConfigurationAction{
 
 	/**
-	 * Action : Sauvegarde de la configuration si on a validé le formulaire ou
+	 * Action: Sauvegarde de la configuration si on a validé le formulaire ou
 	 * envoi de la JSP des sélecteurs si on a changé la liste déroulante des
 	 * types d'entité
 	 */
 	@Override
-	public void processAction(PortletConfig portletConfig,
-		ActionRequest request, ActionResponse response) throws Exception {
+	public void processAction(PortletConfig portletConfig, ActionRequest request, ActionResponse response) throws Exception {
 
 		String cmd = ParamUtil.getString(request, "cmd");
 
-		if (cmd.equals("update")) {
-			
-			// Titre de la page
-			String title = ParamUtil.getString(request, "title");
-			setPreference(request, "title", title);
-			
-			String categoryCodes= new String();
-			
-			long categoriesCount = ParamUtil.getLong(request,
-					"categoriesCount");
-				int j = 0;
-				for (long i = 0; i < categoriesCount; i++) {
-					String categoryCodeString = ParamUtil.getString(request, "categoryCode_" + i);
-					boolean assetClassNameSelected = !Validator.isNull(categoryCodeString)
-						&& !categoryCodeString.equals("false");
-					if (assetClassNameSelected) {
-						if (categoryCodes.length() > 0) {
-							categoryCodes += ",";
-						}
-						categoryCodes += categoryCodeString;
-					}
-				}			
-			setPreference(request, "categoryCodes", categoryCodes);
+		if ("update".equals(cmd)) {
+			// Update preferences only if the command is "update."
 
+			// Retrieve and set the preferences for title, URL for declaring lost, and URL for the guide
+			setPreference(request, "title", ParamUtil.getString(request, "title"));
+			setPreference(request, "urlDeclareLost", ParamUtil.getString(request, "urlDeclareLost"));
+			setPreference(request, "urlGuideHowTo", ParamUtil.getString(request, "urlGuideHowTo"));
+
+			// Process category codes
+			String categoryCodes = getCategoryCodes(request);
+			setPreference(request, "categoryCodes", categoryCodes);
 		}
+
 		super.processAction(portletConfig, request, response);
 	}
-	
+
+	// Helper method to process and concatenate category codes using Java 8 Stream API
+	private String getCategoryCodes(ActionRequest request) {
+		long categoriesCount = ParamUtil.getLong(request, "categoriesCount");
+
+		String categoryCodes = LongStream.range(0, categoriesCount)
+				.mapToObj(i -> ParamUtil.getString(request, "categoryCode_" + i))
+				.filter(code -> !Validator.isNull(code) && !code.equals("false"))
+				.collect(Collectors.joining(","));
+
+		return categoryCodes;
+	}
+
+
+
 	/**
 	 * Envoie à la JSP de configuration des informations nécessaires
 	 */
@@ -84,12 +88,16 @@ public class ObjtpConfigurationAction extends DefaultConfigurationAction{
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
 			// Pages sélectionnées
-			ObjtpConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-						ObjtpConfiguration.class);
+			ObjtpConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(ObjtpConfiguration.class, themeDisplay);
 			
 			// Titre
 			request.setAttribute("title", configuration.title());
+
+			// URL pour déclarer un objet perdu
+			request.setAttribute("urlDeclareLost", configuration.urlDeclareLost());
+
+			// URL pour le guide d'utilisation
+			request.setAttribute("urlGuideHowTo", configuration.urlGuideHowTo());
 			
 			// Codes de catégorie d'objets trouvés
 			request.setAttribute("categoryCodes", configuration.categoryCodes());

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.gtfs.model.Arret</className>
+    <template>
+        <script>arret-detail.ftl</script>
+        <name>Détail arret</name>
+        <key>26136843</key>
+    </template>
+</root>

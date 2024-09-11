@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.comment.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,12 @@ import java.util.Objects;
  * @see Comment
  * @generated
  */
-public class CommentWrapper implements Comment, ModelWrapper<Comment> {
+public class CommentWrapper
+	extends BaseModelWrapper<Comment>
+	implements Comment, ModelWrapper<Comment> {
 
 	public CommentWrapper(Comment comment) {
-		_comment = comment;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Comment.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Comment.class.getName();
+		super(comment);
 	}
 
 	@Override
@@ -204,13 +183,8 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	}
 
 	@Override
-	public Object clone() {
-		return new CommentWrapper((Comment)_comment.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.comment.model.Comment comment) {
-		return _comment.compareTo(comment);
+	public Comment cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -222,7 +196,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	public java.util.List<eu.strasbourg.service.comment.model.Signalement>
 		findSignalements() {
 
-		return _comment.findSignalements();
+		return model.findSignalements();
 	}
 
 	/**
@@ -232,7 +206,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	public java.util.List<eu.strasbourg.service.comment.model.Comment>
 		getApprovedChildComments() {
 
-		return _comment.getApprovedChildComments();
+		return model.getApprovedChildComments();
 	}
 
 	/**
@@ -240,7 +214,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _comment.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -250,12 +224,17 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public long getAssetEntryId() {
-		return _comment.getAssetEntryId();
+		return model.getAssetEntryId();
 	}
 
 	@Override
 	public String getAssetEntryTitle() {
-		return _comment.getAssetEntryTitle();
+		return model.getAssetEntryTitle();
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -266,7 +245,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _comment.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -276,7 +255,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public long getCommentId() {
-		return _comment.getCommentId();
+		return model.getCommentId();
 	}
 
 	/**
@@ -286,7 +265,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _comment.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -296,7 +275,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public int getCountSignalements() {
-		return _comment.getCountSignalements();
+		return model.getCountSignalements();
 	}
 
 	/**
@@ -306,7 +285,12 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _comment.getCreateDate();
+		return model.getCreateDate();
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -316,12 +300,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.like.model.Like> getDislikes() {
-		return _comment.getDislikes();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _comment.getExpandoBridge();
+		return model.getDislikes();
 	}
 
 	/**
@@ -331,7 +310,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public String getFullPublikUserName() {
-		return _comment.getFullPublikUserName();
+		return model.getFullPublikUserName();
 	}
 
 	/**
@@ -341,7 +320,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public long getGroupId() {
-		return _comment.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -351,7 +330,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public int getLevel() {
-		return _comment.getLevel();
+		return model.getLevel();
 	}
 
 	/**
@@ -361,7 +340,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.like.model.Like> getLikes() {
-		return _comment.getLikes();
+		return model.getLikes();
 	}
 
 	/**
@@ -373,7 +352,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	public java.util.List<eu.strasbourg.service.like.model.Like>
 		getLikesDislikes() {
 
-		return _comment.getLikesDislikes();
+		return model.getLikesDislikes();
 	}
 
 	/**
@@ -383,7 +362,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public Date getModifiedByUserDate() {
-		return _comment.getModifiedByUserDate();
+		return model.getModifiedByUserDate();
 	}
 
 	/**
@@ -393,7 +372,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _comment.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -403,7 +382,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public int getNbDislikes() {
-		return _comment.getNbDislikes();
+		return model.getNbDislikes();
 	}
 
 	/**
@@ -413,7 +392,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public int getNbLikes() {
-		return _comment.getNbLikes();
+		return model.getNbLikes();
 	}
 
 	/**
@@ -423,7 +402,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public int getNbLikesDislikes() {
-		return _comment.getNbLikesDislikes();
+		return model.getNbLikesDislikes();
 	}
 
 	/**
@@ -433,7 +412,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public long getParentCommentId() {
-		return _comment.getParentCommentId();
+		return model.getParentCommentId();
 	}
 
 	/**
@@ -443,12 +422,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _comment.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _comment.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -458,17 +432,17 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public String getPublikId() {
-		return _comment.getPublikId();
+		return model.getPublikId();
 	}
 
 	@Override
 	public eu.strasbourg.service.oidc.model.PublikUser getPublikUser() {
-		return _comment.getPublikUser();
+		return model.getPublikUser();
 	}
 
 	@Override
 	public String getPublikUserName() {
-		return _comment.getPublikUserName();
+		return model.getPublikUserName();
 	}
 
 	/**
@@ -478,7 +452,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public int getStatus() {
-		return _comment.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -488,7 +462,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _comment.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -498,7 +472,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _comment.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -508,7 +482,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _comment.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -518,7 +492,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _comment.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -528,12 +502,78 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public String getText() {
-		return _comment.getText();
+		return model.getText();
+	}
+
+	/**
+	 * Returns the localized text of this comment in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized text of this comment
+	 */
+	@Override
+	public String getText(java.util.Locale locale) {
+		return model.getText(locale);
+	}
+
+	/**
+	 * Returns the localized text of this comment in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized text of this comment. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getText(java.util.Locale locale, boolean useDefault) {
+		return model.getText(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized text of this comment in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized text of this comment
+	 */
+	@Override
+	public String getText(String languageId) {
+		return model.getText(languageId);
+	}
+
+	/**
+	 * Returns the localized text of this comment in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized text of this comment
+	 */
+	@Override
+	public String getText(String languageId, boolean useDefault) {
+		return model.getText(languageId, useDefault);
+	}
+
+	@Override
+	public String getTextCurrentLanguageId() {
+		return model.getTextCurrentLanguageId();
+	}
+
+	@Override
+	public String getTextCurrentValue() {
+		return model.getTextCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized texts of this comment.
+	 *
+	 * @return the locales and localized texts of this comment
+	 */
+	@Override
+	public Map<java.util.Locale, String> getTextMap() {
+		return model.getTextMap();
 	}
 
 	@Override
 	public String getTypeAssetEntry() {
-		return _comment.getTypeAssetEntry();
+		return model.getTypeAssetEntry();
 	}
 
 	/**
@@ -543,7 +583,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public String getUrlProjectCommentaire() {
-		return _comment.getUrlProjectCommentaire();
+		return model.getUrlProjectCommentaire();
 	}
 
 	/**
@@ -553,7 +593,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public long getUserId() {
-		return _comment.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -563,7 +603,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public String getUserName() {
-		return _comment.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -573,7 +613,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public String getUserQuality() {
-		return _comment.getUserQuality();
+		return model.getUserQuality();
 	}
 
 	/**
@@ -583,7 +623,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _comment.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -593,12 +633,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public String getUuid() {
-		return _comment.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _comment.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -608,12 +643,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _comment.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _comment.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -623,7 +653,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _comment.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -633,12 +663,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _comment.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _comment.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -648,7 +673,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _comment.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -658,7 +683,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _comment.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -668,12 +693,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _comment.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _comment.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -683,7 +703,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public boolean isPending() {
-		return _comment.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -693,12 +713,27 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _comment.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_comment.persist();
+		model.persist();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+			java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -708,12 +743,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setAssetEntryId(long assetEntryId) {
-		_comment.setAssetEntryId(assetEntryId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_comment.setCachedModel(cachedModel);
+		model.setAssetEntryId(assetEntryId);
 	}
 
 	/**
@@ -723,7 +753,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setCommentId(long commentId) {
-		_comment.setCommentId(commentId);
+		model.setCommentId(commentId);
 	}
 
 	/**
@@ -733,7 +763,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_comment.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -743,24 +773,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_comment.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_comment.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_comment.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_comment.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -770,7 +783,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_comment.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -780,7 +793,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setLevel(int level) {
-		_comment.setLevel(level);
+		model.setLevel(level);
 	}
 
 	/**
@@ -790,7 +803,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setModifiedByUserDate(Date modifiedByUserDate) {
-		_comment.setModifiedByUserDate(modifiedByUserDate);
+		model.setModifiedByUserDate(modifiedByUserDate);
 	}
 
 	/**
@@ -800,12 +813,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_comment.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_comment.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -815,7 +823,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setParentCommentId(long parentCommentId) {
-		_comment.setParentCommentId(parentCommentId);
+		model.setParentCommentId(parentCommentId);
 	}
 
 	/**
@@ -825,12 +833,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_comment.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_comment.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -840,7 +843,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setPublikId(String publikId) {
-		_comment.setPublikId(publikId);
+		model.setPublikId(publikId);
 	}
 
 	/**
@@ -850,7 +853,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_comment.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -860,7 +863,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_comment.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -870,7 +873,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_comment.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -880,7 +883,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_comment.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -890,7 +893,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_comment.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -900,7 +903,60 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setText(String text) {
-		_comment.setText(text);
+		model.setText(text);
+	}
+
+	/**
+	 * Sets the localized text of this comment in the language.
+	 *
+	 * @param text the localized text of this comment
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setText(String text, java.util.Locale locale) {
+		model.setText(text, locale);
+	}
+
+	/**
+	 * Sets the localized text of this comment in the language, and sets the default locale.
+	 *
+	 * @param text the localized text of this comment
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setText(
+		String text, java.util.Locale locale, java.util.Locale defaultLocale) {
+
+		model.setText(text, locale, defaultLocale);
+	}
+
+	@Override
+	public void setTextCurrentLanguageId(String languageId) {
+		model.setTextCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized texts of this comment from the map of locales and localized texts.
+	 *
+	 * @param textMap the locales and localized texts of this comment
+	 */
+	@Override
+	public void setTextMap(Map<java.util.Locale, String> textMap) {
+		model.setTextMap(textMap);
+	}
+
+	/**
+	 * Sets the localized texts of this comment from the map of locales and localized texts, and sets the default locale.
+	 *
+	 * @param textMap the locales and localized texts of this comment
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setTextMap(
+		Map<java.util.Locale, String> textMap, java.util.Locale defaultLocale) {
+
+		model.setTextMap(textMap, defaultLocale);
 	}
 
 	/**
@@ -910,7 +966,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setUrlProjectCommentaire(String urlProjectCommentaire) {
-		_comment.setUrlProjectCommentaire(urlProjectCommentaire);
+		model.setUrlProjectCommentaire(urlProjectCommentaire);
 	}
 
 	/**
@@ -920,7 +976,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_comment.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -930,7 +986,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_comment.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -940,7 +996,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setUserQuality(String userQuality) {
-		_comment.setUserQuality(userQuality);
+		model.setUserQuality(userQuality);
 	}
 
 	/**
@@ -950,7 +1006,7 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_comment.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -960,80 +1016,22 @@ public class CommentWrapper implements Comment, ModelWrapper<Comment> {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_comment.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.comment.model.Comment> toCacheModel() {
-
-		return _comment.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.comment.model.Comment toEscapedModel() {
-		return new CommentWrapper(_comment.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _comment.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.comment.model.Comment toUnescapedModel() {
-		return new CommentWrapper(_comment.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _comment.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof CommentWrapper)) {
-			return false;
-		}
-
-		CommentWrapper commentWrapper = (CommentWrapper)object;
-
-		if (Objects.equals(_comment, commentWrapper._comment)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _comment.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Comment getWrappedModel() {
-		return _comment;
+	protected CommentWrapper wrap(Comment comment) {
+		return new CommentWrapper(comment);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _comment.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _comment.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_comment.resetOriginalValues();
-	}
-
-	private final Comment _comment;
 
 }

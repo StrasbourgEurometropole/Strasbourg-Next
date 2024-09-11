@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.activity.model.impl;
@@ -17,6 +8,7 @@ package eu.strasbourg.service.activity.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -32,29 +24,27 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.activity.model.Activity;
 import eu.strasbourg.service.activity.model.ActivityModel;
-import eu.strasbourg.service.activity.model.ActivitySoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -88,10 +78,11 @@ public class ActivityModelImpl
 		{"userId", Types.BIGINT}, {"userName", Types.VARCHAR},
 		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
 		{"title", Types.VARCHAR}, {"description", Types.CLOB},
-		{"videosIds", Types.VARCHAR}, {"imageId", Types.BIGINT},
-		{"imagesIds", Types.VARCHAR}, {"filesIds", Types.VARCHAR},
-		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
-		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP}
+		{"order_", Types.INTEGER}, {"videosIds", Types.VARCHAR},
+		{"imageId", Types.BIGINT}, {"imagesIds", Types.VARCHAR},
+		{"filesIds", Types.VARCHAR}, {"status", Types.INTEGER},
+		{"statusByUserId", Types.BIGINT}, {"statusByUserName", Types.VARCHAR},
+		{"statusDate", Types.TIMESTAMP}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -108,6 +99,7 @@ public class ActivityModelImpl
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("order_", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("videosIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("imagesIds", Types.VARCHAR);
@@ -119,7 +111,7 @@ public class ActivityModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table activity_Activity (uuid_ VARCHAR(75) null,activityId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title STRING null,description TEXT null,videosIds VARCHAR(75) null,imageId LONG,imagesIds VARCHAR(75) null,filesIds VARCHAR(75) null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
+		"create table activity_Activity (uuid_ VARCHAR(75) null,activityId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,title STRING null,description TEXT null,order_ INTEGER,videosIds VARCHAR(75) null,imageId LONG,imagesIds VARCHAR(75) null,filesIds VARCHAR(75) null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
 
 	public static final String TABLE_SQL_DROP = "drop table activity_Activity";
 
@@ -135,83 +127,48 @@ public class ActivityModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.activity.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.activity.model.Activity"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.activity.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.activity.model.Activity"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.activity.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.activity.model.Activity"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ACTIVITYID_COLUMN_BITMASK = 8L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Activity toModel(ActivitySoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Activity model = new ActivityImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setActivityId(soapModel.getActivityId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setTitle(soapModel.getTitle());
-		model.setDescription(soapModel.getDescription());
-		model.setVideosIds(soapModel.getVideosIds());
-		model.setImageId(soapModel.getImageId());
-		model.setImagesIds(soapModel.getImagesIds());
-		model.setFilesIds(soapModel.getFilesIds());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Activity> toModels(ActivitySoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Activity> models = new ArrayList<Activity>(soapModels.length);
-
-		for (ActivitySoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.activity.service.util.PropsUtil.get(
@@ -268,9 +225,6 @@ public class ActivityModelImpl
 				attributeName, attributeGetterFunction.apply((Activity)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -295,428 +249,118 @@ public class ActivityModelImpl
 	public Map<String, Function<Activity, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Activity, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Activity>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Activity.class.getClassLoader(), Activity.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<Activity, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Activity> constructor =
-				(Constructor<Activity>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Activity, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Activity, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Activity::getUuid);
+			attributeGetterFunctions.put("activityId", Activity::getActivityId);
+			attributeGetterFunctions.put("groupId", Activity::getGroupId);
+			attributeGetterFunctions.put("companyId", Activity::getCompanyId);
+			attributeGetterFunctions.put("userId", Activity::getUserId);
+			attributeGetterFunctions.put("userName", Activity::getUserName);
+			attributeGetterFunctions.put("createDate", Activity::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Activity::getModifiedDate);
+			attributeGetterFunctions.put("title", Activity::getTitle);
+			attributeGetterFunctions.put(
+				"description", Activity::getDescription);
+			attributeGetterFunctions.put("order", Activity::getOrder);
+			attributeGetterFunctions.put("videosIds", Activity::getVideosIds);
+			attributeGetterFunctions.put("imageId", Activity::getImageId);
+			attributeGetterFunctions.put("imagesIds", Activity::getImagesIds);
+			attributeGetterFunctions.put("filesIds", Activity::getFilesIds);
+			attributeGetterFunctions.put("status", Activity::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Activity::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Activity::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Activity::getStatusDate);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Activity, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Activity, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Activity, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Activity, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Activity, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Activity, String>)Activity::setUuid);
+			attributeSetterBiConsumers.put(
+				"activityId",
+				(BiConsumer<Activity, Long>)Activity::setActivityId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Activity, Long>)Activity::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Activity, Long>)Activity::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Activity, Long>)Activity::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Activity, String>)Activity::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Activity, Date>)Activity::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Activity, Date>)Activity::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Activity, String>)Activity::setTitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<Activity, String>)Activity::setDescription);
+			attributeSetterBiConsumers.put(
+				"order", (BiConsumer<Activity, Integer>)Activity::setOrder);
+			attributeSetterBiConsumers.put(
+				"videosIds",
+				(BiConsumer<Activity, String>)Activity::setVideosIds);
+			attributeSetterBiConsumers.put(
+				"imageId", (BiConsumer<Activity, Long>)Activity::setImageId);
+			attributeSetterBiConsumers.put(
+				"imagesIds",
+				(BiConsumer<Activity, String>)Activity::setImagesIds);
+			attributeSetterBiConsumers.put(
+				"filesIds",
+				(BiConsumer<Activity, String>)Activity::setFilesIds);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Activity, Integer>)Activity::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Activity, Long>)Activity::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Activity, String>)Activity::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Activity, Date>)Activity::setStatusDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<Activity, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Activity, Object>>();
-		Map<String, BiConsumer<Activity, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Activity, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Activity, Object>() {
-
-				@Override
-				public Object apply(Activity activity) {
-					return activity.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Activity, Object>() {
-
-				@Override
-				public void accept(Activity activity, Object uuidObject) {
-					activity.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"activityId",
-			new Function<Activity, Object>() {
-
-				@Override
-				public Object apply(Activity activity) {
-					return activity.getActivityId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"activityId",
-			new BiConsumer<Activity, Object>() {
-
-				@Override
-				public void accept(Activity activity, Object activityIdObject) {
-					activity.setActivityId((Long)activityIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Activity, Object>() {
-
-				@Override
-				public Object apply(Activity activity) {
-					return activity.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Activity, Object>() {
-
-				@Override
-				public void accept(Activity activity, Object groupIdObject) {
-					activity.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Activity, Object>() {
-
-				@Override
-				public Object apply(Activity activity) {
-					return activity.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Activity, Object>() {
-
-				@Override
-				public void accept(Activity activity, Object companyIdObject) {
-					activity.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Activity, Object>() {
-
-				@Override
-				public Object apply(Activity activity) {
-					return activity.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Activity, Object>() {
-
-				@Override
-				public void accept(Activity activity, Object userIdObject) {
-					activity.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Activity, Object>() {
-
-				@Override
-				public Object apply(Activity activity) {
-					return activity.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Activity, Object>() {
-
-				@Override
-				public void accept(Activity activity, Object userNameObject) {
-					activity.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Activity, Object>() {
-
-				@Override
-				public Object apply(Activity activity) {
-					return activity.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Activity, Object>() {
-
-				@Override
-				public void accept(Activity activity, Object createDateObject) {
-					activity.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Activity, Object>() {
-
-				@Override
-				public Object apply(Activity activity) {
-					return activity.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Activity, Object>() {
-
-				@Override
-				public void accept(
-					Activity activity, Object modifiedDateObject) {
-
-					activity.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Activity, Object>() {
-
-				@Override
-				public Object apply(Activity activity) {
-					return activity.getTitle();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Activity, Object>() {
-
-				@Override
-				public void accept(Activity activity, Object titleObject) {
-					activity.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<Activity, Object>() {
-
-				@Override
-				public Object apply(Activity activity) {
-					return activity.getDescription();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"description",
-			new BiConsumer<Activity, Object>() {
-
-				@Override
-				public void accept(
-					Activity activity, Object descriptionObject) {
-
-					activity.setDescription((String)descriptionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"videosIds",
-			new Function<Activity, Object>() {
-
-				@Override
-				public Object apply(Activity activity) {
-					return activity.getVideosIds();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"videosIds",
-			new BiConsumer<Activity, Object>() {
-
-				@Override
-				public void accept(Activity activity, Object videosIdsObject) {
-					activity.setVideosIds((String)videosIdsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageId",
-			new Function<Activity, Object>() {
-
-				@Override
-				public Object apply(Activity activity) {
-					return activity.getImageId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"imageId",
-			new BiConsumer<Activity, Object>() {
-
-				@Override
-				public void accept(Activity activity, Object imageIdObject) {
-					activity.setImageId((Long)imageIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imagesIds",
-			new Function<Activity, Object>() {
-
-				@Override
-				public Object apply(Activity activity) {
-					return activity.getImagesIds();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"imagesIds",
-			new BiConsumer<Activity, Object>() {
-
-				@Override
-				public void accept(Activity activity, Object imagesIdsObject) {
-					activity.setImagesIds((String)imagesIdsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"filesIds",
-			new Function<Activity, Object>() {
-
-				@Override
-				public Object apply(Activity activity) {
-					return activity.getFilesIds();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"filesIds",
-			new BiConsumer<Activity, Object>() {
-
-				@Override
-				public void accept(Activity activity, Object filesIdsObject) {
-					activity.setFilesIds((String)filesIdsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Activity, Object>() {
-
-				@Override
-				public Object apply(Activity activity) {
-					return activity.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Activity, Object>() {
-
-				@Override
-				public void accept(Activity activity, Object statusObject) {
-					activity.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Activity, Object>() {
-
-				@Override
-				public Object apply(Activity activity) {
-					return activity.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<Activity, Object>() {
-
-				@Override
-				public void accept(
-					Activity activity, Object statusByUserIdObject) {
-
-					activity.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Activity, Object>() {
-
-				@Override
-				public Object apply(Activity activity) {
-					return activity.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<Activity, Object>() {
-
-				@Override
-				public void accept(
-					Activity activity, Object statusByUserNameObject) {
-
-					activity.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Activity, Object>() {
-
-				@Override
-				public Object apply(Activity activity) {
-					return activity.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Activity, Object>() {
-
-				@Override
-				public void accept(Activity activity, Object statusDateObject) {
-					activity.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -732,17 +376,20 @@ public class ActivityModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -753,6 +400,10 @@ public class ActivityModelImpl
 
 	@Override
 	public void setActivityId(long activityId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_activityId = activityId;
 	}
 
@@ -764,19 +415,20 @@ public class ActivityModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -787,19 +439,21 @@ public class ActivityModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -810,6 +464,10 @@ public class ActivityModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -842,6 +500,10 @@ public class ActivityModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -853,6 +515,10 @@ public class ActivityModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -869,6 +535,10 @@ public class ActivityModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -929,6 +599,10 @@ public class ActivityModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_title = title;
 	}
 
@@ -1034,6 +708,10 @@ public class ActivityModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
 	}
 
@@ -1088,6 +766,21 @@ public class ActivityModelImpl
 
 	@JSON
 	@Override
+	public int getOrder() {
+		return _order;
+	}
+
+	@Override
+	public void setOrder(int order) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_order = order;
+	}
+
+	@JSON
+	@Override
 	public String getVideosIds() {
 		if (_videosIds == null) {
 			return "";
@@ -1099,6 +792,10 @@ public class ActivityModelImpl
 
 	@Override
 	public void setVideosIds(String videosIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_videosIds = videosIds;
 	}
 
@@ -1110,6 +807,10 @@ public class ActivityModelImpl
 
 	@Override
 	public void setImageId(long imageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageId = imageId;
 	}
 
@@ -1126,6 +827,10 @@ public class ActivityModelImpl
 
 	@Override
 	public void setImagesIds(String imagesIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imagesIds = imagesIds;
 	}
 
@@ -1142,6 +847,10 @@ public class ActivityModelImpl
 
 	@Override
 	public void setFilesIds(String filesIds) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_filesIds = filesIds;
 	}
 
@@ -1153,6 +862,10 @@ public class ActivityModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -1164,6 +877,10 @@ public class ActivityModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1196,6 +913,10 @@ public class ActivityModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1207,6 +928,10 @@ public class ActivityModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1297,6 +1022,26 @@ public class ActivityModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1430,6 +1175,7 @@ public class ActivityModelImpl
 		activityImpl.setModifiedDate(getModifiedDate());
 		activityImpl.setTitle(getTitle());
 		activityImpl.setDescription(getDescription());
+		activityImpl.setOrder(getOrder());
 		activityImpl.setVideosIds(getVideosIds());
 		activityImpl.setImageId(getImageId());
 		activityImpl.setImagesIds(getImagesIds());
@@ -1440,6 +1186,45 @@ public class ActivityModelImpl
 		activityImpl.setStatusDate(getStatusDate());
 
 		activityImpl.resetOriginalValues();
+
+		return activityImpl;
+	}
+
+	@Override
+	public Activity cloneWithOriginalValues() {
+		ActivityImpl activityImpl = new ActivityImpl();
+
+		activityImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		activityImpl.setActivityId(
+			this.<Long>getColumnOriginalValue("activityId"));
+		activityImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		activityImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		activityImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		activityImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		activityImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		activityImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		activityImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		activityImpl.setDescription(
+			this.<String>getColumnOriginalValue("description"));
+		activityImpl.setOrder(this.<Integer>getColumnOriginalValue("order_"));
+		activityImpl.setVideosIds(
+			this.<String>getColumnOriginalValue("videosIds"));
+		activityImpl.setImageId(this.<Long>getColumnOriginalValue("imageId"));
+		activityImpl.setImagesIds(
+			this.<String>getColumnOriginalValue("imagesIds"));
+		activityImpl.setFilesIds(
+			this.<String>getColumnOriginalValue("filesIds"));
+		activityImpl.setStatus(this.<Integer>getColumnOriginalValue("status"));
+		activityImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		activityImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		activityImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
 
 		return activityImpl;
 	}
@@ -1486,11 +1271,19 @@ public class ActivityModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1498,21 +1291,11 @@ public class ActivityModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ActivityModelImpl activityModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		activityModelImpl._originalUuid = activityModelImpl._uuid;
+		_setModifiedDate = false;
 
-		activityModelImpl._originalGroupId = activityModelImpl._groupId;
-
-		activityModelImpl._setOriginalGroupId = false;
-
-		activityModelImpl._originalCompanyId = activityModelImpl._companyId;
-
-		activityModelImpl._setOriginalCompanyId = false;
-
-		activityModelImpl._setModifiedDate = false;
-
-		activityModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1577,6 +1360,8 @@ public class ActivityModelImpl
 			activityCacheModel.description = null;
 		}
 
+		activityCacheModel.order = getOrder();
+
 		activityCacheModel.videosIds = getVideosIds();
 
 		String videosIds = activityCacheModel.videosIds;
@@ -1633,7 +1418,7 @@ public class ActivityModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1644,9 +1429,26 @@ public class ActivityModelImpl
 			Function<Activity, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Activity)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Activity)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1659,53 +1461,19 @@ public class ActivityModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Activity, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Activity, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Activity, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Activity)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Activity>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Activity.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _activityId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1715,6 +1483,7 @@ public class ActivityModelImpl
 	private String _titleCurrentLanguageId;
 	private String _description;
 	private String _descriptionCurrentLanguageId;
+	private int _order;
 	private String _videosIds;
 	private long _imageId;
 	private String _imagesIds;
@@ -1723,6 +1492,121 @@ public class ActivityModelImpl
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Activity, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Activity)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("activityId", _activityId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("order_", _order);
+		_columnOriginalValues.put("videosIds", _videosIds);
+		_columnOriginalValues.put("imageId", _imageId);
+		_columnOriginalValues.put("imagesIds", _imagesIds);
+		_columnOriginalValues.put("filesIds", _filesIds);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("order_", "order");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("activityId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("title", 256L);
+
+		columnBitmasks.put("description", 512L);
+
+		columnBitmasks.put("order_", 1024L);
+
+		columnBitmasks.put("videosIds", 2048L);
+
+		columnBitmasks.put("imageId", 4096L);
+
+		columnBitmasks.put("imagesIds", 8192L);
+
+		columnBitmasks.put("filesIds", 16384L);
+
+		columnBitmasks.put("status", 32768L);
+
+		columnBitmasks.put("statusByUserId", 65536L);
+
+		columnBitmasks.put("statusByUserName", 131072L);
+
+		columnBitmasks.put("statusDate", 262144L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Activity _escapedModel;
 

@@ -2,6 +2,7 @@
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
+
 <div class="search-asset-portlet-page">
 	<div class="search-asset-form">
 		<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form">

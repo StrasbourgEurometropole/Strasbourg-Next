@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Accroche</name>
+        <key>415969474</key>
+        <definition>accroche-structure.json</definition>
+        <layout>accroche-layout.json</layout>
+    </structure>
+    <template>
+        <name>Accroche</name>
+        <key>420085408</key>
+        <script>accroche.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

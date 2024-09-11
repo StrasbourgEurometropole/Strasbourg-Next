@@ -5,6 +5,7 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -244,7 +245,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 
 			// Préfiltre catégories
 			if(mode.equals("normal") || mode.equals("district")) {
-				String prefilterCategoriesIds = ParamUtil.getString(request, "prefilterCategoriesIds");
+				String prefilterCategoriesIds = String.join(",", ParamUtil.getStringValues(request, "prefilterCategoriesIds"));
 				setPreference(request, "prefilterCategoriesIds", prefilterCategoriesIds);
 			}else {
 				// Pas utilisé dans les autres modes
@@ -288,7 +289,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// Filtre catégories cochées par défaut
 			if(mode.equals("normal") || mode.equals("district")) {
 				if(displayCheckbox) {
-					String categoriesDefaultsIds = ParamUtil.getString(request, "categoriesDefaultsIds");
+					String categoriesDefaultsIds = String.join(",", ParamUtil.getStringValues(request, "categoriesDefaultsIds"));
 					setPreference(request, "categoriesDefaultsIds", categoriesDefaultsIds);
 				}else{
 					// Pas utilisé dans l'affichage des filtres en liste
@@ -303,7 +304,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			if(mode.equals("normal") || mode.equals("district")) {
 				if(displayCheckbox) {
 					if(displayConfig) {
-						String categoriesIds = ParamUtil.getString(request, "categoriesIds");
+						String categoriesIds = String.join(",", ParamUtil.getStringValues(request, "categoriesIds"));
 						setPreference(request, "categoriesIds", categoriesIds);
 					}else{
 						// Pas utilisé si la config est cachée
@@ -324,7 +325,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 					// Pas utilisé dans l'affichage des filtres en checkbox
 					setPreference(request, "parentsCategoriesIds", "");
 				}else{
-					String parentsCategoriesIds = ParamUtil.getString(request, "parentsCategoriesIds");
+					String parentsCategoriesIds = String.join(",", ParamUtil.getStringValues(request, "parentsCategoriesIds"));
 					setPreference(request, "parentsCategoriesIds", parentsCategoriesIds);
 				}
 			}else {
@@ -521,8 +522,7 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 
 			// Récupération de la configuration
-			MapConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(MapConfiguration.class);
+			MapConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(MapConfiguration.class, themeDisplay);
 
 			// Ce flag permet de savoir si une configuration du portlet a déjà
 			// été enregistrée

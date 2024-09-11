@@ -1,15 +1,14 @@
 package eu.strasbourg.service.interest.asset;
-import java.util.Locale;
+
+import com.liferay.asset.kernel.model.BaseJSPAssetRenderer;
+import eu.strasbourg.service.interest.model.Interest;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.liferay.asset.kernel.model.BaseJSPAssetRenderer;
-
-import eu.strasbourg.service.interest.model.Interest;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import java.util.Locale;
 
 public class InterestAssetRenderer extends BaseJSPAssetRenderer<Interest> {
 	

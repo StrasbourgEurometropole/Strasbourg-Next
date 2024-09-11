@@ -4,15 +4,22 @@ import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ClassName;
+import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.ConfigurationAction;
 import com.liferay.portal.kernel.portlet.DefaultConfigurationAction;
 import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.dynamic_search_asset.handler.AssetHandlerFactory;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
@@ -108,7 +115,7 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 			setPreference(request, "searchForm", searchForm);
 			
 			// CHAMP : Préfiltre catégories
-			String prefilterCategoriesIds = ParamUtil.getString(request, "prefilterCategoriesIds");
+			String prefilterCategoriesIds = String.join(",", ParamUtil.getStringValues(request, "prefilterCategoriesIds"));
 			// On enregistre les ids des catégories sous forme de String
 			// On sépare les catégories d'un même vocabulaire par des virgules
 			// et les vocabulaires par des points-virgules
@@ -173,15 +180,13 @@ public class DynamicSearchAssetConfigurationAction extends DefaultConfigurationA
 		try {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 			
-			DynamicSearchAssetConfiguration configuration = themeDisplay
-				.getPortletDisplay()
-				.getPortletInstanceConfiguration(DynamicSearchAssetConfiguration.class);
+			DynamicSearchAssetConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(DynamicSearchAssetConfiguration.class, themeDisplay);
 			
 			// Liste tous les types possibles d'asset
-			// On ne prend que ceux qui commencent par "eu.strasbourg"
+			// On ne prend que ceux qui sont supporté par le AssetHandler
 			List<AssetRendererFactory<?>> availableAssetRendererFactories = AssetRendererFactoryRegistryUtil.getAssetRendererFactories(
 					themeDisplay.getCompany().getCompanyId()).stream().filter(a -> a.isCategorizable()
-					&& a.getClassName().startsWith("eu.strasbourg")).collect(Collectors.toList());
+					&& AssetHandlerFactory.getSupportedAssetTypes().contains(a.getClassName())).collect(Collectors.toList());
 //			List<AssetRendererFactory<?>> availableAssetRendererFactories = ListUtil
 //					.filter(
 //							AssetRendererFactoryRegistryUtil.getAssetRendererFactories(

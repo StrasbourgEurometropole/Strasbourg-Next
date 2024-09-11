@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Image fixe grand format</name>
+        <key>2532183</key>
+        <definition>image-fixed-large-structure.json</definition>
+        <layout>image-fixed-large-layout.json</layout>
+    </structure>
+    <template>
+        <name>Image fixe grand format</name>
+        <key>2532249</key>
+        <script>image-fixed-large.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

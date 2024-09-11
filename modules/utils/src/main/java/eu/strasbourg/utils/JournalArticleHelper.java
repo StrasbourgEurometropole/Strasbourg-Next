@@ -1,14 +1,9 @@
 package eu.strasbourg.utils;
 
-import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetCategoryPropertyLocalServiceUtil;
-import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Node;
 import com.liferay.portal.kernel.xml.SAXReaderUtil;
 
@@ -26,6 +21,11 @@ import java.util.Locale;
 public class JournalArticleHelper {
 
     public static String getJournalArticleFieldValue(JournalArticle article, String field, Locale locale) {
+    return getJournalArticleFieldValue(article, field, locale, false);
+    }
+
+
+    public static String getJournalArticleFieldValue(JournalArticle article, String field, Locale locale, Boolean useFieldReference) {
         String content = article.getContentByLocale(locale.toString());
 
         String value = "";
@@ -34,12 +34,12 @@ public class JournalArticleHelper {
 
         try {
             document = SAXReaderUtil.read(new StringReader(content));
-            Node node = document.selectSingleNode("/root/dynamic-element[@name='" + field + "']/dynamic-content");
+            Node node = document.selectSingleNode("/root/dynamic-element[@" + (useFieldReference ? "field-reference" : "name") + "='" + field + "']/dynamic-content");
             if (node != null && node.getText().length() > 0) {
                 value = node.getText();
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            _log.error(ex.getMessage(), ex);
         }
         return value;
     }

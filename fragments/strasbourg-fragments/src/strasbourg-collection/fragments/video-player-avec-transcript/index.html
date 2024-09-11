@@ -1,0 +1,37 @@
+<div class="st-bloc st-bloc-video st-wrapper st--has-margin st-iframe-loaded">
+  <div class="st-container">
+    <div class="alert alert-info error-message" hidden role="alert">
+      <p>Please select the video player and enter a valid video ID.</p>
+    </div>
+
+    [#switch configuration.type]
+    [#case "youtube"]
+    <div class="youtube_player video-player" videoID="${configuration.id}" theme="dark" tabindex="-1" title="Video Youtube ${configuration.iframeTitle}"></div>
+    [#break]
+    [#case "dailymotion"]
+    <div class="dailymotion_player video-player" videoID="${configuration.id}" tabindex="-1" title="Video Dailymotion ${configuration.iframeTitle}"></div>
+    [#break]
+    [#case "vimeo"]
+    <div class="vimeo_player video-player" videoID="${configuration.id}" tabindex="-1" title="Video Vimeo ${configuration.iframeTitle}"></div>
+    [#break]
+    [#default]
+    <div class="calameo-canvas video-player" data-id="${configuration.id}" tabindex="-1" title="Video Calameo ${configuration.iframeTitle}"></div>
+    [/#switch]
+  </div>
+  [#if configuration.showTranscription]
+  <div class="st-video-transcription [#if layoutMode == "edit"]align-items-stretch[/#if]">
+  [#if layoutMode != "edit"]
+  <button class="st-video-transcription__btn-trigger st-btn st--btn-secondary st-js-btn-disclosure-transcription" aria-expanded="false" aria-controls="transcription-video-${configuration.id}" data-open-label='[@liferay_ui.message key="eu.read-transcription" /]' data-close-label='[@liferay_ui.message key="eu.read-transcription-less" /]'>[@liferay_ui.message key="eu.read-transcription" /]</button>
+
+  <div class="st-video-transcription__content st-text-styles align-self-stretch st-is-hidden" id="transcription-video-${configuration.id}">
+    [/#if]
+    <h3>[@liferay_ui.message key="video.transcription" /]</h3>
+    <div data-lfr-editable-id="transcription" data-lfr-editable-type="rich-text">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut ex expedita iure iusto modi molestiae perferendis quae qui voluptatibus voluptatum.</p>
+    </div>
+    [#if layoutMode != "edit"]
+  </div>
+  [/#if]
+</div>
+[/#if]
+</div>

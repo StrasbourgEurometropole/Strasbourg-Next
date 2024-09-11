@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.csmap.model;
@@ -17,6 +8,7 @@ package eu.strasbourg.service.csmap.model;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,6 +38,10 @@ public class AgendaWrapper
 		attributes.put("editorialTitle", getEditorialTitle());
 		attributes.put("subtitle", getSubtitle());
 		attributes.put("imageId", getImageId());
+		attributes.put("labelLink", getLabelLink());
+		attributes.put("link", getLink());
+		attributes.put("publicationStartDate", getPublicationStartDate());
+		attributes.put("publicationEndDate", getPublicationEndDate());
 		attributes.put("isPrincipal", getIsPrincipal());
 		attributes.put("isActive", getIsActive());
 		attributes.put("campaignsIds", getCampaignsIds());
@@ -95,6 +91,31 @@ public class AgendaWrapper
 			setImageId(imageId);
 		}
 
+		String labelLink = (String)attributes.get("labelLink");
+
+		if (labelLink != null) {
+			setLabelLink(labelLink);
+		}
+
+		String link = (String)attributes.get("link");
+
+		if (link != null) {
+			setLink(link);
+		}
+
+		Date publicationStartDate = (Date)attributes.get(
+			"publicationStartDate");
+
+		if (publicationStartDate != null) {
+			setPublicationStartDate(publicationStartDate);
+		}
+
+		Date publicationEndDate = (Date)attributes.get("publicationEndDate");
+
+		if (publicationEndDate != null) {
+			setPublicationEndDate(publicationEndDate);
+		}
+
 		Boolean isPrincipal = (Boolean)attributes.get("isPrincipal");
 
 		if (isPrincipal != null) {
@@ -136,6 +157,11 @@ public class AgendaWrapper
 		if (tags != null) {
 			setTags(tags);
 		}
+	}
+
+	@Override
+	public Agenda cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -277,6 +303,158 @@ public class AgendaWrapper
 	}
 
 	/**
+	 * Returns the label link of this agenda.
+	 *
+	 * @return the label link of this agenda
+	 */
+	@Override
+	public String getLabelLink() {
+		return model.getLabelLink();
+	}
+
+	/**
+	 * Returns the localized label link of this agenda in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized label link of this agenda
+	 */
+	@Override
+	public String getLabelLink(java.util.Locale locale) {
+		return model.getLabelLink(locale);
+	}
+
+	/**
+	 * Returns the localized label link of this agenda in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized label link of this agenda. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getLabelLink(java.util.Locale locale, boolean useDefault) {
+		return model.getLabelLink(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized label link of this agenda in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized label link of this agenda
+	 */
+	@Override
+	public String getLabelLink(String languageId) {
+		return model.getLabelLink(languageId);
+	}
+
+	/**
+	 * Returns the localized label link of this agenda in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized label link of this agenda
+	 */
+	@Override
+	public String getLabelLink(String languageId, boolean useDefault) {
+		return model.getLabelLink(languageId, useDefault);
+	}
+
+	@Override
+	public String getLabelLinkCurrentLanguageId() {
+		return model.getLabelLinkCurrentLanguageId();
+	}
+
+	@Override
+	public String getLabelLinkCurrentValue() {
+		return model.getLabelLinkCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized label links of this agenda.
+	 *
+	 * @return the locales and localized label links of this agenda
+	 */
+	@Override
+	public Map<java.util.Locale, String> getLabelLinkMap() {
+		return model.getLabelLinkMap();
+	}
+
+	/**
+	 * Returns the link of this agenda.
+	 *
+	 * @return the link of this agenda
+	 */
+	@Override
+	public String getLink() {
+		return model.getLink();
+	}
+
+	/**
+	 * Returns the localized link of this agenda in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized link of this agenda
+	 */
+	@Override
+	public String getLink(java.util.Locale locale) {
+		return model.getLink(locale);
+	}
+
+	/**
+	 * Returns the localized link of this agenda in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized link of this agenda. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getLink(java.util.Locale locale, boolean useDefault) {
+		return model.getLink(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized link of this agenda in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized link of this agenda
+	 */
+	@Override
+	public String getLink(String languageId) {
+		return model.getLink(languageId);
+	}
+
+	/**
+	 * Returns the localized link of this agenda in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized link of this agenda
+	 */
+	@Override
+	public String getLink(String languageId, boolean useDefault) {
+		return model.getLink(languageId, useDefault);
+	}
+
+	@Override
+	public String getLinkCurrentLanguageId() {
+		return model.getLinkCurrentLanguageId();
+	}
+
+	@Override
+	public String getLinkCurrentValue() {
+		return model.getLinkCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized links of this agenda.
+	 *
+	 * @return the locales and localized links of this agenda
+	 */
+	@Override
+	public Map<java.util.Locale, String> getLinkMap() {
+		return model.getLinkMap();
+	}
+
+	/**
 	 * Returns the primary key of this agenda.
 	 *
 	 * @return the primary key of this agenda
@@ -284,6 +462,26 @@ public class AgendaWrapper
 	@Override
 	public long getPrimaryKey() {
 		return model.getPrimaryKey();
+	}
+
+	/**
+	 * Returns the publication end date of this agenda.
+	 *
+	 * @return the publication end date of this agenda
+	 */
+	@Override
+	public Date getPublicationEndDate() {
+		return model.getPublicationEndDate();
+	}
+
+	/**
+	 * Returns the publication start date of this agenda.
+	 *
+	 * @return the publication start date of this agenda
+	 */
+	@Override
+	public Date getPublicationStartDate() {
+		return model.getPublicationStartDate();
 	}
 
 	/**
@@ -628,6 +826,134 @@ public class AgendaWrapper
 	}
 
 	/**
+	 * Sets the label link of this agenda.
+	 *
+	 * @param labelLink the label link of this agenda
+	 */
+	@Override
+	public void setLabelLink(String labelLink) {
+		model.setLabelLink(labelLink);
+	}
+
+	/**
+	 * Sets the localized label link of this agenda in the language.
+	 *
+	 * @param labelLink the localized label link of this agenda
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setLabelLink(String labelLink, java.util.Locale locale) {
+		model.setLabelLink(labelLink, locale);
+	}
+
+	/**
+	 * Sets the localized label link of this agenda in the language, and sets the default locale.
+	 *
+	 * @param labelLink the localized label link of this agenda
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setLabelLink(
+		String labelLink, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setLabelLink(labelLink, locale, defaultLocale);
+	}
+
+	@Override
+	public void setLabelLinkCurrentLanguageId(String languageId) {
+		model.setLabelLinkCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized label links of this agenda from the map of locales and localized label links.
+	 *
+	 * @param labelLinkMap the locales and localized label links of this agenda
+	 */
+	@Override
+	public void setLabelLinkMap(Map<java.util.Locale, String> labelLinkMap) {
+		model.setLabelLinkMap(labelLinkMap);
+	}
+
+	/**
+	 * Sets the localized label links of this agenda from the map of locales and localized label links, and sets the default locale.
+	 *
+	 * @param labelLinkMap the locales and localized label links of this agenda
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setLabelLinkMap(
+		Map<java.util.Locale, String> labelLinkMap,
+		java.util.Locale defaultLocale) {
+
+		model.setLabelLinkMap(labelLinkMap, defaultLocale);
+	}
+
+	/**
+	 * Sets the link of this agenda.
+	 *
+	 * @param link the link of this agenda
+	 */
+	@Override
+	public void setLink(String link) {
+		model.setLink(link);
+	}
+
+	/**
+	 * Sets the localized link of this agenda in the language.
+	 *
+	 * @param link the localized link of this agenda
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setLink(String link, java.util.Locale locale) {
+		model.setLink(link, locale);
+	}
+
+	/**
+	 * Sets the localized link of this agenda in the language, and sets the default locale.
+	 *
+	 * @param link the localized link of this agenda
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setLink(
+		String link, java.util.Locale locale, java.util.Locale defaultLocale) {
+
+		model.setLink(link, locale, defaultLocale);
+	}
+
+	@Override
+	public void setLinkCurrentLanguageId(String languageId) {
+		model.setLinkCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized links of this agenda from the map of locales and localized links.
+	 *
+	 * @param linkMap the locales and localized links of this agenda
+	 */
+	@Override
+	public void setLinkMap(Map<java.util.Locale, String> linkMap) {
+		model.setLinkMap(linkMap);
+	}
+
+	/**
+	 * Sets the localized links of this agenda from the map of locales and localized links, and sets the default locale.
+	 *
+	 * @param linkMap the locales and localized links of this agenda
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setLinkMap(
+		Map<java.util.Locale, String> linkMap, java.util.Locale defaultLocale) {
+
+		model.setLinkMap(linkMap, defaultLocale);
+	}
+
+	/**
 	 * Sets the primary key of this agenda.
 	 *
 	 * @param primaryKey the primary key of this agenda
@@ -635,6 +961,26 @@ public class AgendaWrapper
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		model.setPrimaryKey(primaryKey);
+	}
+
+	/**
+	 * Sets the publication end date of this agenda.
+	 *
+	 * @param publicationEndDate the publication end date of this agenda
+	 */
+	@Override
+	public void setPublicationEndDate(Date publicationEndDate) {
+		model.setPublicationEndDate(publicationEndDate);
+	}
+
+	/**
+	 * Sets the publication start date of this agenda.
+	 *
+	 * @param publicationStartDate the publication start date of this agenda
+	 */
+	@Override
+	public void setPublicationStartDate(Date publicationStartDate) {
+		model.setPublicationStartDate(publicationStartDate);
 	}
 
 	/**
@@ -814,6 +1160,11 @@ public class AgendaWrapper
 	@Override
 	public void setUuid(String uuid) {
 		model.setUuid(uuid);
+	}
+
+	@Override
+	public String toXmlString() {
+		return model.toXmlString();
 	}
 
 	@Override

@@ -38,7 +38,7 @@
         overflow: hidden;
     }
 
-    #main-content > *:not(.bg-banner) {
+    #main-content > *:not(.bg-banner), #main-content #content > *:not(.bg-banner) {
         z-index: 2;
         position: relative;
     }

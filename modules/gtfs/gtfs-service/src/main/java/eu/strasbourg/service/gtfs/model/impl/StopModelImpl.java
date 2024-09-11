@@ -1,21 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -23,22 +15,24 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.gtfs.model.Stop;
 import eu.strasbourg.service.gtfs.model.StopModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -100,25 +94,40 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.gtfs.model.Stop"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.gtfs.model.Stop"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.Stop"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STOP_CODE_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STOP_ID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -175,9 +184,6 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 				attributeName, attributeGetterFunction.apply((Stop)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -199,238 +205,72 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	}
 
 	public Map<String, Function<Stop, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Stop, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Stop>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Stop.class.getClassLoader(), Stop.class, ModelWrapper.class);
+		private static final Map<String, Function<Stop, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Stop> constructor =
-				(Constructor<Stop>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Stop, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Stop, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Stop::getUuid);
+			attributeGetterFunctions.put("id", Stop::getId);
+			attributeGetterFunctions.put("stop_id", Stop::getStop_id);
+			attributeGetterFunctions.put("stop_code", Stop::getStop_code);
+			attributeGetterFunctions.put("stop_lat", Stop::getStop_lat);
+			attributeGetterFunctions.put("stop_lon", Stop::getStop_lon);
+			attributeGetterFunctions.put("stop_name", Stop::getStop_name);
+			attributeGetterFunctions.put("stop_url", Stop::getStop_url);
+			attributeGetterFunctions.put("stop_desc", Stop::getStop_desc);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Stop, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Stop, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<Stop, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Stop, Object>>();
-		Map<String, BiConsumer<Stop, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Stop, ?>>();
+		private static final Map<String, BiConsumer<Stop, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Stop, Object>() {
+		static {
+			Map<String, BiConsumer<Stop, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Stop, ?>>();
 
-				@Override
-				public Object apply(Stop stop) {
-					return stop.getUuid();
-				}
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Stop, String>)Stop::setUuid);
+			attributeSetterBiConsumers.put(
+				"id", (BiConsumer<Stop, Long>)Stop::setId);
+			attributeSetterBiConsumers.put(
+				"stop_id", (BiConsumer<Stop, String>)Stop::setStop_id);
+			attributeSetterBiConsumers.put(
+				"stop_code", (BiConsumer<Stop, String>)Stop::setStop_code);
+			attributeSetterBiConsumers.put(
+				"stop_lat", (BiConsumer<Stop, String>)Stop::setStop_lat);
+			attributeSetterBiConsumers.put(
+				"stop_lon", (BiConsumer<Stop, String>)Stop::setStop_lon);
+			attributeSetterBiConsumers.put(
+				"stop_name", (BiConsumer<Stop, String>)Stop::setStop_name);
+			attributeSetterBiConsumers.put(
+				"stop_url", (BiConsumer<Stop, String>)Stop::setStop_url);
+			attributeSetterBiConsumers.put(
+				"stop_desc", (BiConsumer<Stop, String>)Stop::setStop_desc);
 
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Stop, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(Stop stop, Object uuidObject) {
-					stop.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"id",
-			new Function<Stop, Object>() {
-
-				@Override
-				public Object apply(Stop stop) {
-					return stop.getId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"id",
-			new BiConsumer<Stop, Object>() {
-
-				@Override
-				public void accept(Stop stop, Object idObject) {
-					stop.setId((Long)idObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"stop_id",
-			new Function<Stop, Object>() {
-
-				@Override
-				public Object apply(Stop stop) {
-					return stop.getStop_id();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"stop_id",
-			new BiConsumer<Stop, Object>() {
-
-				@Override
-				public void accept(Stop stop, Object stop_idObject) {
-					stop.setStop_id((String)stop_idObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"stop_code",
-			new Function<Stop, Object>() {
-
-				@Override
-				public Object apply(Stop stop) {
-					return stop.getStop_code();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"stop_code",
-			new BiConsumer<Stop, Object>() {
-
-				@Override
-				public void accept(Stop stop, Object stop_codeObject) {
-					stop.setStop_code((String)stop_codeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"stop_lat",
-			new Function<Stop, Object>() {
-
-				@Override
-				public Object apply(Stop stop) {
-					return stop.getStop_lat();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"stop_lat",
-			new BiConsumer<Stop, Object>() {
-
-				@Override
-				public void accept(Stop stop, Object stop_latObject) {
-					stop.setStop_lat((String)stop_latObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"stop_lon",
-			new Function<Stop, Object>() {
-
-				@Override
-				public Object apply(Stop stop) {
-					return stop.getStop_lon();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"stop_lon",
-			new BiConsumer<Stop, Object>() {
-
-				@Override
-				public void accept(Stop stop, Object stop_lonObject) {
-					stop.setStop_lon((String)stop_lonObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"stop_name",
-			new Function<Stop, Object>() {
-
-				@Override
-				public Object apply(Stop stop) {
-					return stop.getStop_name();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"stop_name",
-			new BiConsumer<Stop, Object>() {
-
-				@Override
-				public void accept(Stop stop, Object stop_nameObject) {
-					stop.setStop_name((String)stop_nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"stop_url",
-			new Function<Stop, Object>() {
-
-				@Override
-				public Object apply(Stop stop) {
-					return stop.getStop_url();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"stop_url",
-			new BiConsumer<Stop, Object>() {
-
-				@Override
-				public void accept(Stop stop, Object stop_urlObject) {
-					stop.setStop_url((String)stop_urlObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"stop_desc",
-			new Function<Stop, Object>() {
-
-				@Override
-				public Object apply(Stop stop) {
-					return stop.getStop_desc();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"stop_desc",
-			new BiConsumer<Stop, Object>() {
-
-				@Override
-				public void accept(Stop stop, Object stop_descObject) {
-					stop.setStop_desc((String)stop_descObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -445,17 +285,20 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -465,6 +308,10 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 	@Override
 	public void setId(long id) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_id = id;
 	}
 
@@ -480,17 +327,20 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 	@Override
 	public void setStop_id(String stop_id) {
-		_columnBitmask = -1L;
-
-		if (_originalStop_id == null) {
-			_originalStop_id = _stop_id;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_stop_id = stop_id;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalStop_id() {
-		return GetterUtil.getString(_originalStop_id);
+		return getColumnOriginalValue("stop_id");
 	}
 
 	@Override
@@ -505,17 +355,20 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 	@Override
 	public void setStop_code(String stop_code) {
-		_columnBitmask |= STOP_CODE_COLUMN_BITMASK;
-
-		if (_originalStop_code == null) {
-			_originalStop_code = _stop_code;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_stop_code = stop_code;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalStop_code() {
-		return GetterUtil.getString(_originalStop_code);
+		return getColumnOriginalValue("stop_code");
 	}
 
 	@Override
@@ -530,6 +383,10 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 	@Override
 	public void setStop_lat(String stop_lat) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_stop_lat = stop_lat;
 	}
 
@@ -545,6 +402,10 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 	@Override
 	public void setStop_lon(String stop_lon) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_stop_lon = stop_lon;
 	}
 
@@ -560,6 +421,10 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 	@Override
 	public void setStop_name(String stop_name) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_stop_name = stop_name;
 	}
 
@@ -575,6 +440,10 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 	@Override
 	public void setStop_url(String stop_url) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_stop_url = stop_url;
 	}
 
@@ -590,10 +459,34 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 	@Override
 	public void setStop_desc(String stop_desc) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_stop_desc = stop_desc;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -645,6 +538,23 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 	}
 
 	@Override
+	public Stop cloneWithOriginalValues() {
+		StopImpl stopImpl = new StopImpl();
+
+		stopImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		stopImpl.setId(this.<Long>getColumnOriginalValue("id_"));
+		stopImpl.setStop_id(this.<String>getColumnOriginalValue("stop_id"));
+		stopImpl.setStop_code(this.<String>getColumnOriginalValue("stop_code"));
+		stopImpl.setStop_lat(this.<String>getColumnOriginalValue("stop_lat"));
+		stopImpl.setStop_lon(this.<String>getColumnOriginalValue("stop_lon"));
+		stopImpl.setStop_name(this.<String>getColumnOriginalValue("stop_name"));
+		stopImpl.setStop_url(this.<String>getColumnOriginalValue("stop_url"));
+		stopImpl.setStop_desc(this.<String>getColumnOriginalValue("stop_desc"));
+
+		return stopImpl;
+	}
+
+	@Override
 	public int compareTo(Stop stop) {
 		int value = 0;
 
@@ -684,11 +594,19 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -696,15 +614,9 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 
 	@Override
 	public void resetOriginalValues() {
-		StopModelImpl stopModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		stopModelImpl._originalUuid = stopModelImpl._uuid;
-
-		stopModelImpl._originalStop_id = stopModelImpl._stop_id;
-
-		stopModelImpl._originalStop_code = stopModelImpl._stop_code;
-
-		stopModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -786,7 +698,7 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -796,9 +708,26 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 			String attributeName = entry.getKey();
 			Function<Stop, Object> attributeGetterFunction = entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Stop)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Stop)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -811,55 +740,109 @@ public class StopModelImpl extends BaseModelImpl<Stop> implements StopModel {
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Stop, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Stop, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Stop, Object> attributeGetterFunction = entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Stop)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Stop>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Stop.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _id;
 	private String _stop_id;
-	private String _originalStop_id;
 	private String _stop_code;
-	private String _originalStop_code;
 	private String _stop_lat;
 	private String _stop_lon;
 	private String _stop_name;
 	private String _stop_url;
 	private String _stop_desc;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Stop, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Stop)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("id_", _id);
+		_columnOriginalValues.put("stop_id", _stop_id);
+		_columnOriginalValues.put("stop_code", _stop_code);
+		_columnOriginalValues.put("stop_lat", _stop_lat);
+		_columnOriginalValues.put("stop_lon", _stop_lon);
+		_columnOriginalValues.put("stop_name", _stop_name);
+		_columnOriginalValues.put("stop_url", _stop_url);
+		_columnOriginalValues.put("stop_desc", _stop_desc);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("id_", "id");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("id_", 2L);
+
+		columnBitmasks.put("stop_id", 4L);
+
+		columnBitmasks.put("stop_code", 8L);
+
+		columnBitmasks.put("stop_lat", 16L);
+
+		columnBitmasks.put("stop_lon", 32L);
+
+		columnBitmasks.put("stop_name", 64L);
+
+		columnBitmasks.put("stop_url", 128L);
+
+		columnBitmasks.put("stop_desc", 256L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Stop _escapedModel;
 

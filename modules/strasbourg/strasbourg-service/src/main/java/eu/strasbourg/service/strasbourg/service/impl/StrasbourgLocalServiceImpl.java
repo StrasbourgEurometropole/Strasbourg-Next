@@ -14,23 +14,10 @@
 
 package eu.strasbourg.service.strasbourg.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.strasbourg.service.base.StrasbourgLocalServiceBaseImpl;
 
 /**
- * The implementation of the strasbourg local service.
- *
- * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.strasbourg.service.StrasbourgLocalService} interface.
- *
- * <p>
- * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
- * </p>
- *
  * @author Brian Wing Shun Chan
- * @see StrasbourgLocalServiceBaseImpl
- * @see eu.strasbourg.service.strasbourg.service.StrasbourgLocalServiceUtil
  */
-@ProviderType
 public class StrasbourgLocalServiceImpl extends StrasbourgLocalServiceBaseImpl {
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Paiement facture</name>
+        <key>2154412</key>
+        <definition>bill-structure.json</definition>
+        <layout>bill-layout.json</layout>
+    </structure>
+    <template>
+        <name>Paiement facture</name>
+        <key>2154417</key>
+        <script>factures.ftl</script>
+    </template>
+</root>

@@ -1,0 +1,28 @@
+// ==============================================
+//
+//        COLORS
+//
+// ==============================================
+
+
+/// Éclaircit légèrement une couleur (alternative à la fonction native lighten de Sass)
+/// @param {Color} $color - Couleur d'origine
+/// @param {Number} $percentage - Pourcentage de blanc dans la couleur de retour
+/// @return {Color} - Couleur éclaircie
+@function mix-lighten($color, $percentage) {
+	@return mix(white, $color, $percentage);
+}
+
+/// Assombri légèrement une couleur (alternative à la fonction native darken de Sass)
+/// @param {Color} $color - Couleur d'origine
+/// @param {Number} $percentage - Pourcentage de noir dans la couleur de retour
+/// @return {Color} - Couleur assombrie
+@function mix-darken($color, $percentage) {
+	@return mix(black, $color, $percentage);
+}
+
+
+// Passe un élément en blanc 100% (ex : pour les SVG en background)
+@mixin white-filter() {
+	filter: brightness(0) invert(1);
+}

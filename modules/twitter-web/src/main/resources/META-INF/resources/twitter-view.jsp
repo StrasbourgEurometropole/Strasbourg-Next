@@ -42,16 +42,11 @@
                         <li><a class="btn-fb" href="https://www.facebook.com/strasetudiants" target="_blank"></a></li>
                         <li><a class="btn-twitter" href="//twitter.com/StrasEtudiants" target="_blank"></a></li>
                         <li><a class="btn-insta" href="//www.instagram.com/strasetudiants" target="_blank"></a></li>
-                    </ul>
+						<li><a class="btn-linkdin" href="//www.linkedin.com/showcase/strasbourg-aime-ses-%C3%A9tudiants/" target="_blank"></a></li>
+
+					</ul>
                 </div>
 			</div>
 		</section>
-		<script src="//twemoji.maxcdn.com/twemoji.min.js"></script>
-		<script>
-			var tweetSection = document.querySelector('#twitter');
-			twemoji.parse(tweetSection, {
-				size: "16x16"
-			});
-		</script>	
 	</c:otherwise>
 </c:choose>

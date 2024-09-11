@@ -1,34 +1,24 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.formSendRecordField.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
+import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
-import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedAuditedModel;
 import com.liferay.portal.kernel.model.WorkflowedModel;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
 
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model interface for the FormSendRecordField service. Represents a row in the &quot;formSendRecordField_FormSendRecordField&quot; database table, with each column mapped to a property of this class.
@@ -43,8 +33,8 @@ import java.util.Date;
  */
 @ProviderType
 public interface FormSendRecordFieldModel
-	extends BaseModel<FormSendRecordField>, GroupedModel, ShardedModel,
-			StagedAuditedModel, WorkflowedModel {
+	extends BaseModel<FormSendRecordField>, GroupedModel, LocalizedModel,
+			ShardedModel, StagedAuditedModel, WorkflowedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -296,8 +286,58 @@ public interface FormSendRecordFieldModel
 	 *
 	 * @return the response of this form send record field
 	 */
-	@AutoEscape
 	public String getResponse();
+
+	/**
+	 * Returns the localized response of this form send record field in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized response of this form send record field
+	 */
+	@AutoEscape
+	public String getResponse(Locale locale);
+
+	/**
+	 * Returns the localized response of this form send record field in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized response of this form send record field. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getResponse(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized response of this form send record field in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized response of this form send record field
+	 */
+	@AutoEscape
+	public String getResponse(String languageId);
+
+	/**
+	 * Returns the localized response of this form send record field in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized response of this form send record field
+	 */
+	@AutoEscape
+	public String getResponse(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getResponseCurrentLanguageId();
+
+	@AutoEscape
+	public String getResponseCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized responses of this form send record field.
+	 *
+	 * @return the locales and localized responses of this form send record field
+	 */
+	public Map<Locale, String> getResponseMap();
 
 	/**
 	 * Sets the response of this form send record field.
@@ -305,6 +345,42 @@ public interface FormSendRecordFieldModel
 	 * @param response the response of this form send record field
 	 */
 	public void setResponse(String response);
+
+	/**
+	 * Sets the localized response of this form send record field in the language.
+	 *
+	 * @param response the localized response of this form send record field
+	 * @param locale the locale of the language
+	 */
+	public void setResponse(String response, Locale locale);
+
+	/**
+	 * Sets the localized response of this form send record field in the language, and sets the default locale.
+	 *
+	 * @param response the localized response of this form send record field
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setResponse(
+		String response, Locale locale, Locale defaultLocale);
+
+	public void setResponseCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized responses of this form send record field from the map of locales and localized responses.
+	 *
+	 * @param responseMap the locales and localized responses of this form send record field
+	 */
+	public void setResponseMap(Map<Locale, String> responseMap);
+
+	/**
+	 * Sets the localized responses of this form send record field from the map of locales and localized responses, and sets the default locale.
+	 *
+	 * @param responseMap the locales and localized responses of this form send record field
+	 * @param defaultLocale the default locale
+	 */
+	public void setResponseMap(
+		Map<Locale, String> responseMap, Locale defaultLocale);
 
 	/**
 	 * Returns the asset entry ID of this form send record field.
@@ -442,66 +518,23 @@ public interface FormSendRecordFieldModel
 	public boolean isScheduled();
 
 	@Override
-	public boolean isNew();
+	public String[] getAvailableLanguageIds();
 
 	@Override
-	public void setNew(boolean n);
+	public String getDefaultLanguageId();
 
 	@Override
-	public boolean isCachedModel();
+	public void prepareLocalizedFieldsForImport() throws LocaleException;
 
 	@Override
-	public void setCachedModel(boolean cachedModel);
+	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
+		throws LocaleException;
 
 	@Override
-	public boolean isEscapedModel();
+	public FormSendRecordField cloneWithOriginalValues();
 
-	@Override
-	public Serializable getPrimaryKeyObj();
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj);
-
-	@Override
-	public ExpandoBridge getExpandoBridge();
-
-	@Override
-	public void setExpandoBridgeAttributes(BaseModel<?> baseModel);
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge);
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext);
-
-	@Override
-	public Object clone();
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.formSendRecordField.model.FormSendRecordField
-			formSendRecordField);
-
-	@Override
-	public int hashCode();
-
-	@Override
-	public CacheModel
-		<eu.strasbourg.service.formSendRecordField.model.FormSendRecordField>
-			toCacheModel();
-
-	@Override
-	public eu.strasbourg.service.formSendRecordField.model.FormSendRecordField
-		toEscapedModel();
-
-	@Override
-	public eu.strasbourg.service.formSendRecordField.model.FormSendRecordField
-		toUnescapedModel();
-
-	@Override
-	public String toString();
-
-	@Override
-	public String toXmlString();
+	public default String toXmlString() {
+		return null;
+	}
 
 }

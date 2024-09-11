@@ -12,10 +12,6 @@
     <link type="text/css" rel="stylesheet" href="/o/council-theme/css/council.css">
     <link type="text/css" rel="stylesheet" href="/o/council-theme/css/libraries.css">
 
-
-    <!-- Magnific Popup core JS file -->
-    <script type="text/javascript" src="/o/council-theme/js/lightbox.js" charset="utf-8"></script> 
-
     <title>${the_title?replace('-', '|')}</title>
 
   </head>
@@ -33,7 +29,7 @@
 
 
   <script>
-    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
       <#assign homeURL = "/web${layout.group.friendlyURL}/" />
     <#else>
       <#assign homeURL = "/" />
@@ -57,7 +53,7 @@
     </#if>
 
   </script>
-  <div class="seu">
+  <div class="seu" id="content">
 
 
     <header class="seu-header scrolled scrolled-hp">
@@ -77,8 +73,9 @@
     <#else>
       ${portletDisplay.recycle()}
       ${portletDisplay.setTitle(the_title)}
-      <@liferay_theme["wrap-portlet"] page="portlet.ftl" />
-      <@liferay_util["include"] page=content_include />
+      <@liferay_theme["wrap-portlet"] page="portlet.ftl">
+        <@liferay_util["include"] page=content_include />
+      </@>
     </#if>
     
     
@@ -89,13 +86,7 @@
       settingsScope="group" />
   </div>
 
-  <!-- inject:js -->
-  <script type="text/javascript">
-    if(typeof jQuery == 'undefined'){
-      document.write('<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></'+'script>');
-    }
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script>
+  <script src="/o/0-global-theme/libs/gsap/1.19.1/TweenMax.min.js"></script>
   <script type="text/javascript" src="/o/council-theme/js/council.js"></script>
 
   <@liferay_util["include"] page=body_bottom_include />

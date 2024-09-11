@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.csmap.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.csmap.model.RefreshToken;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for RefreshToken. This utility wraps
@@ -48,11 +47,18 @@ public class RefreshTokenLocalServiceUtil {
 	 * @param refreshToken the refresh token
 	 * @return the refresh token that was added
 	 */
-	public static eu.strasbourg.service.csmap.model.RefreshToken
-		addRefreshToken(
-			eu.strasbourg.service.csmap.model.RefreshToken refreshToken) {
-
+	public static RefreshToken addRefreshToken(RefreshToken refreshToken) {
 		return getService().addRefreshToken(refreshToken);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -61,18 +67,15 @@ public class RefreshTokenLocalServiceUtil {
 	 * @param refreshTokenId the primary key for the new refresh token
 	 * @return the new refresh token
 	 */
-	public static eu.strasbourg.service.csmap.model.RefreshToken
-		createRefreshToken(long refreshTokenId) {
-
+	public static RefreshToken createRefreshToken(long refreshTokenId) {
 		return getService().createRefreshToken(refreshTokenId);
 	}
 
 	/**
 	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.csmap.model.RefreshToken
-		createRefreshToken(
-			com.liferay.portal.kernel.service.ServiceContext sc) {
+	public static RefreshToken createRefreshToken(
+		com.liferay.portal.kernel.service.ServiceContext sc) {
 
 		return getService().createRefreshToken(sc);
 	}
@@ -80,10 +83,9 @@ public class RefreshTokenLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -99,9 +101,8 @@ public class RefreshTokenLocalServiceUtil {
 	 * @return the refresh token that was removed
 	 * @throws PortalException if a refresh token with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.csmap.model.RefreshToken
-			deleteRefreshToken(long refreshTokenId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static RefreshToken deleteRefreshToken(long refreshTokenId)
+		throws PortalException {
 
 		return getService().deleteRefreshToken(refreshTokenId);
 	}
@@ -116,16 +117,19 @@ public class RefreshTokenLocalServiceUtil {
 	 * @param refreshToken the refresh token
 	 * @return the refresh token that was removed
 	 */
-	public static eu.strasbourg.service.csmap.model.RefreshToken
-		deleteRefreshToken(
-			eu.strasbourg.service.csmap.model.RefreshToken refreshToken) {
-
+	public static RefreshToken deleteRefreshToken(RefreshToken refreshToken) {
 		return getService().deleteRefreshToken(refreshToken);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -135,9 +139,7 @@ public class RefreshTokenLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -153,9 +155,8 @@ public class RefreshTokenLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -173,10 +174,9 @@ public class RefreshTokenLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -188,9 +188,7 @@ public class RefreshTokenLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -202,7 +200,7 @@ public class RefreshTokenLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
@@ -211,15 +209,11 @@ public class RefreshTokenLocalServiceUtil {
 	/**
 	 * Retrouve un refresh token par sa valeur
 	 */
-	public static eu.strasbourg.service.csmap.model.RefreshToken fetchByValue(
-		String value) {
-
+	public static RefreshToken fetchByValue(String value) {
 		return getService().fetchByValue(value);
 	}
 
-	public static eu.strasbourg.service.csmap.model.RefreshToken
-		fetchRefreshToken(long refreshTokenId) {
-
+	public static RefreshToken fetchRefreshToken(long refreshTokenId) {
 		return getService().fetchRefreshToken(refreshTokenId);
 	}
 
@@ -227,6 +221,13 @@ public class RefreshTokenLocalServiceUtil {
 		getActionableDynamicQuery() {
 
 		return getService().getActionableDynamicQuery();
+	}
+
+	/**
+	 * Retrouve un refresh token par sa valeur
+	 */
+	public static List<RefreshToken> getByPublikId(String publikId) {
+		return getService().getByPublikId(publikId);
 	}
 
 	public static
@@ -248,9 +249,8 @@ public class RefreshTokenLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -262,9 +262,8 @@ public class RefreshTokenLocalServiceUtil {
 	 * @return the refresh token
 	 * @throws PortalException if a refresh token with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.csmap.model.RefreshToken
-			getRefreshToken(long refreshTokenId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static RefreshToken getRefreshToken(long refreshTokenId)
+		throws PortalException {
 
 		return getService().getRefreshToken(refreshTokenId);
 	}
@@ -280,9 +279,7 @@ public class RefreshTokenLocalServiceUtil {
 	 * @param end the upper bound of the range of refresh tokens (not inclusive)
 	 * @return the range of refresh tokens
 	 */
-	public static java.util.List<eu.strasbourg.service.csmap.model.RefreshToken>
-		getRefreshTokens(int start, int end) {
-
+	public static List<RefreshToken> getRefreshTokens(int start, int end) {
 		return getService().getRefreshTokens(start, end);
 	}
 
@@ -298,8 +295,7 @@ public class RefreshTokenLocalServiceUtil {
 	/**
 	 * Supprime une entité
 	 */
-	public static eu.strasbourg.service.csmap.model.RefreshToken
-			removeRefreshToken(long refreshTokenId)
+	public static RefreshToken removeRefreshToken(long refreshTokenId)
 		throws eu.strasbourg.service.csmap.exception.
 			NoSuchRefreshTokenException {
 
@@ -316,44 +312,28 @@ public class RefreshTokenLocalServiceUtil {
 	 * @param refreshToken the refresh token
 	 * @return the refresh token that was updated
 	 */
-	public static eu.strasbourg.service.csmap.model.RefreshToken
-		updateRefreshToken(
-			eu.strasbourg.service.csmap.model.RefreshToken refreshToken) {
-
+	public static RefreshToken updateRefreshToken(RefreshToken refreshToken) {
 		return getService().updateRefreshToken(refreshToken);
 	}
 
 	/**
 	 * Met à jour une entité et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.csmap.model.RefreshToken
-		updateRefreshToken(
-			eu.strasbourg.service.csmap.model.RefreshToken refreshToken,
-			com.liferay.portal.kernel.service.ServiceContext sc) {
+	public static RefreshToken updateRefreshToken(
+		RefreshToken refreshToken,
+		com.liferay.portal.kernel.service.ServiceContext sc) {
 
 		return getService().updateRefreshToken(refreshToken, sc);
 	}
 
 	public static RefreshTokenLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<RefreshTokenLocalService, RefreshTokenLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(RefreshTokenLocalService.class);
-
-		ServiceTracker<RefreshTokenLocalService, RefreshTokenLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<RefreshTokenLocalService, RefreshTokenLocalService>(
-						bundle.getBundleContext(),
-						RefreshTokenLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(RefreshTokenLocalService service) {
+		_service = service;
 	}
+
+	private static volatile RefreshTokenLocalService _service;
 
 }

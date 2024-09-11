@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,29 +16,29 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.place.exception.NoSuchPublicHolidayException;
 import eu.strasbourg.service.place.model.PublicHoliday;
+import eu.strasbourg.service.place.model.PublicHolidayTable;
 import eu.strasbourg.service.place.model.impl.PublicHolidayImpl;
 import eu.strasbourg.service.place.model.impl.PublicHolidayModelImpl;
 import eu.strasbourg.service.place.service.persistence.PublicHolidayPersistence;
+import eu.strasbourg.service.place.service.persistence.PublicHolidayUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -88,10 +80,10 @@ public class PublicHolidayPersistenceImpl
 	private FinderPath _finderPathCountByUuid;
 
 	/**
-	 * Returns all the public holidaies where uuid = &#63;.
+	 * Returns all the public holidays where uuid = &#63;.
 	 *
 	 * @param uuid the uuid
-	 * @return the matching public holidaies
+	 * @return the matching public holidays
 	 */
 	@Override
 	public List<PublicHoliday> findByUuid(String uuid) {
@@ -99,16 +91,16 @@ public class PublicHolidayPersistenceImpl
 	}
 
 	/**
-	 * Returns a range of all the public holidaies where uuid = &#63;.
+	 * Returns a range of all the public holidays where uuid = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
 	 * @param uuid the uuid
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
-	 * @return the range of matching public holidaies
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
+	 * @return the range of matching public holidays
 	 */
 	@Override
 	public List<PublicHoliday> findByUuid(String uuid, int start, int end) {
@@ -116,17 +108,17 @@ public class PublicHolidayPersistenceImpl
 	}
 
 	/**
-	 * Returns an ordered range of all the public holidaies where uuid = &#63;.
+	 * Returns an ordered range of all the public holidays where uuid = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
 	 * @param uuid the uuid
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching public holidaies
+	 * @return the ordered range of matching public holidays
 	 */
 	@Override
 	public List<PublicHoliday> findByUuid(
@@ -137,18 +129,18 @@ public class PublicHolidayPersistenceImpl
 	}
 
 	/**
-	 * Returns an ordered range of all the public holidaies where uuid = &#63;.
+	 * Returns an ordered range of all the public holidays where uuid = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
 	 * @param uuid the uuid
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching public holidaies
+	 * @return the ordered range of matching public holidays
 	 */
 	@Override
 	public List<PublicHoliday> findByUuid(
@@ -248,10 +240,6 @@ public class PublicHolidayPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -373,7 +361,7 @@ public class PublicHolidayPersistenceImpl
 	}
 
 	/**
-	 * Returns the public holidaies before and after the current public holiday in the ordered set where uuid = &#63;.
+	 * Returns the public holidays before and after the current public holiday in the ordered set where uuid = &#63;.
 	 *
 	 * @param publicHolidayId the primary key of the current public holiday
 	 * @param uuid the uuid
@@ -537,7 +525,7 @@ public class PublicHolidayPersistenceImpl
 	}
 
 	/**
-	 * Removes all the public holidaies where uuid = &#63; from the database.
+	 * Removes all the public holidays where uuid = &#63; from the database.
 	 *
 	 * @param uuid the uuid
 	 */
@@ -551,10 +539,10 @@ public class PublicHolidayPersistenceImpl
 	}
 
 	/**
-	 * Returns the number of public holidaies where uuid = &#63;.
+	 * Returns the number of public holidays where uuid = &#63;.
 	 *
 	 * @param uuid the uuid
-	 * @return the number of matching public holidaies
+	 * @return the number of matching public holidays
 	 */
 	@Override
 	public int countByUuid(String uuid) {
@@ -602,8 +590,6 @@ public class PublicHolidayPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -625,10 +611,10 @@ public class PublicHolidayPersistenceImpl
 	private FinderPath _finderPathCountByRecurrent;
 
 	/**
-	 * Returns all the public holidaies where recurrent = &#63;.
+	 * Returns all the public holidays where recurrent = &#63;.
 	 *
 	 * @param recurrent the recurrent
-	 * @return the matching public holidaies
+	 * @return the matching public holidays
 	 */
 	@Override
 	public List<PublicHoliday> findByRecurrent(boolean recurrent) {
@@ -637,16 +623,16 @@ public class PublicHolidayPersistenceImpl
 	}
 
 	/**
-	 * Returns a range of all the public holidaies where recurrent = &#63;.
+	 * Returns a range of all the public holidays where recurrent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
 	 * @param recurrent the recurrent
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
-	 * @return the range of matching public holidaies
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
+	 * @return the range of matching public holidays
 	 */
 	@Override
 	public List<PublicHoliday> findByRecurrent(
@@ -656,17 +642,17 @@ public class PublicHolidayPersistenceImpl
 	}
 
 	/**
-	 * Returns an ordered range of all the public holidaies where recurrent = &#63;.
+	 * Returns an ordered range of all the public holidays where recurrent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
 	 * @param recurrent the recurrent
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching public holidaies
+	 * @return the ordered range of matching public holidays
 	 */
 	@Override
 	public List<PublicHoliday> findByRecurrent(
@@ -677,18 +663,18 @@ public class PublicHolidayPersistenceImpl
 	}
 
 	/**
-	 * Returns an ordered range of all the public holidaies where recurrent = &#63;.
+	 * Returns an ordered range of all the public holidays where recurrent = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
 	 * @param recurrent the recurrent
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching public holidaies
+	 * @return the ordered range of matching public holidays
 	 */
 	@Override
 	public List<PublicHoliday> findByRecurrent(
@@ -777,10 +763,6 @@ public class PublicHolidayPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -906,7 +888,7 @@ public class PublicHolidayPersistenceImpl
 	}
 
 	/**
-	 * Returns the public holidaies before and after the current public holiday in the ordered set where recurrent = &#63;.
+	 * Returns the public holidays before and after the current public holiday in the ordered set where recurrent = &#63;.
 	 *
 	 * @param publicHolidayId the primary key of the current public holiday
 	 * @param recurrent the recurrent
@@ -1057,7 +1039,7 @@ public class PublicHolidayPersistenceImpl
 	}
 
 	/**
-	 * Removes all the public holidaies where recurrent = &#63; from the database.
+	 * Removes all the public holidays where recurrent = &#63; from the database.
 	 *
 	 * @param recurrent the recurrent
 	 */
@@ -1072,10 +1054,10 @@ public class PublicHolidayPersistenceImpl
 	}
 
 	/**
-	 * Returns the number of public holidaies where recurrent = &#63;.
+	 * Returns the number of public holidays where recurrent = &#63;.
 	 *
 	 * @param recurrent the recurrent
-	 * @return the number of matching public holidaies
+	 * @return the number of matching public holidays
 	 */
 	@Override
 	public int countByRecurrent(boolean recurrent) {
@@ -1110,8 +1092,6 @@ public class PublicHolidayPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1131,21 +1111,14 @@ public class PublicHolidayPersistenceImpl
 		dbColumnNames.put("uuid", "uuid_");
 		dbColumnNames.put("date", "date_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(PublicHoliday.class);
+
+		setModelImplClass(PublicHolidayImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(PublicHolidayTable.INSTANCE);
 	}
 
 	/**
@@ -1156,36 +1129,38 @@ public class PublicHolidayPersistenceImpl
 	@Override
 	public void cacheResult(PublicHoliday publicHoliday) {
 		entityCache.putResult(
-			PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
 			PublicHolidayImpl.class, publicHoliday.getPrimaryKey(),
 			publicHoliday);
-
-		publicHoliday.resetOriginalValues();
 	}
 
+	private int _valueObjectFinderCacheListThreshold;
+
 	/**
-	 * Caches the public holidaies in the entity cache if it is enabled.
+	 * Caches the public holidays in the entity cache if it is enabled.
 	 *
-	 * @param publicHolidaies the public holidaies
+	 * @param publicHolidays the public holidays
 	 */
 	@Override
-	public void cacheResult(List<PublicHoliday> publicHolidaies) {
-		for (PublicHoliday publicHoliday : publicHolidaies) {
+	public void cacheResult(List<PublicHoliday> publicHolidays) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (publicHolidays.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
+		for (PublicHoliday publicHoliday : publicHolidays) {
 			if (entityCache.getResult(
-					PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
 					PublicHolidayImpl.class, publicHoliday.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(publicHoliday);
 			}
-			else {
-				publicHoliday.resetOriginalValues();
-			}
 		}
 	}
 
 	/**
-	 * Clears the cache for all public holidaies.
+	 * Clears the cache for all public holidays.
 	 *
 	 * <p>
 	 * The <code>EntityCache</code> and <code>FinderCache</code> are both cleared by this method.
@@ -1195,9 +1170,7 @@ public class PublicHolidayPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(PublicHolidayImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(PublicHolidayImpl.class);
 	}
 
 	/**
@@ -1209,35 +1182,22 @@ public class PublicHolidayPersistenceImpl
 	 */
 	@Override
 	public void clearCache(PublicHoliday publicHoliday) {
-		entityCache.removeResult(
-			PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
-			PublicHolidayImpl.class, publicHoliday.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(PublicHolidayImpl.class, publicHoliday);
 	}
 
 	@Override
-	public void clearCache(List<PublicHoliday> publicHolidaies) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		for (PublicHoliday publicHoliday : publicHolidaies) {
-			entityCache.removeResult(
-				PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
-				PublicHolidayImpl.class, publicHoliday.getPrimaryKey());
+	public void clearCache(List<PublicHoliday> publicHolidays) {
+		for (PublicHoliday publicHoliday : publicHolidays) {
+			entityCache.removeResult(PublicHolidayImpl.class, publicHoliday);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(PublicHolidayImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
-				PublicHolidayImpl.class, primaryKey);
+			entityCache.removeResult(PublicHolidayImpl.class, primaryKey);
 		}
 	}
 
@@ -1381,10 +1341,8 @@ public class PublicHolidayPersistenceImpl
 		try {
 			session = openSession();
 
-			if (publicHoliday.isNew()) {
+			if (isNew) {
 				session.save(publicHoliday);
-
-				publicHoliday.setNew(false);
 			}
 			else {
 				publicHoliday = (PublicHoliday)session.merge(publicHoliday);
@@ -1397,72 +1355,12 @@ public class PublicHolidayPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!PublicHolidayModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {publicHolidayModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {publicHolidayModelImpl.isRecurrent()};
-
-			finderCache.removeResult(_finderPathCountByRecurrent, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByRecurrent, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((publicHolidayModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					publicHolidayModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {publicHolidayModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((publicHolidayModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByRecurrent.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					publicHolidayModelImpl.getOriginalRecurrent()
-				};
-
-				finderCache.removeResult(_finderPathCountByRecurrent, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByRecurrent, args);
-
-				args = new Object[] {publicHolidayModelImpl.isRecurrent()};
-
-				finderCache.removeResult(_finderPathCountByRecurrent, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByRecurrent, args);
-			}
-		}
-
 		entityCache.putResult(
-			PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
-			PublicHolidayImpl.class, publicHoliday.getPrimaryKey(),
-			publicHoliday, false);
+			PublicHolidayImpl.class, publicHolidayModelImpl, false, true);
+
+		if (isNew) {
+			publicHoliday.setNew(false);
+		}
 
 		publicHoliday.resetOriginalValues();
 
@@ -1511,57 +1409,6 @@ public class PublicHolidayPersistenceImpl
 	/**
 	 * Returns the public holiday with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the public holiday
-	 * @return the public holiday, or <code>null</code> if a public holiday with the primary key could not be found
-	 */
-	@Override
-	public PublicHoliday fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
-			PublicHolidayImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		PublicHoliday publicHoliday = (PublicHoliday)serializable;
-
-		if (publicHoliday == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				publicHoliday = (PublicHoliday)session.get(
-					PublicHolidayImpl.class, primaryKey);
-
-				if (publicHoliday != null) {
-					cacheResult(publicHoliday);
-				}
-				else {
-					entityCache.putResult(
-						PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
-						PublicHolidayImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
-					PublicHolidayImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return publicHoliday;
-	}
-
-	/**
-	 * Returns the public holiday with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param publicHolidayId the primary key of the public holiday
 	 * @return the public holiday, or <code>null</code> if a public holiday with the primary key could not be found
 	 */
@@ -1570,110 +1417,10 @@ public class PublicHolidayPersistenceImpl
 		return fetchByPrimaryKey((Serializable)publicHolidayId);
 	}
 
-	@Override
-	public Map<Serializable, PublicHoliday> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, PublicHoliday> map =
-			new HashMap<Serializable, PublicHoliday>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			PublicHoliday publicHoliday = fetchByPrimaryKey(primaryKey);
-
-			if (publicHoliday != null) {
-				map.put(primaryKey, publicHoliday);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
-				PublicHolidayImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (PublicHoliday)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_PUBLICHOLIDAY_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (PublicHoliday publicHoliday :
-					(List<PublicHoliday>)query.list()) {
-
-				map.put(publicHoliday.getPrimaryKeyObj(), publicHoliday);
-
-				cacheResult(publicHoliday);
-
-				uncachedPrimaryKeys.remove(publicHoliday.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
-					PublicHolidayImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
-	}
-
 	/**
-	 * Returns all the public holidaies.
+	 * Returns all the public holidays.
 	 *
-	 * @return the public holidaies
+	 * @return the public holidays
 	 */
 	@Override
 	public List<PublicHoliday> findAll() {
@@ -1681,15 +1428,15 @@ public class PublicHolidayPersistenceImpl
 	}
 
 	/**
-	 * Returns a range of all the public holidaies.
+	 * Returns a range of all the public holidays.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
-	 * @return the range of public holidaies
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
+	 * @return the range of public holidays
 	 */
 	@Override
 	public List<PublicHoliday> findAll(int start, int end) {
@@ -1697,16 +1444,16 @@ public class PublicHolidayPersistenceImpl
 	}
 
 	/**
-	 * Returns an ordered range of all the public holidaies.
+	 * Returns an ordered range of all the public holidays.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of public holidaies
+	 * @return the ordered range of public holidays
 	 */
 	@Override
 	public List<PublicHoliday> findAll(
@@ -1717,17 +1464,17 @@ public class PublicHolidayPersistenceImpl
 	}
 
 	/**
-	 * Returns an ordered range of all the public holidaies.
+	 * Returns an ordered range of all the public holidays.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PublicHolidayModelImpl</code>.
 	 * </p>
 	 *
-	 * @param start the lower bound of the range of public holidaies
-	 * @param end the upper bound of the range of public holidaies (not inclusive)
+	 * @param start the lower bound of the range of public holidays
+	 * @param end the upper bound of the range of public holidays (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of public holidaies
+	 * @return the ordered range of public holidays
 	 */
 	@Override
 	public List<PublicHoliday> findAll(
@@ -1795,10 +1542,6 @@ public class PublicHolidayPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1810,7 +1553,7 @@ public class PublicHolidayPersistenceImpl
 	}
 
 	/**
-	 * Removes all the public holidaies from the database.
+	 * Removes all the public holidays from the database.
 	 *
 	 */
 	@Override
@@ -1821,9 +1564,9 @@ public class PublicHolidayPersistenceImpl
 	}
 
 	/**
-	 * Returns the number of public holidaies.
+	 * Returns the number of public holidays.
 	 *
-	 * @return the number of public holidaies
+	 * @return the number of public holidays
 	 */
 	@Override
 	public int countAll() {
@@ -1844,9 +1587,6 @@ public class PublicHolidayPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1863,6 +1603,21 @@ public class PublicHolidayPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "publicHolidayId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_PUBLICHOLIDAY;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return PublicHolidayModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1871,76 +1626,64 @@ public class PublicHolidayPersistenceImpl
 	 * Initializes the public holiday persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
-			PublicHolidayModelImpl.FINDER_CACHE_ENABLED,
-			PublicHolidayImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
-			PublicHolidayModelImpl.FINDER_CACHE_ENABLED,
-			PublicHolidayImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
-			PublicHolidayModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
-			PublicHolidayModelImpl.FINDER_CACHE_ENABLED,
-			PublicHolidayImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
-			PublicHolidayModelImpl.FINDER_CACHE_ENABLED,
-			PublicHolidayImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUuid", new String[] {String.class.getName()},
-			PublicHolidayModelImpl.UUID_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
-			PublicHolidayModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathWithPaginationFindByRecurrent = new FinderPath(
-			PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
-			PublicHolidayModelImpl.FINDER_CACHE_ENABLED,
-			PublicHolidayImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByRecurrent",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByRecurrent",
 			new String[] {
 				Boolean.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"recurrent"}, true);
 
 		_finderPathWithoutPaginationFindByRecurrent = new FinderPath(
-			PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
-			PublicHolidayModelImpl.FINDER_CACHE_ENABLED,
-			PublicHolidayImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByRecurrent", new String[] {Boolean.class.getName()},
-			PublicHolidayModelImpl.RECURRENT_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByRecurrent",
+			new String[] {Boolean.class.getName()}, new String[] {"recurrent"},
+			true);
 
 		_finderPathCountByRecurrent = new FinderPath(
-			PublicHolidayModelImpl.ENTITY_CACHE_ENABLED,
-			PublicHolidayModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRecurrent",
-			new String[] {Boolean.class.getName()});
+			new String[] {Boolean.class.getName()}, new String[] {"recurrent"},
+			false);
+
+		PublicHolidayUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		PublicHolidayUtil.setPersistence(null);
+
 		entityCache.removeCache(PublicHolidayImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1951,9 +1694,6 @@ public class PublicHolidayPersistenceImpl
 
 	private static final String _SQL_SELECT_PUBLICHOLIDAY =
 		"SELECT publicHoliday FROM PublicHoliday publicHoliday";
-
-	private static final String _SQL_SELECT_PUBLICHOLIDAY_WHERE_PKS_IN =
-		"SELECT publicHoliday FROM PublicHoliday publicHoliday WHERE publicHolidayId IN (";
 
 	private static final String _SQL_SELECT_PUBLICHOLIDAY_WHERE =
 		"SELECT publicHoliday FROM PublicHoliday publicHoliday WHERE ";
@@ -1977,5 +1717,10 @@ public class PublicHolidayPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "date"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

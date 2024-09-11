@@ -1,21 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notif.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -23,16 +15,16 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.notif.model.ServiceNotif;
 import eu.strasbourg.service.notif.model.ServiceNotifModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -40,6 +32,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -105,25 +98,41 @@ public class ServiceNotifModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.notif.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.notif.model.ServiceNotif"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.notif.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.notif.model.ServiceNotif"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.notif.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.notif.model.ServiceNotif"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long CSMAPTOPIC_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ORGANISATIONID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long NAME_COLUMN_BITMASK = 4L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -182,9 +191,6 @@ public class ServiceNotifModelImpl
 				attributeGetterFunction.apply((ServiceNotif)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -209,261 +215,95 @@ public class ServiceNotifModelImpl
 	public Map<String, Function<ServiceNotif, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<ServiceNotif, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, ServiceNotif>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			ServiceNotif.class.getClassLoader(), ServiceNotif.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<ServiceNotif, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<ServiceNotif> constructor =
-				(Constructor<ServiceNotif>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<ServiceNotif, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<ServiceNotif, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put(
+				"serviceId", ServiceNotif::getServiceId);
+			attributeGetterFunctions.put(
+				"organisationId", ServiceNotif::getOrganisationId);
+			attributeGetterFunctions.put("name", ServiceNotif::getName);
+			attributeGetterFunctions.put("pictoId", ServiceNotif::getPictoId);
+			attributeGetterFunctions.put(
+				"csmapSubscriptionLabel",
+				ServiceNotif::getCsmapSubscriptionLabel);
+			attributeGetterFunctions.put(
+				"csmapSubscriptionMandatory",
+				ServiceNotif::getCsmapSubscriptionMandatory);
+			attributeGetterFunctions.put(
+				"csmapTopic", ServiceNotif::getCsmapTopic);
+			attributeGetterFunctions.put(
+				"createDate", ServiceNotif::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", ServiceNotif::getModifiedDate);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<ServiceNotif, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ServiceNotif, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<ServiceNotif, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<ServiceNotif, Object>>();
-		Map<String, BiConsumer<ServiceNotif, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ServiceNotif, ?>>();
+		private static final Map<String, BiConsumer<ServiceNotif, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"serviceId",
-			new Function<ServiceNotif, Object>() {
+		static {
+			Map<String, BiConsumer<ServiceNotif, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<ServiceNotif, ?>>();
 
-				@Override
-				public Object apply(ServiceNotif serviceNotif) {
-					return serviceNotif.getServiceId();
-				}
+			attributeSetterBiConsumers.put(
+				"serviceId",
+				(BiConsumer<ServiceNotif, Long>)ServiceNotif::setServiceId);
+			attributeSetterBiConsumers.put(
+				"organisationId",
+				(BiConsumer<ServiceNotif, Long>)
+					ServiceNotif::setOrganisationId);
+			attributeSetterBiConsumers.put(
+				"name",
+				(BiConsumer<ServiceNotif, String>)ServiceNotif::setName);
+			attributeSetterBiConsumers.put(
+				"pictoId",
+				(BiConsumer<ServiceNotif, Long>)ServiceNotif::setPictoId);
+			attributeSetterBiConsumers.put(
+				"csmapSubscriptionLabel",
+				(BiConsumer<ServiceNotif, String>)
+					ServiceNotif::setCsmapSubscriptionLabel);
+			attributeSetterBiConsumers.put(
+				"csmapSubscriptionMandatory",
+				(BiConsumer<ServiceNotif, Boolean>)
+					ServiceNotif::setCsmapSubscriptionMandatory);
+			attributeSetterBiConsumers.put(
+				"csmapTopic",
+				(BiConsumer<ServiceNotif, String>)ServiceNotif::setCsmapTopic);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<ServiceNotif, Date>)ServiceNotif::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<ServiceNotif, Date>)ServiceNotif::setModifiedDate);
 
-			});
-		attributeSetterBiConsumers.put(
-			"serviceId",
-			new BiConsumer<ServiceNotif, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(
-					ServiceNotif serviceNotif, Object serviceIdObject) {
-
-					serviceNotif.setServiceId((Long)serviceIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"organisationId",
-			new Function<ServiceNotif, Object>() {
-
-				@Override
-				public Object apply(ServiceNotif serviceNotif) {
-					return serviceNotif.getOrganisationId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"organisationId",
-			new BiConsumer<ServiceNotif, Object>() {
-
-				@Override
-				public void accept(
-					ServiceNotif serviceNotif, Object organisationIdObject) {
-
-					serviceNotif.setOrganisationId((Long)organisationIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<ServiceNotif, Object>() {
-
-				@Override
-				public Object apply(ServiceNotif serviceNotif) {
-					return serviceNotif.getName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"name",
-			new BiConsumer<ServiceNotif, Object>() {
-
-				@Override
-				public void accept(
-					ServiceNotif serviceNotif, Object nameObject) {
-
-					serviceNotif.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"pictoId",
-			new Function<ServiceNotif, Object>() {
-
-				@Override
-				public Object apply(ServiceNotif serviceNotif) {
-					return serviceNotif.getPictoId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"pictoId",
-			new BiConsumer<ServiceNotif, Object>() {
-
-				@Override
-				public void accept(
-					ServiceNotif serviceNotif, Object pictoIdObject) {
-
-					serviceNotif.setPictoId((Long)pictoIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"csmapSubscriptionLabel",
-			new Function<ServiceNotif, Object>() {
-
-				@Override
-				public Object apply(ServiceNotif serviceNotif) {
-					return serviceNotif.getCsmapSubscriptionLabel();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"csmapSubscriptionLabel",
-			new BiConsumer<ServiceNotif, Object>() {
-
-				@Override
-				public void accept(
-					ServiceNotif serviceNotif,
-					Object csmapSubscriptionLabelObject) {
-
-					serviceNotif.setCsmapSubscriptionLabel(
-						(String)csmapSubscriptionLabelObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"csmapSubscriptionMandatory",
-			new Function<ServiceNotif, Object>() {
-
-				@Override
-				public Object apply(ServiceNotif serviceNotif) {
-					return serviceNotif.getCsmapSubscriptionMandatory();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"csmapSubscriptionMandatory",
-			new BiConsumer<ServiceNotif, Object>() {
-
-				@Override
-				public void accept(
-					ServiceNotif serviceNotif,
-					Object csmapSubscriptionMandatoryObject) {
-
-					serviceNotif.setCsmapSubscriptionMandatory(
-						(Boolean)csmapSubscriptionMandatoryObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"csmapTopic",
-			new Function<ServiceNotif, Object>() {
-
-				@Override
-				public Object apply(ServiceNotif serviceNotif) {
-					return serviceNotif.getCsmapTopic();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"csmapTopic",
-			new BiConsumer<ServiceNotif, Object>() {
-
-				@Override
-				public void accept(
-					ServiceNotif serviceNotif, Object csmapTopicObject) {
-
-					serviceNotif.setCsmapTopic((String)csmapTopicObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<ServiceNotif, Object>() {
-
-				@Override
-				public Object apply(ServiceNotif serviceNotif) {
-					return serviceNotif.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<ServiceNotif, Object>() {
-
-				@Override
-				public void accept(
-					ServiceNotif serviceNotif, Object createDateObject) {
-
-					serviceNotif.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<ServiceNotif, Object>() {
-
-				@Override
-				public Object apply(ServiceNotif serviceNotif) {
-					return serviceNotif.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<ServiceNotif, Object>() {
-
-				@Override
-				public void accept(
-					ServiceNotif serviceNotif, Object modifiedDateObject) {
-
-					serviceNotif.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -473,6 +313,10 @@ public class ServiceNotifModelImpl
 
 	@Override
 	public void setServiceId(long serviceId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_serviceId = serviceId;
 	}
 
@@ -483,19 +327,21 @@ public class ServiceNotifModelImpl
 
 	@Override
 	public void setOrganisationId(long organisationId) {
-		_columnBitmask |= ORGANISATIONID_COLUMN_BITMASK;
-
-		if (!_setOriginalOrganisationId) {
-			_setOriginalOrganisationId = true;
-
-			_originalOrganisationId = _organisationId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_organisationId = organisationId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalOrganisationId() {
-		return _originalOrganisationId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("organisationId"));
 	}
 
 	@Override
@@ -510,7 +356,9 @@ public class ServiceNotifModelImpl
 
 	@Override
 	public void setName(String name) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_name = name;
 	}
@@ -522,6 +370,10 @@ public class ServiceNotifModelImpl
 
 	@Override
 	public void setPictoId(long pictoId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_pictoId = pictoId;
 	}
 
@@ -537,6 +389,10 @@ public class ServiceNotifModelImpl
 
 	@Override
 	public void setCsmapSubscriptionLabel(String csmapSubscriptionLabel) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_csmapSubscriptionLabel = csmapSubscriptionLabel;
 	}
 
@@ -554,6 +410,10 @@ public class ServiceNotifModelImpl
 	public void setCsmapSubscriptionMandatory(
 		boolean csmapSubscriptionMandatory) {
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_csmapSubscriptionMandatory = csmapSubscriptionMandatory;
 	}
 
@@ -569,17 +429,20 @@ public class ServiceNotifModelImpl
 
 	@Override
 	public void setCsmapTopic(String csmapTopic) {
-		_columnBitmask |= CSMAPTOPIC_COLUMN_BITMASK;
-
-		if (_originalCsmapTopic == null) {
-			_originalCsmapTopic = _csmapTopic;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_csmapTopic = csmapTopic;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalCsmapTopic() {
-		return GetterUtil.getString(_originalCsmapTopic);
+		return getColumnOriginalValue("csmapTopic");
 	}
 
 	@Override
@@ -589,6 +452,10 @@ public class ServiceNotifModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -605,10 +472,34 @@ public class ServiceNotifModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -661,6 +552,31 @@ public class ServiceNotifModelImpl
 	}
 
 	@Override
+	public ServiceNotif cloneWithOriginalValues() {
+		ServiceNotifImpl serviceNotifImpl = new ServiceNotifImpl();
+
+		serviceNotifImpl.setServiceId(
+			this.<Long>getColumnOriginalValue("serviceId"));
+		serviceNotifImpl.setOrganisationId(
+			this.<Long>getColumnOriginalValue("organisationId"));
+		serviceNotifImpl.setName(this.<String>getColumnOriginalValue("name"));
+		serviceNotifImpl.setPictoId(
+			this.<Long>getColumnOriginalValue("pictoId"));
+		serviceNotifImpl.setCsmapSubscriptionLabel(
+			this.<String>getColumnOriginalValue("csmapSubscriptionLabel"));
+		serviceNotifImpl.setCsmapSubscriptionMandatory(
+			this.<Boolean>getColumnOriginalValue("csmapSubscriptionMandatory"));
+		serviceNotifImpl.setCsmapTopic(
+			this.<String>getColumnOriginalValue("csmapTopic"));
+		serviceNotifImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		serviceNotifImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+
+		return serviceNotifImpl;
+	}
+
+	@Override
 	public int compareTo(ServiceNotif serviceNotif) {
 		int value = 0;
 
@@ -700,11 +616,19 @@ public class ServiceNotifModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -712,19 +636,11 @@ public class ServiceNotifModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ServiceNotifModelImpl serviceNotifModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		serviceNotifModelImpl._originalOrganisationId =
-			serviceNotifModelImpl._organisationId;
+		_setModifiedDate = false;
 
-		serviceNotifModelImpl._setOriginalOrganisationId = false;
-
-		serviceNotifModelImpl._originalCsmapTopic =
-			serviceNotifModelImpl._csmapTopic;
-
-		serviceNotifModelImpl._setModifiedDate = false;
-
-		serviceNotifModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -796,7 +712,7 @@ public class ServiceNotifModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -807,9 +723,26 @@ public class ServiceNotifModelImpl
 			Function<ServiceNotif, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((ServiceNotif)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((ServiceNotif)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -822,57 +755,99 @@ public class ServiceNotifModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<ServiceNotif, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<ServiceNotif, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<ServiceNotif, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((ServiceNotif)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, ServiceNotif>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					ServiceNotif.class, ModelWrapper.class);
 
 	}
 
 	private long _serviceId;
 	private long _organisationId;
-	private long _originalOrganisationId;
-	private boolean _setOriginalOrganisationId;
 	private String _name;
 	private long _pictoId;
 	private String _csmapSubscriptionLabel;
 	private boolean _csmapSubscriptionMandatory;
 	private String _csmapTopic;
-	private String _originalCsmapTopic;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
+
+	public <T> T getColumnValue(String columnName) {
+		Function<ServiceNotif, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((ServiceNotif)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("serviceId", _serviceId);
+		_columnOriginalValues.put("organisationId", _organisationId);
+		_columnOriginalValues.put("name", _name);
+		_columnOriginalValues.put("pictoId", _pictoId);
+		_columnOriginalValues.put(
+			"csmapSubscriptionLabel", _csmapSubscriptionLabel);
+		_columnOriginalValues.put(
+			"csmapSubscriptionMandatory", _csmapSubscriptionMandatory);
+		_columnOriginalValues.put("csmapTopic", _csmapTopic);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("serviceId", 1L);
+
+		columnBitmasks.put("organisationId", 2L);
+
+		columnBitmasks.put("name", 4L);
+
+		columnBitmasks.put("pictoId", 8L);
+
+		columnBitmasks.put("csmapSubscriptionLabel", 16L);
+
+		columnBitmasks.put("csmapSubscriptionMandatory", 32L);
+
+		columnBitmasks.put("csmapTopic", 64L);
+
+		columnBitmasks.put("createDate", 128L);
+
+		columnBitmasks.put("modifiedDate", 256L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private ServiceNotif _escapedModel;
 

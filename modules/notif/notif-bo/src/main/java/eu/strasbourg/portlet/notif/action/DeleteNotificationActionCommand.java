@@ -37,11 +37,7 @@ public class DeleteNotificationActionCommand extends BaseMVCActionCommand {
         // Suppression du service et des natures et messages liés
         _notificationLocalService.removeNotification(notificationId);
 
-        // Post / Redirect / Get si tout est bon
-        PortletURL renderURL = PortletURLFactoryUtil.create(request,
-                portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
-        renderURL.setParameter("tab", request.getParameter("tab"));
-        response.sendRedirect(renderURL.toString());
+        response.sendRedirect(ParamUtil.getString(request, "backURL"));
     }
 
     private NotificationLocalService _notificationLocalService;

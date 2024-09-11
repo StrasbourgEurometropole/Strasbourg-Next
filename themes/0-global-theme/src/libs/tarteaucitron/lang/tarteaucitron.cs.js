@@ -1,4 +1,5 @@
 /*global tarteaucitron */
+/* min ready */
 tarteaucitron.lang = {
     "middleBarHead": "☝ 🍪",
     "adblock": "Ahoj! Tato stránka je transparetní a umožňuje ti si přímo vybrat, jaké služby třetích stran chceš povolit.",
@@ -30,14 +31,16 @@ tarteaucitron.lang = {
     "more": "Dozvědět se více",
     "source": "Zobrazit oficiální stránku",
     "credit": "Správce cookies od tarteaucitron.js",
+    "noServices": "Tento web nepoužívá žádné soubory cookie vyžadující váš souhlas.",
 
-    "toggleInfoBox": "Show/hide informations about cookie storage",
-    "title": "Cookies management panel",
-    "cookieDetail": "Cookie detail for",
-    "ourSite": "on our site",
-    "newWindow": "(new window)",
-    "allowAll": "Allow all cookies",
-    "denyAll": "Deny all cookies",
+    "toggleInfoBox": "Zobrazit/skrýt informace o ukládání souborů cookie",
+    "title": "Panel pro správu cookies",
+    "cookieDetail": "Podrobnosti o souboru cookie pro",
+    "ourSite": "na našem webu",
+    "modalWindow": "(modální okno)",
+    "newWindow": "(nové okno)",
+    "allowAll": "Povolit všechny soubory cookie",
+    "denyAll": "Odmítnout všechny cookies",
 
     "icon": "Cookies",
     

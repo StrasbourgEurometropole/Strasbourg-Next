@@ -62,7 +62,7 @@ public class AssetPublisherTemplateHelper {
                 taille = width + "," + height;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
 
         return taille;
@@ -86,6 +86,25 @@ public class AssetPublisherTemplateHelper {
         }
 
         return documentUrl;
+    }
+
+    /**
+     * Récupère l'URL d'une image à partir des données fournies par la Structure d'un WebContent
+     */
+    public static long getDocumentId(String documentStructure){
+
+        long documentId = -1;
+
+        try {
+            // Parse les données JSON
+            JSONObject documentJSONObject = JSONFactoryUtil.createJSONObject(documentStructure);
+
+            documentId = documentJSONObject.getLong("fileEntryId");
+        } catch (PortalException e) {
+            // _log.error("Une erreur est survenue lors de la récupération de l'URL d'un document : ", e);
+        }
+
+        return documentId;
     }
 
     /**
@@ -145,6 +164,8 @@ public class AssetPublisherTemplateHelper {
         url += museeUrl;
         return url;
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(AssetPublisherTemplateHelper.class);
 
 
 }

@@ -32,7 +32,7 @@
 
 <@liferay.control_menu />
 
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
@@ -43,7 +43,7 @@
 <div id="ops-wrapper">
 	<#include "${full_templates_path}/nav_top.ftl" />
 
-	<main>
+	<main id="content">
 		<h1 class="hide-accessible">${the_title}</h1>
 
 		<#if selectable>

@@ -7,6 +7,7 @@ import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -32,11 +33,11 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portlet.asset.model.impl.AssetEntryImpl;
 import eu.strasbourg.portlet.search_asset.configuration.SearchAssetConfiguration;
 import eu.strasbourg.portlet.search_asset.constants.OfficialsConstants;
-import eu.strasbourg.service.ejob.model.Offer;
 import eu.strasbourg.service.search.log.model.SearchLog;
 import eu.strasbourg.service.search.log.service.SearchLogLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.Pager;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.SearchHelper;
 import eu.strasbourg.utils.StringHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
@@ -61,13 +62,14 @@ import java.util.stream.LongStream;
 
 public class SearchAssetDisplayContext {
 
+	private static final Log _log = LogFactoryUtil.getLog(SearchAssetDisplayContext.class);
+
 	public SearchAssetDisplayContext(RenderRequest request, RenderResponse response) throws PortalException {
 
 		this._response = response;
 		this._request = request;
 		this._themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
-		this._configuration = this._themeDisplay.getPortletDisplay()
-				.getPortletInstanceConfiguration(SearchAssetConfiguration.class);
+		this._configuration =  ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssetConfiguration.class, _themeDisplay);
 		this.initSearchContainer();
 		if (!this._configuration.hideResultsBeforeSearch() || this.isUserSearch()
 				|| ParamUtil.getBoolean(this._request, "paginate")) {
@@ -181,7 +183,8 @@ public class SearchAssetDisplayContext {
 	 * Retourne l'URL de la page d'accueil
 	 */
 	public String getHomeURL() {
-		if (this._themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname() != null
+		String virtualHostName= PortalHelper.getVirtualHostname(this._themeDisplay.getScopeGroup(), this._themeDisplay.getLanguageId());
+		if (virtualHostName != null
 				|| this._themeDisplay.getScopeGroup().isStagingGroup()) {
 			return "/web" + this._themeDisplay.getScopeGroup().getFriendlyURL() + "/";
 		} else {
@@ -260,13 +263,6 @@ public class SearchAssetDisplayContext {
 				getSearchContainer().getEnd(), sortField, isSortDesc);
 		List<AssetEntry> results = new ArrayList<AssetEntry>();
 		if (this._hits != null) {
-			int i = 0;
-			for (float s : this._hits.getScores()) {
-				_log.info(GetterUtil.getString(this._hits.getDocs()[i].get(Field.TITLE)) + " : " + s);
-				i++;
-				if (i > 10)
-					break;
-			}
 
 			for (Document document : this._hits.getDocs()) {
 				AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
@@ -290,7 +286,7 @@ public class SearchAssetDisplayContext {
 			long count = SearchHelper.getGlobalSearchCount(searchContext, classNames, groupId, globalGroupId,
 					globalScope, keywords, dateField, dateFieldName, fromDate, toDate, categoriesIds,
 					prefilterCategoriesIds, prefilterTagsNames,idSIGPlace, searchProcedure, this._themeDisplay.getLocale());
-			this.getSearchContainer().setTotal((int) count);
+			this.getSearchContainer().setResultsAndTotal(()->results, (int) count);
 		}
 		
 		this._entries = results;
@@ -526,11 +522,10 @@ public class SearchAssetDisplayContext {
 
 		SearchAssetConfiguration configuration;
 		try {
-			configuration = this._themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(SearchAssetConfiguration.class);
+			configuration =  ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchAssetConfiguration.class, _themeDisplay);
 			_displayExport = configuration.displayExport();
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 
 		return _displayExport;
@@ -571,11 +566,8 @@ public class SearchAssetDisplayContext {
 		String sortFieldFromParam = ParamUtil.getString(this._request, "sortFieldAndType");
 		if (Validator.isNull(sortFieldFromParam)) {
 			if (Validator.isNull(this.getKeywords())) {
-				if(this._configuration.assetClassNames().contains(Offer.class.getName()))
-					return "endDate_Number_sortable";
-				else
-					return Validator.isNotNull(this._configuration.defaultSortField())
-						? this._configuration.defaultSortField() : "modified_sortable";
+				return Validator.isNotNull(this._configuration.defaultSortField())
+					? this._configuration.defaultSortField() : "modified_sortable";
 			} else {
 				return "_score";
 			}
@@ -594,9 +586,6 @@ public class SearchAssetDisplayContext {
 		} else {
 			String sortTypeFromParam = ParamUtil.getString(this._request, "sortFieldAndType");
 			if (Validator.isNull(sortTypeFromParam)) {
-				if(this._configuration.assetClassNames().contains(Offer.class.getName()))
-					return "asc";
-				else
 				return Validator.isNotNull(this._configuration.defaultSortType())
 						? this._configuration.defaultSortType() : "desc";
 			} else {
@@ -1016,9 +1005,6 @@ public class SearchAssetDisplayContext {
 		
 		return idSIGPlace;
 	}
-	
-
-	private static Log _log = LogFactoryUtil.getLog(SearchAssetDisplayContext.class);
 
 	private final RenderRequest _request;
 	private final RenderResponse _response;

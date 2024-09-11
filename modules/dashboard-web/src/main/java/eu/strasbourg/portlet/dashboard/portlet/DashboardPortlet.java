@@ -1,27 +1,12 @@
 package eu.strasbourg.portlet.dashboard.portlet;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
-import com.liferay.portal.kernel.model.Group;
-import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
-import eu.strasbourg.utils.PortletHelper;
-import eu.strasbourg.utils.StrasbourgPropsUtil;
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.dashboard.utils.DashBoardUtils;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
@@ -39,9 +24,22 @@ import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.LayoutHelperImpl;
+import eu.strasbourg.utils.PortalHelper;
+import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.PublikApiClient;
+import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.GlobalConstants;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author alexandre.quere
@@ -57,7 +55,8 @@ import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
                 "javax.portlet.init-param.view-template=/view.jsp",
                 "javax.portlet.name=" + StrasbourgPortletKeys.DASHBOARD_WEB,
                 "javax.portlet.resource-bundle=content.Language",
-                "javax.portlet.security-role-ref=power-user,user"
+                "javax.portlet.security-role-ref=power-user,user",
+                "javax.portlet.version=3.0"
         },
         service = Portlet.class
 )
@@ -73,6 +72,7 @@ public class DashboardPortlet extends MVCPortlet {
 
     	// Récupération du group du site Participer
         ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+        request.setAttribute("locale", themeDisplay.getLocale());
         Group group = GroupLocalServiceUtil.fetchGroup(themeDisplay.getCompanyId(), StrasbourgPropsUtil.getParticiperName());
         long participerGroupId = group.getGroupId();
     	
@@ -107,7 +107,6 @@ public class DashboardPortlet extends MVCPortlet {
          * Projets
          */
         List<Project> projectFolloweds = ProjectLocalServiceUtil.findProjectFollowedByProjectId(publikId);
-        
         request.setAttribute("projectFollowedsCount",projectFolloweds.size());
         request.setAttribute("projectFolloweds",projectFolloweds);
         
@@ -125,12 +124,12 @@ public class DashboardPortlet extends MVCPortlet {
         List<Initiative> initiativesFiled = InitiativeLocalServiceUtil.findByPublikUserId(publikId);
         List<Initiative> initiativesAides = InitiativeHelpLocalServiceUtil.getByPublikUserId(publikId)
         		.stream().map(x->x.getInitiative()).collect(Collectors.toList());
-        
+
         request.setAttribute("initiativeFiledsCount",initiativesFiled.size());
         request.setAttribute("initiativeFileds",initiativesFiled);
         request.setAttribute("initiativeAidesCount",initiativesAides.size());
         request.setAttribute("initiativeAides",initiativesAides);
-        
+
         /**
          * Budget participatif
          */
@@ -170,7 +169,8 @@ public class DashboardPortlet extends MVCPortlet {
         }
 
         group = GroupLocalServiceUtil.fetchFriendlyURLGroup(themeDisplay.getCompanyId(), "/participer");
-        request.setAttribute("virtualParticiperHostName", group.getPublicLayoutSet().getVirtualHostname());
+        String virtualHostName = PortalHelper.getVirtualHostname(group,themeDisplay.getLanguageId());
+        request.setAttribute("virtualParticiperHostName",virtualHostName);
 
         include("/" + template + ".jsp", request, response);
     }

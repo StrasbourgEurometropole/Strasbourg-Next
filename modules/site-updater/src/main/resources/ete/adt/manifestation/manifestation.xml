@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.agenda.model.Manifestation</className>
+    <template>
+        <script>manifestation-detail.ftl</script>
+        <name>Détail manifestation</name>
+        <key>1572856</key>
+    </template>
+    <template>
+        <script>manifestation-thumbnail.ftl</script>
+        <name>Vignette manifestation</name>
+        <key>1572860</key>
+    </template>
+</root>

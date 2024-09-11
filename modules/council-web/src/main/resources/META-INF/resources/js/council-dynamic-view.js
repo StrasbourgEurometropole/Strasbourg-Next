@@ -1,16 +1,20 @@
-window.setInterval(function(){
-    Liferay.Service(
-      '/council.deliberation/get-user-front',
-      {
-        officialId: officialConnectedId,
-        officialDeviceInfo: userDeviceInfo,
-        councilSessionId: councilSessionId
-      },
-      function(obj) {
-        displayInfos(obj);
-      }
-    );
-}, 3000);
+(function loopIteration() {
+    setTimeout(() => {
+        Liferay.Service(
+            '/council.deliberation/get-user-front',
+            {
+                officialId: officialConnectedId,
+                officialDeviceInfo: userDeviceInfo,
+                councilSessionId: councilSessionId
+            },
+            function(obj) {
+                displayInfos(obj);
+            }
+        );
+
+        loopIteration();
+    }, 3000);
+})();
 
 function disabledAllInput() {
     document.getElementById('pour').disabled= true;
@@ -45,7 +49,7 @@ function displayInfos(obj) {
 
             // Il y a une session mais pas de delib
             if(obj.message == "no-deliberation-yet") {
-                frontNoDelib.textContent = Liferay.Language.get(obj.message);
+                frontNoDelib.textContent = Liferay.Language.get("no-deliberation-yet");
 
 
                 var title = frontDelibTitle.getElementsByTagName("h2")[0];
@@ -55,7 +59,12 @@ function displayInfos(obj) {
                 frontDelibRefresh.style.display = "block";
                 frontNoDelib.style.display="block";
             } else {
-                frontMessage.textContent = Liferay.Language.get(obj.message);
+                if(obj.message == "no-council-today")
+                    frontMessage.textContent = Liferay.Language.get("no-council-today");
+                else if(obj.message == "council.technical-error")
+                    frontMessage.textContent = Liferay.Language.get("council.technical-error");
+                else
+                    frontMessage.textContent = obj.message;
                 frontMessage.style.display="block";
                 frontAbsentRefresh.style.display = "block";
                 frontMessageWrapper.style.display="flex";
@@ -105,10 +114,13 @@ function displayInfos(obj) {
                 // A partir du moment où on a des infos sur la delib, on peut l'afficher
                 if(deliberationJSON.order && deliberationJSON.title) {
                     var title = frontDelibTitle.getElementsByTagName("h2")[0];
-                    title.textContent = obj.session.title +' Point '+deliberationJSON.order;
+                    title.innerHTML = obj.session.title + ' -  <span style="text-transform: none"> Point n°' + deliberationJSON.order + '</span>';
 
                     var description = frontDelibDescription.getElementsByTagName("div")[0];
-                    description.textContent = deliberationJSON.title;
+                    var amendement = "";
+                    if(deliberationJSON.amendement != "")
+                        amendement = deliberationJSON.orderAmendement + ". "
+                    description.textContent = amendement + deliberationJSON.title;
 
                     frontDelibTitle.style.display = "flex";
                     frontDelibDescription.style.display = "block";

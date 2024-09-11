@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.gtfs.model.Direction;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for Direction. This utility wraps
@@ -48,9 +47,7 @@ public class DirectionLocalServiceUtil {
 	 * @param direction the direction
 	 * @return the direction that was added
 	 */
-	public static eu.strasbourg.service.gtfs.model.Direction addDirection(
-		eu.strasbourg.service.gtfs.model.Direction direction) {
-
+	public static Direction addDirection(Direction direction) {
 		return getService().addDirection(direction);
 	}
 
@@ -60,20 +57,28 @@ public class DirectionLocalServiceUtil {
 	 * @param directionId the primary key for the new direction
 	 * @return the new direction
 	 */
-	public static eu.strasbourg.service.gtfs.model.Direction createDirection(
-		long directionId) {
-
+	public static Direction createDirection(long directionId) {
 		return getService().createDirection(directionId);
 	}
 
 	/**
 	 * Crée une entree avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.gtfs.model.Direction createDirection(
+	public static Direction createDirection(
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createDirection(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -86,9 +91,7 @@ public class DirectionLocalServiceUtil {
 	 * @param direction the direction
 	 * @return the direction that was removed
 	 */
-	public static eu.strasbourg.service.gtfs.model.Direction deleteDirection(
-		eu.strasbourg.service.gtfs.model.Direction direction) {
-
+	public static Direction deleteDirection(Direction direction) {
 		return getService().deleteDirection(direction);
 	}
 
@@ -103,9 +106,8 @@ public class DirectionLocalServiceUtil {
 	 * @return the direction that was removed
 	 * @throws PortalException if a direction with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.Direction deleteDirection(
-			long directionId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Direction deleteDirection(long directionId)
+		throws PortalException {
 
 		return getService().deleteDirection(directionId);
 	}
@@ -113,17 +115,22 @@ public class DirectionLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -133,9 +140,7 @@ public class DirectionLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -151,9 +156,8 @@ public class DirectionLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -171,10 +175,9 @@ public class DirectionLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -186,9 +189,7 @@ public class DirectionLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -200,15 +201,13 @@ public class DirectionLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.gtfs.model.Direction fetchDirection(
-		long directionId) {
-
+	public static Direction fetchDirection(long directionId) {
 		return getService().fetchDirection(directionId);
 	}
 
@@ -219,8 +218,8 @@ public class DirectionLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching direction, or <code>null</code> if a matching direction could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.Direction
-		fetchDirectionByUuidAndGroupId(String uuid, long groupId) {
+	public static Direction fetchDirectionByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchDirectionByUuidAndGroupId(uuid, groupId);
 	}
@@ -234,45 +233,35 @@ public class DirectionLocalServiceUtil {
 	/**
 	 * Retourne la liste de toutes les directions
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Direction>
-		getAll() {
-
+	public static List<Direction> getAll() {
 		return getService().getAll();
 	}
 
 	/**
 	 * Retourne toutes les entrees d'un groupe
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Direction>
-		getByGroupId(long groupId) {
-
+	public static List<Direction> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
 	/**
 	 * Retourne toutes direction d'une ligne
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Direction>
-		getByRouteId(String routeId) {
-
+	public static List<Direction> getByRouteId(String routeId) {
 		return getService().getByRouteId(routeId);
 	}
 
 	/**
 	 * Retourne toutes direction d'un arret
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Direction>
-		getByStopId(String stopId) {
-
+	public static List<Direction> getByStopId(String stopId) {
 		return getService().getByStopId(stopId);
 	}
 
 	/**
 	 * Retourne une direction via son tripId
 	 */
-	public static eu.strasbourg.service.gtfs.model.Direction getByTripId(
-		String tripId) {
-
+	public static Direction getByTripId(String tripId) {
 		return getService().getByTripId(tripId);
 	}
 
@@ -283,9 +272,8 @@ public class DirectionLocalServiceUtil {
 	 * @return the direction
 	 * @throws PortalException if a direction with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.Direction getDirection(
-			long directionId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Direction getDirection(long directionId)
+		throws PortalException {
 
 		return getService().getDirection(directionId);
 	}
@@ -298,9 +286,9 @@ public class DirectionLocalServiceUtil {
 	 * @return the matching direction
 	 * @throws PortalException if a matching direction could not be found
 	 */
-	public static eu.strasbourg.service.gtfs.model.Direction
-			getDirectionByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Direction getDirectionByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getDirectionByUuidAndGroupId(uuid, groupId);
 	}
@@ -316,9 +304,7 @@ public class DirectionLocalServiceUtil {
 	 * @param end the upper bound of the range of directions (not inclusive)
 	 * @return the range of directions
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Direction>
-		getDirections(int start, int end) {
-
+	public static List<Direction> getDirections(int start, int end) {
 		return getService().getDirections(start, end);
 	}
 
@@ -329,8 +315,8 @@ public class DirectionLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching directions, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Direction>
-		getDirectionsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Direction> getDirectionsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getDirectionsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -345,12 +331,9 @@ public class DirectionLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching directions, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Direction>
-		getDirectionsByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.gtfs.model.Direction>
-					orderByComparator) {
+	public static List<Direction> getDirectionsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Direction> orderByComparator) {
 
 		return getService().getDirectionsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -384,9 +367,8 @@ public class DirectionLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -394,9 +376,8 @@ public class DirectionLocalServiceUtil {
 	/**
 	 * Supprime les entree correspondants au routeId donnee
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Direction>
-			removeByRouteId(String routeId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static List<Direction> removeByRouteId(String routeId)
+		throws PortalException {
 
 		return getService().removeByRouteId(routeId);
 	}
@@ -404,9 +385,8 @@ public class DirectionLocalServiceUtil {
 	/**
 	 * Supprime les entree correspondants au stopId donnee
 	 */
-	public static java.util.List<eu.strasbourg.service.gtfs.model.Direction>
-			removeByStopId(String stopId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static List<Direction> removeByStopId(String stopId)
+		throws PortalException {
 
 		return getService().removeByStopId(stopId);
 	}
@@ -414,9 +394,8 @@ public class DirectionLocalServiceUtil {
 	/**
 	 * Supprime l'entree
 	 */
-	public static eu.strasbourg.service.gtfs.model.Direction removeDirection(
-			long directionId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Direction removeDirection(long directionId)
+		throws PortalException {
 
 		return getService().removeDirection(directionId);
 	}
@@ -424,10 +403,8 @@ public class DirectionLocalServiceUtil {
 	/**
 	 * Supprime les entrees
 	 */
-	public static void removeDirections(
-			java.util.List<eu.strasbourg.service.gtfs.model.Direction>
-				directions)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void removeDirections(List<Direction> directions)
+		throws PortalException {
 
 		getService().removeDirections(directions);
 	}
@@ -442,9 +419,7 @@ public class DirectionLocalServiceUtil {
 	 * @param direction the direction
 	 * @return the direction that was updated
 	 */
-	public static eu.strasbourg.service.gtfs.model.Direction updateDirection(
-		eu.strasbourg.service.gtfs.model.Direction direction) {
-
+	public static Direction updateDirection(Direction direction) {
 		return getService().updateDirection(direction);
 	}
 
@@ -454,10 +429,10 @@ public class DirectionLocalServiceUtil {
 	 * @throws PortalException
 	 * @throws IOException
 	 */
-	public static eu.strasbourg.service.gtfs.model.Direction updateDirection(
-			eu.strasbourg.service.gtfs.model.Direction direction,
+	public static Direction updateDirection(
+			Direction direction,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().updateDirection(direction, sc);
 	}
@@ -468,34 +443,21 @@ public class DirectionLocalServiceUtil {
 	 * @throws IOException
 	 */
 	public static void updateDirections(
-			java.util.List<eu.strasbourg.service.gtfs.model.Direction>
-				directions,
+			List<Direction> directions,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		getService().updateDirections(directions, sc);
 	}
 
 	public static DirectionLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<DirectionLocalService, DirectionLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(DirectionLocalService.class);
-
-		ServiceTracker<DirectionLocalService, DirectionLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<DirectionLocalService, DirectionLocalService>(
-						bundle.getBundleContext(), DirectionLocalService.class,
-						null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(DirectionLocalService service) {
+		_service = service;
 	}
+
+	private static volatile DirectionLocalService _service;
 
 }

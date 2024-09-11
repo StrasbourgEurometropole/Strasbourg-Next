@@ -1,0 +1,146 @@
+
+.st-page-wrapper {
+    .autocomplete__wrapper {
+        position: relative;
+    }
+
+    /*.autocomplete__hint {
+        color: #b1b4b6;
+        position: absolute;
+    }*/
+
+    .autocomplete__input--focused {
+        box-shadow: initial;
+        outline: $c_sub auto 1px;
+    }
+
+    .autocomplete__input--show-all-values {
+        padding: 5px 34px 5px 5px; /* Space for arrow. Other padding should match .autocomplete__input--default. */
+        cursor: pointer;
+    }
+
+    // icone custom
+    .autocomplete__dropdown-arrow-down-wrapper {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        z-index: 10;
+        margin-right: 20px;
+        transform: translateY(-50%);
+        font-size: 10px;
+        color: $c_white;
+    }
+
+    .autocomplete__menu {
+        width: 100%;
+        max-height: 240px;
+        padding: 15px;
+        border: initial;
+        color: $c_txt;
+        background-color: $c_greydark;
+
+        border-radius: $border-radius $border-radius 0 0;
+        box-shadow: 0 30px 60px color-mix(in srgb, $c_black 15%, transparent);
+    }
+
+    .autocomplete__menu--hidden {
+        display: none;
+    }
+
+    .autocomplete__menu--overlay {
+        top: initial;
+        left: 0;
+        right: 0;
+        bottom: calc(100% + 20px);
+        box-shadow: initial;
+    }
+
+    .autocomplete__option {
+        border: initial;
+        padding: 4px calc(8em / 16) 4px calc(8em / 16);
+        @include ft('', 14px, 400, $c_txt, 1.1);
+        border-radius: $border-radius-small;
+    }
+
+    .autocomplete__option--odd {
+        background-color: initial;
+    }
+
+    .autocomplete__option--focused,
+    .autocomplete__option:not(.autocomplete__option--no-results):hover {
+        color: $c_main;
+        background-color: $c_white;
+        border-color: initial;
+        outline: none;
+    }
+
+    /*@media (-ms-high-contrast: active), (forced-colors: active) {
+        .autocomplete__menu {
+            border-color: FieldText;
+        }
+
+        .autocomplete__option {
+            background-color: Field;
+            color: FieldText;
+        }
+
+        .autocomplete__option--focused,
+        .autocomplete__option:hover {
+            forced-color-adjust: none; !* prevent backplate from obscuring text *!
+            background-color: Highlight;
+            border-color: Highlight;
+            color: HighlightText;
+
+            !* Prefer SelectedItem / SelectedItemText in browsers that support it *!
+            background-color: SelectedItem;
+            border-color: SelectedItem;
+            color: SelectedItemText;
+            outline-color: SelectedItemText;
+        }
+    }*/
+
+    .autocomplete__option--no-results {
+        color: $c_txt;
+        background-color: initial;
+        cursor: initial;
+    }
+
+
+
+
+    .autocomplete__menu {
+        --scrollbar-width: 10px;
+        --track-color: #{$c_border};
+        --thumb-color: #{$c_sub};
+        --thumb-hover-color: #{$c_white};
+
+        @include mobile {
+            --custom-scrollbar-width: 8px;
+        }
+
+        /* Firefox */
+        scrollbar-width: auto; /* can also be normal, or none, to not render scrollbar */
+        scrollbar-height: auto; /* can also be normal, or none, to not render scrollbar */
+        scrollbar-color: var(--thumb-color) var(--track-color); /* foreground background */
+
+        /* Webkit / Blink */
+        &::-webkit-scrollbar {
+            width: var(--scrollbar-width);
+            height: var(--scrollbar-width);
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--thumb-color);
+            border-radius: $border-radius;
+
+            &:hover {
+                background-color: var(--thumb-hover-color);
+            }
+        }
+
+        &::-webkit-scrollbar-track {
+            background-color: var(--track-color);
+            border-radius: $border-radius;
+        }
+    }
+}

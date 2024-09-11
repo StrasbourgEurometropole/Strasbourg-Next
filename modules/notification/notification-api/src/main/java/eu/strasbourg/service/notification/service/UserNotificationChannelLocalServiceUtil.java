@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notification.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.notification.model.UserNotificationChannel;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for UserNotificationChannel. This utility wraps
@@ -48,13 +47,20 @@ public class UserNotificationChannelLocalServiceUtil {
 	 * @param userNotificationChannel the user notification channel
 	 * @return the user notification channel that was added
 	 */
-	public static
-		eu.strasbourg.service.notification.model.UserNotificationChannel
-			addUserNotificationChannel(
-				eu.strasbourg.service.notification.model.UserNotificationChannel
-					userNotificationChannel) {
+	public static UserNotificationChannel addUserNotificationChannel(
+		UserNotificationChannel userNotificationChannel) {
 
 		return getService().addUserNotificationChannel(userNotificationChannel);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -63,11 +69,9 @@ public class UserNotificationChannelLocalServiceUtil {
 	 * @param userNotificationChannelPK the primary key for the new user notification channel
 	 * @return the new user notification channel
 	 */
-	public static
-		eu.strasbourg.service.notification.model.UserNotificationChannel
-			createUserNotificationChannel(
-				eu.strasbourg.service.notification.service.persistence.
-					UserNotificationChannelPK userNotificationChannelPK) {
+	public static UserNotificationChannel createUserNotificationChannel(
+		eu.strasbourg.service.notification.service.persistence.
+			UserNotificationChannelPK userNotificationChannelPK) {
 
 		return getService().createUserNotificationChannel(
 			userNotificationChannelPK);
@@ -76,10 +80,9 @@ public class UserNotificationChannelLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -94,11 +97,8 @@ public class UserNotificationChannelLocalServiceUtil {
 	 * @param userNotificationChannel the user notification channel
 	 * @return the user notification channel that was removed
 	 */
-	public static
-		eu.strasbourg.service.notification.model.UserNotificationChannel
-			deleteUserNotificationChannel(
-				eu.strasbourg.service.notification.model.UserNotificationChannel
-					userNotificationChannel) {
+	public static UserNotificationChannel deleteUserNotificationChannel(
+		UserNotificationChannel userNotificationChannel) {
 
 		return getService().deleteUserNotificationChannel(
 			userNotificationChannel);
@@ -115,20 +115,24 @@ public class UserNotificationChannelLocalServiceUtil {
 	 * @return the user notification channel that was removed
 	 * @throws PortalException if a user notification channel with the primary key could not be found
 	 */
-	public static
-		eu.strasbourg.service.notification.model.UserNotificationChannel
-				deleteUserNotificationChannel(
-					eu.strasbourg.service.notification.service.persistence.
-						UserNotificationChannelPK userNotificationChannelPK)
-			throws com.liferay.portal.kernel.exception.PortalException {
+	public static UserNotificationChannel deleteUserNotificationChannel(
+			eu.strasbourg.service.notification.service.persistence.
+				UserNotificationChannelPK userNotificationChannelPK)
+		throws PortalException {
 
 		return getService().deleteUserNotificationChannel(
 			userNotificationChannelPK);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -138,9 +142,7 @@ public class UserNotificationChannelLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -156,9 +158,8 @@ public class UserNotificationChannelLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -176,10 +177,9 @@ public class UserNotificationChannelLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -191,9 +191,7 @@ public class UserNotificationChannelLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -205,17 +203,15 @@ public class UserNotificationChannelLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static
-		eu.strasbourg.service.notification.model.UserNotificationChannel
-			fetchUserNotificationChannel(
-				eu.strasbourg.service.notification.service.persistence.
-					UserNotificationChannelPK userNotificationChannelPK) {
+	public static UserNotificationChannel fetchUserNotificationChannel(
+		eu.strasbourg.service.notification.service.persistence.
+			UserNotificationChannelPK userNotificationChannelPK) {
 
 		return getService().fetchUserNotificationChannel(
 			userNotificationChannelPK);
@@ -224,9 +220,8 @@ public class UserNotificationChannelLocalServiceUtil {
 	/**
 	 * Retourne la liste des statuts de notification pour un utilisateur
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.notification.model.UserNotificationChannel>
-			getByPublikUserId(String publikUserId) {
+	public static List<UserNotificationChannel> getByPublikUserId(
+		String publikUserId) {
 
 		return getService().getByPublikUserId(publikUserId);
 	}
@@ -243,9 +238,8 @@ public class UserNotificationChannelLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -257,12 +251,10 @@ public class UserNotificationChannelLocalServiceUtil {
 	 * @return the user notification channel
 	 * @throws PortalException if a user notification channel with the primary key could not be found
 	 */
-	public static
-		eu.strasbourg.service.notification.model.UserNotificationChannel
-				getUserNotificationChannel(
-					eu.strasbourg.service.notification.service.persistence.
-						UserNotificationChannelPK userNotificationChannelPK)
-			throws com.liferay.portal.kernel.exception.PortalException {
+	public static UserNotificationChannel getUserNotificationChannel(
+			eu.strasbourg.service.notification.service.persistence.
+				UserNotificationChannelPK userNotificationChannelPK)
+		throws PortalException {
 
 		return getService().getUserNotificationChannel(
 			userNotificationChannelPK);
@@ -279,9 +271,8 @@ public class UserNotificationChannelLocalServiceUtil {
 	 * @param end the upper bound of the range of user notification channels (not inclusive)
 	 * @return the range of user notification channels
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.notification.model.UserNotificationChannel>
-			getUserNotificationChannels(int start, int end) {
+	public static List<UserNotificationChannel> getUserNotificationChannels(
+		int start, int end) {
 
 		return getService().getUserNotificationChannels(start, end);
 	}
@@ -290,7 +281,7 @@ public class UserNotificationChannelLocalServiceUtil {
 	 * Retourne la liste des types de notifications auxquels l'utilisateur est
 	 * abonné
 	 */
-	public static java.util.List
+	public static List
 		<eu.strasbourg.service.notification.model.NotificationChannel>
 			getUserNotificationChannels(String publikUserId) {
 
@@ -311,9 +302,8 @@ public class UserNotificationChannelLocalServiceUtil {
 	 */
 	public static void replaceUserChannels(
 		String publikUserId,
-		java.util.List
-			<eu.strasbourg.service.notification.model.NotificationChannel>
-				channels) {
+		List<eu.strasbourg.service.notification.model.NotificationChannel>
+			channels) {
 
 		getService().replaceUserChannels(publikUserId, channels);
 	}
@@ -328,40 +318,21 @@ public class UserNotificationChannelLocalServiceUtil {
 	 * @param userNotificationChannel the user notification channel
 	 * @return the user notification channel that was updated
 	 */
-	public static
-		eu.strasbourg.service.notification.model.UserNotificationChannel
-			updateUserNotificationChannel(
-				eu.strasbourg.service.notification.model.UserNotificationChannel
-					userNotificationChannel) {
+	public static UserNotificationChannel updateUserNotificationChannel(
+		UserNotificationChannel userNotificationChannel) {
 
 		return getService().updateUserNotificationChannel(
 			userNotificationChannel);
 	}
 
 	public static UserNotificationChannelLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<UserNotificationChannelLocalService,
-		 UserNotificationChannelLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			UserNotificationChannelLocalService.class);
-
-		ServiceTracker
-			<UserNotificationChannelLocalService,
-			 UserNotificationChannelLocalService> serviceTracker =
-				new ServiceTracker
-					<UserNotificationChannelLocalService,
-					 UserNotificationChannelLocalService>(
-						 bundle.getBundleContext(),
-						 UserNotificationChannelLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(UserNotificationChannelLocalService service) {
+		_service = service;
 	}
+
+	private static volatile UserNotificationChannelLocalService _service;
 
 }

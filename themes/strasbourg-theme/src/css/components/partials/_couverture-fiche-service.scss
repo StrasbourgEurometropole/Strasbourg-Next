@@ -1,0 +1,17 @@
+// Couverture dans les fiches service
+.st-header-fiche-service {
+	margin-bottom: 44px;
+	padding-top: 40px;
+
+	@include mobile {
+		margin-bottom: 24px;
+		padding-top: 25px;
+	}
+
+	// régle spé pour les h1 des headers
+	.st-h1 {
+		@include mobile {
+			font-size: 30px;
+		}
+	}
+}

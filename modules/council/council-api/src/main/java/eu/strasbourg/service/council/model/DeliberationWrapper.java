@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +23,11 @@ import java.util.Objects;
  * @generated
  */
 public class DeliberationWrapper
+	extends BaseModelWrapper<Deliberation>
 	implements Deliberation, ModelWrapper<Deliberation> {
 
 	public DeliberationWrapper(Deliberation deliberation) {
-		_deliberation = deliberation;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Deliberation.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Deliberation.class.getName();
+		super(deliberation);
 	}
 
 	@Override
@@ -68,11 +46,13 @@ public class DeliberationWrapper
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
+		attributes.put("amendement", getAmendement());
 		attributes.put("title", getTitle());
 		attributes.put("order", getOrder());
 		attributes.put("stage", getStage());
 		attributes.put("countOfficialsVoting", getCountOfficialsVoting());
 		attributes.put("countOfficialsActive", getCountOfficialsActive());
+		attributes.put("quorum", getQuorum());
 		attributes.put("beginningVoteDate", getBeginningVoteDate());
 		attributes.put("endVoteDate", getEndVoteDate());
 		attributes.put("councilSessionId", getCouncilSessionId());
@@ -154,6 +134,12 @@ public class DeliberationWrapper
 			setStatusDate(statusDate);
 		}
 
+		String amendement = (String)attributes.get("amendement");
+
+		if (amendement != null) {
+			setAmendement(amendement);
+		}
+
 		String title = (String)attributes.get("title");
 
 		if (title != null) {
@@ -186,6 +172,12 @@ public class DeliberationWrapper
 			setCountOfficialsActive(countOfficialsActive);
 		}
 
+		Integer quorum = (Integer)attributes.get("quorum");
+
+		if (quorum != null) {
+			setQuorum(quorum);
+		}
+
 		Date beginningVoteDate = (Date)attributes.get("beginningVoteDate");
 
 		if (beginningVoteDate != null) {
@@ -206,15 +198,18 @@ public class DeliberationWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new DeliberationWrapper((Deliberation)_deliberation.clone());
+	public Deliberation cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
+	/**
+	 * Returns the amendement of this deliberation.
+	 *
+	 * @return the amendement of this deliberation
+	 */
 	@Override
-	public int compareTo(
-		eu.strasbourg.service.council.model.Deliberation deliberation) {
-
-		return _deliberation.compareTo(deliberation);
+	public String getAmendement() {
+		return model.getAmendement();
 	}
 
 	/**
@@ -222,7 +217,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _deliberation.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -232,7 +227,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public Date getBeginningVoteDate() {
-		return _deliberation.getBeginningVoteDate();
+		return model.getBeginningVoteDate();
 	}
 
 	/**
@@ -242,7 +237,7 @@ public class DeliberationWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _deliberation.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -252,14 +247,14 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _deliberation.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	@Override
 	public eu.strasbourg.service.council.model.CouncilSession
 		getCouncilSession() {
 
-		return _deliberation.getCouncilSession();
+		return model.getCouncilSession();
 	}
 
 	/**
@@ -269,7 +264,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public long getCouncilSessionId() {
-		return _deliberation.getCouncilSessionId();
+		return model.getCouncilSessionId();
 	}
 
 	/**
@@ -279,7 +274,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public int getCountOfficialsActive() {
-		return _deliberation.getCountOfficialsActive();
+		return model.getCountOfficialsActive();
 	}
 
 	/**
@@ -289,7 +284,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public int getCountOfficialsVoting() {
-		return _deliberation.getCountOfficialsVoting();
+		return model.getCountOfficialsVoting();
 	}
 
 	/**
@@ -299,7 +294,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _deliberation.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -309,7 +304,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public long getDeliberationId() {
-		return _deliberation.getDeliberationId();
+		return model.getDeliberationId();
 	}
 
 	/**
@@ -319,12 +314,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public Date getEndVoteDate() {
-		return _deliberation.getEndVoteDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _deliberation.getExpandoBridge();
+		return model.getEndVoteDate();
 	}
 
 	/**
@@ -334,7 +324,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _deliberation.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -344,7 +334,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _deliberation.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -354,7 +344,12 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public int getOrder() {
-		return _deliberation.getOrder();
+		return model.getOrder();
+	}
+
+	@Override
+	public String getOrderAmendement() {
+		return model.getOrderAmendement();
 	}
 
 	/**
@@ -364,12 +359,17 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _deliberation.getPrimaryKey();
+		return model.getPrimaryKey();
 	}
 
+	/**
+	 * Returns the quorum of this deliberation.
+	 *
+	 * @return the quorum of this deliberation
+	 */
 	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _deliberation.getPrimaryKeyObj();
+	public int getQuorum() {
+		return model.getQuorum();
 	}
 
 	/**
@@ -379,7 +379,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public String getStage() {
-		return _deliberation.getStage();
+		return model.getStage();
 	}
 
 	/**
@@ -389,7 +389,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _deliberation.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -399,7 +399,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _deliberation.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -409,7 +409,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _deliberation.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -419,7 +419,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _deliberation.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -429,7 +429,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _deliberation.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -439,7 +439,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public String getTitle() {
-		return _deliberation.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -449,7 +449,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _deliberation.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -459,7 +459,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _deliberation.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -469,7 +469,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _deliberation.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -479,22 +479,17 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _deliberation.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _deliberation.hashCode();
+		return model.getUuid();
 	}
 
 	@Override
 	public boolean isAdopte() {
-		return _deliberation.isAdopte();
+		return model.isAdopte();
 	}
 
 	@Override
 	public boolean isAffichageEnCours() {
-		return _deliberation.isAffichageEnCours();
+		return model.isAffichageEnCours();
 	}
 
 	/**
@@ -504,22 +499,17 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _deliberation.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _deliberation.isCachedModel();
+		return model.isApproved();
 	}
 
 	@Override
 	public boolean isCommunique() {
-		return _deliberation.isCommunique();
+		return model.isCommunique();
 	}
 
 	@Override
 	public boolean isCree() {
-		return _deliberation.isCree();
+		return model.isCree();
 	}
 
 	/**
@@ -529,7 +519,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _deliberation.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -539,12 +529,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _deliberation.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _deliberation.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -554,7 +539,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _deliberation.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -564,7 +549,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _deliberation.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -574,12 +559,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _deliberation.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _deliberation.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -589,17 +569,17 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _deliberation.isPending();
+		return model.isPending();
 	}
 
 	@Override
 	public boolean isRejete() {
-		return _deliberation.isRejete();
+		return model.isRejete();
 	}
 
 	@Override
 	public boolean isRetire() {
-		return _deliberation.isRetire();
+		return model.isRetire();
 	}
 
 	/**
@@ -609,17 +589,27 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _deliberation.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public boolean isVoteOuvert() {
-		return _deliberation.isVoteOuvert();
+		return model.isVoteOuvert();
 	}
 
 	@Override
 	public void persist() {
-		_deliberation.persist();
+		model.persist();
+	}
+
+	/**
+	 * Sets the amendement of this deliberation.
+	 *
+	 * @param amendement the amendement of this deliberation
+	 */
+	@Override
+	public void setAmendement(String amendement) {
+		model.setAmendement(amendement);
 	}
 
 	/**
@@ -629,12 +619,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setBeginningVoteDate(Date beginningVoteDate) {
-		_deliberation.setBeginningVoteDate(beginningVoteDate);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_deliberation.setCachedModel(cachedModel);
+		model.setBeginningVoteDate(beginningVoteDate);
 	}
 
 	/**
@@ -644,7 +629,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_deliberation.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -654,7 +639,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setCouncilSessionId(long councilSessionId) {
-		_deliberation.setCouncilSessionId(councilSessionId);
+		model.setCouncilSessionId(councilSessionId);
 	}
 
 	/**
@@ -664,7 +649,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setCountOfficialsActive(int countOfficialsActive) {
-		_deliberation.setCountOfficialsActive(countOfficialsActive);
+		model.setCountOfficialsActive(countOfficialsActive);
 	}
 
 	/**
@@ -674,7 +659,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setCountOfficialsVoting(int countOfficialsVoting) {
-		_deliberation.setCountOfficialsVoting(countOfficialsVoting);
+		model.setCountOfficialsVoting(countOfficialsVoting);
 	}
 
 	/**
@@ -684,7 +669,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_deliberation.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -694,7 +679,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setDeliberationId(long deliberationId) {
-		_deliberation.setDeliberationId(deliberationId);
+		model.setDeliberationId(deliberationId);
 	}
 
 	/**
@@ -704,24 +689,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setEndVoteDate(Date endVoteDate) {
-		_deliberation.setEndVoteDate(endVoteDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_deliberation.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_deliberation.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_deliberation.setExpandoBridgeAttributes(serviceContext);
+		model.setEndVoteDate(endVoteDate);
 	}
 
 	/**
@@ -731,7 +699,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_deliberation.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -741,12 +709,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_deliberation.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_deliberation.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -756,7 +719,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setOrder(int order) {
-		_deliberation.setOrder(order);
+		model.setOrder(order);
 	}
 
 	/**
@@ -766,12 +729,17 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_deliberation.setPrimaryKey(primaryKey);
+		model.setPrimaryKey(primaryKey);
 	}
 
+	/**
+	 * Sets the quorum of this deliberation.
+	 *
+	 * @param quorum the quorum of this deliberation
+	 */
 	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_deliberation.setPrimaryKeyObj(primaryKeyObj);
+	public void setQuorum(int quorum) {
+		model.setQuorum(quorum);
 	}
 
 	/**
@@ -781,7 +749,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setStage(String stage) {
-		_deliberation.setStage(stage);
+		model.setStage(stage);
 	}
 
 	/**
@@ -791,7 +759,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_deliberation.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -801,7 +769,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_deliberation.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -811,7 +779,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_deliberation.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -821,7 +789,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_deliberation.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -831,7 +799,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_deliberation.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -841,7 +809,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setTitle(String title) {
-		_deliberation.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -851,7 +819,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_deliberation.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -861,7 +829,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_deliberation.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -871,7 +839,7 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_deliberation.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -881,80 +849,22 @@ public class DeliberationWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_deliberation.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.council.model.Deliberation> toCacheModel() {
-
-		return _deliberation.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.Deliberation toEscapedModel() {
-		return new DeliberationWrapper(_deliberation.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _deliberation.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.Deliberation toUnescapedModel() {
-		return new DeliberationWrapper(_deliberation.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _deliberation.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof DeliberationWrapper)) {
-			return false;
-		}
-
-		DeliberationWrapper deliberationWrapper = (DeliberationWrapper)object;
-
-		if (Objects.equals(_deliberation, deliberationWrapper._deliberation)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _deliberation.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Deliberation getWrappedModel() {
-		return _deliberation;
+	protected DeliberationWrapper wrap(Deliberation deliberation) {
+		return new DeliberationWrapper(deliberation);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _deliberation.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _deliberation.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_deliberation.resetOriginalValues();
-	}
-
-	private final Deliberation _deliberation;
 
 }

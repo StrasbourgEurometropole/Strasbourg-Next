@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.csmap.service.persistence.impl;
@@ -26,17 +17,23 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.csmap.exception.NoSuchBaseNonceException;
 import eu.strasbourg.service.csmap.model.BaseNonce;
+import eu.strasbourg.service.csmap.model.BaseNonceTable;
 import eu.strasbourg.service.csmap.model.impl.BaseNonceImpl;
 import eu.strasbourg.service.csmap.model.impl.BaseNonceModelImpl;
 import eu.strasbourg.service.csmap.service.persistence.BaseNoncePersistence;
+import eu.strasbourg.service.csmap.service.persistence.BaseNonceUtil;
 import eu.strasbourg.service.csmap.service.persistence.impl.constants.csmapPersistenceConstants;
 
 import java.io.Serializable;
@@ -44,6 +41,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -227,11 +225,6 @@ public class BaseNoncePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByValue, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -314,8 +307,6 @@ public class BaseNoncePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -337,6 +328,8 @@ public class BaseNoncePersistenceImpl
 
 		setModelImplClass(BaseNonceImpl.class);
 		setModelPKClass(long.class);
+
+		setTable(BaseNonceTable.INSTANCE);
 	}
 
 	/**
@@ -347,15 +340,14 @@ public class BaseNoncePersistenceImpl
 	@Override
 	public void cacheResult(BaseNonce baseNonce) {
 		entityCache.putResult(
-			entityCacheEnabled, BaseNonceImpl.class, baseNonce.getPrimaryKey(),
-			baseNonce);
+			BaseNonceImpl.class, baseNonce.getPrimaryKey(), baseNonce);
 
 		finderCache.putResult(
 			_finderPathFetchByValue, new Object[] {baseNonce.getValue()},
 			baseNonce);
-
-		baseNonce.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the base nonces in the entity cache if it is enabled.
@@ -364,15 +356,18 @@ public class BaseNoncePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<BaseNonce> baseNonces) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (baseNonces.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (BaseNonce baseNonce : baseNonces) {
 			if (entityCache.getResult(
-					entityCacheEnabled, BaseNonceImpl.class,
-					baseNonce.getPrimaryKey()) == null) {
+					BaseNonceImpl.class, baseNonce.getPrimaryKey()) == null) {
 
 				cacheResult(baseNonce);
-			}
-			else {
-				baseNonce.resetOriginalValues();
 			}
 		}
 	}
@@ -388,9 +383,7 @@ public class BaseNoncePersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(BaseNonceImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(BaseNonceImpl.class);
 	}
 
 	/**
@@ -402,37 +395,22 @@ public class BaseNoncePersistenceImpl
 	 */
 	@Override
 	public void clearCache(BaseNonce baseNonce) {
-		entityCache.removeResult(
-			entityCacheEnabled, BaseNonceImpl.class, baseNonce.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((BaseNonceModelImpl)baseNonce, true);
+		entityCache.removeResult(BaseNonceImpl.class, baseNonce);
 	}
 
 	@Override
 	public void clearCache(List<BaseNonce> baseNonces) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (BaseNonce baseNonce : baseNonces) {
-			entityCache.removeResult(
-				entityCacheEnabled, BaseNonceImpl.class,
-				baseNonce.getPrimaryKey());
-
-			clearUniqueFindersCache((BaseNonceModelImpl)baseNonce, true);
+			entityCache.removeResult(BaseNonceImpl.class, baseNonce);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(BaseNonceImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				entityCacheEnabled, BaseNonceImpl.class, primaryKey);
+			entityCache.removeResult(BaseNonceImpl.class, primaryKey);
 		}
 	}
 
@@ -441,32 +419,9 @@ public class BaseNoncePersistenceImpl
 
 		Object[] args = new Object[] {baseNonceModelImpl.getValue()};
 
+		finderCache.putResult(_finderPathCountByValue, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByValue, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByValue, args, baseNonceModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		BaseNonceModelImpl baseNonceModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {baseNonceModelImpl.getValue()};
-
-			finderCache.removeResult(_finderPathCountByValue, args);
-			finderCache.removeResult(_finderPathFetchByValue, args);
-		}
-
-		if ((baseNonceModelImpl.getColumnBitmask() &
-			 _finderPathFetchByValue.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				baseNonceModelImpl.getOriginalValue()
-			};
-
-			finderCache.removeResult(_finderPathCountByValue, args);
-			finderCache.removeResult(_finderPathFetchByValue, args);
-		}
+			_finderPathFetchByValue, args, baseNonceModelImpl);
 	}
 
 	/**
@@ -590,15 +545,27 @@ public class BaseNoncePersistenceImpl
 
 		BaseNonceModelImpl baseNonceModelImpl = (BaseNonceModelImpl)baseNonce;
 
+		if (isNew && (baseNonce.getCreateDate() == null)) {
+			ServiceContext serviceContext =
+				ServiceContextThreadLocal.getServiceContext();
+
+			Date date = new Date();
+
+			if (serviceContext == null) {
+				baseNonce.setCreateDate(date);
+			}
+			else {
+				baseNonce.setCreateDate(serviceContext.getCreateDate(date));
+			}
+		}
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			if (baseNonce.isNew()) {
+			if (isNew) {
 				session.save(baseNonce);
-
-				baseNonce.setNew(false);
 			}
 			else {
 				baseNonce = (BaseNonce)session.merge(baseNonce);
@@ -611,23 +578,14 @@ public class BaseNoncePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!_columnBitmaskEnabled) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-
 		entityCache.putResult(
-			entityCacheEnabled, BaseNonceImpl.class, baseNonce.getPrimaryKey(),
-			baseNonce, false);
+			BaseNonceImpl.class, baseNonceModelImpl, false, true);
 
-		clearUniqueFindersCache(baseNonceModelImpl, false);
 		cacheUniqueFindersCache(baseNonceModelImpl);
+
+		if (isNew) {
+			baseNonce.setNew(false);
+		}
 
 		baseNonce.resetOriginalValues();
 
@@ -808,10 +766,6 @@ public class BaseNoncePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -857,9 +811,6 @@ public class BaseNoncePersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -895,41 +846,39 @@ public class BaseNoncePersistenceImpl
 	 */
 	@Activate
 	public void activate() {
-		BaseNonceModelImpl.setEntityCacheEnabled(entityCacheEnabled);
-		BaseNonceModelImpl.setFinderCacheEnabled(finderCacheEnabled);
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
 
 		_finderPathWithPaginationFindAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, BaseNonceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, BaseNonceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathFetchByValue = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, BaseNonceImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByValue",
-			new String[] {String.class.getName()},
-			BaseNonceModelImpl.VALUE_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"value"},
+			true);
 
 		_finderPathCountByValue = new FinderPath(
-			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByValue",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"value"},
+			false);
+
+		BaseNonceUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
+		BaseNonceUtil.setPersistence(null);
+
 		entityCache.removeCache(BaseNonceImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@Override
@@ -938,12 +887,6 @@ public class BaseNoncePersistenceImpl
 		unbind = "-"
 	)
 	public void setConfiguration(Configuration configuration) {
-		super.setConfiguration(configuration);
-
-		_columnBitmaskEnabled = GetterUtil.getBoolean(
-			configuration.get(
-				"value.object.column.bitmask.enabled.eu.strasbourg.service.csmap.model.BaseNonce"),
-			true);
 	}
 
 	@Override
@@ -963,8 +906,6 @@ public class BaseNoncePersistenceImpl
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		super.setSessionFactory(sessionFactory);
 	}
-
-	private boolean _columnBitmaskEnabled;
 
 	@Reference
 	protected EntityCache entityCache;
@@ -995,13 +936,9 @@ public class BaseNoncePersistenceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		BaseNoncePersistenceImpl.class);
 
-	static {
-		try {
-			Class.forName(csmapPersistenceConstants.class.getName());
-		}
-		catch (ClassNotFoundException classNotFoundException) {
-			throw new ExceptionInInitializerError(classNotFoundException);
-		}
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
 	}
 
 }

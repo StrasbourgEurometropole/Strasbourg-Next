@@ -1,28 +1,15 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.interest.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,20 +21,11 @@ import java.util.Objects;
  * @generated
  */
 public class UserInterestWrapper
+	extends BaseModelWrapper<UserInterest>
 	implements ModelWrapper<UserInterest>, UserInterest {
 
 	public UserInterestWrapper(UserInterest userInterest) {
-		_userInterest = userInterest;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return UserInterest.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return UserInterest.class.getName();
+		super(userInterest);
 	}
 
 	@Override
@@ -76,25 +54,13 @@ public class UserInterestWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new UserInterestWrapper((UserInterest)_userInterest.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.interest.model.UserInterest userInterest) {
-
-		return _userInterest.compareTo(userInterest);
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _userInterest.getExpandoBridge();
+	public UserInterest cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	@Override
 	public eu.strasbourg.service.interest.model.Interest getInterest() {
-		return _userInterest.getInterest();
+		return model.getInterest();
 	}
 
 	/**
@@ -104,7 +70,7 @@ public class UserInterestWrapper
 	 */
 	@Override
 	public long getInterestId() {
-		return _userInterest.getInterestId();
+		return model.getInterestId();
 	}
 
 	/**
@@ -116,12 +82,7 @@ public class UserInterestWrapper
 	public eu.strasbourg.service.interest.service.persistence.UserInterestPK
 		getPrimaryKey() {
 
-		return _userInterest.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _userInterest.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -131,54 +92,12 @@ public class UserInterestWrapper
 	 */
 	@Override
 	public String getPublikUserId() {
-		return _userInterest.getPublikUserId();
-	}
-
-	@Override
-	public int hashCode() {
-		return _userInterest.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _userInterest.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _userInterest.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _userInterest.isNew();
+		return model.getPublikUserId();
 	}
 
 	@Override
 	public void persist() {
-		_userInterest.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_userInterest.setCachedModel(cachedModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_userInterest.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_userInterest.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_userInterest.setExpandoBridgeAttributes(serviceContext);
+		model.persist();
 	}
 
 	/**
@@ -188,12 +107,7 @@ public class UserInterestWrapper
 	 */
 	@Override
 	public void setInterestId(long interestId) {
-		_userInterest.setInterestId(interestId);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_userInterest.setNew(n);
+		model.setInterestId(interestId);
 	}
 
 	/**
@@ -206,12 +120,7 @@ public class UserInterestWrapper
 		eu.strasbourg.service.interest.service.persistence.UserInterestPK
 			primaryKey) {
 
-		_userInterest.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_userInterest.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -221,77 +130,17 @@ public class UserInterestWrapper
 	 */
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_userInterest.setPublikUserId(publikUserId);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.interest.model.UserInterest> toCacheModel() {
-
-		return _userInterest.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.interest.model.UserInterest toEscapedModel() {
-		return new UserInterestWrapper(_userInterest.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _userInterest.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.interest.model.UserInterest
-		toUnescapedModel() {
-
-		return new UserInterestWrapper(_userInterest.toUnescapedModel());
+		model.setPublikUserId(publikUserId);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _userInterest.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof UserInterestWrapper)) {
-			return false;
-		}
-
-		UserInterestWrapper userInterestWrapper = (UserInterestWrapper)object;
-
-		if (Objects.equals(_userInterest, userInterestWrapper._userInterest)) {
-			return true;
-		}
-
-		return false;
+	protected UserInterestWrapper wrap(UserInterest userInterest) {
+		return new UserInterestWrapper(userInterest);
 	}
-
-	@Override
-	public UserInterest getWrappedModel() {
-		return _userInterest;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _userInterest.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _userInterest.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_userInterest.resetOriginalValues();
-	}
-
-	private final UserInterest _userInterest;
 
 }

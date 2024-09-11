@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.agenda.model.AgendaExport;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for AgendaExport. This utility wraps
@@ -48,18 +48,14 @@ public class AgendaExportLocalServiceUtil {
 	 * @param agendaExport the agenda export
 	 * @return the agenda export that was added
 	 */
-	public static eu.strasbourg.service.agenda.model.AgendaExport
-		addAgendaExport(
-			eu.strasbourg.service.agenda.model.AgendaExport agendaExport) {
-
+	public static AgendaExport addAgendaExport(AgendaExport agendaExport) {
 		return getService().addAgendaExport(agendaExport);
 	}
 
-	public static eu.strasbourg.service.agenda.model.AgendaExport
-			copyAgendaExport(
-				com.liferay.portal.kernel.service.ServiceContext sc,
-				eu.strasbourg.service.agenda.model.AgendaExport agendaToCopy)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static AgendaExport copyAgendaExport(
+			com.liferay.portal.kernel.service.ServiceContext sc,
+			AgendaExport agendaToCopy)
+		throws PortalException {
 
 		return getService().copyAgendaExport(sc, agendaToCopy);
 	}
@@ -70,21 +66,28 @@ public class AgendaExportLocalServiceUtil {
 	 * @param agendaExportId the primary key for the new agenda export
 	 * @return the new agenda export
 	 */
-	public static eu.strasbourg.service.agenda.model.AgendaExport
-		createAgendaExport(long agendaExportId) {
-
+	public static AgendaExport createAgendaExport(long agendaExportId) {
 		return getService().createAgendaExport(agendaExportId);
 	}
 
 	/**
 	 * Crée un Agenda Export vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.agenda.model.AgendaExport
-			createAgendaExport(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static AgendaExport createAgendaExport(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createAgendaExport(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -97,10 +100,7 @@ public class AgendaExportLocalServiceUtil {
 	 * @param agendaExport the agenda export
 	 * @return the agenda export that was removed
 	 */
-	public static eu.strasbourg.service.agenda.model.AgendaExport
-		deleteAgendaExport(
-			eu.strasbourg.service.agenda.model.AgendaExport agendaExport) {
-
+	public static AgendaExport deleteAgendaExport(AgendaExport agendaExport) {
 		return getService().deleteAgendaExport(agendaExport);
 	}
 
@@ -115,9 +115,8 @@ public class AgendaExportLocalServiceUtil {
 	 * @return the agenda export that was removed
 	 * @throws PortalException if a agenda export with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.AgendaExport
-			deleteAgendaExport(long agendaExportId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static AgendaExport deleteAgendaExport(long agendaExportId)
+		throws PortalException {
 
 		return getService().deleteAgendaExport(agendaExportId);
 	}
@@ -125,17 +124,22 @@ public class AgendaExportLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -145,9 +149,7 @@ public class AgendaExportLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -163,9 +165,8 @@ public class AgendaExportLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -183,10 +184,9 @@ public class AgendaExportLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -198,9 +198,7 @@ public class AgendaExportLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -212,15 +210,13 @@ public class AgendaExportLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.agenda.model.AgendaExport
-		fetchAgendaExport(long agendaExportId) {
-
+	public static AgendaExport fetchAgendaExport(long agendaExportId) {
 		return getService().fetchAgendaExport(agendaExportId);
 	}
 
@@ -231,8 +227,8 @@ public class AgendaExportLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching agenda export, or <code>null</code> if a matching agenda export could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.AgendaExport
-		fetchAgendaExportByUuidAndGroupId(String uuid, long groupId) {
+	public static AgendaExport fetchAgendaExportByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchAgendaExportByUuidAndGroupId(uuid, groupId);
 	}
@@ -240,9 +236,8 @@ public class AgendaExportLocalServiceUtil {
 	/**
 	 * Lance une recherche par mots-clés
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.AgendaExport> findByKeyword(
-			String keyword, long groupId, int start, int end) {
+	public static List<AgendaExport> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -267,9 +262,8 @@ public class AgendaExportLocalServiceUtil {
 	 * @return the agenda export
 	 * @throws PortalException if a agenda export with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.AgendaExport
-			getAgendaExport(long agendaExportId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static AgendaExport getAgendaExport(long agendaExportId)
+		throws PortalException {
 
 		return getService().getAgendaExport(agendaExportId);
 	}
@@ -282,9 +276,9 @@ public class AgendaExportLocalServiceUtil {
 	 * @return the matching agenda export
 	 * @throws PortalException if a matching agenda export could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.AgendaExport
-			getAgendaExportByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static AgendaExport getAgendaExportByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getAgendaExportByUuidAndGroupId(uuid, groupId);
 	}
@@ -300,10 +294,7 @@ public class AgendaExportLocalServiceUtil {
 	 * @param end the upper bound of the range of agenda exports (not inclusive)
 	 * @return the range of agenda exports
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.AgendaExport> getAgendaExports(
-			int start, int end) {
-
+	public static List<AgendaExport> getAgendaExports(int start, int end) {
 		return getService().getAgendaExports(start, end);
 	}
 
@@ -314,9 +305,8 @@ public class AgendaExportLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching agenda exports, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.AgendaExport>
-			getAgendaExportsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<AgendaExport> getAgendaExportsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getAgendaExportsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -331,13 +321,9 @@ public class AgendaExportLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching agenda exports, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.AgendaExport>
-			getAgendaExportsByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.agenda.model.AgendaExport>
-						orderByComparator) {
+	public static List<AgendaExport> getAgendaExportsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<AgendaExport> orderByComparator) {
 
 		return getService().getAgendaExportsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -355,7 +341,7 @@ public class AgendaExportLocalServiceUtil {
 	/**
 	 * Retourne les vocabulaires rattrachés à ce type d'entité pour un groupe
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -364,10 +350,7 @@ public class AgendaExportLocalServiceUtil {
 	/**
 	 * Retourne tous les AGendaExport d'un groupe
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.AgendaExport> getByGroupId(
-			long groupId) {
-
+	public static List<AgendaExport> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
@@ -398,9 +381,8 @@ public class AgendaExportLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -408,9 +390,8 @@ public class AgendaExportLocalServiceUtil {
 	/**
 	 * Supprime un AgendaExport
 	 */
-	public static eu.strasbourg.service.agenda.model.AgendaExport
-			removeAgendaExport(long agendaExportId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static AgendaExport removeAgendaExport(long agendaExportId)
+		throws PortalException {
 
 		return getService().removeAgendaExport(agendaExportId);
 	}
@@ -435,21 +416,17 @@ public class AgendaExportLocalServiceUtil {
 	 * @param agendaExport the agenda export
 	 * @return the agenda export that was updated
 	 */
-	public static eu.strasbourg.service.agenda.model.AgendaExport
-		updateAgendaExport(
-			eu.strasbourg.service.agenda.model.AgendaExport agendaExport) {
-
+	public static AgendaExport updateAgendaExport(AgendaExport agendaExport) {
 		return getService().updateAgendaExport(agendaExport);
 	}
 
 	/**
 	 * Met à jour un Agenda Export et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.agenda.model.AgendaExport
-			updateAgendaExport(
-				eu.strasbourg.service.agenda.model.AgendaExport agendaExport,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static AgendaExport updateAgendaExport(
+			AgendaExport agendaExport,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateAgendaExport(agendaExport, sc);
 	}
@@ -457,10 +434,8 @@ public class AgendaExportLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'AgendaExport "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.agenda.model.AgendaExport agendaExport,
-			int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(AgendaExport agendaExport, int status)
+		throws PortalException {
 
 		getService().updateStatus(agendaExport, status);
 	}
@@ -468,36 +443,24 @@ public class AgendaExportLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'AgendaExport par le framework workflow
 	 */
-	public static eu.strasbourg.service.agenda.model.AgendaExport updateStatus(
+	public static AgendaExport updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
 	}
 
 	public static AgendaExportLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<AgendaExportLocalService, AgendaExportLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(AgendaExportLocalService.class);
-
-		ServiceTracker<AgendaExportLocalService, AgendaExportLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<AgendaExportLocalService, AgendaExportLocalService>(
-						bundle.getBundleContext(),
-						AgendaExportLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(AgendaExportLocalService service) {
+		_service = service;
 	}
+
+	private static volatile AgendaExportLocalService _service;
 
 }

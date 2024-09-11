@@ -81,7 +81,7 @@
             <!-- Header right (Réseaux sociaux + Calendrier + Recherche) -->
             <div class="ops-header-right">
                 <ul class="ops-social">
-                    <li><a href="https://www.instagram.com/philharmonique_de_strasbourg" title="<@liferay_ui.message key='eu.ops.link.to.instagram' />" target="_blank" aria-label="Compte Instagram"><span
+                    <li><a href="https://www.instagram.com/ops_strasbourg" title="<@liferay_ui.message key='eu.ops.link.to.instagram' />" target="_blank" aria-label="Compte Instagram"><span
                                 class="icon-ico-instagram"></span></a></li>
 
                     <li><a href="https://twitter.com/OPStrasbourg" title="<@liferay_ui.message key='eu.ops.link.to.twitter' />" target="_blank" aria-label="Compte Twitter"><span class="icon-ico-twitter"></span></a></li>
@@ -102,8 +102,8 @@
             <div class="ops-search-form">
                 <form method="get" action="${themeDisplay.getPortalURL()}${homeURL}recherche">
                     <label for="ops-search" style="display: none;"><@liferay_ui.message key="eu.ops.search" /></label>
-                    <input type="text" id="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords-search" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" placeholder="<@liferay_ui.message key='eu.ops.search.three.dots' />"/>
-                    <input type="hidden" id="p_p_id" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet"/>
+                    <input type="text" id="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords-search" name="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" placeholder="<@liferay_ui.message key='eu.ops.search.three.dots' />"/>
+                    <input type="hidden" id="p_p_id" name="p_p_id" value="eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet"/>
                     <input type="hidden" id="p_p_lifecycle" name="p_p_lifecycle" value="1"/>
                     <button type="submit" aria-label="Rechercher sur le site"><span class="icon-ico-search"></span></button>
                 </form>

@@ -1,26 +1,18 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.interest.model.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.interest.model.UserInterest;
 import eu.strasbourg.service.interest.model.UserInterestModel;
@@ -28,15 +20,17 @@ import eu.strasbourg.service.interest.service.persistence.UserInterestPK;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -91,23 +85,34 @@ public class UserInterestModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.interest.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.interest.model.UserInterest"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.interest.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.interest.model.UserInterest"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.interest.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.interest.model.UserInterest"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long INTERESTID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLIKUSERID_COLUMN_BITMASK = 2L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -167,9 +172,6 @@ public class UserInterestModelImpl
 				attributeGetterFunction.apply((UserInterest)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -194,103 +196,58 @@ public class UserInterestModelImpl
 	public Map<String, Function<UserInterest, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<UserInterest, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, UserInterest>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			UserInterest.class.getClassLoader(), UserInterest.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<UserInterest, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<UserInterest> constructor =
-				(Constructor<UserInterest>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<UserInterest, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<UserInterest, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put(
+				"interestId", UserInterest::getInterestId);
+			attributeGetterFunctions.put(
+				"publikUserId", UserInterest::getPublikUserId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<UserInterest, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<UserInterest, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<UserInterest, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<UserInterest, Object>>();
-		Map<String, BiConsumer<UserInterest, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<UserInterest, ?>>();
+		private static final Map<String, BiConsumer<UserInterest, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"interestId",
-			new Function<UserInterest, Object>() {
+		static {
+			Map<String, BiConsumer<UserInterest, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<UserInterest, ?>>();
 
-				@Override
-				public Object apply(UserInterest userInterest) {
-					return userInterest.getInterestId();
-				}
+			attributeSetterBiConsumers.put(
+				"interestId",
+				(BiConsumer<UserInterest, Long>)UserInterest::setInterestId);
+			attributeSetterBiConsumers.put(
+				"publikUserId",
+				(BiConsumer<UserInterest, String>)
+					UserInterest::setPublikUserId);
 
-			});
-		attributeSetterBiConsumers.put(
-			"interestId",
-			new BiConsumer<UserInterest, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(
-					UserInterest userInterest, Object interestIdObject) {
-
-					userInterest.setInterestId((Long)interestIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publikUserId",
-			new Function<UserInterest, Object>() {
-
-				@Override
-				public Object apply(UserInterest userInterest) {
-					return userInterest.getPublikUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"publikUserId",
-			new BiConsumer<UserInterest, Object>() {
-
-				@Override
-				public void accept(
-					UserInterest userInterest, Object publikUserIdObject) {
-
-					userInterest.setPublikUserId((String)publikUserIdObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -300,19 +257,21 @@ public class UserInterestModelImpl
 
 	@Override
 	public void setInterestId(long interestId) {
-		_columnBitmask |= INTERESTID_COLUMN_BITMASK;
-
-		if (!_setOriginalInterestId) {
-			_setOriginalInterestId = true;
-
-			_originalInterestId = _interestId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_interestId = interestId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalInterestId() {
-		return _originalInterestId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("interestId"));
 	}
 
 	@Override
@@ -327,20 +286,43 @@ public class UserInterestModelImpl
 
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_columnBitmask |= PUBLIKUSERID_COLUMN_BITMASK;
-
-		if (_originalPublikUserId == null) {
-			_originalPublikUserId = _publikUserId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publikUserId = publikUserId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPublikUserId() {
-		return GetterUtil.getString(_originalPublikUserId);
+		return getColumnOriginalValue("publikUserId");
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -367,6 +349,18 @@ public class UserInterestModelImpl
 		userInterestImpl.setPublikUserId(getPublikUserId());
 
 		userInterestImpl.resetOriginalValues();
+
+		return userInterestImpl;
+	}
+
+	@Override
+	public UserInterest cloneWithOriginalValues() {
+		UserInterestImpl userInterestImpl = new UserInterestImpl();
+
+		userInterestImpl.setInterestId(
+			this.<Long>getColumnOriginalValue("interestId"));
+		userInterestImpl.setPublikUserId(
+			this.<String>getColumnOriginalValue("publikUserId"));
 
 		return userInterestImpl;
 	}
@@ -405,11 +399,19 @@ public class UserInterestModelImpl
 		return getPrimaryKey().hashCode();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -417,17 +419,9 @@ public class UserInterestModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		UserInterestModelImpl userInterestModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		userInterestModelImpl._originalInterestId =
-			userInterestModelImpl._interestId;
-
-		userInterestModelImpl._setOriginalInterestId = false;
-
-		userInterestModelImpl._originalPublikUserId =
-			userInterestModelImpl._publikUserId;
-
-		userInterestModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -456,7 +450,7 @@ public class UserInterestModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -467,9 +461,26 @@ public class UserInterestModelImpl
 			Function<UserInterest, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((UserInterest)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((UserInterest)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -482,49 +493,68 @@ public class UserInterestModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<UserInterest, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<UserInterest, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<UserInterest, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((UserInterest)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, UserInterest>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					UserInterest.class, ModelWrapper.class);
 
 	}
 
 	private long _interestId;
-	private long _originalInterestId;
-	private boolean _setOriginalInterestId;
 	private String _publikUserId;
-	private String _originalPublikUserId;
+
+	public <T> T getColumnValue(String columnName) {
+		Function<UserInterest, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((UserInterest)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("interestId", _interestId);
+		_columnOriginalValues.put("publikUserId", _publikUserId);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("interestId", 1L);
+
+		columnBitmasks.put("publikUserId", 2L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private UserInterest _escapedModel;
 

@@ -14,20 +14,18 @@ import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
+import eu.strasbourg.service.gtfs.model.ImportHistoric;
+import eu.strasbourg.service.gtfs.service.ImportHistoricLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
+import org.osgi.service.component.annotations.Component;
 
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
-import org.osgi.service.component.annotations.Component;
-
-import eu.strasbourg.service.gtfs.model.ImportHistoric;
-import eu.strasbourg.service.gtfs.service.ImportHistoricLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
 
 @Component(
 	immediate = true, 
@@ -67,7 +65,7 @@ public class ImportHistoricIndexer extends BaseIndexer<ImportHistoric> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(importHistoric.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
+		IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
 		
 		Map<Locale, String> titleFieldMap = new HashMap<Locale, String>();
 		titleFieldMap.put(Locale.FRANCE, importHistoric.getResultLabel());
@@ -105,8 +103,7 @@ public class ImportHistoricIndexer extends BaseIndexer<ImportHistoric> {
 	protected void doReindex(ImportHistoric importHistoric) throws Exception {
 		Document document = getDocument(importHistoric);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			importHistoric.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(importHistoric.getCompanyId(), document);
 		
 	}
 	
@@ -139,7 +136,6 @@ public class ImportHistoricIndexer extends BaseIndexer<ImportHistoric> {
 
 			});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 	

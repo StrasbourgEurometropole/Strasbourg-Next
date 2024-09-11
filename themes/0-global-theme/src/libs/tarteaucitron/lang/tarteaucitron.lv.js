@@ -1,4 +1,5 @@
 /*global tarteaucitron */
+/* min ready */
 tarteaucitron.lang = {
     "middleBarHead": "☝ 🍪",
     "adblock": "Szia! Ez a webhely átlátható, és lehetővé teszi a kívánt harmadik fél szolgáltatásainak kiválasztását",
@@ -36,6 +37,7 @@ tarteaucitron.lang = {
     "title": "Süti preferenciák",
     "cookieDetail": "Süti adatok a következőhöz:",
     "ourSite": "weboldalunkon",
+    "modalWindow": "(modal window)",
     "newWindow": "(új ablak)",
     "allowAll": "Elfogadom az öszeset",
     "denyAll": "Elutasítom",

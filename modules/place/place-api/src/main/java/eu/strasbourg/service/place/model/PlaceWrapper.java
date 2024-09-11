@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,11 @@ import java.util.Objects;
  * @see Place
  * @generated
  */
-public class PlaceWrapper implements ModelWrapper<Place>, Place {
+public class PlaceWrapper
+	extends BaseModelWrapper<Place> implements ModelWrapper<Place>, Place {
 
 	public PlaceWrapper(Place place) {
-		_place = place;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Place.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Place.class.getName();
+		super(place);
 	}
 
 	@Override
@@ -547,13 +525,8 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	}
 
 	@Override
-	public Object clone() {
-		return new PlaceWrapper((Place)_place.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.place.model.Place place) {
-		return _place.compareTo(place);
+	public Place cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -563,7 +536,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAccesMap() {
-		return _place.getAccesMap();
+		return model.getAccesMap();
 	}
 
 	/**
@@ -574,7 +547,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAccesMap(java.util.Locale locale) {
-		return _place.getAccesMap(locale);
+		return model.getAccesMap(locale);
 	}
 
 	/**
@@ -586,7 +559,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAccesMap(java.util.Locale locale, boolean useDefault) {
-		return _place.getAccesMap(locale, useDefault);
+		return model.getAccesMap(locale, useDefault);
 	}
 
 	/**
@@ -597,7 +570,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAccesMap(String languageId) {
-		return _place.getAccesMap(languageId);
+		return model.getAccesMap(languageId);
 	}
 
 	/**
@@ -609,17 +582,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAccesMap(String languageId, boolean useDefault) {
-		return _place.getAccesMap(languageId, useDefault);
+		return model.getAccesMap(languageId, useDefault);
 	}
 
 	@Override
 	public String getAccesMapCurrentLanguageId() {
-		return _place.getAccesMapCurrentLanguageId();
+		return model.getAccesMapCurrentLanguageId();
 	}
 
 	@Override
 	public String getAccesMapCurrentValue() {
-		return _place.getAccesMapCurrentValue();
+		return model.getAccesMapCurrentValue();
 	}
 
 	/**
@@ -629,7 +602,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getAccesMapMap() {
-		return _place.getAccesMapMap();
+		return model.getAccesMapMap();
 	}
 
 	/**
@@ -639,7 +612,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAccess() {
-		return _place.getAccess();
+		return model.getAccess();
 	}
 
 	/**
@@ -650,7 +623,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAccess(java.util.Locale locale) {
-		return _place.getAccess(locale);
+		return model.getAccess(locale);
 	}
 
 	/**
@@ -662,7 +635,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAccess(java.util.Locale locale, boolean useDefault) {
-		return _place.getAccess(locale, useDefault);
+		return model.getAccess(locale, useDefault);
 	}
 
 	/**
@@ -673,7 +646,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAccess(String languageId) {
-		return _place.getAccess(languageId);
+		return model.getAccess(languageId);
 	}
 
 	/**
@@ -685,17 +658,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAccess(String languageId, boolean useDefault) {
-		return _place.getAccess(languageId, useDefault);
+		return model.getAccess(languageId, useDefault);
 	}
 
 	@Override
 	public String getAccessCurrentLanguageId() {
-		return _place.getAccessCurrentLanguageId();
+		return model.getAccessCurrentLanguageId();
 	}
 
 	@Override
 	public String getAccessCurrentValue() {
-		return _place.getAccessCurrentValue();
+		return model.getAccessCurrentValue();
 	}
 
 	/**
@@ -705,7 +678,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Boolean getAccessForBlind() {
-		return _place.getAccessForBlind();
+		return model.getAccessForBlind();
 	}
 
 	/**
@@ -715,7 +688,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Boolean getAccessForDeaf() {
-		return _place.getAccessForDeaf();
+		return model.getAccessForDeaf();
 	}
 
 	/**
@@ -725,7 +698,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Boolean getAccessForDeficient() {
-		return _place.getAccessForDeficient();
+		return model.getAccessForDeficient();
 	}
 
 	/**
@@ -735,7 +708,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAccessForDisabled() {
-		return _place.getAccessForDisabled();
+		return model.getAccessForDisabled();
 	}
 
 	/**
@@ -746,7 +719,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAccessForDisabled(java.util.Locale locale) {
-		return _place.getAccessForDisabled(locale);
+		return model.getAccessForDisabled(locale);
 	}
 
 	/**
@@ -760,7 +733,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public String getAccessForDisabled(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _place.getAccessForDisabled(locale, useDefault);
+		return model.getAccessForDisabled(locale, useDefault);
 	}
 
 	/**
@@ -771,7 +744,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAccessForDisabled(String languageId) {
-		return _place.getAccessForDisabled(languageId);
+		return model.getAccessForDisabled(languageId);
 	}
 
 	/**
@@ -783,17 +756,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAccessForDisabled(String languageId, boolean useDefault) {
-		return _place.getAccessForDisabled(languageId, useDefault);
+		return model.getAccessForDisabled(languageId, useDefault);
 	}
 
 	@Override
 	public String getAccessForDisabledCurrentLanguageId() {
-		return _place.getAccessForDisabledCurrentLanguageId();
+		return model.getAccessForDisabledCurrentLanguageId();
 	}
 
 	@Override
 	public String getAccessForDisabledCurrentValue() {
-		return _place.getAccessForDisabledCurrentValue();
+		return model.getAccessForDisabledCurrentValue();
 	}
 
 	/**
@@ -803,7 +776,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getAccessForDisabledMap() {
-		return _place.getAccessForDisabledMap();
+		return model.getAccessForDisabledMap();
 	}
 
 	/**
@@ -813,7 +786,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Boolean getAccessForElder() {
-		return _place.getAccessForElder();
+		return model.getAccessForElder();
 	}
 
 	/**
@@ -823,7 +796,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Boolean getAccessForWheelchair() {
-		return _place.getAccessForWheelchair();
+		return model.getAccessForWheelchair();
 	}
 
 	/**
@@ -833,7 +806,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getAccessMap() {
-		return _place.getAccessMap();
+		return model.getAccessMap();
 	}
 
 	/**
@@ -843,7 +816,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAdditionalInformation() {
-		return _place.getAdditionalInformation();
+		return model.getAdditionalInformation();
 	}
 
 	/**
@@ -854,7 +827,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAdditionalInformation(java.util.Locale locale) {
-		return _place.getAdditionalInformation(locale);
+		return model.getAdditionalInformation(locale);
 	}
 
 	/**
@@ -868,7 +841,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public String getAdditionalInformation(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _place.getAdditionalInformation(locale, useDefault);
+		return model.getAdditionalInformation(locale, useDefault);
 	}
 
 	/**
@@ -879,7 +852,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAdditionalInformation(String languageId) {
-		return _place.getAdditionalInformation(languageId);
+		return model.getAdditionalInformation(languageId);
 	}
 
 	/**
@@ -893,17 +866,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public String getAdditionalInformation(
 		String languageId, boolean useDefault) {
 
-		return _place.getAdditionalInformation(languageId, useDefault);
+		return model.getAdditionalInformation(languageId, useDefault);
 	}
 
 	@Override
 	public String getAdditionalInformationCurrentLanguageId() {
-		return _place.getAdditionalInformationCurrentLanguageId();
+		return model.getAdditionalInformationCurrentLanguageId();
 	}
 
 	@Override
 	public String getAdditionalInformationCurrentValue() {
-		return _place.getAdditionalInformationCurrentValue();
+		return model.getAdditionalInformationCurrentValue();
 	}
 
 	/**
@@ -913,7 +886,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getAdditionalInformationMap() {
-		return _place.getAdditionalInformationMap();
+		return model.getAdditionalInformationMap();
 	}
 
 	/**
@@ -923,7 +896,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAddressComplement() {
-		return _place.getAddressComplement();
+		return model.getAddressComplement();
 	}
 
 	/**
@@ -933,7 +906,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAddressCountry() {
-		return _place.getAddressCountry();
+		return model.getAddressCountry();
 	}
 
 	/**
@@ -943,7 +916,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAddressDistribution() {
-		return _place.getAddressDistribution();
+		return model.getAddressDistribution();
 	}
 
 	/**
@@ -953,7 +926,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAddressStreet() {
-		return _place.getAddressStreet();
+		return model.getAddressStreet();
 	}
 
 	/**
@@ -963,7 +936,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAddressZipCode() {
-		return _place.getAddressZipCode();
+		return model.getAddressZipCode();
 	}
 
 	/**
@@ -973,7 +946,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAlias() {
-		return _place.getAlias();
+		return model.getAlias();
 	}
 
 	/**
@@ -984,7 +957,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAlias(java.util.Locale locale) {
-		return _place.getAlias(locale);
+		return model.getAlias(locale);
 	}
 
 	/**
@@ -996,7 +969,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAlias(java.util.Locale locale, boolean useDefault) {
-		return _place.getAlias(locale, useDefault);
+		return model.getAlias(locale, useDefault);
 	}
 
 	/**
@@ -1007,7 +980,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAlias(String languageId) {
-		return _place.getAlias(languageId);
+		return model.getAlias(languageId);
 	}
 
 	/**
@@ -1019,17 +992,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getAlias(String languageId, boolean useDefault) {
-		return _place.getAlias(languageId, useDefault);
+		return model.getAlias(languageId, useDefault);
 	}
 
 	@Override
 	public String getAliasCurrentLanguageId() {
-		return _place.getAliasCurrentLanguageId();
+		return model.getAliasCurrentLanguageId();
 	}
 
 	@Override
 	public String getAliasCurrentValue() {
-		return _place.getAliasCurrentValue();
+		return model.getAliasCurrentValue();
 	}
 
 	/**
@@ -1039,7 +1012,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getAliasMap() {
-		return _place.getAliasMap();
+		return model.getAliasMap();
 	}
 
 	/**
@@ -1047,12 +1020,12 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _place.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _place.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -1063,7 +1036,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _place.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -1073,7 +1046,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getCharacteristics() {
-		return _place.getCharacteristics();
+		return model.getCharacteristics();
 	}
 
 	/**
@@ -1084,7 +1057,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getCharacteristics(java.util.Locale locale) {
-		return _place.getCharacteristics(locale);
+		return model.getCharacteristics(locale);
 	}
 
 	/**
@@ -1098,7 +1071,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public String getCharacteristics(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _place.getCharacteristics(locale, useDefault);
+		return model.getCharacteristics(locale, useDefault);
 	}
 
 	/**
@@ -1109,7 +1082,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getCharacteristics(String languageId) {
-		return _place.getCharacteristics(languageId);
+		return model.getCharacteristics(languageId);
 	}
 
 	/**
@@ -1121,17 +1094,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getCharacteristics(String languageId, boolean useDefault) {
-		return _place.getCharacteristics(languageId, useDefault);
+		return model.getCharacteristics(languageId, useDefault);
 	}
 
 	@Override
 	public String getCharacteristicsCurrentLanguageId() {
-		return _place.getCharacteristicsCurrentLanguageId();
+		return model.getCharacteristicsCurrentLanguageId();
 	}
 
 	@Override
 	public String getCharacteristicsCurrentValue() {
-		return _place.getCharacteristicsCurrentValue();
+		return model.getCharacteristicsCurrentValue();
 	}
 
 	/**
@@ -1141,7 +1114,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getCharacteristicsMap() {
-		return _place.getCharacteristicsMap();
+		return model.getCharacteristicsMap();
 	}
 
 	/**
@@ -1149,7 +1122,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getCity(java.util.Locale locale) {
-		return _place.getCity(locale);
+		return model.getCity(locale);
 	}
 
 	/**
@@ -1157,7 +1130,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getCityCategory() {
-		return _place.getCityCategory();
+		return model.getCityCategory();
 	}
 
 	/**
@@ -1167,7 +1140,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _place.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -1177,7 +1150,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getContenuTooltipCarto() {
-		return _place.getContenuTooltipCarto();
+		return model.getContenuTooltipCarto();
 	}
 
 	/**
@@ -1188,7 +1161,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getContenuTooltipCarto(java.util.Locale locale) {
-		return _place.getContenuTooltipCarto(locale);
+		return model.getContenuTooltipCarto(locale);
 	}
 
 	/**
@@ -1202,7 +1175,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public String getContenuTooltipCarto(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _place.getContenuTooltipCarto(locale, useDefault);
+		return model.getContenuTooltipCarto(locale, useDefault);
 	}
 
 	/**
@@ -1213,7 +1186,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getContenuTooltipCarto(String languageId) {
-		return _place.getContenuTooltipCarto(languageId);
+		return model.getContenuTooltipCarto(languageId);
 	}
 
 	/**
@@ -1227,17 +1200,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public String getContenuTooltipCarto(
 		String languageId, boolean useDefault) {
 
-		return _place.getContenuTooltipCarto(languageId, useDefault);
+		return model.getContenuTooltipCarto(languageId, useDefault);
 	}
 
 	@Override
 	public String getContenuTooltipCartoCurrentLanguageId() {
-		return _place.getContenuTooltipCartoCurrentLanguageId();
+		return model.getContenuTooltipCartoCurrentLanguageId();
 	}
 
 	@Override
 	public String getContenuTooltipCartoCurrentValue() {
-		return _place.getContenuTooltipCartoCurrentValue();
+		return model.getContenuTooltipCartoCurrentValue();
 	}
 
 	/**
@@ -1247,7 +1220,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getContenuTooltipCartoMap() {
-		return _place.getContenuTooltipCartoMap();
+		return model.getContenuTooltipCartoMap();
 	}
 
 	/**
@@ -1257,7 +1230,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _place.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -1265,12 +1238,12 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getCSMapJSON() {
-		return _place.getCSMapJSON();
+		return model.getCSMapJSON();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _place.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -1278,7 +1251,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public eu.strasbourg.service.place.model.Period getDefaultPeriod() {
-		return _place.getDefaultPeriod();
+		return model.getDefaultPeriod();
 	}
 
 	/**
@@ -1288,7 +1261,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean getDisplayEvents() {
-		return _place.getDisplayEvents();
+		return model.getDisplayEvents();
 	}
 
 	/**
@@ -1296,7 +1269,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getDistrict(java.util.Locale locale) {
-		return _place.getDistrict(locale);
+		return model.getDistrict(locale);
 	}
 
 	/**
@@ -1304,7 +1277,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getDistrictCategory() {
-		return _place.getDistrictCategory();
+		return model.getDistrictCategory();
 	}
 
 	/**
@@ -1312,7 +1285,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<String, String> getDocuments() {
-		return _place.getDocuments();
+		return model.getDocuments();
 	}
 
 	/**
@@ -1322,7 +1295,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getDocumentsIds() {
-		return _place.getDocumentsIds();
+		return model.getDocumentsIds();
 	}
 
 	/**
@@ -1330,7 +1303,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public java.util.List<String> getDocumentURLs() {
-		return _place.getDocumentURLs();
+		return model.getDocumentURLs();
 	}
 
 	/**
@@ -1340,7 +1313,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getExceptionalSchedule() {
-		return _place.getExceptionalSchedule();
+		return model.getExceptionalSchedule();
 	}
 
 	/**
@@ -1351,7 +1324,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getExceptionalSchedule(java.util.Locale locale) {
-		return _place.getExceptionalSchedule(locale);
+		return model.getExceptionalSchedule(locale);
 	}
 
 	/**
@@ -1365,7 +1338,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public String getExceptionalSchedule(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _place.getExceptionalSchedule(locale, useDefault);
+		return model.getExceptionalSchedule(locale, useDefault);
 	}
 
 	/**
@@ -1376,7 +1349,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getExceptionalSchedule(String languageId) {
-		return _place.getExceptionalSchedule(languageId);
+		return model.getExceptionalSchedule(languageId);
 	}
 
 	/**
@@ -1390,17 +1363,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public String getExceptionalSchedule(
 		String languageId, boolean useDefault) {
 
-		return _place.getExceptionalSchedule(languageId, useDefault);
+		return model.getExceptionalSchedule(languageId, useDefault);
 	}
 
 	@Override
 	public String getExceptionalScheduleCurrentLanguageId() {
-		return _place.getExceptionalScheduleCurrentLanguageId();
+		return model.getExceptionalScheduleCurrentLanguageId();
 	}
 
 	@Override
 	public String getExceptionalScheduleCurrentValue() {
-		return _place.getExceptionalScheduleCurrentValue();
+		return model.getExceptionalScheduleCurrentValue();
 	}
 
 	/**
@@ -1410,12 +1383,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getExceptionalScheduleMap() {
-		return _place.getExceptionalScheduleMap();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _place.getExpandoBridge();
+		return model.getExceptionalScheduleMap();
 	}
 
 	/**
@@ -1425,7 +1393,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getFacebookLabel() {
-		return _place.getFacebookLabel();
+		return model.getFacebookLabel();
 	}
 
 	/**
@@ -1436,7 +1404,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getFacebookLabel(java.util.Locale locale) {
-		return _place.getFacebookLabel(locale);
+		return model.getFacebookLabel(locale);
 	}
 
 	/**
@@ -1450,7 +1418,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public String getFacebookLabel(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _place.getFacebookLabel(locale, useDefault);
+		return model.getFacebookLabel(locale, useDefault);
 	}
 
 	/**
@@ -1461,7 +1429,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getFacebookLabel(String languageId) {
-		return _place.getFacebookLabel(languageId);
+		return model.getFacebookLabel(languageId);
 	}
 
 	/**
@@ -1473,17 +1441,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getFacebookLabel(String languageId, boolean useDefault) {
-		return _place.getFacebookLabel(languageId, useDefault);
+		return model.getFacebookLabel(languageId, useDefault);
 	}
 
 	@Override
 	public String getFacebookLabelCurrentLanguageId() {
-		return _place.getFacebookLabelCurrentLanguageId();
+		return model.getFacebookLabelCurrentLanguageId();
 	}
 
 	@Override
 	public String getFacebookLabelCurrentValue() {
-		return _place.getFacebookLabelCurrentValue();
+		return model.getFacebookLabelCurrentValue();
 	}
 
 	/**
@@ -1493,7 +1461,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getFacebookLabelMap() {
-		return _place.getFacebookLabelMap();
+		return model.getFacebookLabelMap();
 	}
 
 	/**
@@ -1503,7 +1471,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getFacebookURL() {
-		return _place.getFacebookURL();
+		return model.getFacebookURL();
 	}
 
 	/**
@@ -1514,7 +1482,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getFacebookURL(java.util.Locale locale) {
-		return _place.getFacebookURL(locale);
+		return model.getFacebookURL(locale);
 	}
 
 	/**
@@ -1526,7 +1494,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getFacebookURL(java.util.Locale locale, boolean useDefault) {
-		return _place.getFacebookURL(locale, useDefault);
+		return model.getFacebookURL(locale, useDefault);
 	}
 
 	/**
@@ -1537,7 +1505,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getFacebookURL(String languageId) {
-		return _place.getFacebookURL(languageId);
+		return model.getFacebookURL(languageId);
 	}
 
 	/**
@@ -1549,17 +1517,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getFacebookURL(String languageId, boolean useDefault) {
-		return _place.getFacebookURL(languageId, useDefault);
+		return model.getFacebookURL(languageId, useDefault);
 	}
 
 	@Override
 	public String getFacebookURLCurrentLanguageId() {
-		return _place.getFacebookURLCurrentLanguageId();
+		return model.getFacebookURLCurrentLanguageId();
 	}
 
 	@Override
 	public String getFacebookURLCurrentValue() {
-		return _place.getFacebookURLCurrentValue();
+		return model.getFacebookURLCurrentValue();
 	}
 
 	/**
@@ -1569,7 +1537,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getFacebookURLMap() {
-		return _place.getFacebookURLMap();
+		return model.getFacebookURLMap();
 	}
 
 	/**
@@ -1582,7 +1550,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		 java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>>
 			getFollowingWeekSchedules(Date startDate, java.util.Locale locale) {
 
-		return _place.getFollowingWeekSchedules(startDate, locale);
+		return model.getFollowingWeekSchedules(startDate, locale);
 	}
 
 	/**
@@ -1592,7 +1560,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(
 		long groupId, java.util.Locale locale) {
 
-		return _place.getGeoJSON(groupId, locale);
+		return model.getGeoJSON(groupId, locale);
 	}
 
 	/**
@@ -1602,7 +1570,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public long getGroupId() {
-		return _place.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -1612,7 +1580,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean getHasURLSchedule() {
-		return _place.getHasURLSchedule();
+		return model.getHasURLSchedule();
 	}
 
 	/**
@@ -1625,7 +1593,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		 java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>>
 			getHoraire(Date dateJour, java.util.Locale locale) {
 
-		return _place.getHoraire(dateJour, locale);
+		return model.getHoraire(dateJour, locale);
 	}
 
 	/**
@@ -1633,7 +1601,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getImageCopyright(java.util.Locale locale) {
-		return _place.getImageCopyright(locale);
+		return model.getImageCopyright(locale);
 	}
 
 	/**
@@ -1641,7 +1609,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getImageCopyright(Long imageId, java.util.Locale locale) {
-		return _place.getImageCopyright(imageId, locale);
+		return model.getImageCopyright(imageId, locale);
 	}
 
 	/**
@@ -1651,7 +1619,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Integer getImageHeight() {
-		return _place.getImageHeight();
+		return model.getImageHeight();
 	}
 
 	/**
@@ -1661,7 +1629,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public long getImageId() {
-		return _place.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -1671,7 +1639,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getImageIds() {
-		return _place.getImageIds();
+		return model.getImageIds();
 	}
 
 	/**
@@ -1679,7 +1647,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getImageLegend(Long imageId, java.util.Locale locale) {
-		return _place.getImageLegend(imageId, locale);
+		return model.getImageLegend(imageId, locale);
 	}
 
 	/**
@@ -1687,7 +1655,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public java.util.List<String> getImagesURLs() {
-		return _place.getImagesURLs();
+		return model.getImagesURLs();
 	}
 
 	/**
@@ -1695,7 +1663,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getImageURL() {
-		return _place.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -1703,7 +1671,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getImageURL(Long imageId) {
-		return _place.getImageURL(imageId);
+		return model.getImageURL(imageId);
 	}
 
 	/**
@@ -1711,7 +1679,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public java.util.List<String> getImageURLsWithTimeStamp() {
-		return _place.getImageURLsWithTimeStamp();
+		return model.getImageURLsWithTimeStamp();
 	}
 
 	/**
@@ -1721,7 +1689,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Integer getImageWidth() {
-		return _place.getImageWidth();
+		return model.getImageWidth();
 	}
 
 	/**
@@ -1731,7 +1699,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getInstagramLabel() {
-		return _place.getInstagramLabel();
+		return model.getInstagramLabel();
 	}
 
 	/**
@@ -1742,7 +1710,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getInstagramLabel(java.util.Locale locale) {
-		return _place.getInstagramLabel(locale);
+		return model.getInstagramLabel(locale);
 	}
 
 	/**
@@ -1756,7 +1724,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public String getInstagramLabel(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _place.getInstagramLabel(locale, useDefault);
+		return model.getInstagramLabel(locale, useDefault);
 	}
 
 	/**
@@ -1767,7 +1735,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getInstagramLabel(String languageId) {
-		return _place.getInstagramLabel(languageId);
+		return model.getInstagramLabel(languageId);
 	}
 
 	/**
@@ -1779,17 +1747,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getInstagramLabel(String languageId, boolean useDefault) {
-		return _place.getInstagramLabel(languageId, useDefault);
+		return model.getInstagramLabel(languageId, useDefault);
 	}
 
 	@Override
 	public String getInstagramLabelCurrentLanguageId() {
-		return _place.getInstagramLabelCurrentLanguageId();
+		return model.getInstagramLabelCurrentLanguageId();
 	}
 
 	@Override
 	public String getInstagramLabelCurrentValue() {
-		return _place.getInstagramLabelCurrentValue();
+		return model.getInstagramLabelCurrentValue();
 	}
 
 	/**
@@ -1799,7 +1767,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getInstagramLabelMap() {
-		return _place.getInstagramLabelMap();
+		return model.getInstagramLabelMap();
 	}
 
 	/**
@@ -1809,7 +1777,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getInstagramURL() {
-		return _place.getInstagramURL();
+		return model.getInstagramURL();
 	}
 
 	/**
@@ -1820,7 +1788,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getInstagramURL(java.util.Locale locale) {
-		return _place.getInstagramURL(locale);
+		return model.getInstagramURL(locale);
 	}
 
 	/**
@@ -1832,7 +1800,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getInstagramURL(java.util.Locale locale, boolean useDefault) {
-		return _place.getInstagramURL(locale, useDefault);
+		return model.getInstagramURL(locale, useDefault);
 	}
 
 	/**
@@ -1843,7 +1811,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getInstagramURL(String languageId) {
-		return _place.getInstagramURL(languageId);
+		return model.getInstagramURL(languageId);
 	}
 
 	/**
@@ -1855,17 +1823,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getInstagramURL(String languageId, boolean useDefault) {
-		return _place.getInstagramURL(languageId, useDefault);
+		return model.getInstagramURL(languageId, useDefault);
 	}
 
 	@Override
 	public String getInstagramURLCurrentLanguageId() {
-		return _place.getInstagramURLCurrentLanguageId();
+		return model.getInstagramURLCurrentLanguageId();
 	}
 
 	@Override
 	public String getInstagramURLCurrentValue() {
-		return _place.getInstagramURLCurrentValue();
+		return model.getInstagramURLCurrentValue();
 	}
 
 	/**
@@ -1875,7 +1843,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getInstagramURLMap() {
-		return _place.getInstagramURLMap();
+		return model.getInstagramURLMap();
 	}
 
 	/**
@@ -1885,7 +1853,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Date getLastPublishDate() {
-		return _place.getLastPublishDate();
+		return model.getLastPublishDate();
 	}
 
 	/**
@@ -1895,7 +1863,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getLocationId() {
-		return _place.getLocationId();
+		return model.getLocationId();
 	}
 
 	/**
@@ -1905,7 +1873,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getMail() {
-		return _place.getMail();
+		return model.getMail();
 	}
 
 	/**
@@ -1915,7 +1883,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getMercatorX() {
-		return _place.getMercatorX();
+		return model.getMercatorX();
 	}
 
 	/**
@@ -1925,7 +1893,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getMercatorY() {
-		return _place.getMercatorY();
+		return model.getMercatorY();
 	}
 
 	/**
@@ -1935,7 +1903,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _place.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -1945,7 +1913,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getName() {
-		return _place.getName();
+		return model.getName();
 	}
 
 	/**
@@ -1957,7 +1925,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 			java.util.GregorianCalendar today, int nbDays,
 			java.util.Locale locale) {
 
-		return _place.getNextScheduleOpening(today, nbDays, locale);
+		return model.getNextScheduleOpening(today, nbDays, locale);
 	}
 
 	/**
@@ -1968,7 +1936,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		getNextScheduleOpening(
 			java.util.GregorianCalendar today, java.util.Locale locale) {
 
-		return _place.getNextScheduleOpening(today, locale);
+		return model.getNextScheduleOpening(today, locale);
 	}
 
 	/**
@@ -1978,7 +1946,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public java.util.List<eu.strasbourg.service.place.model.Period>
 		getNonDefaultPeriods() {
 
-		return _place.getNonDefaultPeriods();
+		return model.getNonDefaultPeriods();
 	}
 
 	/**
@@ -1986,7 +1954,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getNormalizedAlias() {
-		return _place.getNormalizedAlias();
+		return model.getNormalizedAlias();
 	}
 
 	/**
@@ -1994,7 +1962,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getNormalizedAlias(java.util.Locale locale) {
-		return _place.getNormalizedAlias(locale);
+		return model.getNormalizedAlias(locale);
 	}
 
 	/**
@@ -2004,7 +1972,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public java.util.List<eu.strasbourg.service.place.model.Period>
 		getPeriods() {
 
-		return _place.getPeriods();
+		return model.getPeriods();
 	}
 
 	/**
@@ -2014,7 +1982,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getPhone() {
-		return _place.getPhone();
+		return model.getPhone();
 	}
 
 	/**
@@ -2024,7 +1992,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public long getPlaceId() {
-		return _place.getPlaceId();
+		return model.getPlaceId();
 	}
 
 	/**
@@ -2038,7 +2006,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 			getPlaceSchedule(
 				Date date, int daysCount, java.util.Locale locale) {
 
-		return _place.getPlaceSchedule(date, daysCount, locale);
+		return model.getPlaceSchedule(date, daysCount, locale);
 	}
 
 	/**
@@ -2049,7 +2017,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		getPlaceSchedule(
 			java.util.GregorianCalendar jourSemaine, java.util.Locale locale) {
 
-		return _place.getPlaceSchedule(jourSemaine, locale);
+		return model.getPlaceSchedule(jourSemaine, locale);
 	}
 
 	/**
@@ -2065,8 +2033,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 			java.util.GregorianCalendar dateChoisie, Boolean surPeriode,
 			java.util.Locale locale) {
 
-		return _place.getPlaceScheduleException(
-			dateChoisie, surPeriode, locale);
+		return model.getPlaceScheduleException(dateChoisie, surPeriode, locale);
 	}
 
 	/**
@@ -2078,7 +2045,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		getPlaceScheduleExceptionFreeMarker(
 			Date dateDeb, Boolean surPeriode, java.util.Locale locale) {
 
-		return _place.getPlaceScheduleExceptionFreeMarker(
+		return model.getPlaceScheduleExceptionFreeMarker(
 			dateDeb, surPeriode, locale);
 	}
 
@@ -2089,7 +2056,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getPresentation() {
-		return _place.getPresentation();
+		return model.getPresentation();
 	}
 
 	/**
@@ -2100,7 +2067,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getPresentation(java.util.Locale locale) {
-		return _place.getPresentation(locale);
+		return model.getPresentation(locale);
 	}
 
 	/**
@@ -2112,7 +2079,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getPresentation(java.util.Locale locale, boolean useDefault) {
-		return _place.getPresentation(locale, useDefault);
+		return model.getPresentation(locale, useDefault);
 	}
 
 	/**
@@ -2123,7 +2090,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getPresentation(String languageId) {
-		return _place.getPresentation(languageId);
+		return model.getPresentation(languageId);
 	}
 
 	/**
@@ -2135,17 +2102,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getPresentation(String languageId, boolean useDefault) {
-		return _place.getPresentation(languageId, useDefault);
+		return model.getPresentation(languageId, useDefault);
 	}
 
 	@Override
 	public String getPresentationCurrentLanguageId() {
-		return _place.getPresentationCurrentLanguageId();
+		return model.getPresentationCurrentLanguageId();
 	}
 
 	@Override
 	public String getPresentationCurrentValue() {
-		return _place.getPresentationCurrentValue();
+		return model.getPresentationCurrentValue();
 	}
 
 	/**
@@ -2155,7 +2122,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getPresentationMap() {
-		return _place.getPresentationMap();
+		return model.getPresentationMap();
 	}
 
 	/**
@@ -2163,7 +2130,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public eu.strasbourg.service.place.model.Price getPrice() {
-		return _place.getPrice();
+		return model.getPrice();
 	}
 
 	/**
@@ -2173,7 +2140,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public long getPriceId() {
-		return _place.getPriceId();
+		return model.getPriceId();
 	}
 
 	/**
@@ -2183,12 +2150,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _place.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _place.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -2198,7 +2160,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public java.util.List<eu.strasbourg.service.place.model.PublicHoliday>
 		getPublicHolidays() {
 
-		return _place.getPublicHolidays();
+		return model.getPublicHolidays();
 	}
 
 	/**
@@ -2208,7 +2170,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public java.util.List<eu.strasbourg.service.place.model.SubPlace>
 		getPublishedSubPlaces() {
 
-		return _place.getPublishedSubPlaces();
+		return model.getPublishedSubPlaces();
 	}
 
 	/**
@@ -2222,7 +2184,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 			getRandomContents()
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _place.getRandomContents();
+		return model.getRandomContents();
 	}
 
 	/**
@@ -2233,18 +2195,29 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public eu.strasbourg.utils.OccupationState getRealTime() {
-		return _place.getRealTime();
+		return model.getRealTime();
 	}
 
 	/**
 	 * Retourne le temps réel (couleur de fond,valeur)
 	 *
-	 * @param type (1 = piscine, 2 = parking, 3 = mairie, 4 = patinoire)
+	 * @param type (1 = piscine, 2 = parking, 3 = mairie, 4 = patinoire, 5 =Vélop)
 	 * @throws Exception
 	 */
 	@Override
 	public eu.strasbourg.utils.OccupationState getRealTime(String type) {
-		return _place.getRealTime(type);
+		return model.getRealTime(type);
+	}
+
+	/**
+	 * Retourne les horaires habituels d'ouverture du jour
+	 */
+	@Override
+	public eu.strasbourg.service.place.model.PlaceSchedule
+		getRegularPlaceSchedule(
+			java.util.GregorianCalendar jourSemaine, java.util.Locale locale) {
+
+		return model.getRegularPlaceSchedule(jourSemaine, locale);
 	}
 
 	/**
@@ -2254,7 +2227,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getRGF93X() {
-		return _place.getRGF93X();
+		return model.getRGF93X();
 	}
 
 	/**
@@ -2264,7 +2237,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getRGF93Y() {
-		return _place.getRGF93Y();
+		return model.getRGF93Y();
 	}
 
 	/**
@@ -2274,7 +2247,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public long getRTAvailable() {
-		return _place.getRTAvailable();
+		return model.getRTAvailable();
 	}
 
 	/**
@@ -2284,7 +2257,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public long getRTCapacity() {
-		return _place.getRTCapacity();
+		return model.getRTCapacity();
 	}
 
 	/**
@@ -2294,7 +2267,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Boolean getRTEnabled() {
-		return _place.getRTEnabled();
+		return model.getRTEnabled();
 	}
 
 	/**
@@ -2304,7 +2277,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getRTExternalId() {
-		return _place.getRTExternalId();
+		return model.getRTExternalId();
 	}
 
 	/**
@@ -2314,7 +2287,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Date getRTLastUpdate() {
-		return _place.getRTLastUpdate();
+		return model.getRTLastUpdate();
 	}
 
 	/**
@@ -2324,7 +2297,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public long getRTOccupation() {
-		return _place.getRTOccupation();
+		return model.getRTOccupation();
 	}
 
 	/**
@@ -2334,7 +2307,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getRTStatus() {
-		return _place.getRTStatus();
+		return model.getRTStatus();
 	}
 
 	/**
@@ -2344,7 +2317,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getRTType() {
-		return _place.getRTType();
+		return model.getRTType();
 	}
 
 	/**
@@ -2352,7 +2325,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getScheduleCSMapJSON() {
-		return _place.getScheduleCSMapJSON();
+		return model.getScheduleCSMapJSON();
 	}
 
 	/**
@@ -2362,7 +2335,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public java.util.List<eu.strasbourg.service.place.model.ScheduleException>
 		getScheduleExceptions() {
 
-		return _place.getScheduleExceptions();
+		return model.getScheduleExceptions();
 	}
 
 	/**
@@ -2371,7 +2344,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getScheduleExceptionsIds() {
-		return _place.getScheduleExceptionsIds();
+		return model.getScheduleExceptionsIds();
 	}
 
 	/**
@@ -2381,7 +2354,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getScheduleLinkName() {
-		return _place.getScheduleLinkName();
+		return model.getScheduleLinkName();
 	}
 
 	/**
@@ -2392,7 +2365,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getScheduleLinkName(java.util.Locale locale) {
-		return _place.getScheduleLinkName(locale);
+		return model.getScheduleLinkName(locale);
 	}
 
 	/**
@@ -2406,7 +2379,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public String getScheduleLinkName(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _place.getScheduleLinkName(locale, useDefault);
+		return model.getScheduleLinkName(locale, useDefault);
 	}
 
 	/**
@@ -2417,7 +2390,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getScheduleLinkName(String languageId) {
-		return _place.getScheduleLinkName(languageId);
+		return model.getScheduleLinkName(languageId);
 	}
 
 	/**
@@ -2429,17 +2402,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getScheduleLinkName(String languageId, boolean useDefault) {
-		return _place.getScheduleLinkName(languageId, useDefault);
+		return model.getScheduleLinkName(languageId, useDefault);
 	}
 
 	@Override
 	public String getScheduleLinkNameCurrentLanguageId() {
-		return _place.getScheduleLinkNameCurrentLanguageId();
+		return model.getScheduleLinkNameCurrentLanguageId();
 	}
 
 	@Override
 	public String getScheduleLinkNameCurrentValue() {
-		return _place.getScheduleLinkNameCurrentValue();
+		return model.getScheduleLinkNameCurrentValue();
 	}
 
 	/**
@@ -2449,7 +2422,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getScheduleLinkNameMap() {
-		return _place.getScheduleLinkNameMap();
+		return model.getScheduleLinkNameMap();
 	}
 
 	/**
@@ -2459,7 +2432,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getScheduleLinkURL() {
-		return _place.getScheduleLinkURL();
+		return model.getScheduleLinkURL();
 	}
 
 	/**
@@ -2470,7 +2443,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getScheduleLinkURL(java.util.Locale locale) {
-		return _place.getScheduleLinkURL(locale);
+		return model.getScheduleLinkURL(locale);
 	}
 
 	/**
@@ -2484,7 +2457,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public String getScheduleLinkURL(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _place.getScheduleLinkURL(locale, useDefault);
+		return model.getScheduleLinkURL(locale, useDefault);
 	}
 
 	/**
@@ -2495,7 +2468,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getScheduleLinkURL(String languageId) {
-		return _place.getScheduleLinkURL(languageId);
+		return model.getScheduleLinkURL(languageId);
 	}
 
 	/**
@@ -2507,17 +2480,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getScheduleLinkURL(String languageId, boolean useDefault) {
-		return _place.getScheduleLinkURL(languageId, useDefault);
+		return model.getScheduleLinkURL(languageId, useDefault);
 	}
 
 	@Override
 	public String getScheduleLinkURLCurrentLanguageId() {
-		return _place.getScheduleLinkURLCurrentLanguageId();
+		return model.getScheduleLinkURLCurrentLanguageId();
 	}
 
 	@Override
 	public String getScheduleLinkURLCurrentValue() {
-		return _place.getScheduleLinkURLCurrentValue();
+		return model.getScheduleLinkURLCurrentValue();
 	}
 
 	/**
@@ -2527,7 +2500,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getScheduleLinkURLMap() {
-		return _place.getScheduleLinkURLMap();
+		return model.getScheduleLinkURLMap();
 	}
 
 	/**
@@ -2537,7 +2510,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getServiceAndActivities() {
-		return _place.getServiceAndActivities();
+		return model.getServiceAndActivities();
 	}
 
 	/**
@@ -2548,7 +2521,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getServiceAndActivities(java.util.Locale locale) {
-		return _place.getServiceAndActivities(locale);
+		return model.getServiceAndActivities(locale);
 	}
 
 	/**
@@ -2562,7 +2535,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public String getServiceAndActivities(
 		java.util.Locale locale, boolean useDefault) {
 
-		return _place.getServiceAndActivities(locale, useDefault);
+		return model.getServiceAndActivities(locale, useDefault);
 	}
 
 	/**
@@ -2573,7 +2546,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getServiceAndActivities(String languageId) {
-		return _place.getServiceAndActivities(languageId);
+		return model.getServiceAndActivities(languageId);
 	}
 
 	/**
@@ -2587,17 +2560,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public String getServiceAndActivities(
 		String languageId, boolean useDefault) {
 
-		return _place.getServiceAndActivities(languageId, useDefault);
+		return model.getServiceAndActivities(languageId, useDefault);
 	}
 
 	@Override
 	public String getServiceAndActivitiesCurrentLanguageId() {
-		return _place.getServiceAndActivitiesCurrentLanguageId();
+		return model.getServiceAndActivitiesCurrentLanguageId();
 	}
 
 	@Override
 	public String getServiceAndActivitiesCurrentValue() {
-		return _place.getServiceAndActivitiesCurrentValue();
+		return model.getServiceAndActivitiesCurrentValue();
 	}
 
 	/**
@@ -2607,7 +2580,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getServiceAndActivitiesMap() {
-		return _place.getServiceAndActivitiesMap();
+		return model.getServiceAndActivitiesMap();
 	}
 
 	/**
@@ -2617,7 +2590,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getSIGid() {
-		return _place.getSIGid();
+		return model.getSIGid();
 	}
 
 	/**
@@ -2627,7 +2600,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getSiteLabel() {
-		return _place.getSiteLabel();
+		return model.getSiteLabel();
 	}
 
 	/**
@@ -2638,7 +2611,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getSiteLabel(java.util.Locale locale) {
-		return _place.getSiteLabel(locale);
+		return model.getSiteLabel(locale);
 	}
 
 	/**
@@ -2650,7 +2623,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getSiteLabel(java.util.Locale locale, boolean useDefault) {
-		return _place.getSiteLabel(locale, useDefault);
+		return model.getSiteLabel(locale, useDefault);
 	}
 
 	/**
@@ -2661,7 +2634,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getSiteLabel(String languageId) {
-		return _place.getSiteLabel(languageId);
+		return model.getSiteLabel(languageId);
 	}
 
 	/**
@@ -2673,17 +2646,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getSiteLabel(String languageId, boolean useDefault) {
-		return _place.getSiteLabel(languageId, useDefault);
+		return model.getSiteLabel(languageId, useDefault);
 	}
 
 	@Override
 	public String getSiteLabelCurrentLanguageId() {
-		return _place.getSiteLabelCurrentLanguageId();
+		return model.getSiteLabelCurrentLanguageId();
 	}
 
 	@Override
 	public String getSiteLabelCurrentValue() {
-		return _place.getSiteLabelCurrentValue();
+		return model.getSiteLabelCurrentValue();
 	}
 
 	/**
@@ -2693,7 +2666,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getSiteLabelMap() {
-		return _place.getSiteLabelMap();
+		return model.getSiteLabelMap();
 	}
 
 	/**
@@ -2703,7 +2676,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getSiteURL() {
-		return _place.getSiteURL();
+		return model.getSiteURL();
 	}
 
 	/**
@@ -2714,7 +2687,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getSiteURL(java.util.Locale locale) {
-		return _place.getSiteURL(locale);
+		return model.getSiteURL(locale);
 	}
 
 	/**
@@ -2726,7 +2699,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getSiteURL(java.util.Locale locale, boolean useDefault) {
-		return _place.getSiteURL(locale, useDefault);
+		return model.getSiteURL(locale, useDefault);
 	}
 
 	/**
@@ -2737,7 +2710,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getSiteURL(String languageId) {
-		return _place.getSiteURL(languageId);
+		return model.getSiteURL(languageId);
 	}
 
 	/**
@@ -2749,17 +2722,17 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getSiteURL(String languageId, boolean useDefault) {
-		return _place.getSiteURL(languageId, useDefault);
+		return model.getSiteURL(languageId, useDefault);
 	}
 
 	@Override
 	public String getSiteURLCurrentLanguageId() {
-		return _place.getSiteURLCurrentLanguageId();
+		return model.getSiteURLCurrentLanguageId();
 	}
 
 	@Override
 	public String getSiteURLCurrentValue() {
-		return _place.getSiteURLCurrentValue();
+		return model.getSiteURLCurrentValue();
 	}
 
 	/**
@@ -2769,7 +2742,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Map<java.util.Locale, String> getSiteURLMap() {
-		return _place.getSiteURLMap();
+		return model.getSiteURLMap();
 	}
 
 	/**
@@ -2779,7 +2752,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public int getStatus() {
-		return _place.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -2789,7 +2762,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _place.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -2799,7 +2772,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _place.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -2809,7 +2782,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _place.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -2819,7 +2792,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _place.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -2829,7 +2802,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean getSubjectToPublicHoliday() {
-		return _place.getSubjectToPublicHoliday();
+		return model.getSubjectToPublicHoliday();
 	}
 
 	/**
@@ -2839,7 +2812,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public java.util.List<eu.strasbourg.service.place.model.SubPlace>
 		getSubPlaces() {
 
-		return _place.getSubPlaces();
+		return model.getSubPlaces();
 	}
 
 	/**
@@ -2849,7 +2822,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTerritories() {
 
-		return _place.getTerritories();
+		return model.getTerritories();
 	}
 
 	/**
@@ -2857,7 +2830,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getTypeLabel(java.util.Locale locale) {
-		return _place.getTypeLabel(locale);
+		return model.getTypeLabel(locale);
 	}
 
 	/**
@@ -2867,7 +2840,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTypes() {
 
-		return _place.getTypes();
+		return model.getTypes();
 	}
 
 	/**
@@ -2877,7 +2850,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public long getUserId() {
-		return _place.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -2887,7 +2860,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getUserName() {
-		return _place.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -2897,7 +2870,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _place.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -2907,7 +2880,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getUuid() {
-		return _place.getUuid();
+		return model.getUuid();
 	}
 
 	/**
@@ -2915,7 +2888,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.video.model.Video> getVideos() {
-		return _place.getVideos();
+		return model.getVideos();
 	}
 
 	/**
@@ -2925,7 +2898,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public String getVideosIds() {
-		return _place.getVideosIds();
+		return model.getVideosIds();
 	}
 
 	/**
@@ -2950,12 +2923,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean hasAnyAccessForDisabled() {
-		return _place.hasAnyAccessForDisabled();
-	}
-
-	@Override
-	public int hashCode() {
-		return _place.hashCode();
+		return model.hasAnyAccessForDisabled();
 	}
 
 	/**
@@ -2963,7 +2931,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Boolean hasScheduleTable() {
-		return _place.hasScheduleTable();
+		return model.hasScheduleTable();
 	}
 
 	/**
@@ -2973,12 +2941,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _place.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _place.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -2986,7 +2949,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Boolean isClosed(java.util.GregorianCalendar jourSemaine) {
-		return _place.isClosed(jourSemaine);
+		return model.isClosed(jourSemaine);
 	}
 
 	/**
@@ -2996,7 +2959,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _place.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -3006,7 +2969,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean isDisplayEvents() {
-		return _place.isDisplayEvents();
+		return model.isDisplayEvents();
 	}
 
 	/**
@@ -3016,7 +2979,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _place.isDraft();
+		return model.isDraft();
 	}
 
 	/**
@@ -3028,12 +2991,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public Boolean isEnabled()
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _place.isEnabled();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _place.isEscapedModel();
+		return model.isEnabled();
 	}
 
 	/**
@@ -3043,7 +3001,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _place.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -3053,7 +3011,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean isHasURLSchedule() {
-		return _place.isHasURLSchedule();
+		return model.isHasURLSchedule();
 	}
 
 	/**
@@ -3063,7 +3021,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean isIceRink() {
-		return _place.isIceRink();
+		return model.isIceRink();
 	}
 
 	/**
@@ -3073,7 +3031,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _place.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -3083,7 +3041,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _place.isIncomplete();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -3093,12 +3051,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean isMairie() {
-		return _place.isMairie();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _place.isNew();
+		return model.isMairie();
 	}
 
 	/**
@@ -3106,7 +3059,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Boolean isOpen(java.time.LocalDateTime localDateTime) {
-		return _place.isOpen(localDateTime);
+		return model.isOpen(localDateTime);
 	}
 
 	/**
@@ -3114,7 +3067,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public Boolean isOpenNow() {
-		return _place.isOpenNow();
+		return model.isOpenNow();
 	}
 
 	/**
@@ -3124,7 +3077,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean isParking() {
-		return _place.isParking();
+		return model.isParking();
 	}
 
 	/**
@@ -3134,7 +3087,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean isPending() {
-		return _place.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -3144,7 +3097,15 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _place.isScheduled();
+		return model.isScheduled();
+	}
+
+	/**
+	 * Retourne true si le type du lieu est recherchable (utilisé pour affiche tous les lieux de meme type)
+	 */
+	@Override
+	public Boolean isSearchable() {
+		return model.isSearchable();
 	}
 
 	/**
@@ -3154,7 +3115,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean isSubjectToPublicHoliday() {
-		return _place.isSubjectToPublicHoliday();
+		return model.isSubjectToPublicHoliday();
 	}
 
 	/**
@@ -3164,7 +3125,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean isSwimmingPool() {
-		return _place.isSwimmingPool();
+		return model.isSwimmingPool();
 	}
 
 	/**
@@ -3174,19 +3135,19 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public boolean isVelhopStation() {
-		return _place.isVelhopStation();
+		return model.isVelhopStation();
 	}
 
 	@Override
 	public void persist() {
-		_place.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_place.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -3194,7 +3155,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_place.prepareLocalizedFieldsForImport(defaultImportLocale);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -3204,7 +3165,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAccesMap(String accesMap) {
-		_place.setAccesMap(accesMap);
+		model.setAccesMap(accesMap);
 	}
 
 	/**
@@ -3215,7 +3176,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAccesMap(String accesMap, java.util.Locale locale) {
-		_place.setAccesMap(accesMap, locale);
+		model.setAccesMap(accesMap, locale);
 	}
 
 	/**
@@ -3230,12 +3191,12 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		String accesMap, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_place.setAccesMap(accesMap, locale, defaultLocale);
+		model.setAccesMap(accesMap, locale, defaultLocale);
 	}
 
 	@Override
 	public void setAccesMapCurrentLanguageId(String languageId) {
-		_place.setAccesMapCurrentLanguageId(languageId);
+		model.setAccesMapCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -3245,7 +3206,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAccesMapMap(Map<java.util.Locale, String> accesMapMap) {
-		_place.setAccesMapMap(accesMapMap);
+		model.setAccesMapMap(accesMapMap);
 	}
 
 	/**
@@ -3259,7 +3220,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		Map<java.util.Locale, String> accesMapMap,
 		java.util.Locale defaultLocale) {
 
-		_place.setAccesMapMap(accesMapMap, defaultLocale);
+		model.setAccesMapMap(accesMapMap, defaultLocale);
 	}
 
 	/**
@@ -3269,7 +3230,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAccess(String access) {
-		_place.setAccess(access);
+		model.setAccess(access);
 	}
 
 	/**
@@ -3280,7 +3241,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAccess(String access, java.util.Locale locale) {
-		_place.setAccess(access, locale);
+		model.setAccess(access, locale);
 	}
 
 	/**
@@ -3295,12 +3256,12 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		String access, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_place.setAccess(access, locale, defaultLocale);
+		model.setAccess(access, locale, defaultLocale);
 	}
 
 	@Override
 	public void setAccessCurrentLanguageId(String languageId) {
-		_place.setAccessCurrentLanguageId(languageId);
+		model.setAccessCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -3310,7 +3271,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAccessForBlind(Boolean accessForBlind) {
-		_place.setAccessForBlind(accessForBlind);
+		model.setAccessForBlind(accessForBlind);
 	}
 
 	/**
@@ -3320,7 +3281,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAccessForDeaf(Boolean accessForDeaf) {
-		_place.setAccessForDeaf(accessForDeaf);
+		model.setAccessForDeaf(accessForDeaf);
 	}
 
 	/**
@@ -3330,7 +3291,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAccessForDeficient(Boolean accessForDeficient) {
-		_place.setAccessForDeficient(accessForDeficient);
+		model.setAccessForDeficient(accessForDeficient);
 	}
 
 	/**
@@ -3340,7 +3301,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAccessForDisabled(String accessForDisabled) {
-		_place.setAccessForDisabled(accessForDisabled);
+		model.setAccessForDisabled(accessForDisabled);
 	}
 
 	/**
@@ -3353,7 +3314,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setAccessForDisabled(
 		String accessForDisabled, java.util.Locale locale) {
 
-		_place.setAccessForDisabled(accessForDisabled, locale);
+		model.setAccessForDisabled(accessForDisabled, locale);
 	}
 
 	/**
@@ -3368,12 +3329,12 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		String accessForDisabled, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_place.setAccessForDisabled(accessForDisabled, locale, defaultLocale);
+		model.setAccessForDisabled(accessForDisabled, locale, defaultLocale);
 	}
 
 	@Override
 	public void setAccessForDisabledCurrentLanguageId(String languageId) {
-		_place.setAccessForDisabledCurrentLanguageId(languageId);
+		model.setAccessForDisabledCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -3385,7 +3346,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setAccessForDisabledMap(
 		Map<java.util.Locale, String> accessForDisabledMap) {
 
-		_place.setAccessForDisabledMap(accessForDisabledMap);
+		model.setAccessForDisabledMap(accessForDisabledMap);
 	}
 
 	/**
@@ -3399,7 +3360,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		Map<java.util.Locale, String> accessForDisabledMap,
 		java.util.Locale defaultLocale) {
 
-		_place.setAccessForDisabledMap(accessForDisabledMap, defaultLocale);
+		model.setAccessForDisabledMap(accessForDisabledMap, defaultLocale);
 	}
 
 	/**
@@ -3409,7 +3370,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAccessForElder(Boolean accessForElder) {
-		_place.setAccessForElder(accessForElder);
+		model.setAccessForElder(accessForElder);
 	}
 
 	/**
@@ -3419,7 +3380,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAccessForWheelchair(Boolean accessForWheelchair) {
-		_place.setAccessForWheelchair(accessForWheelchair);
+		model.setAccessForWheelchair(accessForWheelchair);
 	}
 
 	/**
@@ -3429,7 +3390,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAccessMap(Map<java.util.Locale, String> accessMap) {
-		_place.setAccessMap(accessMap);
+		model.setAccessMap(accessMap);
 	}
 
 	/**
@@ -3443,7 +3404,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		Map<java.util.Locale, String> accessMap,
 		java.util.Locale defaultLocale) {
 
-		_place.setAccessMap(accessMap, defaultLocale);
+		model.setAccessMap(accessMap, defaultLocale);
 	}
 
 	/**
@@ -3453,7 +3414,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAdditionalInformation(String additionalInformation) {
-		_place.setAdditionalInformation(additionalInformation);
+		model.setAdditionalInformation(additionalInformation);
 	}
 
 	/**
@@ -3466,7 +3427,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setAdditionalInformation(
 		String additionalInformation, java.util.Locale locale) {
 
-		_place.setAdditionalInformation(additionalInformation, locale);
+		model.setAdditionalInformation(additionalInformation, locale);
 	}
 
 	/**
@@ -3481,13 +3442,13 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		String additionalInformation, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_place.setAdditionalInformation(
+		model.setAdditionalInformation(
 			additionalInformation, locale, defaultLocale);
 	}
 
 	@Override
 	public void setAdditionalInformationCurrentLanguageId(String languageId) {
-		_place.setAdditionalInformationCurrentLanguageId(languageId);
+		model.setAdditionalInformationCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -3499,7 +3460,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setAdditionalInformationMap(
 		Map<java.util.Locale, String> additionalInformationMap) {
 
-		_place.setAdditionalInformationMap(additionalInformationMap);
+		model.setAdditionalInformationMap(additionalInformationMap);
 	}
 
 	/**
@@ -3513,7 +3474,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		Map<java.util.Locale, String> additionalInformationMap,
 		java.util.Locale defaultLocale) {
 
-		_place.setAdditionalInformationMap(
+		model.setAdditionalInformationMap(
 			additionalInformationMap, defaultLocale);
 	}
 
@@ -3524,7 +3485,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAddressComplement(String addressComplement) {
-		_place.setAddressComplement(addressComplement);
+		model.setAddressComplement(addressComplement);
 	}
 
 	/**
@@ -3534,7 +3495,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAddressCountry(String addressCountry) {
-		_place.setAddressCountry(addressCountry);
+		model.setAddressCountry(addressCountry);
 	}
 
 	/**
@@ -3544,7 +3505,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAddressDistribution(String addressDistribution) {
-		_place.setAddressDistribution(addressDistribution);
+		model.setAddressDistribution(addressDistribution);
 	}
 
 	/**
@@ -3554,7 +3515,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAddressStreet(String addressStreet) {
-		_place.setAddressStreet(addressStreet);
+		model.setAddressStreet(addressStreet);
 	}
 
 	/**
@@ -3564,7 +3525,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAddressZipCode(String addressZipCode) {
-		_place.setAddressZipCode(addressZipCode);
+		model.setAddressZipCode(addressZipCode);
 	}
 
 	/**
@@ -3574,7 +3535,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAlias(String alias) {
-		_place.setAlias(alias);
+		model.setAlias(alias);
 	}
 
 	/**
@@ -3585,7 +3546,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAlias(String alias, java.util.Locale locale) {
-		_place.setAlias(alias, locale);
+		model.setAlias(alias, locale);
 	}
 
 	/**
@@ -3599,12 +3560,12 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setAlias(
 		String alias, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_place.setAlias(alias, locale, defaultLocale);
+		model.setAlias(alias, locale, defaultLocale);
 	}
 
 	@Override
 	public void setAliasCurrentLanguageId(String languageId) {
-		_place.setAliasCurrentLanguageId(languageId);
+		model.setAliasCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -3614,7 +3575,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setAliasMap(Map<java.util.Locale, String> aliasMap) {
-		_place.setAliasMap(aliasMap);
+		model.setAliasMap(aliasMap);
 	}
 
 	/**
@@ -3628,12 +3589,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		Map<java.util.Locale, String> aliasMap,
 		java.util.Locale defaultLocale) {
 
-		_place.setAliasMap(aliasMap, defaultLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_place.setCachedModel(cachedModel);
+		model.setAliasMap(aliasMap, defaultLocale);
 	}
 
 	/**
@@ -3643,7 +3599,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setCharacteristics(String characteristics) {
-		_place.setCharacteristics(characteristics);
+		model.setCharacteristics(characteristics);
 	}
 
 	/**
@@ -3656,7 +3612,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setCharacteristics(
 		String characteristics, java.util.Locale locale) {
 
-		_place.setCharacteristics(characteristics, locale);
+		model.setCharacteristics(characteristics, locale);
 	}
 
 	/**
@@ -3671,12 +3627,12 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		String characteristics, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_place.setCharacteristics(characteristics, locale, defaultLocale);
+		model.setCharacteristics(characteristics, locale, defaultLocale);
 	}
 
 	@Override
 	public void setCharacteristicsCurrentLanguageId(String languageId) {
-		_place.setCharacteristicsCurrentLanguageId(languageId);
+		model.setCharacteristicsCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -3688,7 +3644,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setCharacteristicsMap(
 		Map<java.util.Locale, String> characteristicsMap) {
 
-		_place.setCharacteristicsMap(characteristicsMap);
+		model.setCharacteristicsMap(characteristicsMap);
 	}
 
 	/**
@@ -3702,7 +3658,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		Map<java.util.Locale, String> characteristicsMap,
 		java.util.Locale defaultLocale) {
 
-		_place.setCharacteristicsMap(characteristicsMap, defaultLocale);
+		model.setCharacteristicsMap(characteristicsMap, defaultLocale);
 	}
 
 	/**
@@ -3712,7 +3668,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_place.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -3722,7 +3678,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setContenuTooltipCarto(String contenuTooltipCarto) {
-		_place.setContenuTooltipCarto(contenuTooltipCarto);
+		model.setContenuTooltipCarto(contenuTooltipCarto);
 	}
 
 	/**
@@ -3735,7 +3691,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setContenuTooltipCarto(
 		String contenuTooltipCarto, java.util.Locale locale) {
 
-		_place.setContenuTooltipCarto(contenuTooltipCarto, locale);
+		model.setContenuTooltipCarto(contenuTooltipCarto, locale);
 	}
 
 	/**
@@ -3750,13 +3706,13 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		String contenuTooltipCarto, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_place.setContenuTooltipCarto(
+		model.setContenuTooltipCarto(
 			contenuTooltipCarto, locale, defaultLocale);
 	}
 
 	@Override
 	public void setContenuTooltipCartoCurrentLanguageId(String languageId) {
-		_place.setContenuTooltipCartoCurrentLanguageId(languageId);
+		model.setContenuTooltipCartoCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -3768,7 +3724,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setContenuTooltipCartoMap(
 		Map<java.util.Locale, String> contenuTooltipCartoMap) {
 
-		_place.setContenuTooltipCartoMap(contenuTooltipCartoMap);
+		model.setContenuTooltipCartoMap(contenuTooltipCartoMap);
 	}
 
 	/**
@@ -3782,7 +3738,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		Map<java.util.Locale, String> contenuTooltipCartoMap,
 		java.util.Locale defaultLocale) {
 
-		_place.setContenuTooltipCartoMap(contenuTooltipCartoMap, defaultLocale);
+		model.setContenuTooltipCartoMap(contenuTooltipCartoMap, defaultLocale);
 	}
 
 	/**
@@ -3792,7 +3748,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_place.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -3802,7 +3758,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setDisplayEvents(boolean displayEvents) {
-		_place.setDisplayEvents(displayEvents);
+		model.setDisplayEvents(displayEvents);
 	}
 
 	/**
@@ -3812,7 +3768,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setDocumentsIds(String documentsIds) {
-		_place.setDocumentsIds(documentsIds);
+		model.setDocumentsIds(documentsIds);
 	}
 
 	/**
@@ -3822,7 +3778,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setExceptionalSchedule(String exceptionalSchedule) {
-		_place.setExceptionalSchedule(exceptionalSchedule);
+		model.setExceptionalSchedule(exceptionalSchedule);
 	}
 
 	/**
@@ -3835,7 +3791,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setExceptionalSchedule(
 		String exceptionalSchedule, java.util.Locale locale) {
 
-		_place.setExceptionalSchedule(exceptionalSchedule, locale);
+		model.setExceptionalSchedule(exceptionalSchedule, locale);
 	}
 
 	/**
@@ -3850,13 +3806,13 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		String exceptionalSchedule, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_place.setExceptionalSchedule(
+		model.setExceptionalSchedule(
 			exceptionalSchedule, locale, defaultLocale);
 	}
 
 	@Override
 	public void setExceptionalScheduleCurrentLanguageId(String languageId) {
-		_place.setExceptionalScheduleCurrentLanguageId(languageId);
+		model.setExceptionalScheduleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -3868,7 +3824,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setExceptionalScheduleMap(
 		Map<java.util.Locale, String> exceptionalScheduleMap) {
 
-		_place.setExceptionalScheduleMap(exceptionalScheduleMap);
+		model.setExceptionalScheduleMap(exceptionalScheduleMap);
 	}
 
 	/**
@@ -3882,24 +3838,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		Map<java.util.Locale, String> exceptionalScheduleMap,
 		java.util.Locale defaultLocale) {
 
-		_place.setExceptionalScheduleMap(exceptionalScheduleMap, defaultLocale);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_place.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_place.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_place.setExpandoBridgeAttributes(serviceContext);
+		model.setExceptionalScheduleMap(exceptionalScheduleMap, defaultLocale);
 	}
 
 	/**
@@ -3909,7 +3848,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setFacebookLabel(String facebookLabel) {
-		_place.setFacebookLabel(facebookLabel);
+		model.setFacebookLabel(facebookLabel);
 	}
 
 	/**
@@ -3922,7 +3861,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setFacebookLabel(
 		String facebookLabel, java.util.Locale locale) {
 
-		_place.setFacebookLabel(facebookLabel, locale);
+		model.setFacebookLabel(facebookLabel, locale);
 	}
 
 	/**
@@ -3937,12 +3876,12 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		String facebookLabel, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_place.setFacebookLabel(facebookLabel, locale, defaultLocale);
+		model.setFacebookLabel(facebookLabel, locale, defaultLocale);
 	}
 
 	@Override
 	public void setFacebookLabelCurrentLanguageId(String languageId) {
-		_place.setFacebookLabelCurrentLanguageId(languageId);
+		model.setFacebookLabelCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -3954,7 +3893,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setFacebookLabelMap(
 		Map<java.util.Locale, String> facebookLabelMap) {
 
-		_place.setFacebookLabelMap(facebookLabelMap);
+		model.setFacebookLabelMap(facebookLabelMap);
 	}
 
 	/**
@@ -3968,7 +3907,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		Map<java.util.Locale, String> facebookLabelMap,
 		java.util.Locale defaultLocale) {
 
-		_place.setFacebookLabelMap(facebookLabelMap, defaultLocale);
+		model.setFacebookLabelMap(facebookLabelMap, defaultLocale);
 	}
 
 	/**
@@ -3978,7 +3917,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setFacebookURL(String facebookURL) {
-		_place.setFacebookURL(facebookURL);
+		model.setFacebookURL(facebookURL);
 	}
 
 	/**
@@ -3989,7 +3928,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setFacebookURL(String facebookURL, java.util.Locale locale) {
-		_place.setFacebookURL(facebookURL, locale);
+		model.setFacebookURL(facebookURL, locale);
 	}
 
 	/**
@@ -4004,12 +3943,12 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		String facebookURL, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_place.setFacebookURL(facebookURL, locale, defaultLocale);
+		model.setFacebookURL(facebookURL, locale, defaultLocale);
 	}
 
 	@Override
 	public void setFacebookURLCurrentLanguageId(String languageId) {
-		_place.setFacebookURLCurrentLanguageId(languageId);
+		model.setFacebookURLCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -4021,7 +3960,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setFacebookURLMap(
 		Map<java.util.Locale, String> facebookURLMap) {
 
-		_place.setFacebookURLMap(facebookURLMap);
+		model.setFacebookURLMap(facebookURLMap);
 	}
 
 	/**
@@ -4035,7 +3974,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		Map<java.util.Locale, String> facebookURLMap,
 		java.util.Locale defaultLocale) {
 
-		_place.setFacebookURLMap(facebookURLMap, defaultLocale);
+		model.setFacebookURLMap(facebookURLMap, defaultLocale);
 	}
 
 	/**
@@ -4045,7 +3984,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_place.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -4055,7 +3994,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setHasURLSchedule(boolean hasURLSchedule) {
-		_place.setHasURLSchedule(hasURLSchedule);
+		model.setHasURLSchedule(hasURLSchedule);
 	}
 
 	/**
@@ -4065,7 +4004,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setImageHeight(Integer imageHeight) {
-		_place.setImageHeight(imageHeight);
+		model.setImageHeight(imageHeight);
 	}
 
 	/**
@@ -4075,7 +4014,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setImageId(long imageId) {
-		_place.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -4085,7 +4024,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setImageIds(String imageIds) {
-		_place.setImageIds(imageIds);
+		model.setImageIds(imageIds);
 	}
 
 	/**
@@ -4095,7 +4034,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setImageWidth(Integer imageWidth) {
-		_place.setImageWidth(imageWidth);
+		model.setImageWidth(imageWidth);
 	}
 
 	/**
@@ -4105,7 +4044,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setInstagramLabel(String instagramLabel) {
-		_place.setInstagramLabel(instagramLabel);
+		model.setInstagramLabel(instagramLabel);
 	}
 
 	/**
@@ -4118,7 +4057,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setInstagramLabel(
 		String instagramLabel, java.util.Locale locale) {
 
-		_place.setInstagramLabel(instagramLabel, locale);
+		model.setInstagramLabel(instagramLabel, locale);
 	}
 
 	/**
@@ -4133,12 +4072,12 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		String instagramLabel, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_place.setInstagramLabel(instagramLabel, locale, defaultLocale);
+		model.setInstagramLabel(instagramLabel, locale, defaultLocale);
 	}
 
 	@Override
 	public void setInstagramLabelCurrentLanguageId(String languageId) {
-		_place.setInstagramLabelCurrentLanguageId(languageId);
+		model.setInstagramLabelCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -4150,7 +4089,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setInstagramLabelMap(
 		Map<java.util.Locale, String> instagramLabelMap) {
 
-		_place.setInstagramLabelMap(instagramLabelMap);
+		model.setInstagramLabelMap(instagramLabelMap);
 	}
 
 	/**
@@ -4164,7 +4103,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		Map<java.util.Locale, String> instagramLabelMap,
 		java.util.Locale defaultLocale) {
 
-		_place.setInstagramLabelMap(instagramLabelMap, defaultLocale);
+		model.setInstagramLabelMap(instagramLabelMap, defaultLocale);
 	}
 
 	/**
@@ -4174,7 +4113,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setInstagramURL(String instagramURL) {
-		_place.setInstagramURL(instagramURL);
+		model.setInstagramURL(instagramURL);
 	}
 
 	/**
@@ -4185,7 +4124,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setInstagramURL(String instagramURL, java.util.Locale locale) {
-		_place.setInstagramURL(instagramURL, locale);
+		model.setInstagramURL(instagramURL, locale);
 	}
 
 	/**
@@ -4200,12 +4139,12 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		String instagramURL, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_place.setInstagramURL(instagramURL, locale, defaultLocale);
+		model.setInstagramURL(instagramURL, locale, defaultLocale);
 	}
 
 	@Override
 	public void setInstagramURLCurrentLanguageId(String languageId) {
-		_place.setInstagramURLCurrentLanguageId(languageId);
+		model.setInstagramURLCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -4217,7 +4156,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setInstagramURLMap(
 		Map<java.util.Locale, String> instagramURLMap) {
 
-		_place.setInstagramURLMap(instagramURLMap);
+		model.setInstagramURLMap(instagramURLMap);
 	}
 
 	/**
@@ -4231,7 +4170,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		Map<java.util.Locale, String> instagramURLMap,
 		java.util.Locale defaultLocale) {
 
-		_place.setInstagramURLMap(instagramURLMap, defaultLocale);
+		model.setInstagramURLMap(instagramURLMap, defaultLocale);
 	}
 
 	/**
@@ -4241,7 +4180,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
-		_place.setLastPublishDate(lastPublishDate);
+		model.setLastPublishDate(lastPublishDate);
 	}
 
 	/**
@@ -4251,7 +4190,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setLocationId(String locationId) {
-		_place.setLocationId(locationId);
+		model.setLocationId(locationId);
 	}
 
 	/**
@@ -4261,7 +4200,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setMail(String mail) {
-		_place.setMail(mail);
+		model.setMail(mail);
 	}
 
 	/**
@@ -4271,7 +4210,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setMercatorX(String mercatorX) {
-		_place.setMercatorX(mercatorX);
+		model.setMercatorX(mercatorX);
 	}
 
 	/**
@@ -4281,7 +4220,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setMercatorY(String mercatorY) {
-		_place.setMercatorY(mercatorY);
+		model.setMercatorY(mercatorY);
 	}
 
 	/**
@@ -4291,7 +4230,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_place.setModifiedDate(modifiedDate);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -4301,12 +4240,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setName(String name) {
-		_place.setName(name);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_place.setNew(n);
+		model.setName(name);
 	}
 
 	/**
@@ -4316,7 +4250,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setPhone(String phone) {
-		_place.setPhone(phone);
+		model.setPhone(phone);
 	}
 
 	/**
@@ -4326,7 +4260,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setPlaceId(long placeId) {
-		_place.setPlaceId(placeId);
+		model.setPlaceId(placeId);
 	}
 
 	/**
@@ -4336,7 +4270,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setPresentation(String presentation) {
-		_place.setPresentation(presentation);
+		model.setPresentation(presentation);
 	}
 
 	/**
@@ -4347,7 +4281,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setPresentation(String presentation, java.util.Locale locale) {
-		_place.setPresentation(presentation, locale);
+		model.setPresentation(presentation, locale);
 	}
 
 	/**
@@ -4362,12 +4296,12 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		String presentation, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_place.setPresentation(presentation, locale, defaultLocale);
+		model.setPresentation(presentation, locale, defaultLocale);
 	}
 
 	@Override
 	public void setPresentationCurrentLanguageId(String languageId) {
-		_place.setPresentationCurrentLanguageId(languageId);
+		model.setPresentationCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -4379,7 +4313,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setPresentationMap(
 		Map<java.util.Locale, String> presentationMap) {
 
-		_place.setPresentationMap(presentationMap);
+		model.setPresentationMap(presentationMap);
 	}
 
 	/**
@@ -4393,7 +4327,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		Map<java.util.Locale, String> presentationMap,
 		java.util.Locale defaultLocale) {
 
-		_place.setPresentationMap(presentationMap, defaultLocale);
+		model.setPresentationMap(presentationMap, defaultLocale);
 	}
 
 	/**
@@ -4403,7 +4337,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setPriceId(long priceId) {
-		_place.setPriceId(priceId);
+		model.setPriceId(priceId);
 	}
 
 	/**
@@ -4413,12 +4347,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_place.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_place.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -4428,7 +4357,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setRGF93X(String RGF93X) {
-		_place.setRGF93X(RGF93X);
+		model.setRGF93X(RGF93X);
 	}
 
 	/**
@@ -4438,7 +4367,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setRGF93Y(String RGF93Y) {
-		_place.setRGF93Y(RGF93Y);
+		model.setRGF93Y(RGF93Y);
 	}
 
 	/**
@@ -4448,7 +4377,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setRTAvailable(long RTAvailable) {
-		_place.setRTAvailable(RTAvailable);
+		model.setRTAvailable(RTAvailable);
 	}
 
 	/**
@@ -4458,7 +4387,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setRTCapacity(long RTCapacity) {
-		_place.setRTCapacity(RTCapacity);
+		model.setRTCapacity(RTCapacity);
 	}
 
 	/**
@@ -4468,7 +4397,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setRTEnabled(Boolean RTEnabled) {
-		_place.setRTEnabled(RTEnabled);
+		model.setRTEnabled(RTEnabled);
 	}
 
 	/**
@@ -4478,7 +4407,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setRTExternalId(String RTExternalId) {
-		_place.setRTExternalId(RTExternalId);
+		model.setRTExternalId(RTExternalId);
 	}
 
 	/**
@@ -4488,7 +4417,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setRTLastUpdate(Date RTLastUpdate) {
-		_place.setRTLastUpdate(RTLastUpdate);
+		model.setRTLastUpdate(RTLastUpdate);
 	}
 
 	/**
@@ -4498,7 +4427,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setRTOccupation(long RTOccupation) {
-		_place.setRTOccupation(RTOccupation);
+		model.setRTOccupation(RTOccupation);
 	}
 
 	/**
@@ -4508,7 +4437,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setRTStatus(String RTStatus) {
-		_place.setRTStatus(RTStatus);
+		model.setRTStatus(RTStatus);
 	}
 
 	/**
@@ -4518,7 +4447,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setRTType(String RTType) {
-		_place.setRTType(RTType);
+		model.setRTType(RTType);
 	}
 
 	/**
@@ -4528,7 +4457,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setScheduleLinkName(String scheduleLinkName) {
-		_place.setScheduleLinkName(scheduleLinkName);
+		model.setScheduleLinkName(scheduleLinkName);
 	}
 
 	/**
@@ -4541,7 +4470,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setScheduleLinkName(
 		String scheduleLinkName, java.util.Locale locale) {
 
-		_place.setScheduleLinkName(scheduleLinkName, locale);
+		model.setScheduleLinkName(scheduleLinkName, locale);
 	}
 
 	/**
@@ -4556,12 +4485,12 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		String scheduleLinkName, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_place.setScheduleLinkName(scheduleLinkName, locale, defaultLocale);
+		model.setScheduleLinkName(scheduleLinkName, locale, defaultLocale);
 	}
 
 	@Override
 	public void setScheduleLinkNameCurrentLanguageId(String languageId) {
-		_place.setScheduleLinkNameCurrentLanguageId(languageId);
+		model.setScheduleLinkNameCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -4573,7 +4502,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setScheduleLinkNameMap(
 		Map<java.util.Locale, String> scheduleLinkNameMap) {
 
-		_place.setScheduleLinkNameMap(scheduleLinkNameMap);
+		model.setScheduleLinkNameMap(scheduleLinkNameMap);
 	}
 
 	/**
@@ -4587,7 +4516,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		Map<java.util.Locale, String> scheduleLinkNameMap,
 		java.util.Locale defaultLocale) {
 
-		_place.setScheduleLinkNameMap(scheduleLinkNameMap, defaultLocale);
+		model.setScheduleLinkNameMap(scheduleLinkNameMap, defaultLocale);
 	}
 
 	/**
@@ -4597,7 +4526,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setScheduleLinkURL(String scheduleLinkURL) {
-		_place.setScheduleLinkURL(scheduleLinkURL);
+		model.setScheduleLinkURL(scheduleLinkURL);
 	}
 
 	/**
@@ -4610,7 +4539,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setScheduleLinkURL(
 		String scheduleLinkURL, java.util.Locale locale) {
 
-		_place.setScheduleLinkURL(scheduleLinkURL, locale);
+		model.setScheduleLinkURL(scheduleLinkURL, locale);
 	}
 
 	/**
@@ -4625,12 +4554,12 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		String scheduleLinkURL, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_place.setScheduleLinkURL(scheduleLinkURL, locale, defaultLocale);
+		model.setScheduleLinkURL(scheduleLinkURL, locale, defaultLocale);
 	}
 
 	@Override
 	public void setScheduleLinkURLCurrentLanguageId(String languageId) {
-		_place.setScheduleLinkURLCurrentLanguageId(languageId);
+		model.setScheduleLinkURLCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -4642,7 +4571,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setScheduleLinkURLMap(
 		Map<java.util.Locale, String> scheduleLinkURLMap) {
 
-		_place.setScheduleLinkURLMap(scheduleLinkURLMap);
+		model.setScheduleLinkURLMap(scheduleLinkURLMap);
 	}
 
 	/**
@@ -4656,7 +4585,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		Map<java.util.Locale, String> scheduleLinkURLMap,
 		java.util.Locale defaultLocale) {
 
-		_place.setScheduleLinkURLMap(scheduleLinkURLMap, defaultLocale);
+		model.setScheduleLinkURLMap(scheduleLinkURLMap, defaultLocale);
 	}
 
 	/**
@@ -4666,7 +4595,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setServiceAndActivities(String serviceAndActivities) {
-		_place.setServiceAndActivities(serviceAndActivities);
+		model.setServiceAndActivities(serviceAndActivities);
 	}
 
 	/**
@@ -4679,7 +4608,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setServiceAndActivities(
 		String serviceAndActivities, java.util.Locale locale) {
 
-		_place.setServiceAndActivities(serviceAndActivities, locale);
+		model.setServiceAndActivities(serviceAndActivities, locale);
 	}
 
 	/**
@@ -4694,13 +4623,13 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		String serviceAndActivities, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_place.setServiceAndActivities(
+		model.setServiceAndActivities(
 			serviceAndActivities, locale, defaultLocale);
 	}
 
 	@Override
 	public void setServiceAndActivitiesCurrentLanguageId(String languageId) {
-		_place.setServiceAndActivitiesCurrentLanguageId(languageId);
+		model.setServiceAndActivitiesCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -4712,7 +4641,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	public void setServiceAndActivitiesMap(
 		Map<java.util.Locale, String> serviceAndActivitiesMap) {
 
-		_place.setServiceAndActivitiesMap(serviceAndActivitiesMap);
+		model.setServiceAndActivitiesMap(serviceAndActivitiesMap);
 	}
 
 	/**
@@ -4726,7 +4655,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		Map<java.util.Locale, String> serviceAndActivitiesMap,
 		java.util.Locale defaultLocale) {
 
-		_place.setServiceAndActivitiesMap(
+		model.setServiceAndActivitiesMap(
 			serviceAndActivitiesMap, defaultLocale);
 	}
 
@@ -4737,7 +4666,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setSIGid(String SIGid) {
-		_place.setSIGid(SIGid);
+		model.setSIGid(SIGid);
 	}
 
 	/**
@@ -4747,7 +4676,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setSiteLabel(String siteLabel) {
-		_place.setSiteLabel(siteLabel);
+		model.setSiteLabel(siteLabel);
 	}
 
 	/**
@@ -4758,7 +4687,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setSiteLabel(String siteLabel, java.util.Locale locale) {
-		_place.setSiteLabel(siteLabel, locale);
+		model.setSiteLabel(siteLabel, locale);
 	}
 
 	/**
@@ -4773,12 +4702,12 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		String siteLabel, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_place.setSiteLabel(siteLabel, locale, defaultLocale);
+		model.setSiteLabel(siteLabel, locale, defaultLocale);
 	}
 
 	@Override
 	public void setSiteLabelCurrentLanguageId(String languageId) {
-		_place.setSiteLabelCurrentLanguageId(languageId);
+		model.setSiteLabelCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -4788,7 +4717,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setSiteLabelMap(Map<java.util.Locale, String> siteLabelMap) {
-		_place.setSiteLabelMap(siteLabelMap);
+		model.setSiteLabelMap(siteLabelMap);
 	}
 
 	/**
@@ -4802,7 +4731,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		Map<java.util.Locale, String> siteLabelMap,
 		java.util.Locale defaultLocale) {
 
-		_place.setSiteLabelMap(siteLabelMap, defaultLocale);
+		model.setSiteLabelMap(siteLabelMap, defaultLocale);
 	}
 
 	/**
@@ -4812,7 +4741,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setSiteURL(String siteURL) {
-		_place.setSiteURL(siteURL);
+		model.setSiteURL(siteURL);
 	}
 
 	/**
@@ -4823,7 +4752,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setSiteURL(String siteURL, java.util.Locale locale) {
-		_place.setSiteURL(siteURL, locale);
+		model.setSiteURL(siteURL, locale);
 	}
 
 	/**
@@ -4838,12 +4767,12 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		String siteURL, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_place.setSiteURL(siteURL, locale, defaultLocale);
+		model.setSiteURL(siteURL, locale, defaultLocale);
 	}
 
 	@Override
 	public void setSiteURLCurrentLanguageId(String languageId) {
-		_place.setSiteURLCurrentLanguageId(languageId);
+		model.setSiteURLCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -4853,7 +4782,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setSiteURLMap(Map<java.util.Locale, String> siteURLMap) {
-		_place.setSiteURLMap(siteURLMap);
+		model.setSiteURLMap(siteURLMap);
 	}
 
 	/**
@@ -4867,7 +4796,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 		Map<java.util.Locale, String> siteURLMap,
 		java.util.Locale defaultLocale) {
 
-		_place.setSiteURLMap(siteURLMap, defaultLocale);
+		model.setSiteURLMap(siteURLMap, defaultLocale);
 	}
 
 	/**
@@ -4877,7 +4806,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_place.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -4887,7 +4816,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_place.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -4897,7 +4826,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_place.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -4907,7 +4836,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_place.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -4917,7 +4846,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_place.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -4927,7 +4856,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setSubjectToPublicHoliday(boolean subjectToPublicHoliday) {
-		_place.setSubjectToPublicHoliday(subjectToPublicHoliday);
+		model.setSubjectToPublicHoliday(subjectToPublicHoliday);
 	}
 
 	/**
@@ -4937,7 +4866,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_place.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -4947,7 +4876,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_place.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -4957,7 +4886,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_place.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -4967,7 +4896,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_place.setUuid(uuid);
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -4977,19 +4906,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public void setVideosIds(String videosIds) {
-		_place.setVideosIds(videosIds);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.place.model.Place> toCacheModel() {
-
-		return _place.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.Place toEscapedModel() {
-		return new PlaceWrapper(_place.toEscapedModel());
+		model.setVideosIds(videosIds);
 	}
 
 	/**
@@ -4997,7 +4914,7 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toGeoJSON() {
-		return _place.toGeoJSON();
+		return model.toGeoJSON();
 	}
 
 	/**
@@ -5005,68 +4922,22 @@ public class PlaceWrapper implements ModelWrapper<Place>, Place {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _place.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _place.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.place.model.Place toUnescapedModel() {
-		return new PlaceWrapper(_place.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _place.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof PlaceWrapper)) {
-			return false;
-		}
-
-		PlaceWrapper placeWrapper = (PlaceWrapper)object;
-
-		if (Objects.equals(_place, placeWrapper._place)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _place.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Place getWrappedModel() {
-		return _place;
+	protected PlaceWrapper wrap(Place place) {
+		return new PlaceWrapper(place);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _place.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _place.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_place.resetOriginalValues();
-	}
-
-	private final Place _place;
 
 }

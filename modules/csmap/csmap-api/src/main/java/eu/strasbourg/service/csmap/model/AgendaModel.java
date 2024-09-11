@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.csmap.model;
@@ -19,6 +10,7 @@ import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.LocalizedModel;
 
+import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
@@ -403,6 +395,234 @@ public interface AgendaModel extends BaseModel<Agenda>, LocalizedModel {
 	public void setImageId(Long imageId);
 
 	/**
+	 * Returns the label link of this agenda.
+	 *
+	 * @return the label link of this agenda
+	 */
+	public String getLabelLink();
+
+	/**
+	 * Returns the localized label link of this agenda in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized label link of this agenda
+	 */
+	@AutoEscape
+	public String getLabelLink(Locale locale);
+
+	/**
+	 * Returns the localized label link of this agenda in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized label link of this agenda. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getLabelLink(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized label link of this agenda in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized label link of this agenda
+	 */
+	@AutoEscape
+	public String getLabelLink(String languageId);
+
+	/**
+	 * Returns the localized label link of this agenda in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized label link of this agenda
+	 */
+	@AutoEscape
+	public String getLabelLink(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getLabelLinkCurrentLanguageId();
+
+	@AutoEscape
+	public String getLabelLinkCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized label links of this agenda.
+	 *
+	 * @return the locales and localized label links of this agenda
+	 */
+	public Map<Locale, String> getLabelLinkMap();
+
+	/**
+	 * Sets the label link of this agenda.
+	 *
+	 * @param labelLink the label link of this agenda
+	 */
+	public void setLabelLink(String labelLink);
+
+	/**
+	 * Sets the localized label link of this agenda in the language.
+	 *
+	 * @param labelLink the localized label link of this agenda
+	 * @param locale the locale of the language
+	 */
+	public void setLabelLink(String labelLink, Locale locale);
+
+	/**
+	 * Sets the localized label link of this agenda in the language, and sets the default locale.
+	 *
+	 * @param labelLink the localized label link of this agenda
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setLabelLink(
+		String labelLink, Locale locale, Locale defaultLocale);
+
+	public void setLabelLinkCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized label links of this agenda from the map of locales and localized label links.
+	 *
+	 * @param labelLinkMap the locales and localized label links of this agenda
+	 */
+	public void setLabelLinkMap(Map<Locale, String> labelLinkMap);
+
+	/**
+	 * Sets the localized label links of this agenda from the map of locales and localized label links, and sets the default locale.
+	 *
+	 * @param labelLinkMap the locales and localized label links of this agenda
+	 * @param defaultLocale the default locale
+	 */
+	public void setLabelLinkMap(
+		Map<Locale, String> labelLinkMap, Locale defaultLocale);
+
+	/**
+	 * Returns the link of this agenda.
+	 *
+	 * @return the link of this agenda
+	 */
+	public String getLink();
+
+	/**
+	 * Returns the localized link of this agenda in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized link of this agenda
+	 */
+	@AutoEscape
+	public String getLink(Locale locale);
+
+	/**
+	 * Returns the localized link of this agenda in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized link of this agenda. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getLink(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized link of this agenda in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized link of this agenda
+	 */
+	@AutoEscape
+	public String getLink(String languageId);
+
+	/**
+	 * Returns the localized link of this agenda in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized link of this agenda
+	 */
+	@AutoEscape
+	public String getLink(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getLinkCurrentLanguageId();
+
+	@AutoEscape
+	public String getLinkCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized links of this agenda.
+	 *
+	 * @return the locales and localized links of this agenda
+	 */
+	public Map<Locale, String> getLinkMap();
+
+	/**
+	 * Sets the link of this agenda.
+	 *
+	 * @param link the link of this agenda
+	 */
+	public void setLink(String link);
+
+	/**
+	 * Sets the localized link of this agenda in the language.
+	 *
+	 * @param link the localized link of this agenda
+	 * @param locale the locale of the language
+	 */
+	public void setLink(String link, Locale locale);
+
+	/**
+	 * Sets the localized link of this agenda in the language, and sets the default locale.
+	 *
+	 * @param link the localized link of this agenda
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setLink(String link, Locale locale, Locale defaultLocale);
+
+	public void setLinkCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized links of this agenda from the map of locales and localized links.
+	 *
+	 * @param linkMap the locales and localized links of this agenda
+	 */
+	public void setLinkMap(Map<Locale, String> linkMap);
+
+	/**
+	 * Sets the localized links of this agenda from the map of locales and localized links, and sets the default locale.
+	 *
+	 * @param linkMap the locales and localized links of this agenda
+	 * @param defaultLocale the default locale
+	 */
+	public void setLinkMap(Map<Locale, String> linkMap, Locale defaultLocale);
+
+	/**
+	 * Returns the publication start date of this agenda.
+	 *
+	 * @return the publication start date of this agenda
+	 */
+	public Date getPublicationStartDate();
+
+	/**
+	 * Sets the publication start date of this agenda.
+	 *
+	 * @param publicationStartDate the publication start date of this agenda
+	 */
+	public void setPublicationStartDate(Date publicationStartDate);
+
+	/**
+	 * Returns the publication end date of this agenda.
+	 *
+	 * @return the publication end date of this agenda
+	 */
+	public Date getPublicationEndDate();
+
+	/**
+	 * Sets the publication end date of this agenda.
+	 *
+	 * @param publicationEndDate the publication end date of this agenda
+	 */
+	public void setPublicationEndDate(Date publicationEndDate);
+
+	/**
 	 * Returns the is principal of this agenda.
 	 *
 	 * @return the is principal of this agenda
@@ -517,5 +737,12 @@ public interface AgendaModel extends BaseModel<Agenda>, LocalizedModel {
 	@Override
 	public void prepareLocalizedFieldsForImport(Locale defaultImportLocale)
 		throws LocaleException;
+
+	@Override
+	public Agenda cloneWithOriginalValues();
+
+	public default String toXmlString() {
+		return null;
+	}
 
 }

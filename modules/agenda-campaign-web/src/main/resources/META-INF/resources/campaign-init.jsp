@@ -9,15 +9,18 @@
 <%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
-<%@ taglib uri="http://liferay.com/tld/frontend" prefix="liferay-frontend" %>
+<%@ taglib uri="http://liferay.com/tld/clay" prefix="clay" %>
 
-<%@ taglib uri="http://strasbourg.eu/tld/picker" prefix="strasbourg-picker" %>
 
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %>
 
 <liferay-theme:defineObjects />
 
 <portlet:defineObjects />
+
+<liferay-portlet:actionURL name="getPeriodRow" var="periodRowURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+    <liferay-portlet:param name="mvcPath" value="/includes/period-row.jsp" />
+</liferay-portlet:actionURL>
 
 <jsp:useBean id="vocabularyHelper" class="eu.strasbourg.utils.AssetVocabularyHelper" />
 

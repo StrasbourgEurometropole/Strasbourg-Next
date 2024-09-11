@@ -1,6 +1,7 @@
 package eu.strasbourg.portlet.projectpopup;
 
 import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -65,8 +66,7 @@ public class ProjectPopupPortlet extends MVCPortlet {
         String publikID = getPublikID(request);
         try {
             // Récupération de la configuration du portlet
-            ProjectPopupConfiguration configuration = themeDisplay.getPortletDisplay()
-                    .getPortletInstanceConfiguration(ProjectPopupConfiguration.class);
+            ProjectPopupConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(ProjectPopupConfiguration.class, themeDisplay);
 
             // Récupération du paramètre de tri des commentaires
             String popupTemplateId = configuration.popupTemplateId();
@@ -103,6 +103,10 @@ public class ProjectPopupPortlet extends MVCPortlet {
                 request.setAttribute("quartiers", districts);
                 request.setAttribute("thematics", thematics);
                 request.setAttribute("projects", projects);
+
+                request.setAttribute("dispositifs", assetVocabularyAccessor.getSaisineDispositif(groupId).getCategories());
+                request.setAttribute("aka", assetVocabularyAccessor.getSaisineEnTantQue(groupId).getCategories());
+
 
                 if (entryID != -1)
                     request.setAttribute("entryId", entryID);

@@ -14,7 +14,8 @@
 
 package eu.strasbourg.service.council.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import com.liferay.portal.kernel.util.Validator;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -63,6 +64,13 @@ public class DeliberationImpl extends DeliberationBaseImpl {
 
 	public CouncilSession getCouncilSession() {
 		return CouncilSessionLocalServiceUtil.fetchCouncilSession(this.getCouncilSessionId());
+	}
+
+	public String getOrderAmendement() {
+		String orderAmendement = String.valueOf(this.getOrder());
+		if(Validator.isNotNull(this.getAmendement()))
+			orderAmendement += "." + this.getAmendement();
+		return orderAmendement;
 	}
 
 	public boolean isCree() { return this.getStage().equals(StageDeliberation.get(1).getName());}

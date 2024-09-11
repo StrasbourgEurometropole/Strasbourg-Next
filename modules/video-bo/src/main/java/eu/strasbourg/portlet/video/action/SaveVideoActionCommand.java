@@ -15,6 +15,7 @@
  */
 package eu.strasbourg.portlet.video.action;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -69,12 +70,12 @@ public class SaveVideoActionCommand
 						.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request
 						.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				PortletURL backURL = PortletURLFactoryUtil.create(request,
 						portletName, themeDisplay.getPlid(),
 						PortletRequest.RENDER_PHASE);
-				returnURL.setParameter("tab", request.getParameter("tab"));
-
-				response.setRenderParameter("returnURL", returnURL.toString());
+				backURL.setParameter("tab", request.getParameter("tab"));
+				response.setRenderParameter("backURL", backURL.toString());
+				response.setRenderParameter("cmd", "saveVideo");
 				response.setRenderParameter("mvcPath",
 						"/video-bo-edit-video.jsp");
 				return false;
@@ -129,11 +130,14 @@ public class SaveVideoActionCommand
 			}
 			
 			_videoLocalService.updateVideo(video, sc);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+			_log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 
 	/**

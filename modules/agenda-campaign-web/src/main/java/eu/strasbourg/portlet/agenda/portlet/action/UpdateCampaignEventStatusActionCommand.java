@@ -1,14 +1,5 @@
 package eu.strasbourg.portlet.agenda.portlet.action;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletURL;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
@@ -18,12 +9,19 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
 import eu.strasbourg.service.agenda.model.CampaignEvent;
 import eu.strasbourg.service.agenda.model.CampaignEventStatus;
 import eu.strasbourg.service.agenda.service.CampaignEventLocalService;
 import eu.strasbourg.service.agenda.service.CampaignEventStatusLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 
 @Component(
 	immediate = true,
@@ -47,9 +45,17 @@ public class UpdateCampaignEventStatusActionCommand
 				portletName, themeDisplay.getPlid(),
 				PortletRequest.RENDER_PHASE);
 			renderUrl.setParameter("statusId",
-				ParamUtil.getString(actionRequest, "statusFilterId"));
+					ParamUtil.getString(actionRequest, "statusFilterId"));
 			renderUrl.setParameter("themeId",
-				ParamUtil.getString(actionRequest, "themeId"));
+					ParamUtil.getString(actionRequest, "themeId"));
+			renderUrl.setParameter("campaignId",
+					ParamUtil.getString(actionRequest, "campaignId"));
+			renderUrl.setParameter("typeId",
+					ParamUtil.getString(actionRequest, "typeId"));
+			renderUrl.setParameter("keywords",
+					ParamUtil.getString(actionRequest, "keywords"));
+			renderUrl.setParameter("delta",
+					ParamUtil.getString(actionRequest, "delta"));
 			actionResponse.sendRedirect(renderUrl.toString());
 			return SessionErrors.isEmpty(actionRequest);
 		} catch (PortletException pe) {

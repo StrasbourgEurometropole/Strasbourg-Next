@@ -47,82 +47,74 @@
 		<aui:input name="${name}" type="hidden" value="${value}" />
 	</div>
 </div>
-<aui:script use="liferay-item-selector-dialog">
+<aui:script>
     // JS gérant l'ouverture du popup de selection de l'évènement
-    $('#<portlet:namespace />choose-event-${name}').on('click',
+    $(document).on('click','#<portlet:namespace />choose-event-${name}',
         function(event) {
             var itemPicker = $(event.target).closest(".strasbourg-slider-picker");
-            var itemSelectorDialog = new A.LiferayItemSelectorDialog(
+            Liferay.Util.openSelectionModal(
                 {
-                    eventName: 'itemSelected${name}',
-                    on: {
-                        selectedItemChange: function(event) {
-                            var item = event.newVal;
-                            var items = [];
-                            if (!!item) {
-                                items.push(item);
-                            }
+                    selectEventName: 'itemSelected${name}',
+                    onSelect: function(item) {
+                        var items = [];
+                        if (!!item) {
+                            items.push(item);
+                        }
 
-                            for (var i = 0; i < items.length; i++) {
-                                var selectedItem = items[i];
-                                var htmlToAppend = '<li>'
-                                    + selectedItem.title + '<br>'
-                                    + 'Publi&eacute; le : ' + selectedItem.publicationDate + '<br>'
-                                    + "Fin de l'&eacute;v&egrave;nement le : " + selectedItem.lastEndDate
-                                    +'</li>';
-                                $(itemPicker).find('.detail').empty();
-                                $(itemPicker).find('.detail').append(htmlToAppend);
-                                $(itemPicker).find('.has-error input').val(selectedItem.entityId);
-                                $(itemPicker).find('.label-vignette').html("&Eacute;v&eacute;nement");
-                            }
+                        for (var i = 0; i < items.length; i++) {
+                            var selectedItem = items[i];
+                            var htmlToAppend = '<li>'
+                                + selectedItem.title + '<br>'
+                                + 'Publi&eacute; le : ' + selectedItem.publicationDate + '<br>'
+                                + "Fin de l'&eacute;v&egrave;nement le : " + selectedItem.lastEndDate
+                                +'</li>';
+                            $(itemPicker).find('.detail').empty();
+                            $(itemPicker).find('.detail').append(htmlToAppend);
+                            $(itemPicker).find('.has-error input').val(selectedItem.entityId);
+                            $(itemPicker).find('.label-vignette').html("&Eacute;v&eacute;nement");
                         }
                     },
                     title: 'S&eacute;lectionnez un &eacute;v&egrave;nement',
                     url: '${itemEventSelectorURL}'
                 }
             );
-            itemSelectorDialog.open();
         }
     );
 
     // JS gérant l'ouverture du popup de selection du contenu web
-     $('#<portlet:namespace />choose-article-${name}').on('click',
+    $(document).on('click','#<portlet:namespace />choose-article-${name}',
         function(event) {
             var itemPicker = $(event.target).closest(".strasbourg-slider-picker");
-            var itemSelectorDialog = new A.LiferayItemSelectorDialog(
+            Liferay.Util.openSelectionModal(
                 {
-                    eventName: 'itemSelected${name}',
-                    on: {
-                        selectedItemChange: function(event) {
-                            var item = event.newVal;
-                            var items = [];
-                            if (!!item) {
-                                items.push(item);
-                            }
+                    selectEventName: 'itemSelected${name}',
+                    onSelect: function(item) {
+                        var items = [];
+                        if (!!item) {
+                            items.push(item);
+                        }
 
-                            for (var i = 0; i < items.length; i++) {
-                                var selectedItem = items[i];
-                                var htmlToAppend = '<li>'
-                                    + selectedItem.title + '<br>'
-                                    + 'Publi&eacute; le : ' + selectedItem.createDate + '<br>';
-                                if(selectedItem.expirationDate != "")
-                                    htmlToAppend += 'D&eacute;publi&eacute; le : ' + selectedItem.expirationDate;
-                                htmlToAppend += '</li>';
-                                $(itemPicker).find('.detail').empty();
-                                $(itemPicker).find('.detail').append(htmlToAppend);
-                                $(itemPicker).find('.has-error input').val(selectedItem.entityId);
-                                if(selectedItem.folderId == ${folderWebmagId})
-                                    $(itemPicker).find('.label-vignette').html("Webmag");
-                                else
-                                    $(itemPicker).find('.label-vignette').html("Actu");
-                            }
+                        for (var i = 0; i < items.length; i++) {
+                            var selectedItem = items[i];
+                            var htmlToAppend = '<li>'
+                                + selectedItem.title + '<br>'
+                                + 'Publi&eacute; le : ' + selectedItem.createDate + '<br>';
+                            if(selectedItem.expirationDate != "")
+                                htmlToAppend += 'D&eacute;publi&eacute; le : ' + selectedItem.expirationDate;
+                            htmlToAppend += '</li>';
+                            $(itemPicker).find('.detail').empty();
+                            $(itemPicker).find('.detail').append(htmlToAppend);
+                            $(itemPicker).find('.has-error input').val(selectedItem.entityId);
+                            if(selectedItem.folderId == ${folderWebmagId})
+                                $(itemPicker).find('.label-vignette').html("Webmag");
+                            else
+                                $(itemPicker).find('.label-vignette').html("Actu");
                         }
                     },
                     title: 'S&eacute;lectionnez un article/webmag',
                     url: '${itemArticleSelectorURL}'
                 }
             );
-            itemSelectorDialog.open();
         }
     );
 </aui:script>

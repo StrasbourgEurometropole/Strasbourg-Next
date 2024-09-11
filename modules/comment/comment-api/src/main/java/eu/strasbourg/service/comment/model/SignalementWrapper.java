@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.comment.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +23,11 @@ import java.util.Objects;
  * @generated
  */
 public class SignalementWrapper
+	extends BaseModelWrapper<Signalement>
 	implements ModelWrapper<Signalement>, Signalement {
 
 	public SignalementWrapper(Signalement signalement) {
-		_signalement = signalement;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Signalement.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Signalement.class.getName();
+		super(signalement);
 	}
 
 	@Override
@@ -162,15 +140,8 @@ public class SignalementWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new SignalementWrapper((Signalement)_signalement.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.comment.model.Signalement signalement) {
-
-		return _signalement.compareTo(signalement);
+	public Signalement cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -178,12 +149,12 @@ public class SignalementWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _signalement.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String getCategorieName() {
-		return _signalement.getCategorieName();
+		return model.getCategorieName();
 	}
 
 	/**
@@ -194,7 +165,7 @@ public class SignalementWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategoriesByAssetEntry() {
 
-		return _signalement.getCategoriesByAssetEntry();
+		return model.getCategoriesByAssetEntry();
 	}
 
 	/**
@@ -204,7 +175,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public eu.strasbourg.service.comment.model.Comment getComment() {
-		return _signalement.getComment();
+		return model.getComment();
 	}
 
 	/**
@@ -212,7 +183,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public eu.strasbourg.service.oidc.model.PublikUser getCommentAuthor() {
-		return _signalement.getCommentAuthor();
+		return model.getCommentAuthor();
 	}
 
 	/**
@@ -220,7 +191,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public String getCommentAuthorLabel() {
-		return _signalement.getCommentAuthorLabel();
+		return model.getCommentAuthorLabel();
 	}
 
 	/**
@@ -230,7 +201,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public String getCommentContent() {
-		return _signalement.getCommentContent();
+		return model.getCommentContent();
 	}
 
 	/**
@@ -240,7 +211,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public long getCommentId() {
-		return _signalement.getCommentId();
+		return model.getCommentId();
 	}
 
 	/**
@@ -250,7 +221,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _signalement.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -260,12 +231,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _signalement.getCreateDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _signalement.getExpandoBridge();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -275,7 +241,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _signalement.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -285,7 +251,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _signalement.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -295,12 +261,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _signalement.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _signalement.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -310,7 +271,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public String getPublikId() {
-		return _signalement.getPublikId();
+		return model.getPublikId();
 	}
 
 	/**
@@ -318,7 +279,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public eu.strasbourg.service.oidc.model.PublikUser getSignalementAuthor() {
-		return _signalement.getSignalementAuthor();
+		return model.getSignalementAuthor();
 	}
 
 	/**
@@ -326,7 +287,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public String getSignalementAuthorLabel() {
-		return _signalement.getSignalementAuthorLabel();
+		return model.getSignalementAuthorLabel();
 	}
 
 	/**
@@ -336,7 +297,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public long getSignalementId() {
-		return _signalement.getSignalementId();
+		return model.getSignalementId();
 	}
 
 	/**
@@ -346,7 +307,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _signalement.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -356,7 +317,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _signalement.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -366,7 +327,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _signalement.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -376,7 +337,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _signalement.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -386,7 +347,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _signalement.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -396,7 +357,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _signalement.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -406,7 +367,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _signalement.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -416,7 +377,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _signalement.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -426,12 +387,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _signalement.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _signalement.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -441,12 +397,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _signalement.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _signalement.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -456,7 +407,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _signalement.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -466,12 +417,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _signalement.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _signalement.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -481,7 +427,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _signalement.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -491,7 +437,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _signalement.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -501,12 +447,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _signalement.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _signalement.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -516,7 +457,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _signalement.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -526,17 +467,12 @@ public class SignalementWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _signalement.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_signalement.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_signalement.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -546,7 +482,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public void setCommentId(long commentId) {
-		_signalement.setCommentId(commentId);
+		model.setCommentId(commentId);
 	}
 
 	/**
@@ -556,7 +492,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_signalement.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -566,24 +502,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_signalement.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_signalement.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_signalement.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_signalement.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -593,7 +512,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_signalement.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -603,12 +522,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_signalement.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_signalement.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -618,12 +532,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_signalement.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_signalement.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -633,7 +542,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public void setPublikId(String publikId) {
-		_signalement.setPublikId(publikId);
+		model.setPublikId(publikId);
 	}
 
 	/**
@@ -643,7 +552,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public void setSignalementId(long signalementId) {
-		_signalement.setSignalementId(signalementId);
+		model.setSignalementId(signalementId);
 	}
 
 	/**
@@ -653,7 +562,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_signalement.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -663,7 +572,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_signalement.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -673,7 +582,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_signalement.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -683,7 +592,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_signalement.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -693,7 +602,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_signalement.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -703,7 +612,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_signalement.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -713,7 +622,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_signalement.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -723,7 +632,7 @@ public class SignalementWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_signalement.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -733,80 +642,22 @@ public class SignalementWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_signalement.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.comment.model.Signalement> toCacheModel() {
-
-		return _signalement.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.comment.model.Signalement toEscapedModel() {
-		return new SignalementWrapper(_signalement.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _signalement.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.comment.model.Signalement toUnescapedModel() {
-		return new SignalementWrapper(_signalement.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _signalement.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof SignalementWrapper)) {
-			return false;
-		}
-
-		SignalementWrapper signalementWrapper = (SignalementWrapper)object;
-
-		if (Objects.equals(_signalement, signalementWrapper._signalement)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _signalement.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Signalement getWrappedModel() {
-		return _signalement;
+	protected SignalementWrapper wrap(Signalement signalement) {
+		return new SignalementWrapper(signalement);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _signalement.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _signalement.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_signalement.resetOriginalValues();
-	}
-
-	private final Signalement _signalement;
 
 }

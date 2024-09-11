@@ -1,0 +1,5 @@
+Bundle-SymbolicName: search-asset-v2-web
+Bundle-Version: 1.0.0
+Web-ContextPath: /searchassetv2web
+-fixupmessages "Classes found in the wrong directory"; restrict:=error; is:=warning
+Import-Package: *;resolution:=optional

@@ -1,6 +1,6 @@
 <!-- Modal de message de bannissement -->
 <div class="pro-modal pro-bloc-pcs-form fade" id="modalBanned" tabindex="-1" role="dialog" aria-labelledby="modalBanned">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-banned" role="document">
         <div class="modal-content">
             <div class="pro-modal-top">
                 <h3>Demande impossible</h3>

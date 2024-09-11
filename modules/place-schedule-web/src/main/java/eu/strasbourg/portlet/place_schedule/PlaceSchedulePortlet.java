@@ -6,6 +6,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
@@ -23,11 +24,22 @@ import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
-import javax.portlet.*;
+import javax.portlet.Portlet;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -50,10 +62,13 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 			Locale locale = themeDisplay.getLocale();
 
-			PlaceScheduleConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(PlaceScheduleConfiguration.class);
+			PlaceScheduleConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(PlaceScheduleConfiguration.class, themeDisplay);
 
 			String template = configuration.template();
+
+			// vérifi s'il faut masquer l'affluence
+			Boolean hideAffluence = configuration.hideAffluence();
+			request.setAttribute("showAffluence", !hideAffluence);
 			
 			// récupère le texte de la configuration
 			String text = "";
@@ -95,8 +110,13 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 
 				}
 			}
+			GregorianCalendar lastDay = new GregorianCalendar();
+			lastDay.setTime(jourChoisi.getTime());
+			lastDay.add(Calendar.DAY_OF_MONTH, 4);
 			request.setAttribute("jourChoisi", jourChoisi.getTime());
-			request.setAttribute("jourChoisiFormate", DateHelper.displayShortDate(jourChoisi.getTime(), locale));
+			request.setAttribute("lastDay", lastDay.getTime());
+			request.setAttribute("lastDayFormate", DateHelper.displayLongDate(lastDay.getTime(), locale));
+			request.setAttribute("jourChoisiFormate", DateHelper.displayLongDate(jourChoisi.getTime(), locale));
 			request.setAttribute("selectedDate", jourChoisi.getTime());
 			GregorianCalendar selectedCalendar = new GregorianCalendar();
 			selectedCalendar.setTime(jourChoisi.getTime());
@@ -113,7 +133,8 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			GregorianCalendar next = new GregorianCalendar();
 			previous.setTime(jourSemaine.getTime());
 			next.setTime(jourSemaine.getTime());
-			int lengthOfWeek = configuration.template() != null && configuration.template().equals("strasbourg-table")
+			int lengthOfWeek = configuration.template() != null &&
+					(configuration.template().equals("strasbourg-table") || configuration.template().equals("strasbourg-int-table"))
 					? 5 : 7;
 			previous.add(Calendar.DAY_OF_YEAR, -lengthOfWeek);
 			next.add(Calendar.DAY_OF_YEAR, lengthOfWeek);
@@ -122,11 +143,9 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 
 			// récupère les jours de la semaine voulue
 			List<String[]> week = new ArrayList<String[]>();
-			int delta = configuration.template() != null && configuration.template().equals("strasbourg-table") ? 0
-					: -jourSemaine.get(GregorianCalendar.DAY_OF_WEEK) + 2;
+			int delta = 0;
 			jourSemaine.add(Calendar.DAY_OF_MONTH, delta);
-			List<Date> weekDates = new ArrayList<Date>(); // Liste des jours à
-															// afficher en front
+			List<Date> weekDates = new ArrayList<Date>(); // Liste des jours à afficher en front
 			for (int jour = 0; jour < lengthOfWeek; jour++) {
 				StringBuilder date = new StringBuilder(DateHelper.displayLongDate(jourSemaine.getTime(), locale));
 				date.replace(0, 1, date.substring(0, 1).toUpperCase());
@@ -179,7 +198,9 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 			List<ObjectValuePair<String[], PlaceSchedule>> exceptions = new ArrayList<ObjectValuePair<String[], PlaceSchedule>>();
 			long placeId = ParamUtil.getLong(request, "placeId");
 			// Récupère le lieu choisi
-			if (Validator.isNotNull(placeId)) {
+			// On vérifie le "-1" car c'est ce qui est renvoyé dans le cas où ils choisissent la sélection vide
+			// Pour remettre la recherche à 0
+			if (Validator.isNotNull(placeId) && placeId != -1) {
 				request.setAttribute("placeId", placeId);
 				Place place = PlaceLocalServiceUtil.fetchPlace(placeId);
 				selectedPlaces.add(place);
@@ -189,7 +210,7 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 				if (!placeSchedules.isEmpty()) {
 					for (PlaceSchedule schedule : placeSchedules) {
 						ObjectValuePair<String[], PlaceSchedule> placeName_Exception = new ObjectValuePair<>(
-								new String[] {place.getAlias(locale)}, schedule);
+								new String[]{place.getAlias(locale)}, schedule);
 						exceptions.add(placeName_Exception);
 					}
 				}
@@ -201,7 +222,7 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 					if (!placeSchedules.isEmpty()) {
 						for (PlaceSchedule schedule : placeSchedules) {
 							ObjectValuePair<String[], PlaceSchedule> placeName_Exception = new ObjectValuePair<>(
-									new String[] {place.getAlias(locale), subPlace.getName(locale)}, schedule);
+									new String[]{place.getAlias(locale), subPlace.getName(locale)}, schedule);
 							exceptions.add(placeName_Exception);
 						}
 					}
@@ -225,7 +246,9 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 								themeDisplay.getCompanyGroupId());
 						if (Validator.isNotNull(place) && place.isApproved()) {
 							places.add(place);
-							if (Validator.isNull(placeId)) {
+							// On vérifie le "-1" car c'est ce qui est renvoyé dans le cas où ils choisissent la sélection vide
+							// Pour remettre la recherche à 0
+							if (Validator.isNull(placeId) || placeId == -1) {
 
 								/* FIX Temporaire : Mantis 5899 */
 								if(place.getSIGid().equals("400_SPO_1")) {

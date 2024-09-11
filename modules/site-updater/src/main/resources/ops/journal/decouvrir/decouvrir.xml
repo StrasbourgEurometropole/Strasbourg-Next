@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Découvrir</name>
+        <key>6009567</key>
+        <definition>decouvrir-structure.json</definition>
+        <layout>decouvrir-layout.json</layout>
+    </structure>
+    <template>
+        <name>Découvrir</name>
+        <key>6009729</key>
+        <script>Découvrir.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

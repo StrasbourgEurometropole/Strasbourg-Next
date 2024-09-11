@@ -3,19 +3,17 @@
 <%-- URL : definit le lien menant vers la sauvegarde de l'entite --%>
 <liferay-portlet:actionURL name="saveFormSend" varImpl="saveFormSendURL">
     <portlet:param name="tab" value="viewFormSends" />
-    <portlet:param name="cmd" value="saveFormSend" />
-    <portlet:param name="formInstanceId" value="${formInstanceId}" />
+    <portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
-
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 
     <%-- Composant : formulaire de saisie de l'entite --%>
     <aui:form action="${saveFormSendURL}" method="post" name="fm">
 
         <%-- Propriete : definit l'entite de reference pour le formulaire--%>
-        <aui:fieldset-group markupView="lexicon">
+        <div class="sheet"><div class="panel-group panel-group-flush">
 
             <%-- Champ : (cache) PK de l'entite --%>
             <aui:input name="recordId" type="hidden" value="${dc.record.formInstanceRecordId}"/>
@@ -28,7 +26,7 @@
                 </aui:fieldset>
             </c:forEach>
 
-        </aui:fieldset-group>
+        </div></div>
 
         <%-- Composant : Menu de gestion de l'entite --%>
         <aui:button-row>
@@ -36,7 +34,7 @@
             <aui:button cssClass="btn-lg" type="submit" value="save" />
 
             <%-- Composant : bouton de retour a la liste des entites --%>
-            <aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+            <aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 
         </aui:button-row>
 

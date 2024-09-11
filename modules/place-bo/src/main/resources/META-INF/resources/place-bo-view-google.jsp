@@ -1,37 +1,36 @@
 <%@ include file="/place-bo-init.jsp"%>
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 
 <%-- URL : definit le lien avec les parametres de recherche des entites--%>
 <liferay-portlet:renderURL varImpl="googleURL">
 	<portlet:param name="tab" value="google" />
 	<portlet:param name="orderByCol" value="${dc.orderByCol}" />
 	<portlet:param name="orderByType" value="${dc.orderByType}" />
-	<portlet:param name="filterCategoriesIds" value="${dc.filterCategoriesIds}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="delta" value="${dc.searchContainer.delta}" />
+	<portlet:param name="mvcPath" value="/place-bo-view-google.jsp" />
 </liferay-portlet:renderURL>
 <liferay-ui:error key="synchronise-forbidden" message="synchronise-forbidden" />
 
 <%-- Composant : tableau de visualisation des entites --%>
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
     <h1><liferay-ui:message key="gmb-synchro-title" /></h1>
     <br>
 	<aui:form method="post" name="fm">
-		<aui:input type="hidden" name="selectionIds" />
 		<liferay-ui:search-container id="importHistoricsSearchContainer"
 			searchContainer="${dc.searchContainer}">
 
-			<liferay-ui:search-container-results results="${dc.googleMyBusinessHistorics}" />
-
 			<liferay-ui:search-container-row
 				className="eu.strasbourg.service.place.model.GoogleMyBusinessHistoric" modelVar="googleMyBusinessHistoric"
-				keyProperty="googleMyBusinessHistoricId" rowIdProperty="googleMyBusinessHistoricId">
+				keyProperty="googleMyBusinessHistoricId" >
 
 				<%-- URL : definit le lien vers la page d'edition de l'entite selectionnee --%>
 				<liferay-portlet:renderURL varImpl="editGoogleURL">
 					<portlet:param name="cmd" value="editGoogle" />
 					<portlet:param name="googleMyBusinessHistoricId" value="${googleMyBusinessHistoric.googleMyBusinessHistoricId}" />
-					<portlet:param name="returnURL" value="${googleURL}" />
+					<portlet:param name="backURL" value="${googleURL}" />
 					<portlet:param name="mvcPath" value="/place-bo-edit-google.jsp" />
+					<portlet:param name="tab" value="google" />
 				</liferay-portlet:renderURL>
 
 				<%-- Colonne : Resultat --%>
@@ -61,7 +60,8 @@
 	</aui:form>
 
     <liferay-portlet:actionURL name="startSynchronized" var="startSynchronizedURL">
-        <portlet:param name="tab" value="google" />
+		<portlet:param name="tab" value="google" />
+		<portlet:param name="mvcPath" value="/place-bo-view-google.jsp" />
     </liferay-portlet:actionURL>
 	<form action="${startSynchronizedURL}" method="POST">
    		<aui:button-row>

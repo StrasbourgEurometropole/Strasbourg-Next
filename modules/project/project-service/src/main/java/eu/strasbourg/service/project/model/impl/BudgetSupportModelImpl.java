@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
@@ -17,6 +8,7 @@ package eu.strasbourg.service.project.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -30,27 +22,25 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.project.model.BudgetSupport;
 import eu.strasbourg.service.project.model.BudgetSupportModel;
-import eu.strasbourg.service.project.model.BudgetSupportSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -135,91 +125,60 @@ public class BudgetSupportModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.project.model.BudgetSupport"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.project.model.BudgetSupport"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.project.model.BudgetSupport"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long BUDGETPARTICIPATIFID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLIKUSERID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long CREATEDATE_COLUMN_BITMASK = 32L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static BudgetSupport toModel(BudgetSupportSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		BudgetSupport model = new BudgetSupportImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setBudgetSupportId(soapModel.getBudgetSupportId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setCitoyenLastName(soapModel.getCitoyenLastName());
-		model.setCitoyenFirstname(soapModel.getCitoyenFirstname());
-		model.setCitoyenBirthday(soapModel.getCitoyenBirthday());
-		model.setCitoyenAddress(soapModel.getCitoyenAddress());
-		model.setCitoyenMail(soapModel.getCitoyenMail());
-		model.setCitoyenPostalCode(soapModel.getCitoyenPostalCode());
-		model.setCitoyenMobilePhone(soapModel.getCitoyenMobilePhone());
-		model.setCitoyenPhone(soapModel.getCitoyenPhone());
-		model.setCitoyenCity(soapModel.getCitoyenCity());
-		model.setPublikUserId(soapModel.getPublikUserId());
-		model.setBudgetParticipatifId(soapModel.getBudgetParticipatifId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<BudgetSupport> toModels(BudgetSupportSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<BudgetSupport> models = new ArrayList<BudgetSupport>(
-			soapModels.length);
-
-		for (BudgetSupportSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.project.service.util.PropsUtil.get(
@@ -277,9 +236,6 @@ public class BudgetSupportModelImpl
 				attributeGetterFunction.apply((BudgetSupport)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -304,535 +260,165 @@ public class BudgetSupportModelImpl
 	public Map<String, Function<BudgetSupport, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<BudgetSupport, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, BudgetSupport>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			BudgetSupport.class.getClassLoader(), BudgetSupport.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<BudgetSupport, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<BudgetSupport> constructor =
-				(Constructor<BudgetSupport>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<BudgetSupport, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<BudgetSupport, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", BudgetSupport::getUuid);
+			attributeGetterFunctions.put(
+				"budgetSupportId", BudgetSupport::getBudgetSupportId);
+			attributeGetterFunctions.put("groupId", BudgetSupport::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", BudgetSupport::getCompanyId);
+			attributeGetterFunctions.put(
+				"createDate", BudgetSupport::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", BudgetSupport::getModifiedDate);
+			attributeGetterFunctions.put("status", BudgetSupport::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", BudgetSupport::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", BudgetSupport::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", BudgetSupport::getStatusDate);
+			attributeGetterFunctions.put(
+				"citoyenLastName", BudgetSupport::getCitoyenLastName);
+			attributeGetterFunctions.put(
+				"citoyenFirstname", BudgetSupport::getCitoyenFirstname);
+			attributeGetterFunctions.put(
+				"citoyenBirthday", BudgetSupport::getCitoyenBirthday);
+			attributeGetterFunctions.put(
+				"citoyenAddress", BudgetSupport::getCitoyenAddress);
+			attributeGetterFunctions.put(
+				"citoyenMail", BudgetSupport::getCitoyenMail);
+			attributeGetterFunctions.put(
+				"citoyenPostalCode", BudgetSupport::getCitoyenPostalCode);
+			attributeGetterFunctions.put(
+				"citoyenMobilePhone", BudgetSupport::getCitoyenMobilePhone);
+			attributeGetterFunctions.put(
+				"citoyenPhone", BudgetSupport::getCitoyenPhone);
+			attributeGetterFunctions.put(
+				"citoyenCity", BudgetSupport::getCitoyenCity);
+			attributeGetterFunctions.put(
+				"publikUserId", BudgetSupport::getPublikUserId);
+			attributeGetterFunctions.put(
+				"budgetParticipatifId", BudgetSupport::getBudgetParticipatifId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<BudgetSupport, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<BudgetSupport, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<BudgetSupport, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<BudgetSupport, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<BudgetSupport, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<BudgetSupport, String>)BudgetSupport::setUuid);
+			attributeSetterBiConsumers.put(
+				"budgetSupportId",
+				(BiConsumer<BudgetSupport, Long>)
+					BudgetSupport::setBudgetSupportId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<BudgetSupport, Long>)BudgetSupport::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<BudgetSupport, Long>)BudgetSupport::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<BudgetSupport, Date>)BudgetSupport::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<BudgetSupport, Date>)
+					BudgetSupport::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<BudgetSupport, Integer>)BudgetSupport::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<BudgetSupport, Long>)
+					BudgetSupport::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<BudgetSupport, String>)
+					BudgetSupport::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<BudgetSupport, Date>)BudgetSupport::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"citoyenLastName",
+				(BiConsumer<BudgetSupport, String>)
+					BudgetSupport::setCitoyenLastName);
+			attributeSetterBiConsumers.put(
+				"citoyenFirstname",
+				(BiConsumer<BudgetSupport, String>)
+					BudgetSupport::setCitoyenFirstname);
+			attributeSetterBiConsumers.put(
+				"citoyenBirthday",
+				(BiConsumer<BudgetSupport, Date>)
+					BudgetSupport::setCitoyenBirthday);
+			attributeSetterBiConsumers.put(
+				"citoyenAddress",
+				(BiConsumer<BudgetSupport, String>)
+					BudgetSupport::setCitoyenAddress);
+			attributeSetterBiConsumers.put(
+				"citoyenMail",
+				(BiConsumer<BudgetSupport, String>)
+					BudgetSupport::setCitoyenMail);
+			attributeSetterBiConsumers.put(
+				"citoyenPostalCode",
+				(BiConsumer<BudgetSupport, Long>)
+					BudgetSupport::setCitoyenPostalCode);
+			attributeSetterBiConsumers.put(
+				"citoyenMobilePhone",
+				(BiConsumer<BudgetSupport, String>)
+					BudgetSupport::setCitoyenMobilePhone);
+			attributeSetterBiConsumers.put(
+				"citoyenPhone",
+				(BiConsumer<BudgetSupport, String>)
+					BudgetSupport::setCitoyenPhone);
+			attributeSetterBiConsumers.put(
+				"citoyenCity",
+				(BiConsumer<BudgetSupport, String>)
+					BudgetSupport::setCitoyenCity);
+			attributeSetterBiConsumers.put(
+				"publikUserId",
+				(BiConsumer<BudgetSupport, String>)
+					BudgetSupport::setPublikUserId);
+			attributeSetterBiConsumers.put(
+				"budgetParticipatifId",
+				(BiConsumer<BudgetSupport, Long>)
+					BudgetSupport::setBudgetParticipatifId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<BudgetSupport, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<BudgetSupport, Object>>();
-		Map<String, BiConsumer<BudgetSupport, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<BudgetSupport, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport, Object uuidObject) {
-
-					budgetSupport.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"budgetSupportId",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getBudgetSupportId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"budgetSupportId",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport, Object budgetSupportIdObject) {
-
-					budgetSupport.setBudgetSupportId(
-						(Long)budgetSupportIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport, Object groupIdObject) {
-
-					budgetSupport.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport, Object companyIdObject) {
-
-					budgetSupport.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport, Object createDateObject) {
-
-					budgetSupport.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport, Object modifiedDateObject) {
-
-					budgetSupport.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport, Object statusObject) {
-
-					budgetSupport.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport, Object statusByUserIdObject) {
-
-					budgetSupport.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport,
-					Object statusByUserNameObject) {
-
-					budgetSupport.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport, Object statusDateObject) {
-
-					budgetSupport.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citoyenLastName",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getCitoyenLastName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"citoyenLastName",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport, Object citoyenLastNameObject) {
-
-					budgetSupport.setCitoyenLastName(
-						(String)citoyenLastNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citoyenFirstname",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getCitoyenFirstname();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"citoyenFirstname",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport,
-					Object citoyenFirstnameObject) {
-
-					budgetSupport.setCitoyenFirstname(
-						(String)citoyenFirstnameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citoyenBirthday",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getCitoyenBirthday();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"citoyenBirthday",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport, Object citoyenBirthdayObject) {
-
-					budgetSupport.setCitoyenBirthday(
-						(Date)citoyenBirthdayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citoyenAddress",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getCitoyenAddress();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"citoyenAddress",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport, Object citoyenAddressObject) {
-
-					budgetSupport.setCitoyenAddress(
-						(String)citoyenAddressObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citoyenMail",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getCitoyenMail();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"citoyenMail",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport, Object citoyenMailObject) {
-
-					budgetSupport.setCitoyenMail((String)citoyenMailObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citoyenPostalCode",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getCitoyenPostalCode();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"citoyenPostalCode",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport,
-					Object citoyenPostalCodeObject) {
-
-					budgetSupport.setCitoyenPostalCode(
-						(Long)citoyenPostalCodeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citoyenMobilePhone",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getCitoyenMobilePhone();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"citoyenMobilePhone",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport,
-					Object citoyenMobilePhoneObject) {
-
-					budgetSupport.setCitoyenMobilePhone(
-						(String)citoyenMobilePhoneObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citoyenPhone",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getCitoyenPhone();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"citoyenPhone",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport, Object citoyenPhoneObject) {
-
-					budgetSupport.setCitoyenPhone((String)citoyenPhoneObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"citoyenCity",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getCitoyenCity();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"citoyenCity",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport, Object citoyenCityObject) {
-
-					budgetSupport.setCitoyenCity((String)citoyenCityObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publikUserId",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getPublikUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"publikUserId",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport, Object publikUserIdObject) {
-
-					budgetSupport.setPublikUserId((String)publikUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"budgetParticipatifId",
-			new Function<BudgetSupport, Object>() {
-
-				@Override
-				public Object apply(BudgetSupport budgetSupport) {
-					return budgetSupport.getBudgetParticipatifId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"budgetParticipatifId",
-			new BiConsumer<BudgetSupport, Object>() {
-
-				@Override
-				public void accept(
-					BudgetSupport budgetSupport,
-					Object budgetParticipatifIdObject) {
-
-					budgetSupport.setBudgetParticipatifId(
-						(Long)budgetParticipatifIdObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -848,17 +434,20 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -869,6 +458,10 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setBudgetSupportId(long budgetSupportId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_budgetSupportId = budgetSupportId;
 	}
 
@@ -880,19 +473,20 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -903,19 +497,21 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -926,7 +522,9 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_createDate = createDate;
 	}
@@ -945,6 +543,10 @@ public class BudgetSupportModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -956,6 +558,10 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -967,6 +573,10 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -999,6 +609,10 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1010,6 +624,10 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1026,6 +644,10 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setCitoyenLastName(String citoyenLastName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_citoyenLastName = citoyenLastName;
 	}
 
@@ -1042,6 +664,10 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setCitoyenFirstname(String citoyenFirstname) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_citoyenFirstname = citoyenFirstname;
 	}
 
@@ -1053,6 +679,10 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setCitoyenBirthday(Date citoyenBirthday) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_citoyenBirthday = citoyenBirthday;
 	}
 
@@ -1069,6 +699,10 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setCitoyenAddress(String citoyenAddress) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_citoyenAddress = citoyenAddress;
 	}
 
@@ -1085,6 +719,10 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setCitoyenMail(String citoyenMail) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_citoyenMail = citoyenMail;
 	}
 
@@ -1096,6 +734,10 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setCitoyenPostalCode(long citoyenPostalCode) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_citoyenPostalCode = citoyenPostalCode;
 	}
 
@@ -1112,6 +754,10 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setCitoyenMobilePhone(String citoyenMobilePhone) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_citoyenMobilePhone = citoyenMobilePhone;
 	}
 
@@ -1128,6 +774,10 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setCitoyenPhone(String citoyenPhone) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_citoyenPhone = citoyenPhone;
 	}
 
@@ -1144,6 +794,10 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setCitoyenCity(String citoyenCity) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_citoyenCity = citoyenCity;
 	}
 
@@ -1160,17 +814,20 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_columnBitmask |= PUBLIKUSERID_COLUMN_BITMASK;
-
-		if (_originalPublikUserId == null) {
-			_originalPublikUserId = _publikUserId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publikUserId = publikUserId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPublikUserId() {
-		return GetterUtil.getString(_originalPublikUserId);
+		return getColumnOriginalValue("publikUserId");
 	}
 
 	@JSON
@@ -1181,19 +838,21 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void setBudgetParticipatifId(long budgetParticipatifId) {
-		_columnBitmask |= BUDGETPARTICIPATIFID_COLUMN_BITMASK;
-
-		if (!_setOriginalBudgetParticipatifId) {
-			_setOriginalBudgetParticipatifId = true;
-
-			_originalBudgetParticipatifId = _budgetParticipatifId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_budgetParticipatifId = budgetParticipatifId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalBudgetParticipatifId() {
-		return _originalBudgetParticipatifId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("budgetParticipatifId"));
 	}
 
 	@Override
@@ -1283,6 +942,26 @@ public class BudgetSupportModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1346,6 +1025,55 @@ public class BudgetSupportModelImpl
 	}
 
 	@Override
+	public BudgetSupport cloneWithOriginalValues() {
+		BudgetSupportImpl budgetSupportImpl = new BudgetSupportImpl();
+
+		budgetSupportImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		budgetSupportImpl.setBudgetSupportId(
+			this.<Long>getColumnOriginalValue("budgetSupportId"));
+		budgetSupportImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		budgetSupportImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		budgetSupportImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		budgetSupportImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		budgetSupportImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		budgetSupportImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		budgetSupportImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		budgetSupportImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		budgetSupportImpl.setCitoyenLastName(
+			this.<String>getColumnOriginalValue("citoyenLastName"));
+		budgetSupportImpl.setCitoyenFirstname(
+			this.<String>getColumnOriginalValue("citoyenFirstname"));
+		budgetSupportImpl.setCitoyenBirthday(
+			this.<Date>getColumnOriginalValue("citoyenBirthday"));
+		budgetSupportImpl.setCitoyenAddress(
+			this.<String>getColumnOriginalValue("citoyenAddress"));
+		budgetSupportImpl.setCitoyenMail(
+			this.<String>getColumnOriginalValue("citoyenMail"));
+		budgetSupportImpl.setCitoyenPostalCode(
+			this.<Long>getColumnOriginalValue("citoyenPostalCode"));
+		budgetSupportImpl.setCitoyenMobilePhone(
+			this.<String>getColumnOriginalValue("citoyenMobilePhone"));
+		budgetSupportImpl.setCitoyenPhone(
+			this.<String>getColumnOriginalValue("citoyenPhone"));
+		budgetSupportImpl.setCitoyenCity(
+			this.<String>getColumnOriginalValue("citoyenCity"));
+		budgetSupportImpl.setPublikUserId(
+			this.<String>getColumnOriginalValue("publikUserId"));
+		budgetSupportImpl.setBudgetParticipatifId(
+			this.<Long>getColumnOriginalValue("budgetParticipatifId"));
+
+		return budgetSupportImpl;
+	}
+
+	@Override
 	public int compareTo(BudgetSupport budgetSupport) {
 		int value = 0;
 
@@ -1388,11 +1116,19 @@ public class BudgetSupportModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1400,31 +1136,11 @@ public class BudgetSupportModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		BudgetSupportModelImpl budgetSupportModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		budgetSupportModelImpl._originalUuid = budgetSupportModelImpl._uuid;
+		_setModifiedDate = false;
 
-		budgetSupportModelImpl._originalGroupId =
-			budgetSupportModelImpl._groupId;
-
-		budgetSupportModelImpl._setOriginalGroupId = false;
-
-		budgetSupportModelImpl._originalCompanyId =
-			budgetSupportModelImpl._companyId;
-
-		budgetSupportModelImpl._setOriginalCompanyId = false;
-
-		budgetSupportModelImpl._setModifiedDate = false;
-
-		budgetSupportModelImpl._originalPublikUserId =
-			budgetSupportModelImpl._publikUserId;
-
-		budgetSupportModelImpl._originalBudgetParticipatifId =
-			budgetSupportModelImpl._budgetParticipatifId;
-
-		budgetSupportModelImpl._setOriginalBudgetParticipatifId = false;
-
-		budgetSupportModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1574,7 +1290,7 @@ public class BudgetSupportModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1585,9 +1301,26 @@ public class BudgetSupportModelImpl
 			Function<BudgetSupport, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((BudgetSupport)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((BudgetSupport)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1600,53 +1333,19 @@ public class BudgetSupportModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<BudgetSupport, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<BudgetSupport, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<BudgetSupport, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((BudgetSupport)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, BudgetSupport>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					BudgetSupport.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _budgetSupportId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
@@ -1664,10 +1363,128 @@ public class BudgetSupportModelImpl
 	private String _citoyenPhone;
 	private String _citoyenCity;
 	private String _publikUserId;
-	private String _originalPublikUserId;
 	private long _budgetParticipatifId;
-	private long _originalBudgetParticipatifId;
-	private boolean _setOriginalBudgetParticipatifId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<BudgetSupport, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((BudgetSupport)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("budgetSupportId", _budgetSupportId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("citoyenLastName", _citoyenLastName);
+		_columnOriginalValues.put("citoyenFirstname", _citoyenFirstname);
+		_columnOriginalValues.put("citoyenBirthday", _citoyenBirthday);
+		_columnOriginalValues.put("citoyenAddress", _citoyenAddress);
+		_columnOriginalValues.put("citoyenMail", _citoyenMail);
+		_columnOriginalValues.put("citoyenPostalCode", _citoyenPostalCode);
+		_columnOriginalValues.put("citoyenMobilePhone", _citoyenMobilePhone);
+		_columnOriginalValues.put("citoyenPhone", _citoyenPhone);
+		_columnOriginalValues.put("citoyenCity", _citoyenCity);
+		_columnOriginalValues.put("publikUserId", _publikUserId);
+		_columnOriginalValues.put(
+			"budgetParticipatifId", _budgetParticipatifId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("budgetSupportId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("createDate", 16L);
+
+		columnBitmasks.put("modifiedDate", 32L);
+
+		columnBitmasks.put("status", 64L);
+
+		columnBitmasks.put("statusByUserId", 128L);
+
+		columnBitmasks.put("statusByUserName", 256L);
+
+		columnBitmasks.put("statusDate", 512L);
+
+		columnBitmasks.put("citoyenLastName", 1024L);
+
+		columnBitmasks.put("citoyenFirstname", 2048L);
+
+		columnBitmasks.put("citoyenBirthday", 4096L);
+
+		columnBitmasks.put("citoyenAddress", 8192L);
+
+		columnBitmasks.put("citoyenMail", 16384L);
+
+		columnBitmasks.put("citoyenPostalCode", 32768L);
+
+		columnBitmasks.put("citoyenMobilePhone", 65536L);
+
+		columnBitmasks.put("citoyenPhone", 131072L);
+
+		columnBitmasks.put("citoyenCity", 262144L);
+
+		columnBitmasks.put("publikUserId", 524288L);
+
+		columnBitmasks.put("budgetParticipatifId", 1048576L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private BudgetSupport _escapedModel;
 

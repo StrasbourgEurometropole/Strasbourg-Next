@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.edition.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -245,6 +245,30 @@ public class EditionImpl extends EditionBaseImpl {
 			label += typeCategory.getTitle(locale);
 		}
 		return label;
+	}
+
+	/**
+	 * Retourne les musées de l'édition
+	 */
+	@Override
+	public List<AssetCategory> getMuseums() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.MUSEUM);
+	}
+
+	/**
+	 * Retourne le(s) label(s) du/des musées de l'édition
+	 */
+	@Override
+	public String getMuseumsLabel(Locale locale) {
+		String museums = "";
+		for (AssetCategory editionMuseum : this.getMuseums()) {
+			if (museums.length() > 0) {
+				museums += ", ";
+			}
+			museums += editionMuseum.getTitle(locale);
+		}
+		return museums;
 	}
 
 	/**

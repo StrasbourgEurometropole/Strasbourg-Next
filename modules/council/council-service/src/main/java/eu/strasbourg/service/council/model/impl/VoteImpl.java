@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.council.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 

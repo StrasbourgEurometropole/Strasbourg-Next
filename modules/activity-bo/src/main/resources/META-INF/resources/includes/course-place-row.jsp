@@ -76,8 +76,8 @@
 	</div>
 	
 	<!-- Horaires pour le lieu -->
-	<aui:fieldset-group markupView="lexicon">
-		<aui:fieldset id="schedules-fieldset-${param.index}" collapsed="true" collapsible="true" label="schedules-for-place" cssClass="schedules-fieldset">
+	<div class="sheet"><div class="panel-group panel-group-flush">
+	<aui:fieldset id="schedules-fieldset-${param.index}" collapsed="true" collapsible="true" label="schedules-for-place" cssClass="schedules-fieldset">
 			<button class="btn btn-default add-first-schedule" 
 				<c:if test="${not empty coursePlace.activityCourseSchedules}">
 					style="display:none"
@@ -105,7 +105,7 @@
 			<aui:input type="hidden" name="scheduleCount_${param.index}"
 				value="${not empty coursePlace.activityCourseSchedules ? fn:length(coursePlace.activityCourseSchedules) : 0}" />
 		</aui:fieldset>
-	</aui:fieldset-group>
+	</div></div>
 </div>
 
 <c:if test="${not empty fromAjax}">

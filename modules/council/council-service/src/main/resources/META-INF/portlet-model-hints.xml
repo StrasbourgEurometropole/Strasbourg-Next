@@ -33,6 +33,9 @@
 		<field name="statusByUserId" type="long" />
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
+		<field name="amendement" type="String">
+			<hint name="max-length">3</hint>
+		</field>
 		<field name="title" type="String">
 			<hint name="max-length">500</hint>
 		</field>
@@ -40,6 +43,7 @@
 		<field name="stage" type="String" />
 		<field name="countOfficialsVoting" type="int" />
 		<field name="countOfficialsActive" type="int" />
+		<field name="quorum" type="int" />
 		<field name="beginningVoteDate" type="Date" />
 		<field name="endVoteDate" type="Date" />
 		<field name="councilSessionId" type="long" />

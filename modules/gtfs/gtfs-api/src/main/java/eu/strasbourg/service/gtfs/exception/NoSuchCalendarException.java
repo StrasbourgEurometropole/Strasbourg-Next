@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.gtfs.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Cedric Henry
  */
-@ProviderType
 public class NoSuchCalendarException extends NoSuchModelException {
 
 	public NoSuchCalendarException() {
@@ -30,12 +27,12 @@ public class NoSuchCalendarException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchCalendarException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchCalendarException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchCalendarException(Throwable cause) {
-		super(cause);
+	public NoSuchCalendarException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

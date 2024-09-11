@@ -2,8 +2,8 @@
 
 <link rel="stylesheet" href="/o/sliderune/css/slider-une.css" />
 <script src="/o/sliderune/js/Sortable.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.8/lib/draggable.bundle.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.8/lib/draggable.js"></script>
+<script src="/o/0-global-theme/libs/draggable/1.0.0-beta.8/draggable.bundle.js"></script>
+<script src="/o/0-global-theme/libs/draggable/1.0.0-beta.8/draggable.js"></script>
 
 <liferay-portlet:actionURL portletConfiguration="true"
 	var="configurationActionURL" />
@@ -23,8 +23,7 @@
         <aui:input type="checkbox"
             name="showTags"
             value="${showTags}"
-            label="Afficher les tags"
-            inlineField="true" />
+            label="Afficher les tags" />
 
         <aui:input type="text"
             name="link"

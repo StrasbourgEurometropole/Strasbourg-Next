@@ -1,0 +1,28 @@
+.autocomplete-suggestions {
+  position: absolute;
+  z-index: 1051;
+  left: -100000px;
+  display: block;
+  overflow: auto;
+  box-sizing: border-box;
+  width: 100%;
+  cursor: pointer;
+  border: 1px solid #aaa;
+  border-radius: 0 0 4px 4px;
+  background-color: #20272F;
+  color: #fff;
+}
+
+.autocomplete-suggestion {
+  padding: 6px;
+  @include ft($f_txt, inherit, 400, $c_white);
+}
+
+.autocomplete-suggestion:hover {
+  color: #171C22;
+  background-color: white;
+}
+
+.autocomplete-suggestion strong {
+  font-weight: bold;
+}

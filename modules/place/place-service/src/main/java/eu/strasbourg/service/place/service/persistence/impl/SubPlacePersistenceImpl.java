@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,29 +16,29 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.place.exception.NoSuchSubPlaceException;
 import eu.strasbourg.service.place.model.SubPlace;
+import eu.strasbourg.service.place.model.SubPlaceTable;
 import eu.strasbourg.service.place.model.impl.SubPlaceImpl;
 import eu.strasbourg.service.place.model.impl.SubPlaceModelImpl;
 import eu.strasbourg.service.place.service.persistence.SubPlacePersistence;
+import eu.strasbourg.service.place.service.persistence.SubPlaceUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -246,10 +238,6 @@ public class SubPlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -598,8 +586,6 @@ public class SubPlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -768,10 +754,6 @@ public class SubPlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1095,8 +1077,6 @@ public class SubPlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1115,21 +1095,14 @@ public class SubPlacePersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(SubPlace.class);
+
+		setModelImplClass(SubPlaceImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(SubPlaceTable.INSTANCE);
 	}
 
 	/**
@@ -1140,11 +1113,10 @@ public class SubPlacePersistenceImpl
 	@Override
 	public void cacheResult(SubPlace subPlace) {
 		entityCache.putResult(
-			SubPlaceModelImpl.ENTITY_CACHE_ENABLED, SubPlaceImpl.class,
-			subPlace.getPrimaryKey(), subPlace);
-
-		subPlace.resetOriginalValues();
+			SubPlaceImpl.class, subPlace.getPrimaryKey(), subPlace);
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the sub places in the entity cache if it is enabled.
@@ -1153,15 +1125,18 @@ public class SubPlacePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<SubPlace> subPlaces) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (subPlaces.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (SubPlace subPlace : subPlaces) {
 			if (entityCache.getResult(
-					SubPlaceModelImpl.ENTITY_CACHE_ENABLED, SubPlaceImpl.class,
-					subPlace.getPrimaryKey()) == null) {
+					SubPlaceImpl.class, subPlace.getPrimaryKey()) == null) {
 
 				cacheResult(subPlace);
-			}
-			else {
-				subPlace.resetOriginalValues();
 			}
 		}
 	}
@@ -1177,9 +1152,7 @@ public class SubPlacePersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(SubPlaceImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(SubPlaceImpl.class);
 	}
 
 	/**
@@ -1191,35 +1164,22 @@ public class SubPlacePersistenceImpl
 	 */
 	@Override
 	public void clearCache(SubPlace subPlace) {
-		entityCache.removeResult(
-			SubPlaceModelImpl.ENTITY_CACHE_ENABLED, SubPlaceImpl.class,
-			subPlace.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(SubPlaceImpl.class, subPlace);
 	}
 
 	@Override
 	public void clearCache(List<SubPlace> subPlaces) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (SubPlace subPlace : subPlaces) {
-			entityCache.removeResult(
-				SubPlaceModelImpl.ENTITY_CACHE_ENABLED, SubPlaceImpl.class,
-				subPlace.getPrimaryKey());
+			entityCache.removeResult(SubPlaceImpl.class, subPlace);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(SubPlaceImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				SubPlaceModelImpl.ENTITY_CACHE_ENABLED, SubPlaceImpl.class,
-				primaryKey);
+			entityCache.removeResult(SubPlaceImpl.class, primaryKey);
 		}
 	}
 
@@ -1359,10 +1319,8 @@ public class SubPlacePersistenceImpl
 		try {
 			session = openSession();
 
-			if (subPlace.isNew()) {
+			if (isNew) {
 				session.save(subPlace);
-
-				subPlace.setNew(false);
 			}
 			else {
 				subPlace = (SubPlace)session.merge(subPlace);
@@ -1375,71 +1333,12 @@ public class SubPlacePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!SubPlaceModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {subPlaceModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {subPlaceModelImpl.getPlaceId()};
-
-			finderCache.removeResult(_finderPathCountByPlaceId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPlaceId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((subPlaceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					subPlaceModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {subPlaceModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((subPlaceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPlaceId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					subPlaceModelImpl.getOriginalPlaceId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPlaceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPlaceId, args);
-
-				args = new Object[] {subPlaceModelImpl.getPlaceId()};
-
-				finderCache.removeResult(_finderPathCountByPlaceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPlaceId, args);
-			}
-		}
-
 		entityCache.putResult(
-			SubPlaceModelImpl.ENTITY_CACHE_ENABLED, SubPlaceImpl.class,
-			subPlace.getPrimaryKey(), subPlace, false);
+			SubPlaceImpl.class, subPlaceModelImpl, false, true);
+
+		if (isNew) {
+			subPlace.setNew(false);
+		}
 
 		subPlace.resetOriginalValues();
 
@@ -1488,160 +1387,12 @@ public class SubPlacePersistenceImpl
 	/**
 	 * Returns the sub place with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the sub place
-	 * @return the sub place, or <code>null</code> if a sub place with the primary key could not be found
-	 */
-	@Override
-	public SubPlace fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			SubPlaceModelImpl.ENTITY_CACHE_ENABLED, SubPlaceImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		SubPlace subPlace = (SubPlace)serializable;
-
-		if (subPlace == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				subPlace = (SubPlace)session.get(
-					SubPlaceImpl.class, primaryKey);
-
-				if (subPlace != null) {
-					cacheResult(subPlace);
-				}
-				else {
-					entityCache.putResult(
-						SubPlaceModelImpl.ENTITY_CACHE_ENABLED,
-						SubPlaceImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					SubPlaceModelImpl.ENTITY_CACHE_ENABLED, SubPlaceImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return subPlace;
-	}
-
-	/**
-	 * Returns the sub place with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param subPlaceId the primary key of the sub place
 	 * @return the sub place, or <code>null</code> if a sub place with the primary key could not be found
 	 */
 	@Override
 	public SubPlace fetchByPrimaryKey(long subPlaceId) {
 		return fetchByPrimaryKey((Serializable)subPlaceId);
-	}
-
-	@Override
-	public Map<Serializable, SubPlace> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, SubPlace> map = new HashMap<Serializable, SubPlace>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			SubPlace subPlace = fetchByPrimaryKey(primaryKey);
-
-			if (subPlace != null) {
-				map.put(primaryKey, subPlace);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				SubPlaceModelImpl.ENTITY_CACHE_ENABLED, SubPlaceImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (SubPlace)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_SUBPLACE_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (SubPlace subPlace : (List<SubPlace>)query.list()) {
-				map.put(subPlace.getPrimaryKeyObj(), subPlace);
-
-				cacheResult(subPlace);
-
-				uncachedPrimaryKeys.remove(subPlace.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					SubPlaceModelImpl.ENTITY_CACHE_ENABLED, SubPlaceImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1768,10 +1519,6 @@ public class SubPlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1817,9 +1564,6 @@ public class SubPlacePersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1836,6 +1580,21 @@ public class SubPlacePersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "subPlaceId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_SUBPLACE;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return SubPlaceModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1844,73 +1603,64 @@ public class SubPlacePersistenceImpl
 	 * Initializes the sub place persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			SubPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			SubPlaceModelImpl.FINDER_CACHE_ENABLED, SubPlaceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			SubPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			SubPlaceModelImpl.FINDER_CACHE_ENABLED, SubPlaceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			SubPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			SubPlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			SubPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			SubPlaceModelImpl.FINDER_CACHE_ENABLED, SubPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			SubPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			SubPlaceModelImpl.FINDER_CACHE_ENABLED, SubPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			SubPlaceModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			SubPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			SubPlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathWithPaginationFindByPlaceId = new FinderPath(
-			SubPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			SubPlaceModelImpl.FINDER_CACHE_ENABLED, SubPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPlaceId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"placeId"}, true);
 
 		_finderPathWithoutPaginationFindByPlaceId = new FinderPath(
-			SubPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			SubPlaceModelImpl.FINDER_CACHE_ENABLED, SubPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPlaceId",
-			new String[] {Long.class.getName()},
-			SubPlaceModelImpl.PLACEID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"placeId"},
+			true);
 
 		_finderPathCountByPlaceId = new FinderPath(
-			SubPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			SubPlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPlaceId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"placeId"},
+			false);
+
+		SubPlaceUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		SubPlaceUtil.setPersistence(null);
+
 		entityCache.removeCache(SubPlaceImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1921,9 +1671,6 @@ public class SubPlacePersistenceImpl
 
 	private static final String _SQL_SELECT_SUBPLACE =
 		"SELECT subPlace FROM SubPlace subPlace";
-
-	private static final String _SQL_SELECT_SUBPLACE_WHERE_PKS_IN =
-		"SELECT subPlace FROM SubPlace subPlace WHERE subPlaceId IN (";
 
 	private static final String _SQL_SELECT_SUBPLACE_WHERE =
 		"SELECT subPlace FROM SubPlace subPlace WHERE ";
@@ -1947,5 +1694,10 @@ public class SubPlacePersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

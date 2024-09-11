@@ -1,61 +1,116 @@
 package eu.strasbourg.portlet.help.context;
 
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.language.LanguageUtil;
-import eu.strasbourg.portlet.help.constants.HelpBOConstants;
+import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.help.util.RequestHelpActionDropdownItemsProvider;
 import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
-import javax.portlet.*;
-import java.util.*;
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 
 
-public class ViewHelpRequestsDisplayContext extends ViewListBaseDisplayContext<HelpRequest> {
+public class ViewHelpRequestsDisplayContext extends ViewBaseDisplayContext<HelpRequest> {
 
-    private List<HelpRequest> _helpRequests;
     private HashMap<String, Integer> _studentImagesCount;
 
     public ViewHelpRequestsDisplayContext(RenderRequest request, RenderResponse response) {
-        super(HelpRequest.class, request, response);
+        super(request, response, HelpRequest.class);
+        _request = request;
+        _response = response;
+        _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
     }
 
-    public List<HelpRequest> getHelpRequests() throws PortalException {
-        if (this._helpRequests == null) {
-            Hits hits = getHits(this._themeDisplay.getScopeGroupId());
-            this._helpRequests = createObjectList(hits);
-        }
-        return this._helpRequests;
+    /**
+     * Retourne le dropdownItemsProvider
+     *
+     */
+    @SuppressWarnings("unused")
+    public RequestHelpActionDropdownItemsProvider getActionsHelpRequest(HelpRequest helpRequest) {
+        return new RequestHelpActionDropdownItemsProvider(helpRequest, _request,
+                _response);
     }
 
-    private List<HelpRequest> createObjectList(Hits hits) {
-        // Création de la liste d'objet
-        List<HelpRequest> results = new ArrayList<>();
-        if (hits != null) {
-            for (Document document : hits.getDocs()) {
-                HelpRequest helpRequest = HelpRequestLocalServiceUtil.fetchHelpRequest(
-                        GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-                if (helpRequest != null) {
-                    results.add(helpRequest);
-                }
+    /**
+     * Retourne le searchContainer des help Request
+     *
+     */
+    @Override
+    public SearchContainer<HelpRequest> getSearchContainer() {
+
+        if (_searchContainer == null) {
+
+            PortletURL portletURL;
+            portletURL = PortletURLBuilder.createRenderURL(_response)
+                    .setMVCPath("/help-bo-view-help-requests.jsp")
+                    .setKeywords(ParamUtil.getString(_request, "keywords"))
+                    .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+                    .setParameter("tab","helpRequests")
+                    .setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
+                    .buildPortletURL();
+            _searchContainer = new SearchContainer<>(_request, null, null,
+                    SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
+            _searchContainer.setEmptyResultsMessageCssClass(
+                    "taglib-empty-result-message-header-has-plus-btn");
+            _searchContainer.setOrderByColParam("orderByCol");
+            _searchContainer.setOrderByTypeParam("orderByType");
+            _searchContainer.setOrderByCol(getOrderByCol());
+            _searchContainer.setOrderByType(getOrderByType());
+            Hits hits;
+            try {
+                hits = getHits(this._themeDisplay.getScopeGroupId());
+            } catch (PortalException e) {
+                throw new RuntimeException(e);
             }
+            _searchContainer.setResultsAndTotal(
+                    () -> {
+                        // Création de la liste d'objet
+                        List<HelpRequest> results = new ArrayList<>();
+                        if (hits != null) {
+                            for (Document document : hits.getDocs()) {
+                                HelpRequest helpRequest = HelpRequestLocalServiceUtil.fetchHelpRequest(
+                                        GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+                                if (helpRequest != null) {
+                                    results.add(helpRequest);
+                                }
+                            }
+                        }
+
+                        return results;
+                    }, hits.getLength()
+            );
         }
-        return results;
+        _searchContainer.setRowChecker(
+                new EmptyOnClickRowChecker(_response));
+
+        return _searchContainer;
     }
 
+    @SuppressWarnings("unused")
     public String getCurrentURL() {
         return PortalUtil.getCurrentURL(this._request);
     }
 
-    public String getPublikUserEditURL(String publikUserId) throws WindowStateException, PortletModeException {
+    /*public String getPublikUserEditURL(String publikUserId) throws WindowStateException, PortletModeException {
         PortletURL myPortletURL = PortletURLFactoryUtil.create(this._request, StrasbourgPortletKeys.OIDC_BO,
                 this._themeDisplay.getLayout().getPlid(), PortletRequest.RENDER_PHASE);
         myPortletURL.setWindowState(WindowState.MAXIMIZED);
@@ -67,7 +122,8 @@ public class ViewHelpRequestsDisplayContext extends ViewListBaseDisplayContext<H
         myPortletURL.setParameter(HelpBOConstants.PARAM_MVC_PATH, HelpBOConstants.URL_OIDC_EDIT_USER);
 
         return myPortletURL.toString();
-    }
+    }*/
+
 
     @Override
     public String getOrderByColSearchField() {
@@ -88,6 +144,7 @@ public class ViewHelpRequestsDisplayContext extends ViewListBaseDisplayContext<H
         }
     }
 
+    @SuppressWarnings("unused")
     public String getImagesCount(String publikId) {
         if (_studentImagesCount == null) {
             _studentImagesCount = new HashMap<>();
@@ -121,22 +178,11 @@ public class ViewHelpRequestsDisplayContext extends ViewListBaseDisplayContext<H
             }
         }
         return LanguageUtil.get(Locale.FRANCE,
-            "eu.help.delete.student.card.images") +" ("+_studentImagesCount.get(publikId)+")"; }
-
-    /**
-     * Wrapper autour du permission checker pour les permissions de module
-     */
-    public boolean hasPermission(String actionId) throws PortalException {
-        return _themeDisplay.getPermissionChecker().hasPermission(
-                this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.HELP_BO, StrasbourgPortletKeys.HELP_BO,
-                actionId);
+            "eu.help.delete.student.card.images") +" ("+_studentImagesCount.get(publikId)+")";
     }
 
-    public boolean hasPermissionOIDC(String actionId) throws PortalException {
-        return _themeDisplay.getPermissionChecker().hasPermission(
-                this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.OIDC_BO, StrasbourgPortletKeys.OIDC_BO,
-                actionId);
-    }
+    protected SearchContainer<HelpRequest> _searchContainer;
+    private final RenderRequest _request;
+    private final RenderResponse _response;
+    protected ThemeDisplay _themeDisplay;
 }

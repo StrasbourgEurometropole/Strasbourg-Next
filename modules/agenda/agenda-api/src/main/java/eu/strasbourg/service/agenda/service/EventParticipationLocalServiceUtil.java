@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.agenda.model.EventParticipation;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for EventParticipation. This utility wraps
@@ -48,10 +47,8 @@ public class EventParticipationLocalServiceUtil {
 	 * @param eventParticipation the event participation
 	 * @return the event participation that was added
 	 */
-	public static eu.strasbourg.service.agenda.model.EventParticipation
-		addEventParticipation(
-			eu.strasbourg.service.agenda.model.EventParticipation
-				eventParticipation) {
+	public static EventParticipation addEventParticipation(
+		EventParticipation eventParticipation) {
 
 		return getService().addEventParticipation(eventParticipation);
 	}
@@ -59,9 +56,7 @@ public class EventParticipationLocalServiceUtil {
 	/**
 	 * Cree une nouvelle participation a un evenement
 	 */
-	public static eu.strasbourg.service.agenda.model.EventParticipation
-		createEventParticipation() {
-
+	public static EventParticipation createEventParticipation() {
 		return getService().createEventParticipation();
 	}
 
@@ -71,10 +66,20 @@ public class EventParticipationLocalServiceUtil {
 	 * @param eventParticipationId the primary key for the new event participation
 	 * @return the new event participation
 	 */
-	public static eu.strasbourg.service.agenda.model.EventParticipation
-		createEventParticipation(long eventParticipationId) {
+	public static EventParticipation createEventParticipation(
+		long eventParticipationId) {
 
 		return getService().createEventParticipation(eventParticipationId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -87,10 +92,8 @@ public class EventParticipationLocalServiceUtil {
 	 * @param eventParticipation the event participation
 	 * @return the event participation that was removed
 	 */
-	public static eu.strasbourg.service.agenda.model.EventParticipation
-		deleteEventParticipation(
-			eu.strasbourg.service.agenda.model.EventParticipation
-				eventParticipation) {
+	public static EventParticipation deleteEventParticipation(
+		EventParticipation eventParticipation) {
 
 		return getService().deleteEventParticipation(eventParticipation);
 	}
@@ -106,9 +109,9 @@ public class EventParticipationLocalServiceUtil {
 	 * @return the event participation that was removed
 	 * @throws PortalException if a event participation with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.EventParticipation
-			deleteEventParticipation(long eventParticipationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static EventParticipation deleteEventParticipation(
+			long eventParticipationId)
+		throws PortalException {
 
 		return getService().deleteEventParticipation(eventParticipationId);
 	}
@@ -116,17 +119,22 @@ public class EventParticipationLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -136,9 +144,7 @@ public class EventParticipationLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -154,9 +160,8 @@ public class EventParticipationLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -174,10 +179,9 @@ public class EventParticipationLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -189,9 +193,7 @@ public class EventParticipationLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -203,14 +205,14 @@ public class EventParticipationLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.agenda.model.EventParticipation
-		fetchEventParticipation(long eventParticipationId) {
+	public static EventParticipation fetchEventParticipation(
+		long eventParticipationId) {
 
 		return getService().fetchEventParticipation(eventParticipationId);
 	}
@@ -224,19 +226,15 @@ public class EventParticipationLocalServiceUtil {
 	/**
 	 * Retourne la liste des likes/dislikes d'un evenement
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.EventParticipation> getByEventId(
-			long eventId) {
-
+	public static List<EventParticipation> getByEventId(long eventId) {
 		return getService().getByEventId(eventId);
 	}
 
 	/**
 	 * Retourne la liste des likes/dislikes d'un utilisateur
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.EventParticipation> getByPublikUser(
-			String publikUserId) {
+	public static List<EventParticipation> getByPublikUser(
+		String publikUserId) {
 
 		return getService().getByPublikUser(publikUserId);
 	}
@@ -244,8 +242,8 @@ public class EventParticipationLocalServiceUtil {
 	/**
 	 * Retourne la participation à l'événement d'un utilisateur et d'un événement donné
 	 */
-	public static eu.strasbourg.service.agenda.model.EventParticipation
-		getByPublikUserIdAndEventId(String publikUserId, long eventId) {
+	public static EventParticipation getByPublikUserIdAndEventId(
+		String publikUserId, long eventId) {
 
 		return getService().getByPublikUserIdAndEventId(publikUserId, eventId);
 	}
@@ -257,9 +255,9 @@ public class EventParticipationLocalServiceUtil {
 	 * @return the event participation
 	 * @throws PortalException if a event participation with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.EventParticipation
-			getEventParticipation(long eventParticipationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static EventParticipation getEventParticipation(
+			long eventParticipationId)
+		throws PortalException {
 
 		return getService().getEventParticipation(eventParticipationId);
 	}
@@ -275,9 +273,8 @@ public class EventParticipationLocalServiceUtil {
 	 * @param end the upper bound of the range of event participations (not inclusive)
 	 * @return the range of event participations
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.EventParticipation>
-			getEventParticipations(int start, int end) {
+	public static List<EventParticipation> getEventParticipations(
+		int start, int end) {
 
 		return getService().getEventParticipations(start, end);
 	}
@@ -310,9 +307,8 @@ public class EventParticipationLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -327,38 +323,20 @@ public class EventParticipationLocalServiceUtil {
 	 * @param eventParticipation the event participation
 	 * @return the event participation that was updated
 	 */
-	public static eu.strasbourg.service.agenda.model.EventParticipation
-		updateEventParticipation(
-			eu.strasbourg.service.agenda.model.EventParticipation
-				eventParticipation) {
+	public static EventParticipation updateEventParticipation(
+		EventParticipation eventParticipation) {
 
 		return getService().updateEventParticipation(eventParticipation);
 	}
 
 	public static EventParticipationLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<EventParticipationLocalService, EventParticipationLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			EventParticipationLocalService.class);
-
-		ServiceTracker
-			<EventParticipationLocalService, EventParticipationLocalService>
-				serviceTracker =
-					new ServiceTracker
-						<EventParticipationLocalService,
-						 EventParticipationLocalService>(
-							 bundle.getBundleContext(),
-							 EventParticipationLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(EventParticipationLocalService service) {
+		_service = service;
 	}
+
+	private static volatile EventParticipationLocalService _service;
 
 }

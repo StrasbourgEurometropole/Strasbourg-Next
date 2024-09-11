@@ -6,6 +6,7 @@ var markersCluster = null;
 var projects = null;
 var participations = null;
 var petitions = null;
+var saisines = null;
 var budgets = null;
 var initiatives = null;
 var events = null;
@@ -14,34 +15,27 @@ var events = null;
 var projectMarkers = [];
 var participationMarkers = [];
 var petitionMarkers = [];
+var saisineMarkers = [];
 var budgetMarkers = [];
 var initiativeMarkers = [];
 var eventMarkers = [];
-
-// Listes de éléments sélectionées
-var selectedProjectIds = [];
-var selectedParticipationIds = [];
-var selectedPetitionIds = [];
-var selectedBudgetIds = [];
-var selectedInitiativeIds = [];
-var selectedEventIds = [];
 
 var entityType = {
 		PROJECT : 'project',
 		PARTICIPATION : 'participation',
 		PETITION : 'petition',
+		SAISINE : 'saisine',
 		BUDGET : 'budget',
 		INITIATIVE : 'initiative',
 		EVENT : 'event'
 }
 
 /**
- * Supprime l'affichage des éléments
+ * Suppression des éléments du filtre
  */
 function removeFilterElements() {
 	
 	for (var key in entityType) {
-		updateMarkerElements();
 		$("input[id^='" + entityType[key] + "_']").each(function() {
 			$(this).parent().remove();
 		});
@@ -50,92 +44,18 @@ function removeFilterElements() {
 }
 
 /**
- * Supprime l'affichage des marqueurs selon le nom de l'entité demandée
- */
-function removeMarkerElements(entityName) {
-    
-	switch (entityName) {
-		case entityType.PROJECT:
-			if (projectMarkers != null) {
-				projectMarkers.forEach(function(projectMarker) {
-					markersCluster.removeLayer(projectMarker);
-				});
-				projectMarkers = [];
-			}
-			break;
-			
-		case entityType.PARTICIPATION:
-			if (participationMarkers != null) {
-				participationMarkers.forEach(function(participationMarker) {
-					markersCluster.removeLayer(participationMarker);
-				});
-				participationMarkers = [];
-			}
-			break;
-		
-		case entityType.PETITION:
-			if (petitionMarkers != null) {
-				petitionMarkers.forEach(function(petitionMarker) {
-					markersCluster.removeLayer(petitionMarker);
-				});
-				petitionMarkers = [];
-			}
-			break;
-			
-		case entityType.BUDGET:
-			if (budgetMarkers != null) {
-				budgetMarkers.forEach(function(budgetMarker) {
-					markersCluster.removeLayer(budgetMarker);
-				});
-				budgetMarkers = [];
-			}
-			break;
-			
-		case entityType.INITIATIVE:
-			if (initiativeMarkers != null) {
-				initiativeMarkers.forEach(function(initiativeMarker) {
-					markersCluster.removeLayer(initiativeMarker);
-				});
-				initiativeMarkers = [];
-			}
-			break;
-			
-		case entityType.EVENT:
-			if (eventMarkers != null) {
-				eventMarkers.forEach(function(eventMarker) {
-					markersCluster.removeLayer(eventMarker);
-				});
-				eventMarkers = [];
-			}
-		    break;
-	}
-}
-
-/**
- * Mise à jour de la liste des filtres
+ * (Re)création des éléments du filtre
  */ 
-function updateFilterElements(onReady) {
+function updateFilterElements() {
 	
-	// Suppression des anciens filtres
+	// Suppression des éléments du filtre
     removeFilterElements();
     
-    // Initialisation de la nouvelle sauvegarde des éléments séléctionnés
-    var refreshedSelectedProjectIds = [];
-    var refreshedSelectedParticipationIds = [];
-    var refreshedSelectedPetitionIds = [];
-    var refreshedSelectedBudgetIds = [];
-    var refreshedSelectedInitiativeIds = [];
-    var refreshedSelectedEventIds = [];
-    
-    var checker;
-	
+    var checker =  "checked";
+
+	// (re)création des éléments du filtre, filtrés sur le quartier choisi ou non
 	if (projects != null) {
 		projects.forEach(function(project, index) {
-			checker =  "";
-			if (onReady || selectedProjectIds.indexOf(project.id) > -1) {
-				$("input[id='project_" + index + "']").prop('checked', true);
-				checker = "checked";
-			}
 			$("fieldset[id='projects_fieldset']").append(
 				"<div>" + 
                     "<input type='checkbox' id='project_" + project.id + "' class='hide-checkbox' value='" + project.id + "' " + checker + ">" +
@@ -147,11 +67,6 @@ function updateFilterElements(onReady) {
 
 	if (participations != null) {
 		participations.forEach(function(participation, index) {
-			checker =  "";
-			if (onReady || selectedParticipationIds.indexOf(participation.id) > -1) {
-				refreshedSelectedParticipationIds.push(participation.id);
-				checker = "checked";
-			}
 			$("fieldset[id='participations_fieldset']").append(
 				"<div>" + 
                     "<input type='checkbox' id='participation_" + participation.id + "' class='hide-checkbox' value='" + participation.id + "' " + checker + ">" +
@@ -163,11 +78,6 @@ function updateFilterElements(onReady) {
 
 	if (petitions != null) {
 		petitions.forEach(function(petition, index) {
-			checker =  "";
-			if (onReady || selectedPetitionIds.indexOf(petition.id) > -1) {
-				refreshedSelectedPetitionIds.push(petition.id);
-				checker = "checked";
-			}
 			$("fieldset[id='petitions_fieldset']").append(
 				"<div>" + 
 	                "<input type='checkbox' id='petition_" + petition.id + "' class='hide-checkbox' value='" + petition.id + "' " + checker + ">" +
@@ -176,14 +86,20 @@ function updateFilterElements(onReady) {
 			);
 		});
 	}
+
+	if (saisines != null) {
+		saisines.forEach(function(saisine, index) {
+			$("fieldset[id='saisines_fieldset']").append(
+				"<div>" +
+				"<input type='checkbox' id='saisine_" + saisine.id + "' class='hide-checkbox' value='" + saisine.id + "' " + checker + ">" +
+				"<label for='saisine_" + saisine.id + "'>" + saisine.title + "</label>" +
+				"</div>"
+			);
+		});
+	}
 	
 	if (budgets != null) {
 		budgets.forEach(function(budget, index) {
-			checker =  "";
-			if (onReady || selectedBudgetIds.indexOf(budget.id) > -1) {
-				refreshedSelectedBudgetIds.push(budget.id);
-				checker = "checked";
-			}
 			$("fieldset[id='budgets_fieldset']").append(
 				"<div>" + 
 					"<input type='checkbox' id='budget_" + budget.id +
@@ -196,11 +112,6 @@ function updateFilterElements(onReady) {
 	
 	if (initiatives != null) {
 		initiatives.forEach(function(initiative, index) {
-			checker =  "";
-			if (onReady || selectedInitiativeIds.indexOf(initiative.id) > -1) {
-				refreshedSelectedInitiativeIds.push(initiative.id);
-				checker = "checked";
-			}
 			$("fieldset[id='initiatives_fieldset']").append(
 					"<div>" + 
 						"<input type='checkbox' id='initiative_" + initiative.id +
@@ -213,11 +124,6 @@ function updateFilterElements(onReady) {
 
 	if (events != null) {
 		events.forEach(function(event, index) {
-			checker =  "";
-			if (onReady || selectedEventIds.indexOf(event.id) > -1) {
-				refreshedSelectedEventIds.push(event.id);
-				checker = "checked";
-			}
 			$("fieldset[id='events_fieldset']").append(
 				"<div>" + 
                     "<input type='checkbox' id='event_" + event.id + "' class='hide-checkbox' value='" + event.id + "' " + checker + ">" +
@@ -226,23 +132,87 @@ function updateFilterElements(onReady) {
 			);
 		});
 	}
-	
-	// Mise à jour de la sauvegarde des éléments sélectionnés
-	selectedProjectIds = refreshedSelectedProjectIds;
-	selectedParticipationIds = refreshedSelectedParticipationIds;
-	selectedPetitionIds = refreshedSelectedPetitionIds;
-	selectedBudgetIds = refreshedSelectedBudgetIds;
-	selectedInitiativeIds = refreshedSelectedInitiativeIds;
-	selectedEventIds = refreshedSelectedEventIds;
 
 }
 
 /**
- * Mise à jour de la liste des filtres
- * @param entityName Nom de l'entité à partir duquel mettre à jour
+ * Suppression des marqueurs selon le nom de l'entité demandée (projets, participations...)
+ */
+function removeMarkerElements(entityName) {
+
+	switch (entityName) {
+		case entityType.PROJECT:
+			if (projectMarkers != null) {
+				projectMarkers.forEach(function(projectMarker) {
+					markersCluster.removeLayer(projectMarker);
+				});
+				projectMarkers = [];
+			}
+			break;
+
+		case entityType.PARTICIPATION:
+			if (participationMarkers != null) {
+				participationMarkers.forEach(function(participationMarker) {
+					markersCluster.removeLayer(participationMarker);
+				});
+				participationMarkers = [];
+			}
+			break;
+
+		case entityType.PETITION:
+			if (petitionMarkers != null) {
+				petitionMarkers.forEach(function(petitionMarker) {
+					markersCluster.removeLayer(petitionMarker);
+				});
+				petitionMarkers = [];
+			}
+			break;
+
+		case entityType.SAISINE:
+			if (saisineMarkers != null) {
+				saisineMarkers.forEach(function(saisineMarker) {
+					markersCluster.removeLayer(saisineMarker);
+				})
+				saisineMarkers = [];
+			}
+			break;
+
+		case entityType.BUDGET:
+			if (budgetMarkers != null) {
+				budgetMarkers.forEach(function(budgetMarker) {
+					markersCluster.removeLayer(budgetMarker);
+				});
+				budgetMarkers = [];
+			}
+			break;
+
+		case entityType.INITIATIVE:
+			if (initiativeMarkers != null) {
+				initiativeMarkers.forEach(function(initiativeMarker) {
+					markersCluster.removeLayer(initiativeMarker);
+				});
+				initiativeMarkers = [];
+			}
+			break;
+
+		case entityType.EVENT:
+			if (eventMarkers != null) {
+				eventMarkers.forEach(function(eventMarker) {
+					markersCluster.removeLayer(eventMarker);
+				});
+				eventMarkers = [];
+			}
+			break;
+	}
+}
+
+/**
+ * Mise à jour des markers
+ * @param entityName Nom de l'entité à partir duquel mettre à jour(projets, participations...)
  */
 function updateMarkerElements(entityName) {
-    
+
+	// Suppression des markers
 	removeMarkerElements(entityName);
 	
 	switch (entityName) {
@@ -300,6 +270,23 @@ function updateMarkerElements(entityName) {
 						});
 					}
 				});
+			}
+			break;
+
+		case entityType.SAISINE:
+			// Même processus que l'entité Pétition
+			if (saisines != null) {
+				saisines.forEach(function(saisine, index) {
+					if (checkPrintatorState(entityType.SAISINE) && checkMarkerState(entityType.SAISINE, saisine.id)) {
+						saisine.placitPlaces.forEach(function(placitPlace) {
+							if (placitPlace.mercatorY != 0 && placitPlace.mercatorX != 0) {
+								var marker = getSaisineMarker(saisine, [placitPlace.mercatorY, placitPlace.mercatorX]);
+								markersCluster.addLayer(marker);
+								petitionMarkers.push(marker);
+							}
+						})
+					}
+				})
 			}
 			break;
 			
@@ -364,46 +351,13 @@ function checkPrintatorState(entityName) {
 }
 
 /**
- * Renvoi la liste des IDs des entités demandées
+ * Vérification de l'état de la checkbox d'affichage d'un élément d'une entité
  * @param 	entityName : Nom de l'entité à sonder
  * 			entityId : PK de l'élément à sonder
  * @returns Booléen
  */
 function checkMarkerState(entityName, entityId) {
 	return $("input[id^='" + entityName + "_" + entityId + "']").is(':checked');
-}
-
-/**
- * Sauvegarde les éléments sélectionnés 
- */
-function saveSelectedFilters() {
-	
-	selectedProjectIds = [];
-	selectedParticipationIds = [];
-	selectedPetitionIds = [];
-	selectedBudgetIds = [];
-	selectedInitiativeIds = [];
-	selectedEventIds = [];
-	
-	$("input[id^='project_']:checked").each(function() {
-		selectedProjectIds.push(this.value);
-	});
-	$("input[id^='participation_']:checked").each(function() {
-		selectedParticipationIds.push(this.value);
-	});
-	$("input[id^='petition_']:checked").each(function() {
-		selectedPetitionIds.push(this.value);
-	});
-	$("input[id^='budget_']:checked").each(function() {
-		selectedBudgetIds.push(this.value);
-	});
-	$("input[id^='initiative_']:checked").each(function() {
-		selectedInitiativeIds.push(this.value);
-	});
-	$("input[id^='event_']:checked").each(function() {
-		selectedEventIds.push(this.value);
-	});
-
 }
 
 $(document).ready(function() {
@@ -416,14 +370,14 @@ $(document).ready(function() {
     $('.leaflet-control-fullscreen-button').hide();
     
     // Requête d'affichage de l'ensemble des filtres et marqueurs
-    refreshEntitiesSelectionByDistrict(-1, true);
+    refreshEntitiesSelectionByDistrict(-1);
 });
 
 /**
- * Mettre à jour l'ensemble des éléménts (entités, filtres, marqueurs) selon le quartier choisi
+ * Mise à jour de la carto (éléments du filtre, marqueurs) selon le quartier choisi
  * @param districtId Identifiant de la catégorie du teritoire demandé en filtre
  */
-function refreshEntitiesSelectionByDistrict(districtId, onReady = false) {
+function refreshEntitiesSelectionByDistrict(districtId) {
 	AUI().use('aui-io-request', function(A) {
 		A.io.request(changeDistrictSelectionURL, {
 			method : 'post',
@@ -433,17 +387,17 @@ function refreshEntitiesSelectionByDistrict(districtId, onReady = false) {
 			},
 			on: {
                 success: function(e) {
-                	saveSelectedFilters();
                 	
                 	var data = this.get('responseData');
                 	projects = data.projects;
                 	participations = data.participations;
                 	petitions = data.petitions;
+					saisines = data.saisines;
                 	budgets = data.budgets;
                 	initiatives = data.initiatives;
                 	events = data.events;
                 	
-                	updateFilterElements(onReady);
+                	updateFilterElements();
                 	
                 	for (var key in entityType) {
                 		updateMarkerElements(entityType[key]);
@@ -460,11 +414,11 @@ function refreshEntitiesSelectionByDistrict(districtId, onReady = false) {
 $('#district').change(function() {
 	var selectedDistrictId = this.value;
 	
-	refreshEntitiesSelectionByDistrict(selectedDistrictId, false);
+	refreshEntitiesSelectionByDistrict(selectedDistrictId);
 });
 
 /**
- * Lors d'un acordeonage ou desacordeaonage d'une liste
+ * Lors d'un accordeonage ou desaccordeaonage d'une liste
  */
 $("input[id$='_printator_mk1']").change(function() {
 	var selectedEntity = this.value;
@@ -477,7 +431,8 @@ $("input[id$='_printator_mk1']").change(function() {
  */
 $(".pro-remove-chk").click(function() {
 	var selectedEntity = $(this).parent().siblings("input[id$='_printator_mk1']").val();
-	
+
+	// supprime les markers de l'entité
 	removeMarkerElements(selectedEntity);
 });
 
@@ -486,6 +441,8 @@ $(".pro-remove-chk").click(function() {
  */
 $(document).on('change', "fieldset[id$='_fieldset'] > div > input", function(){
 	var selectedEntity = this.id.substring(0, this.id.indexOf("_"));
-	
+	var selectedId = this.id.substring(this.id.indexOf("_")+1);
+
+	// met à jour les markers de l'entité
 	updateMarkerElements(selectedEntity);
 });

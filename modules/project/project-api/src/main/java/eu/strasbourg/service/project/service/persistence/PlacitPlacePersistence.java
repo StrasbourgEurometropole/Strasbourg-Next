@@ -1,30 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service.persistence;
-
-import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.service.persistence.BasePersistence;
 
 import eu.strasbourg.service.project.exception.NoSuchPlacitPlaceException;
 import eu.strasbourg.service.project.model.PlacitPlace;
 
-import java.io.Serializable;
-
-import java.util.Map;
-import java.util.Set;
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The persistence interface for the placit place service.
@@ -45,9 +31,6 @@ public interface PlacitPlacePersistence extends BasePersistence<PlacitPlace> {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link PlacitPlaceUtil} to access the placit place persistence. Modify <code>service.xml</code> and rerun ServiceBuilder to regenerate this interface.
 	 */
-	@Override
-	public Map<Serializable, PlacitPlace> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys);
 
 	/**
 	 * Returns all the placit places where uuid = &#63;.
@@ -971,6 +954,150 @@ public interface PlacitPlacePersistence extends BasePersistence<PlacitPlace> {
 	public int countByPetition(long petitionId);
 
 	/**
+	 * Returns all the placit places where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @return the matching placit places
+	 */
+	public java.util.List<PlacitPlace> findBySaisineObservatoire(
+		long saisineObservatoireId);
+
+	/**
+	 * Returns a range of all the placit places where saisineObservatoireId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PlacitPlaceModelImpl</code>.
+	 * </p>
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param start the lower bound of the range of placit places
+	 * @param end the upper bound of the range of placit places (not inclusive)
+	 * @return the range of matching placit places
+	 */
+	public java.util.List<PlacitPlace> findBySaisineObservatoire(
+		long saisineObservatoireId, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the placit places where saisineObservatoireId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PlacitPlaceModelImpl</code>.
+	 * </p>
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param start the lower bound of the range of placit places
+	 * @param end the upper bound of the range of placit places (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching placit places
+	 */
+	public java.util.List<PlacitPlace> findBySaisineObservatoire(
+		long saisineObservatoireId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<PlacitPlace>
+			orderByComparator);
+
+	/**
+	 * Returns an ordered range of all the placit places where saisineObservatoireId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PlacitPlaceModelImpl</code>.
+	 * </p>
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param start the lower bound of the range of placit places
+	 * @param end the upper bound of the range of placit places (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching placit places
+	 */
+	public java.util.List<PlacitPlace> findBySaisineObservatoire(
+		long saisineObservatoireId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<PlacitPlace>
+			orderByComparator,
+		boolean useFinderCache);
+
+	/**
+	 * Returns the first placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching placit place
+	 * @throws NoSuchPlacitPlaceException if a matching placit place could not be found
+	 */
+	public PlacitPlace findBySaisineObservatoire_First(
+			long saisineObservatoireId,
+			com.liferay.portal.kernel.util.OrderByComparator<PlacitPlace>
+				orderByComparator)
+		throws NoSuchPlacitPlaceException;
+
+	/**
+	 * Returns the first placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching placit place, or <code>null</code> if a matching placit place could not be found
+	 */
+	public PlacitPlace fetchBySaisineObservatoire_First(
+		long saisineObservatoireId,
+		com.liferay.portal.kernel.util.OrderByComparator<PlacitPlace>
+			orderByComparator);
+
+	/**
+	 * Returns the last placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching placit place
+	 * @throws NoSuchPlacitPlaceException if a matching placit place could not be found
+	 */
+	public PlacitPlace findBySaisineObservatoire_Last(
+			long saisineObservatoireId,
+			com.liferay.portal.kernel.util.OrderByComparator<PlacitPlace>
+				orderByComparator)
+		throws NoSuchPlacitPlaceException;
+
+	/**
+	 * Returns the last placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching placit place, or <code>null</code> if a matching placit place could not be found
+	 */
+	public PlacitPlace fetchBySaisineObservatoire_Last(
+		long saisineObservatoireId,
+		com.liferay.portal.kernel.util.OrderByComparator<PlacitPlace>
+			orderByComparator);
+
+	/**
+	 * Returns the placit places before and after the current placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param placitPlaceId the primary key of the current placit place
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next placit place
+	 * @throws NoSuchPlacitPlaceException if a placit place with the primary key could not be found
+	 */
+	public PlacitPlace[] findBySaisineObservatoire_PrevAndNext(
+			long placitPlaceId, long saisineObservatoireId,
+			com.liferay.portal.kernel.util.OrderByComparator<PlacitPlace>
+				orderByComparator)
+		throws NoSuchPlacitPlaceException;
+
+	/**
+	 * Removes all the placit places where saisineObservatoireId = &#63; from the database.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 */
+	public void removeBySaisineObservatoire(long saisineObservatoireId);
+
+	/**
+	 * Returns the number of placit places where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @return the number of matching placit places
+	 */
+	public int countBySaisineObservatoire(long saisineObservatoireId);
+
+	/**
 	 * Returns all the placit places where budgetParticipatifId = &#63;.
 	 *
 	 * @param budgetParticipatifId the budget participatif ID
@@ -1519,8 +1646,5 @@ public interface PlacitPlacePersistence extends BasePersistence<PlacitPlace> {
 	 * @return the number of placit places
 	 */
 	public int countAll();
-
-	@Override
-	public Set<String> getBadColumnNames();
 
 }

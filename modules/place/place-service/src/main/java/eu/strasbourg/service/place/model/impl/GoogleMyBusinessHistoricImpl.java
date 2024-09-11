@@ -14,13 +14,17 @@
 
 package eu.strasbourg.service.place.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.template.*;
+import com.liferay.portal.kernel.template.Template;
+import com.liferay.portal.kernel.template.TemplateConstants;
+import com.liferay.portal.kernel.template.TemplateManagerUtil;
+import com.liferay.portal.kernel.template.TemplateResource;
+import com.liferay.portal.kernel.template.URLTemplateResource;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PrefsPropsUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
@@ -85,7 +89,13 @@ public class GoogleMyBusinessHistoricImpl
 	 */
 	@Override
 	public String getResultLabel() {
-		return this.getResult() == 1 ? "Succ&egrave;s" : "Echec";
+		if(getResult() == 0) {
+			return "Echec";
+		} else if (getResult() == 2) {
+			return "Succ&egrave;s avec erreur";
+		} else {
+			return "Succ&egrave;s";
+		}
 	}
 
 	/**

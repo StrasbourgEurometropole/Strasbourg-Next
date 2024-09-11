@@ -9,39 +9,55 @@
 >
 	<bean class="eu.strasbourg.service.project.service.impl.BudgetParticipatifLocalServiceImpl" id="eu.strasbourg.service.project.service.BudgetParticipatifLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.BudgetParticipatifServiceImpl" id="eu.strasbourg.service.project.service.BudgetParticipatifService" />
-	<bean class="eu.strasbourg.service.project.service.persistence.impl.BudgetParticipatifPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence" parent="basePersistence" />
-	<bean class="eu.strasbourg.service.project.service.persistence.impl.BudgetParticipatifFinderImpl" id="eu.strasbourg.service.project.service.persistence.BudgetParticipatifFinder" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.BudgetParticipatifModelArgumentsResolver" id="eu.strasbourg.service.project.service.persistence.impl.BudgetParticipatifModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.BudgetParticipatifPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.BudgetParticipatifFinderImpl" id="eu.strasbourg.service.project.service.persistence.BudgetParticipatifFinder" />
 	<bean class="eu.strasbourg.service.project.service.impl.BudgetPhaseLocalServiceImpl" id="eu.strasbourg.service.project.service.BudgetPhaseLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.BudgetPhaseServiceImpl" id="eu.strasbourg.service.project.service.BudgetPhaseService" />
-	<bean class="eu.strasbourg.service.project.service.persistence.impl.BudgetPhasePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.BudgetPhasePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.BudgetPhaseModelArgumentsResolver" id="eu.strasbourg.service.project.service.persistence.impl.BudgetPhaseModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.BudgetPhasePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.BudgetPhasePersistence" />
 	<bean class="eu.strasbourg.service.project.service.impl.BudgetSupportLocalServiceImpl" id="eu.strasbourg.service.project.service.BudgetSupportLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.BudgetSupportServiceImpl" id="eu.strasbourg.service.project.service.BudgetSupportService" />
-	<bean class="eu.strasbourg.service.project.service.persistence.impl.BudgetSupportPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.BudgetSupportPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.BudgetSupportModelArgumentsResolver" id="eu.strasbourg.service.project.service.persistence.impl.BudgetSupportModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.BudgetSupportPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.BudgetSupportPersistence" />
 	<bean class="eu.strasbourg.service.project.service.impl.InitiativeLocalServiceImpl" id="eu.strasbourg.service.project.service.InitiativeLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.InitiativeServiceImpl" id="eu.strasbourg.service.project.service.InitiativeService" />
-	<bean class="eu.strasbourg.service.project.service.persistence.impl.InitiativePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.InitiativePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.InitiativeModelArgumentsResolver" id="eu.strasbourg.service.project.service.persistence.impl.InitiativeModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.InitiativePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.InitiativePersistence" />
 	<bean class="eu.strasbourg.service.project.service.impl.InitiativeHelpLocalServiceImpl" id="eu.strasbourg.service.project.service.InitiativeHelpLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.InitiativeHelpServiceImpl" id="eu.strasbourg.service.project.service.InitiativeHelpService" />
-	<bean class="eu.strasbourg.service.project.service.persistence.impl.InitiativeHelpPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.InitiativeHelpPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.InitiativeHelpModelArgumentsResolver" id="eu.strasbourg.service.project.service.persistence.impl.InitiativeHelpModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.InitiativeHelpPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.InitiativeHelpPersistence" />
 	<bean class="eu.strasbourg.service.project.service.impl.ParticipationLocalServiceImpl" id="eu.strasbourg.service.project.service.ParticipationLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.ParticipationServiceImpl" id="eu.strasbourg.service.project.service.ParticipationService" />
-	<bean class="eu.strasbourg.service.project.service.persistence.impl.ParticipationPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.ParticipationPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.ParticipationModelArgumentsResolver" id="eu.strasbourg.service.project.service.persistence.impl.ParticipationModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.ParticipationPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.ParticipationPersistence" />
 	<bean class="eu.strasbourg.service.project.service.impl.PetitionLocalServiceImpl" id="eu.strasbourg.service.project.service.PetitionLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.PetitionServiceImpl" id="eu.strasbourg.service.project.service.PetitionService" />
-	<bean class="eu.strasbourg.service.project.service.persistence.impl.PetitionPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.PetitionPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.PetitionModelArgumentsResolver" id="eu.strasbourg.service.project.service.persistence.impl.PetitionModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.PetitionPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.PetitionPersistence" />
 	<bean class="eu.strasbourg.service.project.service.impl.PlacitPlaceLocalServiceImpl" id="eu.strasbourg.service.project.service.PlacitPlaceLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.PlacitPlaceServiceImpl" id="eu.strasbourg.service.project.service.PlacitPlaceService" />
-	<bean class="eu.strasbourg.service.project.service.persistence.impl.PlacitPlacePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.PlacitPlacePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.PlacitPlaceModelArgumentsResolver" id="eu.strasbourg.service.project.service.persistence.impl.PlacitPlaceModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.PlacitPlacePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.PlacitPlacePersistence" />
 	<bean class="eu.strasbourg.service.project.service.impl.ProjectLocalServiceImpl" id="eu.strasbourg.service.project.service.ProjectLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.ProjectServiceImpl" id="eu.strasbourg.service.project.service.ProjectService" />
-	<bean class="eu.strasbourg.service.project.service.persistence.impl.ProjectPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.ProjectPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.ProjectModelArgumentsResolver" id="eu.strasbourg.service.project.service.persistence.impl.ProjectModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.ProjectPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.ProjectPersistence" />
 	<bean class="eu.strasbourg.service.project.service.impl.ProjectFollowedLocalServiceImpl" id="eu.strasbourg.service.project.service.ProjectFollowedLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.ProjectFollowedServiceImpl" id="eu.strasbourg.service.project.service.ProjectFollowedService" />
-	<bean class="eu.strasbourg.service.project.service.persistence.impl.ProjectFollowedPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.ProjectFollowedPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.ProjectFollowedModelArgumentsResolver" id="eu.strasbourg.service.project.service.persistence.impl.ProjectFollowedModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.ProjectFollowedPersistenceImpl" id="eu.strasbourg.service.project.service.persistence.ProjectFollowedPersistence" />
 	<bean class="eu.strasbourg.service.project.service.impl.ProjectTimelineLocalServiceImpl" id="eu.strasbourg.service.project.service.ProjectTimelineLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.ProjectTimelineServiceImpl" id="eu.strasbourg.service.project.service.ProjectTimelineService" />
-	<bean class="eu.strasbourg.service.project.service.persistence.impl.ProjectTimelinePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.ProjectTimelineModelArgumentsResolver" id="eu.strasbourg.service.project.service.persistence.impl.ProjectTimelineModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.ProjectTimelinePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence" />
+	<bean class="eu.strasbourg.service.project.service.impl.SaisineObservatoireLocalServiceImpl" id="eu.strasbourg.service.project.service.SaisineObservatoireLocalService" />
+	<bean class="eu.strasbourg.service.project.service.impl.SaisineObservatoireServiceImpl" id="eu.strasbourg.service.project.service.SaisineObservatoireService" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.SaisineObservatoireModelArgumentsResolver" id="eu.strasbourg.service.project.service.persistence.impl.SaisineObservatoireModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.SaisineObservatoirePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.SaisineObservatoirePersistence" />
 	<bean class="eu.strasbourg.service.project.service.impl.SignataireLocalServiceImpl" id="eu.strasbourg.service.project.service.SignataireLocalService" />
 	<bean class="eu.strasbourg.service.project.service.impl.SignataireServiceImpl" id="eu.strasbourg.service.project.service.SignataireService" />
-	<bean class="eu.strasbourg.service.project.service.persistence.impl.SignatairePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.SignatairePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.SignataireModelArgumentsResolver" id="eu.strasbourg.service.project.service.persistence.impl.SignataireModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.project.service.persistence.impl.SignatairePersistenceImpl" id="eu.strasbourg.service.project.service.persistence.SignatairePersistence" />
 </beans>

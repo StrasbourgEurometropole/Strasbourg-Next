@@ -1,13 +1,5 @@
 package eu.strasbourg.service.objtp.service.util;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
-
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -35,7 +27,6 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.Validator;
-
 import eu.strasbourg.service.objtp.model.FoundObject;
 import eu.strasbourg.service.objtp.model.ObjectCategory;
 import eu.strasbourg.service.objtp.service.FoundObjectLocalServiceUtil;
@@ -43,6 +34,14 @@ import eu.strasbourg.service.objtp.service.ObjectCategoryLocalServiceUtil;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Base64;
+import java.util.Date;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class ObjtpImporter {
 
@@ -346,12 +345,12 @@ public class ObjtpImporter {
 				}
 				// S'il n'existe pas, on le crée
 				if(objtpFolder == null) {
-					objtpFolder = DLAppServiceUtil.addFolder(
+					objtpFolder = DLAppServiceUtil.addFolder(null,
 				             repositoryId
 				             ,DLFolderConstants.DEFAULT_PARENT_FOLDER_ID
 				             , "Objets trouves"
 				            , "Objets trouves"
-				            , serviceContext);;
+				            , serviceContext);
 				}
 				
 				
@@ -369,15 +368,19 @@ public class ObjtpImporter {
 				
 				// on ajoute l'image au dossier
 				FileEntry objectImage = DLAppServiceUtil.addFileEntry(
-		                repositoryId,
-		                objtpFolder.getFolderId(),
-		                object.getNumber(),
-		                "image/jpeg",
-		                object.getNumber(),
-		                null,
-		                null,
-		                imageBytes,
-		                serviceContext);
+						null,
+						repositoryId,
+						objtpFolder.getFolderId(),
+						object.getNumber(),
+						"image/jpeg",
+						object.getNumber(),
+						null,
+						null,
+						null,
+						imageBytes,
+						null,
+						null,
+						serviceContext);
 				String imageUrl = FileEntryHelper.getFileEntryURL(objectImage.getFileEntryId());
 				object.setImageUrl(imageUrl);
 			}

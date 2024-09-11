@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notif.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,25 +16,25 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.notif.exception.NoSuchNatureNotifException;
 import eu.strasbourg.service.notif.model.NatureNotif;
+import eu.strasbourg.service.notif.model.NatureNotifTable;
 import eu.strasbourg.service.notif.model.impl.NatureNotifImpl;
 import eu.strasbourg.service.notif.model.impl.NatureNotifModelImpl;
 import eu.strasbourg.service.notif.service.persistence.NatureNotifPersistence;
+import eu.strasbourg.service.notif.service.persistence.NatureNotifUtil;
 
 import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -234,10 +226,6 @@ public class NatureNotifPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -564,8 +552,6 @@ public class NatureNotifPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -581,6 +567,11 @@ public class NatureNotifPersistenceImpl
 
 	public NatureNotifPersistenceImpl() {
 		setModelClass(NatureNotif.class);
+
+		setModelImplClass(NatureNotifImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(NatureNotifTable.INSTANCE);
 	}
 
 	/**
@@ -591,11 +582,10 @@ public class NatureNotifPersistenceImpl
 	@Override
 	public void cacheResult(NatureNotif natureNotif) {
 		entityCache.putResult(
-			NatureNotifModelImpl.ENTITY_CACHE_ENABLED, NatureNotifImpl.class,
-			natureNotif.getPrimaryKey(), natureNotif);
-
-		natureNotif.resetOriginalValues();
+			NatureNotifImpl.class, natureNotif.getPrimaryKey(), natureNotif);
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the nature notifs in the entity cache if it is enabled.
@@ -604,16 +594,19 @@ public class NatureNotifPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<NatureNotif> natureNotifs) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (natureNotifs.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (NatureNotif natureNotif : natureNotifs) {
 			if (entityCache.getResult(
-					NatureNotifModelImpl.ENTITY_CACHE_ENABLED,
 					NatureNotifImpl.class, natureNotif.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(natureNotif);
-			}
-			else {
-				natureNotif.resetOriginalValues();
 			}
 		}
 	}
@@ -629,9 +622,7 @@ public class NatureNotifPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(NatureNotifImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(NatureNotifImpl.class);
 	}
 
 	/**
@@ -643,35 +634,22 @@ public class NatureNotifPersistenceImpl
 	 */
 	@Override
 	public void clearCache(NatureNotif natureNotif) {
-		entityCache.removeResult(
-			NatureNotifModelImpl.ENTITY_CACHE_ENABLED, NatureNotifImpl.class,
-			natureNotif.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(NatureNotifImpl.class, natureNotif);
 	}
 
 	@Override
 	public void clearCache(List<NatureNotif> natureNotifs) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (NatureNotif natureNotif : natureNotifs) {
-			entityCache.removeResult(
-				NatureNotifModelImpl.ENTITY_CACHE_ENABLED,
-				NatureNotifImpl.class, natureNotif.getPrimaryKey());
+			entityCache.removeResult(NatureNotifImpl.class, natureNotif);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(NatureNotifImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				NatureNotifModelImpl.ENTITY_CACHE_ENABLED,
-				NatureNotifImpl.class, primaryKey);
+			entityCache.removeResult(NatureNotifImpl.class, primaryKey);
 		}
 	}
 
@@ -802,10 +780,8 @@ public class NatureNotifPersistenceImpl
 		try {
 			session = openSession();
 
-			if (natureNotif.isNew()) {
+			if (isNew) {
 				session.save(natureNotif);
-
-				natureNotif.setNew(false);
 			}
 			else {
 				natureNotif = (NatureNotif)session.merge(natureNotif);
@@ -818,46 +794,12 @@ public class NatureNotifPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!NatureNotifModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {natureNotifModelImpl.getServiceId()};
-
-			finderCache.removeResult(_finderPathCountByServiceId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByServiceId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((natureNotifModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByServiceId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					natureNotifModelImpl.getOriginalServiceId()
-				};
-
-				finderCache.removeResult(_finderPathCountByServiceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByServiceId, args);
-
-				args = new Object[] {natureNotifModelImpl.getServiceId()};
-
-				finderCache.removeResult(_finderPathCountByServiceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByServiceId, args);
-			}
-		}
-
 		entityCache.putResult(
-			NatureNotifModelImpl.ENTITY_CACHE_ENABLED, NatureNotifImpl.class,
-			natureNotif.getPrimaryKey(), natureNotif, false);
+			NatureNotifImpl.class, natureNotifModelImpl, false, true);
+
+		if (isNew) {
+			natureNotif.setNew(false);
+		}
 
 		natureNotif.resetOriginalValues();
 
@@ -906,161 +848,12 @@ public class NatureNotifPersistenceImpl
 	/**
 	 * Returns the nature notif with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the nature notif
-	 * @return the nature notif, or <code>null</code> if a nature notif with the primary key could not be found
-	 */
-	@Override
-	public NatureNotif fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			NatureNotifModelImpl.ENTITY_CACHE_ENABLED, NatureNotifImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		NatureNotif natureNotif = (NatureNotif)serializable;
-
-		if (natureNotif == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				natureNotif = (NatureNotif)session.get(
-					NatureNotifImpl.class, primaryKey);
-
-				if (natureNotif != null) {
-					cacheResult(natureNotif);
-				}
-				else {
-					entityCache.putResult(
-						NatureNotifModelImpl.ENTITY_CACHE_ENABLED,
-						NatureNotifImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					NatureNotifModelImpl.ENTITY_CACHE_ENABLED,
-					NatureNotifImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return natureNotif;
-	}
-
-	/**
-	 * Returns the nature notif with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param natureId the primary key of the nature notif
 	 * @return the nature notif, or <code>null</code> if a nature notif with the primary key could not be found
 	 */
 	@Override
 	public NatureNotif fetchByPrimaryKey(long natureId) {
 		return fetchByPrimaryKey((Serializable)natureId);
-	}
-
-	@Override
-	public Map<Serializable, NatureNotif> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, NatureNotif> map =
-			new HashMap<Serializable, NatureNotif>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			NatureNotif natureNotif = fetchByPrimaryKey(primaryKey);
-
-			if (natureNotif != null) {
-				map.put(primaryKey, natureNotif);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				NatureNotifModelImpl.ENTITY_CACHE_ENABLED,
-				NatureNotifImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (NatureNotif)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_NATURENOTIF_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (NatureNotif natureNotif : (List<NatureNotif>)query.list()) {
-				map.put(natureNotif.getPrimaryKeyObj(), natureNotif);
-
-				cacheResult(natureNotif);
-
-				uncachedPrimaryKeys.remove(natureNotif.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					NatureNotifModelImpl.ENTITY_CACHE_ENABLED,
-					NatureNotifImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1187,10 +980,6 @@ public class NatureNotifPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1236,9 +1025,6 @@ public class NatureNotifPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1250,6 +1036,21 @@ public class NatureNotifPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "natureId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_NATURENOTIF;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return NatureNotifModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1258,51 +1059,46 @@ public class NatureNotifPersistenceImpl
 	 * Initializes the nature notif persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			NatureNotifModelImpl.ENTITY_CACHE_ENABLED,
-			NatureNotifModelImpl.FINDER_CACHE_ENABLED, NatureNotifImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			NatureNotifModelImpl.ENTITY_CACHE_ENABLED,
-			NatureNotifModelImpl.FINDER_CACHE_ENABLED, NatureNotifImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			NatureNotifModelImpl.ENTITY_CACHE_ENABLED,
-			NatureNotifModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByServiceId = new FinderPath(
-			NatureNotifModelImpl.ENTITY_CACHE_ENABLED,
-			NatureNotifModelImpl.FINDER_CACHE_ENABLED, NatureNotifImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByServiceId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"serviceId"}, true);
 
 		_finderPathWithoutPaginationFindByServiceId = new FinderPath(
-			NatureNotifModelImpl.ENTITY_CACHE_ENABLED,
-			NatureNotifModelImpl.FINDER_CACHE_ENABLED, NatureNotifImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByServiceId",
-			new String[] {Long.class.getName()},
-			NatureNotifModelImpl.SERVICEID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"serviceId"},
+			true);
 
 		_finderPathCountByServiceId = new FinderPath(
-			NatureNotifModelImpl.ENTITY_CACHE_ENABLED,
-			NatureNotifModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByServiceId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"serviceId"},
+			false);
+
+		NatureNotifUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		NatureNotifUtil.setPersistence(null);
+
 		entityCache.removeCache(NatureNotifImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1313,9 +1109,6 @@ public class NatureNotifPersistenceImpl
 
 	private static final String _SQL_SELECT_NATURENOTIF =
 		"SELECT natureNotif FROM NatureNotif natureNotif";
-
-	private static final String _SQL_SELECT_NATURENOTIF_WHERE_PKS_IN =
-		"SELECT natureNotif FROM NatureNotif natureNotif WHERE natureId IN (";
 
 	private static final String _SQL_SELECT_NATURENOTIF_WHERE =
 		"SELECT natureNotif FROM NatureNotif natureNotif WHERE ";
@@ -1336,5 +1129,10 @@ public class NatureNotifPersistenceImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		NatureNotifPersistenceImpl.class);
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

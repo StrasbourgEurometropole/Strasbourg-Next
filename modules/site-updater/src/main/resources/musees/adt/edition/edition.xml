@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.edition.model.Edition</className>
+    <template>
+        <name>Vignette édition recherche générale (v2)</name>
+        <key>420085087</key>
+        <script>edition-thumbnail-general.ftl</script>
+    </template>
+    <template>
+        <name>Détail édition (v2)</name>
+        <key>37101</key>
+        <script>edition-detail.ftl</script>
+    </template>
+    <template>
+        <name>Vignette édition (v2)</name>
+        <key>36875</key>
+        <script>edition-thumbnail.ftl</script>
+    </template>
+</root>

@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,29 +16,29 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.place.exception.NoSuchScheduleExceptionException;
 import eu.strasbourg.service.place.model.ScheduleException;
+import eu.strasbourg.service.place.model.ScheduleExceptionTable;
 import eu.strasbourg.service.place.model.impl.ScheduleExceptionImpl;
 import eu.strasbourg.service.place.model.impl.ScheduleExceptionModelImpl;
 import eu.strasbourg.service.place.service.persistence.ScheduleExceptionPersistence;
+import eu.strasbourg.service.place.service.persistence.ScheduleExceptionUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -248,10 +240,6 @@ public class ScheduleExceptionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -605,8 +593,6 @@ public class ScheduleExceptionPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -778,10 +764,6 @@ public class ScheduleExceptionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1112,8 +1094,6 @@ public class ScheduleExceptionPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1285,10 +1265,6 @@ public class ScheduleExceptionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1623,8 +1599,6 @@ public class ScheduleExceptionPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1644,21 +1618,14 @@ public class ScheduleExceptionPersistenceImpl
 		dbColumnNames.put("uuid", "uuid_");
 		dbColumnNames.put("comment", "comment_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(ScheduleException.class);
+
+		setModelImplClass(ScheduleExceptionImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(ScheduleExceptionTable.INSTANCE);
 	}
 
 	/**
@@ -1669,12 +1636,11 @@ public class ScheduleExceptionPersistenceImpl
 	@Override
 	public void cacheResult(ScheduleException scheduleException) {
 		entityCache.putResult(
-			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
 			ScheduleExceptionImpl.class, scheduleException.getPrimaryKey(),
 			scheduleException);
-
-		scheduleException.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the schedule exceptions in the entity cache if it is enabled.
@@ -1683,16 +1649,20 @@ public class ScheduleExceptionPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<ScheduleException> scheduleExceptions) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (scheduleExceptions.size() >
+				 _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (ScheduleException scheduleException : scheduleExceptions) {
 			if (entityCache.getResult(
-					ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
 					ScheduleExceptionImpl.class,
 					scheduleException.getPrimaryKey()) == null) {
 
 				cacheResult(scheduleException);
-			}
-			else {
-				scheduleException.resetOriginalValues();
 			}
 		}
 	}
@@ -1708,9 +1678,7 @@ public class ScheduleExceptionPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(ScheduleExceptionImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ScheduleExceptionImpl.class);
 	}
 
 	/**
@@ -1723,34 +1691,23 @@ public class ScheduleExceptionPersistenceImpl
 	@Override
 	public void clearCache(ScheduleException scheduleException) {
 		entityCache.removeResult(
-			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionImpl.class, scheduleException.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+			ScheduleExceptionImpl.class, scheduleException);
 	}
 
 	@Override
 	public void clearCache(List<ScheduleException> scheduleExceptions) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (ScheduleException scheduleException : scheduleExceptions) {
 			entityCache.removeResult(
-				ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-				ScheduleExceptionImpl.class, scheduleException.getPrimaryKey());
+				ScheduleExceptionImpl.class, scheduleException);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ScheduleExceptionImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-				ScheduleExceptionImpl.class, primaryKey);
+			entityCache.removeResult(ScheduleExceptionImpl.class, primaryKey);
 		}
 	}
 
@@ -1898,10 +1855,8 @@ public class ScheduleExceptionPersistenceImpl
 		try {
 			session = openSession();
 
-			if (scheduleException.isNew()) {
+			if (isNew) {
 				session.save(scheduleException);
-
-				scheduleException.setNew(false);
 			}
 			else {
 				scheduleException = (ScheduleException)session.merge(
@@ -1915,99 +1870,13 @@ public class ScheduleExceptionPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!ScheduleExceptionModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {scheduleExceptionModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {scheduleExceptionModelImpl.getPlaceId()};
-
-			finderCache.removeResult(_finderPathCountByPlaceId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPlaceId, args);
-
-			args = new Object[] {scheduleExceptionModelImpl.getSubPlaceId()};
-
-			finderCache.removeResult(_finderPathCountBySubPlaceId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindBySubPlaceId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((scheduleExceptionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					scheduleExceptionModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {scheduleExceptionModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((scheduleExceptionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPlaceId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					scheduleExceptionModelImpl.getOriginalPlaceId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPlaceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPlaceId, args);
-
-				args = new Object[] {scheduleExceptionModelImpl.getPlaceId()};
-
-				finderCache.removeResult(_finderPathCountByPlaceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPlaceId, args);
-			}
-
-			if ((scheduleExceptionModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindBySubPlaceId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					scheduleExceptionModelImpl.getOriginalSubPlaceId()
-				};
-
-				finderCache.removeResult(_finderPathCountBySubPlaceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindBySubPlaceId, args);
-
-				args = new Object[] {
-					scheduleExceptionModelImpl.getSubPlaceId()
-				};
-
-				finderCache.removeResult(_finderPathCountBySubPlaceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindBySubPlaceId, args);
-			}
-		}
-
 		entityCache.putResult(
-			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionImpl.class, scheduleException.getPrimaryKey(),
-			scheduleException, false);
+			ScheduleExceptionImpl.class, scheduleExceptionModelImpl, false,
+			true);
+
+		if (isNew) {
+			scheduleException.setNew(false);
+		}
 
 		scheduleException.resetOriginalValues();
 
@@ -2056,165 +1925,12 @@ public class ScheduleExceptionPersistenceImpl
 	/**
 	 * Returns the schedule exception with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the schedule exception
-	 * @return the schedule exception, or <code>null</code> if a schedule exception with the primary key could not be found
-	 */
-	@Override
-	public ScheduleException fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		ScheduleException scheduleException = (ScheduleException)serializable;
-
-		if (scheduleException == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				scheduleException = (ScheduleException)session.get(
-					ScheduleExceptionImpl.class, primaryKey);
-
-				if (scheduleException != null) {
-					cacheResult(scheduleException);
-				}
-				else {
-					entityCache.putResult(
-						ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-						ScheduleExceptionImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-					ScheduleExceptionImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return scheduleException;
-	}
-
-	/**
-	 * Returns the schedule exception with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param exceptionId the primary key of the schedule exception
 	 * @return the schedule exception, or <code>null</code> if a schedule exception with the primary key could not be found
 	 */
 	@Override
 	public ScheduleException fetchByPrimaryKey(long exceptionId) {
 		return fetchByPrimaryKey((Serializable)exceptionId);
-	}
-
-	@Override
-	public Map<Serializable, ScheduleException> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, ScheduleException> map =
-			new HashMap<Serializable, ScheduleException>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			ScheduleException scheduleException = fetchByPrimaryKey(primaryKey);
-
-			if (scheduleException != null) {
-				map.put(primaryKey, scheduleException);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-				ScheduleExceptionImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (ScheduleException)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_SCHEDULEEXCEPTION_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (ScheduleException scheduleException :
-					(List<ScheduleException>)query.list()) {
-
-				map.put(
-					scheduleException.getPrimaryKeyObj(), scheduleException);
-
-				cacheResult(scheduleException);
-
-				uncachedPrimaryKeys.remove(
-					scheduleException.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-					ScheduleExceptionImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2343,10 +2059,6 @@ public class ScheduleExceptionPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2392,9 +2104,6 @@ public class ScheduleExceptionPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2411,6 +2120,21 @@ public class ScheduleExceptionPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "exceptionId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_SCHEDULEEXCEPTION;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return ScheduleExceptionModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2419,103 +2143,82 @@ public class ScheduleExceptionPersistenceImpl
 	 * Initializes the schedule exception persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
-			ScheduleExceptionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
-			ScheduleExceptionImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
-			ScheduleExceptionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
-			ScheduleExceptionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			ScheduleExceptionModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathWithPaginationFindByPlaceId = new FinderPath(
-			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
-			ScheduleExceptionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByPlaceId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPlaceId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"placeId"}, true);
 
 		_finderPathWithoutPaginationFindByPlaceId = new FinderPath(
-			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
-			ScheduleExceptionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPlaceId",
-			new String[] {Long.class.getName()},
-			ScheduleExceptionModelImpl.PLACEID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"placeId"},
+			true);
 
 		_finderPathCountByPlaceId = new FinderPath(
-			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPlaceId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"placeId"},
+			false);
 
 		_finderPathWithPaginationFindBySubPlaceId = new FinderPath(
-			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
-			ScheduleExceptionImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findBySubPlaceId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySubPlaceId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"subPlaceId"}, true);
 
 		_finderPathWithoutPaginationFindBySubPlaceId = new FinderPath(
-			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED,
-			ScheduleExceptionImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBySubPlaceId",
-			new String[] {Long.class.getName()},
-			ScheduleExceptionModelImpl.SUBPLACEID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"subPlaceId"},
+			true);
 
 		_finderPathCountBySubPlaceId = new FinderPath(
-			ScheduleExceptionModelImpl.ENTITY_CACHE_ENABLED,
-			ScheduleExceptionModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySubPlaceId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"subPlaceId"},
+			false);
+
+		ScheduleExceptionUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		ScheduleExceptionUtil.setPersistence(null);
+
 		entityCache.removeCache(ScheduleExceptionImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -2526,9 +2229,6 @@ public class ScheduleExceptionPersistenceImpl
 
 	private static final String _SQL_SELECT_SCHEDULEEXCEPTION =
 		"SELECT scheduleException FROM ScheduleException scheduleException";
-
-	private static final String _SQL_SELECT_SCHEDULEEXCEPTION_WHERE_PKS_IN =
-		"SELECT scheduleException FROM ScheduleException scheduleException WHERE exceptionId IN (";
 
 	private static final String _SQL_SELECT_SCHEDULEEXCEPTION_WHERE =
 		"SELECT scheduleException FROM ScheduleException scheduleException WHERE ";
@@ -2552,5 +2252,10 @@ public class ScheduleExceptionPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "comment"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

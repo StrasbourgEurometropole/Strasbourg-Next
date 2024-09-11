@@ -14,10 +14,10 @@
 
 package eu.strasbourg.service.notification.service.impl;
 
-import java.util.List;
-
 import eu.strasbourg.service.notification.model.UserNotificationStatus;
 import eu.strasbourg.service.notification.service.base.UserNotificationStatusLocalServiceBaseImpl;
+
+import java.util.List;
 
 /**
  * The implementation of the user notification status local service.

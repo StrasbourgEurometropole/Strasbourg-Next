@@ -1,26 +1,18 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.model.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.council.model.OfficialTypeCouncil;
 import eu.strasbourg.service.council.model.OfficialTypeCouncilModel;
@@ -28,9 +20,9 @@ import eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPK;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -38,6 +30,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -101,29 +94,52 @@ public class OfficialTypeCouncilModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.council.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.council.model.OfficialTypeCouncil"),
-		false);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.council.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.council.model.OfficialTypeCouncil"),
-		false);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.council.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.council.model.OfficialTypeCouncil"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long OFFICIALID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TYPEID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 16L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -183,9 +199,6 @@ public class OfficialTypeCouncilModelImpl
 				attributeGetterFunction.apply((OfficialTypeCouncil)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -210,223 +223,91 @@ public class OfficialTypeCouncilModelImpl
 	public Map<String, Function<OfficialTypeCouncil, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<OfficialTypeCouncil, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, OfficialTypeCouncil>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			OfficialTypeCouncil.class.getClassLoader(),
-			OfficialTypeCouncil.class, ModelWrapper.class);
+		private static final Map<String, Function<OfficialTypeCouncil, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<OfficialTypeCouncil> constructor =
-				(Constructor<OfficialTypeCouncil>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<OfficialTypeCouncil, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<OfficialTypeCouncil, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", OfficialTypeCouncil::getUuid);
+			attributeGetterFunctions.put(
+				"officialId", OfficialTypeCouncil::getOfficialId);
+			attributeGetterFunctions.put(
+				"typeId", OfficialTypeCouncil::getTypeId);
+			attributeGetterFunctions.put(
+				"groupId", OfficialTypeCouncil::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", OfficialTypeCouncil::getCompanyId);
+			attributeGetterFunctions.put(
+				"createDate", OfficialTypeCouncil::getCreateDate);
+			attributeGetterFunctions.put(
+				"result", OfficialTypeCouncil::getResult);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<OfficialTypeCouncil, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<OfficialTypeCouncil, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<OfficialTypeCouncil, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<OfficialTypeCouncil, Object>>();
-		Map<String, BiConsumer<OfficialTypeCouncil, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<OfficialTypeCouncil, ?>>();
+		private static final Map
+			<String, BiConsumer<OfficialTypeCouncil, Object>>
+				_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<OfficialTypeCouncil, Object>() {
+		static {
+			Map<String, BiConsumer<OfficialTypeCouncil, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<OfficialTypeCouncil, ?>>();
 
-				@Override
-				public Object apply(OfficialTypeCouncil officialTypeCouncil) {
-					return officialTypeCouncil.getUuid();
-				}
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<OfficialTypeCouncil, String>)
+					OfficialTypeCouncil::setUuid);
+			attributeSetterBiConsumers.put(
+				"officialId",
+				(BiConsumer<OfficialTypeCouncil, Long>)
+					OfficialTypeCouncil::setOfficialId);
+			attributeSetterBiConsumers.put(
+				"typeId",
+				(BiConsumer<OfficialTypeCouncil, Long>)
+					OfficialTypeCouncil::setTypeId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<OfficialTypeCouncil, Long>)
+					OfficialTypeCouncil::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<OfficialTypeCouncil, Long>)
+					OfficialTypeCouncil::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<OfficialTypeCouncil, Date>)
+					OfficialTypeCouncil::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"result",
+				(BiConsumer<OfficialTypeCouncil, String>)
+					OfficialTypeCouncil::setResult);
 
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<OfficialTypeCouncil, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(
-					OfficialTypeCouncil officialTypeCouncil,
-					Object uuidObject) {
-
-					officialTypeCouncil.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"officialId",
-			new Function<OfficialTypeCouncil, Object>() {
-
-				@Override
-				public Object apply(OfficialTypeCouncil officialTypeCouncil) {
-					return officialTypeCouncil.getOfficialId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"officialId",
-			new BiConsumer<OfficialTypeCouncil, Object>() {
-
-				@Override
-				public void accept(
-					OfficialTypeCouncil officialTypeCouncil,
-					Object officialIdObject) {
-
-					officialTypeCouncil.setOfficialId((Long)officialIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"typeId",
-			new Function<OfficialTypeCouncil, Object>() {
-
-				@Override
-				public Object apply(OfficialTypeCouncil officialTypeCouncil) {
-					return officialTypeCouncil.getTypeId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"typeId",
-			new BiConsumer<OfficialTypeCouncil, Object>() {
-
-				@Override
-				public void accept(
-					OfficialTypeCouncil officialTypeCouncil,
-					Object typeIdObject) {
-
-					officialTypeCouncil.setTypeId((Long)typeIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<OfficialTypeCouncil, Object>() {
-
-				@Override
-				public Object apply(OfficialTypeCouncil officialTypeCouncil) {
-					return officialTypeCouncil.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<OfficialTypeCouncil, Object>() {
-
-				@Override
-				public void accept(
-					OfficialTypeCouncil officialTypeCouncil,
-					Object groupIdObject) {
-
-					officialTypeCouncil.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<OfficialTypeCouncil, Object>() {
-
-				@Override
-				public Object apply(OfficialTypeCouncil officialTypeCouncil) {
-					return officialTypeCouncil.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<OfficialTypeCouncil, Object>() {
-
-				@Override
-				public void accept(
-					OfficialTypeCouncil officialTypeCouncil,
-					Object companyIdObject) {
-
-					officialTypeCouncil.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<OfficialTypeCouncil, Object>() {
-
-				@Override
-				public Object apply(OfficialTypeCouncil officialTypeCouncil) {
-					return officialTypeCouncil.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<OfficialTypeCouncil, Object>() {
-
-				@Override
-				public void accept(
-					OfficialTypeCouncil officialTypeCouncil,
-					Object createDateObject) {
-
-					officialTypeCouncil.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"result",
-			new Function<OfficialTypeCouncil, Object>() {
-
-				@Override
-				public Object apply(OfficialTypeCouncil officialTypeCouncil) {
-					return officialTypeCouncil.getResult();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"result",
-			new BiConsumer<OfficialTypeCouncil, Object>() {
-
-				@Override
-				public void accept(
-					OfficialTypeCouncil officialTypeCouncil,
-					Object resultObject) {
-
-					officialTypeCouncil.setResult((String)resultObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -441,17 +322,20 @@ public class OfficialTypeCouncilModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -461,19 +345,21 @@ public class OfficialTypeCouncilModelImpl
 
 	@Override
 	public void setOfficialId(long officialId) {
-		_columnBitmask |= OFFICIALID_COLUMN_BITMASK;
-
-		if (!_setOriginalOfficialId) {
-			_setOriginalOfficialId = true;
-
-			_originalOfficialId = _officialId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_officialId = officialId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalOfficialId() {
-		return _originalOfficialId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("officialId"));
 	}
 
 	@Override
@@ -483,19 +369,20 @@ public class OfficialTypeCouncilModelImpl
 
 	@Override
 	public void setTypeId(long typeId) {
-		_columnBitmask |= TYPEID_COLUMN_BITMASK;
-
-		if (!_setOriginalTypeId) {
-			_setOriginalTypeId = true;
-
-			_originalTypeId = _typeId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_typeId = typeId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalTypeId() {
-		return _originalTypeId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("typeId"));
 	}
 
 	@Override
@@ -505,19 +392,20 @@ public class OfficialTypeCouncilModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -527,19 +415,21 @@ public class OfficialTypeCouncilModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -549,6 +439,10 @@ public class OfficialTypeCouncilModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -564,10 +458,34 @@ public class OfficialTypeCouncilModelImpl
 
 	@Override
 	public void setResult(String result) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_result = result;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -600,6 +518,29 @@ public class OfficialTypeCouncilModelImpl
 		officialTypeCouncilImpl.setResult(getResult());
 
 		officialTypeCouncilImpl.resetOriginalValues();
+
+		return officialTypeCouncilImpl;
+	}
+
+	@Override
+	public OfficialTypeCouncil cloneWithOriginalValues() {
+		OfficialTypeCouncilImpl officialTypeCouncilImpl =
+			new OfficialTypeCouncilImpl();
+
+		officialTypeCouncilImpl.setUuid(
+			this.<String>getColumnOriginalValue("uuid_"));
+		officialTypeCouncilImpl.setOfficialId(
+			this.<Long>getColumnOriginalValue("officialId"));
+		officialTypeCouncilImpl.setTypeId(
+			this.<Long>getColumnOriginalValue("typeId"));
+		officialTypeCouncilImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		officialTypeCouncilImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		officialTypeCouncilImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		officialTypeCouncilImpl.setResult(
+			this.<String>getColumnOriginalValue("result"));
 
 		return officialTypeCouncilImpl;
 	}
@@ -638,11 +579,19 @@ public class OfficialTypeCouncilModelImpl
 		return getPrimaryKey().hashCode();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -650,32 +599,9 @@ public class OfficialTypeCouncilModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		OfficialTypeCouncilModelImpl officialTypeCouncilModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		officialTypeCouncilModelImpl._originalUuid =
-			officialTypeCouncilModelImpl._uuid;
-
-		officialTypeCouncilModelImpl._originalOfficialId =
-			officialTypeCouncilModelImpl._officialId;
-
-		officialTypeCouncilModelImpl._setOriginalOfficialId = false;
-
-		officialTypeCouncilModelImpl._originalTypeId =
-			officialTypeCouncilModelImpl._typeId;
-
-		officialTypeCouncilModelImpl._setOriginalTypeId = false;
-
-		officialTypeCouncilModelImpl._originalGroupId =
-			officialTypeCouncilModelImpl._groupId;
-
-		officialTypeCouncilModelImpl._setOriginalGroupId = false;
-
-		officialTypeCouncilModelImpl._originalCompanyId =
-			officialTypeCouncilModelImpl._companyId;
-
-		officialTypeCouncilModelImpl._setOriginalCompanyId = false;
-
-		officialTypeCouncilModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -727,7 +653,7 @@ public class OfficialTypeCouncilModelImpl
 			attributeGetterFunctions = getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -738,9 +664,27 @@ public class OfficialTypeCouncilModelImpl
 			Function<OfficialTypeCouncil, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((OfficialTypeCouncil)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply(
+				(OfficialTypeCouncil)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -753,60 +697,100 @@ public class OfficialTypeCouncilModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<OfficialTypeCouncil, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<OfficialTypeCouncil, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<OfficialTypeCouncil, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((OfficialTypeCouncil)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, OfficialTypeCouncil>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					OfficialTypeCouncil.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _officialId;
-	private long _originalOfficialId;
-	private boolean _setOriginalOfficialId;
 	private long _typeId;
-	private long _originalTypeId;
-	private boolean _setOriginalTypeId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private Date _createDate;
 	private String _result;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<OfficialTypeCouncil, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((OfficialTypeCouncil)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("officialId", _officialId);
+		_columnOriginalValues.put("typeId", _typeId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("result", _result);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("officialId", 2L);
+
+		columnBitmasks.put("typeId", 4L);
+
+		columnBitmasks.put("groupId", 8L);
+
+		columnBitmasks.put("companyId", 16L);
+
+		columnBitmasks.put("createDate", 32L);
+
+		columnBitmasks.put("result", 64L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private OfficialTypeCouncil _escapedModel;
 

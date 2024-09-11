@@ -10,7 +10,8 @@
 <%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
-<%@ taglib uri="http://liferay.com/tld/frontend" prefix="liferay-frontend" %>
+<%@ taglib uri="http://liferay.com/tld/clay" prefix="clay" %>
+<%@ taglib uri="http://liferay.com/tld/asset" prefix="liferay-asset" %>
 
 <%@ taglib uri="http://strasbourg.eu/tld/picker" prefix="strasbourg-picker" %>
 
@@ -25,4 +26,3 @@
 </liferay-util:html-bottom>
 
 <jsp:useBean id="vocabularyHelper" class="eu.strasbourg.utils.AssetVocabularyHelper" />
-

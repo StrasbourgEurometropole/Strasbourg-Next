@@ -1,0 +1,15 @@
+{
+    "fieldSets": [
+        {
+            "fields": [
+                {
+                    "name": "numberOfBlock",
+                    "label": "Nombre de blocs",
+                    "type": "text",
+                    "dataType": "int",
+                    "defaultValue": "4"
+                }
+            ]
+        }
+    ]
+}

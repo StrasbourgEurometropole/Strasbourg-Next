@@ -1,21 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.json.JSON;
@@ -27,7 +19,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.place.model.Slot;
@@ -35,16 +27,18 @@ import eu.strasbourg.service.place.model.SlotModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -106,27 +100,47 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.place.model.Slot"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.place.model.Slot"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.place.model.Slot"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PERIODID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long SUBPLACEID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long SLOTID_COLUMN_BITMASK = 8L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -183,9 +197,6 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 				attributeName, attributeGetterFunction.apply((Slot)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -207,218 +218,69 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 	}
 
 	public Map<String, Function<Slot, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Slot, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Slot>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Slot.class.getClassLoader(), Slot.class, ModelWrapper.class);
+		private static final Map<String, Function<Slot, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Slot> constructor =
-				(Constructor<Slot>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Slot, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Slot, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Slot::getUuid);
+			attributeGetterFunctions.put("slotId", Slot::getSlotId);
+			attributeGetterFunctions.put("dayOfWeek", Slot::getDayOfWeek);
+			attributeGetterFunctions.put("startHour", Slot::getStartHour);
+			attributeGetterFunctions.put("endHour", Slot::getEndHour);
+			attributeGetterFunctions.put("comment", Slot::getComment);
+			attributeGetterFunctions.put("periodId", Slot::getPeriodId);
+			attributeGetterFunctions.put("subPlaceId", Slot::getSubPlaceId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Slot, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Slot, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<Slot, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Slot, Object>>();
-		Map<String, BiConsumer<Slot, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Slot, ?>>();
+		private static final Map<String, BiConsumer<Slot, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Slot, Object>() {
+		static {
+			Map<String, BiConsumer<Slot, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Slot, ?>>();
 
-				@Override
-				public Object apply(Slot slot) {
-					return slot.getUuid();
-				}
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Slot, String>)Slot::setUuid);
+			attributeSetterBiConsumers.put(
+				"slotId", (BiConsumer<Slot, Long>)Slot::setSlotId);
+			attributeSetterBiConsumers.put(
+				"dayOfWeek", (BiConsumer<Slot, Long>)Slot::setDayOfWeek);
+			attributeSetterBiConsumers.put(
+				"startHour", (BiConsumer<Slot, String>)Slot::setStartHour);
+			attributeSetterBiConsumers.put(
+				"endHour", (BiConsumer<Slot, String>)Slot::setEndHour);
+			attributeSetterBiConsumers.put(
+				"comment", (BiConsumer<Slot, String>)Slot::setComment);
+			attributeSetterBiConsumers.put(
+				"periodId", (BiConsumer<Slot, Long>)Slot::setPeriodId);
+			attributeSetterBiConsumers.put(
+				"subPlaceId", (BiConsumer<Slot, Long>)Slot::setSubPlaceId);
 
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Slot, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(Slot slot, Object uuidObject) {
-					slot.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"slotId",
-			new Function<Slot, Object>() {
-
-				@Override
-				public Object apply(Slot slot) {
-					return slot.getSlotId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"slotId",
-			new BiConsumer<Slot, Object>() {
-
-				@Override
-				public void accept(Slot slot, Object slotIdObject) {
-					slot.setSlotId((Long)slotIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"dayOfWeek",
-			new Function<Slot, Object>() {
-
-				@Override
-				public Object apply(Slot slot) {
-					return slot.getDayOfWeek();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"dayOfWeek",
-			new BiConsumer<Slot, Object>() {
-
-				@Override
-				public void accept(Slot slot, Object dayOfWeekObject) {
-					slot.setDayOfWeek((Long)dayOfWeekObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"startHour",
-			new Function<Slot, Object>() {
-
-				@Override
-				public Object apply(Slot slot) {
-					return slot.getStartHour();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"startHour",
-			new BiConsumer<Slot, Object>() {
-
-				@Override
-				public void accept(Slot slot, Object startHourObject) {
-					slot.setStartHour((String)startHourObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"endHour",
-			new Function<Slot, Object>() {
-
-				@Override
-				public Object apply(Slot slot) {
-					return slot.getEndHour();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"endHour",
-			new BiConsumer<Slot, Object>() {
-
-				@Override
-				public void accept(Slot slot, Object endHourObject) {
-					slot.setEndHour((String)endHourObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"comment",
-			new Function<Slot, Object>() {
-
-				@Override
-				public Object apply(Slot slot) {
-					return slot.getComment();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"comment",
-			new BiConsumer<Slot, Object>() {
-
-				@Override
-				public void accept(Slot slot, Object commentObject) {
-					slot.setComment((String)commentObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"periodId",
-			new Function<Slot, Object>() {
-
-				@Override
-				public Object apply(Slot slot) {
-					return slot.getPeriodId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"periodId",
-			new BiConsumer<Slot, Object>() {
-
-				@Override
-				public void accept(Slot slot, Object periodIdObject) {
-					slot.setPeriodId((Long)periodIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"subPlaceId",
-			new Function<Slot, Object>() {
-
-				@Override
-				public Object apply(Slot slot) {
-					return slot.getSubPlaceId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"subPlaceId",
-			new BiConsumer<Slot, Object>() {
-
-				@Override
-				public void accept(Slot slot, Object subPlaceIdObject) {
-					slot.setSubPlaceId((Long)subPlaceIdObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -433,17 +295,20 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -453,6 +318,10 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 
 	@Override
 	public void setSlotId(long slotId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_slotId = slotId;
 	}
 
@@ -463,6 +332,10 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 
 	@Override
 	public void setDayOfWeek(long dayOfWeek) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_dayOfWeek = dayOfWeek;
 	}
 
@@ -478,6 +351,10 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 
 	@Override
 	public void setStartHour(String startHour) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_startHour = startHour;
 	}
 
@@ -493,6 +370,10 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 
 	@Override
 	public void setEndHour(String endHour) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_endHour = endHour;
 	}
 
@@ -551,6 +432,10 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 
 	@Override
 	public void setComment(String comment) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_comment = comment;
 	}
 
@@ -610,19 +495,21 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 
 	@Override
 	public void setPeriodId(long periodId) {
-		_columnBitmask |= PERIODID_COLUMN_BITMASK;
-
-		if (!_setOriginalPeriodId) {
-			_setOriginalPeriodId = true;
-
-			_originalPeriodId = _periodId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_periodId = periodId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalPeriodId() {
-		return _originalPeriodId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("periodId"));
 	}
 
 	@Override
@@ -632,22 +519,44 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 
 	@Override
 	public void setSubPlaceId(long subPlaceId) {
-		_columnBitmask |= SUBPLACEID_COLUMN_BITMASK;
-
-		if (!_setOriginalSubPlaceId) {
-			_setOriginalSubPlaceId = true;
-
-			_originalSubPlaceId = _subPlaceId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_subPlaceId = subPlaceId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalSubPlaceId() {
-		return _originalSubPlaceId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("subPlaceId"));
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -764,6 +673,22 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 	}
 
 	@Override
+	public Slot cloneWithOriginalValues() {
+		SlotImpl slotImpl = new SlotImpl();
+
+		slotImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		slotImpl.setSlotId(this.<Long>getColumnOriginalValue("slotId"));
+		slotImpl.setDayOfWeek(this.<Long>getColumnOriginalValue("dayOfWeek"));
+		slotImpl.setStartHour(this.<String>getColumnOriginalValue("startHour"));
+		slotImpl.setEndHour(this.<String>getColumnOriginalValue("endHour"));
+		slotImpl.setComment(this.<String>getColumnOriginalValue("comment_"));
+		slotImpl.setPeriodId(this.<Long>getColumnOriginalValue("periodId"));
+		slotImpl.setSubPlaceId(this.<Long>getColumnOriginalValue("subPlaceId"));
+
+		return slotImpl;
+	}
+
+	@Override
 	public int compareTo(Slot slot) {
 		long primaryKey = slot.getPrimaryKey();
 
@@ -805,11 +730,19 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -817,19 +750,9 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 
 	@Override
 	public void resetOriginalValues() {
-		SlotModelImpl slotModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		slotModelImpl._originalUuid = slotModelImpl._uuid;
-
-		slotModelImpl._originalPeriodId = slotModelImpl._periodId;
-
-		slotModelImpl._setOriginalPeriodId = false;
-
-		slotModelImpl._originalSubPlaceId = slotModelImpl._subPlaceId;
-
-		slotModelImpl._setOriginalSubPlaceId = false;
-
-		slotModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -885,7 +808,7 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -895,9 +818,26 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 			String attributeName = entry.getKey();
 			Function<Slot, Object> attributeGetterFunction = entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Slot)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Slot)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -910,45 +850,16 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Slot, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Slot, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Slot, Object> attributeGetterFunction = entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Slot)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Slot>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Slot.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _slotId;
 	private long _dayOfWeek;
 	private String _startHour;
@@ -956,11 +867,89 @@ public class SlotModelImpl extends BaseModelImpl<Slot> implements SlotModel {
 	private String _comment;
 	private String _commentCurrentLanguageId;
 	private long _periodId;
-	private long _originalPeriodId;
-	private boolean _setOriginalPeriodId;
 	private long _subPlaceId;
-	private long _originalSubPlaceId;
-	private boolean _setOriginalSubPlaceId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Slot, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Slot)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("slotId", _slotId);
+		_columnOriginalValues.put("dayOfWeek", _dayOfWeek);
+		_columnOriginalValues.put("startHour", _startHour);
+		_columnOriginalValues.put("endHour", _endHour);
+		_columnOriginalValues.put("comment_", _comment);
+		_columnOriginalValues.put("periodId", _periodId);
+		_columnOriginalValues.put("subPlaceId", _subPlaceId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("comment_", "comment");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("slotId", 2L);
+
+		columnBitmasks.put("dayOfWeek", 4L);
+
+		columnBitmasks.put("startHour", 8L);
+
+		columnBitmasks.put("endHour", 16L);
+
+		columnBitmasks.put("comment_", 32L);
+
+		columnBitmasks.put("periodId", 64L);
+
+		columnBitmasks.put("subPlaceId", 128L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Slot _escapedModel;
 

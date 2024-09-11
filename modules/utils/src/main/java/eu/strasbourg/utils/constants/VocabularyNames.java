@@ -19,6 +19,7 @@ public class VocabularyNames {
 	public static final String EDITION_TYPE = "type des editions";
 	public static final String EDITION_SOURCE = "source des editions";
 	public static final String MUSEUM = "musees";
+	public static final String ACTIVITY_TYPE_MUSEUM = "type d'activite";
 	public static final String ACTIVITY_TYPE = "type des activites";
 	public static final String ACTIVITY_COURSE_PUBLIC = "public de cours";
 	public static final String ACTIVITY_SERVICE = "service gestionnaire des activites";
@@ -31,6 +32,7 @@ public class VocabularyNames {
 	public static final String BUDGET_PARTICIPATIF_STATUS= "Statut BP";
 	public static final String INITIATIVE_STATUS = "statut de l'initiative";
 	public static final String PLACIT_STATUS = "statut participer";
+	public static final String SAISINE_STATUS = "statut saisine";
 	public static final String THEMATIC = "thematique";
 	public static final String PROJECT_STATUS = "statut projet";
 	public static final String SIGNALEMENT_CATEGORIE = "Signalements Categorie";
@@ -43,10 +45,13 @@ public class VocabularyNames {
 	public static final String ACCESSIBILITY = "accessibilite de pratique";
 	public static final String ARRET_TYPE = "type d'arret";
 	public static final String COUNCIL_SESSION = "Conseil";
+	public static final String COUNCIL_STATE= "Statut";
 	public static final String COUNCIL_TYPE = "Type";
 	public static final String COUNCIL_OFFICIAL_ACTIVITY = "Activite elu";
 	public static final String COMMISSION = "commission des actes reglementaires et normatifs";
 	public static final String EQUIPMENT = "Equipements du lieu";
+	public static final String SAISINE_DISPOSITIF = "Saisine Dispositif";
+	public static final String SAISINE_EN_TANT_QUE = "Saisine En tant que";
 
 	public static final String HELP_HELPER_TYPE = "type d'aidant";
 	public static final String HELP_PROPOSAL_TYPE = "type proposition d'aide";
@@ -57,16 +62,6 @@ public class VocabularyNames {
 	public static final String TYPE_NOEL = "type noel";
 	public static final String TAUX_NOEL = "taux noel";
 	public static final String DUREE_NOEL = "duree noel";
-
-	public static final String EJOB_FILIERES = "(e-job) filieres";
-	public static final String EJOB_CATEGORIES = "(e-job) categories";
-	public static final String EJOB_TYPE_RECRUTEMENT = "(e-job) type de recrutement";
-	public static final String EJOB_DIRECTION = "(e-job) direction";
-	public static final String EJOB_NIVEAU_ETUDE = "(e-job) niveau d'etude";
-	public static final String EJOB_FAMILLE = "(e-job) famille de metiers";
-	public static final String EJOB_CONTACT = "(e-job) contact responsable";
-	public static final String EJOB_INTERNE_EXTERNE = "(e-job) type de publication";
-	public static final String EJOB_MOTIF = "(e-job) motif";
 
 	public static final String CSMAP_URGENCES = "categorie d'aides d'urgence";
 }

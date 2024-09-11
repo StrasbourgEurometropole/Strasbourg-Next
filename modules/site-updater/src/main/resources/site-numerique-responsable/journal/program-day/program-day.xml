@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Programme du Jour</name>
+        <key>480600875</key>
+        <definition>program-day-structure.json</definition>
+        <layout>program-day-layout.json</layout>
+    </structure>
+</root>

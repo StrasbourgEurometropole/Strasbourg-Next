@@ -9,5 +9,6 @@
 >
 	<bean class="eu.strasbourg.service.favorite.service.impl.FavoriteLocalServiceImpl" id="eu.strasbourg.service.favorite.service.FavoriteLocalService" />
 	<bean class="eu.strasbourg.service.favorite.service.impl.FavoriteServiceImpl" id="eu.strasbourg.service.favorite.service.FavoriteService" />
-	<bean class="eu.strasbourg.service.favorite.service.persistence.impl.FavoritePersistenceImpl" id="eu.strasbourg.service.favorite.service.persistence.FavoritePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.favorite.service.persistence.impl.FavoriteModelArgumentsResolver" id="eu.strasbourg.service.favorite.service.persistence.impl.FavoriteModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.favorite.service.persistence.impl.FavoritePersistenceImpl" id="eu.strasbourg.service.favorite.service.persistence.FavoritePersistence" />
 </beans>

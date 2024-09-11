@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Header StrasEtudiants</name>
+        <key>898359</key>
+        <definition>header-sae-structure.json</definition>
+        <layout>header-sae-layout.json</layout>
+    </structure>
+    <template>
+        <name>Header StrasEtudiants</name>
+        <key>898395</key>
+        <script>header-sae.ftl</script>
+    </template>
+</root>

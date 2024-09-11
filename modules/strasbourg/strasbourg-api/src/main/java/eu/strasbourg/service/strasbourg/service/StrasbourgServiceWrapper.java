@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.strasbourg.service;
@@ -26,6 +17,10 @@ import com.liferay.portal.kernel.service.ServiceWrapper;
 public class StrasbourgServiceWrapper
 	implements ServiceWrapper<StrasbourgService>, StrasbourgService {
 
+	public StrasbourgServiceWrapper() {
+		this(null);
+	}
+
 	public StrasbourgServiceWrapper(StrasbourgService strasbourgService) {
 		_strasbourgService = strasbourgService;
 	}
@@ -35,6 +30,30 @@ public class StrasbourgServiceWrapper
 	 *
 	 * Returns <code>succes</code> un document de commission.
 	 *
+	 * @param fileContent le fichier
+	 * @param fileName le nom du fichier
+	 * @param commissionName le nom de la commission
+	 * @param publicationDate la date de publication au format yyyy-MM-ddThh:mm:ss
+	 * @param publicationDateFin la date de fin de publication au format yyyy-MM-ddThh:mm:ss
+	 * @param documentType Le type de document
+	 * @param documentName Le nom du document
+	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject addActe(
+		java.io.File fileContent, String fileName, String commissionName,
+		String publicationDate, String publicationDateFin, String documentType,
+		String documentName) {
+
+		return _strasbourgService.addActe(
+			fileContent, fileName, commissionName, publicationDate,
+			publicationDateFin, documentType, documentName);
+	}
+
+	/**
+	 * @deprecated Remplacé par addActes qui gèrent l'envoi de fichier via multipart/form-data
+	 Envoie <code>error</code> si le document n'a pas été envoyé.
+	 Returns <code>succes</code> un document de commission.
 	 * @param fileContent le fichier en base 64
 	 * @param fileName le nom du fichier
 	 * @param commissionName le nom de la commission
@@ -71,6 +90,22 @@ public class StrasbourgServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONArray
+		getCategoriesByClassNameAndGroupIds(
+			long[] groupIds, String className, long classType) {
+
+		return _strasbourgService.getCategoriesByClassNameAndGroupIds(
+			groupIds, className, classType);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getCategoriesByGroupIds(
+		long[] groupIds) {
+
+		return _strasbourgService.getCategoriesByGroupIds(groupIds);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getCategoriesPois(
 		String categories, String vocabulariesEmptyIds, String prefilters,
 		String tags, long groupId, String typeContenu, boolean dateField,
@@ -104,11 +139,18 @@ public class StrasbourgServiceWrapper
 			groupId, typeContenu, localeId);
 	}
 
+	/**
+	 * Retourne les information d'un fichier de la doc lib à partir de sa friendly url
+	 *
+	 * @param friendlyUrl
+	 * @param language
+	 * @return
+	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getFileDetails(
-		long groupId, String uuid, String language) {
+		String friendlyUrl, String language) {
 
-		return _strasbourgService.getFileDetails(groupId, uuid, language);
+		return _strasbourgService.getFileDetails(friendlyUrl, language);
 	}
 
 	@Override
@@ -139,8 +181,38 @@ public class StrasbourgServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.json.JSONArray getStructuresByGroupIds(
+		long[] groupIds) {
+
+		return _strasbourgService.getStructuresByGroupIds(groupIds);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject
+		getTagsAndCategoriesByGroupIdsAndClassName(
+			long[] groupIds, String className, long classType) {
+
+		return _strasbourgService.getTagsAndCategoriesByGroupIdsAndClassName(
+			groupIds, className, classType);
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getTagsByGroupIds(
+		long[] groupIds) {
+
+		return _strasbourgService.getTagsByGroupIds(groupIds);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getTraffic() {
 		return _strasbourgService.getTraffic();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getVocabulariesByGroupIds(
+		long[] groupIds) {
+
+		return _strasbourgService.getVocabulariesByGroupIds(groupIds);
 	}
 
 	@Override

@@ -64,10 +64,10 @@
     </#list>
 
 	<link type="text/css" rel="stylesheet" href="/o/plateforme-citoyenne-theme/css/strasbourg.css">
-	<link type="text/css" rel="stylesheet" href="/o/plateforme-citoyenne-theme/css/leaflet.css">
+	<link type="text/css" rel="stylesheet" href="/o/0-global-theme/libs/leaflet/leaflet.css">
 	<link type="text/css" rel="stylesheet" href="/o/plateforme-citoyenne-theme/css/leaflet.fullscreen.css">
-	<link type="text/css" rel="stylesheet" href="/o/plateforme-citoyenne-theme/css/MarkerCluster.css" />
-	<link type="text/css" rel="stylesheet" href="/o/plateforme-citoyenne-theme/css/MarkerCluster.Default.css" />
+	<link type="text/css" rel="stylesheet" href="/o/0-global-theme/libs/leaflet/MarkerCluster.css" />
+	<link type="text/css" rel="stylesheet" href="/o/0-global-theme/libs/leaflet/MarkerCluster.Default.css" />
 	<link type="text/css" rel="stylesheet" href="/o/0-global-theme/css/hackliferay.css" />
   <script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
   <script type="text/javascript" src="/o/0-global-theme/js/tarteaucitron.init.js"></script>
@@ -84,7 +84,7 @@
 
 <@liferay.control_menu />
 
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
     <#assign homeURL = "/web${layout.group.friendlyURL}/" />
 <#else>
     <#assign homeURL = "/" />
@@ -100,7 +100,6 @@
 	<#include "${full_templates_path}/modal_banned.ftl" />
 
 	<main id="content" class="pro-overflow-visible">
-		<h1 class="hide-accessible">${the_title}</h1>
 
 		<#if selectable>
 			<@liferay_util["include"] page=content_include />

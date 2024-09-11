@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.asset.kernel.model.AssetEntry</className>
+    <template>
+        <script>budget-participatif-slider-with-margin.ftl</script>
+        <name>Slider budget participatif avec marge</name>
+        <key>4711767</key>
+    </template>
+    <template>
+        <script>budget-participatif-slider-without-margin.ftl</script>
+        <name>Slider budget participatif sans marge</name>
+        <key>4711762</key>
+    </template>
+    <template>
+        <script>budget-phase-notification.ftl</script>
+        <name>Budget phase notification</name>
+        <key>3873706</key>
+    </template>
+    <template>
+        <script>dowload-documents.ftl</script>
+        <name>Liste documents téléchargeables</name>
+        <key>2532031</key>
+    </template>
+    <template>
+        <script>event-slider-with-margin.ftl</script>
+        <name>Slider événements avec marge</name>
+        <key>2532179</key>
+    </template>
+    <template>
+        <script>event-slider-without-margin.ftl</script>
+        <name>Slider événements sans marge</name>
+        <key>2532167</key>
+    </template>
+    <template>
+        <script>initiative-slider-with-margin.ftl</script>
+        <name>Slider initiatives avec marge</name>
+        <key>5099233</key>
+    </template>
+    <template>
+        <script>initiative-slider-without-margin.ftl</script>
+        <name>Slider initiatives sans marge</name>
+        <key>5099228</key>
+    </template>
+    <template>
+        <script>news-slider.ftl</script>
+        <name>Slider actualités</name>
+        <key>2532158</key>
+    </template>
+    <template>
+        <script>participation-slider-with-margin.ftl</script>
+        <name>Slider participations avec marge</name>
+        <key>2532150</key>
+    </template>
+    <template>
+        <script>participation-slider-without-margin.ftl</script>
+        <name>Slider participations sans marge</name>
+        <key>2532146</key>
+    </template>
+    <template>
+        <script>participation-slider-without-margin-ems.ftl</script>
+        <name>Slider participations EMS sans marge</name>
+        <key>35111127</key>
+    </template>
+    <template>
+        <script>petition-slider-with-margin.ftl</script>
+        <name>Slider pétitions avec marge</name>
+        <key>4711795</key>
+    </template>
+    <template>
+        <script>petition-slider-without-margin.ftl</script>
+        <name>Slider petitions sans marge</name>
+        <key>4711799</key>
+    </template>
+    <template>
+        <script>project-detail-header.ftl</script>
+        <name>Projet - Entête</name>
+        <key>2532133</key>
+    </template>
+    <template>
+        <script>project-detail-timeline.ftl</script>
+        <name>Projet - Timeline</name>
+        <key>2532188</key>
+    </template>
+    <template>
+        <script>project-slider-with-margin.ftl</script>
+        <name>Slider projet avec marge</name>
+        <key>2532129</key>
+    </template>
+    <template>
+        <script>project-slider-without-margin.ftl</script>
+        <name>Slider projets sans marge</name>
+        <key>2532106</key>
+    </template>
+    <template>
+        <script>video-slider-without-margin.ftl</script>
+        <name>Slider vidéo sans marges</name>
+        <key>4711781</key>
+    </template>
+</root>

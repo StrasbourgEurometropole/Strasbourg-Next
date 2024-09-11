@@ -15,21 +15,20 @@
  */
 package eu.strasbourg.portlet.edition.action;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.util.ParamUtil;
-
 import eu.strasbourg.service.edition.service.EditionGalleryLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import java.io.IOException;
 
 @Component(
 	immediate = true,
@@ -47,7 +46,11 @@ public class DeleteGalleryActionCommand
 		try {
 			long galleryId = ParamUtil.getLong(request, "galleryId");
 			_editionGalleryLocalService.removeGallery(galleryId);
+
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
+			_log.error(e);
+		} catch (IOException e) {
 			_log.error(e);
 		}
 		return true;

@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.council.model.Procuration;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for Procuration. This utility wraps
@@ -48,11 +48,18 @@ public class ProcurationLocalServiceUtil {
 	 * @param procuration the procuration
 	 * @return the procuration that was added
 	 */
-	public static eu.strasbourg.service.council.model.Procuration
-		addProcuration(
-			eu.strasbourg.service.council.model.Procuration procuration) {
-
+	public static Procuration addProcuration(Procuration procuration) {
 		return getService().addProcuration(procuration);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -61,19 +68,16 @@ public class ProcurationLocalServiceUtil {
 	 * @param procurationId the primary key for the new procuration
 	 * @return the new procuration
 	 */
-	public static eu.strasbourg.service.council.model.Procuration
-		createProcuration(long procurationId) {
-
+	public static Procuration createProcuration(long procurationId) {
 		return getService().createProcuration(procurationId);
 	}
 
 	/**
 	 * Crée une entité vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.council.model.Procuration
-			createProcuration(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Procuration createProcuration(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createProcuration(sc);
 	}
@@ -81,10 +85,9 @@ public class ProcurationLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -100,9 +103,8 @@ public class ProcurationLocalServiceUtil {
 	 * @return the procuration that was removed
 	 * @throws PortalException if a procuration with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.council.model.Procuration
-			deleteProcuration(long procurationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Procuration deleteProcuration(long procurationId)
+		throws PortalException {
 
 		return getService().deleteProcuration(procurationId);
 	}
@@ -117,16 +119,19 @@ public class ProcurationLocalServiceUtil {
 	 * @param procuration the procuration
 	 * @return the procuration that was removed
 	 */
-	public static eu.strasbourg.service.council.model.Procuration
-		deleteProcuration(
-			eu.strasbourg.service.council.model.Procuration procuration) {
-
+	public static Procuration deleteProcuration(Procuration procuration) {
 		return getService().deleteProcuration(procuration);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -136,9 +141,7 @@ public class ProcurationLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -154,9 +157,8 @@ public class ProcurationLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -174,10 +176,9 @@ public class ProcurationLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -189,9 +190,7 @@ public class ProcurationLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -203,15 +202,13 @@ public class ProcurationLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.council.model.Procuration
-		fetchProcuration(long procurationId) {
-
+	public static Procuration fetchProcuration(long procurationId) {
 		return getService().fetchProcuration(procurationId);
 	}
 
@@ -222,8 +219,8 @@ public class ProcurationLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching procuration, or <code>null</code> if a matching procuration could not be found
 	 */
-	public static eu.strasbourg.service.council.model.Procuration
-		fetchProcurationByUuidAndGroupId(String uuid, long groupId) {
+	public static Procuration fetchProcurationByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchProcurationByUuidAndGroupId(uuid, groupId);
 	}
@@ -231,8 +228,8 @@ public class ProcurationLocalServiceUtil {
 	/**
 	 * Recherche d'une absence à une session
 	 */
-	public static eu.strasbourg.service.council.model.Procuration
-		findAbsenceForCouncilSession(long councilSessionId, long officialId) {
+	public static Procuration findAbsenceForCouncilSession(
+		long councilSessionId, long officialId) {
 
 		return getService().findAbsenceForCouncilSession(
 			councilSessionId, officialId);
@@ -241,9 +238,8 @@ public class ProcurationLocalServiceUtil {
 	/**
 	 * Recherche par ID de CouncilSession
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.council.model.Procuration>
-			findByCouncilSessionId(long councilSessionId) {
+	public static List<Procuration> findByCouncilSessionId(
+		long councilSessionId) {
 
 		return getService().findByCouncilSessionId(councilSessionId);
 	}
@@ -251,10 +247,9 @@ public class ProcurationLocalServiceUtil {
 	/**
 	 * Recherche d'une procuration pour un officiel
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.council.model.Procuration>
-			findByCouncilSessionIdAndOfficialUnavailableId(
-				long councilSessionId, long officialId) {
+	public static List<Procuration>
+		findByCouncilSessionIdAndOfficialUnavailableId(
+			long councilSessionId, long officialId) {
 
 		return getService().findByCouncilSessionIdAndOfficialUnavailableId(
 			councilSessionId, officialId);
@@ -263,7 +258,7 @@ public class ProcurationLocalServiceUtil {
 	/**
 	 * Recherche par ID de CouncilSession, élu et mandataire,
 	 */
-	public static eu.strasbourg.service.council.model.Procuration
+	public static Procuration
 		findByCouncilSessionIdAndOfficialVotersAndUnavailableIds(
 			long councilSessionId, long officialVoter,
 			long officialUnavailableId) {
@@ -276,10 +271,8 @@ public class ProcurationLocalServiceUtil {
 	/**
 	 * Recherche par ID de CouncilSession et Mandataire
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.council.model.Procuration>
-			findByCouncilSessionIdAndOfficialVotersId(
-				long councilSessionId, long officialVoter) {
+	public static List<Procuration> findByCouncilSessionIdAndOfficialVotersId(
+		long councilSessionId, long officialVoter) {
 
 		return getService().findByCouncilSessionIdAndOfficialVotersId(
 			councilSessionId, officialVoter);
@@ -318,9 +311,8 @@ public class ProcurationLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -332,9 +324,8 @@ public class ProcurationLocalServiceUtil {
 	 * @return the procuration
 	 * @throws PortalException if a procuration with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.council.model.Procuration
-			getProcuration(long procurationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Procuration getProcuration(long procurationId)
+		throws PortalException {
 
 		return getService().getProcuration(procurationId);
 	}
@@ -347,9 +338,9 @@ public class ProcurationLocalServiceUtil {
 	 * @return the matching procuration
 	 * @throws PortalException if a matching procuration could not be found
 	 */
-	public static eu.strasbourg.service.council.model.Procuration
-			getProcurationByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Procuration getProcurationByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getProcurationByUuidAndGroupId(uuid, groupId);
 	}
@@ -365,10 +356,7 @@ public class ProcurationLocalServiceUtil {
 	 * @param end the upper bound of the range of procurations (not inclusive)
 	 * @return the range of procurations
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.council.model.Procuration> getProcurations(
-			int start, int end) {
-
+	public static List<Procuration> getProcurations(int start, int end) {
 		return getService().getProcurations(start, end);
 	}
 
@@ -379,9 +367,8 @@ public class ProcurationLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching procurations, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.council.model.Procuration>
-			getProcurationsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Procuration> getProcurationsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getProcurationsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -396,13 +383,9 @@ public class ProcurationLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching procurations, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.council.model.Procuration>
-			getProcurationsByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.council.model.Procuration>
-						orderByComparator) {
+	public static List<Procuration> getProcurationsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Procuration> orderByComparator) {
 
 		return getService().getProcurationsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -430,9 +413,8 @@ public class ProcurationLocalServiceUtil {
 	/**
 	 * Supprime une entité
 	 */
-	public static eu.strasbourg.service.council.model.Procuration
-			removeProcuration(long procurationId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Procuration removeProcuration(long procurationId)
+		throws PortalException {
 
 		return getService().removeProcuration(procurationId);
 	}
@@ -447,21 +429,17 @@ public class ProcurationLocalServiceUtil {
 	 * @param procuration the procuration
 	 * @return the procuration that was updated
 	 */
-	public static eu.strasbourg.service.council.model.Procuration
-		updateProcuration(
-			eu.strasbourg.service.council.model.Procuration procuration) {
-
+	public static Procuration updateProcuration(Procuration procuration) {
 		return getService().updateProcuration(procuration);
 	}
 
 	/**
 	 * Met à jour une entité et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.council.model.Procuration
-			updateProcuration(
-				eu.strasbourg.service.council.model.Procuration procuration,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Procuration updateProcuration(
+			Procuration procuration,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateProcuration(procuration, sc);
 	}
@@ -469,11 +447,11 @@ public class ProcurationLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'entité par le framework workflow
 	 */
-	public static eu.strasbourg.service.council.model.Procuration updateStatus(
+	public static Procuration updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
@@ -482,34 +460,20 @@ public class ProcurationLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'entité "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.council.model.Procuration procuration,
-			int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(Procuration procuration, int status)
+		throws PortalException {
 
 		getService().updateStatus(procuration, status);
 	}
 
 	public static ProcurationLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<ProcurationLocalService, ProcurationLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(ProcurationLocalService.class);
-
-		ServiceTracker<ProcurationLocalService, ProcurationLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<ProcurationLocalService, ProcurationLocalService>(
-						bundle.getBundleContext(),
-						ProcurationLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(ProcurationLocalService service) {
+		_service = service;
 	}
+
+	private static volatile ProcurationLocalService _service;
 
 }

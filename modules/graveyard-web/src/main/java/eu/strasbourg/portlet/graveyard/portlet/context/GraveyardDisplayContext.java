@@ -1,22 +1,11 @@
 package eu.strasbourg.portlet.graveyard.portlet.context;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.portlet.PortletException;
-import javax.portlet.PortletURL;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.servlet.http.HttpServletRequest;
-
+import com.liferay.petra.function.UnsafeSupplier;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
@@ -28,14 +17,27 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.portlet.graveyard.portlet.DefuntDTO;
 import eu.strasbourg.portlet.graveyard.portlet.GraveyardResponse;
 import eu.strasbourg.portlet.graveyard.portlet.GraveyardWebServiceClient;
 import eu.strasbourg.portlet.graveyard.portlet.configuration.GraveyardConfiguration;
 import eu.strasbourg.portlet.graveyard.portlet.mapping.GraveyardMapping;
 import eu.strasbourg.utils.Pager;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.UriHelper;
+
+import javax.portlet.PortletException;
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class GraveyardDisplayContext {
 
@@ -51,10 +53,9 @@ public class GraveyardDisplayContext {
 	public GraveyardDisplayContext(RenderRequest request, RenderResponse response) {
 		this.themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 		try {
-			this.configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(GraveyardConfiguration.class);
+			this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(GraveyardConfiguration.class, themeDisplay);
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 		this.request = request;
 		this.response = response;
@@ -74,6 +75,17 @@ public class GraveyardDisplayContext {
 			contactURL = "#";
 		}
 		return contactURL;
+	}
+
+	/**
+	 * Retourne l'URL sur laquelle aller pour avoir X items par page
+	 */
+	public String getURLForDelta(long delta) throws ConfigurationException {
+		PortletURL url = this.getSearchContainer().getIteratorURL();
+		url.setParameter("delta", String.valueOf(delta));
+		String valueToReturn = url.toString();
+		url.setParameter("delta", String.valueOf(getDelta()));
+		return valueToReturn;
 	}
 
 	public String getLimit() {
@@ -121,7 +133,8 @@ public class GraveyardDisplayContext {
 			if (Validator.isNull(name)) {
 				error += LanguageUtil.get(httpRequest, "required") + " " + LanguageUtil.get(httpRequest, "name-required");
 			}
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			// Vérification des dates avec le format HTML5 (RFC 3339/ISO 8601 "wire format")
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			if ((Validator.isNotNull(birthDateStartString) || Validator.isNotNull(birthDateEndString))
 					&& !(Validator.isNotNull(birthDateStartString) && Validator.isNotNull(birthDateEndString))) {
 				if (Validator.isNull(error)) {
@@ -177,7 +190,7 @@ public class GraveyardDisplayContext {
 				this.setGraveyard(graveyardResponse);
 			}
 		} catch (ParseException e1) {
-			e1.printStackTrace();
+			_log.error(e1.getMessage(), e1);
 		}
 		request.setAttribute("error", error);
 		request.setAttribute("name", HtmlUtil.escape(name));
@@ -200,7 +213,7 @@ public class GraveyardDisplayContext {
 
 	public String getVirtualHostName() {
 		Group group = GroupLocalServiceUtil.fetchFriendlyURLGroup(this.themeDisplay.getCompanyId(), "/strasbourg.eu");
-		return group.getPublicLayoutSet().getVirtualHostname();
+		return PortalHelper.getVirtualHostname(group,this.themeDisplay.getLanguageId());
 	}
 
 	/**
@@ -256,8 +269,8 @@ public class GraveyardDisplayContext {
 			iteratorURL.setParameters(parameterMap);
 			searchContainer = new SearchContainer<DefuntDTO>(request, iteratorURL, null, "no-entries-were-found");
 			searchContainer.setDelta(this.getDelta());
-			searchContainer.setTotal(this.getResultCount());
-			searchContainer.setResults(this.defunts);
+			searchContainer.setResultsAndTotal(() ->this.defunts,this.getResultCount());
+
 		}
 		return searchContainer;
 	}
@@ -289,4 +302,6 @@ public class GraveyardDisplayContext {
 	}
 
 	public String getNormalizedForURL(String s){ return UriHelper.normalizeToFriendlyUrl(s); }
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass());
 }

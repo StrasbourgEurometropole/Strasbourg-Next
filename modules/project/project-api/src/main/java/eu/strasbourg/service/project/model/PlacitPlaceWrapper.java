@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +23,11 @@ import java.util.Objects;
  * @generated
  */
 public class PlacitPlaceWrapper
+	extends BaseModelWrapper<PlacitPlace>
 	implements ModelWrapper<PlacitPlace>, PlacitPlace {
 
 	public PlacitPlaceWrapper(PlacitPlace placitPlace) {
-		_placitPlace = placitPlace;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return PlacitPlace.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return PlacitPlace.class.getName();
+		super(placitPlace);
 	}
 
 	@Override
@@ -73,6 +51,7 @@ public class PlacitPlaceWrapper
 		attributes.put("projectId", getProjectId());
 		attributes.put("participationId", getParticipationId());
 		attributes.put("petitionId", getPetitionId());
+		attributes.put("saisineObservatoireId", getSaisineObservatoireId());
 		attributes.put("budgetParticipatifId", getBudgetParticipatifId());
 		attributes.put("initiativeId", getInitiativeId());
 		attributes.put("placeSIGId", getPlaceSIGId());
@@ -184,6 +163,13 @@ public class PlacitPlaceWrapper
 			setPetitionId(petitionId);
 		}
 
+		Long saisineObservatoireId = (Long)attributes.get(
+			"saisineObservatoireId");
+
+		if (saisineObservatoireId != null) {
+			setSaisineObservatoireId(saisineObservatoireId);
+		}
+
 		Long budgetParticipatifId = (Long)attributes.get(
 			"budgetParticipatifId");
 
@@ -205,15 +191,8 @@ public class PlacitPlaceWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new PlacitPlaceWrapper((PlacitPlace)_placitPlace.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.project.model.PlacitPlace placitPlace) {
-
-		return _placitPlace.compareTo(placitPlace);
+	public PlacitPlace cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -221,7 +200,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getAddress() {
-		return _placitPlace.getAddress();
+		return model.getAddress();
 	}
 
 	/**
@@ -229,12 +208,12 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _placitPlace.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _placitPlace.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -244,7 +223,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public long getBudgetParticipatifId() {
-		return _placitPlace.getBudgetParticipatifId();
+		return model.getBudgetParticipatifId();
 	}
 
 	/**
@@ -255,7 +234,7 @@ public class PlacitPlaceWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _placitPlace.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -263,7 +242,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getCity(java.util.Locale locale) {
-		return _placitPlace.getCity(locale);
+		return model.getCity(locale);
 	}
 
 	/**
@@ -273,7 +252,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _placitPlace.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -281,7 +260,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getCompleteAddress(java.util.Locale locale) {
-		return _placitPlace.getCompleteAddress(locale);
+		return model.getCompleteAddress(locale);
 	}
 
 	/**
@@ -291,17 +270,12 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _placitPlace.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _placitPlace.getDefaultLanguageId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _placitPlace.getExpandoBridge();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -311,7 +285,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _placitPlace.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -321,7 +295,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public long getImageId() {
-		return _placitPlace.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -329,7 +303,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getImageURL() {
-		return _placitPlace.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -339,7 +313,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public long getInitiativeId() {
-		return _placitPlace.getInitiativeId();
+		return model.getInitiativeId();
 	}
 
 	/**
@@ -350,7 +324,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public java.util.List<String> getMercators() {
-		return _placitPlace.getMercators();
+		return model.getMercators();
 	}
 
 	/**
@@ -358,7 +332,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getMercatorX() {
-		return _placitPlace.getMercatorX();
+		return model.getMercatorX();
 	}
 
 	/**
@@ -366,7 +340,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getMercatorY() {
-		return _placitPlace.getMercatorY();
+		return model.getMercatorY();
 	}
 
 	/**
@@ -376,7 +350,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _placitPlace.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -386,7 +360,7 @@ public class PlacitPlaceWrapper
 	public eu.strasbourg.service.project.model.Participation
 		getParticipation() {
 
-		return _placitPlace.getParticipation();
+		return model.getParticipation();
 	}
 
 	/**
@@ -396,7 +370,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public long getParticipationId() {
-		return _placitPlace.getParticipationId();
+		return model.getParticipationId();
 	}
 
 	/**
@@ -406,7 +380,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public long getPetitionId() {
-		return _placitPlace.getPetitionId();
+		return model.getPetitionId();
 	}
 
 	/**
@@ -414,7 +388,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getPlaceAlias(java.util.Locale locale) {
-		return _placitPlace.getPlaceAlias(locale);
+		return model.getPlaceAlias(locale);
 	}
 
 	/**
@@ -424,7 +398,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public long getPlaceCityId() {
-		return _placitPlace.getPlaceCityId();
+		return model.getPlaceCityId();
 	}
 
 	/**
@@ -434,7 +408,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getPlaceName() {
-		return _placitPlace.getPlaceName();
+		return model.getPlaceName();
 	}
 
 	/**
@@ -445,7 +419,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getPlaceName(java.util.Locale locale) {
-		return _placitPlace.getPlaceName(locale);
+		return model.getPlaceName(locale);
 	}
 
 	/**
@@ -457,7 +431,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getPlaceName(java.util.Locale locale, boolean useDefault) {
-		return _placitPlace.getPlaceName(locale, useDefault);
+		return model.getPlaceName(locale, useDefault);
 	}
 
 	/**
@@ -468,7 +442,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getPlaceName(String languageId) {
-		return _placitPlace.getPlaceName(languageId);
+		return model.getPlaceName(languageId);
 	}
 
 	/**
@@ -480,17 +454,17 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getPlaceName(String languageId, boolean useDefault) {
-		return _placitPlace.getPlaceName(languageId, useDefault);
+		return model.getPlaceName(languageId, useDefault);
 	}
 
 	@Override
 	public String getPlaceNameCurrentLanguageId() {
-		return _placitPlace.getPlaceNameCurrentLanguageId();
+		return model.getPlaceNameCurrentLanguageId();
 	}
 
 	@Override
 	public String getPlaceNameCurrentValue() {
-		return _placitPlace.getPlaceNameCurrentValue();
+		return model.getPlaceNameCurrentValue();
 	}
 
 	/**
@@ -500,7 +474,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getPlaceNameMap() {
-		return _placitPlace.getPlaceNameMap();
+		return model.getPlaceNameMap();
 	}
 
 	/**
@@ -510,7 +484,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getPlaceSIGId() {
-		return _placitPlace.getPlaceSIGId();
+		return model.getPlaceSIGId();
 	}
 
 	/**
@@ -520,7 +494,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getPlaceStreetName() {
-		return _placitPlace.getPlaceStreetName();
+		return model.getPlaceStreetName();
 	}
 
 	/**
@@ -530,7 +504,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getPlaceStreetNumber() {
-		return _placitPlace.getPlaceStreetNumber();
+		return model.getPlaceStreetNumber();
 	}
 
 	/**
@@ -540,7 +514,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getPlaceZipCode() {
-		return _placitPlace.getPlaceZipCode();
+		return model.getPlaceZipCode();
 	}
 
 	/**
@@ -550,7 +524,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public long getPlacitPlaceId() {
-		return _placitPlace.getPlacitPlaceId();
+		return model.getPlacitPlaceId();
 	}
 
 	/**
@@ -560,12 +534,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _placitPlace.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _placitPlace.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -573,7 +542,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public eu.strasbourg.service.project.model.Project getProject() {
-		return _placitPlace.getProject();
+		return model.getProject();
 	}
 
 	/**
@@ -583,7 +552,17 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public long getProjectId() {
-		return _placitPlace.getProjectId();
+		return model.getProjectId();
+	}
+
+	/**
+	 * Returns the saisine observatoire ID of this placit place.
+	 *
+	 * @return the saisine observatoire ID of this placit place
+	 */
+	@Override
+	public long getSaisineObservatoireId() {
+		return model.getSaisineObservatoireId();
 	}
 
 	/**
@@ -591,7 +570,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getSIGPlaceAlias(java.util.Locale locale) {
-		return _placitPlace.getSIGPlaceAlias(locale);
+		return model.getSIGPlaceAlias(locale);
 	}
 
 	/**
@@ -601,7 +580,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _placitPlace.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -611,7 +590,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _placitPlace.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -621,7 +600,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _placitPlace.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -631,7 +610,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _placitPlace.getUuid();
+		return model.getUuid();
 	}
 
 	/**
@@ -639,27 +618,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public String getZipCode() {
-		return _placitPlace.getZipCode();
-	}
-
-	@Override
-	public int hashCode() {
-		return _placitPlace.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _placitPlace.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _placitPlace.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _placitPlace.isNew();
+		return model.getZipCode();
 	}
 
 	/**
@@ -669,19 +628,19 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public boolean isSIG() {
-		return _placitPlace.isSIG();
+		return model.isSIG();
 	}
 
 	@Override
 	public void persist() {
-		_placitPlace.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_placitPlace.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -689,7 +648,7 @@ public class PlacitPlaceWrapper
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_placitPlace.prepareLocalizedFieldsForImport(defaultImportLocale);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -699,12 +658,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setBudgetParticipatifId(long budgetParticipatifId) {
-		_placitPlace.setBudgetParticipatifId(budgetParticipatifId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_placitPlace.setCachedModel(cachedModel);
+		model.setBudgetParticipatifId(budgetParticipatifId);
 	}
 
 	/**
@@ -714,7 +668,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_placitPlace.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -724,24 +678,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_placitPlace.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_placitPlace.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_placitPlace.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_placitPlace.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -751,7 +688,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_placitPlace.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -761,7 +698,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setImageId(long imageId) {
-		_placitPlace.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -771,7 +708,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setInitiativeId(long initiativeId) {
-		_placitPlace.setInitiativeId(initiativeId);
+		model.setInitiativeId(initiativeId);
 	}
 
 	/**
@@ -781,12 +718,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_placitPlace.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_placitPlace.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -796,7 +728,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setParticipationId(long participationId) {
-		_placitPlace.setParticipationId(participationId);
+		model.setParticipationId(participationId);
 	}
 
 	/**
@@ -806,7 +738,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setPetitionId(long petitionId) {
-		_placitPlace.setPetitionId(petitionId);
+		model.setPetitionId(petitionId);
 	}
 
 	/**
@@ -816,7 +748,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setPlaceCityId(long placeCityId) {
-		_placitPlace.setPlaceCityId(placeCityId);
+		model.setPlaceCityId(placeCityId);
 	}
 
 	/**
@@ -826,7 +758,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setPlaceName(String placeName) {
-		_placitPlace.setPlaceName(placeName);
+		model.setPlaceName(placeName);
 	}
 
 	/**
@@ -837,7 +769,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setPlaceName(String placeName, java.util.Locale locale) {
-		_placitPlace.setPlaceName(placeName, locale);
+		model.setPlaceName(placeName, locale);
 	}
 
 	/**
@@ -852,12 +784,12 @@ public class PlacitPlaceWrapper
 		String placeName, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_placitPlace.setPlaceName(placeName, locale, defaultLocale);
+		model.setPlaceName(placeName, locale, defaultLocale);
 	}
 
 	@Override
 	public void setPlaceNameCurrentLanguageId(String languageId) {
-		_placitPlace.setPlaceNameCurrentLanguageId(languageId);
+		model.setPlaceNameCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -867,7 +799,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setPlaceNameMap(Map<java.util.Locale, String> placeNameMap) {
-		_placitPlace.setPlaceNameMap(placeNameMap);
+		model.setPlaceNameMap(placeNameMap);
 	}
 
 	/**
@@ -881,7 +813,7 @@ public class PlacitPlaceWrapper
 		Map<java.util.Locale, String> placeNameMap,
 		java.util.Locale defaultLocale) {
 
-		_placitPlace.setPlaceNameMap(placeNameMap, defaultLocale);
+		model.setPlaceNameMap(placeNameMap, defaultLocale);
 	}
 
 	/**
@@ -891,7 +823,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setPlaceSIGId(String placeSIGId) {
-		_placitPlace.setPlaceSIGId(placeSIGId);
+		model.setPlaceSIGId(placeSIGId);
 	}
 
 	/**
@@ -901,7 +833,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setPlaceStreetName(String placeStreetName) {
-		_placitPlace.setPlaceStreetName(placeStreetName);
+		model.setPlaceStreetName(placeStreetName);
 	}
 
 	/**
@@ -911,7 +843,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setPlaceStreetNumber(String placeStreetNumber) {
-		_placitPlace.setPlaceStreetNumber(placeStreetNumber);
+		model.setPlaceStreetNumber(placeStreetNumber);
 	}
 
 	/**
@@ -921,7 +853,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setPlaceZipCode(String placeZipCode) {
-		_placitPlace.setPlaceZipCode(placeZipCode);
+		model.setPlaceZipCode(placeZipCode);
 	}
 
 	/**
@@ -931,7 +863,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setPlacitPlaceId(long placitPlaceId) {
-		_placitPlace.setPlacitPlaceId(placitPlaceId);
+		model.setPlacitPlaceId(placitPlaceId);
 	}
 
 	/**
@@ -941,12 +873,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_placitPlace.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_placitPlace.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -956,7 +883,17 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setProjectId(long projectId) {
-		_placitPlace.setProjectId(projectId);
+		model.setProjectId(projectId);
+	}
+
+	/**
+	 * Sets the saisine observatoire ID of this placit place.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID of this placit place
+	 */
+	@Override
+	public void setSaisineObservatoireId(long saisineObservatoireId) {
+		model.setSaisineObservatoireId(saisineObservatoireId);
 	}
 
 	/**
@@ -966,7 +903,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_placitPlace.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -976,7 +913,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_placitPlace.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -986,7 +923,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_placitPlace.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -996,19 +933,7 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_placitPlace.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.project.model.PlacitPlace> toCacheModel() {
-
-		return _placitPlace.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.PlacitPlace toEscapedModel() {
-		return new PlacitPlaceWrapper(_placitPlace.toEscapedModel());
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -1016,68 +941,22 @@ public class PlacitPlaceWrapper
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _placitPlace.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _placitPlace.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.PlacitPlace toUnescapedModel() {
-		return new PlacitPlaceWrapper(_placitPlace.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _placitPlace.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof PlacitPlaceWrapper)) {
-			return false;
-		}
-
-		PlacitPlaceWrapper placitPlaceWrapper = (PlacitPlaceWrapper)object;
-
-		if (Objects.equals(_placitPlace, placitPlaceWrapper._placitPlace)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _placitPlace.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public PlacitPlace getWrappedModel() {
-		return _placitPlace;
+	protected PlacitPlaceWrapper wrap(PlacitPlace placitPlace) {
+		return new PlacitPlaceWrapper(placitPlace);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _placitPlace.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _placitPlace.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_placitPlace.resetOriginalValues();
-	}
-
-	private final PlacitPlace _placitPlace;
 
 }

@@ -1,7 +1,7 @@
 package eu.strasbourg.portlet.map.configuration;
 
-import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
 import aQute.bnd.annotation.metatype.Meta;
+import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
 
 @ExtendedObjectClassDefinition(category = "Strasbourg", scope = ExtendedObjectClassDefinition.Scope.PORTLET_INSTANCE)
 @Meta.OCD(id = "eu.strasbourg.portlet.map.configuration.MapConfiguration", localization = "content/Language", name = "portlet.map.configuration.name")
@@ -98,7 +98,7 @@ public interface MapConfiguration {
 	@Meta.AD(name = "dateField", deflt = "", required = false)
 	public boolean dateField();
 
-	@Meta.AD(name = "defaultDateRange", deflt = "", required = false)
+	@Meta.AD(name = "defaultDateRange", deflt = "0", required = false)
 	public long defaultDateRange();
 	
 	@Meta.AD(name = "widgetIntro", required = false)

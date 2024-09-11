@@ -1,21 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -30,7 +22,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
@@ -39,9 +31,9 @@ import eu.strasbourg.service.place.model.SubPlaceModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -50,6 +42,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -116,25 +109,41 @@ public class SubPlaceModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.place.model.SubPlace"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.place.model.SubPlace"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.place.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.place.model.SubPlace"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PLACEID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long SUBPLACEID_COLUMN_BITMASK = 4L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -192,9 +201,6 @@ public class SubPlaceModelImpl
 				attributeName, attributeGetterFunction.apply((SubPlace)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -219,246 +225,80 @@ public class SubPlaceModelImpl
 	public Map<String, Function<SubPlace, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<SubPlace, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, SubPlace>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			SubPlace.class.getClassLoader(), SubPlace.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<SubPlace, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<SubPlace> constructor =
-				(Constructor<SubPlace>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<SubPlace, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<SubPlace, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", SubPlace::getUuid);
+			attributeGetterFunctions.put("subPlaceId", SubPlace::getSubPlaceId);
+			attributeGetterFunctions.put("status", SubPlace::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", SubPlace::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", SubPlace::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", SubPlace::getStatusDate);
+			attributeGetterFunctions.put("name", SubPlace::getName);
+			attributeGetterFunctions.put(
+				"description", SubPlace::getDescription);
+			attributeGetterFunctions.put("placeId", SubPlace::getPlaceId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<SubPlace, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SubPlace, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<SubPlace, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<SubPlace, Object>>();
-		Map<String, BiConsumer<SubPlace, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<SubPlace, ?>>();
+		private static final Map<String, BiConsumer<SubPlace, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<SubPlace, Object>() {
+		static {
+			Map<String, BiConsumer<SubPlace, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<SubPlace, ?>>();
 
-				@Override
-				public Object apply(SubPlace subPlace) {
-					return subPlace.getUuid();
-				}
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<SubPlace, String>)SubPlace::setUuid);
+			attributeSetterBiConsumers.put(
+				"subPlaceId",
+				(BiConsumer<SubPlace, Long>)SubPlace::setSubPlaceId);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<SubPlace, Integer>)SubPlace::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<SubPlace, Long>)SubPlace::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<SubPlace, String>)SubPlace::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<SubPlace, Date>)SubPlace::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"name", (BiConsumer<SubPlace, String>)SubPlace::setName);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<SubPlace, String>)SubPlace::setDescription);
+			attributeSetterBiConsumers.put(
+				"placeId", (BiConsumer<SubPlace, Long>)SubPlace::setPlaceId);
 
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<SubPlace, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(SubPlace subPlace, Object uuidObject) {
-					subPlace.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"subPlaceId",
-			new Function<SubPlace, Object>() {
-
-				@Override
-				public Object apply(SubPlace subPlace) {
-					return subPlace.getSubPlaceId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"subPlaceId",
-			new BiConsumer<SubPlace, Object>() {
-
-				@Override
-				public void accept(SubPlace subPlace, Object subPlaceIdObject) {
-					subPlace.setSubPlaceId((Long)subPlaceIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<SubPlace, Object>() {
-
-				@Override
-				public Object apply(SubPlace subPlace) {
-					return subPlace.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<SubPlace, Object>() {
-
-				@Override
-				public void accept(SubPlace subPlace, Object statusObject) {
-					subPlace.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<SubPlace, Object>() {
-
-				@Override
-				public Object apply(SubPlace subPlace) {
-					return subPlace.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<SubPlace, Object>() {
-
-				@Override
-				public void accept(
-					SubPlace subPlace, Object statusByUserIdObject) {
-
-					subPlace.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<SubPlace, Object>() {
-
-				@Override
-				public Object apply(SubPlace subPlace) {
-					return subPlace.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<SubPlace, Object>() {
-
-				@Override
-				public void accept(
-					SubPlace subPlace, Object statusByUserNameObject) {
-
-					subPlace.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<SubPlace, Object>() {
-
-				@Override
-				public Object apply(SubPlace subPlace) {
-					return subPlace.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<SubPlace, Object>() {
-
-				@Override
-				public void accept(SubPlace subPlace, Object statusDateObject) {
-					subPlace.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<SubPlace, Object>() {
-
-				@Override
-				public Object apply(SubPlace subPlace) {
-					return subPlace.getName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"name",
-			new BiConsumer<SubPlace, Object>() {
-
-				@Override
-				public void accept(SubPlace subPlace, Object nameObject) {
-					subPlace.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<SubPlace, Object>() {
-
-				@Override
-				public Object apply(SubPlace subPlace) {
-					return subPlace.getDescription();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"description",
-			new BiConsumer<SubPlace, Object>() {
-
-				@Override
-				public void accept(
-					SubPlace subPlace, Object descriptionObject) {
-
-					subPlace.setDescription((String)descriptionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"placeId",
-			new Function<SubPlace, Object>() {
-
-				@Override
-				public Object apply(SubPlace subPlace) {
-					return subPlace.getPlaceId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"placeId",
-			new BiConsumer<SubPlace, Object>() {
-
-				@Override
-				public void accept(SubPlace subPlace, Object placeIdObject) {
-					subPlace.setPlaceId((Long)placeIdObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -473,17 +313,20 @@ public class SubPlaceModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -493,6 +336,10 @@ public class SubPlaceModelImpl
 
 	@Override
 	public void setSubPlaceId(long subPlaceId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_subPlaceId = subPlaceId;
 	}
 
@@ -503,6 +350,10 @@ public class SubPlaceModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -513,6 +364,10 @@ public class SubPlaceModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -544,6 +399,10 @@ public class SubPlaceModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -554,6 +413,10 @@ public class SubPlaceModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -612,6 +475,10 @@ public class SubPlaceModelImpl
 
 	@Override
 	public void setName(String name) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_name = name;
 	}
 
@@ -714,6 +581,10 @@ public class SubPlaceModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
 	}
 
@@ -773,19 +644,20 @@ public class SubPlaceModelImpl
 
 	@Override
 	public void setPlaceId(long placeId) {
-		_columnBitmask |= PLACEID_COLUMN_BITMASK;
-
-		if (!_setOriginalPlaceId) {
-			_setOriginalPlaceId = true;
-
-			_originalPlaceId = _placeId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_placeId = placeId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalPlaceId() {
-		return _originalPlaceId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("placeId"));
 	}
 
 	@Override
@@ -869,6 +741,26 @@ public class SubPlaceModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1008,6 +900,28 @@ public class SubPlaceModelImpl
 	}
 
 	@Override
+	public SubPlace cloneWithOriginalValues() {
+		SubPlaceImpl subPlaceImpl = new SubPlaceImpl();
+
+		subPlaceImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		subPlaceImpl.setSubPlaceId(
+			this.<Long>getColumnOriginalValue("subPlaceId"));
+		subPlaceImpl.setStatus(this.<Integer>getColumnOriginalValue("status"));
+		subPlaceImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		subPlaceImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		subPlaceImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		subPlaceImpl.setName(this.<String>getColumnOriginalValue("name"));
+		subPlaceImpl.setDescription(
+			this.<String>getColumnOriginalValue("description"));
+		subPlaceImpl.setPlaceId(this.<Long>getColumnOriginalValue("placeId"));
+
+		return subPlaceImpl;
+	}
+
+	@Override
 	public int compareTo(SubPlace subPlace) {
 		long primaryKey = subPlace.getPrimaryKey();
 
@@ -1049,11 +963,19 @@ public class SubPlaceModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1061,15 +983,9 @@ public class SubPlaceModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		SubPlaceModelImpl subPlaceModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		subPlaceModelImpl._originalUuid = subPlaceModelImpl._uuid;
-
-		subPlaceModelImpl._originalPlaceId = subPlaceModelImpl._placeId;
-
-		subPlaceModelImpl._setOriginalPlaceId = false;
-
-		subPlaceModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1134,7 +1050,7 @@ public class SubPlaceModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1145,9 +1061,26 @@ public class SubPlaceModelImpl
 			Function<SubPlace, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((SubPlace)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((SubPlace)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1160,46 +1093,16 @@ public class SubPlaceModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<SubPlace, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<SubPlace, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<SubPlace, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((SubPlace)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, SubPlace>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					SubPlace.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _subPlaceId;
 	private int _status;
 	private long _statusByUserId;
@@ -1210,8 +1113,90 @@ public class SubPlaceModelImpl
 	private String _description;
 	private String _descriptionCurrentLanguageId;
 	private long _placeId;
-	private long _originalPlaceId;
-	private boolean _setOriginalPlaceId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<SubPlace, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((SubPlace)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("subPlaceId", _subPlaceId);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("name", _name);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("placeId", _placeId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("subPlaceId", 2L);
+
+		columnBitmasks.put("status", 4L);
+
+		columnBitmasks.put("statusByUserId", 8L);
+
+		columnBitmasks.put("statusByUserName", 16L);
+
+		columnBitmasks.put("statusDate", 32L);
+
+		columnBitmasks.put("name", 64L);
+
+		columnBitmasks.put("description", 128L);
+
+		columnBitmasks.put("placeId", 256L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private SubPlace _escapedModel;
 

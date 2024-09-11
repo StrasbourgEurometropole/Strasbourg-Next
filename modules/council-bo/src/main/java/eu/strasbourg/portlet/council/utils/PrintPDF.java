@@ -16,10 +16,12 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.layout.property.VerticalAlignment;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.VerticalAlignment;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Deliberation;
@@ -36,9 +38,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -109,7 +111,7 @@ public class PrintPDF {
 				.setPaddings(0f,10f,0f,150f)
 				.setTextAlignment(TextAlignment.CENTER);
 			document.add(title);
-			title = new Paragraph(deliberation.getTitle()).setFont(font)
+			title = new Paragraph(deliberation.getOrderAmendement() + ". " + deliberation.getTitle()).setFont(font)
 				.setPaddings(0f,10f,0f,150f)
 				.setTextAlignment(TextAlignment.CENTER)
 				.setFontSize(13.5f);
@@ -243,10 +245,11 @@ public class PrintPDF {
 
 			String fileName = "";
 			if (Validator.isNotNull(council)) {
-				fileName +=  council.getTypeCouncil().getTitle();
+				// Supprime les accents qui posent souci sur la création de fichier
+				fileName +=  Normalizer.normalize(council.getTypeCouncil().getTitle(), Normalizer.Form.NFD).replaceAll("\\p{M}", "");
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.FRANCE);
-			fileName += " " + sdf.format(council.getDate()) + " - Point " + deliberation.getOrder() + ".pdf";
+			fileName += " " + sdf.format(council.getDate()) + " - Point " + deliberation.getOrder() + deliberation.getAmendement() + ".pdf";
 
 			// enregistrement du fichier
 			File deliberationpdf = new File(folder.getAbsolutePath() + "/" + fileName);
@@ -257,9 +260,11 @@ public class PrintPDF {
 					fos.write(baos.toByteArray());
 					fos.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					_log.error(e.getMessage(), e);
 				}
 		}
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(PrintPDF.class);
 
 }

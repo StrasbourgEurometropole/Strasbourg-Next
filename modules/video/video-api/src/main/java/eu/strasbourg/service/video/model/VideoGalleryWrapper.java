@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.video.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +23,11 @@ import java.util.Objects;
  * @generated
  */
 public class VideoGalleryWrapper
+	extends BaseModelWrapper<VideoGallery>
 	implements ModelWrapper<VideoGallery>, VideoGallery {
 
 	public VideoGalleryWrapper(VideoGallery videoGallery) {
-		_videoGallery = videoGallery;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return VideoGallery.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return VideoGallery.class.getName();
+		super(videoGallery);
 	}
 
 	@Override
@@ -183,15 +161,8 @@ public class VideoGalleryWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new VideoGalleryWrapper((VideoGallery)_videoGallery.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.video.model.VideoGallery videoGallery) {
-
-		return _videoGallery.compareTo(videoGallery);
+	public VideoGallery cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -199,12 +170,12 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _videoGallery.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _videoGallery.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -214,7 +185,7 @@ public class VideoGalleryWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _videoGallery.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -224,7 +195,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _videoGallery.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -234,12 +205,12 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _videoGallery.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _videoGallery.getDefaultLanguageId();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -249,7 +220,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public String getDescription() {
-		return _videoGallery.getDescription();
+		return model.getDescription();
 	}
 
 	/**
@@ -260,7 +231,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale) {
-		return _videoGallery.getDescription(locale);
+		return model.getDescription(locale);
 	}
 
 	/**
@@ -272,7 +243,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public String getDescription(java.util.Locale locale, boolean useDefault) {
-		return _videoGallery.getDescription(locale, useDefault);
+		return model.getDescription(locale, useDefault);
 	}
 
 	/**
@@ -283,7 +254,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public String getDescription(String languageId) {
-		return _videoGallery.getDescription(languageId);
+		return model.getDescription(languageId);
 	}
 
 	/**
@@ -295,17 +266,17 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public String getDescription(String languageId, boolean useDefault) {
-		return _videoGallery.getDescription(languageId, useDefault);
+		return model.getDescription(languageId, useDefault);
 	}
 
 	@Override
 	public String getDescriptionCurrentLanguageId() {
-		return _videoGallery.getDescriptionCurrentLanguageId();
+		return model.getDescriptionCurrentLanguageId();
 	}
 
 	@Override
 	public String getDescriptionCurrentValue() {
-		return _videoGallery.getDescriptionCurrentValue();
+		return model.getDescriptionCurrentValue();
 	}
 
 	/**
@@ -315,12 +286,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getDescriptionMap() {
-		return _videoGallery.getDescriptionMap();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _videoGallery.getExpandoBridge();
+		return model.getDescriptionMap();
 	}
 
 	/**
@@ -330,7 +296,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public long getGalleryId() {
-		return _videoGallery.getGalleryId();
+		return model.getGalleryId();
 	}
 
 	/**
@@ -340,7 +306,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _videoGallery.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -348,7 +314,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public String getImageCopyright(java.util.Locale locale) {
-		return _videoGallery.getImageCopyright(locale);
+		return model.getImageCopyright(locale);
 	}
 
 	/**
@@ -358,7 +324,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public Long getImageId() {
-		return _videoGallery.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -369,7 +335,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public String getImageURL() {
-		return _videoGallery.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -379,7 +345,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public Date getLastPublishDate() {
-		return _videoGallery.getLastPublishDate();
+		return model.getLastPublishDate();
 	}
 
 	/**
@@ -387,7 +353,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public eu.strasbourg.service.video.model.VideoGallery getLiveVersion() {
-		return _videoGallery.getLiveVersion();
+		return model.getLiveVersion();
 	}
 
 	/**
@@ -397,7 +363,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _videoGallery.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -407,12 +373,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _videoGallery.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _videoGallery.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -422,7 +383,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public Date getPublicationDate() {
-		return _videoGallery.getPublicationDate();
+		return model.getPublicationDate();
 	}
 
 	/**
@@ -432,7 +393,7 @@ public class VideoGalleryWrapper
 	public java.util.List<eu.strasbourg.service.video.model.Video>
 		getPublishedVideos() {
 
-		return _videoGallery.getPublishedVideos();
+		return model.getPublishedVideos();
 	}
 
 	/**
@@ -442,7 +403,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _videoGallery.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -452,7 +413,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _videoGallery.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -462,7 +423,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _videoGallery.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -472,7 +433,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _videoGallery.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -482,7 +443,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _videoGallery.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -492,7 +453,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public String getTitle() {
-		return _videoGallery.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -503,7 +464,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale) {
-		return _videoGallery.getTitle(locale);
+		return model.getTitle(locale);
 	}
 
 	/**
@@ -515,7 +476,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public String getTitle(java.util.Locale locale, boolean useDefault) {
-		return _videoGallery.getTitle(locale, useDefault);
+		return model.getTitle(locale, useDefault);
 	}
 
 	/**
@@ -526,7 +487,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public String getTitle(String languageId) {
-		return _videoGallery.getTitle(languageId);
+		return model.getTitle(languageId);
 	}
 
 	/**
@@ -538,17 +499,17 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public String getTitle(String languageId, boolean useDefault) {
-		return _videoGallery.getTitle(languageId, useDefault);
+		return model.getTitle(languageId, useDefault);
 	}
 
 	@Override
 	public String getTitleCurrentLanguageId() {
-		return _videoGallery.getTitleCurrentLanguageId();
+		return model.getTitleCurrentLanguageId();
 	}
 
 	@Override
 	public String getTitleCurrentValue() {
-		return _videoGallery.getTitleCurrentValue();
+		return model.getTitleCurrentValue();
 	}
 
 	/**
@@ -558,7 +519,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getTitleMap() {
-		return _videoGallery.getTitleMap();
+		return model.getTitleMap();
 	}
 
 	/**
@@ -568,7 +529,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _videoGallery.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -578,7 +539,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _videoGallery.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -588,7 +549,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _videoGallery.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -598,7 +559,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _videoGallery.getUuid();
+		return model.getUuid();
 	}
 
 	/**
@@ -606,7 +567,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.video.model.Video> getVideos() {
-		return _videoGallery.getVideos();
+		return model.getVideos();
 	}
 
 	/**
@@ -614,12 +575,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public String getVideosIds() {
-		return _videoGallery.getVideosIds();
-	}
-
-	@Override
-	public int hashCode() {
-		return _videoGallery.hashCode();
+		return model.getVideosIds();
 	}
 
 	/**
@@ -629,12 +585,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _videoGallery.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _videoGallery.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -644,7 +595,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _videoGallery.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -654,12 +605,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _videoGallery.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _videoGallery.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -669,7 +615,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _videoGallery.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -679,7 +625,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _videoGallery.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -689,12 +635,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _videoGallery.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _videoGallery.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -704,7 +645,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _videoGallery.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -714,19 +655,19 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _videoGallery.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_videoGallery.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_videoGallery.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -734,12 +675,7 @@ public class VideoGalleryWrapper
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_videoGallery.prepareLocalizedFieldsForImport(defaultImportLocale);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_videoGallery.setCachedModel(cachedModel);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -749,7 +685,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_videoGallery.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -759,7 +695,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_videoGallery.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -769,7 +705,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setDescription(String description) {
-		_videoGallery.setDescription(description);
+		model.setDescription(description);
 	}
 
 	/**
@@ -780,7 +716,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setDescription(String description, java.util.Locale locale) {
-		_videoGallery.setDescription(description, locale);
+		model.setDescription(description, locale);
 	}
 
 	/**
@@ -795,12 +731,12 @@ public class VideoGalleryWrapper
 		String description, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_videoGallery.setDescription(description, locale, defaultLocale);
+		model.setDescription(description, locale, defaultLocale);
 	}
 
 	@Override
 	public void setDescriptionCurrentLanguageId(String languageId) {
-		_videoGallery.setDescriptionCurrentLanguageId(languageId);
+		model.setDescriptionCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -812,7 +748,7 @@ public class VideoGalleryWrapper
 	public void setDescriptionMap(
 		Map<java.util.Locale, String> descriptionMap) {
 
-		_videoGallery.setDescriptionMap(descriptionMap);
+		model.setDescriptionMap(descriptionMap);
 	}
 
 	/**
@@ -826,24 +762,7 @@ public class VideoGalleryWrapper
 		Map<java.util.Locale, String> descriptionMap,
 		java.util.Locale defaultLocale) {
 
-		_videoGallery.setDescriptionMap(descriptionMap, defaultLocale);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_videoGallery.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_videoGallery.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_videoGallery.setExpandoBridgeAttributes(serviceContext);
+		model.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	/**
@@ -853,7 +772,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setGalleryId(long galleryId) {
-		_videoGallery.setGalleryId(galleryId);
+		model.setGalleryId(galleryId);
 	}
 
 	/**
@@ -863,7 +782,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_videoGallery.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -873,7 +792,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setImageId(Long imageId) {
-		_videoGallery.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -883,7 +802,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
-		_videoGallery.setLastPublishDate(lastPublishDate);
+		model.setLastPublishDate(lastPublishDate);
 	}
 
 	/**
@@ -893,12 +812,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_videoGallery.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_videoGallery.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -908,12 +822,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_videoGallery.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_videoGallery.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -923,7 +832,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setPublicationDate(Date publicationDate) {
-		_videoGallery.setPublicationDate(publicationDate);
+		model.setPublicationDate(publicationDate);
 	}
 
 	/**
@@ -933,7 +842,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_videoGallery.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -943,7 +852,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_videoGallery.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -953,7 +862,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_videoGallery.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -963,7 +872,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_videoGallery.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -973,7 +882,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_videoGallery.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -983,7 +892,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setTitle(String title) {
-		_videoGallery.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -994,7 +903,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setTitle(String title, java.util.Locale locale) {
-		_videoGallery.setTitle(title, locale);
+		model.setTitle(title, locale);
 	}
 
 	/**
@@ -1008,12 +917,12 @@ public class VideoGalleryWrapper
 	public void setTitle(
 		String title, java.util.Locale locale, java.util.Locale defaultLocale) {
 
-		_videoGallery.setTitle(title, locale, defaultLocale);
+		model.setTitle(title, locale, defaultLocale);
 	}
 
 	@Override
 	public void setTitleCurrentLanguageId(String languageId) {
-		_videoGallery.setTitleCurrentLanguageId(languageId);
+		model.setTitleCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -1023,7 +932,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setTitleMap(Map<java.util.Locale, String> titleMap) {
-		_videoGallery.setTitleMap(titleMap);
+		model.setTitleMap(titleMap);
 	}
 
 	/**
@@ -1037,7 +946,7 @@ public class VideoGalleryWrapper
 		Map<java.util.Locale, String> titleMap,
 		java.util.Locale defaultLocale) {
 
-		_videoGallery.setTitleMap(titleMap, defaultLocale);
+		model.setTitleMap(titleMap, defaultLocale);
 	}
 
 	/**
@@ -1047,7 +956,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_videoGallery.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -1057,7 +966,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_videoGallery.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -1067,7 +976,7 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_videoGallery.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1077,80 +986,22 @@ public class VideoGalleryWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_videoGallery.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.video.model.VideoGallery> toCacheModel() {
-
-		return _videoGallery.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.video.model.VideoGallery toEscapedModel() {
-		return new VideoGalleryWrapper(_videoGallery.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _videoGallery.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.video.model.VideoGallery toUnescapedModel() {
-		return new VideoGalleryWrapper(_videoGallery.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _videoGallery.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof VideoGalleryWrapper)) {
-			return false;
-		}
-
-		VideoGalleryWrapper videoGalleryWrapper = (VideoGalleryWrapper)object;
-
-		if (Objects.equals(_videoGallery, videoGalleryWrapper._videoGallery)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _videoGallery.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public VideoGallery getWrappedModel() {
-		return _videoGallery;
+	protected VideoGalleryWrapper wrap(VideoGallery videoGallery) {
+		return new VideoGalleryWrapper(videoGallery);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _videoGallery.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _videoGallery.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_videoGallery.resetOriginalValues();
-	}
-
-	private final VideoGallery _videoGallery;
 
 }

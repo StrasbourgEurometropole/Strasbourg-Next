@@ -23,6 +23,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.io.IOException;
 
 @Component(
         immediate = true,
@@ -58,7 +59,7 @@ public class SaveTypeActionCommand implements MVCActionCommand {
                 PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
                         PortletRequest.RENDER_PHASE);
 
-                response.setRenderParameter("returnURL", returnURL.toString());
+                response.setRenderParameter("backURL", returnURL.toString());
                 response.setRenderParameter("cmd", "editType");
                 response.setRenderParameter("mvcPath", "/council-bo-edit-type.jsp");
                 return false;
@@ -81,8 +82,11 @@ public class SaveTypeActionCommand implements MVCActionCommand {
 
             // Mise à jour de l'entrée en base
             this.typeLocalService.updateType(type, sc);
+            response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
         } catch (PortalException e) {
+            log.error(e);
+        } catch (IOException e) {
             log.error(e);
         }
         return true;

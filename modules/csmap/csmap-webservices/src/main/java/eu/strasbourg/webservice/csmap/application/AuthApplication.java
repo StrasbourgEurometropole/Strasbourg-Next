@@ -1,6 +1,5 @@
 package eu.strasbourg.webservice.csmap.application;
 
-import com.liferay.portal.kernel.exception.PwdEncryptorException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -14,28 +13,31 @@ import eu.strasbourg.service.csmap.service.RefreshTokenLocalServiceUtil;
 import eu.strasbourg.service.oidc.exception.NoSuchPublikUserException;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.utils.JWTUtils;
-import eu.strasbourg.utils.ProcedureHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
-import eu.strasbourg.utils.exception.NoUserFormException;
-import eu.strasbourg.utils.models.Procedure;
 import eu.strasbourg.webservice.csmap.constants.WSConstants;
+import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
 import eu.strasbourg.webservice.csmap.exception.NoJWTInHeaderException;
 import eu.strasbourg.webservice.csmap.exception.NoSubInJWTException;
 import eu.strasbourg.webservice.csmap.exception.auth.AuthenticationFailedException;
-import eu.strasbourg.webservice.csmap.exception.InvalidJWTException;
 import eu.strasbourg.webservice.csmap.exception.auth.BaseNonceCreationFailedException;
 import eu.strasbourg.webservice.csmap.exception.auth.BaseNonceExpiredException;
 import eu.strasbourg.webservice.csmap.exception.auth.InvalidNonceException;
 import eu.strasbourg.webservice.csmap.exception.auth.NoCodeVerifierException;
-import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenExpiredException;
 import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenCreationFailedException;
+import eu.strasbourg.webservice.csmap.exception.auth.RefreshTokenExpiredException;
 import eu.strasbourg.webservice.csmap.service.WSAuthenticator;
 import eu.strasbourg.webservice.csmap.utils.WSResponseUtil;
+import eu.strasbourg.webservice.csmap.utils.WSTokenUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.jaxrs.whiteboard.JaxrsWhiteboardConstants;
 
-import javax.ws.rs.*;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -194,7 +196,7 @@ public class AuthApplication extends Application {
 
         try {
             PublikUser publikUser = authenticator.validateUserInJWTHeader(httpHeaders);
-            List<RefreshToken> refreshTokens = RefreshTokenLocalServiceUtil.getRefreshTokens(-1,-1).stream().filter(t -> t.getPublikId().equals(publikUser.getPublikId())).collect(Collectors.toList());
+            List<RefreshToken> refreshTokens = RefreshTokenLocalServiceUtil.getByPublikId(publikUser.getPublikId());
             for(RefreshToken refreshToken : refreshTokens) {
                 RefreshTokenLocalServiceUtil.removeRefreshToken(refreshToken.getRefreshTokenId());
             }
@@ -218,11 +220,15 @@ public class AuthApplication extends Application {
             @FormParam("refreshToken") String refreshTokenvalue) {
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         try {
-            RefreshTokenLocalServiceUtil.removeRefreshToken(RefreshTokenLocalServiceUtil.fetchByValue(refreshTokenvalue).getRefreshTokenId());
+            RefreshToken refreshToken = RefreshTokenLocalServiceUtil.fetchByValue(WSTokenUtil.hashToken(refreshTokenvalue));
+            RefreshTokenLocalServiceUtil.removeRefreshToken(refreshToken.getRefreshTokenId());
         } catch (NullPointerException e) {
             return WSResponseUtil.buildErrorResponse(400, "RefreshToken is invalid");
         } catch (NoSuchRefreshTokenException e) {
             return WSResponseUtil.buildErrorResponse(401, e.getMessage());
+        } catch (NoSuchAlgorithmException e) {
+            log.error("No Algorithm found");
+            return WSResponseUtil.buildErrorResponse(401, "No Algorithm found");
         }
         return WSResponseUtil.buildOkResponse(jsonResponse);
     }

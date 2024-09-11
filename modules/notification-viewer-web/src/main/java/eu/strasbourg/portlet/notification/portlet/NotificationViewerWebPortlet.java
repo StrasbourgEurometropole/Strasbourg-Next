@@ -12,6 +12,8 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
+import eu.strasbourg.utils.PortalHelper;
 import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -82,7 +84,8 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 			// Redirection vers une page de détail de notif
 			else if(notif.getNotification().getUrl().isEmpty() && !notif.getNotification().getDescription().isEmpty()){
 				String portalURL ="";
-				if(themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname().isEmpty()) {
+				String virtualHostName= PortalHelper.getVirtualHostname(themeDisplay.getScopeGroup(), themeDisplay.getLanguageId());
+				if(virtualHostName.isEmpty()) {
 					portalURL="/web" + themeDisplay.getLayout().getGroup().getFriendlyURL();
 				}
 				actionResponse.sendRedirect(portalURL + "/notification?notificationId=" + notificationId);
@@ -124,8 +127,7 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		NotificationConfiguration configuration;
 		try {
-			configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(NotificationConfiguration.class);
+			configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(NotificationConfiguration.class, themeDisplay);
 
 			String showAllURL = configuration.showAllURL();
 			if (Validator.isNull(showAllURL)) {
@@ -139,7 +141,7 @@ public class NotificationViewerWebPortlet extends MVCPortlet {
 			}
 			include("/" + template + ".jsp", renderRequest, renderResponse);
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 	}
 

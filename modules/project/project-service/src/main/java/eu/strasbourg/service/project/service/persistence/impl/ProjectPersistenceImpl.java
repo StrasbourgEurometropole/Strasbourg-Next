@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,30 +19,30 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.project.exception.NoSuchProjectException;
 import eu.strasbourg.service.project.model.Project;
+import eu.strasbourg.service.project.model.ProjectTable;
 import eu.strasbourg.service.project.model.impl.ProjectImpl;
 import eu.strasbourg.service.project.model.impl.ProjectModelImpl;
 import eu.strasbourg.service.project.service.persistence.ProjectPersistence;
+import eu.strasbourg.service.project.service.persistence.ProjectUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -250,10 +242,6 @@ public class ProjectPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -602,8 +590,6 @@ public class ProjectPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -760,11 +746,6 @@ public class ProjectPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -853,8 +834,6 @@ public class ProjectPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1054,10 +1033,6 @@ public class ProjectPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1436,8 +1411,6 @@ public class ProjectPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1609,10 +1582,6 @@ public class ProjectPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1936,8 +1905,6 @@ public class ProjectPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2118,10 +2085,6 @@ public class ProjectPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2474,8 +2437,6 @@ public class ProjectPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2497,21 +2458,14 @@ public class ProjectPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Project.class);
+
+		setModelImplClass(ProjectImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(ProjectTable.INSTANCE);
 	}
 
 	/**
@@ -2522,15 +2476,14 @@ public class ProjectPersistenceImpl
 	@Override
 	public void cacheResult(Project project) {
 		entityCache.putResult(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED, ProjectImpl.class,
-			project.getPrimaryKey(), project);
+			ProjectImpl.class, project.getPrimaryKey(), project);
 
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {project.getUuid(), project.getGroupId()}, project);
-
-		project.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the projects in the entity cache if it is enabled.
@@ -2539,15 +2492,18 @@ public class ProjectPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Project> projects) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (projects.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Project project : projects) {
 			if (entityCache.getResult(
-					ProjectModelImpl.ENTITY_CACHE_ENABLED, ProjectImpl.class,
-					project.getPrimaryKey()) == null) {
+					ProjectImpl.class, project.getPrimaryKey()) == null) {
 
 				cacheResult(project);
-			}
-			else {
-				project.resetOriginalValues();
 			}
 		}
 	}
@@ -2563,9 +2519,7 @@ public class ProjectPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(ProjectImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ProjectImpl.class);
 	}
 
 	/**
@@ -2577,39 +2531,22 @@ public class ProjectPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Project project) {
-		entityCache.removeResult(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED, ProjectImpl.class,
-			project.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((ProjectModelImpl)project, true);
+		entityCache.removeResult(ProjectImpl.class, project);
 	}
 
 	@Override
 	public void clearCache(List<Project> projects) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Project project : projects) {
-			entityCache.removeResult(
-				ProjectModelImpl.ENTITY_CACHE_ENABLED, ProjectImpl.class,
-				project.getPrimaryKey());
-
-			clearUniqueFindersCache((ProjectModelImpl)project, true);
+			entityCache.removeResult(ProjectImpl.class, project);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ProjectImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				ProjectModelImpl.ENTITY_CACHE_ENABLED, ProjectImpl.class,
-				primaryKey);
+			entityCache.removeResult(ProjectImpl.class, primaryKey);
 		}
 	}
 
@@ -2618,35 +2555,8 @@ public class ProjectPersistenceImpl
 			projectModelImpl.getUuid(), projectModelImpl.getGroupId()
 		};
 
-		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, projectModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		ProjectModelImpl projectModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				projectModelImpl.getUuid(), projectModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((projectModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				projectModelImpl.getOriginalUuid(),
-				projectModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
+		finderCache.putResult(_finderPathFetchByUUID_G, args, projectModelImpl);
 	}
 
 	/**
@@ -2785,23 +2695,23 @@ public class ProjectPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (project.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				project.setCreateDate(now);
+				project.setCreateDate(date);
 			}
 			else {
-				project.setCreateDate(serviceContext.getCreateDate(now));
+				project.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!projectModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				project.setModifiedDate(now);
+				project.setModifiedDate(date);
 			}
 			else {
-				project.setModifiedDate(serviceContext.getModifiedDate(now));
+				project.setModifiedDate(serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -2810,10 +2720,8 @@ public class ProjectPersistenceImpl
 		try {
 			session = openSession();
 
-			if (project.isNew()) {
+			if (isNew) {
 				session.save(project);
-
-				project.setNew(false);
 			}
 			else {
 				project = (Project)session.merge(project);
@@ -2826,136 +2734,13 @@ public class ProjectPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(ProjectImpl.class, projectModelImpl, false, true);
 
-		if (!ProjectModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {projectModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				projectModelImpl.getUuid(), projectModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {projectModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {
-				projectModelImpl.getStatus(), projectModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByStatusAndGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByStatusAndGroupId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((projectModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					projectModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {projectModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((projectModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					projectModelImpl.getOriginalUuid(),
-					projectModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					projectModelImpl.getUuid(), projectModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((projectModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					projectModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {projectModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((projectModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByStatusAndGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					projectModelImpl.getOriginalStatus(),
-					projectModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByStatusAndGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStatusAndGroupId, args);
-
-				args = new Object[] {
-					projectModelImpl.getStatus(), projectModelImpl.getGroupId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByStatusAndGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStatusAndGroupId, args);
-			}
-		}
-
-		entityCache.putResult(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED, ProjectImpl.class,
-			project.getPrimaryKey(), project, false);
-
-		clearUniqueFindersCache(projectModelImpl, false);
 		cacheUniqueFindersCache(projectModelImpl);
+
+		if (isNew) {
+			project.setNew(false);
+		}
 
 		project.resetOriginalValues();
 
@@ -3004,159 +2789,12 @@ public class ProjectPersistenceImpl
 	/**
 	 * Returns the project with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the project
-	 * @return the project, or <code>null</code> if a project with the primary key could not be found
-	 */
-	@Override
-	public Project fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED, ProjectImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Project project = (Project)serializable;
-
-		if (project == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				project = (Project)session.get(ProjectImpl.class, primaryKey);
-
-				if (project != null) {
-					cacheResult(project);
-				}
-				else {
-					entityCache.putResult(
-						ProjectModelImpl.ENTITY_CACHE_ENABLED,
-						ProjectImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					ProjectModelImpl.ENTITY_CACHE_ENABLED, ProjectImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return project;
-	}
-
-	/**
-	 * Returns the project with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param projectId the primary key of the project
 	 * @return the project, or <code>null</code> if a project with the primary key could not be found
 	 */
 	@Override
 	public Project fetchByPrimaryKey(long projectId) {
 		return fetchByPrimaryKey((Serializable)projectId);
-	}
-
-	@Override
-	public Map<Serializable, Project> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Project> map = new HashMap<Serializable, Project>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Project project = fetchByPrimaryKey(primaryKey);
-
-			if (project != null) {
-				map.put(primaryKey, project);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				ProjectModelImpl.ENTITY_CACHE_ENABLED, ProjectImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Project)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_PROJECT_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Project project : (List<Project>)query.list()) {
-				map.put(project.getPrimaryKeyObj(), project);
-
-				cacheResult(project);
-
-				uncachedPrimaryKeys.remove(project.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					ProjectModelImpl.ENTITY_CACHE_ENABLED, ProjectImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3283,10 +2921,6 @@ public class ProjectPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3332,9 +2966,6 @@ public class ProjectPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3351,6 +2982,21 @@ public class ProjectPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "projectId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_PROJECT;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return ProjectModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -3359,140 +3005,113 @@ public class ProjectPersistenceImpl
 	 * Initializes the project persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectModelImpl.FINDER_CACHE_ENABLED, ProjectImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectModelImpl.FINDER_CACHE_ENABLED, ProjectImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectModelImpl.FINDER_CACHE_ENABLED, ProjectImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectModelImpl.FINDER_CACHE_ENABLED, ProjectImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			ProjectModelImpl.UUID_COLUMN_BITMASK |
-			ProjectModelImpl.TITLE_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectModelImpl.FINDER_CACHE_ENABLED, ProjectImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			ProjectModelImpl.UUID_COLUMN_BITMASK |
-			ProjectModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectModelImpl.FINDER_CACHE_ENABLED, ProjectImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectModelImpl.FINDER_CACHE_ENABLED, ProjectImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			ProjectModelImpl.UUID_COLUMN_BITMASK |
-			ProjectModelImpl.COMPANYID_COLUMN_BITMASK |
-			ProjectModelImpl.TITLE_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectModelImpl.FINDER_CACHE_ENABLED, ProjectImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectModelImpl.FINDER_CACHE_ENABLED, ProjectImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			ProjectModelImpl.GROUPID_COLUMN_BITMASK |
-			ProjectModelImpl.TITLE_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
 
 		_finderPathWithPaginationFindByStatusAndGroupId = new FinderPath(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectModelImpl.FINDER_CACHE_ENABLED, ProjectImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStatusAndGroupId",
 			new String[] {
 				Integer.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"status", "groupId"}, true);
 
 		_finderPathWithoutPaginationFindByStatusAndGroupId = new FinderPath(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectModelImpl.FINDER_CACHE_ENABLED, ProjectImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStatusAndGroupId",
 			new String[] {Integer.class.getName(), Long.class.getName()},
-			ProjectModelImpl.STATUS_COLUMN_BITMASK |
-			ProjectModelImpl.GROUPID_COLUMN_BITMASK |
-			ProjectModelImpl.TITLE_COLUMN_BITMASK);
+			new String[] {"status", "groupId"}, true);
 
 		_finderPathCountByStatusAndGroupId = new FinderPath(
-			ProjectModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByStatusAndGroupId",
-			new String[] {Integer.class.getName(), Long.class.getName()});
+			new String[] {Integer.class.getName(), Long.class.getName()},
+			new String[] {"status", "groupId"}, false);
+
+		ProjectUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		ProjectUtil.setPersistence(null);
+
 		entityCache.removeCache(ProjectImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -3503,9 +3122,6 @@ public class ProjectPersistenceImpl
 
 	private static final String _SQL_SELECT_PROJECT =
 		"SELECT project FROM Project project";
-
-	private static final String _SQL_SELECT_PROJECT_WHERE_PKS_IN =
-		"SELECT project FROM Project project WHERE projectId IN (";
 
 	private static final String _SQL_SELECT_PROJECT_WHERE =
 		"SELECT project FROM Project project WHERE ";
@@ -3529,5 +3145,10 @@ public class ProjectPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

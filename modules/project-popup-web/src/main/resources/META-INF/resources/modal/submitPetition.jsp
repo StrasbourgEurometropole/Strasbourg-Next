@@ -64,7 +64,7 @@
                         <p><liferay-ui:message key="modal.submitpetition.information.mayor"/></p>
                     </div>
                 </div>
-                <div class="pro-wrapper">
+                <div class="pro-wrapper last-wrapper">
                     <h4><liferay-ui:message key="modal.submitpetition.user"/></h4>
                     <div class="pro-row">
                         <div class="form-group form-triple">
@@ -112,6 +112,7 @@
                         </div>
                     </div>
                 </div>
+                <div class="top-slope"></div>
                 <div class="pro-optin form-checkbox">
                     <div>
                         <input type="checkbox" id="submit-petition-legalage" value="legalage">
@@ -250,9 +251,11 @@
             var emailValue = $("#"+namespaceSubmitPetition+"mail").val(); 
             var lastNameValue = $("#"+namespaceSubmitPetition+"username").val();
             var firstNameValue = $("#"+namespaceSubmitPetition+"firstname").val();
+            var saveInfoValue = $("#save-info").is(":checked");
             formData.append("<portlet:namespace/>email", emailValue);
-            formData.append("<portlet:namespace/>lastname", lastNameValue); 
-            formData.append("<portlet:namespace/>firstname", firstNameValue);  
+            formData.append("<portlet:namespace/>lastname", lastNameValue);
+            formData.append("<portlet:namespace/>firstname", firstNameValue);
+            formData.append("<portlet:namespace/>saveinfo", saveInfoValue);
             request.send(formData);
         }
     });

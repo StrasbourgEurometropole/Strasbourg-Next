@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model.impl;
@@ -17,6 +8,7 @@ package eu.strasbourg.service.gtfs.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -29,27 +21,25 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.gtfs.model.Arret;
 import eu.strasbourg.service.gtfs.model.ArretModel;
-import eu.strasbourg.service.gtfs.model.ArretSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -126,89 +116,66 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.gtfs.model.Arret"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.gtfs.model.Arret"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.gtfs.model.Arret"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long CODE_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STOPID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ARRETID_COLUMN_BITMASK = 64L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Arret toModel(ArretSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Arret model = new ArretImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setArretId(soapModel.getArretId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setStopId(soapModel.getStopId());
-		model.setTitle(soapModel.getTitle());
-		model.setCode(soapModel.getCode());
-		model.setLatitude(soapModel.getLatitude());
-		model.setLongitude(soapModel.getLongitude());
-		model.setType(soapModel.getType());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Arret> toModels(ArretSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Arret> models = new ArrayList<Arret>(soapModels.length);
-
-		for (ArretSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.gtfs.service.util.PropsUtil.get(
@@ -264,9 +231,6 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 				attributeName, attributeGetterFunction.apply((Arret)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -288,418 +252,105 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 	}
 
 	public Map<String, Function<Arret, Object>> getAttributeGetterFunctions() {
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Arret, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Arret>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Arret.class.getClassLoader(), Arret.class, ModelWrapper.class);
+		private static final Map<String, Function<Arret, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Arret> constructor =
-				(Constructor<Arret>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Arret, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Arret, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Arret::getUuid);
+			attributeGetterFunctions.put("arretId", Arret::getArretId);
+			attributeGetterFunctions.put("groupId", Arret::getGroupId);
+			attributeGetterFunctions.put("companyId", Arret::getCompanyId);
+			attributeGetterFunctions.put("userId", Arret::getUserId);
+			attributeGetterFunctions.put("userName", Arret::getUserName);
+			attributeGetterFunctions.put("createDate", Arret::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Arret::getModifiedDate);
+			attributeGetterFunctions.put("status", Arret::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Arret::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Arret::getStatusByUserName);
+			attributeGetterFunctions.put("statusDate", Arret::getStatusDate);
+			attributeGetterFunctions.put("stopId", Arret::getStopId);
+			attributeGetterFunctions.put("title", Arret::getTitle);
+			attributeGetterFunctions.put("code", Arret::getCode);
+			attributeGetterFunctions.put("latitude", Arret::getLatitude);
+			attributeGetterFunctions.put("longitude", Arret::getLongitude);
+			attributeGetterFunctions.put("type", Arret::getType);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Arret, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Arret, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Arret, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Arret, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Arret, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Arret, String>)Arret::setUuid);
+			attributeSetterBiConsumers.put(
+				"arretId", (BiConsumer<Arret, Long>)Arret::setArretId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Arret, Long>)Arret::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId", (BiConsumer<Arret, Long>)Arret::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Arret, Long>)Arret::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName", (BiConsumer<Arret, String>)Arret::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate", (BiConsumer<Arret, Date>)Arret::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Arret, Date>)Arret::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status", (BiConsumer<Arret, Integer>)Arret::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Arret, Long>)Arret::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Arret, String>)Arret::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate", (BiConsumer<Arret, Date>)Arret::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"stopId", (BiConsumer<Arret, String>)Arret::setStopId);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Arret, String>)Arret::setTitle);
+			attributeSetterBiConsumers.put(
+				"code", (BiConsumer<Arret, String>)Arret::setCode);
+			attributeSetterBiConsumers.put(
+				"latitude", (BiConsumer<Arret, String>)Arret::setLatitude);
+			attributeSetterBiConsumers.put(
+				"longitude", (BiConsumer<Arret, String>)Arret::setLongitude);
+			attributeSetterBiConsumers.put(
+				"type", (BiConsumer<Arret, Integer>)Arret::setType);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<Arret, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Arret, Object>>();
-		Map<String, BiConsumer<Arret, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Arret, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Arret, Object>() {
-
-				@Override
-				public Object apply(Arret arret) {
-					return arret.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Arret, Object>() {
-
-				@Override
-				public void accept(Arret arret, Object uuidObject) {
-					arret.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"arretId",
-			new Function<Arret, Object>() {
-
-				@Override
-				public Object apply(Arret arret) {
-					return arret.getArretId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"arretId",
-			new BiConsumer<Arret, Object>() {
-
-				@Override
-				public void accept(Arret arret, Object arretIdObject) {
-					arret.setArretId((Long)arretIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Arret, Object>() {
-
-				@Override
-				public Object apply(Arret arret) {
-					return arret.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Arret, Object>() {
-
-				@Override
-				public void accept(Arret arret, Object groupIdObject) {
-					arret.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Arret, Object>() {
-
-				@Override
-				public Object apply(Arret arret) {
-					return arret.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Arret, Object>() {
-
-				@Override
-				public void accept(Arret arret, Object companyIdObject) {
-					arret.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Arret, Object>() {
-
-				@Override
-				public Object apply(Arret arret) {
-					return arret.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Arret, Object>() {
-
-				@Override
-				public void accept(Arret arret, Object userIdObject) {
-					arret.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Arret, Object>() {
-
-				@Override
-				public Object apply(Arret arret) {
-					return arret.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Arret, Object>() {
-
-				@Override
-				public void accept(Arret arret, Object userNameObject) {
-					arret.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Arret, Object>() {
-
-				@Override
-				public Object apply(Arret arret) {
-					return arret.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Arret, Object>() {
-
-				@Override
-				public void accept(Arret arret, Object createDateObject) {
-					arret.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Arret, Object>() {
-
-				@Override
-				public Object apply(Arret arret) {
-					return arret.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Arret, Object>() {
-
-				@Override
-				public void accept(Arret arret, Object modifiedDateObject) {
-					arret.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Arret, Object>() {
-
-				@Override
-				public Object apply(Arret arret) {
-					return arret.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Arret, Object>() {
-
-				@Override
-				public void accept(Arret arret, Object statusObject) {
-					arret.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Arret, Object>() {
-
-				@Override
-				public Object apply(Arret arret) {
-					return arret.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<Arret, Object>() {
-
-				@Override
-				public void accept(Arret arret, Object statusByUserIdObject) {
-					arret.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Arret, Object>() {
-
-				@Override
-				public Object apply(Arret arret) {
-					return arret.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<Arret, Object>() {
-
-				@Override
-				public void accept(Arret arret, Object statusByUserNameObject) {
-					arret.setStatusByUserName((String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Arret, Object>() {
-
-				@Override
-				public Object apply(Arret arret) {
-					return arret.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Arret, Object>() {
-
-				@Override
-				public void accept(Arret arret, Object statusDateObject) {
-					arret.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"stopId",
-			new Function<Arret, Object>() {
-
-				@Override
-				public Object apply(Arret arret) {
-					return arret.getStopId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"stopId",
-			new BiConsumer<Arret, Object>() {
-
-				@Override
-				public void accept(Arret arret, Object stopIdObject) {
-					arret.setStopId((String)stopIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Arret, Object>() {
-
-				@Override
-				public Object apply(Arret arret) {
-					return arret.getTitle();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Arret, Object>() {
-
-				@Override
-				public void accept(Arret arret, Object titleObject) {
-					arret.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"code",
-			new Function<Arret, Object>() {
-
-				@Override
-				public Object apply(Arret arret) {
-					return arret.getCode();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"code",
-			new BiConsumer<Arret, Object>() {
-
-				@Override
-				public void accept(Arret arret, Object codeObject) {
-					arret.setCode((String)codeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"latitude",
-			new Function<Arret, Object>() {
-
-				@Override
-				public Object apply(Arret arret) {
-					return arret.getLatitude();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"latitude",
-			new BiConsumer<Arret, Object>() {
-
-				@Override
-				public void accept(Arret arret, Object latitudeObject) {
-					arret.setLatitude((String)latitudeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"longitude",
-			new Function<Arret, Object>() {
-
-				@Override
-				public Object apply(Arret arret) {
-					return arret.getLongitude();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"longitude",
-			new BiConsumer<Arret, Object>() {
-
-				@Override
-				public void accept(Arret arret, Object longitudeObject) {
-					arret.setLongitude((String)longitudeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"type",
-			new Function<Arret, Object>() {
-
-				@Override
-				public Object apply(Arret arret) {
-					return arret.getType();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"type",
-			new BiConsumer<Arret, Object>() {
-
-				@Override
-				public void accept(Arret arret, Object typeObject) {
-					arret.setType((Integer)typeObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -715,17 +366,20 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -736,7 +390,9 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setArretId(long arretId) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_arretId = arretId;
 	}
@@ -749,19 +405,20 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -772,19 +429,21 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -795,6 +454,10 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -827,6 +490,10 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -838,6 +505,10 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -855,6 +526,10 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -866,19 +541,21 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -889,6 +566,10 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -921,6 +602,10 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -932,6 +617,10 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -948,17 +637,20 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setStopId(String stopId) {
-		_columnBitmask |= STOPID_COLUMN_BITMASK;
-
-		if (_originalStopId == null) {
-			_originalStopId = _stopId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_stopId = stopId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalStopId() {
-		return GetterUtil.getString(_originalStopId);
+		return getColumnOriginalValue("stopId");
 	}
 
 	@JSON
@@ -974,6 +666,10 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setTitle(String title) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_title = title;
 	}
 
@@ -990,17 +686,20 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setCode(String code) {
-		_columnBitmask |= CODE_COLUMN_BITMASK;
-
-		if (_originalCode == null) {
-			_originalCode = _code;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_code = code;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalCode() {
-		return GetterUtil.getString(_originalCode);
+		return getColumnOriginalValue("code_");
 	}
 
 	@JSON
@@ -1016,6 +715,10 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setLatitude(String latitude) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_latitude = latitude;
 	}
 
@@ -1032,6 +735,10 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setLongitude(String longitude) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_longitude = longitude;
 	}
 
@@ -1043,6 +750,10 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void setType(int type) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_type = type;
 	}
 
@@ -1133,6 +844,26 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1193,6 +924,38 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 	}
 
 	@Override
+	public Arret cloneWithOriginalValues() {
+		ArretImpl arretImpl = new ArretImpl();
+
+		arretImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		arretImpl.setArretId(this.<Long>getColumnOriginalValue("arretId"));
+		arretImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		arretImpl.setCompanyId(this.<Long>getColumnOriginalValue("companyId"));
+		arretImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		arretImpl.setUserName(this.<String>getColumnOriginalValue("userName"));
+		arretImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		arretImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		arretImpl.setStatus(this.<Integer>getColumnOriginalValue("status"));
+		arretImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		arretImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		arretImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		arretImpl.setStopId(this.<String>getColumnOriginalValue("stopId"));
+		arretImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		arretImpl.setCode(this.<String>getColumnOriginalValue("code_"));
+		arretImpl.setLatitude(this.<String>getColumnOriginalValue("latitude"));
+		arretImpl.setLongitude(
+			this.<String>getColumnOriginalValue("longitude"));
+		arretImpl.setType(this.<Integer>getColumnOriginalValue("type_"));
+
+		return arretImpl;
+	}
+
+	@Override
 	public int compareTo(Arret arret) {
 		int value = 0;
 
@@ -1242,11 +1005,19 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1254,29 +1025,11 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 
 	@Override
 	public void resetOriginalValues() {
-		ArretModelImpl arretModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		arretModelImpl._originalUuid = arretModelImpl._uuid;
+		_setModifiedDate = false;
 
-		arretModelImpl._originalGroupId = arretModelImpl._groupId;
-
-		arretModelImpl._setOriginalGroupId = false;
-
-		arretModelImpl._originalCompanyId = arretModelImpl._companyId;
-
-		arretModelImpl._setOriginalCompanyId = false;
-
-		arretModelImpl._setModifiedDate = false;
-
-		arretModelImpl._originalStatus = arretModelImpl._status;
-
-		arretModelImpl._setOriginalStatus = false;
-
-		arretModelImpl._originalStopId = arretModelImpl._stopId;
-
-		arretModelImpl._originalCode = arretModelImpl._code;
-
-		arretModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1397,7 +1150,7 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1407,9 +1160,26 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 			String attributeName = entry.getKey();
 			Function<Arret, Object> attributeGetterFunction = entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Arret)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Arret)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1422,71 +1192,147 @@ public class ArretModelImpl extends BaseModelImpl<Arret> implements ArretModel {
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Arret, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Arret, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Arret, Object> attributeGetterFunction = entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Arret)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Arret>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Arret.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _arretId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
 	private String _stopId;
-	private String _originalStopId;
 	private String _title;
 	private String _code;
-	private String _originalCode;
 	private String _latitude;
 	private String _longitude;
 	private int _type;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Arret, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Arret)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("arretId", _arretId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("stopId", _stopId);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("code_", _code);
+		_columnOriginalValues.put("latitude", _latitude);
+		_columnOriginalValues.put("longitude", _longitude);
+		_columnOriginalValues.put("type_", _type);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("code_", "code");
+		attributeNames.put("type_", "type");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("arretId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("stopId", 4096L);
+
+		columnBitmasks.put("title", 8192L);
+
+		columnBitmasks.put("code_", 16384L);
+
+		columnBitmasks.put("latitude", 32768L);
+
+		columnBitmasks.put("longitude", 65536L);
+
+		columnBitmasks.put("type_", 131072L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Arret _escapedModel;
 

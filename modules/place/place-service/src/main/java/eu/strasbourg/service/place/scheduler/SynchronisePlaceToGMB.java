@@ -1,13 +1,12 @@
 package eu.strasbourg.service.place.scheduler;
 
+import com.liferay.petra.function.UnsafeRunnable;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.messaging.BaseMessageListener;
-import com.liferay.portal.kernel.messaging.DestinationNames;
-import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.model.Company;
-import com.liferay.portal.kernel.scheduler.*;
+import com.liferay.portal.kernel.scheduler.SchedulerJobConfiguration;
+import com.liferay.portal.kernel.scheduler.TriggerConfiguration;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
@@ -15,82 +14,62 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.place.model.GoogleMyBusinessHistoric;
 import eu.strasbourg.service.place.service.GoogleMyBusinessHistoricLocalService;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
-import eu.strasbourg.utils.constants.GlobalConstants;
-import org.osgi.service.component.annotations.*;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 
 /**
  * Synchronise les horaires des lieux
  */
-@Component(immediate = true, service = SynchronisePlaceToGMB.class)
-public class SynchronisePlaceToGMB extends BaseMessageListener {
+@Component(immediate = true, service = SchedulerJobConfiguration.class)
+public class SynchronisePlaceToGMB
+        implements SchedulerJobConfiguration {
 
-    @Activate
-    @Modified
-    protected void activate() {
-        String listenerClass = getClass().getName();
-
-        // Maintenant + 5 min pour ne pas lancer le scheduler au Startup du module
-        Calendar now = Calendar.getInstance();
-        now.add(Calendar.MINUTE, 5);
-        Date fiveMinutesFromNow = now.getTime();
-
+    @Override
+    public TriggerConfiguration getTriggerConfiguration() {
         // Création du trigger "Tous les jours à 3h45"
-        Trigger trigger = _triggerFactory.createTrigger(
-                listenerClass, listenerClass, fiveMinutesFromNow, null,
-                "0 45 3 * * ?", TimeZone.getTimeZone(GlobalConstants.TIMEZONE));
-
-        SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
-                listenerClass, trigger);
-
-        _schedulerEngineHelper.register(
-                this, schedulerEntry, DestinationNames.SCHEDULER_DISPATCH);
-    }
-
-    @Deactivate
-    protected void deactivate() {
-        _schedulerEngineHelper.unregister(this);
+        return TriggerConfiguration.createTriggerConfiguration("0 45 3 * * ?");
     }
 
     @Override
-    protected void doReceive(Message message) throws Exception {
-        log.info("Start synchronise");
-        //on vérifi qu'on a le droit de faire la synchronisation
-        if(Boolean.parseBoolean(StrasbourgPropsUtil.getGMBActivated())) {
-            // Creation du contexte de la requete pour effectuer les actions dans Global
-            ServiceContext sc = new ServiceContext();
-            
-            try {
-    			Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");
-    			sc.setCompanyId(defaultCompany.getCompanyId());
-    			sc.setScopeGroupId(defaultCompany.getGroup().getGroupId());
-    			sc.setUserId(UserLocalServiceUtil.getDefaultUserId(sc.getCompanyId()));
-    			sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
-    			sc.setModifiedDate(new Date());
-    		} catch (PortalException e) {
-    			log.error(e);
-    		}
-            
-            // Creation de l'entree d'historique de synchronisation
-            GoogleMyBusinessHistoric googleMyBusinessHistoric = this._gmbHistoricLocalService.createGoogleMyBusinessHistoric(sc);
+    public UnsafeRunnable<Exception> getJobExecutorUnsafeRunnable() {
+        return () -> {
+            log.info("Start synchronise");
+            //on vérifie qu'on a le droit de faire la synchronisation
+            if (Boolean.parseBoolean(StrasbourgPropsUtil.getGMBActivated())) {
+                // Creation du contexte de la requete pour effectuer les actions dans Global
+                ServiceContext sc = new ServiceContext();
 
-            // Effectue la synchronisation
-            this._gmbHistoricLocalService.doSynchronisation(sc, googleMyBusinessHistoric);
+                try {
+                    Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");
+                    sc.setCompanyId(defaultCompany.getCompanyId());
+                    sc.setScopeGroupId(defaultCompany.getGroup().getGroupId());
+                    sc.setUserId(UserLocalServiceUtil.getDefaultUserId(sc.getCompanyId()));
+                    sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
+                    sc.setModifiedDate(new Date());
+                } catch (PortalException e) {
+                    log.error(e);
+                }
 
-            // Sauvegarde de l'entree
-            this._gmbHistoricLocalService.updateGoogleMyBusinessHistoric(googleMyBusinessHistoric, sc);
+                // Creation de l'entree d'historique de synchronisation
+                GoogleMyBusinessHistoric googleMyBusinessHistoric = this._gmbHistoricLocalService.createGoogleMyBusinessHistoric(sc);
 
-            // Envoie du mail de rapport
-            googleMyBusinessHistoric.sendMail();
-        }else{
-            log.info("La synchronisation des lieux est désactivée - Fin du traitement ");
-        }
+                // Effectue la synchronisation
+                this._gmbHistoricLocalService.doSynchronisation(sc, googleMyBusinessHistoric);
 
-        log.info("Finish synchronise");
+                // Sauvegarde de l'entree
+                this._gmbHistoricLocalService.updateGoogleMyBusinessHistoric(googleMyBusinessHistoric, sc);
+
+                // Envoie du mail de rapport
+                googleMyBusinessHistoric.sendMail();
+            } else {
+                log.info("La synchronisation des lieux est désactivée - Fin du traitement ");
+            }
+
+            log.info("Finish synchronise");
+        };
     }
 
     @Reference(unbind = "-")
@@ -98,21 +77,7 @@ public class SynchronisePlaceToGMB extends BaseMessageListener {
         _gmbHistoricLocalService = gmbHistoricLocalService;
     }
 
-    @Reference(unbind = "-")
-    protected void setSchedulerEngineHelper(
-            SchedulerEngineHelper schedulerEngineHelper) {
-
-        _schedulerEngineHelper = schedulerEngineHelper;
-    }
-
-    @Reference(unbind = "-")
-    protected void setTriggerFactory(TriggerFactory triggerFactory) {
-        _triggerFactory = triggerFactory;
-    }
-
-    private volatile SchedulerEngineHelper _schedulerEngineHelper;
     private GoogleMyBusinessHistoricLocalService _gmbHistoricLocalService;
-    private TriggerFactory _triggerFactory;
     private Log log = LogFactoryUtil.getLog(this.getClass());
 
 }

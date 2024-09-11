@@ -19,14 +19,14 @@ import com.itextpdf.layout.element.ListItem;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.element.Text;
-import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.layout.property.UnitValue;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.UnitValue;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.HtmlParserUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -116,7 +116,7 @@ public class ExportPDF {
 
 			cell = new Cell()
 					.add(new Paragraph(LanguageUtil.get(themeDisplay.getLocale(), "footer-title")).setFont(fontBold))
-					.add(new Paragraph(HtmlUtil.render(LanguageUtil.get(themeDisplay.getLocale(), "footer-content"))))
+					.add(new Paragraph(HtmlParserUtil.render(LanguageUtil.get(themeDisplay.getLocale(), "footer-content"))))
 					.setTextAlignment(TextAlignment.RIGHT).setBorder(Border.NO_BORDER)
 					.setPadding(0f).setMargin(0f);
 			table.addCell(cell).setPadding(0f).setPaddingTop(1f).setMargin(0f);
@@ -234,12 +234,12 @@ public class ExportPDF {
 					}
 					strQuartiers.append(quartierElu.getName());
 				}
-				paragraph.add(HtmlUtil.render(strQuartiers.toString()));
+				paragraph.add(HtmlParserUtil.render(strQuartiers.toString()));
 			}
 
 			if (Validator.isNotNull(elu.getPoliticalGroupCity())) {
 				paragraph.add("\n")
-						.add(new Text(HtmlUtil.render(LanguageUtil.get(locale, "groupe-politique") + " : ")).setFont(fontBold))
+						.add(new Text(HtmlParserUtil.render(LanguageUtil.get(locale, "groupe-politique") + " : ")).setFont(fontBold))
 						.add("\n")
 						.add(elu.getName(elu.getPoliticalGroupCity(), locale));
 			}
@@ -291,7 +291,7 @@ public class ExportPDF {
 			if (Validator.isNotNull(elu.getPoliticalGroupEurometropole())) {
 				paragraph.add("\n")
 						.add(new Text(
-								HtmlUtil.render(LanguageUtil.get(locale, "groupe-politique")
+								HtmlParserUtil.render(LanguageUtil.get(locale, "groupe-politique")
 										+ " : " )).setFont(fontBold))
 						.add("\n")
 						.add(elu.getName(elu.getPoliticalGroupEurometropole(), locale));

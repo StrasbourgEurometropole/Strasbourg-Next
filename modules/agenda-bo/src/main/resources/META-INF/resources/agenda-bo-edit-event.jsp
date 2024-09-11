@@ -1,25 +1,25 @@
 <%@ include file="/agenda-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.agenda.model.Event"%>
 
-<liferay-portlet:renderURL varImpl="eventsURL">
-	<portlet:param name="tab" value="events" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteEvent" var="deleteEventURL">
 	<portlet:param name="cmd" value="deleteEvent" />
 	<portlet:param name="tab" value="events" />
+	<portlet:param name="mvcPath" value="/agenda-bo-view-events.jsp" />
 	<portlet:param name="eventId"
 		value="${not empty dc.event ? dc.event.eventId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveEvent" varImpl="saveEventURL">
-	<portlet:param name="cmd" value="saveEvent" />
+	<portlet:param name="tab" value="events" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
 	<liferay-ui:error key="description-error" message="description-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
+	<liferay-ui:error key="image-format-error" message="image-format-error" />
 	<liferay-ui:error key="image-load-error" message="image-load-error" />
 	<liferay-ui:error key="image-copyright-error" message="image-copyright-error" />
 	<liferay-ui:error key="place-selected-error" message="place-selected-error" />
@@ -34,7 +34,7 @@
 			id="translationManager" />
 
 		<aui:model-context bean="${dc.event}" model="<%=Event.class %>" />
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="eventId" type="hidden" />
 
 			<aui:fieldset collapsed="false" collapsible="true"
@@ -76,36 +76,20 @@
 				<div class="no-event-period" style="display: none; margin-top: 0">
                     <liferay-ui:message key="no-event-period" />
                 </div>
-				
+
 				<div class="event-periods-title">
-					<p class="control-label"><liferay-ui:message key="event-period-creation" /><span class="icon-asterisk text-warning"></span></p>
-				</div>
-				
-				<div class="add-dates-section">
-					<aui:button id="periodGenerator" cssClass="date-range" name="periodGenerator" value="select-period-dates" />
-				</div>
-				
-				<div class="change-times-section">
-					<div class="event-periods-title">
-						<p class="control-label"><liferay-ui:message key="update-current-language-times" /></p>
-					</div>
-					<div class="time-detail-generator-wrapper">
-						<aui:input type="text" name="timeDetailGenerator" label="event-times" inlineField="true" helpMessage="event-times-help"/>
-					</div>
-					<aui:button id="changeTimes" name="changeTimes" value="update-times" />
-				</div>
-				
-				<div class="event-periods-title">
-					<p class="control-label"><liferay-ui:message key="event-periods" /></p>
+					<p class="control-label"><liferay-ui:message key="event-periods" /><span class="icon-asterisk text-warning"></span></p>
 				</div>
 				<div id="date-fields">
-					<div class="lfr-form-row lfr-form-row-inline">
-						<div class="row-fields">
-							<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
-								<liferay-util:param name="index" value="0" />
-							</liferay-util:include>
-						</div>
-					</div>
+					<c:if test="${empty dc.event || fn:length(dc.event.eventPeriods) == 0}">
+                        <div class="lfr-form-row lfr-form-row-inline">
+                            <div class="row-fields">
+                                <liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
+                                    <liferay-util:param name="index" value="0" />
+                                </liferay-util:include>
+                            </div>
+                        </div>
+                    </c:if>
 						
 					<c:forEach items="${dc.event.eventPeriods}" var="period" varStatus="status">
 						<div class="lfr-form-row lfr-form-row-inline">
@@ -113,7 +97,7 @@
 								<fmt:formatDate value="${period.startDate}" pattern="dd/MM/YYYY" type="date" var="formattedStartDate"/>
 								<fmt:formatDate value="${period.endDate}" pattern="dd/MM/YYYY" type="date" var="formattedEndDate"/>
 								<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
-									<liferay-util:param name="index" value="${status.count}" />
+									<liferay-util:param name="index" value="${status.index}" />
 									<liferay-util:param name="startDate" value="${formattedStartDate}" />
 									<liferay-util:param name="endDate" value="${formattedEndDate}" />
 									<liferay-util:param name="timeDetail" value="${period.timeDetail}" />
@@ -123,6 +107,16 @@
 					</c:forEach>
 					<aui:input type="hidden" name="periodIndexes" value="${dc.defaultPeriodIndexes}" />
 				</div>
+
+                <div class="change-times-section">
+                    <div class="event-periods-title">
+                        <p class="control-label"><liferay-ui:message key="update-current-language-times" /></p>
+                    </div>
+                    <div class="time-detail-generator-wrapper">
+                        <aui:input type="text" name="timeDetailGenerator" label="event-times" inlineField="true" helpMessage="event-times-help"/>
+                    </div>
+                    <aui:button id="changeTimes" name="changeTimes" value="update-times" />
+                </div>
 				
 			</aui:fieldset>
 			
@@ -277,20 +271,20 @@
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="categorization">
 
-				<aui:input name="categories" type="assetCategories"
-					wrapperCssClass="categories-selectors" />
-
+				<liferay-asset:asset-categories-selector
+					className="<%= Event.class.getName() %>"
+					classPK="${dc.event.eventId}"/>
 				<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
 				<div class="has-error">
 					<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
 						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
 							function (val, fieldNode, ruleValue) {
 								var validated = true;
-								var fields = document.querySelectorAll('.categories-selectors > .field-content');
+								var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
 								for (var i = 0; i < fields.length; i++) {
 									fieldContent = fields[i];
-								    if ($(fieldContent).find('.icon-asterisk').length > 0
-								    	&& $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+							if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
+								&& $(fieldContent).find('input[type="hidden"]').length == 0) {
 								    	validated = false;
 								    	event.preventDefault();
 								    	break;
@@ -302,8 +296,11 @@
 					</aui:input>
 				</div>
 
-				<aui:input name="tags" type="assetTags" />
-	
+				<liferay-asset:asset-tags-selector
+						className="<%= Event.class.getName() %>"
+						classPK="${dc.event.eventId}"
+				/>
+
 			</aui:fieldset>
 			
 			<aui:fieldset collapsed="true" collapsible="true" label="management">
@@ -311,7 +308,7 @@
 				<aui:input name="idSource" disabled="true" />
 				<aui:input name="publicationDate" />
 			</aui:fieldset>
-		</aui:fieldset-group>
+		</div></div>
 
 		<aui:button-row>
 			<c:if
@@ -332,7 +329,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>

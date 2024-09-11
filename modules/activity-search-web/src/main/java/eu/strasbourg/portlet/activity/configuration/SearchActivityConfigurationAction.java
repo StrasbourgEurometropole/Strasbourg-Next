@@ -1,21 +1,10 @@
 package eu.strasbourg.portlet.activity.configuration;
 
-import java.util.Locale;
-import java.util.Map;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletConfig;
-import javax.portlet.PortletPreferences;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -29,13 +18,22 @@ import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
-
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletConfig;
+import javax.portlet.PortletPreferences;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
+import java.util.Map;
 
 @Component(
 	configurationPid = "eu.strasbourg.portlet.activity.configuration.SearchActivityConfiguration",
@@ -68,6 +66,14 @@ public class SearchActivityConfigurationAction
 			String detailPageUuid = ParamUtil.getString(actionRequest,
 				"detailPageUuid");
 			setPreference(actionRequest, "detailPageUuid", detailPageUuid);
+
+			// Champ de tri
+			String sortingField = ParamUtil.getString(actionRequest, "sortingField");
+			setPreference(actionRequest, "sortingField", sortingField);
+
+			// Ordre de tri
+			String sortingType = ParamUtil.getString(actionRequest, "sortingType");
+			setPreference(actionRequest, "sortingType", sortingType);
 
 			// Page de détail des cours
 			String courseDetailPageUuid = ParamUtil.getString(actionRequest,
@@ -133,9 +139,8 @@ public class SearchActivityConfigurationAction
 		try {
 			ThemeDisplay themeDisplay = (ThemeDisplay) request
 				.getAttribute(WebKeys.THEME_DISPLAY);
-			SearchActivityConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-					SearchActivityConfiguration.class);
+			SearchActivityConfiguration configuration =
+					ConfigurationProviderUtil.getPortletInstanceConfiguration(SearchActivityConfiguration.class, themeDisplay);
 
 			// Page de détail
 			request.setAttribute("detailPageUuid",
@@ -164,6 +169,12 @@ public class SearchActivityConfigurationAction
 			setVocabularyAttributes("territory", VocabularyNames.TERRITORY,
 				configuration.territoryIds(), configuration.territoryNames(),
 				request, themeDisplay.getCompanyGroupId());
+
+			// Champ de tri
+			request.setAttribute("sortingField", configuration.sortingField());
+
+			// Ordre de tri
+			request.setAttribute("sortingType", configuration.sortingType().toLowerCase());
 
 			// Texte
 			request.setAttribute("textXML", configuration.textXML());

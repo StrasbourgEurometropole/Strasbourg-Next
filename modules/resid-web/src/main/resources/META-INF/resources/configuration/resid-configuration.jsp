@@ -14,12 +14,17 @@
 	
 		<aui:input name="redirect" type="hidden"
 			value="${configurationRenderURL}" />
+
+        <!-- Indique si le webService est en maintenance -->
+		<aui:fieldset>
+            <aui:input type="checkbox" name="maintenance" value="${maintenance}" label="maintenance" />
+		</aui:fieldset>
 		
 		<aui:fieldset>
 			<aui:input name="liaisonURL" value="${liaisonURL}" type="text" label="liaison-URL" />
 		</aui:fieldset>
 		
-		<aui:fieldset>
+		<aui:fieldset id="zones">
 			<label><liferay-ui:message key="zone-pdf" /></label>
 			<section id="newZone">
 				<aui:button cssClass="btn-icon icon icon-plus icon-2x" type="button" onClick="addZone(); return false;"/>
@@ -60,6 +65,10 @@
       	margin: 0px 10px;
     	width: calc(100% - 20px);
     }
+
+	#_com_liferay_portlet_configuration_web_portlet_PortletConfigurationPortlet_fm #zones .panel-body .icon{
+		font-family: 'fontawesome-alloy';
+	}
 </style>
 <liferay-util:html-bottom>
 	<script

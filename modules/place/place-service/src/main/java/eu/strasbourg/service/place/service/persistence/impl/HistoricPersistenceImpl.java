@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,32 +16,32 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.place.exception.NoSuchHistoricException;
 import eu.strasbourg.service.place.model.Historic;
+import eu.strasbourg.service.place.model.HistoricTable;
 import eu.strasbourg.service.place.model.impl.HistoricImpl;
 import eu.strasbourg.service.place.model.impl.HistoricModelImpl;
 import eu.strasbourg.service.place.service.persistence.HistoricPersistence;
+import eu.strasbourg.service.place.service.persistence.HistoricUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.sql.Timestamp;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -249,10 +241,6 @@ public class HistoricPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -601,8 +589,6 @@ public class HistoricPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -710,8 +696,8 @@ public class HistoricPersistenceImpl
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Historic historic : list) {
-					if (suppressionDate.getTime() >
-							historic.getSuppressionDate().getTime()) {
+					if (suppressionDate.getTime() > historic.getSuppressionDate(
+						).getTime()) {
 
 						list = null;
 
@@ -778,10 +764,6 @@ public class HistoricPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1131,8 +1113,6 @@ public class HistoricPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1156,21 +1136,14 @@ public class HistoricPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Historic.class);
+
+		setModelImplClass(HistoricImpl.class);
+		setModelPKClass(String.class);
+
+		setTable(HistoricTable.INSTANCE);
 	}
 
 	/**
@@ -1181,11 +1154,10 @@ public class HistoricPersistenceImpl
 	@Override
 	public void cacheResult(Historic historic) {
 		entityCache.putResult(
-			HistoricModelImpl.ENTITY_CACHE_ENABLED, HistoricImpl.class,
-			historic.getPrimaryKey(), historic);
-
-		historic.resetOriginalValues();
+			HistoricImpl.class, historic.getPrimaryKey(), historic);
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the historics in the entity cache if it is enabled.
@@ -1194,15 +1166,18 @@ public class HistoricPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Historic> historics) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (historics.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Historic historic : historics) {
 			if (entityCache.getResult(
-					HistoricModelImpl.ENTITY_CACHE_ENABLED, HistoricImpl.class,
-					historic.getPrimaryKey()) == null) {
+					HistoricImpl.class, historic.getPrimaryKey()) == null) {
 
 				cacheResult(historic);
-			}
-			else {
-				historic.resetOriginalValues();
 			}
 		}
 	}
@@ -1218,9 +1193,7 @@ public class HistoricPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(HistoricImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(HistoricImpl.class);
 	}
 
 	/**
@@ -1232,35 +1205,22 @@ public class HistoricPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Historic historic) {
-		entityCache.removeResult(
-			HistoricModelImpl.ENTITY_CACHE_ENABLED, HistoricImpl.class,
-			historic.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(HistoricImpl.class, historic);
 	}
 
 	@Override
 	public void clearCache(List<Historic> historics) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Historic historic : historics) {
-			entityCache.removeResult(
-				HistoricModelImpl.ENTITY_CACHE_ENABLED, HistoricImpl.class,
-				historic.getPrimaryKey());
+			entityCache.removeResult(HistoricImpl.class, historic);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(HistoricImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				HistoricModelImpl.ENTITY_CACHE_ENABLED, HistoricImpl.class,
-				primaryKey);
+			entityCache.removeResult(HistoricImpl.class, primaryKey);
 		}
 	}
 
@@ -1400,10 +1360,8 @@ public class HistoricPersistenceImpl
 		try {
 			session = openSession();
 
-			if (historic.isNew()) {
+			if (isNew) {
 				session.save(historic);
-
-				historic.setNew(false);
 			}
 			else {
 				historic = (Historic)session.merge(historic);
@@ -1416,46 +1374,12 @@ public class HistoricPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!HistoricModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {historicModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((historicModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					historicModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {historicModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-		}
-
 		entityCache.putResult(
-			HistoricModelImpl.ENTITY_CACHE_ENABLED, HistoricImpl.class,
-			historic.getPrimaryKey(), historic, false);
+			HistoricImpl.class, historicModelImpl, false, true);
+
+		if (isNew) {
+			historic.setNew(false);
+		}
 
 		historic.resetOriginalValues();
 
@@ -1504,166 +1428,12 @@ public class HistoricPersistenceImpl
 	/**
 	 * Returns the historic with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the historic
-	 * @return the historic, or <code>null</code> if a historic with the primary key could not be found
-	 */
-	@Override
-	public Historic fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			HistoricModelImpl.ENTITY_CACHE_ENABLED, HistoricImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Historic historic = (Historic)serializable;
-
-		if (historic == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				historic = (Historic)session.get(
-					HistoricImpl.class, primaryKey);
-
-				if (historic != null) {
-					cacheResult(historic);
-				}
-				else {
-					entityCache.putResult(
-						HistoricModelImpl.ENTITY_CACHE_ENABLED,
-						HistoricImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					HistoricModelImpl.ENTITY_CACHE_ENABLED, HistoricImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return historic;
-	}
-
-	/**
-	 * Returns the historic with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param sigId the primary key of the historic
 	 * @return the historic, or <code>null</code> if a historic with the primary key could not be found
 	 */
 	@Override
 	public Historic fetchByPrimaryKey(String sigId) {
 		return fetchByPrimaryKey((Serializable)sigId);
-	}
-
-	@Override
-	public Map<Serializable, Historic> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Historic> map = new HashMap<Serializable, Historic>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Historic historic = fetchByPrimaryKey(primaryKey);
-
-			if (historic != null) {
-				map.put(primaryKey, historic);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				HistoricModelImpl.ENTITY_CACHE_ENABLED, HistoricImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Historic)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_HISTORIC_WHERE_PKS_IN);
-
-		for (int i = 0; i < uncachedPrimaryKeys.size(); i++) {
-			sb.append("?");
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			QueryPos queryPos = QueryPos.getInstance(query);
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				queryPos.add((String)primaryKey);
-			}
-
-			for (Historic historic : (List<Historic>)query.list()) {
-				map.put(historic.getPrimaryKeyObj(), historic);
-
-				cacheResult(historic);
-
-				uncachedPrimaryKeys.remove(historic.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					HistoricModelImpl.ENTITY_CACHE_ENABLED, HistoricImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1790,10 +1560,6 @@ public class HistoricPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1839,9 +1605,6 @@ public class HistoricPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1858,6 +1621,21 @@ public class HistoricPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "sigId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_HISTORIC;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return HistoricModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1866,66 +1644,59 @@ public class HistoricPersistenceImpl
 	 * Initializes the historic persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			HistoricModelImpl.ENTITY_CACHE_ENABLED,
-			HistoricModelImpl.FINDER_CACHE_ENABLED, HistoricImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			HistoricModelImpl.ENTITY_CACHE_ENABLED,
-			HistoricModelImpl.FINDER_CACHE_ENABLED, HistoricImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			HistoricModelImpl.ENTITY_CACHE_ENABLED,
-			HistoricModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			HistoricModelImpl.ENTITY_CACHE_ENABLED,
-			HistoricModelImpl.FINDER_CACHE_ENABLED, HistoricImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			HistoricModelImpl.ENTITY_CACHE_ENABLED,
-			HistoricModelImpl.FINDER_CACHE_ENABLED, HistoricImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			HistoricModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			HistoricModelImpl.ENTITY_CACHE_ENABLED,
-			HistoricModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathWithPaginationFindBySuppressionDate = new FinderPath(
-			HistoricModelImpl.ENTITY_CACHE_ENABLED,
-			HistoricModelImpl.FINDER_CACHE_ENABLED, HistoricImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySuppressionDate",
 			new String[] {
 				Date.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"suppressionDate"}, true);
 
 		_finderPathWithPaginationCountBySuppressionDate = new FinderPath(
-			HistoricModelImpl.ENTITY_CACHE_ENABLED,
-			HistoricModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countBySuppressionDate",
-			new String[] {Date.class.getName()});
+			new String[] {Date.class.getName()},
+			new String[] {"suppressionDate"}, false);
+
+		HistoricUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		HistoricUtil.setPersistence(null);
+
 		entityCache.removeCache(HistoricImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1934,7 +1705,7 @@ public class HistoricPersistenceImpl
 	@ServiceReference(type = FinderCache.class)
 	protected FinderCache finderCache;
 
-	private Long _getTime(Date date) {
+	private static Long _getTime(Date date) {
 		if (date == null) {
 			return null;
 		}
@@ -1944,9 +1715,6 @@ public class HistoricPersistenceImpl
 
 	private static final String _SQL_SELECT_HISTORIC =
 		"SELECT historic FROM Historic historic";
-
-	private static final String _SQL_SELECT_HISTORIC_WHERE_PKS_IN =
-		"SELECT historic FROM Historic historic WHERE sigId IN (";
 
 	private static final String _SQL_SELECT_HISTORIC_WHERE =
 		"SELECT historic FROM Historic historic WHERE ";
@@ -1970,5 +1738,10 @@ public class HistoricPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

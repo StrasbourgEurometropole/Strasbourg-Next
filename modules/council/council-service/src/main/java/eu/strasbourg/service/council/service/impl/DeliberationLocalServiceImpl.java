@@ -14,12 +14,15 @@
 
 package eu.strasbourg.service.council.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -43,9 +46,14 @@ import eu.strasbourg.service.council.service.VoteLocalServiceUtil;
 import eu.strasbourg.service.council.service.base.DeliberationLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -200,12 +208,9 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
 
         if (entry != null) {
             // Supprime les liens avec les catégories
-            for (long categoryId : entry.getCategoryIds()) {
-                this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-                        categoryId, entry.getEntryId());
-            }
-
-            // Supprime les liens avec les étiquettes
+            AssetEntryAssetCategoryRelLocalServiceUtil.
+                    deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
+           // Supprime les liens avec les étiquettes
             long[] tagIds = AssetEntryLocalServiceUtil
                     .getAssetTagPrimaryKeys(entry.getEntryId());
             for (long tagId : tagIds) {
@@ -214,7 +219,7 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
             }
 
             // Supprime lien avec les autres entries
-            List<AssetLink> links = this.assetLinkLocalService
+            List<AssetLink> links = AssetLinkLocalServiceUtil
                     .getLinks(entry.getEntryId());
             for (AssetLink link : links) {
                 this.assetLinkLocalService.deleteAssetLink(link);
@@ -358,4 +363,7 @@ public class DeliberationLocalServiceImpl extends DeliberationLocalServiceBaseIm
         else if (stageCategory != null)
             serviceContext.setAssetCategoryIds(new long[]{stageCategory.getCategoryId()});
     }
+
+    @Reference
+    private AssetLinkLocalService assetLinkLocalService;
 }

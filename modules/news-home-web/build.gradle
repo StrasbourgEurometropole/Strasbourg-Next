@@ -1,0 +1,5 @@
+dependencies {
+	implementation project(path: ':modules:utils')
+    implementation project(path: ':modules:agenda:agenda-api')
+    compileOnly group: "com.liferay.portal", name: "release.dxp.api"
+}

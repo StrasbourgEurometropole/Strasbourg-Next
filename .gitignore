@@ -6,7 +6,6 @@ out
 .idea
 .gradle
 .settings
-gradle.properties
 
 **/.settings
 modules/*/bin
@@ -429,3 +428,5 @@ modules/test3.xml
 modules/test2.xml
 modules/bidon.html
 
+
+node_modules

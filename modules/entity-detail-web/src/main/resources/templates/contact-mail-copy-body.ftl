@@ -22,7 +22,7 @@ Vous venez de soumettre des informations sur le formulaire de contact<#if type =
 	Cordialement,<br><br>
 	La Ville et l'Eurométropole de Strasbourg<br>
 	
-	<a href="http://www.strasbourg.eu">www.strasbourg.eu</a>
+	<a href="https://www.strasbourg.eu">www.strasbourg.eu</a>
 </p>
 
 <#if footerImage?has_content>

@@ -1,29 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.tipi.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,20 +21,12 @@ import java.util.Objects;
  * @see TipiEntry
  * @generated
  */
-public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
+public class TipiEntryWrapper
+	extends BaseModelWrapper<TipiEntry>
+	implements ModelWrapper<TipiEntry>, TipiEntry {
 
 	public TipiEntryWrapper(TipiEntry tipiEntry) {
-		_tipiEntry = tipiEntry;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return TipiEntry.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return TipiEntry.class.getName();
+		super(tipiEntry);
 	}
 
 	@Override
@@ -118,13 +97,8 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	}
 
 	@Override
-	public Object clone() {
-		return new TipiEntryWrapper((TipiEntry)_tipiEntry.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.tipi.model.TipiEntry tipiEntry) {
-		return _tipiEntry.compareTo(tipiEntry);
+	public TipiEntry cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -134,7 +108,7 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	 */
 	@Override
 	public int getCanceledCount() {
-		return _tipiEntry.getCanceledCount();
+		return model.getCanceledCount();
 	}
 
 	/**
@@ -144,12 +118,7 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	 */
 	@Override
 	public Date getDate() {
-		return _tipiEntry.getDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _tipiEntry.getExpandoBridge();
+		return model.getDate();
 	}
 
 	/**
@@ -159,7 +128,7 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	 */
 	@Override
 	public long getId() {
-		return _tipiEntry.getId();
+		return model.getId();
 	}
 
 	/**
@@ -169,7 +138,7 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	 */
 	@Override
 	public int getPaidCount() {
-		return _tipiEntry.getPaidCount();
+		return model.getPaidCount();
 	}
 
 	/**
@@ -179,12 +148,7 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _tipiEntry.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _tipiEntry.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -194,7 +158,7 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	 */
 	@Override
 	public int getRefusedCount() {
-		return _tipiEntry.getRefusedCount();
+		return model.getRefusedCount();
 	}
 
 	/**
@@ -204,7 +168,7 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	 */
 	@Override
 	public int getTotal() {
-		return _tipiEntry.getTotal();
+		return model.getTotal();
 	}
 
 	/**
@@ -214,7 +178,7 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	 */
 	@Override
 	public String getType() {
-		return _tipiEntry.getType();
+		return model.getType();
 	}
 
 	/**
@@ -224,37 +188,12 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	 */
 	@Override
 	public String getUuid() {
-		return _tipiEntry.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _tipiEntry.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _tipiEntry.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _tipiEntry.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _tipiEntry.isNew();
+		return model.getUuid();
 	}
 
 	@Override
 	public void persist() {
-		_tipiEntry.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_tipiEntry.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -264,7 +203,7 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	 */
 	@Override
 	public void setCanceledCount(int canceledCount) {
-		_tipiEntry.setCanceledCount(canceledCount);
+		model.setCanceledCount(canceledCount);
 	}
 
 	/**
@@ -274,24 +213,7 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	 */
 	@Override
 	public void setDate(Date date) {
-		_tipiEntry.setDate(date);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_tipiEntry.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_tipiEntry.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_tipiEntry.setExpandoBridgeAttributes(serviceContext);
+		model.setDate(date);
 	}
 
 	/**
@@ -301,12 +223,7 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	 */
 	@Override
 	public void setId(long id) {
-		_tipiEntry.setId(id);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_tipiEntry.setNew(n);
+		model.setId(id);
 	}
 
 	/**
@@ -316,7 +233,7 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	 */
 	@Override
 	public void setPaidCount(int paidCount) {
-		_tipiEntry.setPaidCount(paidCount);
+		model.setPaidCount(paidCount);
 	}
 
 	/**
@@ -326,12 +243,7 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_tipiEntry.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_tipiEntry.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -341,7 +253,7 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	 */
 	@Override
 	public void setRefusedCount(int refusedCount) {
-		_tipiEntry.setRefusedCount(refusedCount);
+		model.setRefusedCount(refusedCount);
 	}
 
 	/**
@@ -351,7 +263,7 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	 */
 	@Override
 	public void setTotal(int total) {
-		_tipiEntry.setTotal(total);
+		model.setTotal(total);
 	}
 
 	/**
@@ -361,7 +273,7 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	 */
 	@Override
 	public void setType(String type) {
-		_tipiEntry.setType(type);
+		model.setType(type);
 	}
 
 	/**
@@ -371,75 +283,17 @@ public class TipiEntryWrapper implements ModelWrapper<TipiEntry>, TipiEntry {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_tipiEntry.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.tipi.model.TipiEntry> toCacheModel() {
-
-		return _tipiEntry.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.tipi.model.TipiEntry toEscapedModel() {
-		return new TipiEntryWrapper(_tipiEntry.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _tipiEntry.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.tipi.model.TipiEntry toUnescapedModel() {
-		return new TipiEntryWrapper(_tipiEntry.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _tipiEntry.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof TipiEntryWrapper)) {
-			return false;
-		}
-
-		TipiEntryWrapper tipiEntryWrapper = (TipiEntryWrapper)object;
-
-		if (Objects.equals(_tipiEntry, tipiEntryWrapper._tipiEntry)) {
-			return true;
-		}
-
-		return false;
+	protected TipiEntryWrapper wrap(TipiEntry tipiEntry) {
+		return new TipiEntryWrapper(tipiEntry);
 	}
-
-	@Override
-	public TipiEntry getWrappedModel() {
-		return _tipiEntry;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _tipiEntry.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _tipiEntry.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_tipiEntry.resetOriginalValues();
-	}
-
-	private final TipiEntry _tipiEntry;
 
 }

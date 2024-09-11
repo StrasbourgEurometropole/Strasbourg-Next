@@ -1,0 +1,15 @@
+<div class="st-bloc [#if configuration.displayStyle == "complete"]st-bloc-liens[#else]st-bloc-infos-complementaires[/#if] st-wrapper st--has-margin">
+[#if configuration.displayStyle == "compact"]<div class="st-component st-component-type-2">[/#if]
+  <div class="st-component-container">
+    <ul class="st-liste">
+      [#list 1..configuration.numberOfElements?number as index]
+      <li class="st-lien-container">
+        <lfr-drop-zone></lfr-drop-zone>
+      </li>
+      [/#list]
+
+    </ul>
+  </div>
+</div>
+[#if configuration.displayStyle == "compact"]</div>[/#if]
+</div>

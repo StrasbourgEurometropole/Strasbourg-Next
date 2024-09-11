@@ -17,23 +17,7 @@ package eu.strasbourg.service.project.service.impl;
 import eu.strasbourg.service.project.service.base.SignataireServiceBaseImpl;
 
 /**
- * The implementation of the signataire remote service.
- *
- * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.project.service.SignataireService} interface.
- *
- * <p>
- * This is a remote service. Methods of this service are expected to have security checks based on the propagated JAAS credentials because this service can be accessed remotely.
- * </p>
- *
  * @author Cedric Henry
- * @see SignataireServiceBaseImpl
- * @see eu.strasbourg.service.project.service.SignataireServiceUtil
  */
 public class SignataireServiceImpl extends SignataireServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link eu.strasbourg.service.project.service.SignataireServiceUtil} to access the signataire remote service.
-	 */
 }

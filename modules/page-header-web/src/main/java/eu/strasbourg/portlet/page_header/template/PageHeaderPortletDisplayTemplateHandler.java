@@ -7,7 +7,7 @@ import org.osgi.service.component.annotations.Component;
 
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutSet;
-import com.liferay.portal.kernel.portletdisplaytemplate.BasePortletDisplayTemplateHandler;
+import com.liferay.portlet.display.template.BasePortletDisplayTemplateHandler;
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateVariableGroup;
 
@@ -52,6 +52,10 @@ public class PageHeaderPortletDisplayTemplateHandler
 		
 		fieldsTemplateVariableGroup.addVariable("page", Layout.class, "page");
 		fieldsTemplateVariableGroup.addVariable("image-credit", String.class, "imageCredit");
+		fieldsTemplateVariableGroup.addVariable("title", String.class, "title");
+		fieldsTemplateVariableGroup.addVariable("sub-title", String.class, "subTitle");
+		fieldsTemplateVariableGroup.addVariable("image-url", String.class, "imageUrl");
+
 		
 		return templateVariableGroups;
 	}

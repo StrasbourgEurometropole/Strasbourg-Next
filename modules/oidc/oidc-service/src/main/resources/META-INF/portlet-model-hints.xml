@@ -16,13 +16,13 @@
 		<field name="statusByUserName" type="String" />
 		<field name="statusDate" type="Date" />
 		<field name="result" type="int" />
-		<field name="operations" type="String">
+		<field localized="true" name="operations" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
-		<field name="errorDescription" type="String">
+		<field localized="true" name="errorDescription" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
-		<field name="errorStackTrace" type="String">
+		<field localized="true" name="errorStackTrace" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="startDate" type="Date" />
@@ -56,7 +56,7 @@
 		</field>
 		<field name="pactSignature" type="Date" />
 		<field name="banishDate" type="Date" />
-		<field name="banishDescription" type="String">
+		<field localized="true" name="banishDescription" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="imageURL" type="String">

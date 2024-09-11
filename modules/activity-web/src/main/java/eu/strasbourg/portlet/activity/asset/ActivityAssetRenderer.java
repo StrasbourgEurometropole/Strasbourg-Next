@@ -58,7 +58,10 @@ public class ActivityAssetRenderer extends BaseJSPAssetRenderer<Activity> {
 	@Override
 	public String getSummary(PortletRequest portletRequest,
 		PortletResponse portletResponse) {
-		return _entry.getDescription(portletRequest.getLocale());
+		if(portletRequest != null) {
+			return _entry.getDescription(portletRequest.getLocale());
+		}
+		return _entry.getDescription(Locale.FRANCE);
 	}
 
 	@Override

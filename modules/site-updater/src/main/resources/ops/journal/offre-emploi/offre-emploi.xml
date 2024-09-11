@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Offre d'emploi</name>
+        <key>6009217</key>
+        <definition>offre-emploi-structure.json</definition>
+        <layout>offre-emploi-layout.json</layout>
+    </structure>
+    <template>
+        <name>Offre d'emploi</name>
+        <key>6009686</key>
+        <script>offre emploi.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

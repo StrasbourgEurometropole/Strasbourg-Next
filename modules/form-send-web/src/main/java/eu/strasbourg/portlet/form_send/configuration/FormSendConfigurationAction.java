@@ -3,6 +3,7 @@ package eu.strasbourg.portlet.form_send.configuration;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.log.Log;
@@ -117,9 +118,7 @@ public class FormSendConfigurationAction
         try {
             ThemeDisplay themeDisplay = (ThemeDisplay) request
                     .getAttribute(WebKeys.THEME_DISPLAY);
-            FormSendConfiguration configuration = themeDisplay
-                    .getPortletDisplay().getPortletInstanceConfiguration(
-                            FormSendConfiguration.class);
+            FormSendConfiguration configuration =  ConfigurationProviderUtil.getPortletInstanceConfiguration(FormSendConfiguration.class, themeDisplay);
 
             // Titre
             String title;

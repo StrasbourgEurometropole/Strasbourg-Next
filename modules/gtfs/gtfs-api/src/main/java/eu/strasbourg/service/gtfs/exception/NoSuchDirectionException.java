@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.gtfs.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Cedric Henry
  */
-@ProviderType
 public class NoSuchDirectionException extends NoSuchModelException {
 
 	public NoSuchDirectionException() {
@@ -30,12 +27,12 @@ public class NoSuchDirectionException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchDirectionException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchDirectionException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchDirectionException(Throwable cause) {
-		super(cause);
+	public NoSuchDirectionException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

@@ -38,8 +38,16 @@
             // Ouverture/fermeture Panel
             ame.$trigger_side.on('click', function() {
                 if ($ame.hasClass('side-opened')) {
+                    // add aria-expanded attribute
+                    ame.$trigger_side.attr('aria-expanded', 'false');
+                    // change aria-label attribute
+                    ame.$trigger_side.attr('aria-label', Liferay.Language.get('eu.aroundme.open-list'));
                     ame.close_panel_side();
                 } else {
+                    // add aria-expanded attribute
+                    ame.$trigger_side.attr('aria-expanded', 'true');
+                    // change aria-label attribute
+                    ame.$trigger_side.attr('aria-label', Liferay.Language.get('eu.aroundme.close-list'));
                     ame.open_panel_side();
                 }
             });
@@ -113,7 +121,7 @@
                 '         <div class="infowindow__visual"></div>'+
                 '         <div class="infowindow__top">' +
                 '             <div class="infowindow__categ"></div>' +
-                '             <div class="infowindow__title-block"><div class="infowindow__name"></div><div class="infowindow__like"><a class="" href="/like"></a></div></div>' +
+                '             <div class="infowindow__title-block"><div class="infowindow__name" role="heading" aria-level="3"></div><div class="infowindow__like"><a class="" href="/like"></a></div></div>' +
                 '             <div class="infowindow__address"></div>' +
                 '         </div>' +
                 '         <div class="infowindow__middle">' +
@@ -146,9 +154,9 @@
                                 formated_info = feature.properties[info_to_display];
                                 hasContenu = true;
                             } else if (info_to_display == 'amount') {
-                                var frequentation = '<div class="infowindow__opened">' + Liferay.Language.get(feature.properties[info_to_display]["title"]) + '</div>';
+                                var frequentation = '<div class="infowindow__opened">' + feature.properties[info_to_display]["title"] + '</div>';
                                 frequentation += '<div class="infowindow__frequentation ' + feature.properties[info_to_display]["color"] + '">' + feature.properties[info_to_display]["frequentation"] + '</div>';
-                                frequentation += '<div class="crowded-label">' + Liferay.Language.get(feature.properties[info_to_display]["label"]);
+                                frequentation += '<div class="crowded-label">' + feature.properties[info_to_display]["label"];
                                 if (feature.properties[info_to_display]["label"] == "available-spots" || feature.properties[info_to_display]["label"] == "eu.place.available-velhop"){
                                     frequentation += feature.properties[info_to_display]["frequentation"];
                                 }
@@ -180,23 +188,18 @@
                     					}
                     				} 
                     			}
-                    		
-                    			var lienFavori = '<a href="#" class="add-favorites';
-                    			if(addedFavorite){
-                    				lienFavori += ' liked';
-                    			}
-                    			lienFavori += '" style="display: flex; margin-bottom: 0px;" '
-                    				+ 'data-type="' + feature.properties[info_to_display] + '"' 
-                    		        + 'data-title="' + feature.properties["name"] + '"' 
-                    		        + 'data-url="' + feature.properties["url"] + '"' 
-                    		        + 'data-id="' + feature.properties["id"]+ '">';
-                    			if(addedFavorite){
-                    				lienFavori += '<span>' + Liferay.Language.get("eu.remove-from-favorite") + '</span>';
-                    			}else{
-                    				lienFavori += '<span>' + Liferay.Language.get("eu.add-to-favorite") + '</span>';
-                    			}
-                    			lienFavori += '</a>';
-                    			formated_info = lienFavori;
+
+                                var lienFavori = `<a href="#" class="add-favorites${addedFavorite ? ' liked' : ''}" 
+                    aria-pressed="${addedFavorite ? 'true' : 'false'}" 
+                    role="button" style="display: flex; margin-bottom: 0px;" 
+                    data-type="${feature.properties[info_to_display]}" 
+                    data-title="${feature.properties['name']}" 
+                    data-url="${feature.properties['url']}" 
+                    data-id="${feature.properties['id']}">
+                    <span>${addedFavorite ? Liferay.Language.get("eu.remove-from-favorite") : Liferay.Language.get("eu.add-to-favorite")}</span>
+                 </a>`;
+
+                                formated_info = lienFavori;
                             } else if (info_to_display == "opened"){
                                 if(feature.properties[info_to_display]["url"] !== undefined && feature.properties[info_to_display]["url"] != ""){
                                     formated_info = '<a href="' + feature.properties[info_to_display]["url"] + '">' + Liferay.Language.get("eu.see-times") + '</a>';
@@ -306,8 +309,12 @@
                             }
                         }
                         if (isFavorite) {
+                            // addFavoriteElement aria-pressed true
+                            addFavoriteElement.setAttribute('aria-pressed', 'true')
+
                             addFavoriteElement.addClass('liked');
                         } else {
+                            addFavoriteElement.setAttribute('aria-pressed', 'false')
                             addFavoriteElement.removeClass('liked');
                         }
                     });
@@ -369,7 +376,7 @@
                 if (feature.properties.icon) {
                     if (feature.properties.amount) {
                         var divIcon = new L.divIcon({
-                            html:  '<img width="35" height="49" src="' + feature.properties.icon + '"><div class="aroundme__marker-amount ' 
+                            html:  '<img width="35" height="49" style="width:35px; height:49px;" src="' + feature.properties.icon + '"><div class="aroundme__marker-amount '
                                 + feature.properties.amount.color + '">' 
                                 + feature.properties.amount.frequentation + '</div>',
                             iconSize: [35,49],
@@ -379,7 +386,7 @@
                         return L.marker(latlng, { icon: divIcon })
                     } else if (feature.properties.alert) {
                            var divIcon = new L.divIcon({
-                               html:  '<img width="35" height="49" src="' + feature.properties.icon + '"><div class="aroundme__marker-alert"></div>',
+                               html:  '<img width="35" height="49" style="width:35px; height:49px;" src="' + feature.properties.icon + '"><div class="aroundme__marker-alert"></div>',
                                iconSize: [35,49],
                                iconAnchor: [17, 49],
                                popupAnchor: [1, -49]

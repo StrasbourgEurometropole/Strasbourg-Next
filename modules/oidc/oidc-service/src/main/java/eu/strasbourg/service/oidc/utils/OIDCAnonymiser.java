@@ -22,18 +22,14 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
-import eu.strasbourg.service.project.model.BudgetSupport;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
-import eu.strasbourg.service.project.service.BudgetSupportLocalServiceUtil;
-import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Classe permettant d'effectuer l'anonymisation des utilisateurs

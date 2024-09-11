@@ -14,7 +14,8 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import eu.strasbourg.utils.PortalHelper;
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -23,6 +24,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.search.BooleanClause;
 import com.liferay.portal.kernel.search.BooleanClauseFactoryUtil;
@@ -161,6 +164,20 @@ public class EventImpl extends EventBaseImpl {
 		return ManifestationLocalServiceUtil.getEventManifestations(this.getEventId());
 	}
 
+    /**
+	 * Retourne l'horaire de l'événement de ce jour-là
+	 */
+	@Override
+	public String getEventTimeFromDate(Date date, Locale locale){
+		String eventTime = "";
+		for (EventPeriod period : this.getEventPeriods()) {
+			if (period.getStartDate().compareTo(date) <= 0 && period.getEndDate().compareTo(date) >= 0) {
+				eventTime = period.getTimeDetail(locale);
+			}
+		}
+		return eventTime;
+	}
+
 	/**
 	 * Retourne la liste des IDs des manifestations auxquelles cette édition
 	 * appartient sous forme de String
@@ -286,7 +303,7 @@ public class EventImpl extends EventBaseImpl {
 			try {
 				place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				_log.error(ex.getMessage(), ex);
 			}
 		}
 		return place;
@@ -602,6 +619,51 @@ public class EventImpl extends EventBaseImpl {
 	public String getTerritoryLabel(Locale locale) {
 		List<AssetCategory> territories = getTerritories();
 		return AssetVocabularyHelper.getTerritoryTitle(locale, territories);
+	}
+
+	/**
+	 * Retourne les musées de l'événement
+	 */
+	@Override
+	public List<AssetCategory> getMuseums() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.MUSEUM);
+	}
+
+	/**
+	 * Retourne le(s) label(s) du/des musées de l'événement
+	 */
+	@Override
+	public String getMuseumsLabel(Locale locale) {
+		String museums = "";
+		for (AssetCategory eventMuseum : this.getMuseums()) {
+			if (museums.length() > 0) {
+				museums += ", ";
+			}
+			museums += eventMuseum.getTitle(locale);
+		}
+		return museums;
+	}
+
+	/**
+	 * Retourne le type d'activité de l'événement
+	 */
+	@Override
+	public List<AssetCategory> getActivityType() {
+		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
+				VocabularyNames.ACTIVITY_TYPE_MUSEUM);
+	}
+
+	/**
+	 * Retourne le label du type d'activité de l'événement
+	 */
+	@Override
+	public String getActivityTypeLabel(Locale locale) {
+		String type = "";
+		List<AssetCategory> types = getActivityType();
+		if(types.size() > 0)
+			type = types.get(0).getTitle(locale);
+		return type;
 	}
 
 	/**
@@ -1080,7 +1142,7 @@ public class EventImpl extends EventBaseImpl {
 			}
 		}
 		catch(Exception ex) {
-			ex.printStackTrace();
+			_log.error(ex.getMessage(), ex);
 		}
 
 		return suggestions;
@@ -1170,7 +1232,7 @@ public class EventImpl extends EventBaseImpl {
 		}
 		if (group != null) {
 			String url = "";
-			String virtualHostName = group.getPublicLayoutSet().getVirtualHostname();
+			String virtualHostName = PortalHelper.getVirtualHostname(group, Locale.FRANCE.getLanguage());
 			if (virtualHostName.isEmpty()) {
 				url = "/web" + group.getFriendlyURL() + "/";
 			} else {
@@ -1486,5 +1548,7 @@ public class EventImpl extends EventBaseImpl {
 	public String getNormalizedTitle(Locale locale) {
 		return UriHelper.normalizeToFriendlyUrl(this.getTitle(locale));
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(EventImpl.class.getName());
 
 }

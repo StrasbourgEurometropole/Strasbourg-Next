@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,29 +16,29 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.exception.NoSuchImportReportLineException;
 import eu.strasbourg.service.agenda.model.ImportReportLine;
+import eu.strasbourg.service.agenda.model.ImportReportLineTable;
 import eu.strasbourg.service.agenda.model.impl.ImportReportLineImpl;
 import eu.strasbourg.service.agenda.model.impl.ImportReportLineModelImpl;
 import eu.strasbourg.service.agenda.service.persistence.ImportReportLinePersistence;
+import eu.strasbourg.service.agenda.service.persistence.ImportReportLineUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -248,10 +240,6 @@ public class ImportReportLinePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -604,8 +592,6 @@ public class ImportReportLinePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -805,10 +791,6 @@ public class ImportReportLinePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1190,8 +1172,6 @@ public class ImportReportLinePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1366,10 +1346,6 @@ public class ImportReportLinePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1700,8 +1676,6 @@ public class ImportReportLinePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1722,21 +1696,14 @@ public class ImportReportLinePersistenceImpl
 		dbColumnNames.put("type", "type_");
 		dbColumnNames.put("log", "log_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(ImportReportLine.class);
+
+		setModelImplClass(ImportReportLineImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(ImportReportLineTable.INSTANCE);
 	}
 
 	/**
@@ -1747,12 +1714,11 @@ public class ImportReportLinePersistenceImpl
 	@Override
 	public void cacheResult(ImportReportLine importReportLine) {
 		entityCache.putResult(
-			ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
 			ImportReportLineImpl.class, importReportLine.getPrimaryKey(),
 			importReportLine);
-
-		importReportLine.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the import report lines in the entity cache if it is enabled.
@@ -1761,16 +1727,20 @@ public class ImportReportLinePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<ImportReportLine> importReportLines) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (importReportLines.size() >
+				 _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (ImportReportLine importReportLine : importReportLines) {
 			if (entityCache.getResult(
-					ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
 					ImportReportLineImpl.class,
 					importReportLine.getPrimaryKey()) == null) {
 
 				cacheResult(importReportLine);
-			}
-			else {
-				importReportLine.resetOriginalValues();
 			}
 		}
 	}
@@ -1786,9 +1756,7 @@ public class ImportReportLinePersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(ImportReportLineImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ImportReportLineImpl.class);
 	}
 
 	/**
@@ -1800,35 +1768,23 @@ public class ImportReportLinePersistenceImpl
 	 */
 	@Override
 	public void clearCache(ImportReportLine importReportLine) {
-		entityCache.removeResult(
-			ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-			ImportReportLineImpl.class, importReportLine.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(ImportReportLineImpl.class, importReportLine);
 	}
 
 	@Override
 	public void clearCache(List<ImportReportLine> importReportLines) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (ImportReportLine importReportLine : importReportLines) {
 			entityCache.removeResult(
-				ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-				ImportReportLineImpl.class, importReportLine.getPrimaryKey());
+				ImportReportLineImpl.class, importReportLine);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ImportReportLineImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-				ImportReportLineImpl.class, primaryKey);
+			entityCache.removeResult(ImportReportLineImpl.class, primaryKey);
 		}
 	}
 
@@ -1973,10 +1929,8 @@ public class ImportReportLinePersistenceImpl
 		try {
 			session = openSession();
 
-			if (importReportLine.isNew()) {
+			if (isNew) {
 				session.save(importReportLine);
-
-				importReportLine.setNew(false);
 			}
 			else {
 				importReportLine = (ImportReportLine)session.merge(
@@ -1990,104 +1944,12 @@ public class ImportReportLinePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!ImportReportLineModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {importReportLineModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				importReportLineModelImpl.getType(),
-				importReportLineModelImpl.getStatus()
-			};
-
-			finderCache.removeResult(_finderPathCountByTypeAndStatus, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByTypeAndStatus, args);
-
-			args = new Object[] {importReportLineModelImpl.getReportId()};
-
-			finderCache.removeResult(_finderPathCountByReportId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByReportId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((importReportLineModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					importReportLineModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {importReportLineModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((importReportLineModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByTypeAndStatus.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					importReportLineModelImpl.getOriginalType(),
-					importReportLineModelImpl.getOriginalStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByTypeAndStatus, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByTypeAndStatus, args);
-
-				args = new Object[] {
-					importReportLineModelImpl.getType(),
-					importReportLineModelImpl.getStatus()
-				};
-
-				finderCache.removeResult(_finderPathCountByTypeAndStatus, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByTypeAndStatus, args);
-			}
-
-			if ((importReportLineModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByReportId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					importReportLineModelImpl.getOriginalReportId()
-				};
-
-				finderCache.removeResult(_finderPathCountByReportId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByReportId, args);
-
-				args = new Object[] {importReportLineModelImpl.getReportId()};
-
-				finderCache.removeResult(_finderPathCountByReportId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByReportId, args);
-			}
-		}
-
 		entityCache.putResult(
-			ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-			ImportReportLineImpl.class, importReportLine.getPrimaryKey(),
-			importReportLine, false);
+			ImportReportLineImpl.class, importReportLineModelImpl, false, true);
+
+		if (isNew) {
+			importReportLine.setNew(false);
+		}
 
 		importReportLine.resetOriginalValues();
 
@@ -2136,163 +1998,12 @@ public class ImportReportLinePersistenceImpl
 	/**
 	 * Returns the import report line with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the import report line
-	 * @return the import report line, or <code>null</code> if a import report line with the primary key could not be found
-	 */
-	@Override
-	public ImportReportLine fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-			ImportReportLineImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		ImportReportLine importReportLine = (ImportReportLine)serializable;
-
-		if (importReportLine == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				importReportLine = (ImportReportLine)session.get(
-					ImportReportLineImpl.class, primaryKey);
-
-				if (importReportLine != null) {
-					cacheResult(importReportLine);
-				}
-				else {
-					entityCache.putResult(
-						ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-						ImportReportLineImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-					ImportReportLineImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return importReportLine;
-	}
-
-	/**
-	 * Returns the import report line with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param lineId the primary key of the import report line
 	 * @return the import report line, or <code>null</code> if a import report line with the primary key could not be found
 	 */
 	@Override
 	public ImportReportLine fetchByPrimaryKey(long lineId) {
 		return fetchByPrimaryKey((Serializable)lineId);
-	}
-
-	@Override
-	public Map<Serializable, ImportReportLine> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, ImportReportLine> map =
-			new HashMap<Serializable, ImportReportLine>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			ImportReportLine importReportLine = fetchByPrimaryKey(primaryKey);
-
-			if (importReportLine != null) {
-				map.put(primaryKey, importReportLine);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-				ImportReportLineImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (ImportReportLine)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_IMPORTREPORTLINE_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (ImportReportLine importReportLine :
-					(List<ImportReportLine>)query.list()) {
-
-				map.put(importReportLine.getPrimaryKeyObj(), importReportLine);
-
-				cacheResult(importReportLine);
-
-				uncachedPrimaryKeys.remove(importReportLine.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-					ImportReportLineImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2421,10 +2132,6 @@ public class ImportReportLinePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2470,9 +2177,6 @@ public class ImportReportLinePersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2489,6 +2193,21 @@ public class ImportReportLinePersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "lineId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_IMPORTREPORTLINE;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return ImportReportLineModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2497,105 +2216,83 @@ public class ImportReportLinePersistenceImpl
 	 * Initializes the import report line persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-			ImportReportLineModelImpl.FINDER_CACHE_ENABLED,
-			ImportReportLineImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-			ImportReportLineModelImpl.FINDER_CACHE_ENABLED,
-			ImportReportLineImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-			ImportReportLineModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-			ImportReportLineModelImpl.FINDER_CACHE_ENABLED,
-			ImportReportLineImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-			ImportReportLineModelImpl.FINDER_CACHE_ENABLED,
-			ImportReportLineImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			ImportReportLineModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-			ImportReportLineModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathWithPaginationFindByTypeAndStatus = new FinderPath(
-			ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-			ImportReportLineModelImpl.FINDER_CACHE_ENABLED,
-			ImportReportLineImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByTypeAndStatus",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTypeAndStatus",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"type_", "status"}, true);
 
 		_finderPathWithoutPaginationFindByTypeAndStatus = new FinderPath(
-			ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-			ImportReportLineModelImpl.FINDER_CACHE_ENABLED,
-			ImportReportLineImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTypeAndStatus",
 			new String[] {String.class.getName(), Long.class.getName()},
-			ImportReportLineModelImpl.TYPE_COLUMN_BITMASK |
-			ImportReportLineModelImpl.STATUS_COLUMN_BITMASK);
+			new String[] {"type_", "status"}, true);
 
 		_finderPathCountByTypeAndStatus = new FinderPath(
-			ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-			ImportReportLineModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTypeAndStatus",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"type_", "status"}, false);
 
 		_finderPathWithPaginationFindByReportId = new FinderPath(
-			ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-			ImportReportLineModelImpl.FINDER_CACHE_ENABLED,
-			ImportReportLineImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByReportId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByReportId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"reportId"}, true);
 
 		_finderPathWithoutPaginationFindByReportId = new FinderPath(
-			ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-			ImportReportLineModelImpl.FINDER_CACHE_ENABLED,
-			ImportReportLineImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByReportId",
-			new String[] {Long.class.getName()},
-			ImportReportLineModelImpl.REPORTID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"reportId"},
+			true);
 
 		_finderPathCountByReportId = new FinderPath(
-			ImportReportLineModelImpl.ENTITY_CACHE_ENABLED,
-			ImportReportLineModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByReportId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"reportId"},
+			false);
+
+		ImportReportLineUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		ImportReportLineUtil.setPersistence(null);
+
 		entityCache.removeCache(ImportReportLineImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -2606,9 +2303,6 @@ public class ImportReportLinePersistenceImpl
 
 	private static final String _SQL_SELECT_IMPORTREPORTLINE =
 		"SELECT importReportLine FROM ImportReportLine importReportLine";
-
-	private static final String _SQL_SELECT_IMPORTREPORTLINE_WHERE_PKS_IN =
-		"SELECT importReportLine FROM ImportReportLine importReportLine WHERE lineId IN (";
 
 	private static final String _SQL_SELECT_IMPORTREPORTLINE_WHERE =
 		"SELECT importReportLine FROM ImportReportLine importReportLine WHERE ";
@@ -2632,5 +2326,10 @@ public class ImportReportLinePersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "type", "log"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

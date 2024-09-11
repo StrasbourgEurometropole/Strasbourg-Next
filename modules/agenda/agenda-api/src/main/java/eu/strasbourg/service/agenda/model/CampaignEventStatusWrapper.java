@@ -1,29 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,11 @@ import java.util.Objects;
  * @generated
  */
 public class CampaignEventStatusWrapper
+	extends BaseModelWrapper<CampaignEventStatus>
 	implements CampaignEventStatus, ModelWrapper<CampaignEventStatus> {
 
 	public CampaignEventStatusWrapper(CampaignEventStatus campaignEventStatus) {
-		_campaignEventStatus = campaignEventStatus;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return CampaignEventStatus.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return CampaignEventStatus.class.getName();
+		super(campaignEventStatus);
 	}
 
 	@Override
@@ -133,17 +111,8 @@ public class CampaignEventStatusWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new CampaignEventStatusWrapper(
-			(CampaignEventStatus)_campaignEventStatus.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.agenda.model.CampaignEventStatus
-			campaignEventStatus) {
-
-		return _campaignEventStatus.compareTo(campaignEventStatus);
+	public CampaignEventStatus cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -153,7 +122,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public long getCampaignEventId() {
-		return _campaignEventStatus.getCampaignEventId();
+		return model.getCampaignEventId();
 	}
 
 	/**
@@ -163,7 +132,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public String getComment() {
-		return _campaignEventStatus.getComment();
+		return model.getComment();
 	}
 
 	/**
@@ -173,7 +142,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public Date getDate() {
-		return _campaignEventStatus.getDate();
+		return model.getDate();
 	}
 
 	/**
@@ -183,19 +152,14 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public Boolean getDeletionDenied() {
-		return _campaignEventStatus.getDeletionDenied();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _campaignEventStatus.getExpandoBridge();
+		return model.getDeletionDenied();
 	}
 
 	@Override
 	public eu.strasbourg.service.agenda.model.CampaignEventStatus
 		getPreviousStatus() {
 
-		return _campaignEventStatus.getPreviousStatus();
+		return model.getPreviousStatus();
 	}
 
 	/**
@@ -205,7 +169,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public long getPreviousStatusId() {
-		return _campaignEventStatus.getPreviousStatusId();
+		return model.getPreviousStatusId();
 	}
 
 	/**
@@ -215,12 +179,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _campaignEventStatus.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _campaignEventStatus.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -230,7 +189,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public Integer getStatus() {
-		return _campaignEventStatus.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -240,7 +199,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public long getStatusId() {
-		return _campaignEventStatus.getStatusId();
+		return model.getStatusId();
 	}
 
 	/**
@@ -248,7 +207,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public String getStatusLabel() {
-		return _campaignEventStatus.getStatusLabel();
+		return model.getStatusLabel();
 	}
 
 	/**
@@ -258,7 +217,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _campaignEventStatus.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -268,7 +227,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _campaignEventStatus.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -278,7 +237,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _campaignEventStatus.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -288,37 +247,12 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _campaignEventStatus.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _campaignEventStatus.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _campaignEventStatus.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _campaignEventStatus.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _campaignEventStatus.isNew();
+		return model.getUuid();
 	}
 
 	@Override
 	public void persist() {
-		_campaignEventStatus.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_campaignEventStatus.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -328,7 +262,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public void setCampaignEventId(long campaignEventId) {
-		_campaignEventStatus.setCampaignEventId(campaignEventId);
+		model.setCampaignEventId(campaignEventId);
 	}
 
 	/**
@@ -338,7 +272,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public void setComment(String comment) {
-		_campaignEventStatus.setComment(comment);
+		model.setComment(comment);
 	}
 
 	/**
@@ -348,7 +282,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public void setDate(Date date) {
-		_campaignEventStatus.setDate(date);
+		model.setDate(date);
 	}
 
 	/**
@@ -358,29 +292,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public void setDeletionDenied(Boolean deletionDenied) {
-		_campaignEventStatus.setDeletionDenied(deletionDenied);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_campaignEventStatus.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_campaignEventStatus.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_campaignEventStatus.setExpandoBridgeAttributes(serviceContext);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_campaignEventStatus.setNew(n);
+		model.setDeletionDenied(deletionDenied);
 	}
 
 	/**
@@ -390,7 +302,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public void setPreviousStatusId(long previousStatusId) {
-		_campaignEventStatus.setPreviousStatusId(previousStatusId);
+		model.setPreviousStatusId(previousStatusId);
 	}
 
 	/**
@@ -400,12 +312,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_campaignEventStatus.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_campaignEventStatus.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -415,7 +322,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public void setStatus(Integer status) {
-		_campaignEventStatus.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -425,7 +332,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public void setStatusId(long statusId) {
-		_campaignEventStatus.setStatusId(statusId);
+		model.setStatusId(statusId);
 	}
 
 	/**
@@ -435,7 +342,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_campaignEventStatus.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -445,7 +352,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_campaignEventStatus.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -455,7 +362,7 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_campaignEventStatus.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -465,86 +372,19 @@ public class CampaignEventStatusWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_campaignEventStatus.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.agenda.model.CampaignEventStatus>
-			toCacheModel() {
-
-		return _campaignEventStatus.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.CampaignEventStatus
-		toEscapedModel() {
-
-		return new CampaignEventStatusWrapper(
-			_campaignEventStatus.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _campaignEventStatus.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.agenda.model.CampaignEventStatus
-		toUnescapedModel() {
-
-		return new CampaignEventStatusWrapper(
-			_campaignEventStatus.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _campaignEventStatus.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
+	protected CampaignEventStatusWrapper wrap(
+		CampaignEventStatus campaignEventStatus) {
 
-		if (!(object instanceof CampaignEventStatusWrapper)) {
-			return false;
-		}
-
-		CampaignEventStatusWrapper campaignEventStatusWrapper =
-			(CampaignEventStatusWrapper)object;
-
-		if (Objects.equals(
-				_campaignEventStatus,
-				campaignEventStatusWrapper._campaignEventStatus)) {
-
-			return true;
-		}
-
-		return false;
+		return new CampaignEventStatusWrapper(campaignEventStatus);
 	}
-
-	@Override
-	public CampaignEventStatus getWrappedModel() {
-		return _campaignEventStatus;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _campaignEventStatus.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _campaignEventStatus.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_campaignEventStatus.resetOriginalValues();
-	}
-
-	private final CampaignEventStatus _campaignEventStatus;
 
 }

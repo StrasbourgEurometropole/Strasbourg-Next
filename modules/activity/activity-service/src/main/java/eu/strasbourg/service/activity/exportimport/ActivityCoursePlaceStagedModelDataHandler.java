@@ -1,11 +1,5 @@
 package eu.strasbourg.service.activity.exportimport;
 
-import java.util.List;
-import java.util.Map;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 import com.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.ExportImportPathUtil;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
@@ -14,11 +8,15 @@ import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.xml.Element;
-
 import eu.strasbourg.service.activity.model.ActivityCoursePlace;
 import eu.strasbourg.service.activity.model.ActivityCourseSchedule;
 import eu.strasbourg.service.activity.service.ActivityCoursePlaceLocalService;
 import eu.strasbourg.service.activity.service.ActivityCourseScheduleLocalService;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+import java.util.List;
+import java.util.Map;
 
 @Component(immediate = true, service = StagedModelDataHandler.class)
 public class ActivityCoursePlaceStagedModelDataHandler

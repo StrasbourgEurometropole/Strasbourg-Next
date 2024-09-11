@@ -1,29 +1,16 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -34,20 +21,11 @@ import java.util.Objects;
  * @see Vote
  * @generated
  */
-public class VoteWrapper implements ModelWrapper<Vote>, Vote {
+public class VoteWrapper
+	extends BaseModelWrapper<Vote> implements ModelWrapper<Vote>, Vote {
 
 	public VoteWrapper(Vote vote) {
-		_vote = vote;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Vote.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Vote.class.getName();
+		super(vote);
 	}
 
 	@Override
@@ -119,13 +97,8 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	}
 
 	@Override
-	public Object clone() {
-		return new VoteWrapper((Vote)_vote.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.council.model.Vote vote) {
-		return _vote.compareTo(vote);
+	public Vote cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -135,7 +108,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _vote.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -145,7 +118,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _vote.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -155,12 +128,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public long getDeliberationId() {
-		return _vote.getDeliberationId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _vote.getExpandoBridge();
+		return model.getDeliberationId();
 	}
 
 	/**
@@ -168,7 +136,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public String getgetOfficialProcurationFullName() {
-		return _vote.getgetOfficialProcurationFullName();
+		return model.getgetOfficialProcurationFullName();
 	}
 
 	/**
@@ -178,7 +146,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public long getGroupId() {
-		return _vote.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -186,7 +154,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public eu.strasbourg.service.council.model.Official getOfficial() {
-		return _vote.getOfficial();
+		return model.getOfficial();
 	}
 
 	/**
@@ -194,7 +162,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public String getOfficialFullName() {
-		return _vote.getOfficialFullName();
+		return model.getOfficialFullName();
 	}
 
 	/**
@@ -204,7 +172,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public long getOfficialId() {
-		return _vote.getOfficialId();
+		return model.getOfficialId();
 	}
 
 	/**
@@ -214,7 +182,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	public eu.strasbourg.service.council.model.Official
 		getOfficialProcuration() {
 
-		return _vote.getOfficialProcuration();
+		return model.getOfficialProcuration();
 	}
 
 	/**
@@ -224,7 +192,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public long getOfficialProcurationId() {
-		return _vote.getOfficialProcurationId();
+		return model.getOfficialProcurationId();
 	}
 
 	/**
@@ -236,12 +204,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	public eu.strasbourg.service.council.service.persistence.VotePK
 		getPrimaryKey() {
 
-		return _vote.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _vote.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -251,7 +214,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public String getResult() {
-		return _vote.getResult();
+		return model.getResult();
 	}
 
 	/**
@@ -261,37 +224,12 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public String getUuid() {
-		return _vote.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _vote.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _vote.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _vote.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _vote.isNew();
+		return model.getUuid();
 	}
 
 	@Override
 	public void persist() {
-		_vote.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_vote.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -301,7 +239,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_vote.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -311,7 +249,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_vote.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -321,24 +259,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public void setDeliberationId(long deliberationId) {
-		_vote.setDeliberationId(deliberationId);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_vote.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_vote.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_vote.setExpandoBridgeAttributes(serviceContext);
+		model.setDeliberationId(deliberationId);
 	}
 
 	/**
@@ -348,12 +269,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_vote.setGroupId(groupId);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_vote.setNew(n);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -363,7 +279,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public void setOfficialId(long officialId) {
-		_vote.setOfficialId(officialId);
+		model.setOfficialId(officialId);
 	}
 
 	/**
@@ -373,7 +289,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public void setOfficialProcurationId(long officialProcurationId) {
-		_vote.setOfficialProcurationId(officialProcurationId);
+		model.setOfficialProcurationId(officialProcurationId);
 	}
 
 	/**
@@ -385,12 +301,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	public void setPrimaryKey(
 		eu.strasbourg.service.council.service.persistence.VotePK primaryKey) {
 
-		_vote.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_vote.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -400,7 +311,7 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public void setResult(String result) {
-		_vote.setResult(result);
+		model.setResult(result);
 	}
 
 	/**
@@ -410,75 +321,17 @@ public class VoteWrapper implements ModelWrapper<Vote>, Vote {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_vote.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.council.model.Vote> toCacheModel() {
-
-		return _vote.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.Vote toEscapedModel() {
-		return new VoteWrapper(_vote.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _vote.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.Vote toUnescapedModel() {
-		return new VoteWrapper(_vote.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _vote.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof VoteWrapper)) {
-			return false;
-		}
-
-		VoteWrapper voteWrapper = (VoteWrapper)object;
-
-		if (Objects.equals(_vote, voteWrapper._vote)) {
-			return true;
-		}
-
-		return false;
+	protected VoteWrapper wrap(Vote vote) {
+		return new VoteWrapper(vote);
 	}
-
-	@Override
-	public Vote getWrappedModel() {
-		return _vote;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _vote.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _vote.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_vote.resetOriginalValues();
-	}
-
-	private final Vote _vote;
 
 }

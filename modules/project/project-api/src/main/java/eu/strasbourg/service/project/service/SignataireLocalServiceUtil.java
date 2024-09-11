@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.project.model.Signataire;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for Signataire. This utility wraps
@@ -48,9 +47,7 @@ public class SignataireLocalServiceUtil {
 	 * @param signataire the signataire
 	 * @return the signataire that was added
 	 */
-	public static eu.strasbourg.service.project.model.Signataire addSignataire(
-		eu.strasbourg.service.project.model.Signataire signataire) {
-
+	public static Signataire addSignataire(Signataire signataire) {
 		return getService().addSignataire(signataire);
 	}
 
@@ -87,14 +84,22 @@ public class SignataireLocalServiceUtil {
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Creates a new signataire with the primary key. Does not add the signataire to the database.
 	 *
 	 * @param signataireId the primary key for the new signataire
 	 * @return the new signataire
 	 */
-	public static eu.strasbourg.service.project.model.Signataire
-		createSignataire(long signataireId) {
-
+	public static Signataire createSignataire(long signataireId) {
 		return getService().createSignataire(signataireId);
 	}
 
@@ -104,8 +109,8 @@ public class SignataireLocalServiceUtil {
 	 * @param sc le context.
 	 * @return le signataire crée.
 	 */
-	public static eu.strasbourg.service.project.model.Signataire
-		createSignataire(com.liferay.portal.kernel.service.ServiceContext sc) {
+	public static Signataire createSignataire(
+		com.liferay.portal.kernel.service.ServiceContext sc) {
 
 		return getService().createSignataire(sc);
 	}
@@ -113,10 +118,9 @@ public class SignataireLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -132,9 +136,8 @@ public class SignataireLocalServiceUtil {
 	 * @return the signataire that was removed
 	 * @throws PortalException if a signataire with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Signataire
-			deleteSignataire(long signataireId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Signataire deleteSignataire(long signataireId)
+		throws PortalException {
 
 		return getService().deleteSignataire(signataireId);
 	}
@@ -149,16 +152,19 @@ public class SignataireLocalServiceUtil {
 	 * @param signataire the signataire
 	 * @return the signataire that was removed
 	 */
-	public static eu.strasbourg.service.project.model.Signataire
-		deleteSignataire(
-			eu.strasbourg.service.project.model.Signataire signataire) {
-
+	public static Signataire deleteSignataire(Signataire signataire) {
 		return getService().deleteSignataire(signataire);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -168,9 +174,7 @@ public class SignataireLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -186,9 +190,8 @@ public class SignataireLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -206,10 +209,9 @@ public class SignataireLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -221,9 +223,7 @@ public class SignataireLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -235,15 +235,13 @@ public class SignataireLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.project.model.Signataire
-		fetchSignataire(long signataireId) {
-
+	public static Signataire fetchSignataire(long signataireId) {
 		return getService().fetchSignataire(signataireId);
 	}
 
@@ -254,15 +252,14 @@ public class SignataireLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching signataire, or <code>null</code> if a matching signataire could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Signataire
-		fetchSignataireByUuidAndGroupId(String uuid, long groupId) {
+	public static Signataire fetchSignataireByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchSignataireByUuidAndGroupId(uuid, groupId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.project.model.Signataire>
-			findSignatairesByPetitionIdAndPublikUserId(
-				long petitionId, String publikUserId)
+	public static List<Signataire> findSignatairesByPetitionIdAndPublikUserId(
+			long petitionId, String publikUserId)
 		throws javax.portlet.PortletException {
 
 		return getService().findSignatairesByPetitionIdAndPublikUserId(
@@ -281,8 +278,8 @@ public class SignataireLocalServiceUtil {
 	 * @param petitionId l'identifiant de la pétition.
 	 * @return la liste des signataires.
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Signataire>
-		getAllSignatairesByPetitionId(long petitionId) {
+	public static List<Signataire> getAllSignatairesByPetitionId(
+		long petitionId) {
 
 		return getService().getAllSignatairesByPetitionId(petitionId);
 	}
@@ -314,9 +311,8 @@ public class SignataireLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -328,16 +324,13 @@ public class SignataireLocalServiceUtil {
 	 * @return the signataire
 	 * @throws PortalException if a signataire with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Signataire getSignataire(
-			long signataireId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Signataire getSignataire(long signataireId)
+		throws PortalException {
 
 		return getService().getSignataire(signataireId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.project.model.Signataire>
-		getSignataireByPublikId(String publikId) {
-
+	public static List<Signataire> getSignataireByPublikId(String publikId) {
 		return getService().getSignataireByPublikId(publikId);
 	}
 
@@ -349,9 +342,9 @@ public class SignataireLocalServiceUtil {
 	 * @return the matching signataire
 	 * @throws PortalException if a matching signataire could not be found
 	 */
-	public static eu.strasbourg.service.project.model.Signataire
-			getSignataireByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Signataire getSignataireByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getSignataireByUuidAndGroupId(uuid, groupId);
 	}
@@ -367,9 +360,7 @@ public class SignataireLocalServiceUtil {
 	 * @param end the upper bound of the range of signataires (not inclusive)
 	 * @return the range of signataires
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Signataire>
-		getSignataires(int start, int end) {
-
+	public static List<Signataire> getSignataires(int start, int end) {
 		return getService().getSignataires(start, end);
 	}
 
@@ -379,9 +370,7 @@ public class SignataireLocalServiceUtil {
 	 * @param petitionId l'identifiant de la pétition.
 	 * @return la liste des signataires.
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Signataire>
-		getSignatairesByPetitionId(long petitionId) {
-
+	public static List<Signataire> getSignatairesByPetitionId(long petitionId) {
 		return getService().getSignatairesByPetitionId(petitionId);
 	}
 
@@ -392,8 +381,8 @@ public class SignataireLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching signataires, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Signataire>
-		getSignatairesByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Signataire> getSignatairesByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getSignatairesByUuidAndCompanyId(uuid, companyId);
 	}
@@ -408,12 +397,9 @@ public class SignataireLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching signataires, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.project.model.Signataire>
-		getSignatairesByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.project.model.Signataire>
-					orderByComparator) {
+	public static List<Signataire> getSignatairesByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Signataire> orderByComparator) {
 
 		return getService().getSignatairesByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -442,33 +428,18 @@ public class SignataireLocalServiceUtil {
 	 * @param signataire the signataire
 	 * @return the signataire that was updated
 	 */
-	public static eu.strasbourg.service.project.model.Signataire
-		updateSignataire(
-			eu.strasbourg.service.project.model.Signataire signataire) {
-
+	public static Signataire updateSignataire(Signataire signataire) {
 		return getService().updateSignataire(signataire);
 	}
 
 	public static SignataireLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<SignataireLocalService, SignataireLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(SignataireLocalService.class);
-
-		ServiceTracker<SignataireLocalService, SignataireLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<SignataireLocalService, SignataireLocalService>(
-						bundle.getBundleContext(), SignataireLocalService.class,
-						null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(SignataireLocalService service) {
+		_service = service;
 	}
+
+	private static volatile SignataireLocalService _service;
 
 }

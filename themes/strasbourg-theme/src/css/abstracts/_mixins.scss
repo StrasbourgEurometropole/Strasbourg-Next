@@ -1,0 +1,127 @@
+// ==============================================
+
+//        MIXINS / FUNCTIONS INDEX
+
+// ==============================================
+
+@import "mixins/colors";
+@import "mixins/layout";
+@import "mixins/typography";
+@import "mixins/quantity-queries";
+@import "mixins/others";
+@import "mixins/debug";
+
+
+//  Mixins theme specifics
+// -----------------------------------------------
+
+// Card au format horizontal
+// ==========================================================================
+@mixin card-horizontal() {
+	--image-size: 100px;
+	flex-direction: row-reverse;
+	align-items: flex-start;
+
+	@include mobile {
+		--image-size: 80px;
+	}
+
+	.st-image {
+		width: var(--image-size);
+		margin-right: 10px;
+		margin-bottom: initial;
+	}
+
+	.st-caption {
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+
+	.st-badge-ouverture {
+		bottom: initial;
+		top: 6px;
+
+		@include mobile {
+			bottom: initial;
+			top: 4px;
+		}
+	}
+
+	// calage du bouton favoris
+	& + .st-btn-favorite-card {
+		--image-size: 100px;
+		top: calc(var(--image-size) - var(--btn-favorite-size));
+		left: calc(var(--image-size) - var(--btn-favorite-size));
+		margin-top: initial;
+
+		@include mobile {
+			--image-size: 80px;
+		}
+	}
+
+	// card avec une icone à la place de l'image
+	&.st--with-icon {
+		.st-icon {
+			font-size: 40px;
+
+			@include mobile {
+				font-size: 30px;
+			}
+		}
+	}
+}
+
+// Card avec effet de box-shadow au hover
+// ==========================================================================
+@mixin card-shadow() {
+	min-height: auto;
+	padding: 10px 10px 10px 0;
+
+	&:after {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: -10px;
+		right: 0;
+		bottom: 0;
+		z-index: -1;
+		display: block;
+		opacity: 0;
+		background-color: $c_white;
+		@include shadow();
+	}
+
+	@include can-hover {
+		&:after {
+			opacity: 1;
+		}
+	}
+}
+
+
+@mixin shadow() {
+	box-shadow: 0 30px 60px color-mix(in srgb, $c_black 10%, transparent);
+}
+
+// Étend un bouton dans son container en version mobile
+@mixin btn-full-width-mobile {
+	@include mobile {
+		width: 100%;
+	}
+}
+
+
+@mixin reset-select {
+	@include create-outline();
+	margin: 0;
+	padding: 0;
+	border: 0;
+
+	background: none;
+	border-radius: 0;
+	appearance: none;
+
+	&:not([disabled]) {
+		cursor: pointer;
+	}
+}

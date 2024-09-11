@@ -28,6 +28,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.io.IOException;
 import java.util.List;
 
 @Component(
@@ -53,6 +54,7 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
     public static final String ERROR_MISSING_LASTNAME = "error-missing-lastname";
     public static final String ERROR_MISSING_FIRSTNAME = "error-missing-firstname";
     public static final String ERROR_MISSING_EMAIL = "error-missing-email";
+    public static final String ERROR_EXISTING_EMAIL = "error-existing-email";
 
     /** Service **/
     private OfficialLocalService officialLocalService;
@@ -85,7 +87,7 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
                 PortletURL returnURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
                         PortletRequest.RENDER_PHASE);
 
-                response.setRenderParameter("returnURL", returnURL.toString());
+                response.setRenderParameter("backURL", returnURL.toString());
                 response.setRenderParameter("cmd", "editOfficial");
                 response.setRenderParameter("mvcPath", "/council-bo-edit-official.jsp");
                 return false;
@@ -128,8 +130,11 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
 
             // Mise à jour de l'entrée
             this.officialLocalService.updateOfficial(official, sc);
+            response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
         } catch (PortalException e) {
+            log.error(e);
+        } catch (IOException e) {
             log.error(e);
         }
         return true;
@@ -167,6 +172,13 @@ public class SaveOfficialActionCommand implements MVCActionCommand {
         if (Validator.isNull(this.email)) {
             SessionErrors.add(request, ERROR_MISSING_EMAIL);
             isValid = false;
+        }else{
+            // Email déjà existant ?
+            Official official = this.officialLocalService.findByEmail(this.email);
+            if (Validator.isNotNull(official) && official.getOfficialId() != officialId){
+                SessionErrors.add(request, ERROR_EXISTING_EMAIL);
+                isValid = false;
+            }
         }
 
         return isValid;

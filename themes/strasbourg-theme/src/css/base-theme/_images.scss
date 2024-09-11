@@ -1,0 +1,146 @@
+@use "sass:math"; // notamment pour remplacer les divisions avec /, par math.div(a,b) : 16/9 -> math.div(16,9)
+
+// Styles communes aux images + styles pour la classe image qui utilisé comme container pour les images afin de bien positionner les crédits en position absolute
+// ==========================================================================
+
+// Images
+// ==========================================================================
+
+.st-no-photo {
+	height: 100%;
+	background: #AAA;
+}
+
+figure {
+	/*&.figcaption-only-credits {
+		figcaption {
+			border: 0;
+			clip: rect(1px, 1px, 1px, 1px);
+			-webkit-clip-path: inset(50%);
+			clip-path: inset(50%);
+			height: 1px;
+			margin: -1px;
+			overflow: hidden;
+			padding: 0;
+			position: absolute;
+			width: 1px;
+			white-space: nowrap;
+		}
+	}*/
+}
+
+
+img {
+	&.st-lazy {
+		opacity: 0 !important;
+		transition: opacity 0.3s ease;
+
+		&.st-loaded {
+			opacity: 1 !important;
+		}
+	}
+}
+
+// Styles pour le figcaption
+figcaption {
+	@include ft('', 12px, 300, '', 1.25);
+	font-style: italic;
+	margin-top: 10px;
+}
+
+
+// Container utilisé dans les blocs avec des colonnes pour contenir l'image et avoir le position relative pour bien positionner les crédits
+.st-image,
+.st-img-wrapper {
+	position: relative;
+	display: block;
+}
+
+.st-img-center {
+	display: flex;
+	justify-content: center;
+}
+
+
+// Règle RGAA : Au focus d'un élément avec un tabindex 0 ou d'un lien, si à son interne on a un crédit, on l'affiche
+*[tabindex="0"], a {
+	&:focus {
+		.st-credits {
+			max-width: calc(100% - var(--spacing) * 2);
+			font-size: var(--font-size);
+
+			&:after {
+				opacity: 0;
+			}
+		}
+	}
+
+}
+
+
+.st-page-wrapper .st-credits,
+.st-page-wrapper .st-credits-content {
+	--size: 20px; // largeur et hauteur du bouton crédits
+	--spacing: 20px; // distance entre le bouton et les bords de l'image
+	position: absolute;
+	top: var(--spacing); // positionnement haut droit par défaut
+	right: var(--spacing);
+	display: flex;
+	align-items: center;
+	@include ft('', 10px, '', $c_white, 1);
+	text-align: right;
+	font-style: initial;
+	background-color: $c_greydark;
+	border-radius: $border-radius-small;
+
+	@include mobile {
+		--spacing: 10px;
+	}
+}
+
+
+.st-page-wrapper .st-credits {
+	z-index: z-index('credits-button');
+	justify-content: center;
+	width: var(--size);
+	height: var(--size);
+	font-size: 0;
+
+	&:after {
+		@include icomoon($st-icon-credits);
+		font-size: 8px;
+	}
+
+	&[aria-expanded=true] {
+		&:after {
+			content: $st-icon-close;
+		}
+		& ~ .st-credits-content {
+			visibility: initial;
+			opacity: initial;
+		}
+	}
+
+	// --modifiers
+	&.st--top-left {
+		right: initial;
+		left: var(--spacing);
+
+		& ~ .st-credits-content {
+			right: initial;
+			left: var(--spacing);
+			padding: 4px 8px 4px 20px;
+		}
+	}
+}
+
+
+.st-page-wrapper .st-credits-content {
+	z-index: z-index('credits-content');
+	max-width: calc(100% - var(--spacing) * 2);
+	padding: 4px 20px 4px 8px;
+	line-height: 1.2;
+	visibility: hidden;
+	opacity: 0;
+	@include transition(opacity 0.2s, visibility 0.2s);
+}

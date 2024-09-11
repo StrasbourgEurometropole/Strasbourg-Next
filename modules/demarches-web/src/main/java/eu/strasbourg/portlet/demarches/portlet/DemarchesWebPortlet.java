@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.demarches.portlet;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -34,7 +35,8 @@ import java.util.List;
 		"javax.portlet.init-param.view-template=/demarches-view.jsp",
 		"javax.portlet.init-param.config-template=/configuration/demarches-configuration.jsp",
 		"javax.portlet.name=" + StrasbourgPortletKeys.DEMARCHES_WEB, "javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" }, service = Portlet.class)
+		"javax.portlet.security-role-ref=power-user,user" ,
+		"javax.portlet.version=3.0"}, service = Portlet.class)
 public class DemarchesWebPortlet extends MVCPortlet {
 
 	@Override
@@ -58,8 +60,7 @@ public class DemarchesWebPortlet extends MVCPortlet {
 
 			// récupère l'url de la configuration
 			ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
-			DemarchesConfiguration configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(DemarchesConfiguration.class);
+			DemarchesConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(DemarchesConfiguration.class, themeDisplay);
 			String url = configuration.url();
 			renderRequest.setAttribute("toutesLesDemarches", url);
 			

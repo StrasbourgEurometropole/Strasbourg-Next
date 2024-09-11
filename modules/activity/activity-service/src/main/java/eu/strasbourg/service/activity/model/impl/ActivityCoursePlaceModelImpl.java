@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.activity.model.impl;
@@ -17,6 +8,7 @@ package eu.strasbourg.service.activity.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -32,28 +24,26 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.activity.model.ActivityCoursePlace;
 import eu.strasbourg.service.activity.model.ActivityCoursePlaceModel;
-import eu.strasbourg.service.activity.model.ActivityCoursePlaceSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -132,89 +122,60 @@ public class ActivityCoursePlaceModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.activity.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.activity.model.ActivityCoursePlace"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.activity.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.activity.model.ActivityCoursePlace"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.activity.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.activity.model.ActivityCoursePlace"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ACTIVITYCOURSEID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PLACESIGID_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ACTIVITYCOURSEPLACEID_COLUMN_BITMASK = 32L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static ActivityCoursePlace toModel(
-		ActivityCoursePlaceSoap soapModel) {
-
-		if (soapModel == null) {
-			return null;
-		}
-
-		ActivityCoursePlace model = new ActivityCoursePlaceImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setActivityCoursePlaceId(soapModel.getActivityCoursePlaceId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setActivityCourseId(soapModel.getActivityCourseId());
-		model.setPlaceSIGId(soapModel.getPlaceSIGId());
-		model.setPlaceName(soapModel.getPlaceName());
-		model.setPlaceStreetNumber(soapModel.getPlaceStreetNumber());
-		model.setPlaceStreetName(soapModel.getPlaceStreetName());
-		model.setPlaceZipCode(soapModel.getPlaceZipCode());
-		model.setPlaceCityId(soapModel.getPlaceCityId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<ActivityCoursePlace> toModels(
-		ActivityCoursePlaceSoap[] soapModels) {
-
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<ActivityCoursePlace> models = new ArrayList<ActivityCoursePlace>(
-			soapModels.length);
-
-		for (ActivityCoursePlaceSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.activity.service.util.PropsUtil.get(
@@ -272,9 +233,6 @@ public class ActivityCoursePlaceModelImpl
 				attributeGetterFunction.apply((ActivityCoursePlace)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -299,413 +257,140 @@ public class ActivityCoursePlaceModelImpl
 	public Map<String, Function<ActivityCoursePlace, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<ActivityCoursePlace, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, ActivityCoursePlace>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			ActivityCoursePlace.class.getClassLoader(),
-			ActivityCoursePlace.class, ModelWrapper.class);
+		private static final Map<String, Function<ActivityCoursePlace, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<ActivityCoursePlace> constructor =
-				(Constructor<ActivityCoursePlace>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<ActivityCoursePlace, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<ActivityCoursePlace, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", ActivityCoursePlace::getUuid);
+			attributeGetterFunctions.put(
+				"activityCoursePlaceId",
+				ActivityCoursePlace::getActivityCoursePlaceId);
+			attributeGetterFunctions.put(
+				"groupId", ActivityCoursePlace::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", ActivityCoursePlace::getCompanyId);
+			attributeGetterFunctions.put(
+				"userId", ActivityCoursePlace::getUserId);
+			attributeGetterFunctions.put(
+				"userName", ActivityCoursePlace::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", ActivityCoursePlace::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", ActivityCoursePlace::getModifiedDate);
+			attributeGetterFunctions.put(
+				"activityCourseId", ActivityCoursePlace::getActivityCourseId);
+			attributeGetterFunctions.put(
+				"placeSIGId", ActivityCoursePlace::getPlaceSIGId);
+			attributeGetterFunctions.put(
+				"placeName", ActivityCoursePlace::getPlaceName);
+			attributeGetterFunctions.put(
+				"placeStreetNumber", ActivityCoursePlace::getPlaceStreetNumber);
+			attributeGetterFunctions.put(
+				"placeStreetName", ActivityCoursePlace::getPlaceStreetName);
+			attributeGetterFunctions.put(
+				"placeZipCode", ActivityCoursePlace::getPlaceZipCode);
+			attributeGetterFunctions.put(
+				"placeCityId", ActivityCoursePlace::getPlaceCityId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<ActivityCoursePlace, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ActivityCoursePlace, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map
+			<String, BiConsumer<ActivityCoursePlace, Object>>
+				_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<ActivityCoursePlace, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<ActivityCoursePlace, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<ActivityCoursePlace, String>)
+					ActivityCoursePlace::setUuid);
+			attributeSetterBiConsumers.put(
+				"activityCoursePlaceId",
+				(BiConsumer<ActivityCoursePlace, Long>)
+					ActivityCoursePlace::setActivityCoursePlaceId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<ActivityCoursePlace, Long>)
+					ActivityCoursePlace::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<ActivityCoursePlace, Long>)
+					ActivityCoursePlace::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<ActivityCoursePlace, Long>)
+					ActivityCoursePlace::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<ActivityCoursePlace, String>)
+					ActivityCoursePlace::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<ActivityCoursePlace, Date>)
+					ActivityCoursePlace::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<ActivityCoursePlace, Date>)
+					ActivityCoursePlace::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"activityCourseId",
+				(BiConsumer<ActivityCoursePlace, Long>)
+					ActivityCoursePlace::setActivityCourseId);
+			attributeSetterBiConsumers.put(
+				"placeSIGId",
+				(BiConsumer<ActivityCoursePlace, String>)
+					ActivityCoursePlace::setPlaceSIGId);
+			attributeSetterBiConsumers.put(
+				"placeName",
+				(BiConsumer<ActivityCoursePlace, String>)
+					ActivityCoursePlace::setPlaceName);
+			attributeSetterBiConsumers.put(
+				"placeStreetNumber",
+				(BiConsumer<ActivityCoursePlace, String>)
+					ActivityCoursePlace::setPlaceStreetNumber);
+			attributeSetterBiConsumers.put(
+				"placeStreetName",
+				(BiConsumer<ActivityCoursePlace, String>)
+					ActivityCoursePlace::setPlaceStreetName);
+			attributeSetterBiConsumers.put(
+				"placeZipCode",
+				(BiConsumer<ActivityCoursePlace, String>)
+					ActivityCoursePlace::setPlaceZipCode);
+			attributeSetterBiConsumers.put(
+				"placeCityId",
+				(BiConsumer<ActivityCoursePlace, Long>)
+					ActivityCoursePlace::setPlaceCityId);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<ActivityCoursePlace, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<ActivityCoursePlace, Object>>();
-		Map<String, BiConsumer<ActivityCoursePlace, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<ActivityCoursePlace, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<ActivityCoursePlace, Object>() {
-
-				@Override
-				public Object apply(ActivityCoursePlace activityCoursePlace) {
-					return activityCoursePlace.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<ActivityCoursePlace, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCoursePlace activityCoursePlace,
-					Object uuidObject) {
-
-					activityCoursePlace.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"activityCoursePlaceId",
-			new Function<ActivityCoursePlace, Object>() {
-
-				@Override
-				public Object apply(ActivityCoursePlace activityCoursePlace) {
-					return activityCoursePlace.getActivityCoursePlaceId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"activityCoursePlaceId",
-			new BiConsumer<ActivityCoursePlace, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCoursePlace activityCoursePlace,
-					Object activityCoursePlaceIdObject) {
-
-					activityCoursePlace.setActivityCoursePlaceId(
-						(Long)activityCoursePlaceIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<ActivityCoursePlace, Object>() {
-
-				@Override
-				public Object apply(ActivityCoursePlace activityCoursePlace) {
-					return activityCoursePlace.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<ActivityCoursePlace, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCoursePlace activityCoursePlace,
-					Object groupIdObject) {
-
-					activityCoursePlace.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<ActivityCoursePlace, Object>() {
-
-				@Override
-				public Object apply(ActivityCoursePlace activityCoursePlace) {
-					return activityCoursePlace.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<ActivityCoursePlace, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCoursePlace activityCoursePlace,
-					Object companyIdObject) {
-
-					activityCoursePlace.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<ActivityCoursePlace, Object>() {
-
-				@Override
-				public Object apply(ActivityCoursePlace activityCoursePlace) {
-					return activityCoursePlace.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<ActivityCoursePlace, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCoursePlace activityCoursePlace,
-					Object userIdObject) {
-
-					activityCoursePlace.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<ActivityCoursePlace, Object>() {
-
-				@Override
-				public Object apply(ActivityCoursePlace activityCoursePlace) {
-					return activityCoursePlace.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<ActivityCoursePlace, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCoursePlace activityCoursePlace,
-					Object userNameObject) {
-
-					activityCoursePlace.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<ActivityCoursePlace, Object>() {
-
-				@Override
-				public Object apply(ActivityCoursePlace activityCoursePlace) {
-					return activityCoursePlace.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<ActivityCoursePlace, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCoursePlace activityCoursePlace,
-					Object createDateObject) {
-
-					activityCoursePlace.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<ActivityCoursePlace, Object>() {
-
-				@Override
-				public Object apply(ActivityCoursePlace activityCoursePlace) {
-					return activityCoursePlace.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<ActivityCoursePlace, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCoursePlace activityCoursePlace,
-					Object modifiedDateObject) {
-
-					activityCoursePlace.setModifiedDate(
-						(Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"activityCourseId",
-			new Function<ActivityCoursePlace, Object>() {
-
-				@Override
-				public Object apply(ActivityCoursePlace activityCoursePlace) {
-					return activityCoursePlace.getActivityCourseId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"activityCourseId",
-			new BiConsumer<ActivityCoursePlace, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCoursePlace activityCoursePlace,
-					Object activityCourseIdObject) {
-
-					activityCoursePlace.setActivityCourseId(
-						(Long)activityCourseIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"placeSIGId",
-			new Function<ActivityCoursePlace, Object>() {
-
-				@Override
-				public Object apply(ActivityCoursePlace activityCoursePlace) {
-					return activityCoursePlace.getPlaceSIGId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"placeSIGId",
-			new BiConsumer<ActivityCoursePlace, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCoursePlace activityCoursePlace,
-					Object placeSIGIdObject) {
-
-					activityCoursePlace.setPlaceSIGId((String)placeSIGIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"placeName",
-			new Function<ActivityCoursePlace, Object>() {
-
-				@Override
-				public Object apply(ActivityCoursePlace activityCoursePlace) {
-					return activityCoursePlace.getPlaceName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"placeName",
-			new BiConsumer<ActivityCoursePlace, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCoursePlace activityCoursePlace,
-					Object placeNameObject) {
-
-					activityCoursePlace.setPlaceName((String)placeNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"placeStreetNumber",
-			new Function<ActivityCoursePlace, Object>() {
-
-				@Override
-				public Object apply(ActivityCoursePlace activityCoursePlace) {
-					return activityCoursePlace.getPlaceStreetNumber();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"placeStreetNumber",
-			new BiConsumer<ActivityCoursePlace, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCoursePlace activityCoursePlace,
-					Object placeStreetNumberObject) {
-
-					activityCoursePlace.setPlaceStreetNumber(
-						(String)placeStreetNumberObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"placeStreetName",
-			new Function<ActivityCoursePlace, Object>() {
-
-				@Override
-				public Object apply(ActivityCoursePlace activityCoursePlace) {
-					return activityCoursePlace.getPlaceStreetName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"placeStreetName",
-			new BiConsumer<ActivityCoursePlace, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCoursePlace activityCoursePlace,
-					Object placeStreetNameObject) {
-
-					activityCoursePlace.setPlaceStreetName(
-						(String)placeStreetNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"placeZipCode",
-			new Function<ActivityCoursePlace, Object>() {
-
-				@Override
-				public Object apply(ActivityCoursePlace activityCoursePlace) {
-					return activityCoursePlace.getPlaceZipCode();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"placeZipCode",
-			new BiConsumer<ActivityCoursePlace, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCoursePlace activityCoursePlace,
-					Object placeZipCodeObject) {
-
-					activityCoursePlace.setPlaceZipCode(
-						(String)placeZipCodeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"placeCityId",
-			new Function<ActivityCoursePlace, Object>() {
-
-				@Override
-				public Object apply(ActivityCoursePlace activityCoursePlace) {
-					return activityCoursePlace.getPlaceCityId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"placeCityId",
-			new BiConsumer<ActivityCoursePlace, Object>() {
-
-				@Override
-				public void accept(
-					ActivityCoursePlace activityCoursePlace,
-					Object placeCityIdObject) {
-
-					activityCoursePlace.setPlaceCityId((Long)placeCityIdObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -721,17 +406,20 @@ public class ActivityCoursePlaceModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -742,6 +430,10 @@ public class ActivityCoursePlaceModelImpl
 
 	@Override
 	public void setActivityCoursePlaceId(long activityCoursePlaceId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_activityCoursePlaceId = activityCoursePlaceId;
 	}
 
@@ -753,19 +445,20 @@ public class ActivityCoursePlaceModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -776,19 +469,21 @@ public class ActivityCoursePlaceModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -799,6 +494,10 @@ public class ActivityCoursePlaceModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -831,6 +530,10 @@ public class ActivityCoursePlaceModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -842,6 +545,10 @@ public class ActivityCoursePlaceModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -859,6 +566,10 @@ public class ActivityCoursePlaceModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -870,19 +581,21 @@ public class ActivityCoursePlaceModelImpl
 
 	@Override
 	public void setActivityCourseId(long activityCourseId) {
-		_columnBitmask |= ACTIVITYCOURSEID_COLUMN_BITMASK;
-
-		if (!_setOriginalActivityCourseId) {
-			_setOriginalActivityCourseId = true;
-
-			_originalActivityCourseId = _activityCourseId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_activityCourseId = activityCourseId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalActivityCourseId() {
-		return _originalActivityCourseId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("activityCourseId"));
 	}
 
 	@JSON
@@ -898,17 +611,20 @@ public class ActivityCoursePlaceModelImpl
 
 	@Override
 	public void setPlaceSIGId(String placeSIGId) {
-		_columnBitmask |= PLACESIGID_COLUMN_BITMASK;
-
-		if (_originalPlaceSIGId == null) {
-			_originalPlaceSIGId = _placeSIGId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_placeSIGId = placeSIGId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPlaceSIGId() {
-		return GetterUtil.getString(_originalPlaceSIGId);
+		return getColumnOriginalValue("placeSIGId");
 	}
 
 	@JSON
@@ -967,6 +683,10 @@ public class ActivityCoursePlaceModelImpl
 
 	@Override
 	public void setPlaceName(String placeName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_placeName = placeName;
 	}
 
@@ -1032,6 +752,10 @@ public class ActivityCoursePlaceModelImpl
 
 	@Override
 	public void setPlaceStreetNumber(String placeStreetNumber) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_placeStreetNumber = placeStreetNumber;
 	}
 
@@ -1048,6 +772,10 @@ public class ActivityCoursePlaceModelImpl
 
 	@Override
 	public void setPlaceStreetName(String placeStreetName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_placeStreetName = placeStreetName;
 	}
 
@@ -1064,6 +792,10 @@ public class ActivityCoursePlaceModelImpl
 
 	@Override
 	public void setPlaceZipCode(String placeZipCode) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_placeZipCode = placeZipCode;
 	}
 
@@ -1075,6 +807,10 @@ public class ActivityCoursePlaceModelImpl
 
 	@Override
 	public void setPlaceCityId(long placeCityId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_placeCityId = placeCityId;
 	}
 
@@ -1085,6 +821,26 @@ public class ActivityCoursePlaceModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1212,6 +968,45 @@ public class ActivityCoursePlaceModelImpl
 	}
 
 	@Override
+	public ActivityCoursePlace cloneWithOriginalValues() {
+		ActivityCoursePlaceImpl activityCoursePlaceImpl =
+			new ActivityCoursePlaceImpl();
+
+		activityCoursePlaceImpl.setUuid(
+			this.<String>getColumnOriginalValue("uuid_"));
+		activityCoursePlaceImpl.setActivityCoursePlaceId(
+			this.<Long>getColumnOriginalValue("activityCoursePlaceId"));
+		activityCoursePlaceImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		activityCoursePlaceImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		activityCoursePlaceImpl.setUserId(
+			this.<Long>getColumnOriginalValue("userId"));
+		activityCoursePlaceImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		activityCoursePlaceImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		activityCoursePlaceImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		activityCoursePlaceImpl.setActivityCourseId(
+			this.<Long>getColumnOriginalValue("activityCourseId"));
+		activityCoursePlaceImpl.setPlaceSIGId(
+			this.<String>getColumnOriginalValue("placeSIGId"));
+		activityCoursePlaceImpl.setPlaceName(
+			this.<String>getColumnOriginalValue("placeName"));
+		activityCoursePlaceImpl.setPlaceStreetNumber(
+			this.<String>getColumnOriginalValue("placeStreetNumber"));
+		activityCoursePlaceImpl.setPlaceStreetName(
+			this.<String>getColumnOriginalValue("placeStreetName"));
+		activityCoursePlaceImpl.setPlaceZipCode(
+			this.<String>getColumnOriginalValue("placeZipCode"));
+		activityCoursePlaceImpl.setPlaceCityId(
+			this.<Long>getColumnOriginalValue("placeCityId"));
+
+		return activityCoursePlaceImpl;
+	}
+
+	@Override
 	public int compareTo(ActivityCoursePlace activityCoursePlace) {
 		long primaryKey = activityCoursePlace.getPrimaryKey();
 
@@ -1253,11 +1048,19 @@ public class ActivityCoursePlaceModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1265,32 +1068,11 @@ public class ActivityCoursePlaceModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ActivityCoursePlaceModelImpl activityCoursePlaceModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		activityCoursePlaceModelImpl._originalUuid =
-			activityCoursePlaceModelImpl._uuid;
+		_setModifiedDate = false;
 
-		activityCoursePlaceModelImpl._originalGroupId =
-			activityCoursePlaceModelImpl._groupId;
-
-		activityCoursePlaceModelImpl._setOriginalGroupId = false;
-
-		activityCoursePlaceModelImpl._originalCompanyId =
-			activityCoursePlaceModelImpl._companyId;
-
-		activityCoursePlaceModelImpl._setOriginalCompanyId = false;
-
-		activityCoursePlaceModelImpl._setModifiedDate = false;
-
-		activityCoursePlaceModelImpl._originalActivityCourseId =
-			activityCoursePlaceModelImpl._activityCourseId;
-
-		activityCoursePlaceModelImpl._setOriginalActivityCourseId = false;
-
-		activityCoursePlaceModelImpl._originalPlaceSIGId =
-			activityCoursePlaceModelImpl._placeSIGId;
-
-		activityCoursePlaceModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1396,7 +1178,7 @@ public class ActivityCoursePlaceModelImpl
 			attributeGetterFunctions = getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1407,9 +1189,27 @@ public class ActivityCoursePlaceModelImpl
 			Function<ActivityCoursePlace, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((ActivityCoursePlace)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply(
+				(ActivityCoursePlace)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1422,69 +1222,135 @@ public class ActivityCoursePlaceModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<ActivityCoursePlace, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<ActivityCoursePlace, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<ActivityCoursePlace, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((ActivityCoursePlace)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, ActivityCoursePlace>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					ActivityCoursePlace.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _activityCoursePlaceId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
 	private long _activityCourseId;
-	private long _originalActivityCourseId;
-	private boolean _setOriginalActivityCourseId;
 	private String _placeSIGId;
-	private String _originalPlaceSIGId;
 	private String _placeName;
 	private String _placeNameCurrentLanguageId;
 	private String _placeStreetNumber;
 	private String _placeStreetName;
 	private String _placeZipCode;
 	private long _placeCityId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<ActivityCoursePlace, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((ActivityCoursePlace)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put(
+			"activityCoursePlaceId", _activityCoursePlaceId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("activityCourseId", _activityCourseId);
+		_columnOriginalValues.put("placeSIGId", _placeSIGId);
+		_columnOriginalValues.put("placeName", _placeName);
+		_columnOriginalValues.put("placeStreetNumber", _placeStreetNumber);
+		_columnOriginalValues.put("placeStreetName", _placeStreetName);
+		_columnOriginalValues.put("placeZipCode", _placeZipCode);
+		_columnOriginalValues.put("placeCityId", _placeCityId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("activityCoursePlaceId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("activityCourseId", 256L);
+
+		columnBitmasks.put("placeSIGId", 512L);
+
+		columnBitmasks.put("placeName", 1024L);
+
+		columnBitmasks.put("placeStreetNumber", 2048L);
+
+		columnBitmasks.put("placeStreetName", 4096L);
+
+		columnBitmasks.put("placeZipCode", 8192L);
+
+		columnBitmasks.put("placeCityId", 16384L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private ActivityCoursePlace _escapedModel;
 

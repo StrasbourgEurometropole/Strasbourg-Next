@@ -1,6 +1,4 @@
-node_modules
-build
-dist
+./copy-mockup.bat
+./liferay-theme.json
+./dist
 liferay-theme.json
-.web_bundle_build
-.yo-rc.json

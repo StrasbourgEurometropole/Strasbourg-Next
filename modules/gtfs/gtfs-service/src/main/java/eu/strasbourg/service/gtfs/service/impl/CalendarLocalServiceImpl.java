@@ -16,13 +16,12 @@ package eu.strasbourg.service.gtfs.service.impl;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.IOException;
-import java.util.Map;
-
 import eu.strasbourg.service.gtfs.model.Calendar;
 import eu.strasbourg.service.gtfs.service.base.CalendarLocalServiceBaseImpl;
 import eu.strasbourg.utils.models.CalendarGTFS;
+
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * The implementation of the calendar local service.

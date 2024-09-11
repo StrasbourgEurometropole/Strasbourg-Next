@@ -1,23 +1,21 @@
 <%@ include file="./activity-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.activity.model.ActivityOrganizer"%>
 
-<liferay-portlet:renderURL varImpl="activityOrganizersURL">
-	<portlet:param name="tab" value="activityOrganizers" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteActivityOrganizer" var="deleteActivityURL">
 	<portlet:param name="cmd" value="deleteActivityOrganizer" />
 	<portlet:param name="tab" value="activityOrganizers" />
+	<portlet:param name="mvcPath" value="/activity-bo-view-organizers.jsp" />
 	<portlet:param name="activityOrganizerId"
 		value="${not empty dc.activityOrganizer ? dc.activityOrganizer.activityOrganizerId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveActivityOrganizer" varImpl="saveActivityOrganizerURL">
-	<portlet:param name="cmd" value="saveActivityOrganizer" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 	<portlet:param name="tab" value="activityOrganizers" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="name-error" message="title-error" />
 	
 	<aui:form action="${saveActivityOrganizerURL}" method="post" name="fm">
@@ -26,8 +24,8 @@
 			id="translationManager" />
 
 		<aui:model-context bean="${dc.activityOrganizer}" model="<%=ActivityOrganizer.class %>" />
-		<aui:fieldset-group markupView="lexicon">
-			<aui:input name="activityOrganizerId" type="hidden" />
+		<div class="sheet"><div class="panel-group panel-group-flush">
+		<aui:input name="activityOrganizerId" type="hidden" />
 
 			<aui:fieldset collapsed="true" collapsible="true"
 				label="general">
@@ -39,7 +37,10 @@
 				
 				<aui:input name="presentation" />
 				
-				<aui:input name="tags" type="assetTags" />
+				<liferay-asset:asset-tags-selector
+						className="<%= ActivityOrganizer.class.getName() %>"
+						classPK="${dc.activityOrganizer.activityOrganizerId}"
+				/>
 				
 				<aui:input name="address" />
 					
@@ -58,7 +59,7 @@
 				
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 		
 		<aui:button-row>
 			<c:if test="${(dc.hasPermission('ADD_ACTIVITY_ORGANIZER') and empty dc.activityOrganizer or dc.hasPermission('EDIT_ACTIVITY_ORGANIZER') and not empty dc.activityOrganizer) and empty themeDisplay.scopeGroup.getStagingGroup()}">
@@ -71,7 +72,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>

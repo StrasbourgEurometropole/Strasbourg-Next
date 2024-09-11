@@ -1,6 +1,8 @@
 package eu.strasbourg.portlet.council.resource;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCResourceCommand;
@@ -55,7 +57,7 @@ public class ExportProcurationsHistoricResourceCommand implements MVCResourceCom
             try {
                 admin = UserLocalServiceUtil.getDefaultUser(group.getCompanyId());
             } catch (PortalException e) {
-                e.printStackTrace();
+                _log.error(e.getMessage() + " : " + group, e);
             }
             PermissionChecker checker = PermissionCheckerFactoryUtil.create(admin);
             PermissionThreadLocal.setPermissionChecker(checker);
@@ -73,9 +75,19 @@ public class ExportProcurationsHistoricResourceCommand implements MVCResourceCom
                 response.setProperty("content-disposition","attachment; filename=" + pdfFile.getName());
 
                 // Fermeture des outputStreams
-                Files.copy(pdfFile.toPath(), response.getPortletOutputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
+
+               Files.copy(pdfFile.toPath(), response.getPortletOutputStream());
+
+                /*PortletResponseUtil.sendFile(
+                        request,
+                        response,
+                        pdfFile.getPath(),
+                        null,
+                        0,
+                        "application/force-download",
+                        null);*/
+            } catch (IOException  e) {
+                _log.error(e.getMessage(), e);
             }
         }
 
@@ -93,5 +105,7 @@ public class ExportProcurationsHistoricResourceCommand implements MVCResourceCom
     protected void setCouncilSessionLocalService(CouncilSessionLocalService councilSessionLocalService) {
         this.councilSessionLocalService = councilSessionLocalService;
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass());
 
 }

@@ -7,7 +7,7 @@
 	position: fixed;
 	right: 30px;
 	bottom: 30px;
-	z-index: 140;
+	z-index: 1140;
 	opacity: 0;
 	@include addTransition();
 
@@ -31,7 +31,7 @@
 	height: 50px;
 	display: block;
 	z-index: 130;
-	background: $c_main;
+	background-color: $c_commune;
 	border-radius: 50%;
 	box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.20);
 	@include addTransition();
@@ -86,8 +86,142 @@
 }
 
 // =============================================
-// Network List
+// Network List and social shares
 // =============================================
+
+.twitter {
+	a:before {
+		content: "";
+		mask: url(../images/x.svg) no-repeat 50% 50%;
+		mask-size: cover;
+		background-color: $c_white;
+	}
+	a:hover, a:focus {
+		&:before {
+			background-color: $c_dark !important;
+		}
+	}
+}
+.social-footer {
+	ul {
+		li {
+			display: inline-block;
+			padding: 10px;
+			margin-right: 0;
+			@include addTransitionCurve();
+			&:hover {
+				background-color: #8dba49;
+				a:before {
+					color: #000;
+				}
+			}
+		 a:before {
+			 font-size: 25px;
+		 }
+			a:hover {
+				@include addDynamicTextColor();
+			}
+		}
+	}
+	.twitter {
+		a:before {
+			width: 25px;
+			height: 25px;
+			display: inline-block;
+			vertical-align: middle;
+		}
+	}
+	.link-pacte {
+		&:hover {
+			@include addDynamicTextColor();
+		}
+	}
+
+	@include mobile {
+		padding: 20px;
+	}
+
+}
+// Facebook
+.facebook {
+	a:before {
+		@include font();
+		content: "\e904";
+		color: $c_white;
+	}
+}
+
+// Linkedin
+.linkedin {
+	a:before {
+		@include font();
+		content: "\e910";
+		color: $c_white;
+	}
+}
+
+// Googleplus
+.googleplus {
+	a:before {
+		@include font();
+		content: "\e90f";
+		color: $c_white;
+	}
+}
+
+// Mail
+.mail {
+	a:before {
+		@include font();
+		content: "\e911";
+		color: $c_white;
+	}
+}
+
+// dailymotion
+.dailymotion {
+	a:before {
+		@include font();
+		content: "\e701";
+		color: $c_white;
+	}
+}
+
+// tumblr
+.tumblr {
+	a:before {
+		@include font();
+		content: "\e703";
+		color: $c_white;
+	}
+}
+
+// Snapchat
+.snapchat {
+	a:before {
+		@include font();
+		content: "\e704";
+		color: $c_white;
+	}
+}
+
+// Soundloud
+.soundloud {
+	a:before {
+		@include font();
+		content: "\e705";
+		color: $c_white;
+	}
+}
+
+// Instagram
+.instagram {
+	a:before {
+		@include font();
+		content: "\e905";
+		color: $c_white;
+	}
+}
 
 .network-list {
 	// List Item
@@ -121,7 +255,7 @@
 		text-decoration: none;
 		@include addTransition();
 		&:hover, &:focus {
-			background: $c_main;
+			background-color: $c_commune;
 			&:before {
 				color: $c_dark !important;
 			}
@@ -148,45 +282,14 @@
 		// box-shadow: inset 0 0 0 1px $toggle;
 	}
 
-	// Twitter
 	.twitter {
 		a:before {
-			content: "\e901";
-			color: $c_white;
+			height: 16px;
+			width: 16px;
+			margin: auto;
 		}
 	}
 
-	// Facebook
-	.facebook {
-		a:before {
-			content: "\e904";
-			color: $c_white;
-		}
-	}
-
-	// Linkedin
-	.linkedin {
-		a:before {
-			content: "\e910";
-			color: $c_white;
-		}
-	}
-
-	// Googleplus
-	.googleplus {
-		a:before {
-			content: "\e90f";
-			color: $c_white;
-		}
-	}
-
-	// Mail
-	.mail {
-		a:before {
-			content: "\e911";
-			color: $c_white;
-		}
-	}
 }
 
 // =============================================

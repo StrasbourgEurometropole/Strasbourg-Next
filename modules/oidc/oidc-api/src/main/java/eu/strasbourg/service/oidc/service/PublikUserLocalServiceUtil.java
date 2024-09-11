@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.oidc.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.oidc.model.PublikUser;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for PublikUser. This utility wraps
@@ -48,9 +47,7 @@ public class PublikUserLocalServiceUtil {
 	 * @param publikUser the publik user
 	 * @return the publik user that was added
 	 */
-	public static eu.strasbourg.service.oidc.model.PublikUser addPublikUser(
-		eu.strasbourg.service.oidc.model.PublikUser publikUser) {
-
+	public static PublikUser addPublikUser(PublikUser publikUser) {
 		return getService().addPublikUser(publikUser);
 	}
 
@@ -61,15 +58,22 @@ public class PublikUserLocalServiceUtil {
 	 *     BudgetSupport, Initiative, InitiativeHelp, Comment et Like
 	 */
 	public static void anonymisedUserPlacit(
-		eu.strasbourg.service.oidc.model.PublikUser anonymUser,
-		eu.strasbourg.service.oidc.model.PublikUser publikUser) {
+		PublikUser anonymUser, PublikUser publikUser) {
 
 		getService().anonymisedUserPlacit(anonymUser, publikUser);
 	}
 
-	public static eu.strasbourg.service.oidc.model.PublikUser
-		createPublikUser() {
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
 
+		return getService().createPersistedModel(primaryKeyObj);
+	}
+
+	public static PublikUser createPublikUser() {
 		return getService().createPublikUser();
 	}
 
@@ -79,19 +83,16 @@ public class PublikUserLocalServiceUtil {
 	 * @param publikUserLiferayId the primary key for the new publik user
 	 * @return the new publik user
 	 */
-	public static eu.strasbourg.service.oidc.model.PublikUser createPublikUser(
-		long publikUserLiferayId) {
-
+	public static PublikUser createPublikUser(long publikUserLiferayId) {
 		return getService().createPublikUser(publikUserLiferayId);
 	}
 
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -107,9 +108,8 @@ public class PublikUserLocalServiceUtil {
 	 * @return the publik user that was removed
 	 * @throws PortalException if a publik user with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.oidc.model.PublikUser deletePublikUser(
-			long publikUserLiferayId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PublikUser deletePublikUser(long publikUserLiferayId)
+		throws PortalException {
 
 		return getService().deletePublikUser(publikUserLiferayId);
 	}
@@ -124,15 +124,19 @@ public class PublikUserLocalServiceUtil {
 	 * @param publikUser the publik user
 	 * @return the publik user that was removed
 	 */
-	public static eu.strasbourg.service.oidc.model.PublikUser deletePublikUser(
-		eu.strasbourg.service.oidc.model.PublikUser publikUser) {
-
+	public static PublikUser deletePublikUser(PublikUser publikUser) {
 		return getService().deletePublikUser(publikUser);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -142,9 +146,7 @@ public class PublikUserLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -160,9 +162,8 @@ public class PublikUserLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -180,10 +181,9 @@ public class PublikUserLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -195,9 +195,7 @@ public class PublikUserLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -209,15 +207,13 @@ public class PublikUserLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.oidc.model.PublikUser fetchPublikUser(
-		long publikUserLiferayId) {
-
+	public static PublikUser fetchPublikUser(long publikUserLiferayId) {
 		return getService().fetchPublikUser(publikUserLiferayId);
 	}
 
@@ -233,21 +229,15 @@ public class PublikUserLocalServiceUtil {
 	 *
 	 * @return Liste de tous les utilisateurs Publik
 	 */
-	public static java.util.List<eu.strasbourg.service.oidc.model.PublikUser>
-		getAllPublikUsers() {
-
+	public static List<PublikUser> getAllPublikUsers() {
 		return getService().getAllPublikUsers();
 	}
 
-	public static java.util.List<eu.strasbourg.service.oidc.model.PublikUser>
-		getByPactSignatureAndPactDisplay() {
-
+	public static List<PublikUser> getByPactSignatureAndPactDisplay() {
 		return getService().getByPactSignatureAndPactDisplay();
 	}
 
-	public static eu.strasbourg.service.oidc.model.PublikUser getByPublikUserId(
-		String publikUserId) {
-
+	public static PublikUser getByPublikUserId(String publikUserId) {
 		return getService().getByPublikUserId(publikUserId);
 	}
 
@@ -279,9 +269,8 @@ public class PublikUserLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -293,9 +282,8 @@ public class PublikUserLocalServiceUtil {
 	 * @return the publik user
 	 * @throws PortalException if a publik user with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.oidc.model.PublikUser getPublikUser(
-			long publikUserLiferayId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PublikUser getPublikUser(long publikUserLiferayId)
+		throws PortalException {
 
 		return getService().getPublikUser(publikUserLiferayId);
 	}
@@ -311,9 +299,7 @@ public class PublikUserLocalServiceUtil {
 	 * @param end the upper bound of the range of publik users (not inclusive)
 	 * @return the range of publik users
 	 */
-	public static java.util.List<eu.strasbourg.service.oidc.model.PublikUser>
-		getPublikUsers(int start, int end) {
-
+	public static List<PublikUser> getPublikUsers(int start, int end) {
 		return getService().getPublikUsers(start, end);
 	}
 
@@ -327,9 +313,8 @@ public class PublikUserLocalServiceUtil {
 	 * @param isSortDesc La liste est-elle triée par ordre decroissant ?
 	 * @return Liste des utilisateurs trouvés
 	 */
-	public static java.util.List<eu.strasbourg.service.oidc.model.PublikUser>
-		getPublikUsers(
-			int start, int end, String sortField, boolean isSortDesc) {
+	public static List<PublikUser> getPublikUsers(
+		int start, int end, String sortField, boolean isSortDesc) {
 
 		return getService().getPublikUsers(start, end, sortField, isSortDesc);
 	}
@@ -345,10 +330,9 @@ public class PublikUserLocalServiceUtil {
 	 * @param isSortDesc La liste est-elle triée par ordre decroissant ?
 	 * @return Liste des utilisateurs trouvés
 	 */
-	public static java.util.List<eu.strasbourg.service.oidc.model.PublikUser>
-		getPublikUsers(
-			int start, int end, String keywords, String sortField,
-			boolean isSortDesc) {
+	public static List<PublikUser> getPublikUsers(
+		int start, int end, String keywords, String sortField,
+		boolean isSortDesc) {
 
 		return getService().getPublikUsers(
 			start, end, keywords, sortField, isSortDesc);
@@ -362,8 +346,8 @@ public class PublikUserLocalServiceUtil {
 	 * @param isSortDesc La liste est-elle triée par ordre decroissant ?
 	 * @return Liste des utilisateurs trouvés
 	 */
-	public static java.util.List<eu.strasbourg.service.oidc.model.PublikUser>
-		getPublikUsers(String sortField, boolean isSortDesc) {
+	public static List<PublikUser> getPublikUsers(
+		String sortField, boolean isSortDesc) {
 
 		return getService().getPublikUsers(sortField, isSortDesc);
 	}
@@ -377,8 +361,8 @@ public class PublikUserLocalServiceUtil {
 	 * @param isSortDesc La liste est-elle triée par ordre decroissant ?
 	 * @return Liste des utilisateurs trouvés
 	 */
-	public static java.util.List<eu.strasbourg.service.oidc.model.PublikUser>
-		getPublikUsers(String keywords, String sortField, boolean isSortDesc) {
+	public static List<PublikUser> getPublikUsers(
+		String keywords, String sortField, boolean isSortDesc) {
 
 		return getService().getPublikUsers(keywords, sortField, isSortDesc);
 	}
@@ -395,9 +379,7 @@ public class PublikUserLocalServiceUtil {
 	/**
 	 * Supprime une entité
 	 */
-	public static eu.strasbourg.service.oidc.model.PublikUser removePublikUser(
-		String publikUserId) {
-
+	public static PublikUser removePublikUser(String publikUserId) {
 		return getService().removePublikUser(publikUserId);
 	}
 
@@ -411,9 +393,7 @@ public class PublikUserLocalServiceUtil {
 	 * @param publikUser the publik user
 	 * @return the publik user that was updated
 	 */
-	public static eu.strasbourg.service.oidc.model.PublikUser updatePublikUser(
-		eu.strasbourg.service.oidc.model.PublikUser publikUser) {
-
+	public static PublikUser updatePublikUser(PublikUser publikUser) {
 		return getService().updatePublikUser(publikUser);
 	}
 
@@ -422,10 +402,10 @@ public class PublikUserLocalServiceUtil {
 	 *
 	 * @return L'utilisateur Publik modifié
 	 */
-	public static eu.strasbourg.service.oidc.model.PublikUser updatePublikUser(
-			eu.strasbourg.service.oidc.model.PublikUser publikUser,
+	public static PublikUser updatePublikUser(
+			PublikUser publikUser,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().updatePublikUser(publikUser, sc);
 	}
@@ -444,25 +424,13 @@ public class PublikUserLocalServiceUtil {
 	}
 
 	public static PublikUserLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<PublikUserLocalService, PublikUserLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(PublikUserLocalService.class);
-
-		ServiceTracker<PublikUserLocalService, PublikUserLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<PublikUserLocalService, PublikUserLocalService>(
-						bundle.getBundleContext(), PublikUserLocalService.class,
-						null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(PublikUserLocalService service) {
+		_service = service;
 	}
+
+	private static volatile PublikUserLocalService _service;
 
 }

@@ -1,14 +1,5 @@
 package eu.strasbourg.service.agenda.search;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -23,11 +14,18 @@ import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
-
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.ManifestationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.IndexHelper;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 @Component(immediate = true, service = Indexer.class)
 public class ManifestationIndexer extends BaseIndexer<Manifestation> {
@@ -64,7 +62,7 @@ public class ManifestationIndexer extends BaseIndexer<Manifestation> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(manifestation.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+		IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
 			assetCategories);
 		
 		document.addLocalizedText(Field.TITLE, manifestation.getTitleMap());
@@ -105,8 +103,7 @@ public class ManifestationIndexer extends BaseIndexer<Manifestation> {
 	protected void doReindex(Manifestation manifestation) throws Exception {
 		Document document = getDocument(manifestation);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			manifestation.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(manifestation.getCompanyId(), document);
 
 	}
 
@@ -140,7 +137,6 @@ public class ManifestationIndexer extends BaseIndexer<Manifestation> {
 
 					});
 
-			indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 			indexableActionableDynamicQuery.performActions();
 		} catch (NullPointerException ex) {
 		}

@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.place.model.CsmapCacheJson;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for CsmapCacheJson. This utility wraps
@@ -48,9 +47,8 @@ public class CsmapCacheJsonLocalServiceUtil {
 	 * @param csmapCacheJson the csmap cache json
 	 * @return the csmap cache json that was added
 	 */
-	public static eu.strasbourg.service.place.model.CsmapCacheJson
-		addCsmapCacheJson(
-			eu.strasbourg.service.place.model.CsmapCacheJson csmapCacheJson) {
+	public static CsmapCacheJson addCsmapCacheJson(
+		CsmapCacheJson csmapCacheJson) {
 
 		return getService().addCsmapCacheJson(csmapCacheJson);
 	}
@@ -61,10 +59,18 @@ public class CsmapCacheJsonLocalServiceUtil {
 	 * @param sigId the primary key for the new csmap cache json
 	 * @return the new csmap cache json
 	 */
-	public static eu.strasbourg.service.place.model.CsmapCacheJson
-		createCsmapCacheJson(String sigId) {
-
+	public static CsmapCacheJson createCsmapCacheJson(String sigId) {
 		return getService().createCsmapCacheJson(sigId);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -77,9 +83,8 @@ public class CsmapCacheJsonLocalServiceUtil {
 	 * @param csmapCacheJson the csmap cache json
 	 * @return the csmap cache json that was removed
 	 */
-	public static eu.strasbourg.service.place.model.CsmapCacheJson
-		deleteCsmapCacheJson(
-			eu.strasbourg.service.place.model.CsmapCacheJson csmapCacheJson) {
+	public static CsmapCacheJson deleteCsmapCacheJson(
+		CsmapCacheJson csmapCacheJson) {
 
 		return getService().deleteCsmapCacheJson(csmapCacheJson);
 	}
@@ -95,9 +100,8 @@ public class CsmapCacheJsonLocalServiceUtil {
 	 * @return the csmap cache json that was removed
 	 * @throws PortalException if a csmap cache json with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.place.model.CsmapCacheJson
-			deleteCsmapCacheJson(String sigId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CsmapCacheJson deleteCsmapCacheJson(String sigId)
+		throws PortalException {
 
 		return getService().deleteCsmapCacheJson(sigId);
 	}
@@ -105,17 +109,22 @@ public class CsmapCacheJsonLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -125,9 +134,7 @@ public class CsmapCacheJsonLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -143,9 +150,8 @@ public class CsmapCacheJsonLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -163,10 +169,9 @@ public class CsmapCacheJsonLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -178,9 +183,7 @@ public class CsmapCacheJsonLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -192,24 +195,21 @@ public class CsmapCacheJsonLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.place.model.CsmapCacheJson
-		fetchCsmapCacheJson(String sigId) {
-
+	public static CsmapCacheJson fetchCsmapCacheJson(String sigId) {
 		return getService().fetchCsmapCacheJson(sigId);
 	}
 
 	/**
 	 * Retourne les caches d'un lieu créé après une date et actif
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.place.model.CsmapCacheJson>
-			getByCreatedDateAndIsActive(java.util.Date date) {
+	public static List<CsmapCacheJson> getByCreatedDateAndIsActive(
+		java.util.Date date) {
 
 		return getService().getByCreatedDateAndIsActive(date);
 	}
@@ -217,9 +217,8 @@ public class CsmapCacheJsonLocalServiceUtil {
 	/**
 	 * Retourne les caches d'un lieu modifié après une date, créé avant cette date et actif
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.place.model.CsmapCacheJson>
-			getByCreatedDateAndModifiedDateAndIsActive(java.util.Date date) {
+	public static List<CsmapCacheJson>
+		getByCreatedDateAndModifiedDateAndIsActive(java.util.Date date) {
 
 		return getService().getByCreatedDateAndModifiedDateAndIsActive(date);
 	}
@@ -227,9 +226,8 @@ public class CsmapCacheJsonLocalServiceUtil {
 	/**
 	 * Retourne les caches d'un lieu modifié après une date et inactif
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.place.model.CsmapCacheJson>
-			getByModifiedDateAndIsNotActive(java.util.Date date) {
+	public static List<CsmapCacheJson> getByModifiedDateAndIsNotActive(
+		java.util.Date date) {
 
 		return getService().getByModifiedDateAndIsNotActive(date);
 	}
@@ -241,9 +239,8 @@ public class CsmapCacheJsonLocalServiceUtil {
 	 * @return the csmap cache json
 	 * @throws PortalException if a csmap cache json with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.place.model.CsmapCacheJson
-			getCsmapCacheJson(String sigId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CsmapCacheJson getCsmapCacheJson(String sigId)
+		throws PortalException {
 
 		return getService().getCsmapCacheJson(sigId);
 	}
@@ -259,10 +256,7 @@ public class CsmapCacheJsonLocalServiceUtil {
 	 * @param end the upper bound of the range of csmap cache jsons (not inclusive)
 	 * @return the range of csmap cache jsons
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.place.model.CsmapCacheJson> getCsmapCacheJsons(
-			int start, int end) {
-
+	public static List<CsmapCacheJson> getCsmapCacheJsons(int start, int end) {
 		return getService().getCsmapCacheJsons(start, end);
 	}
 
@@ -287,9 +281,8 @@ public class CsmapCacheJsonLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -304,35 +297,20 @@ public class CsmapCacheJsonLocalServiceUtil {
 	 * @param csmapCacheJson the csmap cache json
 	 * @return the csmap cache json that was updated
 	 */
-	public static eu.strasbourg.service.place.model.CsmapCacheJson
-		updateCsmapCacheJson(
-			eu.strasbourg.service.place.model.CsmapCacheJson csmapCacheJson) {
+	public static CsmapCacheJson updateCsmapCacheJson(
+		CsmapCacheJson csmapCacheJson) {
 
 		return getService().updateCsmapCacheJson(csmapCacheJson);
 	}
 
 	public static CsmapCacheJsonLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<CsmapCacheJsonLocalService, CsmapCacheJsonLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			CsmapCacheJsonLocalService.class);
-
-		ServiceTracker<CsmapCacheJsonLocalService, CsmapCacheJsonLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<CsmapCacheJsonLocalService, CsmapCacheJsonLocalService>(
-						bundle.getBundleContext(),
-						CsmapCacheJsonLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(CsmapCacheJsonLocalService service) {
+		_service = service;
 	}
+
+	private static volatile CsmapCacheJsonLocalService _service;
 
 }

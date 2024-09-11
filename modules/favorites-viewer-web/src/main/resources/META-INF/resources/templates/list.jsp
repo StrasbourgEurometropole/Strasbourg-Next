@@ -152,28 +152,46 @@
                                         <div class="favoris-teaser__crowding">
                                             <c:set var="occupationState" value="${favorite.place.getRealTime()}" />
                                             <div class="favoris-teaser__crowding-amount favoris-teaser__crowding-amount--${occupationState.cssClass}">
-                                                <c:if test="${favorite.place.isSwimmingPool()}">
+                                                <c:if test="${favorite.place.isSwimmingPool() || favorite.place.isIceRink()}">
+                                                    <c:catch var="isNumber">
+                                                        <fmt:formatNumber var="occupation" type = "number" value = "${occupationState.occupation}"/>
+                                                    </c:catch>
+                                                    <c:if test="${isNumber == null}">
+                                                        ${occupation}
+                                                    </c:if>
+                                                    <c:if test="${isNumber != null}">
                                                         ${occupationState.occupation}
-                                                </c:if>
-                                                <c:if test="${favorite.place.isIceRink()}">
-                                                        ${occupationState.occupation}
+                                                    </c:if>
                                                 </c:if>
                                                 <c:if test="${favorite.place.isParking()}">
+                                                    <c:catch var="isNumber">
+                                                        <fmt:formatNumber var="available" type = "number" value = "${occupationState.available}"/>
+                                                    </c:catch>
+                                                    <c:if test="${isNumber == null}">
+                                                        ${available}
+                                                    </c:if>
+                                                    <c:if test="${isNumber != null}">
                                                         ${occupationState.available}
+                                                    </c:if>
                                                 </c:if>
                                                 <c:if test="${favorite.place.isMairie()}">
-                                                        ${occupationState.occupation} <c:if test="${occupationState.occupation != '-'}"></c:if>
+                                                        ${occupationState.occupationLabel}
                                                 </c:if>
                                             </div>
                                             <div class="favoris-teaser__crowding-label">
                                             	<liferay-ui:message key="${occupationState.label}" />
-                                            	<c:if test="${favorite.place.isSwimmingPool()}">
+                                            	<c:if test="${favorite.place.isSwimmingPool() || favorite.place.isIceRink()}">
                                             		<br> 
-                                                    <liferay-ui:message key="eu.place.total-capacity" /> ${occupationState.capacity}
-                                            	</c:if>
-                                            	<c:if test="${favorite.place.isIceRink()}">
-                                            		<br>
-                                                    <liferay-ui:message key="eu.place.total-capacity" /> ${occupationState.capacity}
+                                                    <liferay-ui:message key="eu.place.total-capacity" />
+                                                    <c:catch var="isNumber">
+                                                        <fmt:formatNumber var="capacity" type = "number" value = "${occupationState.capacity}"/>
+                                                    </c:catch>
+                                                    <c:if test="${isNumber == null}">
+                                                        ${capacity}
+                                                    </c:if>
+                                                    <c:if test="${isNumber != null}">
+                                                        ${occupationState.capacity}
+                                                    </c:if>
                                             	</c:if>
                                            	</div>
                                         </div>

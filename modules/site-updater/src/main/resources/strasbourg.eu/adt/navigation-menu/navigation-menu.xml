@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.portal.kernel.theme.NavItem</className>
+    <template>
+        <script>espace-press-menu.ftl</script>
+        <name>Menu de navigation espace presse</name>
+        <key>espace-press-menu</key>
+    </template>
+    <template>
+        <script>overlay-menu.ftl</script>
+        <name>Menu de navigation overlay</name>
+        <key>overlay-menu</key>
+    </template>
+    <template>
+        <script>page-politique-menu.ftl</script>
+        <name>Menu de navigation page politique</name>
+        <key>477730465</key>
+    </template>
+    <template>
+        <script>rubric-menu.ftl</script>
+        <name>Menu de navigation rubrique</name>
+        <key>rubric-menu</key>
+    </template>
+    <template>
+        <script>dossier-home-slider.ftl</script>
+        <name>Slider dossier accueil</name>
+        <key>dossier-home-slider</key>
+    </template>
+</root>

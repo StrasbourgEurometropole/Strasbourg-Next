@@ -1,15 +1,25 @@
 /* STYLE PAGE CARTE INTERACTIVE */
 
 .pro-page-carte {
+	padding-top: 154px;
+
+	@include tablet_portrait() {
+		padding-top: 90px;
+	}
+	@include mobile() {
+		padding-top: 50px;
+	}
+
 
 	.pro-wrapper-map.maps {
 		position: relative;
-		height: calc(100vh - 167px);
+		height: calc(100vh - 154px);
 		@include tablet_portrait {
-			height: calc(100vh - 123px);
+			height: calc(100vh - 90px);
 		}
 		@include mobile {
 			min-height: auto;
+			height: calc(100vh - 50px);
 		}
 	}
 }
@@ -28,7 +38,7 @@
 	box-shadow: 2px 1px 12px 0px rgba(0, 0, 0, 0.2);
 	@include addTransition();
 	&.btn-map-active {
-		background: $c_main;
+		@include addDynamicBackground();
 		span {
 			color: $c_white;
 		}
@@ -90,14 +100,13 @@
 		}
 
 		.pro-affiner {
-			@include ft($f_hx, 0.938em, 400, $c_main, 1.5em);
-			text-transform: uppercase;
+			@include ft($f_hx, 0.938em, 400, $c_white, 1.5em);
 			display: block;
 			padding: 30px;
 			position: relative;
 			&:before {
 				content: '';
-				background: url(../../assets/images/background/small-rec-black.png);
+				background: url(/o/plateforme-citoyenne-theme/images/background/small-rec-black.png);
 				position: absolute;
 				left: -20px;
 				top: -25px;
@@ -211,23 +220,11 @@
 				.label {
 					@include ft($f_hx, 0.938em, 400, $c_txt, 1.200em);
 					padding: 11px 0;
-					text-transform: uppercase;
+
 					height: 100%;
 					margin: 0;
 					border-radius: 0;
 					text-align: left;
-					&:after {
-						content: '';
-						position: absolute;
-						bottom: 14px;
-						left: 0;
-						right: 0;
-						height: 4px;
-						width: 100%;
-						z-index: -1;
-						background: $c_main;
-						@include addTransitionCurve();
-					}
 					&:hover {
 						&:after {
 							height: 10px;
@@ -340,7 +337,7 @@
 					@include ft($f_hx, 0.938em, 400, $c_txt, 1.200em);
 					padding: 12px 45px 12px 23px;
 					display: block;
-					text-transform: uppercase;
+
 					position: relative;
 					z-index: 1000;
 					white-space: nowrap;
@@ -403,7 +400,7 @@
 					transform: translateX(19px);
 				}
 				input:checked + .pro-switch {
-					background: $c_main;
+					background-color: $c_white;
 					border-color: #e5e5e5;
 				}
 

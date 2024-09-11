@@ -7,10 +7,12 @@
 	var="configurationRenderURL" />
 
 <c:set var="categoriesLabel"><liferay-ui:message key="objtp-found-object-categories" /></c:set>
+<c:set var="urlDeclareLostLabel"><liferay-ui:message key="objtp.url.declare-lost" /></c:set>
+<c:set var="urlGuideHowToLabel"><liferay-ui:message key="objtp.url.how-to" /></c:set>
 
 <div class="container-fluid-1280 main-content-body">
 	<aui:form action="${configurationActionURL}" method="post" name="fm">
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 			<aui:input name="cmd" type="hidden"
 				value="update" />
 		
@@ -19,6 +21,11 @@
 				
 			<aui:input name="title" type="text" label="Titre"
 				value="${title}" />
+			<aui:input name="urlDeclareLost" type="text" label="URL ${urlDeclareLostLabel}"
+					   value="${urlDeclareLost}" />
+
+			<aui:input name="urlGuideHowTo" type="text" label="URL ${urlGuideHowToLabel}}"
+					   value="${urlGuideHowTo}" />
 
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="${categoriesLabel}">
@@ -28,15 +35,15 @@
 				<c:forEach var="category" varStatus="categoryStatus" items="${allCategories}">
 					<c:set var="categoryIsChecked"
 						   value="${fn:contains(categoryCodes, category.code)}" />
-										
+
 					<aui:input type="checkbox"
 								name="categoryCode_${categoryStatus.index}"
 								label="${category.name}"
 								checked="${categoryIsChecked}"
-								value="${category.code}" inlineField="true"/>					
+								value="${category.code}"/>
 				</c:forEach>
 			</aui:fieldset>
-		</aui:fieldset-group>
+		</div></div>
 		
 		
 		

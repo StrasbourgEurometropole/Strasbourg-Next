@@ -1,21 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
@@ -23,16 +15,16 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.agenda.model.CsmapCacheJson;
 import eu.strasbourg.service.agenda.model.CsmapCacheJsonModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -40,6 +32,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -103,33 +96,64 @@ public class CsmapCacheJsonModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.agenda.model.CsmapCacheJson"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.agenda.model.CsmapCacheJson"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.agenda.model.CsmapCacheJson"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long CREATEEVENT_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long EVENTID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long HASSCHEDULES_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ISACTIVE_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long MODIFIEDEVENT_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long REGENERATEDDATE_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 64L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -188,9 +212,6 @@ public class CsmapCacheJsonModelImpl
 				attributeGetterFunction.apply((CsmapCacheJson)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -215,237 +236,92 @@ public class CsmapCacheJsonModelImpl
 	public Map<String, Function<CsmapCacheJson, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<CsmapCacheJson, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, CsmapCacheJson>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			CsmapCacheJson.class.getClassLoader(), CsmapCacheJson.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<CsmapCacheJson, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<CsmapCacheJson> constructor =
-				(Constructor<CsmapCacheJson>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<CsmapCacheJson, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<CsmapCacheJson, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", CsmapCacheJson::getUuid);
+			attributeGetterFunctions.put("eventId", CsmapCacheJson::getEventId);
+			attributeGetterFunctions.put(
+				"jsonEvent", CsmapCacheJson::getJsonEvent);
+			attributeGetterFunctions.put(
+				"createEvent", CsmapCacheJson::getCreateEvent);
+			attributeGetterFunctions.put(
+				"modifiedEvent", CsmapCacheJson::getModifiedEvent);
+			attributeGetterFunctions.put(
+				"isActive", CsmapCacheJson::getIsActive);
+			attributeGetterFunctions.put(
+				"regeneratedDate", CsmapCacheJson::getRegeneratedDate);
+			attributeGetterFunctions.put(
+				"hasSchedules", CsmapCacheJson::getHasSchedules);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<CsmapCacheJson, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CsmapCacheJson, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<CsmapCacheJson, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<CsmapCacheJson, Object>>();
-		Map<String, BiConsumer<CsmapCacheJson, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CsmapCacheJson, ?>>();
+		private static final Map<String, BiConsumer<CsmapCacheJson, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<CsmapCacheJson, Object>() {
+		static {
+			Map<String, BiConsumer<CsmapCacheJson, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<CsmapCacheJson, ?>>();
 
-				@Override
-				public Object apply(CsmapCacheJson csmapCacheJson) {
-					return csmapCacheJson.getUuid();
-				}
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<CsmapCacheJson, String>)CsmapCacheJson::setUuid);
+			attributeSetterBiConsumers.put(
+				"eventId",
+				(BiConsumer<CsmapCacheJson, Long>)CsmapCacheJson::setEventId);
+			attributeSetterBiConsumers.put(
+				"jsonEvent",
+				(BiConsumer<CsmapCacheJson, String>)
+					CsmapCacheJson::setJsonEvent);
+			attributeSetterBiConsumers.put(
+				"createEvent",
+				(BiConsumer<CsmapCacheJson, Date>)
+					CsmapCacheJson::setCreateEvent);
+			attributeSetterBiConsumers.put(
+				"modifiedEvent",
+				(BiConsumer<CsmapCacheJson, Date>)
+					CsmapCacheJson::setModifiedEvent);
+			attributeSetterBiConsumers.put(
+				"isActive",
+				(BiConsumer<CsmapCacheJson, Boolean>)
+					CsmapCacheJson::setIsActive);
+			attributeSetterBiConsumers.put(
+				"regeneratedDate",
+				(BiConsumer<CsmapCacheJson, Date>)
+					CsmapCacheJson::setRegeneratedDate);
+			attributeSetterBiConsumers.put(
+				"hasSchedules",
+				(BiConsumer<CsmapCacheJson, Boolean>)
+					CsmapCacheJson::setHasSchedules);
 
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<CsmapCacheJson, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(
-					CsmapCacheJson csmapCacheJson, Object uuidObject) {
-
-					csmapCacheJson.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"eventId",
-			new Function<CsmapCacheJson, Object>() {
-
-				@Override
-				public Object apply(CsmapCacheJson csmapCacheJson) {
-					return csmapCacheJson.getEventId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"eventId",
-			new BiConsumer<CsmapCacheJson, Object>() {
-
-				@Override
-				public void accept(
-					CsmapCacheJson csmapCacheJson, Object eventIdObject) {
-
-					csmapCacheJson.setEventId((Long)eventIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"jsonEvent",
-			new Function<CsmapCacheJson, Object>() {
-
-				@Override
-				public Object apply(CsmapCacheJson csmapCacheJson) {
-					return csmapCacheJson.getJsonEvent();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"jsonEvent",
-			new BiConsumer<CsmapCacheJson, Object>() {
-
-				@Override
-				public void accept(
-					CsmapCacheJson csmapCacheJson, Object jsonEventObject) {
-
-					csmapCacheJson.setJsonEvent((String)jsonEventObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createEvent",
-			new Function<CsmapCacheJson, Object>() {
-
-				@Override
-				public Object apply(CsmapCacheJson csmapCacheJson) {
-					return csmapCacheJson.getCreateEvent();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createEvent",
-			new BiConsumer<CsmapCacheJson, Object>() {
-
-				@Override
-				public void accept(
-					CsmapCacheJson csmapCacheJson, Object createEventObject) {
-
-					csmapCacheJson.setCreateEvent((Date)createEventObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedEvent",
-			new Function<CsmapCacheJson, Object>() {
-
-				@Override
-				public Object apply(CsmapCacheJson csmapCacheJson) {
-					return csmapCacheJson.getModifiedEvent();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedEvent",
-			new BiConsumer<CsmapCacheJson, Object>() {
-
-				@Override
-				public void accept(
-					CsmapCacheJson csmapCacheJson, Object modifiedEventObject) {
-
-					csmapCacheJson.setModifiedEvent((Date)modifiedEventObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"isActive",
-			new Function<CsmapCacheJson, Object>() {
-
-				@Override
-				public Object apply(CsmapCacheJson csmapCacheJson) {
-					return csmapCacheJson.getIsActive();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"isActive",
-			new BiConsumer<CsmapCacheJson, Object>() {
-
-				@Override
-				public void accept(
-					CsmapCacheJson csmapCacheJson, Object isActiveObject) {
-
-					csmapCacheJson.setIsActive((Boolean)isActiveObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"regeneratedDate",
-			new Function<CsmapCacheJson, Object>() {
-
-				@Override
-				public Object apply(CsmapCacheJson csmapCacheJson) {
-					return csmapCacheJson.getRegeneratedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"regeneratedDate",
-			new BiConsumer<CsmapCacheJson, Object>() {
-
-				@Override
-				public void accept(
-					CsmapCacheJson csmapCacheJson,
-					Object regeneratedDateObject) {
-
-					csmapCacheJson.setRegeneratedDate(
-						(Date)regeneratedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"hasSchedules",
-			new Function<CsmapCacheJson, Object>() {
-
-				@Override
-				public Object apply(CsmapCacheJson csmapCacheJson) {
-					return csmapCacheJson.getHasSchedules();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"hasSchedules",
-			new BiConsumer<CsmapCacheJson, Object>() {
-
-				@Override
-				public void accept(
-					CsmapCacheJson csmapCacheJson, Object hasSchedulesObject) {
-
-					csmapCacheJson.setHasSchedules((Boolean)hasSchedulesObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -460,17 +336,20 @@ public class CsmapCacheJsonModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -480,19 +359,20 @@ public class CsmapCacheJsonModelImpl
 
 	@Override
 	public void setEventId(long eventId) {
-		_columnBitmask |= EVENTID_COLUMN_BITMASK;
-
-		if (!_setOriginalEventId) {
-			_setOriginalEventId = true;
-
-			_originalEventId = _eventId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_eventId = eventId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalEventId() {
-		return _originalEventId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("eventId"));
 	}
 
 	@Override
@@ -507,6 +387,10 @@ public class CsmapCacheJsonModelImpl
 
 	@Override
 	public void setJsonEvent(String jsonEvent) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_jsonEvent = jsonEvent;
 	}
 
@@ -517,17 +401,20 @@ public class CsmapCacheJsonModelImpl
 
 	@Override
 	public void setCreateEvent(Date createEvent) {
-		_columnBitmask |= CREATEEVENT_COLUMN_BITMASK;
-
-		if (_originalCreateEvent == null) {
-			_originalCreateEvent = _createEvent;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_createEvent = createEvent;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalCreateEvent() {
-		return _originalCreateEvent;
+		return getColumnOriginalValue("createEvent");
 	}
 
 	@Override
@@ -537,17 +424,20 @@ public class CsmapCacheJsonModelImpl
 
 	@Override
 	public void setModifiedEvent(Date modifiedEvent) {
-		_columnBitmask |= MODIFIEDEVENT_COLUMN_BITMASK;
-
-		if (_originalModifiedEvent == null) {
-			_originalModifiedEvent = _modifiedEvent;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_modifiedEvent = modifiedEvent;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalModifiedEvent() {
-		return _originalModifiedEvent;
+		return getColumnOriginalValue("modifiedEvent");
 	}
 
 	@Override
@@ -562,19 +452,21 @@ public class CsmapCacheJsonModelImpl
 
 	@Override
 	public void setIsActive(boolean isActive) {
-		_columnBitmask |= ISACTIVE_COLUMN_BITMASK;
-
-		if (!_setOriginalIsActive) {
-			_setOriginalIsActive = true;
-
-			_originalIsActive = _isActive;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_isActive = isActive;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalIsActive() {
-		return _originalIsActive;
+		return GetterUtil.getBoolean(
+			this.<Boolean>getColumnOriginalValue("isActive"));
 	}
 
 	@Override
@@ -584,17 +476,20 @@ public class CsmapCacheJsonModelImpl
 
 	@Override
 	public void setRegeneratedDate(Date regeneratedDate) {
-		_columnBitmask |= REGENERATEDDATE_COLUMN_BITMASK;
-
-		if (_originalRegeneratedDate == null) {
-			_originalRegeneratedDate = _regeneratedDate;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_regeneratedDate = regeneratedDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalRegeneratedDate() {
-		return _originalRegeneratedDate;
+		return getColumnOriginalValue("regeneratedDate");
 	}
 
 	@Override
@@ -609,22 +504,44 @@ public class CsmapCacheJsonModelImpl
 
 	@Override
 	public void setHasSchedules(boolean hasSchedules) {
-		_columnBitmask |= HASSCHEDULES_COLUMN_BITMASK;
-
-		if (!_setOriginalHasSchedules) {
-			_setOriginalHasSchedules = true;
-
-			_originalHasSchedules = _hasSchedules;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_hasSchedules = hasSchedules;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalHasSchedules() {
-		return _originalHasSchedules;
+		return GetterUtil.getBoolean(
+			this.<Boolean>getColumnOriginalValue("hasSchedules"));
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -675,6 +592,30 @@ public class CsmapCacheJsonModelImpl
 	}
 
 	@Override
+	public CsmapCacheJson cloneWithOriginalValues() {
+		CsmapCacheJsonImpl csmapCacheJsonImpl = new CsmapCacheJsonImpl();
+
+		csmapCacheJsonImpl.setUuid(
+			this.<String>getColumnOriginalValue("uuid_"));
+		csmapCacheJsonImpl.setEventId(
+			this.<Long>getColumnOriginalValue("eventId"));
+		csmapCacheJsonImpl.setJsonEvent(
+			this.<String>getColumnOriginalValue("jsonEvent"));
+		csmapCacheJsonImpl.setCreateEvent(
+			this.<Date>getColumnOriginalValue("createEvent"));
+		csmapCacheJsonImpl.setModifiedEvent(
+			this.<Date>getColumnOriginalValue("modifiedEvent"));
+		csmapCacheJsonImpl.setIsActive(
+			this.<Boolean>getColumnOriginalValue("isActive"));
+		csmapCacheJsonImpl.setRegeneratedDate(
+			this.<Date>getColumnOriginalValue("regeneratedDate"));
+		csmapCacheJsonImpl.setHasSchedules(
+			this.<Boolean>getColumnOriginalValue("hasSchedules"));
+
+		return csmapCacheJsonImpl;
+	}
+
+	@Override
 	public int compareTo(CsmapCacheJson csmapCacheJson) {
 		long primaryKey = csmapCacheJson.getPrimaryKey();
 
@@ -716,11 +657,19 @@ public class CsmapCacheJsonModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -728,35 +677,9 @@ public class CsmapCacheJsonModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CsmapCacheJsonModelImpl csmapCacheJsonModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		csmapCacheJsonModelImpl._originalUuid = csmapCacheJsonModelImpl._uuid;
-
-		csmapCacheJsonModelImpl._originalEventId =
-			csmapCacheJsonModelImpl._eventId;
-
-		csmapCacheJsonModelImpl._setOriginalEventId = false;
-
-		csmapCacheJsonModelImpl._originalCreateEvent =
-			csmapCacheJsonModelImpl._createEvent;
-
-		csmapCacheJsonModelImpl._originalModifiedEvent =
-			csmapCacheJsonModelImpl._modifiedEvent;
-
-		csmapCacheJsonModelImpl._originalIsActive =
-			csmapCacheJsonModelImpl._isActive;
-
-		csmapCacheJsonModelImpl._setOriginalIsActive = false;
-
-		csmapCacheJsonModelImpl._originalRegeneratedDate =
-			csmapCacheJsonModelImpl._regeneratedDate;
-
-		csmapCacheJsonModelImpl._originalHasSchedules =
-			csmapCacheJsonModelImpl._hasSchedules;
-
-		csmapCacheJsonModelImpl._setOriginalHasSchedules = false;
-
-		csmapCacheJsonModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -823,7 +746,7 @@ public class CsmapCacheJsonModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -834,9 +757,26 @@ public class CsmapCacheJsonModelImpl
 			Function<CsmapCacheJson, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((CsmapCacheJson)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((CsmapCacheJson)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -849,62 +789,104 @@ public class CsmapCacheJsonModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<CsmapCacheJson, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<CsmapCacheJson, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<CsmapCacheJson, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((CsmapCacheJson)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, CsmapCacheJson>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					CsmapCacheJson.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _eventId;
-	private long _originalEventId;
-	private boolean _setOriginalEventId;
 	private String _jsonEvent;
 	private Date _createEvent;
-	private Date _originalCreateEvent;
 	private Date _modifiedEvent;
-	private Date _originalModifiedEvent;
 	private boolean _isActive;
-	private boolean _originalIsActive;
-	private boolean _setOriginalIsActive;
 	private Date _regeneratedDate;
-	private Date _originalRegeneratedDate;
 	private boolean _hasSchedules;
-	private boolean _originalHasSchedules;
-	private boolean _setOriginalHasSchedules;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<CsmapCacheJson, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((CsmapCacheJson)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("eventId", _eventId);
+		_columnOriginalValues.put("jsonEvent", _jsonEvent);
+		_columnOriginalValues.put("createEvent", _createEvent);
+		_columnOriginalValues.put("modifiedEvent", _modifiedEvent);
+		_columnOriginalValues.put("isActive", _isActive);
+		_columnOriginalValues.put("regeneratedDate", _regeneratedDate);
+		_columnOriginalValues.put("hasSchedules", _hasSchedules);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("eventId", 2L);
+
+		columnBitmasks.put("jsonEvent", 4L);
+
+		columnBitmasks.put("createEvent", 8L);
+
+		columnBitmasks.put("modifiedEvent", 16L);
+
+		columnBitmasks.put("isActive", 32L);
+
+		columnBitmasks.put("regeneratedDate", 64L);
+
+		columnBitmasks.put("hasSchedules", 128L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private CsmapCacheJson _escapedModel;
 

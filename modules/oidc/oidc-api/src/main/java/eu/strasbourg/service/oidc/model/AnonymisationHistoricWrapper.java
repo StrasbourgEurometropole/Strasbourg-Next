@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.oidc.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,22 +23,13 @@ import java.util.Objects;
  * @generated
  */
 public class AnonymisationHistoricWrapper
+	extends BaseModelWrapper<AnonymisationHistoric>
 	implements AnonymisationHistoric, ModelWrapper<AnonymisationHistoric> {
 
 	public AnonymisationHistoricWrapper(
 		AnonymisationHistoric anonymisationHistoric) {
 
-		_anonymisationHistoric = anonymisationHistoric;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return AnonymisationHistoric.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return AnonymisationHistoric.class.getName();
+		super(anonymisationHistoric);
 	}
 
 	@Override
@@ -206,21 +184,12 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void addNewOperation(String operation) {
-		_anonymisationHistoric.addNewOperation(operation);
+		model.addNewOperation(operation);
 	}
 
 	@Override
-	public Object clone() {
-		return new AnonymisationHistoricWrapper(
-			(AnonymisationHistoric)_anonymisationHistoric.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.oidc.model.AnonymisationHistoric
-			anonymisationHistoric) {
-
-		return _anonymisationHistoric.compareTo(anonymisationHistoric);
+	public AnonymisationHistoric cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -230,7 +199,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public long getAnonymisationHistoricId() {
-		return _anonymisationHistoric.getAnonymisationHistoricId();
+		return model.getAnonymisationHistoricId();
 	}
 
 	/**
@@ -238,7 +207,12 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _anonymisationHistoric.getAssetEntry();
+		return model.getAssetEntry();
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -249,7 +223,7 @@ public class AnonymisationHistoricWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _anonymisationHistoric.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -259,7 +233,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _anonymisationHistoric.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -269,7 +243,12 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _anonymisationHistoric.getCreateDate();
+		return model.getCreateDate();
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -279,7 +258,75 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public String getErrorDescription() {
-		return _anonymisationHistoric.getErrorDescription();
+		return model.getErrorDescription();
+	}
+
+	/**
+	 * Returns the localized error description of this anonymisation historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized error description of this anonymisation historic
+	 */
+	@Override
+	public String getErrorDescription(java.util.Locale locale) {
+		return model.getErrorDescription(locale);
+	}
+
+	/**
+	 * Returns the localized error description of this anonymisation historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized error description of this anonymisation historic. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getErrorDescription(
+		java.util.Locale locale, boolean useDefault) {
+
+		return model.getErrorDescription(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized error description of this anonymisation historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized error description of this anonymisation historic
+	 */
+	@Override
+	public String getErrorDescription(String languageId) {
+		return model.getErrorDescription(languageId);
+	}
+
+	/**
+	 * Returns the localized error description of this anonymisation historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized error description of this anonymisation historic
+	 */
+	@Override
+	public String getErrorDescription(String languageId, boolean useDefault) {
+		return model.getErrorDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getErrorDescriptionCurrentLanguageId() {
+		return model.getErrorDescriptionCurrentLanguageId();
+	}
+
+	@Override
+	public String getErrorDescriptionCurrentValue() {
+		return model.getErrorDescriptionCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized error descriptions of this anonymisation historic.
+	 *
+	 * @return the locales and localized error descriptions of this anonymisation historic
+	 */
+	@Override
+	public Map<java.util.Locale, String> getErrorDescriptionMap() {
+		return model.getErrorDescriptionMap();
 	}
 
 	/**
@@ -289,12 +336,75 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public String getErrorStackTrace() {
-		return _anonymisationHistoric.getErrorStackTrace();
+		return model.getErrorStackTrace();
+	}
+
+	/**
+	 * Returns the localized error stack trace of this anonymisation historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized error stack trace of this anonymisation historic
+	 */
+	@Override
+	public String getErrorStackTrace(java.util.Locale locale) {
+		return model.getErrorStackTrace(locale);
+	}
+
+	/**
+	 * Returns the localized error stack trace of this anonymisation historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized error stack trace of this anonymisation historic. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getErrorStackTrace(
+		java.util.Locale locale, boolean useDefault) {
+
+		return model.getErrorStackTrace(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized error stack trace of this anonymisation historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized error stack trace of this anonymisation historic
+	 */
+	@Override
+	public String getErrorStackTrace(String languageId) {
+		return model.getErrorStackTrace(languageId);
+	}
+
+	/**
+	 * Returns the localized error stack trace of this anonymisation historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized error stack trace of this anonymisation historic
+	 */
+	@Override
+	public String getErrorStackTrace(String languageId, boolean useDefault) {
+		return model.getErrorStackTrace(languageId, useDefault);
 	}
 
 	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _anonymisationHistoric.getExpandoBridge();
+	public String getErrorStackTraceCurrentLanguageId() {
+		return model.getErrorStackTraceCurrentLanguageId();
+	}
+
+	@Override
+	public String getErrorStackTraceCurrentValue() {
+		return model.getErrorStackTraceCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized error stack traces of this anonymisation historic.
+	 *
+	 * @return the locales and localized error stack traces of this anonymisation historic
+	 */
+	@Override
+	public Map<java.util.Locale, String> getErrorStackTraceMap() {
+		return model.getErrorStackTraceMap();
 	}
 
 	/**
@@ -304,7 +414,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public Date getFinishDate() {
-		return _anonymisationHistoric.getFinishDate();
+		return model.getFinishDate();
 	}
 
 	/**
@@ -314,7 +424,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _anonymisationHistoric.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -324,7 +434,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public Date getLastPublishDate() {
-		return _anonymisationHistoric.getLastPublishDate();
+		return model.getLastPublishDate();
 	}
 
 	/**
@@ -334,7 +444,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _anonymisationHistoric.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -344,7 +454,73 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public String getOperations() {
-		return _anonymisationHistoric.getOperations();
+		return model.getOperations();
+	}
+
+	/**
+	 * Returns the localized operations of this anonymisation historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized operations of this anonymisation historic
+	 */
+	@Override
+	public String getOperations(java.util.Locale locale) {
+		return model.getOperations(locale);
+	}
+
+	/**
+	 * Returns the localized operations of this anonymisation historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized operations of this anonymisation historic. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getOperations(java.util.Locale locale, boolean useDefault) {
+		return model.getOperations(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized operations of this anonymisation historic in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized operations of this anonymisation historic
+	 */
+	@Override
+	public String getOperations(String languageId) {
+		return model.getOperations(languageId);
+	}
+
+	/**
+	 * Returns the localized operations of this anonymisation historic in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized operations of this anonymisation historic
+	 */
+	@Override
+	public String getOperations(String languageId, boolean useDefault) {
+		return model.getOperations(languageId, useDefault);
+	}
+
+	@Override
+	public String getOperationsCurrentLanguageId() {
+		return model.getOperationsCurrentLanguageId();
+	}
+
+	@Override
+	public String getOperationsCurrentValue() {
+		return model.getOperationsCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized operationses of this anonymisation historic.
+	 *
+	 * @return the locales and localized operationses of this anonymisation historic
+	 */
+	@Override
+	public Map<java.util.Locale, String> getOperationsMap() {
+		return model.getOperationsMap();
 	}
 
 	/**
@@ -354,12 +530,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _anonymisationHistoric.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _anonymisationHistoric.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -369,7 +540,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public int getResult() {
-		return _anonymisationHistoric.getResult();
+		return model.getResult();
 	}
 
 	/**
@@ -379,7 +550,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public String getResultLabel() {
-		return _anonymisationHistoric.getResultLabel();
+		return model.getResultLabel();
 	}
 
 	/**
@@ -389,7 +560,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public Date getStartDate() {
-		return _anonymisationHistoric.getStartDate();
+		return model.getStartDate();
 	}
 
 	/**
@@ -399,7 +570,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _anonymisationHistoric.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -409,7 +580,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _anonymisationHistoric.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -419,7 +590,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _anonymisationHistoric.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -429,7 +600,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _anonymisationHistoric.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -439,7 +610,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _anonymisationHistoric.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -449,7 +620,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _anonymisationHistoric.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -459,7 +630,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _anonymisationHistoric.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -469,7 +640,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _anonymisationHistoric.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -479,12 +650,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _anonymisationHistoric.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _anonymisationHistoric.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -494,12 +660,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _anonymisationHistoric.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _anonymisationHistoric.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -509,7 +670,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _anonymisationHistoric.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -519,12 +680,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _anonymisationHistoric.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _anonymisationHistoric.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -534,7 +690,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _anonymisationHistoric.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -544,7 +700,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _anonymisationHistoric.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -554,12 +710,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _anonymisationHistoric.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _anonymisationHistoric.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -569,7 +720,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _anonymisationHistoric.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -579,12 +730,27 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _anonymisationHistoric.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_anonymisationHistoric.persist();
+		model.persist();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+			java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -592,7 +758,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void sendMail() {
-		_anonymisationHistoric.sendMail();
+		model.sendMail();
 	}
 
 	/**
@@ -602,13 +768,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setAnonymisationHistoricId(long anonymisationHistoricId) {
-		_anonymisationHistoric.setAnonymisationHistoricId(
-			anonymisationHistoricId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_anonymisationHistoric.setCachedModel(cachedModel);
+		model.setAnonymisationHistoricId(anonymisationHistoricId);
 	}
 
 	/**
@@ -618,7 +778,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_anonymisationHistoric.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -628,7 +788,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_anonymisationHistoric.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -638,7 +798,66 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setErrorDescription(String errorDescription) {
-		_anonymisationHistoric.setErrorDescription(errorDescription);
+		model.setErrorDescription(errorDescription);
+	}
+
+	/**
+	 * Sets the localized error description of this anonymisation historic in the language.
+	 *
+	 * @param errorDescription the localized error description of this anonymisation historic
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setErrorDescription(
+		String errorDescription, java.util.Locale locale) {
+
+		model.setErrorDescription(errorDescription, locale);
+	}
+
+	/**
+	 * Sets the localized error description of this anonymisation historic in the language, and sets the default locale.
+	 *
+	 * @param errorDescription the localized error description of this anonymisation historic
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setErrorDescription(
+		String errorDescription, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setErrorDescription(errorDescription, locale, defaultLocale);
+	}
+
+	@Override
+	public void setErrorDescriptionCurrentLanguageId(String languageId) {
+		model.setErrorDescriptionCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized error descriptions of this anonymisation historic from the map of locales and localized error descriptions.
+	 *
+	 * @param errorDescriptionMap the locales and localized error descriptions of this anonymisation historic
+	 */
+	@Override
+	public void setErrorDescriptionMap(
+		Map<java.util.Locale, String> errorDescriptionMap) {
+
+		model.setErrorDescriptionMap(errorDescriptionMap);
+	}
+
+	/**
+	 * Sets the localized error descriptions of this anonymisation historic from the map of locales and localized error descriptions, and sets the default locale.
+	 *
+	 * @param errorDescriptionMap the locales and localized error descriptions of this anonymisation historic
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setErrorDescriptionMap(
+		Map<java.util.Locale, String> errorDescriptionMap,
+		java.util.Locale defaultLocale) {
+
+		model.setErrorDescriptionMap(errorDescriptionMap, defaultLocale);
 	}
 
 	/**
@@ -648,24 +867,66 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setErrorStackTrace(String errorStackTrace) {
-		_anonymisationHistoric.setErrorStackTrace(errorStackTrace);
+		model.setErrorStackTrace(errorStackTrace);
+	}
+
+	/**
+	 * Sets the localized error stack trace of this anonymisation historic in the language.
+	 *
+	 * @param errorStackTrace the localized error stack trace of this anonymisation historic
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setErrorStackTrace(
+		String errorStackTrace, java.util.Locale locale) {
+
+		model.setErrorStackTrace(errorStackTrace, locale);
+	}
+
+	/**
+	 * Sets the localized error stack trace of this anonymisation historic in the language, and sets the default locale.
+	 *
+	 * @param errorStackTrace the localized error stack trace of this anonymisation historic
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setErrorStackTrace(
+		String errorStackTrace, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setErrorStackTrace(errorStackTrace, locale, defaultLocale);
 	}
 
 	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_anonymisationHistoric.setExpandoBridgeAttributes(baseModel);
+	public void setErrorStackTraceCurrentLanguageId(String languageId) {
+		model.setErrorStackTraceCurrentLanguageId(languageId);
 	}
 
+	/**
+	 * Sets the localized error stack traces of this anonymisation historic from the map of locales and localized error stack traces.
+	 *
+	 * @param errorStackTraceMap the locales and localized error stack traces of this anonymisation historic
+	 */
 	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_anonymisationHistoric.setExpandoBridgeAttributes(expandoBridge);
+	public void setErrorStackTraceMap(
+		Map<java.util.Locale, String> errorStackTraceMap) {
+
+		model.setErrorStackTraceMap(errorStackTraceMap);
 	}
 
+	/**
+	 * Sets the localized error stack traces of this anonymisation historic from the map of locales and localized error stack traces, and sets the default locale.
+	 *
+	 * @param errorStackTraceMap the locales and localized error stack traces of this anonymisation historic
+	 * @param defaultLocale the default locale
+	 */
 	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_anonymisationHistoric.setExpandoBridgeAttributes(serviceContext);
+	public void setErrorStackTraceMap(
+		Map<java.util.Locale, String> errorStackTraceMap,
+		java.util.Locale defaultLocale) {
+
+		model.setErrorStackTraceMap(errorStackTraceMap, defaultLocale);
 	}
 
 	/**
@@ -675,7 +936,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setFinishDate(Date finishDate) {
-		_anonymisationHistoric.setFinishDate(finishDate);
+		model.setFinishDate(finishDate);
 	}
 
 	/**
@@ -685,7 +946,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_anonymisationHistoric.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -695,7 +956,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
-		_anonymisationHistoric.setLastPublishDate(lastPublishDate);
+		model.setLastPublishDate(lastPublishDate);
 	}
 
 	/**
@@ -705,12 +966,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_anonymisationHistoric.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_anonymisationHistoric.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -720,7 +976,62 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setOperations(String operations) {
-		_anonymisationHistoric.setOperations(operations);
+		model.setOperations(operations);
+	}
+
+	/**
+	 * Sets the localized operations of this anonymisation historic in the language.
+	 *
+	 * @param operations the localized operations of this anonymisation historic
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setOperations(String operations, java.util.Locale locale) {
+		model.setOperations(operations, locale);
+	}
+
+	/**
+	 * Sets the localized operations of this anonymisation historic in the language, and sets the default locale.
+	 *
+	 * @param operations the localized operations of this anonymisation historic
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setOperations(
+		String operations, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setOperations(operations, locale, defaultLocale);
+	}
+
+	@Override
+	public void setOperationsCurrentLanguageId(String languageId) {
+		model.setOperationsCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized operationses of this anonymisation historic from the map of locales and localized operationses.
+	 *
+	 * @param operationsMap the locales and localized operationses of this anonymisation historic
+	 */
+	@Override
+	public void setOperationsMap(Map<java.util.Locale, String> operationsMap) {
+		model.setOperationsMap(operationsMap);
+	}
+
+	/**
+	 * Sets the localized operationses of this anonymisation historic from the map of locales and localized operationses, and sets the default locale.
+	 *
+	 * @param operationsMap the locales and localized operationses of this anonymisation historic
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setOperationsMap(
+		Map<java.util.Locale, String> operationsMap,
+		java.util.Locale defaultLocale) {
+
+		model.setOperationsMap(operationsMap, defaultLocale);
 	}
 
 	/**
@@ -730,12 +1041,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_anonymisationHistoric.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_anonymisationHistoric.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -745,7 +1051,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setResult(int result) {
-		_anonymisationHistoric.setResult(result);
+		model.setResult(result);
 	}
 
 	/**
@@ -755,7 +1061,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setStartDate(Date startDate) {
-		_anonymisationHistoric.setStartDate(startDate);
+		model.setStartDate(startDate);
 	}
 
 	/**
@@ -765,7 +1071,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_anonymisationHistoric.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -775,7 +1081,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_anonymisationHistoric.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -785,7 +1091,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_anonymisationHistoric.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -795,7 +1101,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_anonymisationHistoric.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -805,7 +1111,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_anonymisationHistoric.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -815,7 +1121,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_anonymisationHistoric.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -825,7 +1131,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_anonymisationHistoric.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -835,7 +1141,7 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_anonymisationHistoric.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -845,91 +1151,24 @@ public class AnonymisationHistoricWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_anonymisationHistoric.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.oidc.model.AnonymisationHistoric>
-			toCacheModel() {
-
-		return _anonymisationHistoric.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.oidc.model.AnonymisationHistoric
-		toEscapedModel() {
-
-		return new AnonymisationHistoricWrapper(
-			_anonymisationHistoric.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _anonymisationHistoric.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.oidc.model.AnonymisationHistoric
-		toUnescapedModel() {
-
-		return new AnonymisationHistoricWrapper(
-			_anonymisationHistoric.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _anonymisationHistoric.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof AnonymisationHistoricWrapper)) {
-			return false;
-		}
-
-		AnonymisationHistoricWrapper anonymisationHistoricWrapper =
-			(AnonymisationHistoricWrapper)object;
-
-		if (Objects.equals(
-				_anonymisationHistoric,
-				anonymisationHistoricWrapper._anonymisationHistoric)) {
-
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _anonymisationHistoric.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public AnonymisationHistoric getWrappedModel() {
-		return _anonymisationHistoric;
-	}
+	protected AnonymisationHistoricWrapper wrap(
+		AnonymisationHistoric anonymisationHistoric) {
 
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _anonymisationHistoric.isEntityCacheEnabled();
+		return new AnonymisationHistoricWrapper(anonymisationHistoric);
 	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _anonymisationHistoric.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_anonymisationHistoric.resetOriginalValues();
-	}
-
-	private final AnonymisationHistoric _anonymisationHistoric;
 
 }

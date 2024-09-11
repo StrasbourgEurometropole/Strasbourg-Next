@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notification.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,25 +16,27 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.notification.exception.NoSuchUserNotificationStatusException;
 import eu.strasbourg.service.notification.model.UserNotificationStatus;
+import eu.strasbourg.service.notification.model.UserNotificationStatusTable;
 import eu.strasbourg.service.notification.model.impl.UserNotificationStatusImpl;
 import eu.strasbourg.service.notification.model.impl.UserNotificationStatusModelImpl;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationStatusPK;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationStatusPersistence;
+import eu.strasbourg.service.notification.service.persistence.UserNotificationStatusUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -242,10 +236,6 @@ public class UserNotificationStatusPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -584,8 +574,6 @@ public class UserNotificationStatusPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -774,10 +762,6 @@ public class UserNotificationStatusPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1141,8 +1125,6 @@ public class UserNotificationStatusPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1164,21 +1146,14 @@ public class UserNotificationStatusPersistenceImpl
 
 		dbColumnNames.put("read", "read_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(UserNotificationStatus.class);
+
+		setModelImplClass(UserNotificationStatusImpl.class);
+		setModelPKClass(UserNotificationStatusPK.class);
+
+		setTable(UserNotificationStatusTable.INSTANCE);
 	}
 
 	/**
@@ -1189,12 +1164,11 @@ public class UserNotificationStatusPersistenceImpl
 	@Override
 	public void cacheResult(UserNotificationStatus userNotificationStatus) {
 		entityCache.putResult(
-			UserNotificationStatusModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationStatusImpl.class,
 			userNotificationStatus.getPrimaryKey(), userNotificationStatus);
-
-		userNotificationStatus.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the user notification statuses in the entity cache if it is enabled.
@@ -1205,18 +1179,22 @@ public class UserNotificationStatusPersistenceImpl
 	public void cacheResult(
 		List<UserNotificationStatus> userNotificationStatuses) {
 
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (userNotificationStatuses.size() >
+				 _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (UserNotificationStatus userNotificationStatus :
 				userNotificationStatuses) {
 
 			if (entityCache.getResult(
-					UserNotificationStatusModelImpl.ENTITY_CACHE_ENABLED,
 					UserNotificationStatusImpl.class,
 					userNotificationStatus.getPrimaryKey()) == null) {
 
 				cacheResult(userNotificationStatus);
-			}
-			else {
-				userNotificationStatus.resetOriginalValues();
 			}
 		}
 	}
@@ -1232,9 +1210,7 @@ public class UserNotificationStatusPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(UserNotificationStatusImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(UserNotificationStatusImpl.class);
 	}
 
 	/**
@@ -1247,39 +1223,27 @@ public class UserNotificationStatusPersistenceImpl
 	@Override
 	public void clearCache(UserNotificationStatus userNotificationStatus) {
 		entityCache.removeResult(
-			UserNotificationStatusModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationStatusImpl.class,
-			userNotificationStatus.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+			UserNotificationStatusImpl.class, userNotificationStatus);
 	}
 
 	@Override
 	public void clearCache(
 		List<UserNotificationStatus> userNotificationStatuses) {
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (UserNotificationStatus userNotificationStatus :
 				userNotificationStatuses) {
 
 			entityCache.removeResult(
-				UserNotificationStatusModelImpl.ENTITY_CACHE_ENABLED,
-				UserNotificationStatusImpl.class,
-				userNotificationStatus.getPrimaryKey());
+				UserNotificationStatusImpl.class, userNotificationStatus);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(UserNotificationStatusImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
-				UserNotificationStatusModelImpl.ENTITY_CACHE_ENABLED,
 				UserNotificationStatusImpl.class, primaryKey);
 		}
 	}
@@ -1426,10 +1390,8 @@ public class UserNotificationStatusPersistenceImpl
 		try {
 			session = openSession();
 
-			if (userNotificationStatus.isNew()) {
+			if (isNew) {
 				session.save(userNotificationStatus);
-
-				userNotificationStatus.setNew(false);
 			}
 			else {
 				userNotificationStatus = (UserNotificationStatus)session.merge(
@@ -1443,83 +1405,13 @@ public class UserNotificationStatusPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!UserNotificationStatusModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				userNotificationStatusModelImpl.getNotificationId()
-			};
-
-			finderCache.removeResult(_finderPathCountByNotificationId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByNotificationId, args);
-
-			args = new Object[] {
-				userNotificationStatusModelImpl.getPublikUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByPublikUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPublikUserId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((userNotificationStatusModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByNotificationId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					userNotificationStatusModelImpl.getOriginalNotificationId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByNotificationId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByNotificationId, args);
-
-				args = new Object[] {
-					userNotificationStatusModelImpl.getNotificationId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByNotificationId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByNotificationId, args);
-			}
-
-			if ((userNotificationStatusModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPublikUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					userNotificationStatusModelImpl.getOriginalPublikUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-
-				args = new Object[] {
-					userNotificationStatusModelImpl.getPublikUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-			}
-		}
-
 		entityCache.putResult(
-			UserNotificationStatusModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationStatusImpl.class,
-			userNotificationStatus.getPrimaryKey(), userNotificationStatus,
-			false);
+			UserNotificationStatusImpl.class, userNotificationStatusModelImpl,
+			false, true);
+
+		if (isNew) {
+			userNotificationStatus.setNew(false);
+		}
 
 		userNotificationStatus.resetOriginalValues();
 
@@ -1570,59 +1462,6 @@ public class UserNotificationStatusPersistenceImpl
 	/**
 	 * Returns the user notification status with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the user notification status
-	 * @return the user notification status, or <code>null</code> if a user notification status with the primary key could not be found
-	 */
-	@Override
-	public UserNotificationStatus fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			UserNotificationStatusModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationStatusImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		UserNotificationStatus userNotificationStatus =
-			(UserNotificationStatus)serializable;
-
-		if (userNotificationStatus == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				userNotificationStatus = (UserNotificationStatus)session.get(
-					UserNotificationStatusImpl.class, primaryKey);
-
-				if (userNotificationStatus != null) {
-					cacheResult(userNotificationStatus);
-				}
-				else {
-					entityCache.putResult(
-						UserNotificationStatusModelImpl.ENTITY_CACHE_ENABLED,
-						UserNotificationStatusImpl.class, primaryKey,
-						nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					UserNotificationStatusModelImpl.ENTITY_CACHE_ENABLED,
-					UserNotificationStatusImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return userNotificationStatus;
-	}
-
-	/**
-	 * Returns the user notification status with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param userNotificationStatusPK the primary key of the user notification status
 	 * @return the user notification status, or <code>null</code> if a user notification status with the primary key could not be found
 	 */
@@ -1631,29 +1470,6 @@ public class UserNotificationStatusPersistenceImpl
 		UserNotificationStatusPK userNotificationStatusPK) {
 
 		return fetchByPrimaryKey((Serializable)userNotificationStatusPK);
-	}
-
-	@Override
-	public Map<Serializable, UserNotificationStatus> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, UserNotificationStatus> map =
-			new HashMap<Serializable, UserNotificationStatus>();
-
-		for (Serializable primaryKey : primaryKeys) {
-			UserNotificationStatus userNotificationStatus = fetchByPrimaryKey(
-				primaryKey);
-
-			if (userNotificationStatus != null) {
-				map.put(primaryKey, userNotificationStatus);
-			}
-		}
-
-		return map;
 	}
 
 	/**
@@ -1782,10 +1598,6 @@ public class UserNotificationStatusPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1832,9 +1644,6 @@ public class UserNotificationStatusPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1856,6 +1665,21 @@ public class UserNotificationStatusPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "userNotificationStatusPK";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_USERNOTIFICATIONSTATUS;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return UserNotificationStatusModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1864,79 +1688,64 @@ public class UserNotificationStatusPersistenceImpl
 	 * Initializes the user notification status persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			UserNotificationStatusModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationStatusModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationStatusImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			UserNotificationStatusModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationStatusModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationStatusImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			UserNotificationStatusModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationStatusModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByNotificationId = new FinderPath(
-			UserNotificationStatusModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationStatusModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationStatusImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByNotificationId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"notificationId"}, true);
 
 		_finderPathWithoutPaginationFindByNotificationId = new FinderPath(
-			UserNotificationStatusModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationStatusModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationStatusImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByNotificationId",
 			new String[] {Long.class.getName()},
-			UserNotificationStatusModelImpl.NOTIFICATIONID_COLUMN_BITMASK);
+			new String[] {"notificationId"}, true);
 
 		_finderPathCountByNotificationId = new FinderPath(
-			UserNotificationStatusModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationStatusModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByNotificationId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()},
+			new String[] {"notificationId"}, false);
 
 		_finderPathWithPaginationFindByPublikUserId = new FinderPath(
-			UserNotificationStatusModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationStatusModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationStatusImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"publikUserId"}, true);
 
 		_finderPathWithoutPaginationFindByPublikUserId = new FinderPath(
-			UserNotificationStatusModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationStatusModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationStatusImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
 			new String[] {String.class.getName()},
-			UserNotificationStatusModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
+			new String[] {"publikUserId"}, true);
 
 		_finderPathCountByPublikUserId = new FinderPath(
-			UserNotificationStatusModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationStatusModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()},
+			new String[] {"publikUserId"}, false);
+
+		UserNotificationStatusUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		UserNotificationStatusUtil.setPersistence(null);
+
 		entityCache.removeCache(UserNotificationStatusImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1973,5 +1782,10 @@ public class UserNotificationStatusPersistenceImpl
 		new String[] {"read"});
 	private static final Set<String> _compoundPKColumnNames = SetUtil.fromArray(
 		new String[] {"notificationId", "publikUserId"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

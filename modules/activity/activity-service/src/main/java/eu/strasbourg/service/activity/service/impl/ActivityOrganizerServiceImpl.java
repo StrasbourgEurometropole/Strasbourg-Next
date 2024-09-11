@@ -14,30 +14,11 @@
 
 package eu.strasbourg.service.activity.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
-
 import eu.strasbourg.service.activity.service.base.ActivityOrganizerServiceBaseImpl;
 
 /**
- * The implementation of the activity organizer remote service.
- *
- * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link eu.strasbourg.service.activity.service.ActivityOrganizerService} interface.
- *
- * <p>
- * This is a remote service. Methods of this service are expected to have security checks based on the propagated JAAS credentials because this service can be accessed remotely.
- * </p>
- *
  * @author Brian Wing Shun Chan
- * @see ActivityOrganizerServiceBaseImpl
- * @see eu.strasbourg.service.activity.service.ActivityOrganizerServiceUtil
  */
-@ProviderType
 public class ActivityOrganizerServiceImpl
 	extends ActivityOrganizerServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link eu.strasbourg.service.activity.service.ActivityOrganizerServiceUtil} to access the activity organizer remote service.
-	 */
 }

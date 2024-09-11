@@ -2,6 +2,7 @@
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
 
+
 <main class="seu-container">
 	<c:if test="${not empty dc.getPortletTitle('')}">
 		<h1>${dc.getPortletTitle('')}</h1>

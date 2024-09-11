@@ -13,14 +13,11 @@
  */
 package eu.strasbourg.service.gtfs.exception;
 
-import aQute.bnd.annotation.ProviderType;
-
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Cedric Henry
  */
-@ProviderType
 public class NoSuchAlertException extends NoSuchModelException {
 
 	public NoSuchAlertException() {
@@ -30,12 +27,12 @@ public class NoSuchAlertException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchAlertException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchAlertException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchAlertException(Throwable cause) {
-		super(cause);
+	public NoSuchAlertException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

@@ -1,0 +1,157 @@
+.st-bloc-image-hub {
+	.st-container {
+		display: grid;
+		grid-template-areas: "text image";
+		grid-template-columns: repeat(2, minmax(10px, 1fr));
+		gap: var(--grid-gap);
+		align-items: start;
+
+		@include tablet-landscape {
+			grid-gap: 20px;
+		}
+
+		.st-col-text {
+			grid-area: text;
+			margin-top: auto;
+			margin-bottom: auto;
+		}
+
+		.st-col-image {
+			position: relative;
+			grid-area: image;
+		}
+
+		.st-image {
+			--aspect-ratio: 1/1;
+			@include aspect-ratio(var(--aspect-ratio), '.st-figure');
+
+			@include mobile {
+				--aspect-ratio: 320/214;
+			}
+
+			img {
+				border-radius: $border-radius;
+			}
+		}
+
+		.st-h2 {
+			margin-bottom: 10px;
+		}
+
+		.st-intro {
+			font-size: 14px;
+		}
+
+
+		// Liste des liens
+		.st-component-container {
+			margin-top: 20px;
+		}
+
+		.st-lien-container {
+			&:last-child .st-lien {
+				background-image: url("../images/deco/dotted-line.svg"), url("../images/deco/dotted-line.svg");
+				background-repeat: repeat-x;
+				background-size: auto 1px, auto 1px;
+				background-position: top left, bottom left;
+			}
+
+			.st-lien {
+				@include create-outline;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				column-gap: 20px;
+				padding: 20px 0;
+				background-image: url("../images/deco/dotted-line.svg");
+				background-repeat: repeat-x;
+				background-size: auto 1px;
+				background-position: top left;
+
+				@include can-hover {
+					.st-title-lien,
+					.st-text {
+						color: $c_sub;
+						text-decoration: underline;
+					}
+
+					.st-btn-arrow {
+						background-color: $c_sub;
+
+						&:before {
+							color: $c_main;
+						}
+					}
+				}
+			}
+
+			.st-title-lien {
+				grid-column: 1;
+				@include ft('', 13px, 700, $c_white, 1.23);
+				@include letter-spacing(25);
+				@include transition(color);
+			}
+
+			.st-text {
+				grid-column: 1;
+				@include ft('', 12px, 400, $c_txt, 1.16);
+				@include letter-spacing(25);
+				@include transition(color);
+			}
+
+			.st-btn-arrow {
+				grid-column: 2;
+				grid-row: 1 / 10;		// hack pour le centrage vertical des flèches
+			}
+		}
+
+
+		// -- modifiers
+		// Texte à droite et photo à gauche -> inversion par rapport au DOM
+		&.st--text-right {
+			grid-template-areas: "image text";
+		}
+
+		// Texte à gauche et photo à droite -> texte aligné à droite
+		&.st--text-left {
+			@include min-mobile {
+				.st-col-text .st-text-styles {
+					text-align: right;
+				}
+			}
+		}
+
+		// Toujours image en premier et texte aligné à gauche sur mobile
+		&.st--text-right,
+		&.st--text-left {
+			@include mobile {
+				grid-template-areas: "image"
+								 	 "text";
+				grid-template-columns: minmax(10px, 1fr);
+			}
+		}
+
+		// Que des liens en mode colonne
+		&.st--text-only {
+			display: block;
+
+			.st-liste {
+				@include min-mobile {
+					column-count: 2;
+					column-gap: var(--grid-gap);
+
+					> * {
+						break-inside: avoid;
+
+						.st-lien {
+							background-image: url("../images/deco/dotted-line.svg"), url("../images/deco/dotted-line.svg");
+							background-repeat: repeat-x;
+							background-size: auto 1px, auto 1px;
+							background-position: top left, bottom left;
+						}
+					}
+				}
+			}
+		}
+	}
+}

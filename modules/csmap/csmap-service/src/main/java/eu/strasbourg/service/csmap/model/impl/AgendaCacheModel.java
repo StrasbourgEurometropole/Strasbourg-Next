@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.csmap.model.impl;
@@ -24,6 +15,8 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+
+import java.util.Date;
 
 /**
  * The cache model class for representing Agenda in entity cache.
@@ -59,7 +52,7 @@ public class AgendaCacheModel implements CacheModel<Agenda>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(27);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -73,6 +66,14 @@ public class AgendaCacheModel implements CacheModel<Agenda>, Externalizable {
 		sb.append(subtitle);
 		sb.append(", imageId=");
 		sb.append(imageId);
+		sb.append(", labelLink=");
+		sb.append(labelLink);
+		sb.append(", link=");
+		sb.append(link);
+		sb.append(", publicationStartDate=");
+		sb.append(publicationStartDate);
+		sb.append(", publicationEndDate=");
+		sb.append(publicationEndDate);
 		sb.append(", isPrincipal=");
 		sb.append(isPrincipal);
 		sb.append(", isActive=");
@@ -127,6 +128,35 @@ public class AgendaCacheModel implements CacheModel<Agenda>, Externalizable {
 		}
 
 		agendaImpl.setImageId(imageId);
+
+		if (labelLink == null) {
+			agendaImpl.setLabelLink("");
+		}
+		else {
+			agendaImpl.setLabelLink(labelLink);
+		}
+
+		if (link == null) {
+			agendaImpl.setLink("");
+		}
+		else {
+			agendaImpl.setLink(link);
+		}
+
+		if (publicationStartDate == Long.MIN_VALUE) {
+			agendaImpl.setPublicationStartDate(null);
+		}
+		else {
+			agendaImpl.setPublicationStartDate(new Date(publicationStartDate));
+		}
+
+		if (publicationEndDate == Long.MIN_VALUE) {
+			agendaImpl.setPublicationEndDate(null);
+		}
+		else {
+			agendaImpl.setPublicationEndDate(new Date(publicationEndDate));
+		}
+
 		agendaImpl.setIsPrincipal(isPrincipal);
 		agendaImpl.setIsActive(isActive);
 
@@ -180,6 +210,10 @@ public class AgendaCacheModel implements CacheModel<Agenda>, Externalizable {
 		subtitle = objectInput.readUTF();
 
 		imageId = objectInput.readLong();
+		labelLink = objectInput.readUTF();
+		link = objectInput.readUTF();
+		publicationStartDate = objectInput.readLong();
+		publicationEndDate = objectInput.readLong();
 
 		isPrincipal = objectInput.readBoolean();
 
@@ -224,6 +258,23 @@ public class AgendaCacheModel implements CacheModel<Agenda>, Externalizable {
 		}
 
 		objectOutput.writeLong(imageId);
+
+		if (labelLink == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(labelLink);
+		}
+
+		if (link == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(link);
+		}
+
+		objectOutput.writeLong(publicationStartDate);
+		objectOutput.writeLong(publicationEndDate);
 
 		objectOutput.writeBoolean(isPrincipal);
 
@@ -271,6 +322,10 @@ public class AgendaCacheModel implements CacheModel<Agenda>, Externalizable {
 	public String editorialTitle;
 	public String subtitle;
 	public long imageId;
+	public String labelLink;
+	public String link;
+	public long publicationStartDate;
+	public long publicationEndDate;
 	public boolean isPrincipal;
 	public boolean isActive;
 	public String campaignsIds;

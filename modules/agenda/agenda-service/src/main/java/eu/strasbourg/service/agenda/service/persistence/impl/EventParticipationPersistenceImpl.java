@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -23,27 +15,31 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.exception.NoSuchEventParticipationException;
 import eu.strasbourg.service.agenda.model.EventParticipation;
+import eu.strasbourg.service.agenda.model.EventParticipationTable;
 import eu.strasbourg.service.agenda.model.impl.EventParticipationImpl;
 import eu.strasbourg.service.agenda.model.impl.EventParticipationModelImpl;
 import eu.strasbourg.service.agenda.service.persistence.EventParticipationPersistence;
+import eu.strasbourg.service.agenda.service.persistence.EventParticipationUtil;
 
 import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -253,10 +249,6 @@ public class EventParticipationPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -619,8 +611,6 @@ public class EventParticipationPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -792,10 +782,6 @@ public class EventParticipationPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1127,8 +1113,6 @@ public class EventParticipationPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1306,11 +1290,6 @@ public class EventParticipationPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByPublikUserIdAndEventId, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1403,8 +1382,6 @@ public class EventParticipationPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1429,6 +1406,11 @@ public class EventParticipationPersistenceImpl
 
 	public EventParticipationPersistenceImpl() {
 		setModelClass(EventParticipation.class);
+
+		setModelImplClass(EventParticipationImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(EventParticipationTable.INSTANCE);
 	}
 
 	/**
@@ -1439,7 +1421,6 @@ public class EventParticipationPersistenceImpl
 	@Override
 	public void cacheResult(EventParticipation eventParticipation) {
 		entityCache.putResult(
-			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
 			EventParticipationImpl.class, eventParticipation.getPrimaryKey(),
 			eventParticipation);
 
@@ -1450,9 +1431,9 @@ public class EventParticipationPersistenceImpl
 				eventParticipation.getEventId()
 			},
 			eventParticipation);
-
-		eventParticipation.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the event participations in the entity cache if it is enabled.
@@ -1461,16 +1442,20 @@ public class EventParticipationPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<EventParticipation> eventParticipations) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (eventParticipations.size() >
+				 _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (EventParticipation eventParticipation : eventParticipations) {
 			if (entityCache.getResult(
-					EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
 					EventParticipationImpl.class,
 					eventParticipation.getPrimaryKey()) == null) {
 
 				cacheResult(eventParticipation);
-			}
-			else {
-				eventParticipation.resetOriginalValues();
 			}
 		}
 	}
@@ -1486,9 +1471,7 @@ public class EventParticipationPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(EventParticipationImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(EventParticipationImpl.class);
 	}
 
 	/**
@@ -1501,41 +1484,23 @@ public class EventParticipationPersistenceImpl
 	@Override
 	public void clearCache(EventParticipation eventParticipation) {
 		entityCache.removeResult(
-			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationImpl.class, eventParticipation.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(EventParticipationModelImpl)eventParticipation, true);
+			EventParticipationImpl.class, eventParticipation);
 	}
 
 	@Override
 	public void clearCache(List<EventParticipation> eventParticipations) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (EventParticipation eventParticipation : eventParticipations) {
 			entityCache.removeResult(
-				EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-				EventParticipationImpl.class,
-				eventParticipation.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(EventParticipationModelImpl)eventParticipation, true);
+				EventParticipationImpl.class, eventParticipation);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(EventParticipationImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-				EventParticipationImpl.class, primaryKey);
+			entityCache.removeResult(EventParticipationImpl.class, primaryKey);
 		}
 	}
 
@@ -1548,43 +1513,10 @@ public class EventParticipationPersistenceImpl
 		};
 
 		finderCache.putResult(
-			_finderPathCountByPublikUserIdAndEventId, args, Long.valueOf(1),
-			false);
+			_finderPathCountByPublikUserIdAndEventId, args, Long.valueOf(1));
 		finderCache.putResult(
 			_finderPathFetchByPublikUserIdAndEventId, args,
-			eventParticipationModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		EventParticipationModelImpl eventParticipationModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				eventParticipationModelImpl.getPublikUserId(),
-				eventParticipationModelImpl.getEventId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByPublikUserIdAndEventId, args);
-			finderCache.removeResult(
-				_finderPathFetchByPublikUserIdAndEventId, args);
-		}
-
-		if ((eventParticipationModelImpl.getColumnBitmask() &
-			 _finderPathFetchByPublikUserIdAndEventId.getColumnBitmask()) !=
-				 0) {
-
-			Object[] args = new Object[] {
-				eventParticipationModelImpl.getOriginalPublikUserId(),
-				eventParticipationModelImpl.getOriginalEventId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByPublikUserIdAndEventId, args);
-			finderCache.removeResult(
-				_finderPathFetchByPublikUserIdAndEventId, args);
-		}
+			eventParticipationModelImpl);
 	}
 
 	/**
@@ -1718,15 +1650,28 @@ public class EventParticipationPersistenceImpl
 		EventParticipationModelImpl eventParticipationModelImpl =
 			(EventParticipationModelImpl)eventParticipation;
 
+		if (isNew && (eventParticipation.getCreateDate() == null)) {
+			ServiceContext serviceContext =
+				ServiceContextThreadLocal.getServiceContext();
+
+			Date date = new Date();
+
+			if (serviceContext == null) {
+				eventParticipation.setCreateDate(date);
+			}
+			else {
+				eventParticipation.setCreateDate(
+					serviceContext.getCreateDate(date));
+			}
+		}
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			if (eventParticipation.isNew()) {
+			if (isNew) {
 				session.save(eventParticipation);
-
-				eventParticipation.setNew(false);
 			}
 			else {
 				eventParticipation = (EventParticipation)session.merge(
@@ -1740,79 +1685,15 @@ public class EventParticipationPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!EventParticipationModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				eventParticipationModelImpl.getPublikUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByPublikUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPublikUserId, args);
-
-			args = new Object[] {eventParticipationModelImpl.getEventId()};
-
-			finderCache.removeResult(_finderPathCountByEventId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByEventId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((eventParticipationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPublikUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					eventParticipationModelImpl.getOriginalPublikUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-
-				args = new Object[] {
-					eventParticipationModelImpl.getPublikUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-			}
-
-			if ((eventParticipationModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByEventId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					eventParticipationModelImpl.getOriginalEventId()
-				};
-
-				finderCache.removeResult(_finderPathCountByEventId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByEventId, args);
-
-				args = new Object[] {eventParticipationModelImpl.getEventId()};
-
-				finderCache.removeResult(_finderPathCountByEventId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByEventId, args);
-			}
-		}
-
 		entityCache.putResult(
-			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationImpl.class, eventParticipation.getPrimaryKey(),
-			eventParticipation, false);
+			EventParticipationImpl.class, eventParticipationModelImpl, false,
+			true);
 
-		clearUniqueFindersCache(eventParticipationModelImpl, false);
 		cacheUniqueFindersCache(eventParticipationModelImpl);
+
+		if (isNew) {
+			eventParticipation.setNew(false);
+		}
 
 		eventParticipation.resetOriginalValues();
 
@@ -1861,167 +1742,12 @@ public class EventParticipationPersistenceImpl
 	/**
 	 * Returns the event participation with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the event participation
-	 * @return the event participation, or <code>null</code> if a event participation with the primary key could not be found
-	 */
-	@Override
-	public EventParticipation fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		EventParticipation eventParticipation =
-			(EventParticipation)serializable;
-
-		if (eventParticipation == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				eventParticipation = (EventParticipation)session.get(
-					EventParticipationImpl.class, primaryKey);
-
-				if (eventParticipation != null) {
-					cacheResult(eventParticipation);
-				}
-				else {
-					entityCache.putResult(
-						EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-						EventParticipationImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-					EventParticipationImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return eventParticipation;
-	}
-
-	/**
-	 * Returns the event participation with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param eventParticipationId the primary key of the event participation
 	 * @return the event participation, or <code>null</code> if a event participation with the primary key could not be found
 	 */
 	@Override
 	public EventParticipation fetchByPrimaryKey(long eventParticipationId) {
 		return fetchByPrimaryKey((Serializable)eventParticipationId);
-	}
-
-	@Override
-	public Map<Serializable, EventParticipation> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, EventParticipation> map =
-			new HashMap<Serializable, EventParticipation>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			EventParticipation eventParticipation = fetchByPrimaryKey(
-				primaryKey);
-
-			if (eventParticipation != null) {
-				map.put(primaryKey, eventParticipation);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-				EventParticipationImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (EventParticipation)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_EVENTPARTICIPATION_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (EventParticipation eventParticipation :
-					(List<EventParticipation>)query.list()) {
-
-				map.put(
-					eventParticipation.getPrimaryKeyObj(), eventParticipation);
-
-				cacheResult(eventParticipation);
-
-				uncachedPrimaryKeys.remove(
-					eventParticipation.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-					EventParticipationImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2150,10 +1876,6 @@ public class EventParticipationPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2200,9 +1922,6 @@ public class EventParticipationPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2214,6 +1933,21 @@ public class EventParticipationPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "eventParticipationId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_EVENTPARTICIPATION;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return EventParticipationModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2222,95 +1956,75 @@ public class EventParticipationPersistenceImpl
 	 * Initializes the event participation persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
-			EventParticipationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
-			EventParticipationImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByPublikUserId = new FinderPath(
-			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
-			EventParticipationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"publikUserId"}, true);
 
 		_finderPathWithoutPaginationFindByPublikUserId = new FinderPath(
-			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
-			EventParticipationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
 			new String[] {String.class.getName()},
-			EventParticipationModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
+			new String[] {"publikUserId"}, true);
 
 		_finderPathCountByPublikUserId = new FinderPath(
-			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()},
+			new String[] {"publikUserId"}, false);
 
 		_finderPathWithPaginationFindByEventId = new FinderPath(
-			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
-			EventParticipationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByEventId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"eventId"}, true);
 
 		_finderPathWithoutPaginationFindByEventId = new FinderPath(
-			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
-			EventParticipationImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByEventId",
-			new String[] {Long.class.getName()},
-			EventParticipationModelImpl.EVENTID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"eventId"},
+			true);
 
 		_finderPathCountByEventId = new FinderPath(
-			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEventId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"eventId"},
+			false);
 
 		_finderPathFetchByPublikUserIdAndEventId = new FinderPath(
-			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED,
-			EventParticipationImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByPublikUserIdAndEventId",
+			FINDER_CLASS_NAME_ENTITY, "fetchByPublikUserIdAndEventId",
 			new String[] {String.class.getName(), Long.class.getName()},
-			EventParticipationModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
-			EventParticipationModelImpl.EVENTID_COLUMN_BITMASK);
+			new String[] {"publikUserId", "eventId"}, true);
 
 		_finderPathCountByPublikUserIdAndEventId = new FinderPath(
-			EventParticipationModelImpl.ENTITY_CACHE_ENABLED,
-			EventParticipationModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByPublikUserIdAndEventId",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"publikUserId", "eventId"}, false);
+
+		EventParticipationUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		EventParticipationUtil.setPersistence(null);
+
 		entityCache.removeCache(EventParticipationImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -2321,9 +2035,6 @@ public class EventParticipationPersistenceImpl
 
 	private static final String _SQL_SELECT_EVENTPARTICIPATION =
 		"SELECT eventParticipation FROM EventParticipation eventParticipation";
-
-	private static final String _SQL_SELECT_EVENTPARTICIPATION_WHERE_PKS_IN =
-		"SELECT eventParticipation FROM EventParticipation eventParticipation WHERE eventParticipationId IN (";
 
 	private static final String _SQL_SELECT_EVENTPARTICIPATION_WHERE =
 		"SELECT eventParticipation FROM EventParticipation eventParticipation WHERE ";
@@ -2344,5 +2055,10 @@ public class EventParticipationPersistenceImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		EventParticipationPersistenceImpl.class);
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

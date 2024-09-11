@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,10 +16,12 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
@@ -35,19 +29,18 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchStopException;
 import eu.strasbourg.service.gtfs.model.Stop;
+import eu.strasbourg.service.gtfs.model.StopTable;
 import eu.strasbourg.service.gtfs.model.impl.StopImpl;
 import eu.strasbourg.service.gtfs.model.impl.StopModelImpl;
 import eu.strasbourg.service.gtfs.service.persistence.StopPersistence;
+import eu.strasbourg.service.gtfs.service.persistence.StopUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -247,10 +240,6 @@ public class StopPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -597,8 +586,6 @@ public class StopPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -754,11 +741,6 @@ public class StopPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByStopId, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -839,8 +821,6 @@ public class StopPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1024,10 +1004,6 @@ public class StopPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1377,8 +1353,6 @@ public class StopPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1401,21 +1375,14 @@ public class StopPersistenceImpl
 		dbColumnNames.put("uuid", "uuid_");
 		dbColumnNames.put("id", "id_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Stop.class);
+
+		setModelImplClass(StopImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(StopTable.INSTANCE);
 	}
 
 	/**
@@ -1425,15 +1392,13 @@ public class StopPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(Stop stop) {
-		entityCache.putResult(
-			StopModelImpl.ENTITY_CACHE_ENABLED, StopImpl.class,
-			stop.getPrimaryKey(), stop);
+		entityCache.putResult(StopImpl.class, stop.getPrimaryKey(), stop);
 
 		finderCache.putResult(
 			_finderPathFetchByStopId, new Object[] {stop.getStop_id()}, stop);
-
-		stop.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the stops in the entity cache if it is enabled.
@@ -1442,15 +1407,18 @@ public class StopPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Stop> stops) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (stops.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Stop stop : stops) {
-			if (entityCache.getResult(
-					StopModelImpl.ENTITY_CACHE_ENABLED, StopImpl.class,
-					stop.getPrimaryKey()) == null) {
+			if (entityCache.getResult(StopImpl.class, stop.getPrimaryKey()) ==
+					null) {
 
 				cacheResult(stop);
-			}
-			else {
-				stop.resetOriginalValues();
 			}
 		}
 	}
@@ -1466,9 +1434,7 @@ public class StopPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(StopImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(StopImpl.class);
 	}
 
 	/**
@@ -1480,68 +1446,30 @@ public class StopPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Stop stop) {
-		entityCache.removeResult(
-			StopModelImpl.ENTITY_CACHE_ENABLED, StopImpl.class,
-			stop.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((StopModelImpl)stop, true);
+		entityCache.removeResult(StopImpl.class, stop);
 	}
 
 	@Override
 	public void clearCache(List<Stop> stops) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Stop stop : stops) {
-			entityCache.removeResult(
-				StopModelImpl.ENTITY_CACHE_ENABLED, StopImpl.class,
-				stop.getPrimaryKey());
-
-			clearUniqueFindersCache((StopModelImpl)stop, true);
+			entityCache.removeResult(StopImpl.class, stop);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(StopImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				StopModelImpl.ENTITY_CACHE_ENABLED, StopImpl.class, primaryKey);
+			entityCache.removeResult(StopImpl.class, primaryKey);
 		}
 	}
 
 	protected void cacheUniqueFindersCache(StopModelImpl stopModelImpl) {
 		Object[] args = new Object[] {stopModelImpl.getStop_id()};
 
-		finderCache.putResult(
-			_finderPathCountByStopId, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByStopId, args, stopModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		StopModelImpl stopModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {stopModelImpl.getStop_id()};
-
-			finderCache.removeResult(_finderPathCountByStopId, args);
-			finderCache.removeResult(_finderPathFetchByStopId, args);
-		}
-
-		if ((stopModelImpl.getColumnBitmask() &
-			 _finderPathFetchByStopId.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {stopModelImpl.getOriginalStop_id()};
-
-			finderCache.removeResult(_finderPathCountByStopId, args);
-			finderCache.removeResult(_finderPathFetchByStopId, args);
-		}
+		finderCache.putResult(_finderPathCountByStopId, args, Long.valueOf(1));
+		finderCache.putResult(_finderPathFetchByStopId, args, stopModelImpl);
 	}
 
 	/**
@@ -1677,10 +1605,8 @@ public class StopPersistenceImpl
 		try {
 			session = openSession();
 
-			if (stop.isNew()) {
+			if (isNew) {
 				session.save(stop);
-
-				stop.setNew(false);
 			}
 			else {
 				stop = (Stop)session.merge(stop);
@@ -1693,72 +1619,13 @@ public class StopPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(StopImpl.class, stopModelImpl, false, true);
 
-		if (!StopModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {stopModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {stopModelImpl.getStop_code()};
-
-			finderCache.removeResult(_finderPathCountByStopCode, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByStopCode, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((stopModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {stopModelImpl.getOriginalUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {stopModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((stopModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByStopCode.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					stopModelImpl.getOriginalStop_code()
-				};
-
-				finderCache.removeResult(_finderPathCountByStopCode, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStopCode, args);
-
-				args = new Object[] {stopModelImpl.getStop_code()};
-
-				finderCache.removeResult(_finderPathCountByStopCode, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByStopCode, args);
-			}
-		}
-
-		entityCache.putResult(
-			StopModelImpl.ENTITY_CACHE_ENABLED, StopImpl.class,
-			stop.getPrimaryKey(), stop, false);
-
-		clearUniqueFindersCache(stopModelImpl, false);
 		cacheUniqueFindersCache(stopModelImpl);
+
+		if (isNew) {
+			stop.setNew(false);
+		}
 
 		stop.resetOriginalValues();
 
@@ -1805,157 +1672,12 @@ public class StopPersistenceImpl
 	/**
 	 * Returns the stop with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the stop
-	 * @return the stop, or <code>null</code> if a stop with the primary key could not be found
-	 */
-	@Override
-	public Stop fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			StopModelImpl.ENTITY_CACHE_ENABLED, StopImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Stop stop = (Stop)serializable;
-
-		if (stop == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				stop = (Stop)session.get(StopImpl.class, primaryKey);
-
-				if (stop != null) {
-					cacheResult(stop);
-				}
-				else {
-					entityCache.putResult(
-						StopModelImpl.ENTITY_CACHE_ENABLED, StopImpl.class,
-						primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					StopModelImpl.ENTITY_CACHE_ENABLED, StopImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return stop;
-	}
-
-	/**
-	 * Returns the stop with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param id the primary key of the stop
 	 * @return the stop, or <code>null</code> if a stop with the primary key could not be found
 	 */
 	@Override
 	public Stop fetchByPrimaryKey(long id) {
 		return fetchByPrimaryKey((Serializable)id);
-	}
-
-	@Override
-	public Map<Serializable, Stop> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Stop> map = new HashMap<Serializable, Stop>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Stop stop = fetchByPrimaryKey(primaryKey);
-
-			if (stop != null) {
-				map.put(primaryKey, stop);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				StopModelImpl.ENTITY_CACHE_ENABLED, StopImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Stop)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_STOP_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Stop stop : (List<Stop>)query.list()) {
-				map.put(stop.getPrimaryKeyObj(), stop);
-
-				cacheResult(stop);
-
-				uncachedPrimaryKeys.remove(stop.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					StopModelImpl.ENTITY_CACHE_ENABLED, StopImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2082,10 +1804,6 @@ public class StopPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2131,9 +1849,6 @@ public class StopPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2150,6 +1865,21 @@ public class StopPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "id_";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_STOP;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return StopModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2158,88 +1888,74 @@ public class StopPersistenceImpl
 	 * Initializes the stop persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			StopModelImpl.ENTITY_CACHE_ENABLED,
-			StopModelImpl.FINDER_CACHE_ENABLED, StopImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			StopModelImpl.ENTITY_CACHE_ENABLED,
-			StopModelImpl.FINDER_CACHE_ENABLED, StopImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			StopModelImpl.ENTITY_CACHE_ENABLED,
-			StopModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			StopModelImpl.ENTITY_CACHE_ENABLED,
-			StopModelImpl.FINDER_CACHE_ENABLED, StopImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			StopModelImpl.ENTITY_CACHE_ENABLED,
-			StopModelImpl.FINDER_CACHE_ENABLED, StopImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			StopModelImpl.UUID_COLUMN_BITMASK |
-			StopModelImpl.STOP_ID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			StopModelImpl.ENTITY_CACHE_ENABLED,
-			StopModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByStopId = new FinderPath(
-			StopModelImpl.ENTITY_CACHE_ENABLED,
-			StopModelImpl.FINDER_CACHE_ENABLED, StopImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByStopId",
-			new String[] {String.class.getName()},
-			StopModelImpl.STOP_ID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"stop_id"},
+			true);
 
 		_finderPathCountByStopId = new FinderPath(
-			StopModelImpl.ENTITY_CACHE_ENABLED,
-			StopModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStopId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"stop_id"},
+			false);
 
 		_finderPathWithPaginationFindByStopCode = new FinderPath(
-			StopModelImpl.ENTITY_CACHE_ENABLED,
-			StopModelImpl.FINDER_CACHE_ENABLED, StopImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStopCode",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"stop_code"}, true);
 
 		_finderPathWithoutPaginationFindByStopCode = new FinderPath(
-			StopModelImpl.ENTITY_CACHE_ENABLED,
-			StopModelImpl.FINDER_CACHE_ENABLED, StopImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByStopCode",
-			new String[] {String.class.getName()},
-			StopModelImpl.STOP_CODE_COLUMN_BITMASK |
-			StopModelImpl.STOP_ID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"stop_code"},
+			true);
 
 		_finderPathCountByStopCode = new FinderPath(
-			StopModelImpl.ENTITY_CACHE_ENABLED,
-			StopModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByStopCode",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"stop_code"},
+			false);
+
+		StopUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		StopUtil.setPersistence(null);
+
 		entityCache.removeCache(StopImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -2249,9 +1965,6 @@ public class StopPersistenceImpl
 	protected FinderCache finderCache;
 
 	private static final String _SQL_SELECT_STOP = "SELECT stop FROM Stop stop";
-
-	private static final String _SQL_SELECT_STOP_WHERE_PKS_IN =
-		"SELECT stop FROM Stop stop WHERE id_ IN (";
 
 	private static final String _SQL_SELECT_STOP_WHERE =
 		"SELECT stop FROM Stop stop WHERE ";
@@ -2275,5 +1988,10 @@ public class StopPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "id"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

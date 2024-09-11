@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,30 +19,30 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.project.exception.NoSuchSignataireException;
 import eu.strasbourg.service.project.model.Signataire;
+import eu.strasbourg.service.project.model.SignataireTable;
 import eu.strasbourg.service.project.model.impl.SignataireImpl;
 import eu.strasbourg.service.project.model.impl.SignataireModelImpl;
 import eu.strasbourg.service.project.service.persistence.SignatairePersistence;
+import eu.strasbourg.service.project.service.persistence.SignataireUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -251,10 +243,6 @@ public class SignatairePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -603,8 +591,6 @@ public class SignatairePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -762,11 +748,6 @@ public class SignatairePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -855,8 +836,6 @@ public class SignatairePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1057,10 +1036,6 @@ public class SignatairePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1439,8 +1414,6 @@ public class SignatairePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1613,10 +1586,6 @@ public class SignatairePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1941,8 +1910,6 @@ public class SignatairePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2113,10 +2080,6 @@ public class SignatairePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2443,8 +2406,6 @@ public class SignatairePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2629,10 +2590,6 @@ public class SignatairePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2987,8 +2944,6 @@ public class SignatairePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3197,10 +3152,6 @@ public class SignatairePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3591,8 +3542,6 @@ public class SignatairePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3805,10 +3754,6 @@ public class SignatairePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -4196,8 +4141,6 @@ public class SignatairePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -4225,21 +4168,14 @@ public class SignatairePersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Signataire.class);
+
+		setModelImplClass(SignataireImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(SignataireTable.INSTANCE);
 	}
 
 	/**
@@ -4250,16 +4186,15 @@ public class SignatairePersistenceImpl
 	@Override
 	public void cacheResult(Signataire signataire) {
 		entityCache.putResult(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED, SignataireImpl.class,
-			signataire.getPrimaryKey(), signataire);
+			SignataireImpl.class, signataire.getPrimaryKey(), signataire);
 
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {signataire.getUuid(), signataire.getGroupId()},
 			signataire);
-
-		signataire.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the signataires in the entity cache if it is enabled.
@@ -4268,15 +4203,18 @@ public class SignatairePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Signataire> signataires) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (signataires.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Signataire signataire : signataires) {
 			if (entityCache.getResult(
-					SignataireModelImpl.ENTITY_CACHE_ENABLED,
 					SignataireImpl.class, signataire.getPrimaryKey()) == null) {
 
 				cacheResult(signataire);
-			}
-			else {
-				signataire.resetOriginalValues();
 			}
 		}
 	}
@@ -4292,9 +4230,7 @@ public class SignatairePersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(SignataireImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(SignataireImpl.class);
 	}
 
 	/**
@@ -4306,39 +4242,22 @@ public class SignatairePersistenceImpl
 	 */
 	@Override
 	public void clearCache(Signataire signataire) {
-		entityCache.removeResult(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED, SignataireImpl.class,
-			signataire.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((SignataireModelImpl)signataire, true);
+		entityCache.removeResult(SignataireImpl.class, signataire);
 	}
 
 	@Override
 	public void clearCache(List<Signataire> signataires) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Signataire signataire : signataires) {
-			entityCache.removeResult(
-				SignataireModelImpl.ENTITY_CACHE_ENABLED, SignataireImpl.class,
-				signataire.getPrimaryKey());
-
-			clearUniqueFindersCache((SignataireModelImpl)signataire, true);
+			entityCache.removeResult(SignataireImpl.class, signataire);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(SignataireImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				SignataireModelImpl.ENTITY_CACHE_ENABLED, SignataireImpl.class,
-				primaryKey);
+			entityCache.removeResult(SignataireImpl.class, primaryKey);
 		}
 	}
 
@@ -4349,35 +4268,9 @@ public class SignatairePersistenceImpl
 			signataireModelImpl.getUuid(), signataireModelImpl.getGroupId()
 		};
 
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, signataireModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		SignataireModelImpl signataireModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				signataireModelImpl.getUuid(), signataireModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((signataireModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				signataireModelImpl.getOriginalUuid(),
-				signataireModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+			_finderPathFetchByUUID_G, args, signataireModelImpl);
 	}
 
 	/**
@@ -4519,23 +4412,24 @@ public class SignatairePersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (signataire.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				signataire.setCreateDate(now);
+				signataire.setCreateDate(date);
 			}
 			else {
-				signataire.setCreateDate(serviceContext.getCreateDate(now));
+				signataire.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!signataireModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				signataire.setModifiedDate(now);
+				signataire.setModifiedDate(date);
 			}
 			else {
-				signataire.setModifiedDate(serviceContext.getModifiedDate(now));
+				signataire.setModifiedDate(
+					serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -4544,10 +4438,8 @@ public class SignatairePersistenceImpl
 		try {
 			session = openSession();
 
-			if (signataire.isNew()) {
+			if (isNew) {
 				session.save(signataire);
-
-				signataire.setNew(false);
 			}
 			else {
 				signataire = (Signataire)session.merge(signataire);
@@ -4560,232 +4452,14 @@ public class SignatairePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!SignataireModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {signataireModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				signataireModelImpl.getUuid(),
-				signataireModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {signataireModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {signataireModelImpl.getPetitionId()};
-
-			finderCache.removeResult(_finderPathCountByPetition, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPetition, args);
-
-			args = new Object[] {signataireModelImpl.getPublikUserId()};
-
-			finderCache.removeResult(_finderPathCountByPublikUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPublikUserId, args);
-
-			args = new Object[] {
-				signataireModelImpl.getPetitionId(),
-				signataireModelImpl.getSignataireName()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByPetitionIdAndSignataireName, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPetitionIdAndSignataireName,
-				args);
-
-			args = new Object[] {
-				signataireModelImpl.getPetitionId(),
-				signataireModelImpl.getPublikUserId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByPetitionIdAndPublikUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPetitionIdAndPublikUserId,
-				args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((signataireModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					signataireModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {signataireModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((signataireModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					signataireModelImpl.getOriginalUuid(),
-					signataireModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					signataireModelImpl.getUuid(),
-					signataireModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((signataireModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					signataireModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {signataireModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((signataireModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPetition.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					signataireModelImpl.getOriginalPetitionId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPetition, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPetition, args);
-
-				args = new Object[] {signataireModelImpl.getPetitionId()};
-
-				finderCache.removeResult(_finderPathCountByPetition, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPetition, args);
-			}
-
-			if ((signataireModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPublikUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					signataireModelImpl.getOriginalPublikUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-
-				args = new Object[] {signataireModelImpl.getPublikUserId()};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-			}
-
-			if ((signataireModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPetitionIdAndSignataireName.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					signataireModelImpl.getOriginalPetitionId(),
-					signataireModelImpl.getOriginalSignataireName()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByPetitionIdAndSignataireName, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPetitionIdAndSignataireName,
-					args);
-
-				args = new Object[] {
-					signataireModelImpl.getPetitionId(),
-					signataireModelImpl.getSignataireName()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByPetitionIdAndSignataireName, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPetitionIdAndSignataireName,
-					args);
-			}
-
-			if ((signataireModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPetitionIdAndPublikUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					signataireModelImpl.getOriginalPetitionId(),
-					signataireModelImpl.getOriginalPublikUserId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByPetitionIdAndPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPetitionIdAndPublikUserId,
-					args);
-
-				args = new Object[] {
-					signataireModelImpl.getPetitionId(),
-					signataireModelImpl.getPublikUserId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByPetitionIdAndPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPetitionIdAndPublikUserId,
-					args);
-			}
-		}
-
 		entityCache.putResult(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED, SignataireImpl.class,
-			signataire.getPrimaryKey(), signataire, false);
+			SignataireImpl.class, signataireModelImpl, false, true);
 
-		clearUniqueFindersCache(signataireModelImpl, false);
 		cacheUniqueFindersCache(signataireModelImpl);
+
+		if (isNew) {
+			signataire.setNew(false);
+		}
 
 		signataire.resetOriginalValues();
 
@@ -4834,161 +4508,12 @@ public class SignatairePersistenceImpl
 	/**
 	 * Returns the signataire with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the signataire
-	 * @return the signataire, or <code>null</code> if a signataire with the primary key could not be found
-	 */
-	@Override
-	public Signataire fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED, SignataireImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Signataire signataire = (Signataire)serializable;
-
-		if (signataire == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				signataire = (Signataire)session.get(
-					SignataireImpl.class, primaryKey);
-
-				if (signataire != null) {
-					cacheResult(signataire);
-				}
-				else {
-					entityCache.putResult(
-						SignataireModelImpl.ENTITY_CACHE_ENABLED,
-						SignataireImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					SignataireModelImpl.ENTITY_CACHE_ENABLED,
-					SignataireImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return signataire;
-	}
-
-	/**
-	 * Returns the signataire with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param signataireId the primary key of the signataire
 	 * @return the signataire, or <code>null</code> if a signataire with the primary key could not be found
 	 */
 	@Override
 	public Signataire fetchByPrimaryKey(long signataireId) {
 		return fetchByPrimaryKey((Serializable)signataireId);
-	}
-
-	@Override
-	public Map<Serializable, Signataire> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Signataire> map =
-			new HashMap<Serializable, Signataire>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Signataire signataire = fetchByPrimaryKey(primaryKey);
-
-			if (signataire != null) {
-				map.put(primaryKey, signataire);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				SignataireModelImpl.ENTITY_CACHE_ENABLED, SignataireImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Signataire)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_SIGNATAIRE_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Signataire signataire : (List<Signataire>)query.list()) {
-				map.put(signataire.getPrimaryKeyObj(), signataire);
-
-				cacheResult(signataire);
-
-				uncachedPrimaryKeys.remove(signataire.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					SignataireModelImpl.ENTITY_CACHE_ENABLED,
-					SignataireImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -5115,10 +4640,6 @@ public class SignatairePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -5164,9 +4685,6 @@ public class SignatairePersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -5183,6 +4701,21 @@ public class SignatairePersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "signataireId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_SIGNATAIRE;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return SignataireModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -5191,213 +4724,177 @@ public class SignatairePersistenceImpl
 	 * Initializes the signataire persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, SignataireImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, SignataireImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, SignataireImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, SignataireImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			SignataireModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, SignataireImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			SignataireModelImpl.UUID_COLUMN_BITMASK |
-			SignataireModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, SignataireImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, SignataireImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			SignataireModelImpl.UUID_COLUMN_BITMASK |
-			SignataireModelImpl.COMPANYID_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, SignataireImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, SignataireImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			SignataireModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
 
 		_finderPathWithPaginationFindByPetition = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, SignataireImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPetition",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"petitionId"}, true);
 
 		_finderPathWithoutPaginationFindByPetition = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, SignataireImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPetition",
-			new String[] {Long.class.getName()},
-			SignataireModelImpl.PETITIONID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"petitionId"},
+			true);
 
 		_finderPathCountByPetition = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPetition",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"petitionId"},
+			false);
 
 		_finderPathWithPaginationFindByPublikUserId = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, SignataireImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"publikUserId"}, true);
 
 		_finderPathWithoutPaginationFindByPublikUserId = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, SignataireImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
 			new String[] {String.class.getName()},
-			SignataireModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
+			new String[] {"publikUserId"}, true);
 
 		_finderPathCountByPublikUserId = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()},
+			new String[] {"publikUserId"}, false);
 
 		_finderPathWithPaginationFindByPetitionIdAndSignataireName =
 			new FinderPath(
-				SignataireModelImpl.ENTITY_CACHE_ENABLED,
-				SignataireModelImpl.FINDER_CACHE_ENABLED, SignataireImpl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByPetitionIdAndSignataireName",
 				new String[] {
 					Long.class.getName(), String.class.getName(),
 					Integer.class.getName(), Integer.class.getName(),
 					OrderByComparator.class.getName()
-				});
+				},
+				new String[] {"petitionId", "signataireName"}, true);
 
 		_finderPathWithoutPaginationFindByPetitionIdAndSignataireName =
 			new FinderPath(
-				SignataireModelImpl.ENTITY_CACHE_ENABLED,
-				SignataireModelImpl.FINDER_CACHE_ENABLED, SignataireImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByPetitionIdAndSignataireName",
 				new String[] {Long.class.getName(), String.class.getName()},
-				SignataireModelImpl.PETITIONID_COLUMN_BITMASK |
-				SignataireModelImpl.SIGNATAIRENAME_COLUMN_BITMASK);
+				new String[] {"petitionId", "signataireName"}, true);
 
 		_finderPathCountByPetitionIdAndSignataireName = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByPetitionIdAndSignataireName",
-			new String[] {Long.class.getName(), String.class.getName()});
+			new String[] {Long.class.getName(), String.class.getName()},
+			new String[] {"petitionId", "signataireName"}, false);
 
 		_finderPathWithPaginationFindByPetitionIdAndPublikUserId =
 			new FinderPath(
-				SignataireModelImpl.ENTITY_CACHE_ENABLED,
-				SignataireModelImpl.FINDER_CACHE_ENABLED, SignataireImpl.class,
 				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 				"findByPetitionIdAndPublikUserId",
 				new String[] {
 					Long.class.getName(), String.class.getName(),
 					Integer.class.getName(), Integer.class.getName(),
 					OrderByComparator.class.getName()
-				});
+				},
+				new String[] {"petitionId", "publikUserId"}, true);
 
 		_finderPathWithoutPaginationFindByPetitionIdAndPublikUserId =
 			new FinderPath(
-				SignataireModelImpl.ENTITY_CACHE_ENABLED,
-				SignataireModelImpl.FINDER_CACHE_ENABLED, SignataireImpl.class,
 				FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 				"findByPetitionIdAndPublikUserId",
 				new String[] {Long.class.getName(), String.class.getName()},
-				SignataireModelImpl.PETITIONID_COLUMN_BITMASK |
-				SignataireModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
+				new String[] {"petitionId", "publikUserId"}, true);
 
 		_finderPathCountByPetitionIdAndPublikUserId = new FinderPath(
-			SignataireModelImpl.ENTITY_CACHE_ENABLED,
-			SignataireModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByPetitionIdAndPublikUserId",
-			new String[] {Long.class.getName(), String.class.getName()});
+			new String[] {Long.class.getName(), String.class.getName()},
+			new String[] {"petitionId", "publikUserId"}, false);
+
+		SignataireUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		SignataireUtil.setPersistence(null);
+
 		entityCache.removeCache(SignataireImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -5408,9 +4905,6 @@ public class SignatairePersistenceImpl
 
 	private static final String _SQL_SELECT_SIGNATAIRE =
 		"SELECT signataire FROM Signataire signataire";
-
-	private static final String _SQL_SELECT_SIGNATAIRE_WHERE_PKS_IN =
-		"SELECT signataire FROM Signataire signataire WHERE signataireId IN (";
 
 	private static final String _SQL_SELECT_SIGNATAIRE_WHERE =
 		"SELECT signataire FROM Signataire signataire WHERE ";
@@ -5434,5 +4928,10 @@ public class SignatairePersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

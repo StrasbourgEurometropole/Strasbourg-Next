@@ -1,9 +1,12 @@
 package eu.strasbourg.portlet.oidc.action;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -11,6 +14,7 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -58,13 +62,14 @@ public class SavePublikUserActionCommand implements MVCActionCommand {
 					.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request
 					.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				PortletURL backURL = PortletURLFactoryUtil.create(request,
 					portletName, themeDisplay.getPlid(),
 					PortletRequest.RENDER_PHASE);
 
-				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("backURL", backURL.toString());
 				response.setRenderParameter("cmd","editPublikUser");
 				response.setRenderParameter("mvcPath","/oidc-bo-edit-publikuser.jsp");
+				response.setRenderParameter("cmd", "savePublikUser");
 				return false;
 			}
 
@@ -106,15 +111,19 @@ public class SavePublikUserActionCommand implements MVCActionCommand {
 				publikUser.setBanishDate(null);
 
 			// Description du bannissement
-			String banishDescription = ParamUtil.getString(request, "banishDescription");
-			publikUser.setBanishDescription(banishDescription);
+			Map<Locale, String> banishDescription = LocalizationUtil
+					.getLocalizationMap(request, "banishDescription");
+			publikUser.setBanishDescriptionMap(banishDescription);
 
 			_publikUserLocalService.updatePublikUser(publikUser, sc);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
 		} catch (PortalException e) {
 			_log.error(e);
-		}
-		return true;
+		} catch (IOException e) {
+			_log.error(e);
+        }
+        return true;
 	}
 	
 	/**

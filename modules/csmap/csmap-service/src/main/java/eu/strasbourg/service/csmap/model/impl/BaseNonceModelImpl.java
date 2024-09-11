@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.csmap.model.impl;
@@ -23,17 +14,17 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.DateUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.csmap.model.BaseNonce;
 import eu.strasbourg.service.csmap.model.BaseNonceModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -41,6 +32,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -96,16 +88,31 @@ public class BaseNonceModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long VALUE_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long CREATEDATE_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
-		_entityCacheEnabled = entityCacheEnabled;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static void setFinderCacheEnabled(boolean finderCacheEnabled) {
-		_finderCacheEnabled = finderCacheEnabled;
 	}
 
 	public BaseNonceModelImpl() {
@@ -159,9 +166,6 @@ public class BaseNonceModelImpl
 				attributeName, attributeGetterFunction.apply((BaseNonce)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -186,70 +190,58 @@ public class BaseNonceModelImpl
 	public Map<String, Function<BaseNonce, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<BaseNonce, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, BaseNonce>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			BaseNonce.class.getClassLoader(), BaseNonce.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<BaseNonce, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<BaseNonce> constructor =
-				(Constructor<BaseNonce>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<BaseNonce, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<BaseNonce, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put(
+				"baseNonceId", BaseNonce::getBaseNonceId);
+			attributeGetterFunctions.put(
+				"createDate", BaseNonce::getCreateDate);
+			attributeGetterFunctions.put("value", BaseNonce::getValue);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<BaseNonce, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<BaseNonce, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<BaseNonce, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<BaseNonce, Object>>();
-		Map<String, BiConsumer<BaseNonce, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<BaseNonce, ?>>();
+		private static final Map<String, BiConsumer<BaseNonce, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put("baseNonceId", BaseNonce::getBaseNonceId);
-		attributeSetterBiConsumers.put(
-			"baseNonceId",
-			(BiConsumer<BaseNonce, Long>)BaseNonce::setBaseNonceId);
-		attributeGetterFunctions.put("createDate", BaseNonce::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<BaseNonce, Date>)BaseNonce::setCreateDate);
-		attributeGetterFunctions.put("value", BaseNonce::getValue);
-		attributeSetterBiConsumers.put(
-			"value", (BiConsumer<BaseNonce, String>)BaseNonce::setValue);
+		static {
+			Map<String, BiConsumer<BaseNonce, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<BaseNonce, ?>>();
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
+			attributeSetterBiConsumers.put(
+				"baseNonceId",
+				(BiConsumer<BaseNonce, Long>)BaseNonce::setBaseNonceId);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<BaseNonce, Date>)BaseNonce::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"value", (BiConsumer<BaseNonce, String>)BaseNonce::setValue);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
+
 	}
 
 	@Override
@@ -259,6 +251,10 @@ public class BaseNonceModelImpl
 
 	@Override
 	public void setBaseNonceId(long baseNonceId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_baseNonceId = baseNonceId;
 	}
 
@@ -269,7 +265,9 @@ public class BaseNonceModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_createDate = createDate;
 	}
@@ -286,20 +284,43 @@ public class BaseNonceModelImpl
 
 	@Override
 	public void setValue(String value) {
-		_columnBitmask |= VALUE_COLUMN_BITMASK;
-
-		if (_originalValue == null) {
-			_originalValue = _value;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_value = value;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalValue() {
-		return GetterUtil.getString(_originalValue);
+		return getColumnOriginalValue("value");
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -345,6 +366,19 @@ public class BaseNonceModelImpl
 	}
 
 	@Override
+	public BaseNonce cloneWithOriginalValues() {
+		BaseNonceImpl baseNonceImpl = new BaseNonceImpl();
+
+		baseNonceImpl.setBaseNonceId(
+			this.<Long>getColumnOriginalValue("baseNonceId"));
+		baseNonceImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		baseNonceImpl.setValue(this.<String>getColumnOriginalValue("value"));
+
+		return baseNonceImpl;
+	}
+
+	@Override
 	public int compareTo(BaseNonce baseNonce) {
 		int value = 0;
 
@@ -384,23 +418,29 @@ public class BaseNonceModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
-		return _entityCacheEnabled;
+		return true;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
-		return _finderCacheEnabled;
+		return true;
 	}
 
 	@Override
 	public void resetOriginalValues() {
-		BaseNonceModelImpl baseNonceModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		baseNonceModelImpl._originalValue = baseNonceModelImpl._value;
-
-		baseNonceModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -435,7 +475,7 @@ public class BaseNonceModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -446,9 +486,26 @@ public class BaseNonceModelImpl
 			Function<BaseNonce, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((BaseNonce)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((BaseNonce)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -461,51 +518,72 @@ public class BaseNonceModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<BaseNonce, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<BaseNonce, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<BaseNonce, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((BaseNonce)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, BaseNonce>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					BaseNonce.class, ModelWrapper.class);
 
 	}
-
-	private static boolean _entityCacheEnabled;
-	private static boolean _finderCacheEnabled;
 
 	private long _baseNonceId;
 	private Date _createDate;
 	private String _value;
-	private String _originalValue;
+
+	public <T> T getColumnValue(String columnName) {
+		Function<BaseNonce, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((BaseNonce)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("baseNonceId", _baseNonceId);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("value", _value);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("baseNonceId", 1L);
+
+		columnBitmasks.put("createDate", 2L);
+
+		columnBitmasks.put("value", 4L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private BaseNonce _escapedModel;
 

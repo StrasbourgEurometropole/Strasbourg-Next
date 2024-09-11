@@ -92,7 +92,7 @@
                                                     (${dc.getPoisCategoryCount(category.categoryId, prefilters, prefilterTags, groupId, typesContenu, dateField, fromDate, toDate, locale, globalGroupId)}) --%>
 
                                                     <c:if test="${showPictos && !category.getDescription(locale).equals(\"\")}">
-                                                        <img src="${category.getDescription(locale)}">
+                                                        <img src="${category.getDescription(locale)}" alt="">
                                                     </c:if>
                                                 </label>
                                             </div>
@@ -186,6 +186,7 @@
                                 <portlet:actionURL name="resetUserConfiguration"
                                     var="resetUserConfiguration">
                                     <portlet:param name="mvcPath" value="/map-view.jsp"></portlet:param>
+                                    <portlet:param name="configId" value="${configId}" />
                                 </portlet:actionURL>
                                 <a href="${resetUserConfiguration}" class="filtres__btn filtres__btn--reset">
                                     <span class="flexbox">
@@ -196,6 +197,7 @@
                                 <portlet:resourceURL id="toggleInterestPoint" var="interestPointURL">
                                     <portlet:param name="checkboxNamesCategories" value="${checkboxNamesCategories}" />
                                     <portlet:param name="checkboxNamesInterests" value="${checkboxNamesInterests}" />
+                                    <portlet:param name="configId" value="${configId}" />
                                 </portlet:resourceURL>
                                 <a href="" class="filtres__btn filtres__btn--save">
                                     <span class="flexbox">
@@ -225,17 +227,17 @@
 					<c:if test="${!showList}">
 						<div id="aroundme__side" style="z-index: 406" class="${showList} opened hidden">
 					</c:if>
-		                <button class="side__trigger side__trigger--pull opened" aria-label="<liferay-ui:message key='eu.aroundme.open-list' />"></button>
+		                <button class="side__trigger side__trigger--pull opened" aria-expanded="true" aria-label="<liferay-ui:message key='eu.aroundme.close-list' />"></button>
                         <c:if test="${showFiltersReminder}">
-                            <div id="filters__reminder">
+                            <div id="filters__reminder">+-
                             </div>
                         </c:if>
 		                <div class="side__overflow">
 		                    <form class="liste filtres--poi">
 		                        <h2 class="filtres__title">
-		                            <div class="icon mobile-only"></div>
+		                            <span class="icon mobile-only"></span>
 		                            Liste
-		                            <div class="filler"></div>
+		                            <span class="filler"></span>
 		                            <button type="button" class="side__trigger side__trigger--close mobile-only"></button>
 		                        </h2>
 		                    </form>

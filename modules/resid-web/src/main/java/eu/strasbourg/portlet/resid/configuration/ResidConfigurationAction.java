@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.resid.configuration;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
@@ -42,6 +43,10 @@ public class ResidConfigurationAction
 
 		if (cmd.equals("update")) {
 
+			// Maitenance
+			String maintenance = ParamUtil.getString(request, "maintenance");
+			setPreference(request, "maintenance", maintenance);
+
 			// URL liaison
 			String liaisonURL = ParamUtil.getString(request, "liaisonURL");
 			setPreference(request, "liaisonURL", liaisonURL);
@@ -70,9 +75,8 @@ public class ResidConfigurationAction
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
 			// Pages sélectionnées
-			ResidConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-						ResidConfiguration.class);
+			ResidConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(ResidConfiguration.class, themeDisplay);
+			request.setAttribute("maintenance", configuration.maintenance());
 			request.setAttribute("liaisonURL", configuration.liaisonURL());
 			request.setAttribute("zones", configuration.zones());
 			

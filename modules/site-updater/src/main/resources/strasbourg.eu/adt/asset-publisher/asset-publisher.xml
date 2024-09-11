@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.asset.kernel.model.AssetEntry</className>
+    <template>
+        <script>actes-list.ftl</script>
+        <name>Liste des actes réglementaires et normatifs</name>
+        <key>17447834</key>
+    </template>
+    <template>
+        <script>city-official.ftl</script>
+        <name>Maire de la commune</name>
+        <key>130288509</key>
+    </template>
+    <template>
+        <script>district-official.ftl</script>
+        <name>Adjoint de quartier</name>
+        <key>1433329</key>
+    </template>
+    <template>
+        <script>event-list.ftl</script>
+        <name>Liste d'événements</name>
+        <key>1433325</key>
+    </template>
+    <template>
+        <script>event-list-without-image.ftl</script>
+        <name>Liste d'événements sans image</name>
+        <key>event-list-without-image</key>
+    </template>
+    <template>
+        <script>image-slider.ftl</script>
+        <name>Slider images</name>
+        <key>1619428</key>
+    </template>
+    <template>
+        <script>news-list.ftl</script>
+        <name>Liste d'actualités</name>
+        <key>1617783</key>
+    </template>
+    <template>
+        <script>news-thumbnail.ftl</script>
+        <name>Vignette actualité</name>
+        <key>1617787</key>
+    </template>
+    <template>
+        <script>place-list.ftl</script>
+        <name>Liste de lieux</name>
+        <key>1433247</key>
+    </template>
+    <template>
+        <script>useful-documents.ftl</script>
+        <name>Documents utiles</name>
+        <key>1321342</key>
+    </template>
+    <template>
+        <script>useful-documents-blue.ftl</script>
+        <name>Documents utiles - bleus</name>
+        <key>1617735</key>
+    </template>
+    <template>
+        <script>useful-links.ftl</script>
+        <name>Liens utiles</name>
+        <key>1321755</key>
+    </template>
+    <template>
+        <script>useful-links-blue.ftl</script>
+        <name>Liens utiles - bleus</name>
+        <key>1617739</key>
+    </template>
+    <template>
+        <script>webmag-diaporama-list.ftl</script>
+        <name>Webmag Liste diaporama</name>
+        <key>5099104</key>
+    </template>
+    <template>
+        <script>webmag-portrait-list.ftl</script>
+        <name>Webmag liste portrait</name>
+        <key>5099120</key>
+    </template>
+    <template>
+        <script>edition-home.ftl</script>
+        <name>Edition accueil</name>
+        <key>edition-home</key>
+    </template>
+    <template>
+        <script>webmag-news-slider.ftl</script>
+        <name>Webmag slider actualite</name>
+        <key>webmag-news-slider</key>
+    </template>
+    <template>
+        <script>webmag-video.ftl</script>
+        <name>Webmag vidéos</name>
+        <key>5099128</key>
+    </template>
+    <template>
+        <script>listing-diaporama.ftl</script>
+        <name>Listing Diaporama</name>
+        <key>listing-diaporama</key>
+    </template>
+    <template>
+        <script>webmag-portrait.ftl</script>
+        <name>Webmag Rencontre</name>
+        <key>5099124</key>
+    </template>
+    <template>
+        <script>web-content-list.ftl</script>
+        <name>Liste de contenus web</name>
+        <key>1617791</key>
+    </template>
+</root>

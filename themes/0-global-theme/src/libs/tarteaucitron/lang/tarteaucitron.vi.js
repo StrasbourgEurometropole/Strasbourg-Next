@@ -1,4 +1,5 @@
 /*global tarteaucitron */
+/* min ready */
 tarteaucitron.lang = {
     "middleBarHead": "☝ 🍪",
     "adblock": "Xin chào! Trang web này minh bạch và cho phép bạn chọn dịch vụ bên thứ 3 mà bạn muốn cho phép.",
@@ -36,6 +37,7 @@ tarteaucitron.lang = {
     "title": "Bảng quản lý cookie",
     "cookieDetail": "Cookie chi tiết",
     "ourSite": "trên site của chúng ta",
+    "modalWindow": "(cửa sổ phương thức)",
     "newWindow": "(Cửa sổ mới)",
     "allowAll": "Cho phép tất cả các Cookies",
     "denyAll": "Từ chối cất cả cookies",

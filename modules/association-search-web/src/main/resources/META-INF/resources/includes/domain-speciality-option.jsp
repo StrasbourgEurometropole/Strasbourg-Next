@@ -1,0 +1,1 @@
+<option value="${category.categoryId}" ${curValue == category.categoryId ? "selected" : ""}>${category.getTitle(locale)}</option>

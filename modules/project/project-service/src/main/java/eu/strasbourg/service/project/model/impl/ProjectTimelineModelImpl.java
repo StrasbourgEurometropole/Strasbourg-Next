@@ -1,21 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -25,26 +17,24 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.model.ProjectTimelineModel;
-import eu.strasbourg.service.project.model.ProjectTimelineSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -111,75 +101,42 @@ public class ProjectTimelineModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.project.model.ProjectTimeline"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.project.model.ProjectTimeline"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.project.model.ProjectTimeline"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long BUDGETPARTICIPATIFID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PROJECTID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long DATE_COLUMN_BITMASK = 4L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static ProjectTimeline toModel(ProjectTimelineSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		ProjectTimeline model = new ProjectTimelineImpl();
-
-		model.setProjectTimelineId(soapModel.getProjectTimelineId());
-		model.setStartDay(soapModel.getStartDay());
-		model.setSpacing(soapModel.getSpacing());
-		model.setDate(soapModel.getDate());
-		model.setDateFormat(soapModel.getDateFormat());
-		model.setTitle(soapModel.getTitle());
-		model.setLink(soapModel.getLink());
-		model.setProjectId(soapModel.getProjectId());
-		model.setBudgetParticipatifId(soapModel.getBudgetParticipatifId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<ProjectTimeline> toModels(
-		ProjectTimelineSoap[] soapModels) {
-
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<ProjectTimeline> models = new ArrayList<ProjectTimeline>(
-			soapModels.length);
-
-		for (ProjectTimelineSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.project.service.util.PropsUtil.get(
@@ -237,9 +194,6 @@ public class ProjectTimelineModelImpl
 				attributeGetterFunction.apply((ProjectTimeline)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -264,262 +218,97 @@ public class ProjectTimelineModelImpl
 	public Map<String, Function<ProjectTimeline, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<ProjectTimeline, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, ProjectTimeline>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			ProjectTimeline.class.getClassLoader(), ProjectTimeline.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<ProjectTimeline, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<ProjectTimeline> constructor =
-				(Constructor<ProjectTimeline>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<ProjectTimeline, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<ProjectTimeline, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put(
+				"projectTimelineId", ProjectTimeline::getProjectTimelineId);
+			attributeGetterFunctions.put(
+				"startDay", ProjectTimeline::getStartDay);
+			attributeGetterFunctions.put(
+				"spacing", ProjectTimeline::getSpacing);
+			attributeGetterFunctions.put("date", ProjectTimeline::getDate);
+			attributeGetterFunctions.put(
+				"dateFormat", ProjectTimeline::getDateFormat);
+			attributeGetterFunctions.put("title", ProjectTimeline::getTitle);
+			attributeGetterFunctions.put("link", ProjectTimeline::getLink);
+			attributeGetterFunctions.put(
+				"projectId", ProjectTimeline::getProjectId);
+			attributeGetterFunctions.put(
+				"budgetParticipatifId",
+				ProjectTimeline::getBudgetParticipatifId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<ProjectTimeline, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ProjectTimeline, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<ProjectTimeline, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap<String, Function<ProjectTimeline, Object>>();
-		Map<String, BiConsumer<ProjectTimeline, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ProjectTimeline, ?>>();
+		private static final Map<String, BiConsumer<ProjectTimeline, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"projectTimelineId",
-			new Function<ProjectTimeline, Object>() {
+		static {
+			Map<String, BiConsumer<ProjectTimeline, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<ProjectTimeline, ?>>();
 
-				@Override
-				public Object apply(ProjectTimeline projectTimeline) {
-					return projectTimeline.getProjectTimelineId();
-				}
+			attributeSetterBiConsumers.put(
+				"projectTimelineId",
+				(BiConsumer<ProjectTimeline, Long>)
+					ProjectTimeline::setProjectTimelineId);
+			attributeSetterBiConsumers.put(
+				"startDay",
+				(BiConsumer<ProjectTimeline, Integer>)
+					ProjectTimeline::setStartDay);
+			attributeSetterBiConsumers.put(
+				"spacing",
+				(BiConsumer<ProjectTimeline, Integer>)
+					ProjectTimeline::setSpacing);
+			attributeSetterBiConsumers.put(
+				"date",
+				(BiConsumer<ProjectTimeline, Date>)ProjectTimeline::setDate);
+			attributeSetterBiConsumers.put(
+				"dateFormat",
+				(BiConsumer<ProjectTimeline, String>)
+					ProjectTimeline::setDateFormat);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<ProjectTimeline, String>)ProjectTimeline::setTitle);
+			attributeSetterBiConsumers.put(
+				"link",
+				(BiConsumer<ProjectTimeline, String>)ProjectTimeline::setLink);
+			attributeSetterBiConsumers.put(
+				"projectId",
+				(BiConsumer<ProjectTimeline, Long>)
+					ProjectTimeline::setProjectId);
+			attributeSetterBiConsumers.put(
+				"budgetParticipatifId",
+				(BiConsumer<ProjectTimeline, Long>)
+					ProjectTimeline::setBudgetParticipatifId);
 
-			});
-		attributeSetterBiConsumers.put(
-			"projectTimelineId",
-			new BiConsumer<ProjectTimeline, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(
-					ProjectTimeline projectTimeline,
-					Object projectTimelineIdObject) {
-
-					projectTimeline.setProjectTimelineId(
-						(Long)projectTimelineIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"startDay",
-			new Function<ProjectTimeline, Object>() {
-
-				@Override
-				public Object apply(ProjectTimeline projectTimeline) {
-					return projectTimeline.getStartDay();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"startDay",
-			new BiConsumer<ProjectTimeline, Object>() {
-
-				@Override
-				public void accept(
-					ProjectTimeline projectTimeline, Object startDayObject) {
-
-					projectTimeline.setStartDay((Integer)startDayObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"spacing",
-			new Function<ProjectTimeline, Object>() {
-
-				@Override
-				public Object apply(ProjectTimeline projectTimeline) {
-					return projectTimeline.getSpacing();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"spacing",
-			new BiConsumer<ProjectTimeline, Object>() {
-
-				@Override
-				public void accept(
-					ProjectTimeline projectTimeline, Object spacingObject) {
-
-					projectTimeline.setSpacing((Integer)spacingObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"date",
-			new Function<ProjectTimeline, Object>() {
-
-				@Override
-				public Object apply(ProjectTimeline projectTimeline) {
-					return projectTimeline.getDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"date",
-			new BiConsumer<ProjectTimeline, Object>() {
-
-				@Override
-				public void accept(
-					ProjectTimeline projectTimeline, Object dateObject) {
-
-					projectTimeline.setDate((Date)dateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"dateFormat",
-			new Function<ProjectTimeline, Object>() {
-
-				@Override
-				public Object apply(ProjectTimeline projectTimeline) {
-					return projectTimeline.getDateFormat();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"dateFormat",
-			new BiConsumer<ProjectTimeline, Object>() {
-
-				@Override
-				public void accept(
-					ProjectTimeline projectTimeline, Object dateFormatObject) {
-
-					projectTimeline.setDateFormat((String)dateFormatObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<ProjectTimeline, Object>() {
-
-				@Override
-				public Object apply(ProjectTimeline projectTimeline) {
-					return projectTimeline.getTitle();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<ProjectTimeline, Object>() {
-
-				@Override
-				public void accept(
-					ProjectTimeline projectTimeline, Object titleObject) {
-
-					projectTimeline.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"link",
-			new Function<ProjectTimeline, Object>() {
-
-				@Override
-				public Object apply(ProjectTimeline projectTimeline) {
-					return projectTimeline.getLink();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"link",
-			new BiConsumer<ProjectTimeline, Object>() {
-
-				@Override
-				public void accept(
-					ProjectTimeline projectTimeline, Object linkObject) {
-
-					projectTimeline.setLink((String)linkObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"projectId",
-			new Function<ProjectTimeline, Object>() {
-
-				@Override
-				public Object apply(ProjectTimeline projectTimeline) {
-					return projectTimeline.getProjectId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"projectId",
-			new BiConsumer<ProjectTimeline, Object>() {
-
-				@Override
-				public void accept(
-					ProjectTimeline projectTimeline, Object projectIdObject) {
-
-					projectTimeline.setProjectId((Long)projectIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"budgetParticipatifId",
-			new Function<ProjectTimeline, Object>() {
-
-				@Override
-				public Object apply(ProjectTimeline projectTimeline) {
-					return projectTimeline.getBudgetParticipatifId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"budgetParticipatifId",
-			new BiConsumer<ProjectTimeline, Object>() {
-
-				@Override
-				public void accept(
-					ProjectTimeline projectTimeline,
-					Object budgetParticipatifIdObject) {
-
-					projectTimeline.setBudgetParticipatifId(
-						(Long)budgetParticipatifIdObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -530,6 +319,10 @@ public class ProjectTimelineModelImpl
 
 	@Override
 	public void setProjectTimelineId(long projectTimelineId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_projectTimelineId = projectTimelineId;
 	}
 
@@ -541,6 +334,10 @@ public class ProjectTimelineModelImpl
 
 	@Override
 	public void setStartDay(int startDay) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_startDay = startDay;
 	}
 
@@ -552,6 +349,10 @@ public class ProjectTimelineModelImpl
 
 	@Override
 	public void setSpacing(int spacing) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_spacing = spacing;
 	}
 
@@ -563,7 +364,9 @@ public class ProjectTimelineModelImpl
 
 	@Override
 	public void setDate(Date date) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_date = date;
 	}
@@ -581,6 +384,10 @@ public class ProjectTimelineModelImpl
 
 	@Override
 	public void setDateFormat(String dateFormat) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_dateFormat = dateFormat;
 	}
 
@@ -597,6 +404,10 @@ public class ProjectTimelineModelImpl
 
 	@Override
 	public void setTitle(String title) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_title = title;
 	}
 
@@ -613,6 +424,10 @@ public class ProjectTimelineModelImpl
 
 	@Override
 	public void setLink(String link) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_link = link;
 	}
 
@@ -624,19 +439,21 @@ public class ProjectTimelineModelImpl
 
 	@Override
 	public void setProjectId(long projectId) {
-		_columnBitmask |= PROJECTID_COLUMN_BITMASK;
-
-		if (!_setOriginalProjectId) {
-			_setOriginalProjectId = true;
-
-			_originalProjectId = _projectId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_projectId = projectId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalProjectId() {
-		return _originalProjectId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("projectId"));
 	}
 
 	@JSON
@@ -647,22 +464,44 @@ public class ProjectTimelineModelImpl
 
 	@Override
 	public void setBudgetParticipatifId(long budgetParticipatifId) {
-		_columnBitmask |= BUDGETPARTICIPATIFID_COLUMN_BITMASK;
-
-		if (!_setOriginalBudgetParticipatifId) {
-			_setOriginalBudgetParticipatifId = true;
-
-			_originalBudgetParticipatifId = _budgetParticipatifId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_budgetParticipatifId = budgetParticipatifId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalBudgetParticipatifId() {
-		return _originalBudgetParticipatifId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("budgetParticipatifId"));
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -714,6 +553,31 @@ public class ProjectTimelineModelImpl
 	}
 
 	@Override
+	public ProjectTimeline cloneWithOriginalValues() {
+		ProjectTimelineImpl projectTimelineImpl = new ProjectTimelineImpl();
+
+		projectTimelineImpl.setProjectTimelineId(
+			this.<Long>getColumnOriginalValue("projectTimelineId"));
+		projectTimelineImpl.setStartDay(
+			this.<Integer>getColumnOriginalValue("startDay"));
+		projectTimelineImpl.setSpacing(
+			this.<Integer>getColumnOriginalValue("spacing"));
+		projectTimelineImpl.setDate(this.<Date>getColumnOriginalValue("date_"));
+		projectTimelineImpl.setDateFormat(
+			this.<String>getColumnOriginalValue("dateFormat"));
+		projectTimelineImpl.setTitle(
+			this.<String>getColumnOriginalValue("title"));
+		projectTimelineImpl.setLink(
+			this.<String>getColumnOriginalValue("link"));
+		projectTimelineImpl.setProjectId(
+			this.<Long>getColumnOriginalValue("projectId"));
+		projectTimelineImpl.setBudgetParticipatifId(
+			this.<Long>getColumnOriginalValue("budgetParticipatifId"));
+
+		return projectTimelineImpl;
+	}
+
+	@Override
 	public int compareTo(ProjectTimeline projectTimeline) {
 		int value = 0;
 
@@ -753,11 +617,19 @@ public class ProjectTimelineModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -765,19 +637,9 @@ public class ProjectTimelineModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ProjectTimelineModelImpl projectTimelineModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		projectTimelineModelImpl._originalProjectId =
-			projectTimelineModelImpl._projectId;
-
-		projectTimelineModelImpl._setOriginalProjectId = false;
-
-		projectTimelineModelImpl._originalBudgetParticipatifId =
-			projectTimelineModelImpl._budgetParticipatifId;
-
-		projectTimelineModelImpl._setOriginalBudgetParticipatifId = false;
-
-		projectTimelineModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -838,7 +700,7 @@ public class ProjectTimelineModelImpl
 			attributeGetterFunctions = getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -849,9 +711,26 @@ public class ProjectTimelineModelImpl
 			Function<ProjectTimeline, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((ProjectTimeline)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((ProjectTimeline)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -864,41 +743,12 @@ public class ProjectTimelineModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<ProjectTimeline, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<ProjectTimeline, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<ProjectTimeline, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((ProjectTimeline)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, ProjectTimeline>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					ProjectTimeline.class, ModelWrapper.class);
 
 	}
 
@@ -910,11 +760,92 @@ public class ProjectTimelineModelImpl
 	private String _title;
 	private String _link;
 	private long _projectId;
-	private long _originalProjectId;
-	private boolean _setOriginalProjectId;
 	private long _budgetParticipatifId;
-	private long _originalBudgetParticipatifId;
-	private boolean _setOriginalBudgetParticipatifId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<ProjectTimeline, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((ProjectTimeline)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("projectTimelineId", _projectTimelineId);
+		_columnOriginalValues.put("startDay", _startDay);
+		_columnOriginalValues.put("spacing", _spacing);
+		_columnOriginalValues.put("date_", _date);
+		_columnOriginalValues.put("dateFormat", _dateFormat);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("link", _link);
+		_columnOriginalValues.put("projectId", _projectId);
+		_columnOriginalValues.put(
+			"budgetParticipatifId", _budgetParticipatifId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("date_", "date");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("projectTimelineId", 1L);
+
+		columnBitmasks.put("startDay", 2L);
+
+		columnBitmasks.put("spacing", 4L);
+
+		columnBitmasks.put("date_", 8L);
+
+		columnBitmasks.put("dateFormat", 16L);
+
+		columnBitmasks.put("title", 32L);
+
+		columnBitmasks.put("link", 64L);
+
+		columnBitmasks.put("projectId", 128L);
+
+		columnBitmasks.put("budgetParticipatifId", 256L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private ProjectTimeline _escapedModel;
 

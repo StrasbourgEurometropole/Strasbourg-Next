@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.council.action;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -10,6 +11,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.council.constants.StageDeliberation;
 import eu.strasbourg.service.council.model.CouncilSession;
@@ -115,40 +117,17 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
         }
 
         int countOfficialActive = officials.size();
-        // List des elus qui sont absents mais ont pas donné de procuration
-        List<Procuration> absentsWithNoProc = new ArrayList<>(procurations.stream().filter(x -> x.getOfficialVotersId() == 0 && x.getEndDelib()==-1).collect(Collectors.toList()));
-        // List des elus qui sont absents et ont  donné  procuration
-        List<Procuration> absentsWithProc = new ArrayList<>(procurations.stream().filter(x -> x.getOfficialVotersId() != 0 && x.getEndDelib()==-1).collect(Collectors.toList()));
-        // List d'id des elus qui sont absents mais ont pas donné de procuration
-        List<Long> absentsWithNoProcId = new ArrayList<>();
-        // List d'id des elus qui sont absents et ont donné procuration
-        List<Long> absentsWithProcId = new ArrayList<>();
-        // List d'id des elus qui sont absents et ont donné procuration à une personne absente
-        List<Long> notCountedInQuorum = new ArrayList<>();
+        // List des elus qui sont absents avec ou sans procuration
+        List<Procuration> absents = new ArrayList<>(procurations.stream().filter(x -> Validator.isNull(x.getEndHour())).collect(Collectors.toList()));
+        // List d'id des elus qui sont absents avec ou sans procuration
+        List<Long> absentsIds = new ArrayList<>();
         // Verifie qu'il n'y pas plusieurs fois le meme elu
-        for(Procuration absentWithNoProc : absentsWithNoProc){
-            if(!absentsWithNoProcId.contains(absentWithNoProc.getOfficialUnavailableId())){
-                absentsWithNoProcId.add(absentWithNoProc.getOfficialUnavailableId());
+        for(Procuration absent : absents){
+            if(!absentsIds.contains(absent.getOfficialUnavailableId())){
+                absentsIds.add(absent.getOfficialUnavailableId());
             }
         }
-        // Verifie qu'il n'y pas plusieurs fois le meme elu
-        for(Procuration absentWithProc : absentsWithProc){
-            if(!absentsWithProcId.contains(absentWithProc.getOfficialUnavailableId())){
-                absentsWithProcId.add(absentWithProc.getOfficialUnavailableId());
-            } else {
-                absentsWithProc.remove(absentWithProc);
-            }
-        }
-        // Verifie si un elu a donné sa procuration à un elu absent
-        for(Procuration absentWithProc : absentsWithProc){
-            if(absentsWithNoProc.contains(absentWithProc.getOfficialVotersId())){
-                notCountedInQuorum.add(absentWithProc.getOfficialUnavailableId());
-            }
-            if(absentsWithProcId.contains(absentWithProc.getOfficialVotersId())){
-                notCountedInQuorum.add(absentWithProc.getOfficialUnavailableId());
-            }
-        }
-        int countAbsent = absentsWithNoProcId.size()+notCountedInQuorum.size();
+        int countAbsent = absentsIds.size();
         int countOfficialVoting = countOfficialActive - countAbsent;
 
         deliberation.setCountOfficialsActive(countOfficialActive);
@@ -157,9 +136,9 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
         //  Set de la date de début de vote
         deliberation.setBeginningVoteDate(new Date());
 
-
         //  Calcule la valeur du quorum
-        int quorum = (int)Math.floor(((double) countOfficialActive / 3) + 1);
+        int quorum = (int)Math.floor(((double) countOfficialActive / 2) + 1);
+        deliberation.setQuorum(quorum);
 
         //  Vérifie la présence du quorum
         if(countOfficialVoting >= quorum) {
@@ -171,10 +150,10 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
             // Récupère les anciennes catégories liées au statut pour les effacer (on veut qu'un seul abonnement à une catégorie de statut, celui en cours)
             List<AssetCategory> existingStageCategories = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(deliberation.getAssetEntry(), "Statut");
             for (AssetCategory existingCat : existingStageCategories) {
-                AssetEntryLocalServiceUtil.deleteAssetCategoryAssetEntry(existingCat.getCategoryId(), deliberation.getAssetEntry().getEntryId());
+                AssetEntryAssetCategoryRelLocalServiceUtil.deleteAssetEntryAssetCategoryRel(existingCat.getCategoryId(), deliberation.getAssetEntry().getEntryId());
             }
             if(stageCategory != null)
-                AssetEntryLocalServiceUtil.addAssetCategoryAssetEntry(stageCategory.getCategoryId(), deliberation.getAssetEntry().getEntryId());
+                AssetEntryAssetCategoryRelLocalServiceUtil.addAssetEntryAssetCategoryRel(stageCategory.getCategoryId(), deliberation.getAssetEntry().getEntryId());
 
         } else {
             //  Pas de quorum, on avertit
@@ -189,6 +168,8 @@ public class OpenDeliberationActionCommand extends BaseMVCActionCommand {
         PortletURL renderURL = PortletURLFactoryUtil.create(request,
                 portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
         renderURL.setParameter("tab", request.getParameter("tab"));
+        renderURL.setParameter("mvcPath", request.getParameter("mvcPath"));
+        renderURL.setParameter("deliberationId", String.valueOf(deliberationId));
         response.sendRedirect(renderURL.toString());
 
     }

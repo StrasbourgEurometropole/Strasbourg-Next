@@ -14,11 +14,6 @@
 
 package eu.strasbourg.service.project.model.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
@@ -30,8 +25,6 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
-
-import aQute.bnd.annotation.ProviderType;
 import eu.strasbourg.service.adict.AdictService;
 import eu.strasbourg.service.adict.AdictServiceTracker;
 import eu.strasbourg.service.place.model.Place;
@@ -42,6 +35,13 @@ import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
+import eu.strasbourg.utils.constants.RoleNames;
+import org.osgi.annotation.versioning.ProviderType;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * The extended model implementation for the PlacitPlace service. Represents a row in the &quot;project_PlacitPlace&quot; database table, with each column mapped to a property of this class.
@@ -220,8 +220,7 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 			try {
 				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : "+ this.getCompleteAddress(Locale.FRENCH));
 			}
 			
 			return coorResult != null ? coorResult.get(0).toString() : "";
@@ -243,8 +242,7 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 			try {
 				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + this.getCompleteAddress(Locale.FRENCH));
 			}
 			
 			return coorResult != null ? coorResult.get(1).toString() : "";
@@ -268,8 +266,7 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 			try {
 				coorResult = getAdictService().getCoordinateForAddress(this.getCompleteAddress(Locale.FRENCH));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + this.getCompleteAddress(Locale.FRENCH));
 			}
 			
 			if (coorResult != null) {
@@ -345,5 +342,7 @@ public class PlacitPlaceImpl extends PlacitPlaceBaseImpl {
 		}
 		return adictService;
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 	
 }

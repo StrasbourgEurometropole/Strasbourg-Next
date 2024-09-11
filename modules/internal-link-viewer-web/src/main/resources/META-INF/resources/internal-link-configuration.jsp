@@ -22,6 +22,8 @@
 				<aui:option value="default" label="default" />
 				<aui:option value="strasbourg" label="strasbourg" selected="${template eq 'strasbourg'}"/>
 				<aui:option value="strasbourg-blue" label="strasbourg-blue" selected="${template eq 'strasbourg-blue'}"/>
+				<aui:option value="strasbourg-int" label="strasbourg-int" selected="${template eq 'strasbourg-int'}"/>
+				<aui:option value="strasbourg-int-blue" label="strasbourg-int-blue" selected="${template eq 'strasbourg-int-blue'}"/>
 			</aui:select>
 		</aui:fieldset>
 		

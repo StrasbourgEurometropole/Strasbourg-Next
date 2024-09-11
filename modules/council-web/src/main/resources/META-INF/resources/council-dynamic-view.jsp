@@ -4,7 +4,7 @@
     <portlet:param name="cmd" value="councilDynamicView" />
     <portlet:param name="returnParam" value="true" />
     <portlet:param name="mvcPath" value="/councils-view.jsp" />
-    <portlet:param name="returnURL" value="/council-dynamic-view.jsp" />
+    <portlet:param name="backURL" value="/council-dynamic-view.jsp" />
     </liferay-portlet:renderURL>
 <c:choose>
 

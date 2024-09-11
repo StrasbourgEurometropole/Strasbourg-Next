@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
-
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.4.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_4_0.dtd">
 <service-builder database-name-max-length="63" package-path="eu.strasbourg.service.activity">
   <namespace>activity</namespace>
   
@@ -20,6 +19,7 @@
     <!-- Other fields -->
     <column name="title" type="String" localized="true" />
     <column name="description" type="String" localized="true" />
+      <column name="order" type="int" />
     <column name="videosIds" type="String" />
     <column name="imageId" type="long" />
     <column name="imagesIds" type="String" />
@@ -39,7 +39,7 @@
     <!-- References -->
 	<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 	<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-	<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	<!-- References AssetLink Placeholder -->
   </entity>
   
   <entity local-service="true" name="ActivityOrganizer" remote-service="true" uuid="true">
@@ -78,7 +78,7 @@
     <!-- References -->
 	<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 	<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-	<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	<!-- References AssetLink Placeholder -->
   </entity>
 
   <entity local-service="true" name="ActivityCourse" remote-service="true" uuid="true">
@@ -107,7 +107,8 @@
     <column name="price" type="String" localized="true" />
     <column name="activityId" type="long" />
     <column name="organizerId" type="long" />
-    
+    <column name="duration" type="int" />
+
 	<!-- Links with other entities -->
 	<column name="imageId" type="long" />
 	<column name="imageIds" type="String" />
@@ -125,7 +126,7 @@
     <!-- References -->
 	<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 	<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-	<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	<!-- References AssetLink Placeholder -->
   </entity>
   
   <entity local-service="true" name="ActivityCoursePlace" remote-service="true" uuid="true">
@@ -164,7 +165,7 @@
     <!-- References -->
 	<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 	<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-	<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	<!-- References AssetLink Placeholder -->
   </entity>
   
   <entity local-service="true" name="ActivityCourseSchedule" remote-service="true" uuid="true">
@@ -205,7 +206,7 @@
     <!-- References -->
 	<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 	<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-	<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+	<!-- References AssetLink Placeholder -->
   </entity>
 
     <entity local-service="true" name="Association" remote-service="true" uuid="true">
@@ -244,7 +245,7 @@
         <!-- References -->
         <reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
         <reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-        <reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+        <!-- References AssetLink Placeholder -->
     </entity>
 
     <entity local-service="true" name="Practice" remote-service="true" uuid="true">
@@ -280,6 +281,6 @@
         <!-- References -->
         <reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
         <reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-        <reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+        <!-- References AssetLink Placeholder -->
     </entity>
 </service-builder>

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 
 <#include init />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+<#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
   <#assign homeURL = "/web${layout.group.friendlyURL}" />
 <#else>
   <#assign homeURL = "" />
@@ -11,7 +12,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1, user-scalable=no,minimal-ui">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2, user-scalable=yes,minimal-ui">
     <meta name="author" content="Agence Thuria">
     <title>${the_title}</title>
 
@@ -23,7 +24,7 @@
     <script>
       <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
       window.homeURL = '${homeURL}/';
-      window.loginURL = '${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}';
+      window.loginURL = '${layoutHelper.getPublikLoginURL(currentUrl)?html}';
 
 
       <#if request.session.getAttribute("publik_logged_in")!false>
@@ -112,13 +113,15 @@
 
     <@liferay.control_menu />
 
-    <header id="mns-header">
+    <header id="mns-header" role="banner">
     <div id="layer"></div>
     
         <!-- Top header bar -->
         <div class="mns-top-header">
             <div>
-                <a href="http://www.strasbourg.eu/" target="_blank"><img src="/o/christmas-2018-theme/images/logo-strasbourg-eu.png" alt="Logo Strasbourg" width="183" height="40" /></a>
+                <a href="https://www.strasbourg.eu/" target="_blank">
+                    <img src="/o/christmas-2018-theme/images/logo-strasbourg-eu.png" alt="Strasbourg.eu" width="183" height="40" />
+                </a>
             </div>
             <div class="menu">
                 <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
@@ -147,7 +150,7 @@
                       settingsScope="group" />
                     </div>
                 <#else>
-                  <a href="${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}" title="<@liferay_ui.message key='eu.login.strasbourg' />" class="connect">
+                  <a href="${layoutHelper.getPublikLoginURL(currentUrl)?html}" title="<@liferay_ui.message key='eu.login.strasbourg' />" class="connect">
                     <span class="flexbox">
                       <span class="picto"></span>
                       <span class="text"><@liferay_ui.message key='eu.login.strasbourg' /></span>
@@ -156,16 +159,16 @@
                 </#if>
                 <!-- <a href="/carte" class="mns-w-fixe-1"><span><@liferay_ui.message key='dynamic-map' /></span></a> -->
                 <a href="/pro-presse" class="mns-w-fixe-2"><span><@liferay_ui.message key='pro-and-press' /></span></a>
-                <a href="#" class="hidden-xs hidden-sm menu-search"><span class="icon-search"></span></a>
+                <a href="#" class="hidden-xs hidden-sm menu-search" aria-label="<@liferay_ui.message key='to-research' />"><span class="icon-search"></span></a>
                 <#assign entity = themeDisplay.getURLCurrent()?keep_after(layout.friendlyURL)?keep_before('\\?','r') />
                 <#if homeURL != "/">
-                    <a href="/fr${homeURL}${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>  
-                    <a href="/de${homeURL}${layout.friendlyURL}${entity}" title="Deutsch" class="${(locale.language =='de')?then('active','')}" >DE</a>
-                    <a href="/en${homeURL}${layout.friendlyURL}${entity}" title="English" class="${(locale.language =='en')?then('active','')}" >EN</a>
+                    <a href="/fr${homeURL}${layout.friendlyURL}${entity}" title="FR- Français"  class="${(locale.language =='fr')?then('active','')}" lang="fr">FR</a>
+                    <a href="/de${homeURL}${layout.friendlyURL}${entity}" title="DE - Deutsch" class="${(locale.language =='de')?then('active','')}" lang="de">DE</a>
+                    <a href="/en${homeURL}${layout.friendlyURL}${entity}" title="EN - English" class="${(locale.language =='en')?then('active','')}" lang="en">EN</a>
                 <#else>
-                    <a href="/fr${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>  
-                    <a href="/de${layout.friendlyURL}${entity}" title="Deutsch" class="${(locale.language =='de')?then('active','')}" >DE</a>
-                    <a href="/en${layout.friendlyURL}${entity}" title="English" class="${(locale.language =='en')?then('active','')}" >EN</a>
+                    <a href="/fr${layout.friendlyURL}${entity}" title="Fr - Français"  class="${(locale.language =='fr')?then('active','')}" lang="fr">FR</a>
+                    <a href="/de${layout.friendlyURL}${entity}" title="DE - Deutsch" class="${(locale.language =='de')?then('active','')}" lang="de">DE</a>
+                    <a href="/en${layout.friendlyURL}${entity}" title="EN - English" class="${(locale.language =='en')?then('active','')}" lang="en">EN</a>
                 </#if>
             </div>
         </div>
@@ -176,23 +179,24 @@
             <#include "${full_templates_path}/experientiel.ftl" />
         </#if>
     </header>
-    <main>
+    <div class="main" id="content">
        
             <#if selectable>
                 <@liferay_util["include"] page=content_include />
             <#else>
                 ${portletDisplay.recycle()}
                 ${portletDisplay.setTitle(the_title)}
-                <@liferay_theme["wrap-portlet"] page="portlet.ftl" />
-                <@liferay_util["include"] page=content_include />
+                <@liferay_theme["wrap-portlet"] page="portlet.ftl"> 
+                  <@liferay_util["include"] page=content_include /> 
+                </@> 
             </#if>
 
        
-    </main>
+    </div>
     
     <!-- Social Share sur chaque page - Apparait au moment du scroll de la page -->
     <div class="social-share">
-        <input class="toggle-input" id="toggle-input" type="checkbox" /> 
+        <input class="toggle-input" id="toggle-input" type="checkbox" aria-label="Partagez sur les réseaux sociaux"/> 
         <label aria-hidden="true" aria-label="Partagez sur les réseaux sociaux" class="toggle" for="toggle-input">
           <span>Réseaux sociaux</span>
         </label>
@@ -214,7 +218,7 @@
 
     <#if !isExperientiel>
       <!-- Footer -->
-        <footer id="mns-footer">
+        <footer role="contentinfo" id="mns-footer">
             <@liferay_portlet["runtime"]
                 portletProviderAction=portletProviderAction.VIEW
                 portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
@@ -237,7 +241,7 @@
             var url = window.location.toString();
             document.getElementById("sharefacebook").setAttribute("href","https://www.facebook.com/sharer/sharer.php?u="+ encodeURIComponent(document.URL));
             document.getElementById("sharetwitter").setAttribute("href","https://twitter.com/intent/tweet?text="+url);
-            document.getElementById("ShareLinkedIn").setAttribute("href","http://www.linkedin.com/shareArticle?mini=true&url="+url);
+            document.getElementById("ShareLinkedIn").setAttribute("href","https://www.linkedin.com/shareArticle?mini=true&url="+url);
             document.getElementById("ShareMail").setAttribute("href","mailto:?body="+url);
         }
     </script>

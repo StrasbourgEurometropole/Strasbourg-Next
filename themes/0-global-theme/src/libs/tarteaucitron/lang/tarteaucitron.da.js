@@ -1,4 +1,5 @@
 /*global tarteaucitron */
+/* min ready */
 tarteaucitron.lang = {
     "middleBarHead": "☝ 🍪",
     "adblock": "Hej! Dette sted er gennemsigtigt og giver dig mulighed for at vælge de tredjeparts tjenester, du vil tillade.",
@@ -35,7 +36,8 @@ tarteaucitron.lang = {
     "toggleInfoBox": "Vis / skjul informationer om opbevaring af cookies",
     "title": "CCookie-styringspanel",
     "cookieDetail": "Cookie detaljer for",
-    "ourSite": "på vores side",
+    "ourSite": "på vores site",
+    "modalWindow": "(modal vindue)",
     "newWindow": "(nyt vindue)",
     "allowAll": "Tillad alle cookies",
     "denyAll": "Afvis alle cookies",

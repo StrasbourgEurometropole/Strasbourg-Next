@@ -1,10 +1,6 @@
 package eu.strasbourg.service.link.listener;
 
 
-import java.util.List;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
@@ -12,9 +8,11 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.ModelListener;
-
 import eu.strasbourg.service.link.model.Link;
 import eu.strasbourg.service.link.service.LinkLocalServiceUtil;
+import org.osgi.service.component.annotations.Component;
+
+import java.util.List;
 
 @Component(
 	immediate = true,

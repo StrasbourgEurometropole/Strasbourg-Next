@@ -1,35 +1,19 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
-
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
-<%@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %>
-<%@ taglib uri="http://liferay.com/tld/util" prefix="liferay-util" %>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
-<%@ taglib uri="http://liferay.com/tld/frontend" prefix="liferay-frontend" %>
-
 <%@page import="com.liferay.portal.kernel.dao.search.RowChecker"%>
+<%@ taglib uri="http://liferay.com/tld/clay" prefix="clay" %>
 
 <liferay-theme:defineObjects />
-
 <portlet:defineObjects />
 
-<liferay-frontend:management-bar includeCheckBox="false"
-	searchContainerId="videosSearchContainer">
+<div id="<portlet:namespace />productsImageSelectorWrapper" class="container-fluid container-fluid-max-xl main-content-body">
 
-	<liferay-frontend:management-bar-filters>
-		<liferay-frontend:management-bar-filter 
-			managementBarFilterItems="${groupFilterItems}"
-			value="${filterGroupName}"
-		/>
-	</liferay-frontend:management-bar-filters>
-</liferay-frontend:management-bar>
-
-<div id="<portlet:namespace />productsImageSelectorWrapper" class="container-fluid-1280 main-content-body">
+	<clay:dropdown-menu
+				label="${filterGroupName}"
+				dropdownItems="${groupFilterItems}"/>
 
     <%-- Ajout du champ de recherche suite à sa disparition après migration en 7.2 --%>
     <aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
@@ -78,6 +62,7 @@
 </div>
 
 <aui:script>
+
 	$('.video-row input[type=checkbox]').on('change', function() {
 		var multiple = ${multiple};
 		if (!multiple) {
@@ -110,7 +95,13 @@
 			});
 		}
 	});
+	var form1 = document.querySelector("[name='<portlet:namespace />fm']");
+	var form = AUI.$(document.<portlet:namespace />fm);
+
+
 </aui:script>
+
+
 <style>
 	.table-first-header input {
 	    display: none;

@@ -8,7 +8,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.agenda.service.CampaignLocalService;
-import eu.strasbourg.service.agenda.service.CsmapCacheJsonLocalService;
 import eu.strasbourg.service.agenda.service.HistoricLocalService;
 import eu.strasbourg.service.csmap.constants.CodeCacheEnum;
 import eu.strasbourg.service.csmap.model.CsmapCache;

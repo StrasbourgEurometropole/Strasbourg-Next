@@ -1,0 +1,169 @@
+{
+  "frontendTokenCategories": [
+    {
+      "label": "Couleurs",
+      "name": "colors",
+      "frontendTokenSets": [
+        {
+          "name": "mainColors",
+          "label": "Couleurs principales",
+          "frontendTokens": [
+            {
+              "name": "principal",
+              "label": "Principale",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#171C22",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "main"
+                }
+              ]
+            },
+            {
+              "name": "secondary",
+              "label": "Secondaire",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#2AD783",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "secondary"
+                }
+              ]
+            },
+            {
+              "name": "greyDark",
+              "label": "Background overlay",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#20272F",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "greyDark"
+                }
+              ]
+            },
+            {
+              "name": "border",
+              "label": "Bordure",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#51555A",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "border"
+                }
+              ]
+            },
+            {
+              "name": "gradient",
+              "label": "Gradient",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#1E2329",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "gradient"
+                }
+              ]
+            },
+            {
+              "name": "textColor",
+              "label": "Texte gris",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#B1B9C3",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "textColor"
+                }
+              ]
+            },
+            {
+              "name": "blackColor",
+              "label": "Ombres et picto",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#000000",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "blackColor"
+                }
+              ]
+            },
+            {
+              "name": "whiteColor",
+              "label": "Texte blanc",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#FFFFFF",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "whiteColor"
+                }
+              ]
+            },
+            {
+              "name": "errorSecondaryColor",
+              "label": "Erreurs et croix de fermeture",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#FF9F9F",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "errorSecondaryColor"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Fonts",
+      "name": "fonts",
+      "frontendTokenSets": [
+        {
+          "name": "fontFamilies",
+          "label": "Familles de polices",
+          "frontendTokens": [
+            {
+              "name": "f-hx",
+              "label": "Police des titres",
+              "type": "String",
+              "defaultValue": "'TTFors', Sans-Serif",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "f-hx"
+                }
+              ]
+            },
+            {
+              "name": "f-txt",
+              "label": "Police des textes",
+              "type": "String",
+              "defaultValue": "'TTFors', Sans-Serif",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "f-txt"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

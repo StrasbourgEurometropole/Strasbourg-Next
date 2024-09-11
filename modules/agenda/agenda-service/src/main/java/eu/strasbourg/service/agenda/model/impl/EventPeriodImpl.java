@@ -14,10 +14,10 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import java.util.Locale;
-
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import eu.strasbourg.utils.DateHelper;
+
+import java.util.Locale;
 
 /**
  * The extended model implementation for the EventPeriod service. Represents a row in the &quot;event_EventPeriod&quot; database table, with each column mapped to a property of this class.

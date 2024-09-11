@@ -18,15 +18,21 @@
 	    font-weight: bold;
 	    margin-top: 10px;
     }
-    
+    .manage-procuration-title {
+        text-align: center;
+        padding: 30px;
+        font-weight: bold;
+        background-color: #FFF;
+    }
+
     /* Headers de la connexion des élus */
-    .officials-unconnected .panel-heading {
+    .officials-unconnected .collapse-icon {
 	    background: #C73C42;
     }
-    .officials-absents .panel-heading {
+    .officials-absents .collapse-icon {
 	    background: #AAA;
     }
-    .officials-connected .panel-heading {
+    .officials-connected .collapse-icon {
 	    background: #76BD4A;
     }
     
@@ -308,4 +314,21 @@ button:focus {
 
 .exportProcurations {
     margin-top: 15px;
+}
+
+/* Liferay 7.4 */
+.button-holder{
+    padding: 20px 0 45px 0;
+}
+
+.button-holder button{
+    margin-right: 12px;
+}
+
+.warnDiv, .errorDiv{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    transform: translateX(-50%);
 }

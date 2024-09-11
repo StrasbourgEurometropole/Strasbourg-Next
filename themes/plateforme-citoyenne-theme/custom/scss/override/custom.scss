@@ -1,12 +1,16 @@
 // Style pour les formulaires
 .portlet-forms {
 
-    .ddm-radio label{
+    .ddm__radio label{
         padding-left: 0px;
 
         &:before{
             content: none;
         }
+    }
+
+    .lfr-ddm-form-page-title{
+        line-height: normal;
     }
 
     .form {
@@ -21,8 +25,8 @@
             }
 
             .ddm-form-description{
-                @include ft($f_hx, 1.250em, 700, $c_dark, 1.3em);
-                text-transform: uppercase;
+                @include ft($f_hx, 1.4em, 700, $c_dark, 1em);
+                letter-spacing: -0.5px;
                 margin-bottom: 10px;
                 display: inline-block;
                 padding: 0;
@@ -47,7 +51,7 @@
                 margin-top: 25px;
 
                 label, legend {
-                    @include ft($f_hx, 1.250em, 700, $c_dark, 1.625em);
+                    @include ft($f_hx, 1.4em, 700, $c_dark, 1.1em);
                     position: relative;
                     display: block;
                     margin: 10px 0 5px 0;
@@ -237,9 +241,9 @@
                 @extend %appearance;
                 padding: 14px 20px;
                 text-align: center;
-                background: $c_main;
+                @include addDynamicBackground();
                 border-radius: 4px;
-                text-transform: uppercase;
+
                 width: 300px;
                 margin: 40px auto 0;
                 float: none !important;
@@ -250,7 +254,7 @@
                 }
                 &:hover, &:focus {
                     background: $c_dark;
-                    color: $c_main;
+                    @include addDynamicTextColor();
                 }
             }
         }
@@ -350,7 +354,7 @@
     }
 
     .btn:hover ~ .deleteImage, .btn:focus ~ .deleteImage, .btn:hover ~ .deleteFile, .btn:focus ~ .deleteFile{
-        color: $c_main;
+        @include addDynamicTextColor();
     }
 } 
 // Fin style pour la sélection d'images et de documents
@@ -394,17 +398,6 @@
   }
 // Fin affichage des menus des portlets
 
-// Correctifs d'affichage des liens après renouvellement de charte grahique de fin 2020
-.journal-content-article, .pro-comment, .pro-comment-response, .pro-bloc-accordion {
-
-    li, p, h3 {
-        a, a:hover{
-            color: #000;
-            text-decoration: underline;
-        }
-    }
-
-}
 .journal-content-article .pro-header-medium .caption p {
     a, a:hover{
         color: #fff;
@@ -424,3 +417,106 @@
     border-style: none;
 }
 // Fin correctifs border sur les label (mantis 5606)
+
+.radio label, .checkbox label {
+    padding-left: 20px !important;
+}
+
+.radio input[type='radio'], .radio-inline input[type='radio'], .checkbox input[type='checkbox'], .checkbox-inline input[type='checkbox'] {
+    margin-left: -20px !important;
+}
+
+
+div[style="padding:5px; background-color:#9ba0ee; border:2px solid #656ab0; -moz-border-radius:9px; -khtml-border-radius:9px; -webkit-border-radius:9px; border-radius:9px;"] {
+    width: 100%;
+    border-radius: 0 !important;
+    border: none !important;
+    margin: 20px 0 !important;
+    padding : 40px !important;
+    background-color: #e8e9e9 !important;
+    position: relative;
+    div[style="font-size: 2em; float: left; width: 40px; text-align: center; margin-right: 5px; height: 20px; padding:3px;"] {
+        display: none;
+    }
+
+    p {
+        display: flex;
+        flex-direction: column;
+        gap : 15px;
+        br {
+            display: none;
+        }
+        em {
+            font-style: normal;
+        }
+        strong {
+            &:before {
+                content: '\e707';
+                @include font();
+                margin-right: 10px;
+            }
+        }
+    }
+
+
+}
+
+div.reply-city {
+    width: 100%;
+    margin: 20px 0;
+    padding : 40px;
+    background-color: #e8e9e9;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap : 25px;
+    > span {
+        @include ft($f_hx, 0.9em, 700, #171c22);
+        text-transform: uppercase;
+        &:before {
+            content: '\e707';
+            @include font();
+            margin-right: 10px;
+            color: #171c22;
+        }
+    }
+
+    > div {
+        display: flex;
+        gap : 15px;
+        align-items: center;
+        span.response {
+            padding: 7px;
+            background: $c_white;
+            border: solid 1px #f6f6f6;
+            font-weight: 700;
+        }
+        span.comment {
+            @include ft($f_hx, 0.95em, 400, #171c22);
+            &:after {
+                content: ' »';
+            }
+            &:before {
+                content: '« ';
+            }
+        }
+
+    }
+
+
+}
+
+form {
+    .form-control.disable, .form-control[readonly], .form-control[disabled] {
+        background-color: #e8e9ea;
+    }
+}
+
+.pro-wrapper {
+    p {
+        a {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    }
+}

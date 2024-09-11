@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +23,11 @@ import java.util.Objects;
  * @generated
  */
 public class ProcurationWrapper
+	extends BaseModelWrapper<Procuration>
 	implements ModelWrapper<Procuration>, Procuration {
 
 	public ProcurationWrapper(Procuration procuration) {
-		_procuration = procuration;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Procuration.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Procuration.class.getName();
+		super(procuration);
 	}
 
 	@Override
@@ -234,15 +212,8 @@ public class ProcurationWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new ProcurationWrapper((Procuration)_procuration.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.council.model.Procuration procuration) {
-
-		return _procuration.compareTo(procuration);
+	public Procuration cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -252,7 +223,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _procuration.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -262,7 +233,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public long getCouncilSessionId() {
-		return _procuration.getCouncilSessionId();
+		return model.getCouncilSessionId();
 	}
 
 	/**
@@ -272,7 +243,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _procuration.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -282,7 +253,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public long getEndDelib() {
-		return _procuration.getEndDelib();
+		return model.getEndDelib();
 	}
 
 	/**
@@ -292,12 +263,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public Date getEndHour() {
-		return _procuration.getEndHour();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _procuration.getExpandoBridge();
+		return model.getEndHour();
 	}
 
 	/**
@@ -307,7 +273,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _procuration.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -317,7 +283,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public boolean getIsAbsent() {
-		return _procuration.getIsAbsent();
+		return model.getIsAbsent();
 	}
 
 	/**
@@ -327,7 +293,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public boolean getIsAfterVote() {
-		return _procuration.getIsAfterVote();
+		return model.getIsAfterVote();
 	}
 
 	/**
@@ -337,7 +303,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _procuration.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -347,7 +313,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public long getOfficialUnavailableId() {
-		return _procuration.getOfficialUnavailableId();
+		return model.getOfficialUnavailableId();
 	}
 
 	/**
@@ -355,7 +321,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public String getOfficialVotersFullName() {
-		return _procuration.getOfficialVotersFullName();
+		return model.getOfficialVotersFullName();
 	}
 
 	/**
@@ -365,7 +331,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public long getOfficialVotersId() {
-		return _procuration.getOfficialVotersId();
+		return model.getOfficialVotersId();
 	}
 
 	/**
@@ -375,7 +341,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public String getOtherProcurationMode() {
-		return _procuration.getOtherProcurationMode();
+		return model.getOtherProcurationMode();
 	}
 
 	/**
@@ -385,7 +351,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public int getPresential() {
-		return _procuration.getPresential();
+		return model.getPresential();
 	}
 
 	/**
@@ -395,12 +361,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _procuration.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _procuration.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -410,7 +371,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public long getProcurationId() {
-		return _procuration.getProcurationId();
+		return model.getProcurationId();
 	}
 
 	/**
@@ -420,7 +381,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public int getProcurationMode() {
-		return _procuration.getProcurationMode();
+		return model.getProcurationMode();
 	}
 
 	/**
@@ -430,7 +391,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public long getStartDelib() {
-		return _procuration.getStartDelib();
+		return model.getStartDelib();
 	}
 
 	/**
@@ -440,7 +401,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public Date getStartHour() {
-		return _procuration.getStartHour();
+		return model.getStartHour();
 	}
 
 	/**
@@ -450,7 +411,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _procuration.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -460,7 +421,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _procuration.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -470,7 +431,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _procuration.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -480,7 +441,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _procuration.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -490,7 +451,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _procuration.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -500,7 +461,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _procuration.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -510,7 +471,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _procuration.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -520,7 +481,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _procuration.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -530,12 +491,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _procuration.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _procuration.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -545,12 +501,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _procuration.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _procuration.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -560,7 +511,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _procuration.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -570,12 +521,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _procuration.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _procuration.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -585,7 +531,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _procuration.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -595,7 +541,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _procuration.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -605,7 +551,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _procuration.isIncomplete();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -615,7 +561,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public boolean isIsAbsent() {
-		return _procuration.isIsAbsent();
+		return model.isIsAbsent();
 	}
 
 	/**
@@ -625,12 +571,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public boolean isIsAfterVote() {
-		return _procuration.isIsAfterVote();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _procuration.isNew();
+		return model.isIsAfterVote();
 	}
 
 	/**
@@ -640,7 +581,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _procuration.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -650,17 +591,12 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _procuration.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_procuration.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_procuration.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -670,7 +606,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_procuration.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -680,7 +616,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setCouncilSessionId(long councilSessionId) {
-		_procuration.setCouncilSessionId(councilSessionId);
+		model.setCouncilSessionId(councilSessionId);
 	}
 
 	/**
@@ -690,7 +626,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_procuration.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -700,7 +636,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setEndDelib(long endDelib) {
-		_procuration.setEndDelib(endDelib);
+		model.setEndDelib(endDelib);
 	}
 
 	/**
@@ -710,24 +646,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setEndHour(Date endHour) {
-		_procuration.setEndHour(endHour);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_procuration.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_procuration.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_procuration.setExpandoBridgeAttributes(serviceContext);
+		model.setEndHour(endHour);
 	}
 
 	/**
@@ -737,7 +656,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_procuration.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -747,7 +666,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setIsAbsent(boolean isAbsent) {
-		_procuration.setIsAbsent(isAbsent);
+		model.setIsAbsent(isAbsent);
 	}
 
 	/**
@@ -757,7 +676,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setIsAfterVote(boolean isAfterVote) {
-		_procuration.setIsAfterVote(isAfterVote);
+		model.setIsAfterVote(isAfterVote);
 	}
 
 	/**
@@ -767,12 +686,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_procuration.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_procuration.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -782,7 +696,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setOfficialUnavailableId(long officialUnavailableId) {
-		_procuration.setOfficialUnavailableId(officialUnavailableId);
+		model.setOfficialUnavailableId(officialUnavailableId);
 	}
 
 	/**
@@ -792,7 +706,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setOfficialVotersId(long officialVotersId) {
-		_procuration.setOfficialVotersId(officialVotersId);
+		model.setOfficialVotersId(officialVotersId);
 	}
 
 	/**
@@ -802,7 +716,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setOtherProcurationMode(String otherProcurationMode) {
-		_procuration.setOtherProcurationMode(otherProcurationMode);
+		model.setOtherProcurationMode(otherProcurationMode);
 	}
 
 	/**
@@ -812,7 +726,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setPresential(int presential) {
-		_procuration.setPresential(presential);
+		model.setPresential(presential);
 	}
 
 	/**
@@ -822,12 +736,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_procuration.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_procuration.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -837,7 +746,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setProcurationId(long procurationId) {
-		_procuration.setProcurationId(procurationId);
+		model.setProcurationId(procurationId);
 	}
 
 	/**
@@ -847,7 +756,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setProcurationMode(int procurationMode) {
-		_procuration.setProcurationMode(procurationMode);
+		model.setProcurationMode(procurationMode);
 	}
 
 	/**
@@ -857,7 +766,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setStartDelib(long startDelib) {
-		_procuration.setStartDelib(startDelib);
+		model.setStartDelib(startDelib);
 	}
 
 	/**
@@ -867,7 +776,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setStartHour(Date startHour) {
-		_procuration.setStartHour(startHour);
+		model.setStartHour(startHour);
 	}
 
 	/**
@@ -877,7 +786,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_procuration.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -887,7 +796,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_procuration.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -897,7 +806,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_procuration.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -907,7 +816,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_procuration.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -917,7 +826,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_procuration.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -927,7 +836,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_procuration.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -937,7 +846,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_procuration.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -947,7 +856,7 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_procuration.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -957,80 +866,22 @@ public class ProcurationWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_procuration.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.council.model.Procuration> toCacheModel() {
-
-		return _procuration.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.Procuration toEscapedModel() {
-		return new ProcurationWrapper(_procuration.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _procuration.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.Procuration toUnescapedModel() {
-		return new ProcurationWrapper(_procuration.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _procuration.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof ProcurationWrapper)) {
-			return false;
-		}
-
-		ProcurationWrapper procurationWrapper = (ProcurationWrapper)object;
-
-		if (Objects.equals(_procuration, procurationWrapper._procuration)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _procuration.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Procuration getWrappedModel() {
-		return _procuration;
+	protected ProcurationWrapper wrap(Procuration procuration) {
+		return new ProcurationWrapper(procuration);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _procuration.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _procuration.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_procuration.resetOriginalValues();
-	}
-
-	private final Procuration _procuration;
 
 }

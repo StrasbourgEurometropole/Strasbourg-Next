@@ -1,0 +1,118 @@
+.st-nav-onglets {
+	padding-bottom: 50px;
+	margin-left: -40px;		// décalage pour les shadows
+	padding-left: 40px;
+
+	@include mobile {
+		padding-top: 30px;
+		padding-bottom: 30px;
+	}
+
+	// Slider de navigation
+	// ==========================================================================
+
+	.st-slider-nav {
+		position: relative;
+		border-bottom: 1px solid $c_border;
+
+		&:before,
+		&:after {
+			content: "";
+			position: absolute;
+			top: 0;
+			z-index: 2;
+			width: 40px;
+			height: calc(100% + 20px);
+			pointer-events: none;
+		}
+
+		&:before {
+			left: -40px;
+			background: linear-gradient(to right, color-mix(in srgb, $c_main 100%, transparent), color-mix(in srgb, $c_main 0%, transparent));
+		}
+		&:after {
+			right: 0;
+			background: linear-gradient(to left, color-mix(in srgb, $c_main 100%, transparent), color-mix(in srgb, $c_main 0%, transparent));
+		}
+
+		.splide__track {
+			overflow: visible;
+		}
+
+		.splide__slide {
+			margin-right: 40px;
+		}
+
+		.st-link-onglets {
+			@include create-outline;
+			position: relative;
+			display: flex;
+			padding: 40px 0;
+			@include ft('', 16px, 700, color-mix(in srgb, $c_white 60%, transparent), 1);
+			@include transition(color);
+
+			@include can-hover {
+				color: $c_white;
+			}
+
+			&.st-is-current {
+				color: $c_white;
+
+				&:after {
+					transform: translateX(-50%) scale(1);
+					opacity: 1;
+				}
+			}
+
+			&:after {
+				@include icomoon($st-icon-empty-circle);
+				font-size: 13px;
+				color: $c_sub;
+				position: absolute;
+				bottom: -7px;
+				left: 50%;
+				transform: translateX(-50%) scale(0);
+				opacity: 0;
+				pointer-events: none;
+				@include transition(opacity, transform);
+			}
+		}
+
+		.st-nav-arrows {
+			position: absolute;
+			bottom: -15px;
+			right: 0;
+			z-index: 10;
+			display: inline-block;
+			margin-top: -15px;
+			background-color: $c_main;
+		}
+	}
+
+
+	.st-select-nav {
+		position: relative;
+
+		label {
+			position: absolute;
+			top: -10px;
+			left: 10px;
+			margin-bottom: initial;
+			padding: 0 5px;
+			font-weight: 600;
+			@include letter-spacing(25);
+			white-space: nowrap;
+			background-color: $c_greydark;
+		}
+
+		input[type="text"],
+		input[type="date"] {
+			padding: 13px 15px;
+			font-weight: 300;
+		}
+
+		.st-field-select select {
+			padding: 13px 35px 13px 15px;
+		}
+	}
+}

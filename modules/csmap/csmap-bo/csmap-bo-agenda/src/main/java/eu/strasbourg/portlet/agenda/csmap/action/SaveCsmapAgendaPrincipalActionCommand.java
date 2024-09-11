@@ -2,15 +2,21 @@ package eu.strasbourg.portlet.agenda.csmap.action;
 
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.csmap.constants.CodeCacheEnum;
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.service.AgendaLocalService;
 import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.PortletHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
@@ -18,6 +24,9 @@ import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
+import java.io.IOException;
 
 @Component(
         immediate = true,
@@ -96,6 +105,20 @@ public class SaveCsmapAgendaPrincipalActionCommand extends BaseMVCActionCommand 
 
         // Régénération du cache des agendas pour CSMap
         _csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.AGENDA.getId());
+
+        // Post / Redirect / Get si tout est bon
+        ThemeDisplay themeDisplay = (ThemeDisplay) request
+                .getAttribute(WebKeys.THEME_DISPLAY);
+        String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
+        PortletURL renderURL = PortletURLFactoryUtil.create(request,
+                portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
+        renderURL.setParameter("tab", request.getParameter("tab"));
+        renderURL.setParameter("mvcPath", request.getParameter("mvcPath"));
+        try {
+            response.sendRedirect(renderURL.toString());
+        } catch (IOException e) {
+            _log.error(e);
+        }
     }
 
     private AgendaLocalService _agendaLocalService;
@@ -117,7 +140,7 @@ public class SaveCsmapAgendaPrincipalActionCommand extends BaseMVCActionCommand 
             if(Validator.isNotNull(theme))
                 return String.valueOf(theme.getVocabularyId());
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage() + " : " + VocabularyNames.EVENT_THEME);
         }
         return null;
     }
@@ -128,7 +151,7 @@ public class SaveCsmapAgendaPrincipalActionCommand extends BaseMVCActionCommand 
             if(Validator.isNotNull(type))
                 return String.valueOf(type.getVocabularyId());
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage() + " : " + VocabularyNames.EVENT_TYPE);
         }
         return null;
     }
@@ -139,9 +162,11 @@ public class SaveCsmapAgendaPrincipalActionCommand extends BaseMVCActionCommand 
             if(Validator.isNotNull(type))
                 return String.valueOf(type.getVocabularyId());
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage() + " : " + VocabularyNames.TERRITORY);
         }
         return null;
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(SaveCsmapAgendaPrincipalActionCommand.class.getName());
 }
 

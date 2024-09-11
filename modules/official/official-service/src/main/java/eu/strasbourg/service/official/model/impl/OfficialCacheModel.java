@@ -1,22 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.official.model.impl;
 
+import com.liferay.petra.lang.HashUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.util.HashUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import eu.strasbourg.service.official.model.Official;
 
@@ -62,7 +53,7 @@ public class OfficialCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(51);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -108,6 +99,10 @@ public class OfficialCacheModel
 		sb.append(orderDeputyMayor);
 		sb.append(", orderVicePresident=");
 		sb.append(orderVicePresident);
+		sb.append(", listeContact=");
+		sb.append(listeContact);
+		sb.append(", resumeFonction=");
+		sb.append(resumeFonction);
 		sb.append(", imageId=");
 		sb.append(imageId);
 		sb.append("}");
@@ -217,6 +212,21 @@ public class OfficialCacheModel
 
 		officialImpl.setOrderDeputyMayor(orderDeputyMayor);
 		officialImpl.setOrderVicePresident(orderVicePresident);
+
+		if (listeContact == null) {
+			officialImpl.setListeContact("");
+		}
+		else {
+			officialImpl.setListeContact(listeContact);
+		}
+
+		if (resumeFonction == null) {
+			officialImpl.setResumeFonction("");
+		}
+		else {
+			officialImpl.setResumeFonction(resumeFonction);
+		}
+
 		officialImpl.setImageId(imageId);
 
 		officialImpl.resetOriginalValues();
@@ -260,6 +270,8 @@ public class OfficialCacheModel
 		orderDeputyMayor = objectInput.readInt();
 
 		orderVicePresident = objectInput.readInt();
+		listeContact = objectInput.readUTF();
+		resumeFonction = objectInput.readUTF();
 
 		imageId = objectInput.readLong();
 	}
@@ -348,6 +360,20 @@ public class OfficialCacheModel
 
 		objectOutput.writeInt(orderVicePresident);
 
+		if (listeContact == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(listeContact);
+		}
+
+		if (resumeFonction == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(resumeFonction);
+		}
+
 		objectOutput.writeLong(imageId);
 	}
 
@@ -373,6 +399,8 @@ public class OfficialCacheModel
 	public String contact;
 	public int orderDeputyMayor;
 	public int orderVicePresident;
+	public String listeContact;
+	public String resumeFonction;
 	public long imageId;
 
 }

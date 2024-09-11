@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.link.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,30 +19,30 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.link.exception.NoSuchLinkException;
 import eu.strasbourg.service.link.model.Link;
+import eu.strasbourg.service.link.model.LinkTable;
 import eu.strasbourg.service.link.model.impl.LinkImpl;
 import eu.strasbourg.service.link.model.impl.LinkModelImpl;
 import eu.strasbourg.service.link.service.persistence.LinkPersistence;
+import eu.strasbourg.service.link.service.persistence.LinkUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -250,10 +242,6 @@ public class LinkPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -600,8 +588,6 @@ public class LinkPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -758,11 +744,6 @@ public class LinkPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -851,8 +832,6 @@ public class LinkPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1052,10 +1031,6 @@ public class LinkPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1432,8 +1407,6 @@ public class LinkPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1605,10 +1578,6 @@ public class LinkPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1932,8 +1901,6 @@ public class LinkPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1952,21 +1919,14 @@ public class LinkPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Link.class);
+
+		setModelImplClass(LinkImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(LinkTable.INSTANCE);
 	}
 
 	/**
@@ -1976,16 +1936,14 @@ public class LinkPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(Link link) {
-		entityCache.putResult(
-			LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class,
-			link.getPrimaryKey(), link);
+		entityCache.putResult(LinkImpl.class, link.getPrimaryKey(), link);
 
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {link.getUuid(), link.getGroupId()}, link);
-
-		link.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the links in the entity cache if it is enabled.
@@ -1994,15 +1952,18 @@ public class LinkPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Link> links) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (links.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Link link : links) {
-			if (entityCache.getResult(
-					LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class,
-					link.getPrimaryKey()) == null) {
+			if (entityCache.getResult(LinkImpl.class, link.getPrimaryKey()) ==
+					null) {
 
 				cacheResult(link);
-			}
-			else {
-				link.resetOriginalValues();
 			}
 		}
 	}
@@ -2018,9 +1979,7 @@ public class LinkPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(LinkImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(LinkImpl.class);
 	}
 
 	/**
@@ -2032,38 +1991,22 @@ public class LinkPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Link link) {
-		entityCache.removeResult(
-			LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class,
-			link.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((LinkModelImpl)link, true);
+		entityCache.removeResult(LinkImpl.class, link);
 	}
 
 	@Override
 	public void clearCache(List<Link> links) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Link link : links) {
-			entityCache.removeResult(
-				LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class,
-				link.getPrimaryKey());
-
-			clearUniqueFindersCache((LinkModelImpl)link, true);
+			entityCache.removeResult(LinkImpl.class, link);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(LinkImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class, primaryKey);
+			entityCache.removeResult(LinkImpl.class, primaryKey);
 		}
 	}
 
@@ -2072,35 +2015,8 @@ public class LinkPersistenceImpl
 			linkModelImpl.getUuid(), linkModelImpl.getGroupId()
 		};
 
-		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, linkModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		LinkModelImpl linkModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				linkModelImpl.getUuid(), linkModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((linkModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				linkModelImpl.getOriginalUuid(),
-				linkModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
+		finderCache.putResult(_finderPathFetchByUUID_G, args, linkModelImpl);
 	}
 
 	/**
@@ -2236,23 +2152,23 @@ public class LinkPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (link.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				link.setCreateDate(now);
+				link.setCreateDate(date);
 			}
 			else {
-				link.setCreateDate(serviceContext.getCreateDate(now));
+				link.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!linkModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				link.setModifiedDate(now);
+				link.setModifiedDate(date);
 			}
 			else {
-				link.setModifiedDate(serviceContext.getModifiedDate(now));
+				link.setModifiedDate(serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -2261,10 +2177,8 @@ public class LinkPersistenceImpl
 		try {
 			session = openSession();
 
-			if (link.isNew()) {
+			if (isNew) {
 				session.save(link);
-
-				link.setNew(false);
 			}
 			else {
 				link = (Link)session.merge(link);
@@ -2277,102 +2191,13 @@ public class LinkPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(LinkImpl.class, linkModelImpl, false, true);
 
-		if (!LinkModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {linkModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				linkModelImpl.getUuid(), linkModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {linkModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((linkModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {linkModelImpl.getOriginalUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {linkModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((linkModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					linkModelImpl.getOriginalUuid(),
-					linkModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					linkModelImpl.getUuid(), linkModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((linkModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					linkModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {linkModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-		}
-
-		entityCache.putResult(
-			LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class,
-			link.getPrimaryKey(), link, false);
-
-		clearUniqueFindersCache(linkModelImpl, false);
 		cacheUniqueFindersCache(linkModelImpl);
+
+		if (isNew) {
+			link.setNew(false);
+		}
 
 		link.resetOriginalValues();
 
@@ -2419,157 +2244,12 @@ public class LinkPersistenceImpl
 	/**
 	 * Returns the link with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the link
-	 * @return the link, or <code>null</code> if a link with the primary key could not be found
-	 */
-	@Override
-	public Link fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Link link = (Link)serializable;
-
-		if (link == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				link = (Link)session.get(LinkImpl.class, primaryKey);
-
-				if (link != null) {
-					cacheResult(link);
-				}
-				else {
-					entityCache.putResult(
-						LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class,
-						primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return link;
-	}
-
-	/**
-	 * Returns the link with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param linkId the primary key of the link
 	 * @return the link, or <code>null</code> if a link with the primary key could not be found
 	 */
 	@Override
 	public Link fetchByPrimaryKey(long linkId) {
 		return fetchByPrimaryKey((Serializable)linkId);
-	}
-
-	@Override
-	public Map<Serializable, Link> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Link> map = new HashMap<Serializable, Link>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Link link = fetchByPrimaryKey(primaryKey);
-
-			if (link != null) {
-				map.put(primaryKey, link);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Link)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_LINK_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Link link : (List<Link>)query.list()) {
-				map.put(link.getPrimaryKeyObj(), link);
-
-				cacheResult(link);
-
-				uncachedPrimaryKeys.remove(link.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					LinkModelImpl.ENTITY_CACHE_ENABLED, LinkImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2696,10 +2376,6 @@ public class LinkPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2745,9 +2421,6 @@ public class LinkPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2764,6 +2437,21 @@ public class LinkPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "linkId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_LINK;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return LinkModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2772,114 +2460,93 @@ public class LinkPersistenceImpl
 	 * Initializes the link persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			LinkModelImpl.UUID_COLUMN_BITMASK |
-			LinkModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			LinkModelImpl.UUID_COLUMN_BITMASK |
-			LinkModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			LinkModelImpl.UUID_COLUMN_BITMASK |
-			LinkModelImpl.COMPANYID_COLUMN_BITMASK |
-			LinkModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, LinkImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			LinkModelImpl.GROUPID_COLUMN_BITMASK |
-			LinkModelImpl.MODIFIEDDATE_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			LinkModelImpl.ENTITY_CACHE_ENABLED,
-			LinkModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
+
+		LinkUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		LinkUtil.setPersistence(null);
+
 		entityCache.removeCache(LinkImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -2889,9 +2556,6 @@ public class LinkPersistenceImpl
 	protected FinderCache finderCache;
 
 	private static final String _SQL_SELECT_LINK = "SELECT link FROM Link link";
-
-	private static final String _SQL_SELECT_LINK_WHERE_PKS_IN =
-		"SELECT link FROM Link link WHERE linkId IN (";
 
 	private static final String _SQL_SELECT_LINK_WHERE =
 		"SELECT link FROM Link link WHERE ";
@@ -2915,5 +2579,10 @@ public class LinkPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

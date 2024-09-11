@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
@@ -17,6 +8,7 @@ package eu.strasbourg.service.agenda.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -32,29 +24,27 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.model.ManifestationModel;
-import eu.strasbourg.service.agenda.model.ManifestationSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -149,103 +139,83 @@ public class ManifestationModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.agenda.model.Manifestation"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.agenda.model.Manifestation"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.agenda.model.Manifestation"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ENDDATE_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long IDSOURCE_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long SOURCE_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUS_COLUMN_BITMASK = 64L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUSDATE_COLUMN_BITMASK = 128L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TITLE_COLUMN_BITMASK = 256L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 512L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Manifestation toModel(ManifestationSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Manifestation model = new ManifestationImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setManifestationId(soapModel.getManifestationId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setLastPublishDate(soapModel.getLastPublishDate());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-		model.setImageId(soapModel.getImageId());
-		model.setTitle(soapModel.getTitle());
-		model.setDescription(soapModel.getDescription());
-		model.setExternalImageURL(soapModel.getExternalImageURL());
-		model.setExternalImageCopyright(soapModel.getExternalImageCopyright());
-		model.setStartDate(soapModel.getStartDate());
-		model.setEndDate(soapModel.getEndDate());
-		model.setSource(soapModel.getSource());
-		model.setIdSource(soapModel.getIdSource());
-		model.setPublicationDate(soapModel.getPublicationDate());
-		model.setCreateDateSource(soapModel.getCreateDateSource());
-		model.setModifiedDateSource(soapModel.getModifiedDateSource());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Manifestation> toModels(ManifestationSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Manifestation> models = new ArrayList<Manifestation>(
-			soapModels.length);
-
-		for (ManifestationSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final String MAPPING_TABLE_AGENDA_EVENTTOMANIFESTATION_NAME =
 		"agenda_EventToManifestation";
@@ -260,12 +230,12 @@ public class ManifestationModelImpl
 		MAPPING_TABLE_AGENDA_EVENTTOMANIFESTATION_SQL_CREATE =
 			"create table agenda_EventToManifestation (companyId LONG not null,eventId LONG not null,manifestationId LONG not null,primary key (eventId, manifestationId))";
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	public static final boolean
-		FINDER_CACHE_ENABLED_AGENDA_EVENTTOMANIFESTATION =
-			GetterUtil.getBoolean(
-				eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-					"value.object.finder.cache.enabled.agenda_EventToManifestation"),
-				true);
+		FINDER_CACHE_ENABLED_AGENDA_EVENTTOMANIFESTATION = true;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
@@ -323,9 +293,6 @@ public class ManifestationModelImpl
 				attributeGetterFunction.apply((Manifestation)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -350,622 +317,177 @@ public class ManifestationModelImpl
 	public Map<String, Function<Manifestation, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Manifestation, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Manifestation>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Manifestation.class.getClassLoader(), Manifestation.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<Manifestation, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Manifestation> constructor =
-				(Constructor<Manifestation>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Manifestation, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<Manifestation, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Manifestation::getUuid);
+			attributeGetterFunctions.put(
+				"manifestationId", Manifestation::getManifestationId);
+			attributeGetterFunctions.put("groupId", Manifestation::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", Manifestation::getCompanyId);
+			attributeGetterFunctions.put("userId", Manifestation::getUserId);
+			attributeGetterFunctions.put(
+				"userName", Manifestation::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", Manifestation::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Manifestation::getModifiedDate);
+			attributeGetterFunctions.put(
+				"lastPublishDate", Manifestation::getLastPublishDate);
+			attributeGetterFunctions.put("status", Manifestation::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Manifestation::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Manifestation::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", Manifestation::getStatusDate);
+			attributeGetterFunctions.put("imageId", Manifestation::getImageId);
+			attributeGetterFunctions.put("title", Manifestation::getTitle);
+			attributeGetterFunctions.put(
+				"description", Manifestation::getDescription);
+			attributeGetterFunctions.put(
+				"externalImageURL", Manifestation::getExternalImageURL);
+			attributeGetterFunctions.put(
+				"externalImageCopyright",
+				Manifestation::getExternalImageCopyright);
+			attributeGetterFunctions.put(
+				"startDate", Manifestation::getStartDate);
+			attributeGetterFunctions.put("endDate", Manifestation::getEndDate);
+			attributeGetterFunctions.put("source", Manifestation::getSource);
+			attributeGetterFunctions.put(
+				"idSource", Manifestation::getIdSource);
+			attributeGetterFunctions.put(
+				"publicationDate", Manifestation::getPublicationDate);
+			attributeGetterFunctions.put(
+				"createDateSource", Manifestation::getCreateDateSource);
+			attributeGetterFunctions.put(
+				"modifiedDateSource", Manifestation::getModifiedDateSource);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Manifestation, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Manifestation, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Manifestation, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Manifestation, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<Manifestation, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<Manifestation, String>)Manifestation::setUuid);
+			attributeSetterBiConsumers.put(
+				"manifestationId",
+				(BiConsumer<Manifestation, Long>)
+					Manifestation::setManifestationId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<Manifestation, Long>)Manifestation::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Manifestation, Long>)Manifestation::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<Manifestation, Long>)Manifestation::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Manifestation, String>)Manifestation::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Manifestation, Date>)Manifestation::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Manifestation, Date>)
+					Manifestation::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"lastPublishDate",
+				(BiConsumer<Manifestation, Date>)
+					Manifestation::setLastPublishDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<Manifestation, Integer>)Manifestation::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Manifestation, Long>)
+					Manifestation::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Manifestation, String>)
+					Manifestation::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Manifestation, Date>)Manifestation::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"imageId",
+				(BiConsumer<Manifestation, Long>)Manifestation::setImageId);
+			attributeSetterBiConsumers.put(
+				"title",
+				(BiConsumer<Manifestation, String>)Manifestation::setTitle);
+			attributeSetterBiConsumers.put(
+				"description",
+				(BiConsumer<Manifestation, String>)
+					Manifestation::setDescription);
+			attributeSetterBiConsumers.put(
+				"externalImageURL",
+				(BiConsumer<Manifestation, String>)
+					Manifestation::setExternalImageURL);
+			attributeSetterBiConsumers.put(
+				"externalImageCopyright",
+				(BiConsumer<Manifestation, String>)
+					Manifestation::setExternalImageCopyright);
+			attributeSetterBiConsumers.put(
+				"startDate",
+				(BiConsumer<Manifestation, Date>)Manifestation::setStartDate);
+			attributeSetterBiConsumers.put(
+				"endDate",
+				(BiConsumer<Manifestation, Date>)Manifestation::setEndDate);
+			attributeSetterBiConsumers.put(
+				"source",
+				(BiConsumer<Manifestation, String>)Manifestation::setSource);
+			attributeSetterBiConsumers.put(
+				"idSource",
+				(BiConsumer<Manifestation, String>)Manifestation::setIdSource);
+			attributeSetterBiConsumers.put(
+				"publicationDate",
+				(BiConsumer<Manifestation, Date>)
+					Manifestation::setPublicationDate);
+			attributeSetterBiConsumers.put(
+				"createDateSource",
+				(BiConsumer<Manifestation, Date>)
+					Manifestation::setCreateDateSource);
+			attributeSetterBiConsumers.put(
+				"modifiedDateSource",
+				(BiConsumer<Manifestation, Date>)
+					Manifestation::setModifiedDateSource);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<Manifestation, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Manifestation, Object>>();
-		Map<String, BiConsumer<Manifestation, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Manifestation, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object uuidObject) {
-
-					manifestation.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"manifestationId",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getManifestationId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"manifestationId",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object manifestationIdObject) {
-
-					manifestation.setManifestationId(
-						(Long)manifestationIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object groupIdObject) {
-
-					manifestation.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object companyIdObject) {
-
-					manifestation.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object userIdObject) {
-
-					manifestation.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object userNameObject) {
-
-					manifestation.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object createDateObject) {
-
-					manifestation.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object modifiedDateObject) {
-
-					manifestation.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getLastPublishDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object lastPublishDateObject) {
-
-					manifestation.setLastPublishDate(
-						(Date)lastPublishDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object statusObject) {
-
-					manifestation.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object statusByUserIdObject) {
-
-					manifestation.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation,
-					Object statusByUserNameObject) {
-
-					manifestation.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object statusDateObject) {
-
-					manifestation.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"imageId",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getImageId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"imageId",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object imageIdObject) {
-
-					manifestation.setImageId((Long)imageIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getTitle();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object titleObject) {
-
-					manifestation.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getDescription();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"description",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object descriptionObject) {
-
-					manifestation.setDescription((String)descriptionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"externalImageURL",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getExternalImageURL();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"externalImageURL",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation,
-					Object externalImageURLObject) {
-
-					manifestation.setExternalImageURL(
-						(String)externalImageURLObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"externalImageCopyright",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getExternalImageCopyright();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"externalImageCopyright",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation,
-					Object externalImageCopyrightObject) {
-
-					manifestation.setExternalImageCopyright(
-						(String)externalImageCopyrightObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"startDate",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getStartDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"startDate",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object startDateObject) {
-
-					manifestation.setStartDate((Date)startDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"endDate",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getEndDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"endDate",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object endDateObject) {
-
-					manifestation.setEndDate((Date)endDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"source",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getSource();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"source",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object sourceObject) {
-
-					manifestation.setSource((String)sourceObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"idSource",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getIdSource();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"idSource",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object idSourceObject) {
-
-					manifestation.setIdSource((String)idSourceObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publicationDate",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getPublicationDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"publicationDate",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation, Object publicationDateObject) {
-
-					manifestation.setPublicationDate(
-						(Date)publicationDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDateSource",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getCreateDateSource();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDateSource",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation,
-					Object createDateSourceObject) {
-
-					manifestation.setCreateDateSource(
-						(Date)createDateSourceObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDateSource",
-			new Function<Manifestation, Object>() {
-
-				@Override
-				public Object apply(Manifestation manifestation) {
-					return manifestation.getModifiedDateSource();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDateSource",
-			new BiConsumer<Manifestation, Object>() {
-
-				@Override
-				public void accept(
-					Manifestation manifestation,
-					Object modifiedDateSourceObject) {
-
-					manifestation.setModifiedDateSource(
-						(Date)modifiedDateSourceObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -981,17 +503,20 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -1002,6 +527,10 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setManifestationId(long manifestationId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_manifestationId = manifestationId;
 	}
 
@@ -1013,19 +542,20 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -1036,19 +566,21 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -1059,6 +591,10 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -1091,6 +627,10 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -1102,6 +642,10 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -1119,6 +663,10 @@ public class ManifestationModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -1130,6 +678,10 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setLastPublishDate(Date lastPublishDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_lastPublishDate = lastPublishDate;
 	}
 
@@ -1141,19 +693,21 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setStatus(int status) {
-		_columnBitmask |= STATUS_COLUMN_BITMASK;
-
-		if (!_setOriginalStatus) {
-			_setOriginalStatus = true;
-
-			_originalStatus = _status;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_status = status;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public int getOriginalStatus() {
-		return _originalStatus;
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("status"));
 	}
 
 	@JSON
@@ -1164,6 +718,10 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1196,6 +754,10 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1207,17 +769,20 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_columnBitmask |= STATUSDATE_COLUMN_BITMASK;
-
-		if (_originalStatusDate == null) {
-			_originalStatusDate = _statusDate;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_statusDate = statusDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalStatusDate() {
-		return _originalStatusDate;
+		return getColumnOriginalValue("statusDate");
 	}
 
 	@JSON
@@ -1228,6 +793,10 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setImageId(Long imageId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_imageId = imageId;
 	}
 
@@ -1287,10 +856,8 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setTitle(String title) {
-		_columnBitmask = -1L;
-
-		if (_originalTitle == null) {
-			_originalTitle = _title;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_title = title;
@@ -1342,8 +909,13 @@ public class ManifestationModelImpl
 				LocaleUtil.toLanguageId(defaultLocale)));
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalTitle() {
-		return GetterUtil.getString(_originalTitle);
+		return getColumnOriginalValue("title");
 	}
 
 	@JSON
@@ -1402,6 +974,10 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setDescription(String description) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_description = description;
 	}
 
@@ -1467,6 +1043,10 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setExternalImageURL(String externalImageURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_externalImageURL = externalImageURL;
 	}
 
@@ -1483,6 +1063,10 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setExternalImageCopyright(String externalImageCopyright) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_externalImageCopyright = externalImageCopyright;
 	}
 
@@ -1494,6 +1078,10 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setStartDate(Date startDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_startDate = startDate;
 	}
 
@@ -1505,17 +1093,20 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setEndDate(Date endDate) {
-		_columnBitmask |= ENDDATE_COLUMN_BITMASK;
-
-		if (_originalEndDate == null) {
-			_originalEndDate = _endDate;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_endDate = endDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalEndDate() {
-		return _originalEndDate;
+		return getColumnOriginalValue("endDate");
 	}
 
 	@JSON
@@ -1531,17 +1122,20 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setSource(String source) {
-		_columnBitmask |= SOURCE_COLUMN_BITMASK;
-
-		if (_originalSource == null) {
-			_originalSource = _source;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_source = source;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalSource() {
-		return GetterUtil.getString(_originalSource);
+		return getColumnOriginalValue("source");
 	}
 
 	@JSON
@@ -1557,17 +1151,20 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setIdSource(String idSource) {
-		_columnBitmask |= IDSOURCE_COLUMN_BITMASK;
-
-		if (_originalIdSource == null) {
-			_originalIdSource = _idSource;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_idSource = idSource;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalIdSource() {
-		return GetterUtil.getString(_originalIdSource);
+		return getColumnOriginalValue("idSource");
 	}
 
 	@JSON
@@ -1578,17 +1175,20 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setPublicationDate(Date publicationDate) {
-		_columnBitmask |= PUBLICATIONDATE_COLUMN_BITMASK;
-
-		if (_originalPublicationDate == null) {
-			_originalPublicationDate = _publicationDate;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publicationDate = publicationDate;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public Date getOriginalPublicationDate() {
-		return _originalPublicationDate;
+		return getColumnOriginalValue("publicationDate");
 	}
 
 	@JSON
@@ -1599,6 +1199,10 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setCreateDateSource(Date createDateSource) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDateSource = createDateSource;
 	}
 
@@ -1610,6 +1214,10 @@ public class ManifestationModelImpl
 
 	@Override
 	public void setModifiedDateSource(Date modifiedDateSource) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDateSource = modifiedDateSource;
 	}
 
@@ -1700,6 +1308,26 @@ public class ManifestationModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1856,6 +1484,63 @@ public class ManifestationModelImpl
 	}
 
 	@Override
+	public Manifestation cloneWithOriginalValues() {
+		ManifestationImpl manifestationImpl = new ManifestationImpl();
+
+		manifestationImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		manifestationImpl.setManifestationId(
+			this.<Long>getColumnOriginalValue("manifestationId"));
+		manifestationImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		manifestationImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		manifestationImpl.setUserId(
+			this.<Long>getColumnOriginalValue("userId"));
+		manifestationImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		manifestationImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		manifestationImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		manifestationImpl.setLastPublishDate(
+			this.<Date>getColumnOriginalValue("lastPublishDate"));
+		manifestationImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		manifestationImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		manifestationImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		manifestationImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		manifestationImpl.setImageId(
+			this.<Long>getColumnOriginalValue("imageId"));
+		manifestationImpl.setTitle(
+			this.<String>getColumnOriginalValue("title"));
+		manifestationImpl.setDescription(
+			this.<String>getColumnOriginalValue("description"));
+		manifestationImpl.setExternalImageURL(
+			this.<String>getColumnOriginalValue("externalImageURL"));
+		manifestationImpl.setExternalImageCopyright(
+			this.<String>getColumnOriginalValue("externalImageCopyright"));
+		manifestationImpl.setStartDate(
+			this.<Date>getColumnOriginalValue("startDate"));
+		manifestationImpl.setEndDate(
+			this.<Date>getColumnOriginalValue("endDate"));
+		manifestationImpl.setSource(
+			this.<String>getColumnOriginalValue("source"));
+		manifestationImpl.setIdSource(
+			this.<String>getColumnOriginalValue("idSource"));
+		manifestationImpl.setPublicationDate(
+			this.<Date>getColumnOriginalValue("publicationDate"));
+		manifestationImpl.setCreateDateSource(
+			this.<Date>getColumnOriginalValue("createDateSource"));
+		manifestationImpl.setModifiedDateSource(
+			this.<Date>getColumnOriginalValue("modifiedDateSource"));
+
+		return manifestationImpl;
+	}
+
+	@Override
 	public int compareTo(Manifestation manifestation) {
 		int value = 0;
 
@@ -1895,11 +1580,19 @@ public class ManifestationModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1907,43 +1600,11 @@ public class ManifestationModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ManifestationModelImpl manifestationModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		manifestationModelImpl._originalUuid = manifestationModelImpl._uuid;
+		_setModifiedDate = false;
 
-		manifestationModelImpl._originalGroupId =
-			manifestationModelImpl._groupId;
-
-		manifestationModelImpl._setOriginalGroupId = false;
-
-		manifestationModelImpl._originalCompanyId =
-			manifestationModelImpl._companyId;
-
-		manifestationModelImpl._setOriginalCompanyId = false;
-
-		manifestationModelImpl._setModifiedDate = false;
-
-		manifestationModelImpl._originalStatus = manifestationModelImpl._status;
-
-		manifestationModelImpl._setOriginalStatus = false;
-
-		manifestationModelImpl._originalStatusDate =
-			manifestationModelImpl._statusDate;
-
-		manifestationModelImpl._originalTitle = manifestationModelImpl._title;
-
-		manifestationModelImpl._originalEndDate =
-			manifestationModelImpl._endDate;
-
-		manifestationModelImpl._originalSource = manifestationModelImpl._source;
-
-		manifestationModelImpl._originalIdSource =
-			manifestationModelImpl._idSource;
-
-		manifestationModelImpl._originalPublicationDate =
-			manifestationModelImpl._publicationDate;
-
-		manifestationModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -2137,7 +1798,7 @@ public class ManifestationModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -2148,9 +1809,26 @@ public class ManifestationModelImpl
 			Function<Manifestation, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Manifestation)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Manifestation)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -2163,53 +1841,19 @@ public class ManifestationModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Manifestation, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Manifestation, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Manifestation, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Manifestation)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Manifestation>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Manifestation.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _manifestationId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -2217,31 +1861,156 @@ public class ManifestationModelImpl
 	private boolean _setModifiedDate;
 	private Date _lastPublishDate;
 	private int _status;
-	private int _originalStatus;
-	private boolean _setOriginalStatus;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
-	private Date _originalStatusDate;
 	private Long _imageId;
 	private String _title;
 	private String _titleCurrentLanguageId;
-	private String _originalTitle;
 	private String _description;
 	private String _descriptionCurrentLanguageId;
 	private String _externalImageURL;
 	private String _externalImageCopyright;
 	private Date _startDate;
 	private Date _endDate;
-	private Date _originalEndDate;
 	private String _source;
-	private String _originalSource;
 	private String _idSource;
-	private String _originalIdSource;
 	private Date _publicationDate;
-	private Date _originalPublicationDate;
 	private Date _createDateSource;
 	private Date _modifiedDateSource;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Manifestation, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Manifestation)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("manifestationId", _manifestationId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("lastPublishDate", _lastPublishDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("imageId", _imageId);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("description", _description);
+		_columnOriginalValues.put("externalImageURL", _externalImageURL);
+		_columnOriginalValues.put(
+			"externalImageCopyright", _externalImageCopyright);
+		_columnOriginalValues.put("startDate", _startDate);
+		_columnOriginalValues.put("endDate", _endDate);
+		_columnOriginalValues.put("source", _source);
+		_columnOriginalValues.put("idSource", _idSource);
+		_columnOriginalValues.put("publicationDate", _publicationDate);
+		_columnOriginalValues.put("createDateSource", _createDateSource);
+		_columnOriginalValues.put("modifiedDateSource", _modifiedDateSource);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("manifestationId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("lastPublishDate", 256L);
+
+		columnBitmasks.put("status", 512L);
+
+		columnBitmasks.put("statusByUserId", 1024L);
+
+		columnBitmasks.put("statusByUserName", 2048L);
+
+		columnBitmasks.put("statusDate", 4096L);
+
+		columnBitmasks.put("imageId", 8192L);
+
+		columnBitmasks.put("title", 16384L);
+
+		columnBitmasks.put("description", 32768L);
+
+		columnBitmasks.put("externalImageURL", 65536L);
+
+		columnBitmasks.put("externalImageCopyright", 131072L);
+
+		columnBitmasks.put("startDate", 262144L);
+
+		columnBitmasks.put("endDate", 524288L);
+
+		columnBitmasks.put("source", 1048576L);
+
+		columnBitmasks.put("idSource", 2097152L);
+
+		columnBitmasks.put("publicationDate", 4194304L);
+
+		columnBitmasks.put("createDateSource", 8388608L);
+
+		columnBitmasks.put("modifiedDateSource", 16777216L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Manifestation _escapedModel;
 

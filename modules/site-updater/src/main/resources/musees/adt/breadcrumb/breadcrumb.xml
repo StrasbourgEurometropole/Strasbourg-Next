@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.portal.kernel.servlet.taglib.ui.BreadcrumbEntry</className>
+    <template>
+        <name>Fil d'ariane (v2)</name>
+        <key>420085080</key>
+        <script>breadcrumbs.ftl</script>
+    </template>
+</root>

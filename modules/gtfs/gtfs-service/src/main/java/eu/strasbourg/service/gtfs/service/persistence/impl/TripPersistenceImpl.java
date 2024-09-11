@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,29 +16,29 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchTripException;
 import eu.strasbourg.service.gtfs.model.Trip;
+import eu.strasbourg.service.gtfs.model.TripTable;
 import eu.strasbourg.service.gtfs.model.impl.TripImpl;
 import eu.strasbourg.service.gtfs.model.impl.TripModelImpl;
 import eu.strasbourg.service.gtfs.service.persistence.TripPersistence;
+import eu.strasbourg.service.gtfs.service.persistence.TripUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -246,10 +238,6 @@ public class TripPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -596,8 +584,6 @@ public class TripPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -778,10 +764,6 @@ public class TripPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1130,8 +1112,6 @@ public class TripPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1315,10 +1295,6 @@ public class TripPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1668,8 +1644,6 @@ public class TripPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1851,10 +1825,6 @@ public class TripPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2203,8 +2173,6 @@ public class TripPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2227,21 +2195,14 @@ public class TripPersistenceImpl
 		dbColumnNames.put("uuid", "uuid_");
 		dbColumnNames.put("id", "id_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Trip.class);
+
+		setModelImplClass(TripImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(TripTable.INSTANCE);
 	}
 
 	/**
@@ -2251,12 +2212,10 @@ public class TripPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(Trip trip) {
-		entityCache.putResult(
-			TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class,
-			trip.getPrimaryKey(), trip);
-
-		trip.resetOriginalValues();
+		entityCache.putResult(TripImpl.class, trip.getPrimaryKey(), trip);
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the trips in the entity cache if it is enabled.
@@ -2265,15 +2224,18 @@ public class TripPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Trip> trips) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (trips.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Trip trip : trips) {
-			if (entityCache.getResult(
-					TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class,
-					trip.getPrimaryKey()) == null) {
+			if (entityCache.getResult(TripImpl.class, trip.getPrimaryKey()) ==
+					null) {
 
 				cacheResult(trip);
-			}
-			else {
-				trip.resetOriginalValues();
 			}
 		}
 	}
@@ -2289,9 +2251,7 @@ public class TripPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(TripImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(TripImpl.class);
 	}
 
 	/**
@@ -2303,34 +2263,22 @@ public class TripPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Trip trip) {
-		entityCache.removeResult(
-			TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class,
-			trip.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(TripImpl.class, trip);
 	}
 
 	@Override
 	public void clearCache(List<Trip> trips) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Trip trip : trips) {
-			entityCache.removeResult(
-				TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class,
-				trip.getPrimaryKey());
+			entityCache.removeResult(TripImpl.class, trip);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(TripImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class, primaryKey);
+			entityCache.removeResult(TripImpl.class, primaryKey);
 		}
 	}
 
@@ -2467,10 +2415,8 @@ public class TripPersistenceImpl
 		try {
 			session = openSession();
 
-			if (trip.isNew()) {
+			if (isNew) {
 				session.save(trip);
-
-				trip.setNew(false);
 			}
 			else {
 				trip = (Trip)session.merge(trip);
@@ -2483,119 +2429,11 @@ public class TripPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(TripImpl.class, tripModelImpl, false, true);
 
-		if (!TripModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		if (isNew) {
+			trip.setNew(false);
 		}
-		else if (isNew) {
-			Object[] args = new Object[] {tripModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {tripModelImpl.getRoute_id()};
-
-			finderCache.removeResult(_finderPathCountByRouteId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByRouteId, args);
-
-			args = new Object[] {tripModelImpl.getService_id()};
-
-			finderCache.removeResult(_finderPathCountByServiceId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByServiceId, args);
-
-			args = new Object[] {tripModelImpl.getTrip_id()};
-
-			finderCache.removeResult(_finderPathCountByTripId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByTripId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((tripModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {tripModelImpl.getOriginalUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {tripModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((tripModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByRouteId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					tripModelImpl.getOriginalRoute_id()
-				};
-
-				finderCache.removeResult(_finderPathCountByRouteId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByRouteId, args);
-
-				args = new Object[] {tripModelImpl.getRoute_id()};
-
-				finderCache.removeResult(_finderPathCountByRouteId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByRouteId, args);
-			}
-
-			if ((tripModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByServiceId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					tripModelImpl.getOriginalService_id()
-				};
-
-				finderCache.removeResult(_finderPathCountByServiceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByServiceId, args);
-
-				args = new Object[] {tripModelImpl.getService_id()};
-
-				finderCache.removeResult(_finderPathCountByServiceId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByServiceId, args);
-			}
-
-			if ((tripModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByTripId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					tripModelImpl.getOriginalTrip_id()
-				};
-
-				finderCache.removeResult(_finderPathCountByTripId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByTripId, args);
-
-				args = new Object[] {tripModelImpl.getTrip_id()};
-
-				finderCache.removeResult(_finderPathCountByTripId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByTripId, args);
-			}
-		}
-
-		entityCache.putResult(
-			TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class,
-			trip.getPrimaryKey(), trip, false);
 
 		trip.resetOriginalValues();
 
@@ -2642,157 +2480,12 @@ public class TripPersistenceImpl
 	/**
 	 * Returns the trip with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the trip
-	 * @return the trip, or <code>null</code> if a trip with the primary key could not be found
-	 */
-	@Override
-	public Trip fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Trip trip = (Trip)serializable;
-
-		if (trip == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				trip = (Trip)session.get(TripImpl.class, primaryKey);
-
-				if (trip != null) {
-					cacheResult(trip);
-				}
-				else {
-					entityCache.putResult(
-						TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class,
-						primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return trip;
-	}
-
-	/**
-	 * Returns the trip with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param id the primary key of the trip
 	 * @return the trip, or <code>null</code> if a trip with the primary key could not be found
 	 */
 	@Override
 	public Trip fetchByPrimaryKey(long id) {
 		return fetchByPrimaryKey((Serializable)id);
-	}
-
-	@Override
-	public Map<Serializable, Trip> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Trip> map = new HashMap<Serializable, Trip>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Trip trip = fetchByPrimaryKey(primaryKey);
-
-			if (trip != null) {
-				map.put(primaryKey, trip);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Trip)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_TRIP_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Trip trip : (List<Trip>)query.list()) {
-				map.put(trip.getPrimaryKeyObj(), trip);
-
-				cacheResult(trip);
-
-				uncachedPrimaryKeys.remove(trip.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					TripModelImpl.ENTITY_CACHE_ENABLED, TripImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2919,10 +2612,6 @@ public class TripPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2968,9 +2657,6 @@ public class TripPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2987,6 +2673,21 @@ public class TripPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "id_";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_TRIP;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return TripModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2995,120 +2696,100 @@ public class TripPersistenceImpl
 	 * Initializes the trip persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			TripModelImpl.UUID_COLUMN_BITMASK |
-			TripModelImpl.TRIP_ID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathWithPaginationFindByRouteId = new FinderPath(
-			TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByRouteId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"route_id"}, true);
 
 		_finderPathWithoutPaginationFindByRouteId = new FinderPath(
-			TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByRouteId",
-			new String[] {String.class.getName()},
-			TripModelImpl.ROUTE_ID_COLUMN_BITMASK |
-			TripModelImpl.TRIP_ID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"route_id"},
+			true);
 
 		_finderPathCountByRouteId = new FinderPath(
-			TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRouteId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"route_id"},
+			false);
 
 		_finderPathWithPaginationFindByServiceId = new FinderPath(
-			TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByServiceId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"service_id"}, true);
 
 		_finderPathWithoutPaginationFindByServiceId = new FinderPath(
-			TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByServiceId",
-			new String[] {String.class.getName()},
-			TripModelImpl.SERVICE_ID_COLUMN_BITMASK |
-			TripModelImpl.TRIP_ID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"service_id"},
+			true);
 
 		_finderPathCountByServiceId = new FinderPath(
-			TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByServiceId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"service_id"},
+			false);
 
 		_finderPathWithPaginationFindByTripId = new FinderPath(
-			TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByTripId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"trip_id"}, true);
 
 		_finderPathWithoutPaginationFindByTripId = new FinderPath(
-			TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, TripImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByTripId",
-			new String[] {String.class.getName()},
-			TripModelImpl.TRIP_ID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"trip_id"},
+			true);
 
 		_finderPathCountByTripId = new FinderPath(
-			TripModelImpl.ENTITY_CACHE_ENABLED,
-			TripModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTripId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"trip_id"},
+			false);
+
+		TripUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		TripUtil.setPersistence(null);
+
 		entityCache.removeCache(TripImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -3118,9 +2799,6 @@ public class TripPersistenceImpl
 	protected FinderCache finderCache;
 
 	private static final String _SQL_SELECT_TRIP = "SELECT trip FROM Trip trip";
-
-	private static final String _SQL_SELECT_TRIP_WHERE_PKS_IN =
-		"SELECT trip FROM Trip trip WHERE id_ IN (";
 
 	private static final String _SQL_SELECT_TRIP_WHERE =
 		"SELECT trip FROM Trip trip WHERE ";
@@ -3144,5 +2822,10 @@ public class TripPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "id"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

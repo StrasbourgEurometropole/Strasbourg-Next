@@ -14,12 +14,11 @@
 
 package eu.strasbourg.service.project.service.impl;
 
-import java.util.List;
-
 import com.liferay.portal.kernel.exception.PortalException;
-
 import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.base.ProjectTimelineLocalServiceBaseImpl;
+
+import java.util.List;
 
 /**
  * The implementation of the project timeline local service.

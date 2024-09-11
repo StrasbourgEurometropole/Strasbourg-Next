@@ -14,7 +14,7 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import aQute.bnd.annotation.ProviderType;
+import org.osgi.annotation.versioning.ProviderType;
 import eu.strasbourg.service.agenda.service.base.CampaignEventStatusLocalServiceBaseImpl;
 import eu.strasbourg.service.agenda.service.base.CampaignEventStatusServiceBaseImpl;
 

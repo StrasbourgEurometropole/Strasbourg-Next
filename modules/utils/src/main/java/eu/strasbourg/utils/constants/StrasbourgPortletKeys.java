@@ -9,12 +9,10 @@ public class StrasbourgPortletKeys {
 	public static final String AGENDA_BO = "eu_strasbourg_portlet_agenda_AgendaBOPortlet";
 	public static final String AGENDA_WEB = "eu_strasbourg_portlet_agenda_AgendaPortlet";
 	public static final String CAMPAIGN_WEB = "eu_strasbourg_portlet_agenda_portlet_AgendaCampaignPortlet";
+	public static final String EVENT_VIEWER_WEB = "eu_strasbourg_portlet_event_viewer_EventViewerPortlet";
 	
 	public static final String EDITION_BO = "eu_strasbourg_portlet_edition_EditionBOPortlet";
 	public static final String EDITION_WEB = "eu_strasbourg_portlet_edition_EditionPortlet";
-
-	public static final String ARTWORK_BO = "eu_strasbourg_portlet_artwork_ArtworkBOPortlet";
-	public static final String ARTWORK_WEB = "eu_strasbourg_portlet_artwork_ArtworkPortlet";
 	
 	public static final String LINK_BO = "eu_strasbourg_portlet_link_LinkBOPortlet";
 	public static final String LINK_WEB = "eu_strasbourg_portlet_link_LinkPortlet";
@@ -24,6 +22,7 @@ public class StrasbourgPortletKeys {
 	
 	public static final String PLACE_BO = "eu_strasbourg_portlet_place_PlaceBOPortlet";
 	public static final String PLACE_WEB = "eu_strasbourg_portlet_place_PlacePortlet";
+	public static final String PLACE_SCHEDULE_WEB = "eu_strasbourg_portlet_place_schedule_PlaceSchedulePortlet";
 	
 	public static final String OFFICIAL_BO = "eu_strasbourg_portlet_official_OfficialBOPortlet";
 	public static final String OFFICIAL_WEB = "eu_strasbourg_portlet_official_OfficialPortlet";
@@ -38,17 +37,10 @@ public class StrasbourgPortletKeys {
 	
 	public static final String ENTITY_DETAIL_WEB = "eu_strasbourg_portlet_entity_detail_EntityDetailPortlet";
 	
-	public static final String FORMASSEMBLY_WEB = "eu_strasbourg_portlet_formassembly_FormAssemblyPortlet";
-	
 	public static final String INTERNAL_LINK_VIEWER_WEB = "eu_strasbourg_portlet_internal_link_viewer_InternalLinkViewerPortlet";
-	
-	public static final String PLACE_SCHEDULE_WEB = "eu_strasbourg_portlet_place_schedule_PlaceSchedulePortlet";
-	
+
 	public static final String SEARCH_ASSET_WEB = "eu_strasbourg_portlet_search_asset_SearchAssetPortlet";
-	public static final String EXPERIMENTAL_SEARCH_WEB = "eu_strasbourg_portlet_search_ExperimentalSearchPortlet";
-	
-	public static final String EVENT_VIEWER_WEB = "eu_strasbourg_portlet_event_viewer_EventViewerPortlet";
-	
+
 	public static final String TWITTER_WEB = "eu_strasbourg_portlet_twitter_TwitterPortlet";
 	public static final String SOCIAL_WALL_WEB = "eu_strasbourg_portlet_social_SocialWallPortlet";
 
@@ -92,8 +84,6 @@ public class StrasbourgPortletKeys {
 	public static final String MEDIATHEQUE_WEB = "eu_strasbourg_portlet_mediatheque_MediathequeWebPortlet";
 	public static final String VALIDATION_WEB = "eu_strasbourg_portlet_mediatheque_ValidationWebPortlet";
 
-	public static final String FAMILY_SPACE_WEB = "eu_strasbourg_portlet_familySpace_FamilySpaceWebPortlet";
-	
 	public static final String GRAVEYARD_WEB = "eu_strasbourg_portlet_graveyard_GraveyardWebPortlet";
 
 	public static final String RESID_WEB = "eu_strasbourg_portlet_resid_ResidWebPortlet";
@@ -123,10 +113,6 @@ public class StrasbourgPortletKeys {
 	public static final String COUNCIL_BO = "eu_strasbourg_portlet_council_CouncilBOPortlet";
 	public static final String COUNCIL_WEB = "eu_strasbourg_portlet_council_CouncilPortlet";
 
-	public static final String EJOB_BO = "eu_strasbourg_portlet_ejob_EjobBOPortlet";
-	public static final String EJOB_WEB = "eu_strasbourg_portlet_ejob_EjobPortlet";
-	public static final String OFFER_WEB = "eu_strasbourg_portlet_offer_OfferPortlet";
-
     public static final String HELP_BO = "eu_strasbourg_portlet_help_HelpBOPortlet";
 	public static final String HELP_POPUP_WEB = "eu_strasbourg_portlet_help_HelpPopupPortlet";
 	public static final String HELP_WEB = "eu_strasbourg_portlet_help_HelpPortlet";
@@ -136,4 +122,6 @@ public class StrasbourgPortletKeys {
 
 	public static final String NOTIF_BO = "eu_strasbourg_portlet_notif_NotifBOPortlet";
 	public static final String NOTIF_WEB = "eu_strasbourg_portlet_notif_NotifPortlet";
+
+	public static final String NEWSHOME = "eu_strasbourg_portlet_news_home_NewsHomePortlet";
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <basicCWTemplate>
+        <name>Entête carte accueil</name>
+        <key>2914175</key>
+        <script>header-accueil-map.ftl</script>
+        <cacheable>true</cacheable>
+    </basicCWTemplate>
+</root>

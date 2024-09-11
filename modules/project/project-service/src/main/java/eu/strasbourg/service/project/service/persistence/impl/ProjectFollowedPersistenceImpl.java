@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -23,27 +15,31 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.project.exception.NoSuchProjectFollowedException;
 import eu.strasbourg.service.project.model.ProjectFollowed;
+import eu.strasbourg.service.project.model.ProjectFollowedTable;
 import eu.strasbourg.service.project.model.impl.ProjectFollowedImpl;
 import eu.strasbourg.service.project.model.impl.ProjectFollowedModelImpl;
 import eu.strasbourg.service.project.service.persistence.ProjectFollowedPersistence;
+import eu.strasbourg.service.project.service.persistence.ProjectFollowedUtil;
 
 import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -253,10 +249,6 @@ public class ProjectFollowedPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -617,8 +609,6 @@ public class ProjectFollowedPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -792,10 +782,6 @@ public class ProjectFollowedPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1126,8 +1112,6 @@ public class ProjectFollowedPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1307,11 +1291,6 @@ public class ProjectFollowedPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByPublikUserIdAndProjectId, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1406,8 +1385,6 @@ public class ProjectFollowedPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1432,6 +1409,11 @@ public class ProjectFollowedPersistenceImpl
 
 	public ProjectFollowedPersistenceImpl() {
 		setModelClass(ProjectFollowed.class);
+
+		setModelImplClass(ProjectFollowedImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(ProjectFollowedTable.INSTANCE);
 	}
 
 	/**
@@ -1442,7 +1424,6 @@ public class ProjectFollowedPersistenceImpl
 	@Override
 	public void cacheResult(ProjectFollowed projectFollowed) {
 		entityCache.putResult(
-			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
 			ProjectFollowedImpl.class, projectFollowed.getPrimaryKey(),
 			projectFollowed);
 
@@ -1453,9 +1434,9 @@ public class ProjectFollowedPersistenceImpl
 				projectFollowed.getProjectId()
 			},
 			projectFollowed);
-
-		projectFollowed.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the project followeds in the entity cache if it is enabled.
@@ -1464,16 +1445,20 @@ public class ProjectFollowedPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<ProjectFollowed> projectFolloweds) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (projectFolloweds.size() >
+				 _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (ProjectFollowed projectFollowed : projectFolloweds) {
 			if (entityCache.getResult(
-					ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
 					ProjectFollowedImpl.class,
 					projectFollowed.getPrimaryKey()) == null) {
 
 				cacheResult(projectFollowed);
-			}
-			else {
-				projectFollowed.resetOriginalValues();
 			}
 		}
 	}
@@ -1489,9 +1474,7 @@ public class ProjectFollowedPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(ProjectFollowedImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ProjectFollowedImpl.class);
 	}
 
 	/**
@@ -1503,41 +1486,23 @@ public class ProjectFollowedPersistenceImpl
 	 */
 	@Override
 	public void clearCache(ProjectFollowed projectFollowed) {
-		entityCache.removeResult(
-			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedImpl.class, projectFollowed.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache(
-			(ProjectFollowedModelImpl)projectFollowed, true);
+		entityCache.removeResult(ProjectFollowedImpl.class, projectFollowed);
 	}
 
 	@Override
 	public void clearCache(List<ProjectFollowed> projectFolloweds) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (ProjectFollowed projectFollowed : projectFolloweds) {
 			entityCache.removeResult(
-				ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-				ProjectFollowedImpl.class, projectFollowed.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(ProjectFollowedModelImpl)projectFollowed, true);
+				ProjectFollowedImpl.class, projectFollowed);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ProjectFollowedImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-				ProjectFollowedImpl.class, primaryKey);
+			entityCache.removeResult(ProjectFollowedImpl.class, primaryKey);
 		}
 	}
 
@@ -1550,43 +1515,10 @@ public class ProjectFollowedPersistenceImpl
 		};
 
 		finderCache.putResult(
-			_finderPathCountByPublikUserIdAndProjectId, args, Long.valueOf(1),
-			false);
+			_finderPathCountByPublikUserIdAndProjectId, args, Long.valueOf(1));
 		finderCache.putResult(
 			_finderPathFetchByPublikUserIdAndProjectId, args,
-			projectFollowedModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		ProjectFollowedModelImpl projectFollowedModelImpl,
-		boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				projectFollowedModelImpl.getPublikUserId(),
-				projectFollowedModelImpl.getProjectId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByPublikUserIdAndProjectId, args);
-			finderCache.removeResult(
-				_finderPathFetchByPublikUserIdAndProjectId, args);
-		}
-
-		if ((projectFollowedModelImpl.getColumnBitmask() &
-			 _finderPathFetchByPublikUserIdAndProjectId.getColumnBitmask()) !=
-				 0) {
-
-			Object[] args = new Object[] {
-				projectFollowedModelImpl.getOriginalPublikUserId(),
-				projectFollowedModelImpl.getOriginalProjectId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByPublikUserIdAndProjectId, args);
-			finderCache.removeResult(
-				_finderPathFetchByPublikUserIdAndProjectId, args);
-		}
+			projectFollowedModelImpl);
 	}
 
 	/**
@@ -1715,15 +1647,28 @@ public class ProjectFollowedPersistenceImpl
 		ProjectFollowedModelImpl projectFollowedModelImpl =
 			(ProjectFollowedModelImpl)projectFollowed;
 
+		if (isNew && (projectFollowed.getCreateDate() == null)) {
+			ServiceContext serviceContext =
+				ServiceContextThreadLocal.getServiceContext();
+
+			Date date = new Date();
+
+			if (serviceContext == null) {
+				projectFollowed.setCreateDate(date);
+			}
+			else {
+				projectFollowed.setCreateDate(
+					serviceContext.getCreateDate(date));
+			}
+		}
+
 		Session session = null;
 
 		try {
 			session = openSession();
 
-			if (projectFollowed.isNew()) {
+			if (isNew) {
 				session.save(projectFollowed);
-
-				projectFollowed.setNew(false);
 			}
 			else {
 				projectFollowed = (ProjectFollowed)session.merge(
@@ -1737,79 +1682,14 @@ public class ProjectFollowedPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!ProjectFollowedModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				projectFollowedModelImpl.getPublikUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByPublikUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPublikUserId, args);
-
-			args = new Object[] {projectFollowedModelImpl.getProjectId()};
-
-			finderCache.removeResult(_finderPathCountByProjectId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByProjectId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((projectFollowedModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPublikUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					projectFollowedModelImpl.getOriginalPublikUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-
-				args = new Object[] {
-					projectFollowedModelImpl.getPublikUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-			}
-
-			if ((projectFollowedModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByProjectId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					projectFollowedModelImpl.getOriginalProjectId()
-				};
-
-				finderCache.removeResult(_finderPathCountByProjectId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByProjectId, args);
-
-				args = new Object[] {projectFollowedModelImpl.getProjectId()};
-
-				finderCache.removeResult(_finderPathCountByProjectId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByProjectId, args);
-			}
-		}
-
 		entityCache.putResult(
-			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedImpl.class, projectFollowed.getPrimaryKey(),
-			projectFollowed, false);
+			ProjectFollowedImpl.class, projectFollowedModelImpl, false, true);
 
-		clearUniqueFindersCache(projectFollowedModelImpl, false);
 		cacheUniqueFindersCache(projectFollowedModelImpl);
+
+		if (isNew) {
+			projectFollowed.setNew(false);
+		}
 
 		projectFollowed.resetOriginalValues();
 
@@ -1858,163 +1738,12 @@ public class ProjectFollowedPersistenceImpl
 	/**
 	 * Returns the project followed with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the project followed
-	 * @return the project followed, or <code>null</code> if a project followed with the primary key could not be found
-	 */
-	@Override
-	public ProjectFollowed fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		ProjectFollowed projectFollowed = (ProjectFollowed)serializable;
-
-		if (projectFollowed == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				projectFollowed = (ProjectFollowed)session.get(
-					ProjectFollowedImpl.class, primaryKey);
-
-				if (projectFollowed != null) {
-					cacheResult(projectFollowed);
-				}
-				else {
-					entityCache.putResult(
-						ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-						ProjectFollowedImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-					ProjectFollowedImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return projectFollowed;
-	}
-
-	/**
-	 * Returns the project followed with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param projectFollowedId the primary key of the project followed
 	 * @return the project followed, or <code>null</code> if a project followed with the primary key could not be found
 	 */
 	@Override
 	public ProjectFollowed fetchByPrimaryKey(long projectFollowedId) {
 		return fetchByPrimaryKey((Serializable)projectFollowedId);
-	}
-
-	@Override
-	public Map<Serializable, ProjectFollowed> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, ProjectFollowed> map =
-			new HashMap<Serializable, ProjectFollowed>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			ProjectFollowed projectFollowed = fetchByPrimaryKey(primaryKey);
-
-			if (projectFollowed != null) {
-				map.put(primaryKey, projectFollowed);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-				ProjectFollowedImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (ProjectFollowed)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_PROJECTFOLLOWED_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (ProjectFollowed projectFollowed :
-					(List<ProjectFollowed>)query.list()) {
-
-				map.put(projectFollowed.getPrimaryKeyObj(), projectFollowed);
-
-				cacheResult(projectFollowed);
-
-				uncachedPrimaryKeys.remove(projectFollowed.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-					ProjectFollowedImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2143,10 +1872,6 @@ public class ProjectFollowedPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2192,9 +1917,6 @@ public class ProjectFollowedPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2206,6 +1928,21 @@ public class ProjectFollowedPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "projectFollowedId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_PROJECTFOLLOWED;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return ProjectFollowedModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2214,95 +1951,75 @@ public class ProjectFollowedPersistenceImpl
 	 * Initializes the project followed persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
-			ProjectFollowedImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
-			ProjectFollowedImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByPublikUserId = new FinderPath(
-			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
-			ProjectFollowedImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByPublikUserId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"publikUserId"}, true);
 
 		_finderPathWithoutPaginationFindByPublikUserId = new FinderPath(
-			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
-			ProjectFollowedImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
 			new String[] {String.class.getName()},
-			ProjectFollowedModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
+			new String[] {"publikUserId"}, true);
 
 		_finderPathCountByPublikUserId = new FinderPath(
-			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()},
+			new String[] {"publikUserId"}, false);
 
 		_finderPathWithPaginationFindByProjectId = new FinderPath(
-			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
-			ProjectFollowedImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByProjectId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByProjectId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"projectId"}, true);
 
 		_finderPathWithoutPaginationFindByProjectId = new FinderPath(
-			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
-			ProjectFollowedImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByProjectId",
-			new String[] {Long.class.getName()},
-			ProjectFollowedModelImpl.PROJECTID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"projectId"},
+			true);
 
 		_finderPathCountByProjectId = new FinderPath(
-			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByProjectId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"projectId"},
+			false);
 
 		_finderPathFetchByPublikUserIdAndProjectId = new FinderPath(
-			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED,
-			ProjectFollowedImpl.class, FINDER_CLASS_NAME_ENTITY,
-			"fetchByPublikUserIdAndProjectId",
+			FINDER_CLASS_NAME_ENTITY, "fetchByPublikUserIdAndProjectId",
 			new String[] {String.class.getName(), Long.class.getName()},
-			ProjectFollowedModelImpl.PUBLIKUSERID_COLUMN_BITMASK |
-			ProjectFollowedModelImpl.PROJECTID_COLUMN_BITMASK);
+			new String[] {"publikUserId", "projectId"}, true);
 
 		_finderPathCountByPublikUserIdAndProjectId = new FinderPath(
-			ProjectFollowedModelImpl.ENTITY_CACHE_ENABLED,
-			ProjectFollowedModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByPublikUserIdAndProjectId",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"publikUserId", "projectId"}, false);
+
+		ProjectFollowedUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		ProjectFollowedUtil.setPersistence(null);
+
 		entityCache.removeCache(ProjectFollowedImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -2313,9 +2030,6 @@ public class ProjectFollowedPersistenceImpl
 
 	private static final String _SQL_SELECT_PROJECTFOLLOWED =
 		"SELECT projectFollowed FROM ProjectFollowed projectFollowed";
-
-	private static final String _SQL_SELECT_PROJECTFOLLOWED_WHERE_PKS_IN =
-		"SELECT projectFollowed FROM ProjectFollowed projectFollowed WHERE projectFollowedId IN (";
 
 	private static final String _SQL_SELECT_PROJECTFOLLOWED_WHERE =
 		"SELECT projectFollowed FROM ProjectFollowed projectFollowed WHERE ";
@@ -2336,5 +2050,10 @@ public class ProjectFollowedPersistenceImpl
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ProjectFollowedPersistenceImpl.class);
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.activity.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,30 +19,30 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.activity.exception.NoSuchActivityException;
 import eu.strasbourg.service.activity.model.Activity;
+import eu.strasbourg.service.activity.model.ActivityTable;
 import eu.strasbourg.service.activity.model.impl.ActivityImpl;
 import eu.strasbourg.service.activity.model.impl.ActivityModelImpl;
 import eu.strasbourg.service.activity.service.persistence.ActivityPersistence;
+import eu.strasbourg.service.activity.service.persistence.ActivityUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -250,10 +242,6 @@ public class ActivityPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -602,8 +590,6 @@ public class ActivityPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -761,11 +747,6 @@ public class ActivityPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -854,8 +835,6 @@ public class ActivityPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1055,10 +1034,6 @@ public class ActivityPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1437,8 +1412,6 @@ public class ActivityPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1610,10 +1583,6 @@ public class ActivityPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1937,8 +1906,6 @@ public class ActivityPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1956,22 +1923,16 @@ public class ActivityPersistenceImpl
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
 		dbColumnNames.put("uuid", "uuid_");
+		dbColumnNames.put("order", "order_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Activity.class);
+
+		setModelImplClass(ActivityImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(ActivityTable.INSTANCE);
 	}
 
 	/**
@@ -1982,15 +1943,14 @@ public class ActivityPersistenceImpl
 	@Override
 	public void cacheResult(Activity activity) {
 		entityCache.putResult(
-			ActivityModelImpl.ENTITY_CACHE_ENABLED, ActivityImpl.class,
-			activity.getPrimaryKey(), activity);
+			ActivityImpl.class, activity.getPrimaryKey(), activity);
 
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {activity.getUuid(), activity.getGroupId()}, activity);
-
-		activity.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the activities in the entity cache if it is enabled.
@@ -1999,15 +1959,18 @@ public class ActivityPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Activity> activities) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (activities.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Activity activity : activities) {
 			if (entityCache.getResult(
-					ActivityModelImpl.ENTITY_CACHE_ENABLED, ActivityImpl.class,
-					activity.getPrimaryKey()) == null) {
+					ActivityImpl.class, activity.getPrimaryKey()) == null) {
 
 				cacheResult(activity);
-			}
-			else {
-				activity.resetOriginalValues();
 			}
 		}
 	}
@@ -2023,9 +1986,7 @@ public class ActivityPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(ActivityImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ActivityImpl.class);
 	}
 
 	/**
@@ -2037,39 +1998,22 @@ public class ActivityPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Activity activity) {
-		entityCache.removeResult(
-			ActivityModelImpl.ENTITY_CACHE_ENABLED, ActivityImpl.class,
-			activity.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((ActivityModelImpl)activity, true);
+		entityCache.removeResult(ActivityImpl.class, activity);
 	}
 
 	@Override
 	public void clearCache(List<Activity> activities) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Activity activity : activities) {
-			entityCache.removeResult(
-				ActivityModelImpl.ENTITY_CACHE_ENABLED, ActivityImpl.class,
-				activity.getPrimaryKey());
-
-			clearUniqueFindersCache((ActivityModelImpl)activity, true);
+			entityCache.removeResult(ActivityImpl.class, activity);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ActivityImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				ActivityModelImpl.ENTITY_CACHE_ENABLED, ActivityImpl.class,
-				primaryKey);
+			entityCache.removeResult(ActivityImpl.class, primaryKey);
 		}
 	}
 
@@ -2080,35 +2024,9 @@ public class ActivityPersistenceImpl
 			activityModelImpl.getUuid(), activityModelImpl.getGroupId()
 		};
 
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, activityModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		ActivityModelImpl activityModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				activityModelImpl.getUuid(), activityModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((activityModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				activityModelImpl.getOriginalUuid(),
-				activityModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+			_finderPathFetchByUUID_G, args, activityModelImpl);
 	}
 
 	/**
@@ -2247,23 +2165,23 @@ public class ActivityPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (activity.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				activity.setCreateDate(now);
+				activity.setCreateDate(date);
 			}
 			else {
-				activity.setCreateDate(serviceContext.getCreateDate(now));
+				activity.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!activityModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				activity.setModifiedDate(now);
+				activity.setModifiedDate(date);
 			}
 			else {
-				activity.setModifiedDate(serviceContext.getModifiedDate(now));
+				activity.setModifiedDate(serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -2272,10 +2190,8 @@ public class ActivityPersistenceImpl
 		try {
 			session = openSession();
 
-			if (activity.isNew()) {
+			if (isNew) {
 				session.save(activity);
-
-				activity.setNew(false);
 			}
 			else {
 				activity = (Activity)session.merge(activity);
@@ -2288,105 +2204,14 @@ public class ActivityPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!ActivityModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {activityModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				activityModelImpl.getUuid(), activityModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {activityModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((activityModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					activityModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {activityModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((activityModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					activityModelImpl.getOriginalUuid(),
-					activityModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					activityModelImpl.getUuid(),
-					activityModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((activityModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					activityModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {activityModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-		}
-
 		entityCache.putResult(
-			ActivityModelImpl.ENTITY_CACHE_ENABLED, ActivityImpl.class,
-			activity.getPrimaryKey(), activity, false);
+			ActivityImpl.class, activityModelImpl, false, true);
 
-		clearUniqueFindersCache(activityModelImpl, false);
 		cacheUniqueFindersCache(activityModelImpl);
+
+		if (isNew) {
+			activity.setNew(false);
+		}
 
 		activity.resetOriginalValues();
 
@@ -2435,160 +2260,12 @@ public class ActivityPersistenceImpl
 	/**
 	 * Returns the activity with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the activity
-	 * @return the activity, or <code>null</code> if a activity with the primary key could not be found
-	 */
-	@Override
-	public Activity fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			ActivityModelImpl.ENTITY_CACHE_ENABLED, ActivityImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Activity activity = (Activity)serializable;
-
-		if (activity == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				activity = (Activity)session.get(
-					ActivityImpl.class, primaryKey);
-
-				if (activity != null) {
-					cacheResult(activity);
-				}
-				else {
-					entityCache.putResult(
-						ActivityModelImpl.ENTITY_CACHE_ENABLED,
-						ActivityImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					ActivityModelImpl.ENTITY_CACHE_ENABLED, ActivityImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return activity;
-	}
-
-	/**
-	 * Returns the activity with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param activityId the primary key of the activity
 	 * @return the activity, or <code>null</code> if a activity with the primary key could not be found
 	 */
 	@Override
 	public Activity fetchByPrimaryKey(long activityId) {
 		return fetchByPrimaryKey((Serializable)activityId);
-	}
-
-	@Override
-	public Map<Serializable, Activity> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Activity> map = new HashMap<Serializable, Activity>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Activity activity = fetchByPrimaryKey(primaryKey);
-
-			if (activity != null) {
-				map.put(primaryKey, activity);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				ActivityModelImpl.ENTITY_CACHE_ENABLED, ActivityImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Activity)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_ACTIVITY_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Activity activity : (List<Activity>)query.list()) {
-				map.put(activity.getPrimaryKeyObj(), activity);
-
-				cacheResult(activity);
-
-				uncachedPrimaryKeys.remove(activity.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					ActivityModelImpl.ENTITY_CACHE_ENABLED, ActivityImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2715,10 +2392,6 @@ public class ActivityPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2764,9 +2437,6 @@ public class ActivityPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2783,6 +2453,21 @@ public class ActivityPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "activityId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_ACTIVITY;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return ActivityModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2791,111 +2476,93 @@ public class ActivityPersistenceImpl
 	 * Initializes the activity persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			ActivityModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityModelImpl.FINDER_CACHE_ENABLED, ActivityImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			ActivityModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityModelImpl.FINDER_CACHE_ENABLED, ActivityImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			ActivityModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			ActivityModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityModelImpl.FINDER_CACHE_ENABLED, ActivityImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			ActivityModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityModelImpl.FINDER_CACHE_ENABLED, ActivityImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			ActivityModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			ActivityModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			ActivityModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityModelImpl.FINDER_CACHE_ENABLED, ActivityImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			ActivityModelImpl.UUID_COLUMN_BITMASK |
-			ActivityModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			ActivityModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			ActivityModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityModelImpl.FINDER_CACHE_ENABLED, ActivityImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			ActivityModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityModelImpl.FINDER_CACHE_ENABLED, ActivityImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			ActivityModelImpl.UUID_COLUMN_BITMASK |
-			ActivityModelImpl.COMPANYID_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			ActivityModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			ActivityModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityModelImpl.FINDER_CACHE_ENABLED, ActivityImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			ActivityModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityModelImpl.FINDER_CACHE_ENABLED, ActivityImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			ActivityModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			ActivityModelImpl.ENTITY_CACHE_ENABLED,
-			ActivityModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
+
+		ActivityUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		ActivityUtil.setPersistence(null);
+
 		entityCache.removeCache(ActivityImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -2906,9 +2573,6 @@ public class ActivityPersistenceImpl
 
 	private static final String _SQL_SELECT_ACTIVITY =
 		"SELECT activity FROM Activity activity";
-
-	private static final String _SQL_SELECT_ACTIVITY_WHERE_PKS_IN =
-		"SELECT activity FROM Activity activity WHERE activityId IN (";
 
 	private static final String _SQL_SELECT_ACTIVITY_WHERE =
 		"SELECT activity FROM Activity activity WHERE ";
@@ -2931,6 +2595,11 @@ public class ActivityPersistenceImpl
 		ActivityPersistenceImpl.class);
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
-		new String[] {"uuid"});
+		new String[] {"uuid", "order"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

@@ -3,27 +3,27 @@
 <c:choose>
     <%-- UTILISATEUR CONFIRME --%>
     <c:when test = "${dc.isConfirmedCouncilUser()}">
-    <div class="council-flex council-web">
-        <div class="seu-container">
+        <div class="council-flex council-web">
+            <div class="seu-container">
 
-            <h2> Liste des conseils du jour </h2>
+                <h2> Liste des conseils du jour </h2>
 
-            <div class="council-list">
-                <c:forEach var="council" items="${dc.getCouncilSessions()}">
-                    <div>
-                        <liferay-portlet:renderURL varImpl="councilDynamicViewURL">
-                        <portlet:param name="cmd" value="councilDynamicView" />
-                        <portlet:param name="councilSessionId" value="${council.getCouncilSessionId()}" />
-                        <portlet:param name="mvcPath" value="/council-dynamic-view.jsp" />
-                        <portlet:param name="returnURL" value="/councils-view.jsp" />
-                        </liferay-portlet:renderURL>
+                <div class="council-list">
+                    <c:forEach var="council" items="${dc.getCouncilSessions()}">
+                        <div>
+                            <liferay-portlet:renderURL varImpl="councilDynamicViewURL">
+                            <portlet:param name="cmd" value="councilDynamicView" />
+                            <portlet:param name="councilSessionId" value="${council.getCouncilSessionId()}" />
+                            <portlet:param name="mvcPath" value="/council-dynamic-view.jsp" />
+                            <portlet:param name="backURL" value="/councils-view.jsp" />
+                            </liferay-portlet:renderURL>
 
-                        <a href="${councilDynamicViewURL}"> <span class ="council">${council.getTitle()}</span> </a>
-                    </div>
-                </c:forEach>
+                            <a href="${councilDynamicViewURL}"> <span class ="council">${council.getTitle()}</span> </a>
+                        </div>
+                    </c:forEach>
+                </div>
             </div>
         </div>
-    </div>
 
         <%-- VARIABLES JS A PARTAGER --%>
         <liferay-util:html-top>
@@ -40,7 +40,6 @@
         	<script src="/o/councilweb/js/libs/platform.js" type="text/javascript"></script>
             <script src="/o/councilweb/js/council-init-javascript.js" type="text/javascript"></script>
         </liferay-util:html-bottom>
-
     </c:when>
 
     <c:otherwise>

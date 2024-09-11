@@ -1,19 +1,5 @@
 package eu.strasbourg.service.project.search;
 
-import com.liferay.portal.kernel.search.BaseIndexer;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletResponse;
-
-import org.osgi.service.component.annotations.Component;
-
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -21,17 +7,28 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.search.BaseIndexer;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
-
 import eu.strasbourg.service.project.model.BudgetPhase;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.IndexHelper;
+import org.osgi.service.component.annotations.Component;
+
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletResponse;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Component(
 	immediate = true,
@@ -71,7 +68,7 @@ public class BudgetPhaseIndexer extends BaseIndexer<BudgetPhase> {
 		List<AssetCategory> assetCategories = AssetVocabularyHelper
 			.getFullHierarchyCategories(budgetPhase.getCategories());
 		document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-		addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+		IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
 			assetCategories);
 		
 		Map<Locale, String> titleFieldMap = new HashMap<Locale, String>();
@@ -87,7 +84,8 @@ public class BudgetPhaseIndexer extends BaseIndexer<BudgetPhase> {
 		document.addLocalizedText(Field.DESCRIPTION, descriptionFieldMap);
 		
 		document.addNumber(Field.STATUS, budgetPhase.getStatus());
-		
+		document.addNumber("isActive",(short)(budgetPhase.isIsActive()?1:0));
+
 		Date beginDate = budgetPhase.getBeginDate();
 		Date endDate = budgetPhase.getEndDate();
 		List<Date> dates = new ArrayList<Date>();
@@ -131,8 +129,7 @@ public class BudgetPhaseIndexer extends BaseIndexer<BudgetPhase> {
 	protected void doReindex(BudgetPhase budgetPhase) throws Exception {
 		Document document = getDocument(budgetPhase);
 
-		IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-			budgetPhase.getCompanyId(), document, isCommitImmediately());
+		IndexWriterHelperUtil.updateDocument(budgetPhase.getCompanyId(), document);
 		
 	}
 	
@@ -165,7 +162,6 @@ public class BudgetPhaseIndexer extends BaseIndexer<BudgetPhase> {
 
 			});
 
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 		indexableActionableDynamicQuery.performActions();
 	}
 	

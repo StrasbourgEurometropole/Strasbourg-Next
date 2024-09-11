@@ -1,31 +1,33 @@
 package eu.strasbourg.service.office.exporter.impl;
 
-import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
+import eu.strasbourg.service.office.exporter.api.BudgetsParticipatifsXlsxExporter;
+import eu.strasbourg.service.project.model.BudgetParticipatif;
+import eu.strasbourg.service.project.service.BudgetParticipatifLocalService;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
-import com.liferay.portal.kernel.util.ResourceBundleUtil;
-
-import eu.strasbourg.service.office.exporter.api.BudgetsParticipatifsXlsxExporter;
-import eu.strasbourg.service.project.model.BudgetParticipatif;
+import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
 
 @Component(
         immediate = true,
@@ -36,8 +38,15 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
     private ResourceBundle bundle = ResourceBundleUtil.getBundle("content.Language",
             this.getClass().getClassLoader());
 
+    private BudgetParticipatifLocalService budgetParticipatifLocalService;
+
+    @Reference(unbind = "-")
+    public void setBudgetParticipatifLocalService(BudgetParticipatifLocalService budgetParticipatifLocalService) {
+        this.budgetParticipatifLocalService = budgetParticipatifLocalService;
+    }
+
     @Override
-    public void exportBudgetsParticipatifs(OutputStream stream, List<BudgetParticipatif> budgetsParticipatifs) {
+    public void exportBudgetsParticipatifs(OutputStream stream) {
         // Initialisation du document
         XSSFWorkbook workbook = new XSSFWorkbook();
 
@@ -81,7 +90,7 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
 		));
         	
         // Parcours des budget et creation de la ligne a ajouter dans l'excel
-        for (BudgetParticipatif budgetParticipatif : budgetsParticipatifs) {
+        for (BudgetParticipatif budgetParticipatif : this.budgetParticipatifLocalService.getBudgetParticipatifs(QueryUtil.ALL_POS, QueryUtil.ALL_POS)) {
         	
         	
         	String placesNames = String.join("\n", budgetParticipatif.getPlacitPlaces()
@@ -157,7 +166,7 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
             workbook.close();
             stream.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
 
     }
@@ -194,5 +203,7 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
             result = String.valueOf(Math.toIntExact(param));
         return result;
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

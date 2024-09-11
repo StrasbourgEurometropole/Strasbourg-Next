@@ -8,7 +8,7 @@ import aQute.bnd.annotation.metatype.Meta;
 	category = "Strasbourg",
 	scope = ExtendedObjectClassDefinition.Scope.PORTLET_INSTANCE)
 @Meta.OCD(
-	id = "eu.strasbourg.portlet.entity_detail.configuration.InternalLinkViewerConfiguration",
+	id = "eu.strasbourg.portlet.event_viewer.configuration.EventViewerConfiguration",
 	localization = "content/Language",
 	name = "portlet.entity_detail.configuration.name")
 public interface EventViewerConfiguration {
@@ -35,5 +35,11 @@ public interface EventViewerConfiguration {
 	// Format : yyyy-MM-dd
 	@Meta.AD(name = "toDate", deflt = "", required = false)
 	public String toDate();
+
+	@Meta.AD(name = "delta", deflt = "8", required = false)
+	public long delta();
+
+	@Meta.AD(name = "defaultFilterDateRange", required = false, deflt = "31")
+	public long defaultFilterDateRange();
 
 }

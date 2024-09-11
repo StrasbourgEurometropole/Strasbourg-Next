@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,30 +19,30 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchImportHistoricException;
 import eu.strasbourg.service.gtfs.model.ImportHistoric;
+import eu.strasbourg.service.gtfs.model.ImportHistoricTable;
 import eu.strasbourg.service.gtfs.model.impl.ImportHistoricImpl;
 import eu.strasbourg.service.gtfs.model.impl.ImportHistoricModelImpl;
 import eu.strasbourg.service.gtfs.service.persistence.ImportHistoricPersistence;
+import eu.strasbourg.service.gtfs.service.persistence.ImportHistoricUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -252,10 +244,6 @@ public class ImportHistoricPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -607,8 +595,6 @@ public class ImportHistoricPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -766,11 +752,6 @@ public class ImportHistoricPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -859,8 +840,6 @@ public class ImportHistoricPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1061,10 +1040,6 @@ public class ImportHistoricPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1447,8 +1422,6 @@ public class ImportHistoricPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1623,10 +1596,6 @@ public class ImportHistoricPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1954,8 +1923,6 @@ public class ImportHistoricPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1974,21 +1941,14 @@ public class ImportHistoricPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(ImportHistoric.class);
+
+		setModelImplClass(ImportHistoricImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(ImportHistoricTable.INSTANCE);
 	}
 
 	/**
@@ -1999,7 +1959,6 @@ public class ImportHistoricPersistenceImpl
 	@Override
 	public void cacheResult(ImportHistoric importHistoric) {
 		entityCache.putResult(
-			ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
 			ImportHistoricImpl.class, importHistoric.getPrimaryKey(),
 			importHistoric);
 
@@ -2009,9 +1968,9 @@ public class ImportHistoricPersistenceImpl
 				importHistoric.getUuid(), importHistoric.getGroupId()
 			},
 			importHistoric);
-
-		importHistoric.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the import historics in the entity cache if it is enabled.
@@ -2020,16 +1979,19 @@ public class ImportHistoricPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<ImportHistoric> importHistorics) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (importHistorics.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (ImportHistoric importHistoric : importHistorics) {
 			if (entityCache.getResult(
-					ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
 					ImportHistoricImpl.class, importHistoric.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(importHistoric);
-			}
-			else {
-				importHistoric.resetOriginalValues();
 			}
 		}
 	}
@@ -2045,9 +2007,7 @@ public class ImportHistoricPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(ImportHistoricImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ImportHistoricImpl.class);
 	}
 
 	/**
@@ -2059,40 +2019,22 @@ public class ImportHistoricPersistenceImpl
 	 */
 	@Override
 	public void clearCache(ImportHistoric importHistoric) {
-		entityCache.removeResult(
-			ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			ImportHistoricImpl.class, importHistoric.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((ImportHistoricModelImpl)importHistoric, true);
+		entityCache.removeResult(ImportHistoricImpl.class, importHistoric);
 	}
 
 	@Override
 	public void clearCache(List<ImportHistoric> importHistorics) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (ImportHistoric importHistoric : importHistorics) {
-			entityCache.removeResult(
-				ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-				ImportHistoricImpl.class, importHistoric.getPrimaryKey());
-
-			clearUniqueFindersCache(
-				(ImportHistoricModelImpl)importHistoric, true);
+			entityCache.removeResult(ImportHistoricImpl.class, importHistoric);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(ImportHistoricImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-				ImportHistoricImpl.class, primaryKey);
+			entityCache.removeResult(ImportHistoricImpl.class, primaryKey);
 		}
 	}
 
@@ -2104,36 +2046,9 @@ public class ImportHistoricPersistenceImpl
 			importHistoricModelImpl.getGroupId()
 		};
 
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, importHistoricModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		ImportHistoricModelImpl importHistoricModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				importHistoricModelImpl.getUuid(),
-				importHistoricModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((importHistoricModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				importHistoricModelImpl.getOriginalUuid(),
-				importHistoricModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+			_finderPathFetchByUUID_G, args, importHistoricModelImpl);
 	}
 
 	/**
@@ -2277,24 +2192,25 @@ public class ImportHistoricPersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (importHistoric.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				importHistoric.setCreateDate(now);
+				importHistoric.setCreateDate(date);
 			}
 			else {
-				importHistoric.setCreateDate(serviceContext.getCreateDate(now));
+				importHistoric.setCreateDate(
+					serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!importHistoricModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				importHistoric.setModifiedDate(now);
+				importHistoric.setModifiedDate(date);
 			}
 			else {
 				importHistoric.setModifiedDate(
-					serviceContext.getModifiedDate(now));
+					serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -2303,10 +2219,8 @@ public class ImportHistoricPersistenceImpl
 		try {
 			session = openSession();
 
-			if (importHistoric.isNew()) {
+			if (isNew) {
 				session.save(importHistoric);
-
-				importHistoric.setNew(false);
 			}
 			else {
 				importHistoric = (ImportHistoric)session.merge(importHistoric);
@@ -2319,107 +2233,14 @@ public class ImportHistoricPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!ImportHistoricModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {importHistoricModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				importHistoricModelImpl.getUuid(),
-				importHistoricModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {importHistoricModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((importHistoricModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					importHistoricModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {importHistoricModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((importHistoricModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					importHistoricModelImpl.getOriginalUuid(),
-					importHistoricModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					importHistoricModelImpl.getUuid(),
-					importHistoricModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((importHistoricModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					importHistoricModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {importHistoricModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-		}
-
 		entityCache.putResult(
-			ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			ImportHistoricImpl.class, importHistoric.getPrimaryKey(),
-			importHistoric, false);
+			ImportHistoricImpl.class, importHistoricModelImpl, false, true);
 
-		clearUniqueFindersCache(importHistoricModelImpl, false);
 		cacheUniqueFindersCache(importHistoricModelImpl);
+
+		if (isNew) {
+			importHistoric.setNew(false);
+		}
 
 		importHistoric.resetOriginalValues();
 
@@ -2468,163 +2289,12 @@ public class ImportHistoricPersistenceImpl
 	/**
 	 * Returns the import historic with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the import historic
-	 * @return the import historic, or <code>null</code> if a import historic with the primary key could not be found
-	 */
-	@Override
-	public ImportHistoric fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			ImportHistoricImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		ImportHistoric importHistoric = (ImportHistoric)serializable;
-
-		if (importHistoric == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				importHistoric = (ImportHistoric)session.get(
-					ImportHistoricImpl.class, primaryKey);
-
-				if (importHistoric != null) {
-					cacheResult(importHistoric);
-				}
-				else {
-					entityCache.putResult(
-						ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-						ImportHistoricImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-					ImportHistoricImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return importHistoric;
-	}
-
-	/**
-	 * Returns the import historic with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param importHistoricId the primary key of the import historic
 	 * @return the import historic, or <code>null</code> if a import historic with the primary key could not be found
 	 */
 	@Override
 	public ImportHistoric fetchByPrimaryKey(long importHistoricId) {
 		return fetchByPrimaryKey((Serializable)importHistoricId);
-	}
-
-	@Override
-	public Map<Serializable, ImportHistoric> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, ImportHistoric> map =
-			new HashMap<Serializable, ImportHistoric>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			ImportHistoric importHistoric = fetchByPrimaryKey(primaryKey);
-
-			if (importHistoric != null) {
-				map.put(primaryKey, importHistoric);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-				ImportHistoricImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (ImportHistoric)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_IMPORTHISTORIC_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (ImportHistoric importHistoric :
-					(List<ImportHistoric>)query.list()) {
-
-				map.put(importHistoric.getPrimaryKeyObj(), importHistoric);
-
-				cacheResult(importHistoric);
-
-				uncachedPrimaryKeys.remove(importHistoric.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-					ImportHistoricImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2752,10 +2422,6 @@ public class ImportHistoricPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2801,9 +2467,6 @@ public class ImportHistoricPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2820,6 +2483,21 @@ public class ImportHistoricPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "importHistoricId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_IMPORTHISTORIC;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return ImportHistoricModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2828,116 +2506,93 @@ public class ImportHistoricPersistenceImpl
 	 * Initializes the import historic persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			ImportHistoricModelImpl.FINDER_CACHE_ENABLED,
-			ImportHistoricImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			ImportHistoricModelImpl.FINDER_CACHE_ENABLED,
-			ImportHistoricImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			ImportHistoricModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			ImportHistoricModelImpl.FINDER_CACHE_ENABLED,
-			ImportHistoricImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			ImportHistoricModelImpl.FINDER_CACHE_ENABLED,
-			ImportHistoricImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUuid", new String[] {String.class.getName()},
-			ImportHistoricModelImpl.UUID_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			ImportHistoricModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			ImportHistoricModelImpl.FINDER_CACHE_ENABLED,
-			ImportHistoricImpl.class, FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			ImportHistoricModelImpl.UUID_COLUMN_BITMASK |
-			ImportHistoricModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			ImportHistoricModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			ImportHistoricModelImpl.FINDER_CACHE_ENABLED,
-			ImportHistoricImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByUuid_C",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			ImportHistoricModelImpl.FINDER_CACHE_ENABLED,
-			ImportHistoricImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByUuid_C",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			ImportHistoricModelImpl.UUID_COLUMN_BITMASK |
-			ImportHistoricModelImpl.COMPANYID_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			ImportHistoricModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			ImportHistoricModelImpl.FINDER_CACHE_ENABLED,
-			ImportHistoricImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
-			"findByGroupId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			ImportHistoricModelImpl.FINDER_CACHE_ENABLED,
-			ImportHistoricImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByGroupId", new String[] {Long.class.getName()},
-			ImportHistoricModelImpl.GROUPID_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			ImportHistoricModelImpl.ENTITY_CACHE_ENABLED,
-			ImportHistoricModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
+
+		ImportHistoricUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		ImportHistoricUtil.setPersistence(null);
+
 		entityCache.removeCache(ImportHistoricImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -2948,9 +2603,6 @@ public class ImportHistoricPersistenceImpl
 
 	private static final String _SQL_SELECT_IMPORTHISTORIC =
 		"SELECT importHistoric FROM ImportHistoric importHistoric";
-
-	private static final String _SQL_SELECT_IMPORTHISTORIC_WHERE_PKS_IN =
-		"SELECT importHistoric FROM ImportHistoric importHistoric WHERE importHistoricId IN (";
 
 	private static final String _SQL_SELECT_IMPORTHISTORIC_WHERE =
 		"SELECT importHistoric FROM ImportHistoric importHistoric WHERE ";
@@ -2974,5 +2626,10 @@ public class ImportHistoricPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

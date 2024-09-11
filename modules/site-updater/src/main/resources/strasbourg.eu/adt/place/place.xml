@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>eu.strasbourg.service.place.model.Place</className>
+    <template>
+        <script>place-detail.ftl</script>
+        <name>Détail lieu</name>
+        <key>1153194</key>
+    </template>
+    <template>
+        <script>place-thumbnail.ftl</script>
+        <name>Vignette lieu</name>
+        <key>1617758</key>
+    </template>
+    <template>
+        <script>place-thumbnail-grille.ftl</script>
+        <name>Vignette lieux grille</name>
+        <key>place-thumbnail-grille</key>
+    </template>
+</root>

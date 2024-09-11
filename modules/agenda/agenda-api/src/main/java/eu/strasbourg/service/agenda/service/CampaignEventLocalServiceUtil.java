@@ -1,22 +1,21 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.agenda.model.CampaignEvent;
+
+import java.io.Serializable;
+
+import java.util.List;
 
 /**
  * Provides the local service utility for CampaignEvent. This utility wraps
@@ -48,10 +47,7 @@ public class CampaignEventLocalServiceUtil {
 	 * @param campaignEvent the campaign event
 	 * @return the campaign event that was added
 	 */
-	public static eu.strasbourg.service.agenda.model.CampaignEvent
-		addCampaignEvent(
-			eu.strasbourg.service.agenda.model.CampaignEvent campaignEvent) {
-
+	public static CampaignEvent addCampaignEvent(CampaignEvent campaignEvent) {
 		return getService().addCampaignEvent(campaignEvent);
 	}
 
@@ -61,21 +57,28 @@ public class CampaignEventLocalServiceUtil {
 	 * @param campaignEventId the primary key for the new campaign event
 	 * @return the new campaign event
 	 */
-	public static eu.strasbourg.service.agenda.model.CampaignEvent
-		createCampaignEvent(long campaignEventId) {
-
+	public static CampaignEvent createCampaignEvent(long campaignEventId) {
 		return getService().createCampaignEvent(campaignEventId);
 	}
 
 	/**
 	 * Crée une campaignEvent vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.agenda.model.CampaignEvent
-			createCampaignEvent(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CampaignEvent createCampaignEvent(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createCampaignEvent(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -88,9 +91,8 @@ public class CampaignEventLocalServiceUtil {
 	 * @param campaignEvent the campaign event
 	 * @return the campaign event that was removed
 	 */
-	public static eu.strasbourg.service.agenda.model.CampaignEvent
-		deleteCampaignEvent(
-			eu.strasbourg.service.agenda.model.CampaignEvent campaignEvent) {
+	public static CampaignEvent deleteCampaignEvent(
+		CampaignEvent campaignEvent) {
 
 		return getService().deleteCampaignEvent(campaignEvent);
 	}
@@ -106,9 +108,8 @@ public class CampaignEventLocalServiceUtil {
 	 * @return the campaign event that was removed
 	 * @throws PortalException if a campaign event with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.CampaignEvent
-			deleteCampaignEvent(long campaignEventId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CampaignEvent deleteCampaignEvent(long campaignEventId)
+		throws PortalException {
 
 		return getService().deleteCampaignEvent(campaignEventId);
 	}
@@ -116,17 +117,22 @@ public class CampaignEventLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -136,9 +142,7 @@ public class CampaignEventLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -154,9 +158,8 @@ public class CampaignEventLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -174,10 +177,9 @@ public class CampaignEventLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -189,9 +191,7 @@ public class CampaignEventLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -203,15 +203,13 @@ public class CampaignEventLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.agenda.model.CampaignEvent
-		fetchCampaignEvent(long campaignEventId) {
-
+	public static CampaignEvent fetchCampaignEvent(long campaignEventId) {
 		return getService().fetchCampaignEvent(campaignEventId);
 	}
 
@@ -222,8 +220,8 @@ public class CampaignEventLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching campaign event, or <code>null</code> if a matching campaign event could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.CampaignEvent
-		fetchCampaignEventByUuidAndGroupId(String uuid, long groupId) {
+	public static CampaignEvent fetchCampaignEventByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchCampaignEventByUuidAndGroupId(uuid, groupId);
 	}
@@ -231,21 +229,16 @@ public class CampaignEventLocalServiceUtil {
 	/**
 	 * Retourne les événements d'une campagne
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.CampaignEvent> findByCampaignId(
-			long campaignId) {
-
+	public static List<CampaignEvent> findByCampaignId(long campaignId) {
 		return getService().findByCampaignId(campaignId);
 	}
 
 	/**
 	 * Lance une recherche par mots-clés, thème et status
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.CampaignEvent>
-			findByKeywordThemeAndStatus(
-				String keyword, long themeId, int status, long userId,
-				long groupId, int start, int end) {
+	public static List<CampaignEvent> findByKeywordThemeAndStatus(
+		String keyword, long themeId, int status, long userId, long groupId,
+		int start, int end) {
 
 		return getService().findByKeywordThemeAndStatus(
 			keyword, themeId, status, userId, groupId, start, end);
@@ -264,11 +257,9 @@ public class CampaignEventLocalServiceUtil {
 	/**
 	 * Lance une recherche par mots-clés, thème, type, campagne et status
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.CampaignEvent>
-			findByKeywordThemeTypeCampaignAndStatus(
-				String keyword, long themeId, long typeId, long campaignId,
-				int status, long userId, long groupId, int start, int end) {
+	public static List<CampaignEvent> findByKeywordThemeTypeCampaignAndStatus(
+		String keyword, long themeId, long typeId, long campaignId, int status,
+		long userId, long groupId, int start, int end) {
 
 		return getService().findByKeywordThemeTypeCampaignAndStatus(
 			keyword, themeId, typeId, campaignId, status, userId, groupId,
@@ -299,9 +290,8 @@ public class CampaignEventLocalServiceUtil {
 	 * @return the campaign event
 	 * @throws PortalException if a campaign event with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.CampaignEvent
-			getCampaignEvent(long campaignEventId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CampaignEvent getCampaignEvent(long campaignEventId)
+		throws PortalException {
 
 		return getService().getCampaignEvent(campaignEventId);
 	}
@@ -314,9 +304,9 @@ public class CampaignEventLocalServiceUtil {
 	 * @return the matching campaign event
 	 * @throws PortalException if a matching campaign event could not be found
 	 */
-	public static eu.strasbourg.service.agenda.model.CampaignEvent
-			getCampaignEventByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CampaignEvent getCampaignEventByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getCampaignEventByUuidAndGroupId(uuid, groupId);
 	}
@@ -332,10 +322,7 @@ public class CampaignEventLocalServiceUtil {
 	 * @param end the upper bound of the range of campaign events (not inclusive)
 	 * @return the range of campaign events
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.CampaignEvent> getCampaignEvents(
-			int start, int end) {
-
+	public static List<CampaignEvent> getCampaignEvents(int start, int end) {
 		return getService().getCampaignEvents(start, end);
 	}
 
@@ -346,9 +333,8 @@ public class CampaignEventLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching campaign events, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.CampaignEvent>
-			getCampaignEventsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<CampaignEvent> getCampaignEventsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getCampaignEventsByUuidAndCompanyId(
 			uuid, companyId);
@@ -364,13 +350,9 @@ public class CampaignEventLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching campaign events, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.agenda.model.CampaignEvent>
-			getCampaignEventsByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.agenda.model.CampaignEvent>
-						orderByComparator) {
+	public static List<CampaignEvent> getCampaignEventsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<CampaignEvent> orderByComparator) {
 
 		return getService().getCampaignEventsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -412,9 +394,8 @@ public class CampaignEventLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -422,9 +403,8 @@ public class CampaignEventLocalServiceUtil {
 	/**
 	 * Supprime une campaignEvent
 	 */
-	public static eu.strasbourg.service.agenda.model.CampaignEvent
-			removeCampaignEvent(long campaignEventId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static CampaignEvent removeCampaignEvent(long campaignEventId)
+		throws PortalException {
 
 		return getService().removeCampaignEvent(campaignEventId);
 	}
@@ -439,34 +419,20 @@ public class CampaignEventLocalServiceUtil {
 	 * @param campaignEvent the campaign event
 	 * @return the campaign event that was updated
 	 */
-	public static eu.strasbourg.service.agenda.model.CampaignEvent
-		updateCampaignEvent(
-			eu.strasbourg.service.agenda.model.CampaignEvent campaignEvent) {
+	public static CampaignEvent updateCampaignEvent(
+		CampaignEvent campaignEvent) {
 
 		return getService().updateCampaignEvent(campaignEvent);
 	}
 
 	public static CampaignEventLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<CampaignEventLocalService, CampaignEventLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			CampaignEventLocalService.class);
-
-		ServiceTracker<CampaignEventLocalService, CampaignEventLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<CampaignEventLocalService, CampaignEventLocalService>(
-						bundle.getBundleContext(),
-						CampaignEventLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(CampaignEventLocalService service) {
+		_service = service;
 	}
+
+	private static volatile CampaignEventLocalService _service;
 
 }

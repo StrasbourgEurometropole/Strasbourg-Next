@@ -1,28 +1,15 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.like.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -33,20 +20,11 @@ import java.util.Objects;
  * @see Like
  * @generated
  */
-public class LikeWrapper implements Like, ModelWrapper<Like> {
+public class LikeWrapper
+	extends BaseModelWrapper<Like> implements Like, ModelWrapper<Like> {
 
 	public LikeWrapper(Like like) {
-		_like = like;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Like.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Like.class.getName();
+		super(like);
 	}
 
 	@Override
@@ -110,13 +88,8 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	}
 
 	@Override
-	public Object clone() {
-		return new LikeWrapper((Like)_like.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.like.model.Like like) {
-		return _like.compareTo(like);
+	public Like cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -126,7 +99,7 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	 */
 	@Override
 	public long getEntityGroupId() {
-		return _like.getEntityGroupId();
+		return model.getEntityGroupId();
 	}
 
 	/**
@@ -136,12 +109,7 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	 */
 	@Override
 	public long getEntityId() {
-		return _like.getEntityId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _like.getExpandoBridge();
+		return model.getEntityId();
 	}
 
 	/**
@@ -151,7 +119,7 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	 */
 	@Override
 	public boolean getIsDislike() {
-		return _like.getIsDislike();
+		return model.getIsDislike();
 	}
 
 	/**
@@ -161,12 +129,12 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	 */
 	@Override
 	public long getLikeId() {
-		return _like.getLikeId();
+		return model.getLikeId();
 	}
 
 	@Override
 	public eu.strasbourg.service.like.model.LikeType getLikeType() {
-		return _like.getLikeType();
+		return model.getLikeType();
 	}
 
 	/**
@@ -176,12 +144,7 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _like.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _like.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -191,7 +154,7 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	 */
 	@Override
 	public String getPublikUserId() {
-		return _like.getPublikUserId();
+		return model.getPublikUserId();
 	}
 
 	/**
@@ -201,7 +164,7 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	 */
 	@Override
 	public String getTitle() {
-		return _like.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -211,22 +174,7 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	 */
 	@Override
 	public long getTypeId() {
-		return _like.getTypeId();
-	}
-
-	@Override
-	public int hashCode() {
-		return _like.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _like.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _like.isEscapedModel();
+		return model.getTypeId();
 	}
 
 	/**
@@ -236,22 +184,12 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	 */
 	@Override
 	public boolean isIsDislike() {
-		return _like.isIsDislike();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _like.isNew();
+		return model.isIsDislike();
 	}
 
 	@Override
 	public void persist() {
-		_like.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_like.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -261,7 +199,7 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	 */
 	@Override
 	public void setEntityGroupId(long entityGroupId) {
-		_like.setEntityGroupId(entityGroupId);
+		model.setEntityGroupId(entityGroupId);
 	}
 
 	/**
@@ -271,24 +209,7 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	 */
 	@Override
 	public void setEntityId(long entityId) {
-		_like.setEntityId(entityId);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_like.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_like.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_like.setExpandoBridgeAttributes(serviceContext);
+		model.setEntityId(entityId);
 	}
 
 	/**
@@ -298,7 +219,7 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	 */
 	@Override
 	public void setIsDislike(boolean isDislike) {
-		_like.setIsDislike(isDislike);
+		model.setIsDislike(isDislike);
 	}
 
 	/**
@@ -308,12 +229,7 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	 */
 	@Override
 	public void setLikeId(long likeId) {
-		_like.setLikeId(likeId);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_like.setNew(n);
+		model.setLikeId(likeId);
 	}
 
 	/**
@@ -323,12 +239,7 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_like.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_like.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -338,7 +249,7 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	 */
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_like.setPublikUserId(publikUserId);
+		model.setPublikUserId(publikUserId);
 	}
 
 	/**
@@ -348,7 +259,7 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_like.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -358,19 +269,7 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	 */
 	@Override
 	public void setTypeId(long typeId) {
-		_like.setTypeId(typeId);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.like.model.Like> toCacheModel() {
-
-		return _like.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.like.model.Like toEscapedModel() {
-		return new LikeWrapper(_like.toEscapedModel());
+		model.setTypeId(typeId);
 	}
 
 	/**
@@ -378,63 +277,17 @@ public class LikeWrapper implements Like, ModelWrapper<Like> {
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
-		return _like.toJSON();
-	}
-
-	@Override
-	public String toString() {
-		return _like.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.like.model.Like toUnescapedModel() {
-		return new LikeWrapper(_like.toUnescapedModel());
+		return model.toJSON();
 	}
 
 	@Override
 	public String toXmlString() {
-		return _like.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof LikeWrapper)) {
-			return false;
-		}
-
-		LikeWrapper likeWrapper = (LikeWrapper)object;
-
-		if (Objects.equals(_like, likeWrapper._like)) {
-			return true;
-		}
-
-		return false;
+	protected LikeWrapper wrap(Like like) {
+		return new LikeWrapper(like);
 	}
-
-	@Override
-	public Like getWrappedModel() {
-		return _like;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _like.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _like.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_like.resetOriginalValues();
-	}
-
-	private final Like _like;
 
 }

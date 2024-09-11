@@ -1,58 +1,120 @@
 package eu.strasbourg.portlet.interest.display.context;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
+import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.interest.util.InterestActionDropdownItemsProvider;
 import eu.strasbourg.service.interest.model.Interest;
 import eu.strasbourg.service.interest.service.InterestLocalServiceUtil;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
-public class ViewInterestsDisplayContext extends ViewListBaseDisplayContext<Interest> {
-	private List<Interest> _interests;
-	
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ViewInterestsDisplayContext extends ViewBaseDisplayContext<Interest> {
+
 	public ViewInterestsDisplayContext(RenderRequest request,
 		RenderResponse response) {
-		super(Interest.class, request, response);
-	}
-
-	public List<Interest> getInterests() throws PortalException {
-		if (this._interests == null) {
-			Hits hits = getHits(this._themeDisplay.getCompanyGroupId());
-
-			// Création de la liste d'objet
-			List<Interest> results = new ArrayList<Interest>();
-			if (hits != null) {
-				for (Document document : hits.getDocs()) {
-					Interest Interest = InterestLocalServiceUtil.fetchInterest(
-						GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-					if (Interest != null) {
-						results.add(Interest);
-					}
-				}
-			}
-			this._interests = results;
-		}
-		return this._interests;
+		super(request, response, Interest.class);
+		_request = request;
+		_response = response;
+		_themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
 	}
 
 	/**
-	 * Wrapper autour du permission checker pour les permissions de module
+	 * Retourne le dropdownItemsProvider de l'interest
+	 *
 	 */
-	public boolean hasPermission(String actionId) throws PortalException {
-		return _themeDisplay.getPermissionChecker().hasPermission(
-			this._themeDisplay.getScopeGroupId(),
-			StrasbourgPortletKeys.INTEREST_BO, StrasbourgPortletKeys.INTEREST_BO,
-			actionId);
+	@SuppressWarnings("unused")
+	public InterestActionDropdownItemsProvider getActionsInterest(Interest interest) {
+		return new InterestActionDropdownItemsProvider(interest, _request,
+				_response);
 	}
 
+	/**
+	 * Retourne le searchContainer
+	 *
+	 */
+	@Override
+	public SearchContainer<Interest> getSearchContainer() {
+
+		if (_searchContainer == null) {
+
+			PortletURL portletURL;
+			portletURL = PortletURLBuilder.createRenderURL(_response)
+					.setMVCPath("/interest-bo-view-interests.jsp")
+					.setKeywords(ParamUtil.getString(_request, "keywords"))
+					.setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+					.setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
+					.buildPortletURL();
+			_searchContainer = new SearchContainer<>(_request, null, null,
+					SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
+			_searchContainer.setEmptyResultsMessageCssClass(
+					"taglib-empty-result-message-header-has-plus-btn");
+			_searchContainer.setOrderByColParam("orderByCol");
+			_searchContainer.setOrderByTypeParam("orderByType");
+			_searchContainer.setOrderByCol(getOrderByCol());
+			_searchContainer.setOrderByType(getOrderByType());
+			Hits hits;
+			try {
+				hits = getHits(_themeDisplay.getCompanyGroupId());
+			} catch (PortalException e) {
+				throw new RuntimeException(e);
+			}
+			_searchContainer.setResultsAndTotal(
+					() -> {
+						// Création de la liste d'objet
+						List<Interest> results = new ArrayList<>();
+						if (hits != null) {
+							for (Document document : hits.getDocs()) {
+								Interest interest = InterestLocalServiceUtil
+										.fetchInterest(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+								if (interest != null) {
+									results.add(interest);
+								}
+							}
+						}
+
+						return results;
+					}, hits.getLength()
+			);
+		}
+		_searchContainer.setRowChecker(
+				new EmptyOnClickRowChecker(_response));
+
+		return _searchContainer;
+	}
+
+	/**
+	 * Renvoie le nom du champ sur laquelle on fait le tri pour
+	 * ElasticSearch
+	 *
+	 * @return String
+	 */
+	@Override
+	public String getOrderByColSearchField() {
+		switch (getOrderByCol()) {
+			case "title":
+				return "localized_title_fr_FR_sortable";
+			case "modified-date":
+			default:
+				return "modified_sortable";
+		}
+	}
+
+	protected SearchContainer<Interest> _searchContainer;
+	private final RenderRequest _request;
+	private final RenderResponse _response;
+	protected ThemeDisplay _themeDisplay;
 }

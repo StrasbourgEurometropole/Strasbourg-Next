@@ -14,16 +14,15 @@
 
 package eu.strasbourg.service.favorite.model.impl;
 
-import java.util.Locale;
-
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-
-import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.favorite.model.FavoriteType;
+
+import java.util.Locale;
 
 /**
  * The extended model implementation for the Favorite service. Represents a row
@@ -57,7 +56,9 @@ public class FavoriteImpl extends FavoriteBaseImpl {
 
 	@Override
 	public AssetEntry getAssetEntry() {
-		return AssetEntryLocalServiceUtil.fetchEntry(this.getFavoriteType().getFavoriteClass().getName(),
+        String className=this.getFavoriteType().getFavoriteClass()!=null
+                ?this.getFavoriteType().getFavoriteClass().getName():null;
+		return AssetEntryLocalServiceUtil.fetchEntry(className,
 				this.getEntityId());
 	}
 

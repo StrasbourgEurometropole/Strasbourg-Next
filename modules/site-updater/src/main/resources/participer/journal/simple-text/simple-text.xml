@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Texte simple</name>
+        <key>2532163</key>
+        <definition>simple-text-structure.json</definition>
+        <layout>simple-text-layout.json</layout>
+    </structure>
+    <template>
+        <name>Texte simple</name>
+        <key>2532245</key>
+        <script>simple-text.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+    <template>
+        <name>Texte simple header Placit</name>
+        <key>458168459</key>
+        <script>simple-text-header-placit.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

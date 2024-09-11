@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.activity.model.impl;
@@ -17,6 +8,7 @@ package eu.strasbourg.service.activity.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -32,29 +24,27 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.activity.model.Association;
 import eu.strasbourg.service.activity.model.AssociationModel;
-import eu.strasbourg.service.activity.model.AssociationSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -138,85 +128,48 @@ public class AssociationModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.activity.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.activity.model.Association"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.activity.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.activity.model.Association"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.activity.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.activity.model.Association"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ASSOCIATIONID_COLUMN_BITMASK = 8L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Association toModel(AssociationSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Association model = new AssociationImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setAssociationId(soapModel.getAssociationId());
-		model.setGroupId(soapModel.getGroupId());
-		model.setCompanyId(soapModel.getCompanyId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-		model.setName(soapModel.getName());
-		model.setPresentation(soapModel.getPresentation());
-		model.setPhone(soapModel.getPhone());
-		model.setSiteURL(soapModel.getSiteURL());
-		model.setMail(soapModel.getMail());
-		model.setFacebookURL(soapModel.getFacebookURL());
-		model.setOthersInformations(soapModel.getOthersInformations());
-		model.setStatus(soapModel.getStatus());
-		model.setStatusByUserId(soapModel.getStatusByUserId());
-		model.setStatusByUserName(soapModel.getStatusByUserName());
-		model.setStatusDate(soapModel.getStatusDate());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Association> toModels(AssociationSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Association> models = new ArrayList<Association>(
-			soapModels.length);
-
-		for (AssociationSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.activity.service.util.PropsUtil.get(
@@ -274,9 +227,6 @@ public class AssociationModelImpl
 				attributeGetterFunction.apply((Association)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -301,473 +251,131 @@ public class AssociationModelImpl
 	public Map<String, Function<Association, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Association, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Association>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Association.class.getClassLoader(), Association.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<Association, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Association> constructor =
-				(Constructor<Association>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Association, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<Association, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Association::getUuid);
+			attributeGetterFunctions.put(
+				"associationId", Association::getAssociationId);
+			attributeGetterFunctions.put("groupId", Association::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", Association::getCompanyId);
+			attributeGetterFunctions.put("userId", Association::getUserId);
+			attributeGetterFunctions.put("userName", Association::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", Association::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Association::getModifiedDate);
+			attributeGetterFunctions.put("name", Association::getName);
+			attributeGetterFunctions.put(
+				"presentation", Association::getPresentation);
+			attributeGetterFunctions.put("phone", Association::getPhone);
+			attributeGetterFunctions.put("siteURL", Association::getSiteURL);
+			attributeGetterFunctions.put("mail", Association::getMail);
+			attributeGetterFunctions.put(
+				"facebookURL", Association::getFacebookURL);
+			attributeGetterFunctions.put(
+				"othersInformations", Association::getOthersInformations);
+			attributeGetterFunctions.put("status", Association::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Association::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Association::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", Association::getStatusDate);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Association, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Association, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Association, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Association, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Association, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Association, String>)Association::setUuid);
+			attributeSetterBiConsumers.put(
+				"associationId",
+				(BiConsumer<Association, Long>)Association::setAssociationId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<Association, Long>)Association::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Association, Long>)Association::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<Association, Long>)Association::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Association, String>)Association::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Association, Date>)Association::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Association, Date>)Association::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"name", (BiConsumer<Association, String>)Association::setName);
+			attributeSetterBiConsumers.put(
+				"presentation",
+				(BiConsumer<Association, String>)Association::setPresentation);
+			attributeSetterBiConsumers.put(
+				"phone",
+				(BiConsumer<Association, String>)Association::setPhone);
+			attributeSetterBiConsumers.put(
+				"siteURL",
+				(BiConsumer<Association, String>)Association::setSiteURL);
+			attributeSetterBiConsumers.put(
+				"mail", (BiConsumer<Association, String>)Association::setMail);
+			attributeSetterBiConsumers.put(
+				"facebookURL",
+				(BiConsumer<Association, String>)Association::setFacebookURL);
+			attributeSetterBiConsumers.put(
+				"othersInformations",
+				(BiConsumer<Association, String>)
+					Association::setOthersInformations);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<Association, Integer>)Association::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Association, Long>)Association::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Association, String>)
+					Association::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Association, Date>)Association::setStatusDate);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<Association, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Association, Object>>();
-		Map<String, BiConsumer<Association, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Association, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(Association association, Object uuidObject) {
-					association.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"associationId",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getAssociationId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"associationId",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(
-					Association association, Object associationIdObject) {
-
-					association.setAssociationId((Long)associationIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(
-					Association association, Object groupIdObject) {
-
-					association.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(
-					Association association, Object companyIdObject) {
-
-					association.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(
-					Association association, Object userIdObject) {
-
-					association.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(
-					Association association, Object userNameObject) {
-
-					association.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(
-					Association association, Object createDateObject) {
-
-					association.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(
-					Association association, Object modifiedDateObject) {
-
-					association.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"name",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(Association association, Object nameObject) {
-					association.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"presentation",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getPresentation();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"presentation",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(
-					Association association, Object presentationObject) {
-
-					association.setPresentation((String)presentationObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"phone",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getPhone();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"phone",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(
-					Association association, Object phoneObject) {
-
-					association.setPhone((String)phoneObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"siteURL",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getSiteURL();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"siteURL",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(
-					Association association, Object siteURLObject) {
-
-					association.setSiteURL((String)siteURLObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"mail",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getMail();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"mail",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(Association association, Object mailObject) {
-					association.setMail((String)mailObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"facebookURL",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getFacebookURL();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"facebookURL",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(
-					Association association, Object facebookURLObject) {
-
-					association.setFacebookURL((String)facebookURLObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"othersInformations",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getOthersInformations();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"othersInformations",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(
-					Association association, Object othersInformationsObject) {
-
-					association.setOthersInformations(
-						(String)othersInformationsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(
-					Association association, Object statusObject) {
-
-					association.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(
-					Association association, Object statusByUserIdObject) {
-
-					association.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(
-					Association association, Object statusByUserNameObject) {
-
-					association.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Association, Object>() {
-
-				@Override
-				public Object apply(Association association) {
-					return association.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Association, Object>() {
-
-				@Override
-				public void accept(
-					Association association, Object statusDateObject) {
-
-					association.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -783,17 +391,20 @@ public class AssociationModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -804,6 +415,10 @@ public class AssociationModelImpl
 
 	@Override
 	public void setAssociationId(long associationId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_associationId = associationId;
 	}
 
@@ -815,19 +430,20 @@ public class AssociationModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@JSON
@@ -838,19 +454,21 @@ public class AssociationModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@JSON
@@ -861,6 +479,10 @@ public class AssociationModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -893,6 +515,10 @@ public class AssociationModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -904,6 +530,10 @@ public class AssociationModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -920,6 +550,10 @@ public class AssociationModelImpl
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_modifiedDate = modifiedDate;
 	}
@@ -980,6 +614,10 @@ public class AssociationModelImpl
 
 	@Override
 	public void setName(String name) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_name = name;
 	}
 
@@ -1083,6 +721,10 @@ public class AssociationModelImpl
 
 	@Override
 	public void setPresentation(String presentation) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_presentation = presentation;
 	}
 
@@ -1148,6 +790,10 @@ public class AssociationModelImpl
 
 	@Override
 	public void setPhone(String phone) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_phone = phone;
 	}
 
@@ -1207,6 +853,10 @@ public class AssociationModelImpl
 
 	@Override
 	public void setSiteURL(String siteURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_siteURL = siteURL;
 	}
 
@@ -1272,6 +922,10 @@ public class AssociationModelImpl
 
 	@Override
 	public void setMail(String mail) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_mail = mail;
 	}
 
@@ -1331,6 +985,10 @@ public class AssociationModelImpl
 
 	@Override
 	public void setFacebookURL(String facebookURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_facebookURL = facebookURL;
 	}
 
@@ -1440,6 +1098,10 @@ public class AssociationModelImpl
 
 	@Override
 	public void setOthersInformations(String othersInformations) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_othersInformations = othersInformations;
 	}
 
@@ -1506,6 +1168,10 @@ public class AssociationModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -1517,6 +1183,10 @@ public class AssociationModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1549,6 +1219,10 @@ public class AssociationModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1560,6 +1234,10 @@ public class AssociationModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1650,6 +1328,26 @@ public class AssociationModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1866,6 +1564,47 @@ public class AssociationModelImpl
 	}
 
 	@Override
+	public Association cloneWithOriginalValues() {
+		AssociationImpl associationImpl = new AssociationImpl();
+
+		associationImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		associationImpl.setAssociationId(
+			this.<Long>getColumnOriginalValue("associationId"));
+		associationImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		associationImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		associationImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		associationImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		associationImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		associationImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		associationImpl.setName(this.<String>getColumnOriginalValue("name"));
+		associationImpl.setPresentation(
+			this.<String>getColumnOriginalValue("presentation"));
+		associationImpl.setPhone(this.<String>getColumnOriginalValue("phone"));
+		associationImpl.setSiteURL(
+			this.<String>getColumnOriginalValue("siteURL"));
+		associationImpl.setMail(this.<String>getColumnOriginalValue("mail"));
+		associationImpl.setFacebookURL(
+			this.<String>getColumnOriginalValue("facebookURL"));
+		associationImpl.setOthersInformations(
+			this.<String>getColumnOriginalValue("othersInformations"));
+		associationImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		associationImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		associationImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		associationImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+
+		return associationImpl;
+	}
+
+	@Override
 	public int compareTo(Association association) {
 		long primaryKey = association.getPrimaryKey();
 
@@ -1907,11 +1646,19 @@ public class AssociationModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1919,22 +1666,11 @@ public class AssociationModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		AssociationModelImpl associationModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		associationModelImpl._originalUuid = associationModelImpl._uuid;
+		_setModifiedDate = false;
 
-		associationModelImpl._originalGroupId = associationModelImpl._groupId;
-
-		associationModelImpl._setOriginalGroupId = false;
-
-		associationModelImpl._originalCompanyId =
-			associationModelImpl._companyId;
-
-		associationModelImpl._setOriginalCompanyId = false;
-
-		associationModelImpl._setModifiedDate = false;
-
-		associationModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -2072,7 +1808,7 @@ public class AssociationModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -2083,9 +1819,26 @@ public class AssociationModelImpl
 			Function<Association, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Association)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Association)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -2098,53 +1851,19 @@ public class AssociationModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Association, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Association, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Association, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Association)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Association>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Association.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _associationId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -2166,6 +1885,120 @@ public class AssociationModelImpl
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Association, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Association)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("associationId", _associationId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("name", _name);
+		_columnOriginalValues.put("presentation", _presentation);
+		_columnOriginalValues.put("phone", _phone);
+		_columnOriginalValues.put("siteURL", _siteURL);
+		_columnOriginalValues.put("mail", _mail);
+		_columnOriginalValues.put("facebookURL", _facebookURL);
+		_columnOriginalValues.put("othersInformations", _othersInformations);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("associationId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("name", 256L);
+
+		columnBitmasks.put("presentation", 512L);
+
+		columnBitmasks.put("phone", 1024L);
+
+		columnBitmasks.put("siteURL", 2048L);
+
+		columnBitmasks.put("mail", 4096L);
+
+		columnBitmasks.put("facebookURL", 8192L);
+
+		columnBitmasks.put("othersInformations", 16384L);
+
+		columnBitmasks.put("status", 32768L);
+
+		columnBitmasks.put("statusByUserId", 65536L);
+
+		columnBitmasks.put("statusByUserName", 131072L);
+
+		columnBitmasks.put("statusDate", 262144L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Association _escapedModel;
 

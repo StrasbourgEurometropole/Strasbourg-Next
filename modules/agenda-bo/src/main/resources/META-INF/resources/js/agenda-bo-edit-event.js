@@ -24,8 +24,6 @@ jQuery(function() {
 		$('.' + classOfDivToHide + ' .image-thumbnail').remove();
 		setConditionalValidators();
 	});
-	
-	Liferay.on('allPortletsReady', setConditionalValidators);
 
 	$(":submit").on('click', function(e) {
         allValidate = true;
@@ -64,12 +62,10 @@ jQuery(function() {
 					rules[namespace + 'maxGauge'].required = true;
                     rules[namespace + 'registrationStartDate'].required = true;
                     rules[namespace + 'registrationEndDate'].required = true;
-                    registrationDiv.style.display = "block";
                 } else {
 					rules[namespace + 'maxGauge'].required = false;
                     rules[namespace + 'registrationStartDate'].required = false;
                     rules[namespace + 'registrationEndDate'].required = false;
-                    registrationDiv.style.display = "none";
                 }
 			}
 		});
@@ -112,6 +108,7 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
         ],
         firstDay: 1
 	};
+
 	/**
 	 * RangePicker répétable
 	 */
@@ -136,18 +133,43 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 
    // Fonction appelé pour ouvrir le calendrier général
 	var openGeneralRange = function (ev, picker) {
-		$('#' + namespace + 'periodGenerator').trigger('click');
+		// On simule le clic sur le bouton "+" de l'autoField
+		// On modifie également l'URL appelée pour récupérer la ligne répétable
+		// afin d'ajouter les paramètres de dates de début et de fin
+		var formattedStartDate = picker.startDate.format('DD/MM/YYYY');
+		var formattedEndDate = picker.endDate.format('DD/MM/YYYY');
+		var previousURL = autoFields.url;
+		autoFields.url = autoFields.url + '&' + namespace + 'startDate=' + formattedStartDate
+			+ '&' + namespace + 'endDate=' + formattedEndDate;
+		$('button.add-row', $('#date-fields .lfr-form-row:not(.hide)').first()).trigger('click');
+
+		// On laisse le calendrier ouvert
+        $(ev.currentTarget).trigger('click')
+
+		// On reset l'URL à sa valeur initiale
+		autoFields.url = previousURL;
+
+		// Réinitialise la période en cours
+		$(this).text("Sélectionner");
+		// Set des champs input cachés
+		$('.startDate', $(this).parent()).val("");
+		$('.endDate', $(this).parent()).val("");
     };
 
 	// On active le composant
-	options.startDate = $('span.date-range').text().split(' - ')[0];
-	options.endDate = $('span.date-range').text().split(' - ')[1];
-	var dateRangePicker = $('span.date-range').daterangepicker(options);
-	// On attache l'événement de changement de range de date
-	$('span.date-range').on('apply.daterangepicker', onDateChange);
-	$('span.date-range').on('applyAndNew.daterangepicker', onDateChange);
-    // Lors du clic sur le bouton "Valider et ajouter une nouvelle période"
-    $('span.date-range').on('applyAndNew.daterangepicker', openGeneralRange);
+	$('span.date-range').each(function() {
+        dates = $(this).text().split(' - ');
+        if(dates.length == 2){
+            options.startDate = dates[0];
+            options.endDate = dates[1];
+        }
+        var dateRangePicker = $(this).daterangepicker(options);
+        // On attache l'événement de changement de range de date
+        $(this).on('apply.daterangepicker', onDateChange);
+        $(this).on('applyAndNew.daterangepicker', onDateChange);
+        // Lors du clic sur le bouton "Valider et ajouter une nouvelle période"
+        $(this).on('applyAndNew.daterangepicker', openGeneralRange);
+    });
 	
 	// Configuration de l'autofield
 	AUI().use('liferay-auto-fields', function(Y) {
@@ -174,55 +196,7 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 		$('#dateRange' + index).on('applyAndNew.daterangepicker', onDateChange);
         $('#dateRange' + index).on('applyAndNew.daterangepicker', openGeneralRange);
 	});
-	
-	/**
-	 * RangePicker permettant la création à la chaîne
-	 */
-	// Activation du RangePicker 
-	$('#' + namespace + 'periodGenerator').daterangepicker({
-		autoApply: false,
-		parentEl: '#portlet_eu_strasbourg_portlet_agenda_AgendaBOPortlet .portlet-body',
-		locale: dateRangePickerLocaleSettings
-	});
-	// Lors du clic sur le bouton "Appliquer
-	$('#' + namespace + 'periodGenerator').on('apply.daterangepicker', function (ev, picker) {
-		// On simule le clic sur le bouton "+" de l'autoField
-		// On modifie également l'URL appelée pour récupérer la ligne répétable
-		// afin d'ajouter les paramètres de dates de début et de fin
-		var formattedStartDate = picker.startDate.format('DD/MM/YYYY');
-		var formattedEndDate = picker.endDate.format('DD/MM/YYYY');
-		var previousURL = autoFields.url;
-		autoFields.url = autoFields.url + '&' + namespace + 'startDate=' + formattedStartDate
-			+ '&' + namespace + 'endDate=' + formattedEndDate;
 
-		$('button.add-row', $('#date-fields .lfr-form-row:not(.hide)').first()).trigger('click');
-
-		// On reset l'URL à sa valeur initiale
-		autoFields.url = previousURL;
-	});
-	// Lors du clic sur le bouton "Valider et ajouter une nouvelle période
-	$('#' + namespace + 'periodGenerator').on('applyAndNew.daterangepicker', function (ev, picker) {
-
-		// On simule le clic sur le bouton "+" de l'autoField
-		// On modifie également l'URL appelée pour récupérer la ligne répétable
-		// afin d'ajouter les paramètres de dates de début et de fin
-		var formattedStartDate = picker.startDate.format('DD/MM/YYYY');
-		var formattedEndDate = picker.endDate.format('DD/MM/YYYY');
-		var previousURL = autoFields.url;
-		autoFields.url = autoFields.url + '&' + namespace + 'startDate=' + formattedStartDate
-			+ '&' + namespace + 'endDate=' + formattedEndDate;
-
-		$('button.add-row', $('#date-fields .lfr-form-row:not(.hide)').first()).trigger('click');
-
-		// On laisse le calendrier ouvert
-        picker.startDate = moment().startOf('day');
-        picker.endDate = moment().startOf('day');
-		$('#' + namespace + 'periodGenerator').trigger('click');
-		
-		// On reset l'URL à sa valeur initiale
-		autoFields.url = previousURL;		
-	});
-	
 	/**
 	 * Modification globale des horaires
 	 */
@@ -305,6 +279,11 @@ jQuery(function() {
 var registrationTrue = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[0];
 var registrationFalse = document.querySelectorAll('input[name=' + namespace + 'registrationValue]')[1];
 var registrationDiv = document.getElementById("registrationDiv");
+if(registrationTrue.checked){
+	registrationDiv.style.display = "block";
+} else {
+	registrationDiv.style.display = "none";
+}
 registrationTrue.onchange = function(){
     var rules = Liferay.Form.get(namespace + 'fm').formValidator.get('rules');
     rules[namespace + 'maxGauge'].required = true;

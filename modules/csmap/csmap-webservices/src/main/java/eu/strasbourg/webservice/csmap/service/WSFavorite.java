@@ -15,7 +15,6 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
-import eu.strasbourg.utils.UriHelper;
 
 import java.util.Date;
 import java.util.Locale;

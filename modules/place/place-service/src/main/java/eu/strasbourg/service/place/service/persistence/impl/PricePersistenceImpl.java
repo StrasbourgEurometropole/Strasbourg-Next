@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.place.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,29 +16,29 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.place.exception.NoSuchPriceException;
 import eu.strasbourg.service.place.model.Price;
+import eu.strasbourg.service.place.model.PriceTable;
 import eu.strasbourg.service.place.model.impl.PriceImpl;
 import eu.strasbourg.service.place.model.impl.PriceModelImpl;
 import eu.strasbourg.service.place.service.persistence.PricePersistence;
+import eu.strasbourg.service.place.service.persistence.PriceUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -246,10 +238,6 @@ public class PricePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -598,8 +586,6 @@ public class PricePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -620,21 +606,14 @@ public class PricePersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Price.class);
+
+		setModelImplClass(PriceImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(PriceTable.INSTANCE);
 	}
 
 	/**
@@ -644,12 +623,10 @@ public class PricePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(Price price) {
-		entityCache.putResult(
-			PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
-			price.getPrimaryKey(), price);
-
-		price.resetOriginalValues();
+		entityCache.putResult(PriceImpl.class, price.getPrimaryKey(), price);
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the prices in the entity cache if it is enabled.
@@ -658,15 +635,18 @@ public class PricePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Price> prices) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (prices.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Price price : prices) {
-			if (entityCache.getResult(
-					PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
-					price.getPrimaryKey()) == null) {
+			if (entityCache.getResult(PriceImpl.class, price.getPrimaryKey()) ==
+					null) {
 
 				cacheResult(price);
-			}
-			else {
-				price.resetOriginalValues();
 			}
 		}
 	}
@@ -682,9 +662,7 @@ public class PricePersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(PriceImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(PriceImpl.class);
 	}
 
 	/**
@@ -696,35 +674,22 @@ public class PricePersistenceImpl
 	 */
 	@Override
 	public void clearCache(Price price) {
-		entityCache.removeResult(
-			PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
-			price.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(PriceImpl.class, price);
 	}
 
 	@Override
 	public void clearCache(List<Price> prices) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Price price : prices) {
-			entityCache.removeResult(
-				PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
-				price.getPrimaryKey());
+			entityCache.removeResult(PriceImpl.class, price);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(PriceImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
-				primaryKey);
+			entityCache.removeResult(PriceImpl.class, primaryKey);
 		}
 	}
 
@@ -861,10 +826,8 @@ public class PricePersistenceImpl
 		try {
 			session = openSession();
 
-			if (price.isNew()) {
+			if (isNew) {
 				session.save(price);
-
-				price.setNew(false);
 			}
 			else {
 				price = (Price)session.merge(price);
@@ -877,44 +840,11 @@ public class PricePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(PriceImpl.class, priceModelImpl, false, true);
 
-		if (!PriceModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		if (isNew) {
+			price.setNew(false);
 		}
-		else if (isNew) {
-			Object[] args = new Object[] {priceModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((priceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {priceModelImpl.getOriginalUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {priceModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-		}
-
-		entityCache.putResult(
-			PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
-			price.getPrimaryKey(), price, false);
 
 		price.resetOriginalValues();
 
@@ -961,158 +891,12 @@ public class PricePersistenceImpl
 	/**
 	 * Returns the price with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the price
-	 * @return the price, or <code>null</code> if a price with the primary key could not be found
-	 */
-	@Override
-	public Price fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Price price = (Price)serializable;
-
-		if (price == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				price = (Price)session.get(PriceImpl.class, primaryKey);
-
-				if (price != null) {
-					cacheResult(price);
-				}
-				else {
-					entityCache.putResult(
-						PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
-						primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return price;
-	}
-
-	/**
-	 * Returns the price with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param priceId the primary key of the price
 	 * @return the price, or <code>null</code> if a price with the primary key could not be found
 	 */
 	@Override
 	public Price fetchByPrimaryKey(long priceId) {
 		return fetchByPrimaryKey((Serializable)priceId);
-	}
-
-	@Override
-	public Map<Serializable, Price> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Price> map = new HashMap<Serializable, Price>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Price price = fetchByPrimaryKey(primaryKey);
-
-			if (price != null) {
-				map.put(primaryKey, price);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Price)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_PRICE_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Price price : (List<Price>)query.list()) {
-				map.put(price.getPrimaryKeyObj(), price);
-
-				cacheResult(price);
-
-				uncachedPrimaryKeys.remove(price.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					PriceModelImpl.ENTITY_CACHE_ENABLED, PriceImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1239,10 +1023,6 @@ public class PricePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1288,9 +1068,6 @@ public class PricePersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1307,6 +1084,21 @@ public class PricePersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "priceId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_PRICE;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return PriceModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1315,51 +1107,46 @@ public class PricePersistenceImpl
 	 * Initializes the price persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			PriceModelImpl.ENTITY_CACHE_ENABLED,
-			PriceModelImpl.FINDER_CACHE_ENABLED, PriceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			PriceModelImpl.ENTITY_CACHE_ENABLED,
-			PriceModelImpl.FINDER_CACHE_ENABLED, PriceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			PriceModelImpl.ENTITY_CACHE_ENABLED,
-			PriceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			PriceModelImpl.ENTITY_CACHE_ENABLED,
-			PriceModelImpl.FINDER_CACHE_ENABLED, PriceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			PriceModelImpl.ENTITY_CACHE_ENABLED,
-			PriceModelImpl.FINDER_CACHE_ENABLED, PriceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			PriceModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			PriceModelImpl.ENTITY_CACHE_ENABLED,
-			PriceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
+
+		PriceUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		PriceUtil.setPersistence(null);
+
 		entityCache.removeCache(PriceImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1370,9 +1157,6 @@ public class PricePersistenceImpl
 
 	private static final String _SQL_SELECT_PRICE =
 		"SELECT price FROM Price price";
-
-	private static final String _SQL_SELECT_PRICE_WHERE_PKS_IN =
-		"SELECT price FROM Price price WHERE priceId IN (";
 
 	private static final String _SQL_SELECT_PRICE_WHERE =
 		"SELECT price FROM Price price WHERE ";
@@ -1396,5 +1180,10 @@ public class PricePersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

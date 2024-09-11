@@ -72,7 +72,7 @@ function getSelectedEntries() {
                 	var data = this.get('responseData');
                 	getResult('news', data);
                     //Force la premiere tuille à  prendre deux fois plus de place en hauteur de largeur
-                    $('.pro-wi-grid .col-md-3.col-sm-6.col-xs-12:first-child').removeClass('col-md-3').removeClass('col-sm-6').addClass('col-md-6').addClass('col-sm-12');
+                    $('.pro-wi-grid .col-md-4.col-sm-6.col-xs-12:first-child').removeClass('col-md-3').removeClass('col-sm-6').addClass('col-md-8').addClass('col-sm-12');
                     $('.pro-wi-grid .col-md-6.col-sm-12.col-xs-12 .pro-bloc-actu').addClass('pro-bloc-actu-large');
                     $('.pro-listing .pro-wi-grid>*').css('margin', '20px 0px');
 

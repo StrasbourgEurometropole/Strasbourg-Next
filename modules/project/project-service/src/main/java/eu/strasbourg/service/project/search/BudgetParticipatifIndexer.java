@@ -16,6 +16,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
@@ -53,7 +54,7 @@ public class BudgetParticipatifIndexer extends BaseIndexer<BudgetParticipatif> {
         List<AssetCategory> assetCategories = AssetVocabularyHelper
                 .getFullHierarchyCategories(budget.getCategories());
         document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-        addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
+        IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES,
                 assetCategories);
 
         Map<Locale, String> titleFieldMap = new HashMap<>();
@@ -98,8 +99,7 @@ public class BudgetParticipatifIndexer extends BaseIndexer<BudgetParticipatif> {
     protected void doReindex(BudgetParticipatif budget) throws Exception {
         Document document = getDocument(budget);
 
-        IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-                budget.getCompanyId(), document, isCommitImmediately());
+        IndexWriterHelperUtil.updateDocument(budget.getCompanyId(), document);
 
     }
 
@@ -122,7 +122,6 @@ public class BudgetParticipatifIndexer extends BaseIndexer<BudgetParticipatif> {
                     }
                 });
 
-        indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
         indexableActionableDynamicQuery.performActions();
     }
 

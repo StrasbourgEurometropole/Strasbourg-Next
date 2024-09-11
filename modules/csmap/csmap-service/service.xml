@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_2_0.dtd">
-
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.4.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_4_0.dtd">
 <service-builder dependency-injector="ds" package-path="eu.strasbourg.service.csmap">
 
 	<namespace>csmap</namespace>
@@ -25,6 +24,9 @@
 		<!-- Finder methods -->
 		<finder name="Value" return-type="RefreshToken">
 			<finder-column name="value" />
+		</finder>
+		<finder name="PublikId" return-type="Collection">
+			<finder-column name="publikId" />
 		</finder>
 
 	</entity>
@@ -65,6 +67,10 @@
 		<column name="editorialTitle" type="String" localized="true" />
 		<column name="subtitle" type="String" localized="true" />
 		<column name="imageId" type="Long" />
+		<column name="labelLink" type="String" localized="true" />
+		<column name="link" type="String" localized="true" />
+		<column name="publicationStartDate" type="Date" />
+		<column name="publicationEndDate" type="Date" />
 		<column name="isPrincipal" type="Boolean" />
 		<column name="isActive" type="Boolean" />
 		<column name="campaignsIds" type="String" />

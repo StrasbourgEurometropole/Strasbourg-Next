@@ -38,7 +38,7 @@
 			width: calc(100% - 66px);
 			background: $c_white;
 			padding: 17px 35px;
-			text-transform: uppercase;
+
 			&::placeholder {
 				color: rgba($c_txt, 0.7);
 			}
@@ -58,7 +58,7 @@
 			right: 0;
 			top: 0;
 			bottom: 0;
-			background: $c_main;
+			@include addDynamicBackground();
 			padding: 0 20px;
 			font-size: 25px;
 			@include addTransitionCurve();
@@ -74,10 +74,6 @@
 	display: inline-block;
 	vertical-align: middle;
 	margin-left: 5px;
-	@include tablet_landscape {
-		margin-left: 0;
-		display: block;
-	}
 	.selectric-wrapper {
 		position: relative;
 		@include tablet_landscape {
@@ -87,7 +83,8 @@
 			margin-bottom: 15px;
 		}
 		&:after {
-			content: "\e902";
+			content: "\23F7";
+			color: white;
 			@include font();
 			float: right;
 			font-size: 16px;
@@ -112,8 +109,8 @@
 				height: 100%;
 			}
 			.label {
-				@include ft($f_hx, 2.5em, 400, $c_txt, 1.600em);
-				text-transform: uppercase;
+				@include ft($f_hx, 2em, 400, $c_white, 1.600em);
+				text-decoration: underline #fff dotted;
 				height: 100%;
 				padding: 7px 0;
 				margin: 0;
@@ -128,23 +125,6 @@
 				@include mobile_small {
 					font-size: 1.3em;
 				}
-				&:after {
-					content: '';
-					position: absolute;
-					bottom: 18px;
-					left: 0;
-					right: 0;
-					height: 10px;
-					width: 100%;
-					z-index: -1;
-					background: $c_main;
-					@include addTransitionCurve();
-					@include tablet_portrait {
-						position: relative;
-						bottom: 0;
-						display: block;
-					}
-				}
 				&:hover {
 					&:after {
 						height: 20px;
@@ -157,7 +137,6 @@
 		}
 		.selectric-items {
 			background: $c_white;
-			box-shadow: 0px 0px 40px 0px rgba(0, 0, 0, 0.20);
 			border: none;
 			width: 335px !important;
 			ul {
@@ -176,10 +155,12 @@
 form{
 	input[type="submit"]{
 		@include btn($c_main, $c_txt, 2, $f_hx, $s_p);
+		@include addDynamicBackground();
 		@extend %appearance;
-		text-transform: uppercase;
+
 		font-weight: 700;
 		border: 2px solid $c_main;
+		@include addDynamicBorderColor();
 		line-height: 22px;
 		width: 100%;
 		display: block;
@@ -191,7 +172,7 @@ form{
 		&:hover, &:focus {
 			background: $c_dark;
 			border-color: $c_dark;
-			color: $c_main;
+			@include addDynamicTextColor();
 		}
 	}
 }
@@ -209,18 +190,17 @@ form{
 	}
 
 	.pro-wrapper{
-		padding: 20px 20px 10px 20px;
-		border-bottom: 1px solid #c9cbcd;
-		h4{
-			@include ft($f_hx, 	0.938em, 700, $c_txt, 1.600em);
-			text-transform: uppercase;
+		padding: 40px 50px 10px 50px;
+		border-bottom: 1px dashed #c9cbcd;
+		&.last-wrapper {
+			border-bottom: none;
 		}
 	}
 	input, textarea {
 		@include ft($f_txt, 0.875em, 400, $c_txt, 20px);
 		@extend %appearance;
 		height: 100%;
-		padding: 10px 15px;
+		padding: 20px 15px;
 		border: 1px solid #b2b2b2;
 		border-radius: 4px;
 		background: $c_white;
@@ -258,11 +238,22 @@ form{
 
 	.form-group {
 		clear: both;
-		margin-bottom: 10px;
+		margin-bottom: 20px;
 		@include clearfix();
 		&.pro-form-error{
 			input{
 				border-color: #ff0000;
+			}
+		}
+		.radio {
+			label {
+				display: flex;
+				flex-direction: row-reverse;
+				align-items: center;
+				justify-content: flex-end;
+				input[type=radio]+span {
+					margin-right: 20px;
+				}
 			}
 		}
 		label {
@@ -327,26 +318,27 @@ form{
 
 
 	.pro-form-submit{
-		padding: 25px 20px;
+		padding: 35px 20px;
 		text-align: center;
 		background: $c_dark;
 		border-top: 1px solid rgba($c_white,0.2);
 		button{
-			@include ft($f_hx, 0.938em, 700, $c_dark, 22px);
+			@include ft($f_hx, 0.938em, 700, $c_white, 22px);
 			@extend %appearance;
-			background: $c_main;
-			border-radius: 4px;
+			background: transparent;
 			display: inline-block;
-			padding: 12px 90px;
-			border: 2px solid $c_main;
-			text-transform: uppercase;
+			padding: 12px 0;
+			width: 100%;
+			border: 1px solid;
+			@include addDynamicBorderColor();
+
 			@include addTransition();
 			@include mobile{
 				width: 100%;
 			}
 			&:hover, &:focus{
-				background: $c_dark;
-				color: $c_main;
+				@include addDynamicBackground();
+				color: $c_white;
 			}
 		}
 	}
@@ -364,10 +356,12 @@ form{
 		text-align: left;
 		clear: both;
 		user-select: none;
-		span {
+		span:not(.c-inner) {
 			color: #ff0000;
 		}
 	}
+
+
 
 	.form-checkbox {
 		position: relative;
@@ -375,25 +369,25 @@ form{
 		margin-bottom: 10px;
 		&.pro-optin{
 			background: $c_dark;
-			padding: 20px;
+			padding: 10px 40px;
 			margin-bottom: 0;
 			input{
 				&:focus{
 					+ label{
-						color: $c_main;
+						color: #8dc63f;
 					}
 				}
 			}
 			label{
 				color: $c_white;
 				&:hover{
-					color: $c_main;
+					@include addDynamicTextColor();
 				}
 				a{
 					color: $c_white;
 					text-decoration: underline;
 					&:hover{
-						color: $c_main;
+						@include addDynamicTextColor();
 					}
 				}
 			}
@@ -416,7 +410,6 @@ form{
 		> div{
 			position: relative;
 			padding: 0;
-			margin-bottom: 10px;
 			@include mobile{
 				display: block;
 			}
@@ -486,22 +479,33 @@ form{
 				transform: scale(0);
 				@include addTransitionCurve();
 			}
+
+			.reference-mark {
+				color: $c_dark !important;
+			}
 		}
 	}
 
 	.pro-info-supp{
 		background: $c_dark;
-		padding: 5px 20px 15px 20px;
+		padding: 1px 40px;
 		> * {
 			&:last-child{
 				margin: 0;
 			}
 		}
 		p{
-			@include ft($f_txt, 0.875em, 400, rgba($c_white,0.5), 1.429em);
+			@include ft($f_txt, 0.875em, 400, $c_white, 1.429em);
 			margin-bottom: 15px;
 			i{
 				font-style: italic;
+			}
+		}
+
+		a {
+			color: $c_white;
+			&:hover {
+				color: $c_orange;
 			}
 		}
 	}
@@ -513,7 +517,7 @@ form{
 	}
 
 	.form-code{
-		width: 90px;
+		width: 100px;
 		float: right;
 	}
 
@@ -546,10 +550,10 @@ form{
 			text-decoration: underline;
 			display: block;
 			margin-bottom: 10px;
-			text-transform: uppercase;
+
 			@include addTransition();
 			&:hover, &:focus{
-				color: $c_main;
+				@include addDynamicTextColor();
 			}
 		}
 	}
@@ -564,19 +568,16 @@ form{
 			}
 		}
 		.selectric{
-			border: none;
+			border-color: #b2b2b2;
+			border-radius: 5px;
 			.label{
 				@include ft($f_txt, 0.875em, 400, $c_txt, 38px);
 				display: block;
 				width: 100%;
-				height: 40px;
-				padding: 0 25px 0 15px;
+				height: 60px;
+				padding: 10px 25px 10px 15px;
 				margin: 0;
 				background: $c_white;
-				border: 1px solid #b2b2b2;;
-				border-radius: 4px;
-				box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-				transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 				&:after{
 					content: "\e930";
 					@include font();
@@ -630,17 +631,17 @@ form{
 			@include ft($f_hx, 0.813em, 700, $c_txt, normal);
 			text-align: center;
 			border-color: #B2B2B2;
-			text-transform: uppercase;
+
 			padding: 0 15px;
 			height: 40px;
 			border-radius: 0;
 			margin-top: 0;
-			background: $c_main;
+			@include addDynamicBackground();
 			@include addTransition();
 			&:hover, &:focus{
 				background: $c_dark;
 				border-color: $c_dark;
-				color: $c_main;
+				@include addDynamicTextColor();
 				outline: none;
 			}
 		}
@@ -658,7 +659,7 @@ form{
 		width: 50%;
 		float: left;
 		clear: none;
-		padding: 0 7.5px;
+		padding: 0 10px;
 		@include mobile{
 			width: 100%;
 			float: none;
@@ -670,7 +671,7 @@ form{
 		float: left;
 		margin-bottom: 10px;
 		clear: none;
-		padding: 0 7.5px;
+		padding: 0 10px;
 		@include mobile{
 			width: 100%;
 			float: none;
@@ -682,7 +683,7 @@ form{
 		float: left;
 		margin-bottom: 10px;
 		clear: none;
-		padding: 0 7.5px;
+		padding: 0 10px;
 		@include mobile{
 			width: 100%;
 			float: none;

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Information pratique</name>
+        <key>415969562</key>
+        <definition>info-structure.json</definition>
+        <layout>info-layout.json</layout>
+    </structure>
+    <template>
+        <name>Information pratique</name>
+        <key>420085428</key>
+        <script>info.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

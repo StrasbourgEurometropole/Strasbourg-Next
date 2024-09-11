@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -27,30 +19,30 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.project.exception.NoSuchPlacitPlaceException;
 import eu.strasbourg.service.project.model.PlacitPlace;
+import eu.strasbourg.service.project.model.PlacitPlaceTable;
 import eu.strasbourg.service.project.model.impl.PlacitPlaceImpl;
 import eu.strasbourg.service.project.model.impl.PlacitPlaceModelImpl;
 import eu.strasbourg.service.project.service.persistence.PlacitPlacePersistence;
+import eu.strasbourg.service.project.service.persistence.PlacitPlaceUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -251,10 +243,6 @@ public class PlacitPlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -603,8 +591,6 @@ public class PlacitPlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -762,11 +748,6 @@ public class PlacitPlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -855,8 +836,6 @@ public class PlacitPlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1057,10 +1036,6 @@ public class PlacitPlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1440,8 +1415,6 @@ public class PlacitPlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1614,10 +1587,6 @@ public class PlacitPlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1944,8 +1913,6 @@ public class PlacitPlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2114,10 +2081,6 @@ public class PlacitPlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2444,8 +2407,6 @@ public class PlacitPlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2617,10 +2578,6 @@ public class PlacitPlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2953,8 +2910,6 @@ public class PlacitPlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3125,10 +3080,6 @@ public class PlacitPlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3455,8 +3406,6 @@ public class PlacitPlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3469,6 +3418,519 @@ public class PlacitPlacePersistenceImpl
 
 	private static final String _FINDER_COLUMN_PETITION_PETITIONID_2 =
 		"placitPlace.petitionId = ?";
+
+	private FinderPath _finderPathWithPaginationFindBySaisineObservatoire;
+	private FinderPath _finderPathWithoutPaginationFindBySaisineObservatoire;
+	private FinderPath _finderPathCountBySaisineObservatoire;
+
+	/**
+	 * Returns all the placit places where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @return the matching placit places
+	 */
+	@Override
+	public List<PlacitPlace> findBySaisineObservatoire(
+		long saisineObservatoireId) {
+
+		return findBySaisineObservatoire(
+			saisineObservatoireId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the placit places where saisineObservatoireId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PlacitPlaceModelImpl</code>.
+	 * </p>
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param start the lower bound of the range of placit places
+	 * @param end the upper bound of the range of placit places (not inclusive)
+	 * @return the range of matching placit places
+	 */
+	@Override
+	public List<PlacitPlace> findBySaisineObservatoire(
+		long saisineObservatoireId, int start, int end) {
+
+		return findBySaisineObservatoire(
+			saisineObservatoireId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the placit places where saisineObservatoireId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PlacitPlaceModelImpl</code>.
+	 * </p>
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param start the lower bound of the range of placit places
+	 * @param end the upper bound of the range of placit places (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching placit places
+	 */
+	@Override
+	public List<PlacitPlace> findBySaisineObservatoire(
+		long saisineObservatoireId, int start, int end,
+		OrderByComparator<PlacitPlace> orderByComparator) {
+
+		return findBySaisineObservatoire(
+			saisineObservatoireId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the placit places where saisineObservatoireId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PlacitPlaceModelImpl</code>.
+	 * </p>
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param start the lower bound of the range of placit places
+	 * @param end the upper bound of the range of placit places (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching placit places
+	 */
+	@Override
+	public List<PlacitPlace> findBySaisineObservatoire(
+		long saisineObservatoireId, int start, int end,
+		OrderByComparator<PlacitPlace> orderByComparator,
+		boolean useFinderCache) {
+
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			if (useFinderCache) {
+				finderPath =
+					_finderPathWithoutPaginationFindBySaisineObservatoire;
+				finderArgs = new Object[] {saisineObservatoireId};
+			}
+		}
+		else if (useFinderCache) {
+			finderPath = _finderPathWithPaginationFindBySaisineObservatoire;
+			finderArgs = new Object[] {
+				saisineObservatoireId, start, end, orderByComparator
+			};
+		}
+
+		List<PlacitPlace> list = null;
+
+		if (useFinderCache) {
+			list = (List<PlacitPlace>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (PlacitPlace placitPlace : list) {
+					if (saisineObservatoireId !=
+							placitPlace.getSaisineObservatoireId()) {
+
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler sb = null;
+
+			if (orderByComparator != null) {
+				sb = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				sb = new StringBundler(3);
+			}
+
+			sb.append(_SQL_SELECT_PLACITPLACE_WHERE);
+
+			sb.append(
+				_FINDER_COLUMN_SAISINEOBSERVATOIRE_SAISINEOBSERVATOIREID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else {
+				sb.append(PlacitPlaceModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(saisineObservatoireId);
+
+				list = (List<PlacitPlace>)QueryUtil.list(
+					query, getDialect(), start, end);
+
+				cacheResult(list);
+
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching placit place
+	 * @throws NoSuchPlacitPlaceException if a matching placit place could not be found
+	 */
+	@Override
+	public PlacitPlace findBySaisineObservatoire_First(
+			long saisineObservatoireId,
+			OrderByComparator<PlacitPlace> orderByComparator)
+		throws NoSuchPlacitPlaceException {
+
+		PlacitPlace placitPlace = fetchBySaisineObservatoire_First(
+			saisineObservatoireId, orderByComparator);
+
+		if (placitPlace != null) {
+			return placitPlace;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("saisineObservatoireId=");
+		sb.append(saisineObservatoireId);
+
+		sb.append("}");
+
+		throw new NoSuchPlacitPlaceException(sb.toString());
+	}
+
+	/**
+	 * Returns the first placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching placit place, or <code>null</code> if a matching placit place could not be found
+	 */
+	@Override
+	public PlacitPlace fetchBySaisineObservatoire_First(
+		long saisineObservatoireId,
+		OrderByComparator<PlacitPlace> orderByComparator) {
+
+		List<PlacitPlace> list = findBySaisineObservatoire(
+			saisineObservatoireId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching placit place
+	 * @throws NoSuchPlacitPlaceException if a matching placit place could not be found
+	 */
+	@Override
+	public PlacitPlace findBySaisineObservatoire_Last(
+			long saisineObservatoireId,
+			OrderByComparator<PlacitPlace> orderByComparator)
+		throws NoSuchPlacitPlaceException {
+
+		PlacitPlace placitPlace = fetchBySaisineObservatoire_Last(
+			saisineObservatoireId, orderByComparator);
+
+		if (placitPlace != null) {
+			return placitPlace;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("saisineObservatoireId=");
+		sb.append(saisineObservatoireId);
+
+		sb.append("}");
+
+		throw new NoSuchPlacitPlaceException(sb.toString());
+	}
+
+	/**
+	 * Returns the last placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching placit place, or <code>null</code> if a matching placit place could not be found
+	 */
+	@Override
+	public PlacitPlace fetchBySaisineObservatoire_Last(
+		long saisineObservatoireId,
+		OrderByComparator<PlacitPlace> orderByComparator) {
+
+		int count = countBySaisineObservatoire(saisineObservatoireId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<PlacitPlace> list = findBySaisineObservatoire(
+			saisineObservatoireId, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the placit places before and after the current placit place in the ordered set where saisineObservatoireId = &#63;.
+	 *
+	 * @param placitPlaceId the primary key of the current placit place
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next placit place
+	 * @throws NoSuchPlacitPlaceException if a placit place with the primary key could not be found
+	 */
+	@Override
+	public PlacitPlace[] findBySaisineObservatoire_PrevAndNext(
+			long placitPlaceId, long saisineObservatoireId,
+			OrderByComparator<PlacitPlace> orderByComparator)
+		throws NoSuchPlacitPlaceException {
+
+		PlacitPlace placitPlace = findByPrimaryKey(placitPlaceId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			PlacitPlace[] array = new PlacitPlaceImpl[3];
+
+			array[0] = getBySaisineObservatoire_PrevAndNext(
+				session, placitPlace, saisineObservatoireId, orderByComparator,
+				true);
+
+			array[1] = placitPlace;
+
+			array[2] = getBySaisineObservatoire_PrevAndNext(
+				session, placitPlace, saisineObservatoireId, orderByComparator,
+				false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected PlacitPlace getBySaisineObservatoire_PrevAndNext(
+		Session session, PlacitPlace placitPlace, long saisineObservatoireId,
+		OrderByComparator<PlacitPlace> orderByComparator, boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(3);
+		}
+
+		sb.append(_SQL_SELECT_PLACITPLACE_WHERE);
+
+		sb.append(_FINDER_COLUMN_SAISINEOBSERVATOIRE_SAISINEOBSERVATOIREID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			sb.append(PlacitPlaceModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = sb.toString();
+
+		Query query = session.createQuery(sql);
+
+		query.setFirstResult(0);
+		query.setMaxResults(2);
+
+		QueryPos queryPos = QueryPos.getInstance(query);
+
+		queryPos.add(saisineObservatoireId);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(placitPlace)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<PlacitPlace> list = query.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the placit places where saisineObservatoireId = &#63; from the database.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 */
+	@Override
+	public void removeBySaisineObservatoire(long saisineObservatoireId) {
+		for (PlacitPlace placitPlace :
+				findBySaisineObservatoire(
+					saisineObservatoireId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
+			remove(placitPlace);
+		}
+	}
+
+	/**
+	 * Returns the number of placit places where saisineObservatoireId = &#63;.
+	 *
+	 * @param saisineObservatoireId the saisine observatoire ID
+	 * @return the number of matching placit places
+	 */
+	@Override
+	public int countBySaisineObservatoire(long saisineObservatoireId) {
+		FinderPath finderPath = _finderPathCountBySaisineObservatoire;
+
+		Object[] finderArgs = new Object[] {saisineObservatoireId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_PLACITPLACE_WHERE);
+
+			sb.append(
+				_FINDER_COLUMN_SAISINEOBSERVATOIRE_SAISINEOBSERVATOIREID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(saisineObservatoireId);
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String
+		_FINDER_COLUMN_SAISINEOBSERVATOIRE_SAISINEOBSERVATOIREID_2 =
+			"placitPlace.saisineObservatoireId = ?";
 
 	private FinderPath _finderPathWithPaginationFindByBudgetParticipatif;
 	private FinderPath _finderPathWithoutPaginationFindByBudgetParticipatif;
@@ -3633,10 +4095,6 @@ public class PlacitPlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3970,8 +4428,6 @@ public class PlacitPlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -4144,10 +4600,6 @@ public class PlacitPlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -4474,8 +4926,6 @@ public class PlacitPlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -4659,10 +5109,6 @@ public class PlacitPlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -5015,8 +5461,6 @@ public class PlacitPlacePersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -5038,21 +5482,14 @@ public class PlacitPlacePersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(PlacitPlace.class);
+
+		setModelImplClass(PlacitPlaceImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(PlacitPlaceTable.INSTANCE);
 	}
 
 	/**
@@ -5063,16 +5500,15 @@ public class PlacitPlacePersistenceImpl
 	@Override
 	public void cacheResult(PlacitPlace placitPlace) {
 		entityCache.putResult(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED, PlacitPlaceImpl.class,
-			placitPlace.getPrimaryKey(), placitPlace);
+			PlacitPlaceImpl.class, placitPlace.getPrimaryKey(), placitPlace);
 
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {placitPlace.getUuid(), placitPlace.getGroupId()},
 			placitPlace);
-
-		placitPlace.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the placit places in the entity cache if it is enabled.
@@ -5081,16 +5517,19 @@ public class PlacitPlacePersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<PlacitPlace> placitPlaces) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (placitPlaces.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (PlacitPlace placitPlace : placitPlaces) {
 			if (entityCache.getResult(
-					PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
 					PlacitPlaceImpl.class, placitPlace.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(placitPlace);
-			}
-			else {
-				placitPlace.resetOriginalValues();
 			}
 		}
 	}
@@ -5106,9 +5545,7 @@ public class PlacitPlacePersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(PlacitPlaceImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(PlacitPlaceImpl.class);
 	}
 
 	/**
@@ -5120,39 +5557,22 @@ public class PlacitPlacePersistenceImpl
 	 */
 	@Override
 	public void clearCache(PlacitPlace placitPlace) {
-		entityCache.removeResult(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED, PlacitPlaceImpl.class,
-			placitPlace.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((PlacitPlaceModelImpl)placitPlace, true);
+		entityCache.removeResult(PlacitPlaceImpl.class, placitPlace);
 	}
 
 	@Override
 	public void clearCache(List<PlacitPlace> placitPlaces) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (PlacitPlace placitPlace : placitPlaces) {
-			entityCache.removeResult(
-				PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-				PlacitPlaceImpl.class, placitPlace.getPrimaryKey());
-
-			clearUniqueFindersCache((PlacitPlaceModelImpl)placitPlace, true);
+			entityCache.removeResult(PlacitPlaceImpl.class, placitPlace);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(PlacitPlaceImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-				PlacitPlaceImpl.class, primaryKey);
+			entityCache.removeResult(PlacitPlaceImpl.class, primaryKey);
 		}
 	}
 
@@ -5163,36 +5583,9 @@ public class PlacitPlacePersistenceImpl
 			placitPlaceModelImpl.getUuid(), placitPlaceModelImpl.getGroupId()
 		};
 
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
 		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, placitPlaceModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		PlacitPlaceModelImpl placitPlaceModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				placitPlaceModelImpl.getUuid(),
-				placitPlaceModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((placitPlaceModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				placitPlaceModelImpl.getOriginalUuid(),
-				placitPlaceModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+			_finderPathFetchByUUID_G, args, placitPlaceModelImpl);
 	}
 
 	/**
@@ -5334,24 +5727,24 @@ public class PlacitPlacePersistenceImpl
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
-		Date now = new Date();
+		Date date = new Date();
 
 		if (isNew && (placitPlace.getCreateDate() == null)) {
 			if (serviceContext == null) {
-				placitPlace.setCreateDate(now);
+				placitPlace.setCreateDate(date);
 			}
 			else {
-				placitPlace.setCreateDate(serviceContext.getCreateDate(now));
+				placitPlace.setCreateDate(serviceContext.getCreateDate(date));
 			}
 		}
 
 		if (!placitPlaceModelImpl.hasSetModifiedDate()) {
 			if (serviceContext == null) {
-				placitPlace.setModifiedDate(now);
+				placitPlace.setModifiedDate(date);
 			}
 			else {
 				placitPlace.setModifiedDate(
-					serviceContext.getModifiedDate(now));
+					serviceContext.getModifiedDate(date));
 			}
 		}
 
@@ -5360,10 +5753,8 @@ public class PlacitPlacePersistenceImpl
 		try {
 			session = openSession();
 
-			if (placitPlace.isNew()) {
+			if (isNew) {
 				session.save(placitPlace);
-
-				placitPlace.setNew(false);
 			}
 			else {
 				placitPlace = (PlacitPlace)session.merge(placitPlace);
@@ -5376,263 +5767,14 @@ public class PlacitPlacePersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!PlacitPlaceModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {placitPlaceModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				placitPlaceModelImpl.getUuid(),
-				placitPlaceModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {placitPlaceModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {placitPlaceModelImpl.getProjectId()};
-
-			finderCache.removeResult(_finderPathCountByProject, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByProject, args);
-
-			args = new Object[] {placitPlaceModelImpl.getParticipationId()};
-
-			finderCache.removeResult(_finderPathCountByParticipation, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByParticipation, args);
-
-			args = new Object[] {placitPlaceModelImpl.getPetitionId()};
-
-			finderCache.removeResult(_finderPathCountByPetition, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPetition, args);
-
-			args = new Object[] {
-				placitPlaceModelImpl.getBudgetParticipatifId()
-			};
-
-			finderCache.removeResult(
-				_finderPathCountByBudgetParticipatif, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByBudgetParticipatif, args);
-
-			args = new Object[] {placitPlaceModelImpl.getInitiativeId()};
-
-			finderCache.removeResult(_finderPathCountByInitiative, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByInitiative, args);
-
-			args = new Object[] {placitPlaceModelImpl.getPlaceSIGId()};
-
-			finderCache.removeResult(_finderPathCountBySigId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindBySigId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((placitPlaceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					placitPlaceModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {placitPlaceModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((placitPlaceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					placitPlaceModelImpl.getOriginalUuid(),
-					placitPlaceModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					placitPlaceModelImpl.getUuid(),
-					placitPlaceModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((placitPlaceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					placitPlaceModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {placitPlaceModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((placitPlaceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByProject.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					placitPlaceModelImpl.getOriginalProjectId()
-				};
-
-				finderCache.removeResult(_finderPathCountByProject, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByProject, args);
-
-				args = new Object[] {placitPlaceModelImpl.getProjectId()};
-
-				finderCache.removeResult(_finderPathCountByProject, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByProject, args);
-			}
-
-			if ((placitPlaceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByParticipation.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					placitPlaceModelImpl.getOriginalParticipationId()
-				};
-
-				finderCache.removeResult(_finderPathCountByParticipation, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByParticipation, args);
-
-				args = new Object[] {placitPlaceModelImpl.getParticipationId()};
-
-				finderCache.removeResult(_finderPathCountByParticipation, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByParticipation, args);
-			}
-
-			if ((placitPlaceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPetition.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					placitPlaceModelImpl.getOriginalPetitionId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPetition, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPetition, args);
-
-				args = new Object[] {placitPlaceModelImpl.getPetitionId()};
-
-				finderCache.removeResult(_finderPathCountByPetition, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPetition, args);
-			}
-
-			if ((placitPlaceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByBudgetParticipatif.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					placitPlaceModelImpl.getOriginalBudgetParticipatifId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByBudgetParticipatif, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByBudgetParticipatif, args);
-
-				args = new Object[] {
-					placitPlaceModelImpl.getBudgetParticipatifId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByBudgetParticipatif, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByBudgetParticipatif, args);
-			}
-
-			if ((placitPlaceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByInitiative.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					placitPlaceModelImpl.getOriginalInitiativeId()
-				};
-
-				finderCache.removeResult(_finderPathCountByInitiative, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByInitiative, args);
-
-				args = new Object[] {placitPlaceModelImpl.getInitiativeId()};
-
-				finderCache.removeResult(_finderPathCountByInitiative, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByInitiative, args);
-			}
-
-			if ((placitPlaceModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindBySigId.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					placitPlaceModelImpl.getOriginalPlaceSIGId()
-				};
-
-				finderCache.removeResult(_finderPathCountBySigId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindBySigId, args);
-
-				args = new Object[] {placitPlaceModelImpl.getPlaceSIGId()};
-
-				finderCache.removeResult(_finderPathCountBySigId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindBySigId, args);
-			}
-		}
-
 		entityCache.putResult(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED, PlacitPlaceImpl.class,
-			placitPlace.getPrimaryKey(), placitPlace, false);
+			PlacitPlaceImpl.class, placitPlaceModelImpl, false, true);
 
-		clearUniqueFindersCache(placitPlaceModelImpl, false);
 		cacheUniqueFindersCache(placitPlaceModelImpl);
+
+		if (isNew) {
+			placitPlace.setNew(false);
+		}
 
 		placitPlace.resetOriginalValues();
 
@@ -5681,161 +5823,12 @@ public class PlacitPlacePersistenceImpl
 	/**
 	 * Returns the placit place with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the placit place
-	 * @return the placit place, or <code>null</code> if a placit place with the primary key could not be found
-	 */
-	@Override
-	public PlacitPlace fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED, PlacitPlaceImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		PlacitPlace placitPlace = (PlacitPlace)serializable;
-
-		if (placitPlace == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				placitPlace = (PlacitPlace)session.get(
-					PlacitPlaceImpl.class, primaryKey);
-
-				if (placitPlace != null) {
-					cacheResult(placitPlace);
-				}
-				else {
-					entityCache.putResult(
-						PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-						PlacitPlaceImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-					PlacitPlaceImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return placitPlace;
-	}
-
-	/**
-	 * Returns the placit place with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param placitPlaceId the primary key of the placit place
 	 * @return the placit place, or <code>null</code> if a placit place with the primary key could not be found
 	 */
 	@Override
 	public PlacitPlace fetchByPrimaryKey(long placitPlaceId) {
 		return fetchByPrimaryKey((Serializable)placitPlaceId);
-	}
-
-	@Override
-	public Map<Serializable, PlacitPlace> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, PlacitPlace> map =
-			new HashMap<Serializable, PlacitPlace>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			PlacitPlace placitPlace = fetchByPrimaryKey(primaryKey);
-
-			if (placitPlace != null) {
-				map.put(primaryKey, placitPlace);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-				PlacitPlaceImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (PlacitPlace)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_PLACITPLACE_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (PlacitPlace placitPlace : (List<PlacitPlace>)query.list()) {
-				map.put(placitPlace.getPrimaryKeyObj(), placitPlace);
-
-				cacheResult(placitPlace);
-
-				uncachedPrimaryKeys.remove(placitPlace.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-					PlacitPlaceImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -5962,10 +5955,6 @@ public class PlacitPlacePersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -6011,9 +6000,6 @@ public class PlacitPlacePersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -6030,6 +6016,21 @@ public class PlacitPlacePersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "placitPlaceId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_PLACITPLACE;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return PlacitPlaceModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -6038,243 +6039,219 @@ public class PlacitPlacePersistenceImpl
 	 * Initializes the placit place persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			PlacitPlaceModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			PlacitPlaceModelImpl.UUID_COLUMN_BITMASK |
-			PlacitPlaceModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			PlacitPlaceModelImpl.UUID_COLUMN_BITMASK |
-			PlacitPlaceModelImpl.COMPANYID_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			PlacitPlaceModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
 
 		_finderPathWithPaginationFindByProject = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByProject",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"projectId"}, true);
 
 		_finderPathWithoutPaginationFindByProject = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByProject",
-			new String[] {Long.class.getName()},
-			PlacitPlaceModelImpl.PROJECTID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"projectId"},
+			true);
 
 		_finderPathCountByProject = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByProject",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"projectId"},
+			false);
 
 		_finderPathWithPaginationFindByParticipation = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByParticipation",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"participationId"}, true);
 
 		_finderPathWithoutPaginationFindByParticipation = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByParticipation",
 			new String[] {Long.class.getName()},
-			PlacitPlaceModelImpl.PARTICIPATIONID_COLUMN_BITMASK);
+			new String[] {"participationId"}, true);
 
 		_finderPathCountByParticipation = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByParticipation",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()},
+			new String[] {"participationId"}, false);
 
 		_finderPathWithPaginationFindByPetition = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPetition",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"petitionId"}, true);
 
 		_finderPathWithoutPaginationFindByPetition = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPetition",
-			new String[] {Long.class.getName()},
-			PlacitPlaceModelImpl.PETITIONID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"petitionId"},
+			true);
 
 		_finderPathCountByPetition = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPetition",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"petitionId"},
+			false);
+
+		_finderPathWithPaginationFindBySaisineObservatoire = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySaisineObservatoire",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			},
+			new String[] {"saisineObservatoireId"}, true);
+
+		_finderPathWithoutPaginationFindBySaisineObservatoire = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findBySaisineObservatoire", new String[] {Long.class.getName()},
+			new String[] {"saisineObservatoireId"}, true);
+
+		_finderPathCountBySaisineObservatoire = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countBySaisineObservatoire", new String[] {Long.class.getName()},
+			new String[] {"saisineObservatoireId"}, false);
 
 		_finderPathWithPaginationFindByBudgetParticipatif = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByBudgetParticipatif",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"budgetParticipatifId"}, true);
 
 		_finderPathWithoutPaginationFindByBudgetParticipatif = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"findByBudgetParticipatif", new String[] {Long.class.getName()},
-			PlacitPlaceModelImpl.BUDGETPARTICIPATIFID_COLUMN_BITMASK);
+			new String[] {"budgetParticipatifId"}, true);
 
 		_finderPathCountByBudgetParticipatif = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByBudgetParticipatif", new String[] {Long.class.getName()});
+			"countByBudgetParticipatif", new String[] {Long.class.getName()},
+			new String[] {"budgetParticipatifId"}, false);
 
 		_finderPathWithPaginationFindByInitiative = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByInitiative",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"initiativeId"}, true);
 
 		_finderPathWithoutPaginationFindByInitiative = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByInitiative",
-			new String[] {Long.class.getName()},
-			PlacitPlaceModelImpl.INITIATIVEID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"initiativeId"},
+			true);
 
 		_finderPathCountByInitiative = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByInitiative",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"initiativeId"},
+			false);
 
 		_finderPathWithPaginationFindBySigId = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBySigId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"placeSIGId"}, true);
 
 		_finderPathWithoutPaginationFindBySigId = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, PlacitPlaceImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBySigId",
-			new String[] {String.class.getName()},
-			PlacitPlaceModelImpl.PLACESIGID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"placeSIGId"},
+			true);
 
 		_finderPathCountBySigId = new FinderPath(
-			PlacitPlaceModelImpl.ENTITY_CACHE_ENABLED,
-			PlacitPlaceModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySigId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"placeSIGId"},
+			false);
+
+		PlacitPlaceUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		PlacitPlaceUtil.setPersistence(null);
+
 		entityCache.removeCache(PlacitPlaceImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -6285,9 +6262,6 @@ public class PlacitPlacePersistenceImpl
 
 	private static final String _SQL_SELECT_PLACITPLACE =
 		"SELECT placitPlace FROM PlacitPlace placitPlace";
-
-	private static final String _SQL_SELECT_PLACITPLACE_WHERE_PKS_IN =
-		"SELECT placitPlace FROM PlacitPlace placitPlace WHERE placitPlaceId IN (";
 
 	private static final String _SQL_SELECT_PLACITPLACE_WHERE =
 		"SELECT placitPlace FROM PlacitPlace placitPlace WHERE ";
@@ -6311,5 +6285,10 @@ public class PlacitPlacePersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

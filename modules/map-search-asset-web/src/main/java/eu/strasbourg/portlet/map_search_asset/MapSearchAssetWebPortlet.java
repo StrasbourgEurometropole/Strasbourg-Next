@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.service.agenda.model.Event;
@@ -29,6 +30,7 @@ import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
 import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
 import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.UriHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
@@ -224,7 +226,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 				}
 				
 			} catch (PortalException e) {
-				e.printStackTrace();
+				_log.error(e.getMessage() + " : " + districtCategoryId);
 			}
 			
 			this.projects = filteredProjects;
@@ -377,7 +379,8 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	 */
 	private String getHomeURL(PortletRequest request) {
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-		if (themeDisplay.getScopeGroup().getPublicLayoutSet().getVirtualHostname().isEmpty()
+		String virtualHostname= PortalHelper.getVirtualHostname(themeDisplay.getScopeGroup(),themeDisplay.getLanguageId());
+		if (Validator.isNull(virtualHostname)
 				|| themeDisplay.getScopeGroup().isStagingGroup()) {
 			return "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL() + "/";
 		} else {

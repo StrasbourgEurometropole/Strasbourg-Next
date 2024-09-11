@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Slider image</name>
+        <key>1572896</key>
+        <definition>image-slider-structure.json</definition>
+        <layout>image-slider-layout.json</layout>
+    </structure>
+    <template>
+        <name>Slider image</name>
+        <key>1572924</key>
+        <script>images-slider.ftl</script>
+    </template>
+</root>

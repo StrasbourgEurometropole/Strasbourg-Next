@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.activity.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +23,11 @@ import java.util.Objects;
  * @generated
  */
 public class ActivityCoursePlaceWrapper
+	extends BaseModelWrapper<ActivityCoursePlace>
 	implements ActivityCoursePlace, ModelWrapper<ActivityCoursePlace> {
 
 	public ActivityCoursePlaceWrapper(ActivityCoursePlace activityCoursePlace) {
-		_activityCoursePlace = activityCoursePlace;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return ActivityCoursePlace.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return ActivityCoursePlace.class.getName();
+		super(activityCoursePlace);
 	}
 
 	@Override
@@ -170,17 +148,8 @@ public class ActivityCoursePlaceWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new ActivityCoursePlaceWrapper(
-			(ActivityCoursePlace)_activityCoursePlace.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.activity.model.ActivityCoursePlace
-			activityCoursePlace) {
-
-		return _activityCoursePlace.compareTo(activityCoursePlace);
+	public ActivityCoursePlace cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -190,7 +159,7 @@ public class ActivityCoursePlaceWrapper
 	public eu.strasbourg.service.activity.model.ActivityCourse
 		getActivityCourse() {
 
-		return _activityCoursePlace.getActivityCourse();
+		return model.getActivityCourse();
 	}
 
 	/**
@@ -200,7 +169,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public long getActivityCourseId() {
-		return _activityCoursePlace.getActivityCourseId();
+		return model.getActivityCourseId();
 	}
 
 	/**
@@ -210,7 +179,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public long getActivityCoursePlaceId() {
-		return _activityCoursePlace.getActivityCoursePlaceId();
+		return model.getActivityCoursePlaceId();
 	}
 
 	/**
@@ -221,7 +190,7 @@ public class ActivityCoursePlaceWrapper
 		<eu.strasbourg.service.activity.model.ActivityCourseSchedule>
 			getActivityCourseSchedules() {
 
-		return _activityCoursePlace.getActivityCourseSchedules();
+		return model.getActivityCourseSchedules();
 	}
 
 	/**
@@ -233,7 +202,7 @@ public class ActivityCoursePlaceWrapper
 		<eu.strasbourg.service.activity.model.ActivityCourseSchedule>
 			getActivityCourseSchedulesForDay(int day) {
 
-		return _activityCoursePlace.getActivityCourseSchedulesForDay(day);
+		return model.getActivityCourseSchedulesForDay(day);
 	}
 
 	/**
@@ -241,12 +210,12 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _activityCoursePlace.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	@Override
 	public String[] getAvailableLanguageIds() {
-		return _activityCoursePlace.getAvailableLanguageIds();
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -257,7 +226,7 @@ public class ActivityCoursePlaceWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _activityCoursePlace.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -267,7 +236,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _activityCoursePlace.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -277,17 +246,12 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _activityCoursePlace.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	@Override
 	public String getDefaultLanguageId() {
-		return _activityCoursePlace.getDefaultLanguageId();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _activityCoursePlace.getExpandoBridge();
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -297,7 +261,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _activityCoursePlace.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -307,7 +271,7 @@ public class ActivityCoursePlaceWrapper
 	public eu.strasbourg.service.activity.model.ActivityCoursePlace
 		getLiveVersion() {
 
-		return _activityCoursePlace.getLiveVersion();
+		return model.getLiveVersion();
 	}
 
 	/**
@@ -317,7 +281,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _activityCoursePlace.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -325,7 +289,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public String getPlaceAlias(java.util.Locale locale) {
-		return _activityCoursePlace.getPlaceAlias(locale);
+		return model.getPlaceAlias(locale);
 	}
 
 	/**
@@ -335,7 +299,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public long getPlaceCityId() {
-		return _activityCoursePlace.getPlaceCityId();
+		return model.getPlaceCityId();
 	}
 
 	/**
@@ -345,7 +309,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public String getPlaceName() {
-		return _activityCoursePlace.getPlaceName();
+		return model.getPlaceName();
 	}
 
 	/**
@@ -356,7 +320,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public String getPlaceName(java.util.Locale locale) {
-		return _activityCoursePlace.getPlaceName(locale);
+		return model.getPlaceName(locale);
 	}
 
 	/**
@@ -368,7 +332,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public String getPlaceName(java.util.Locale locale, boolean useDefault) {
-		return _activityCoursePlace.getPlaceName(locale, useDefault);
+		return model.getPlaceName(locale, useDefault);
 	}
 
 	/**
@@ -379,7 +343,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public String getPlaceName(String languageId) {
-		return _activityCoursePlace.getPlaceName(languageId);
+		return model.getPlaceName(languageId);
 	}
 
 	/**
@@ -391,17 +355,17 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public String getPlaceName(String languageId, boolean useDefault) {
-		return _activityCoursePlace.getPlaceName(languageId, useDefault);
+		return model.getPlaceName(languageId, useDefault);
 	}
 
 	@Override
 	public String getPlaceNameCurrentLanguageId() {
-		return _activityCoursePlace.getPlaceNameCurrentLanguageId();
+		return model.getPlaceNameCurrentLanguageId();
 	}
 
 	@Override
 	public String getPlaceNameCurrentValue() {
-		return _activityCoursePlace.getPlaceNameCurrentValue();
+		return model.getPlaceNameCurrentValue();
 	}
 
 	/**
@@ -411,7 +375,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public Map<java.util.Locale, String> getPlaceNameMap() {
-		return _activityCoursePlace.getPlaceNameMap();
+		return model.getPlaceNameMap();
 	}
 
 	/**
@@ -421,7 +385,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public String getPlaceSIGId() {
-		return _activityCoursePlace.getPlaceSIGId();
+		return model.getPlaceSIGId();
 	}
 
 	/**
@@ -431,7 +395,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public String getPlaceStreetName() {
-		return _activityCoursePlace.getPlaceStreetName();
+		return model.getPlaceStreetName();
 	}
 
 	/**
@@ -441,7 +405,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public String getPlaceStreetNumber() {
-		return _activityCoursePlace.getPlaceStreetNumber();
+		return model.getPlaceStreetNumber();
 	}
 
 	/**
@@ -451,7 +415,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public String getPlaceZipCode() {
-		return _activityCoursePlace.getPlaceZipCode();
+		return model.getPlaceZipCode();
 	}
 
 	/**
@@ -461,12 +425,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _activityCoursePlace.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _activityCoursePlace.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -474,7 +433,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public String getSIGPlaceAlias(java.util.Locale locale) {
-		return _activityCoursePlace.getSIGPlaceAlias(locale);
+		return model.getSIGPlaceAlias(locale);
 	}
 
 	/**
@@ -484,7 +443,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _activityCoursePlace.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -494,7 +453,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _activityCoursePlace.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -504,7 +463,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _activityCoursePlace.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -514,12 +473,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _activityCoursePlace.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _activityCoursePlace.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -527,34 +481,19 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public boolean hasSchedules() {
-		return _activityCoursePlace.hasSchedules();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _activityCoursePlace.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _activityCoursePlace.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _activityCoursePlace.isNew();
+		return model.hasSchedules();
 	}
 
 	@Override
 	public void persist() {
-		_activityCoursePlace.persist();
+		model.persist();
 	}
 
 	@Override
 	public void prepareLocalizedFieldsForImport()
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_activityCoursePlace.prepareLocalizedFieldsForImport();
+		model.prepareLocalizedFieldsForImport();
 	}
 
 	@Override
@@ -562,8 +501,7 @@ public class ActivityCoursePlaceWrapper
 			java.util.Locale defaultImportLocale)
 		throws com.liferay.portal.kernel.exception.LocaleException {
 
-		_activityCoursePlace.prepareLocalizedFieldsForImport(
-			defaultImportLocale);
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -573,7 +511,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setActivityCourseId(long activityCourseId) {
-		_activityCoursePlace.setActivityCourseId(activityCourseId);
+		model.setActivityCourseId(activityCourseId);
 	}
 
 	/**
@@ -583,12 +521,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setActivityCoursePlaceId(long activityCoursePlaceId) {
-		_activityCoursePlace.setActivityCoursePlaceId(activityCoursePlaceId);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_activityCoursePlace.setCachedModel(cachedModel);
+		model.setActivityCoursePlaceId(activityCoursePlaceId);
 	}
 
 	/**
@@ -598,7 +531,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_activityCoursePlace.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -608,24 +541,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_activityCoursePlace.setCreateDate(createDate);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_activityCoursePlace.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_activityCoursePlace.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_activityCoursePlace.setExpandoBridgeAttributes(serviceContext);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -635,7 +551,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_activityCoursePlace.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -645,12 +561,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_activityCoursePlace.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_activityCoursePlace.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -660,7 +571,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setPlaceCityId(long placeCityId) {
-		_activityCoursePlace.setPlaceCityId(placeCityId);
+		model.setPlaceCityId(placeCityId);
 	}
 
 	/**
@@ -670,7 +581,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setPlaceName(String placeName) {
-		_activityCoursePlace.setPlaceName(placeName);
+		model.setPlaceName(placeName);
 	}
 
 	/**
@@ -681,7 +592,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setPlaceName(String placeName, java.util.Locale locale) {
-		_activityCoursePlace.setPlaceName(placeName, locale);
+		model.setPlaceName(placeName, locale);
 	}
 
 	/**
@@ -696,12 +607,12 @@ public class ActivityCoursePlaceWrapper
 		String placeName, java.util.Locale locale,
 		java.util.Locale defaultLocale) {
 
-		_activityCoursePlace.setPlaceName(placeName, locale, defaultLocale);
+		model.setPlaceName(placeName, locale, defaultLocale);
 	}
 
 	@Override
 	public void setPlaceNameCurrentLanguageId(String languageId) {
-		_activityCoursePlace.setPlaceNameCurrentLanguageId(languageId);
+		model.setPlaceNameCurrentLanguageId(languageId);
 	}
 
 	/**
@@ -711,7 +622,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setPlaceNameMap(Map<java.util.Locale, String> placeNameMap) {
-		_activityCoursePlace.setPlaceNameMap(placeNameMap);
+		model.setPlaceNameMap(placeNameMap);
 	}
 
 	/**
@@ -725,7 +636,7 @@ public class ActivityCoursePlaceWrapper
 		Map<java.util.Locale, String> placeNameMap,
 		java.util.Locale defaultLocale) {
 
-		_activityCoursePlace.setPlaceNameMap(placeNameMap, defaultLocale);
+		model.setPlaceNameMap(placeNameMap, defaultLocale);
 	}
 
 	/**
@@ -735,7 +646,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setPlaceSIGId(String placeSIGId) {
-		_activityCoursePlace.setPlaceSIGId(placeSIGId);
+		model.setPlaceSIGId(placeSIGId);
 	}
 
 	/**
@@ -745,7 +656,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setPlaceStreetName(String placeStreetName) {
-		_activityCoursePlace.setPlaceStreetName(placeStreetName);
+		model.setPlaceStreetName(placeStreetName);
 	}
 
 	/**
@@ -755,7 +666,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setPlaceStreetNumber(String placeStreetNumber) {
-		_activityCoursePlace.setPlaceStreetNumber(placeStreetNumber);
+		model.setPlaceStreetNumber(placeStreetNumber);
 	}
 
 	/**
@@ -765,7 +676,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setPlaceZipCode(String placeZipCode) {
-		_activityCoursePlace.setPlaceZipCode(placeZipCode);
+		model.setPlaceZipCode(placeZipCode);
 	}
 
 	/**
@@ -775,12 +686,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_activityCoursePlace.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_activityCoursePlace.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -790,7 +696,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_activityCoursePlace.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -800,7 +706,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_activityCoursePlace.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -810,7 +716,7 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_activityCoursePlace.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -820,91 +726,24 @@ public class ActivityCoursePlaceWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_activityCoursePlace.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.activity.model.ActivityCoursePlace>
-			toCacheModel() {
-
-		return _activityCoursePlace.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.activity.model.ActivityCoursePlace
-		toEscapedModel() {
-
-		return new ActivityCoursePlaceWrapper(
-			_activityCoursePlace.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _activityCoursePlace.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.activity.model.ActivityCoursePlace
-		toUnescapedModel() {
-
-		return new ActivityCoursePlaceWrapper(
-			_activityCoursePlace.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _activityCoursePlace.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof ActivityCoursePlaceWrapper)) {
-			return false;
-		}
-
-		ActivityCoursePlaceWrapper activityCoursePlaceWrapper =
-			(ActivityCoursePlaceWrapper)object;
-
-		if (Objects.equals(
-				_activityCoursePlace,
-				activityCoursePlaceWrapper._activityCoursePlace)) {
-
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _activityCoursePlace.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public ActivityCoursePlace getWrappedModel() {
-		return _activityCoursePlace;
-	}
+	protected ActivityCoursePlaceWrapper wrap(
+		ActivityCoursePlace activityCoursePlace) {
 
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _activityCoursePlace.isEntityCacheEnabled();
+		return new ActivityCoursePlaceWrapper(activityCoursePlace);
 	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _activityCoursePlace.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_activityCoursePlace.resetOriginalValues();
-	}
-
-	private final ActivityCoursePlace _activityCoursePlace;
 
 }

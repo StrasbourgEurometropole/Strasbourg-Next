@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.council.display.context;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -11,13 +12,13 @@ import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.council.configuration.CouncilConfiguration;
+import eu.strasbourg.portlet.council.helper.CouncilHelper;
 import eu.strasbourg.service.council.model.CouncilSession;
 import eu.strasbourg.service.council.model.Official;
 import eu.strasbourg.service.council.model.Type;
 import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.service.council.service.DeliberationServiceUtil;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
-import eu.strasbourg.service.council.service.TypeLocalServiceUtil;
 import eu.strasbourg.utils.LayoutHelper;
 
 import javax.portlet.PortletPreferences;
@@ -26,7 +27,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.util.*;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class CouncilDisplayContext {
@@ -46,7 +48,7 @@ public class CouncilDisplayContext {
         this.preferences = preferences;
         this.request = request;
         try {
-            this.configuration = themeDisplay.getPortletDisplay().getPortletInstanceConfiguration(CouncilConfiguration.class);
+            this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(CouncilConfiguration.class, themeDisplay);
         } catch (PortalException e) {
             log.error(e);
         }
@@ -65,15 +67,7 @@ public class CouncilDisplayContext {
      */
     @SuppressWarnings("unused")
     public long getOfficialId() {
-
-        long officialId = 0;
-        Official official = getOfficialFromPublikMail();
-
-        if (official != null) {
-            officialId = official.getOfficialId();
-        }
-
-        return officialId;
+        return CouncilHelper.getOfficialId(this.request);
     }
 
     /**
@@ -116,9 +110,7 @@ public class CouncilDisplayContext {
      * Retourne un votant à partir de son mail
      */
     private Official getOfficialFromPublikMail() {
-
-        String publikMail = this.getPublikEmail();
-        return OfficialLocalServiceUtil.findByEmail(publikMail);
+        return CouncilHelper.getOfficialFromPublikMail(this.request);
     }
 
     /**
@@ -183,9 +175,7 @@ public class CouncilDisplayContext {
      */
     @SuppressWarnings("unused")
     public String getPublikEmail() {
-        LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(this.request);
-        HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
-        return SessionParamUtil.getString(originalRequest, "publik_email");
+        return CouncilHelper.getPublikEmail(this.request);
     }
 
     /**

@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.video.service.persistence;
@@ -26,10 +17,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
 
 /**
  * The persistence utility for the video gallery service. This utility wraps <code>eu.strasbourg.service.video.service.persistence.impl.VideoGalleryPersistenceImpl</code> and provides direct access to the database for CRUD operations. This utility should only be used by the service layer, as it must operate within a transaction. Never access this utility in a JSP, controller, model, or other front-end class.
@@ -1157,9 +1144,10 @@ public class VideoGalleryUtil {
 	 *
 	 * @param pk the primary key of the video gallery
 	 * @param videoPK the primary key of the video
+	 * @return <code>true</code> if an association between the video gallery and the video was added; <code>false</code> if they were already associated
 	 */
-	public static void addVideo(long pk, long videoPK) {
-		getPersistence().addVideo(pk, videoPK);
+	public static boolean addVideo(long pk, long videoPK) {
+		return getPersistence().addVideo(pk, videoPK);
 	}
 
 	/**
@@ -1167,11 +1155,12 @@ public class VideoGalleryUtil {
 	 *
 	 * @param pk the primary key of the video gallery
 	 * @param video the video
+	 * @return <code>true</code> if an association between the video gallery and the video was added; <code>false</code> if they were already associated
 	 */
-	public static void addVideo(
+	public static boolean addVideo(
 		long pk, eu.strasbourg.service.video.model.Video video) {
 
-		getPersistence().addVideo(pk, video);
+		return getPersistence().addVideo(pk, video);
 	}
 
 	/**
@@ -1179,9 +1168,10 @@ public class VideoGalleryUtil {
 	 *
 	 * @param pk the primary key of the video gallery
 	 * @param videoPKs the primary keys of the videos
+	 * @return <code>true</code> if at least one association between the video gallery and the videos was added; <code>false</code> if they were all already associated
 	 */
-	public static void addVideos(long pk, long[] videoPKs) {
-		getPersistence().addVideos(pk, videoPKs);
+	public static boolean addVideos(long pk, long[] videoPKs) {
+		return getPersistence().addVideos(pk, videoPKs);
 	}
 
 	/**
@@ -1189,11 +1179,12 @@ public class VideoGalleryUtil {
 	 *
 	 * @param pk the primary key of the video gallery
 	 * @param videos the videos
+	 * @return <code>true</code> if at least one association between the video gallery and the videos was added; <code>false</code> if they were all already associated
 	 */
-	public static void addVideos(
+	public static boolean addVideos(
 		long pk, List<eu.strasbourg.service.video.model.Video> videos) {
 
-		getPersistence().addVideos(pk, videos);
+		return getPersistence().addVideos(pk, videos);
 	}
 
 	/**
@@ -1271,30 +1262,14 @@ public class VideoGalleryUtil {
 		getPersistence().setVideos(pk, videos);
 	}
 
-	public static Set<String> getBadColumnNames() {
-		return getPersistence().getBadColumnNames();
-	}
-
 	public static VideoGalleryPersistence getPersistence() {
-		return _serviceTracker.getService();
+		return _persistence;
 	}
 
-	private static ServiceTracker
-		<VideoGalleryPersistence, VideoGalleryPersistence> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(VideoGalleryPersistence.class);
-
-		ServiceTracker<VideoGalleryPersistence, VideoGalleryPersistence>
-			serviceTracker =
-				new ServiceTracker
-					<VideoGalleryPersistence, VideoGalleryPersistence>(
-						bundle.getBundleContext(),
-						VideoGalleryPersistence.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setPersistence(VideoGalleryPersistence persistence) {
+		_persistence = persistence;
 	}
+
+	private static volatile VideoGalleryPersistence _persistence;
 
 }

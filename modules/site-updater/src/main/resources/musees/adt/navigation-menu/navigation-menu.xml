@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.portal.kernel.theme.NavItem</className>
+    <template>
+        <name>Navigation mobile (v2)</name>
+        <key>420085102</key>
+        <script>navigation-mobile.ftl</script>
+    </template>
+    <template>
+        <name>Navigation (v2)</name>
+        <key>420085096</key>
+        <script>navigation.ftl</script>
+    </template>
+</root>

@@ -16,6 +16,7 @@
 		<field localized="true" name="description" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="order" type="int" />
 		<field name="videosIds" type="String" />
 		<field name="imageId" type="long" />
 		<field name="imagesIds" type="String" />
@@ -52,6 +53,7 @@
 		</field>
 		<field name="activityId" type="long" />
 		<field name="organizerId" type="long" />
+		<field name="duration" type="int" />
 		<field name="imageId" type="long" />
 		<field name="imageIds" type="String" />
 		<field name="videosIds" type="String" />

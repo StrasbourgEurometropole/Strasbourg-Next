@@ -1,13 +1,19 @@
 package eu.strasbourg.portlet.agenda.csmap.portlet;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.agenda.csmap.display.context.EditCsmapPrincipalAgendaDisplayContext;
 import eu.strasbourg.portlet.agenda.csmap.display.context.EditCsmapThematiqueAgendaDisplayContext;
+import eu.strasbourg.portlet.agenda.csmap.display.context.ManagementCsmapThematiqueAgendaToolBarDisplayContext;
+import eu.strasbourg.portlet.agenda.csmap.display.context.NavigationBarDisplayContext;
 import eu.strasbourg.portlet.agenda.csmap.display.context.ViewCsmapAgendaThematiqueDisplayContext;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -16,7 +22,10 @@ import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+
+import static eu.strasbourg.portlet.agenda.csmap.constants.CsmapBoAgendaConstants.*;
 
 /**
  * @author quentin.mayer
@@ -26,12 +35,13 @@ import java.io.IOException;
 	property = {
 			"javax.portlet.version=3.0",
 			"com.liferay.portlet.instanceable=false",
+			"com.liferay.portlet.header-portlet-css=/css/main.css",
 			"com.liferay.portlet.layout-cacheable=true",
 			"javax.portlet.display-name=CsmapBoAgenda",
 			"com.liferay.portlet.single-page-application=false",
-			"javax.portlet.init-param.template-path=/",
 			"javax.portlet.name=" + StrasbourgPortletKeys.CSMAP_BO_AGENDA,
-			"javax.portlet.init-param.view-template=/csmap-bo-agenda-view.jsp",
+			"javax.portlet.init-param.template-path=/META-INF/resources/",
+			"javax.portlet.init-param.view-template=/csmap-bo-agenda-edit-principal.jsp",
 			"javax.portlet.resource-bundle=content.Language",
 			"javax.portlet.security-role-ref=power-user,user"
 	},
@@ -45,34 +55,45 @@ public class CsmapBoAgendaPortlet extends MVCPortlet {
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 
-		String cmd = ParamUtil.getString(renderRequest, "cmd");
-		String tab = ParamUtil.getString(renderRequest, "tab");
-		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
+		try {
+			NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("navigationDC", navigationDC);
+			HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(renderRequest);
+			switch (navigationDC.getSelectedTab()) {
+				case AGENDA_PRINCIPAL: {
+					EditCsmapPrincipalAgendaDisplayContext dc = new EditCsmapPrincipalAgendaDisplayContext();
+					renderRequest.setAttribute("dc", dc);
+					break;
+				}
+				case AGENDA_THEMATIQUES: {
+					if (navigationDC.getSelectedCmd().equals(EDIT_AGENDA_THEMATIQUE) || navigationDC.getSelectedCmd().equals(SAVE_AGENDA_THEMATIQUE)) {
+						EditCsmapThematiqueAgendaDisplayContext dc = new EditCsmapThematiqueAgendaDisplayContext(renderRequest, renderResponse);
+						renderRequest.setAttribute("dc", dc);
+					} else {
+						ViewCsmapAgendaThematiqueDisplayContext dc = new ViewCsmapAgendaThematiqueDisplayContext(renderRequest, renderResponse);
+						renderRequest.setAttribute("dc", dc);
+						ManagementCsmapThematiqueAgendaToolBarDisplayContext managementDC= new ManagementCsmapThematiqueAgendaToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
+						renderRequest.setAttribute("managementDC", managementDC);
 
-		renderResponse.setTitle("CSmapAgendaCategories");
+					}
+					break;
+				}
+			}
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+
 
 		// If we are on an "add" page, we set a return URL and show the "back"
 		// button
-		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
-		boolean showBackButton = Validator.isNotNull(returnURL);
+		String backURL = ParamUtil.getString(renderRequest, "backURL");
+		boolean showBackButton = Validator.isNotNull(backURL);
 		if (showBackButton) {
 			portletDisplay.setShowBackIcon(true);
-			portletDisplay.setURLBack(returnURL);
+			portletDisplay.setURLBack(backURL);
 		}
 
-		// display context}
-		if (tab.equals("agendaThematique")) {
-			ViewCsmapAgendaThematiqueDisplayContext dc = new ViewCsmapAgendaThematiqueDisplayContext(
-					renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editAgendaThematique") || mvcPath.equals("/csmap-bo-agenda-edit-thematique.jsp")) {
-			EditCsmapThematiqueAgendaDisplayContext dc = new EditCsmapThematiqueAgendaDisplayContext(
-					renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		}else{
-			EditCsmapPrincipalAgendaDisplayContext dc = new EditCsmapPrincipalAgendaDisplayContext();
-			renderRequest.setAttribute("dc", dc);
-		}
 
 		// Admin ou pas
 		renderRequest.setAttribute("isAdmin", themeDisplay.getPermissionChecker().isOmniadmin());

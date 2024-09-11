@@ -24,6 +24,7 @@ import javax.portlet.ResourceResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author romain.vergnais
@@ -57,7 +58,7 @@ public class GetBudgetResourceCommand implements MVCResourceCommand {
 
 				if(bp != null) {
 					jsonResponse.put("title", bp.getTitle());
-					jsonResponse.put("description", bp.getDescription());
+					jsonResponse.put("description", bp.getDescription(Locale.FRANCE));
 					jsonResponse.put("summary", bp.getSummary());
 
 					//Récupération de la liste des quartiers
@@ -105,8 +106,7 @@ public class GetBudgetResourceCommand implements MVCResourceCommand {
 		    writer.print(jsonResponse.toString());
 		    
         } catch (PortalException e1) {
-			_log.error(e1);
-			e1.printStackTrace();
+			_log.info(e1.getMessage(), e1);
 			 success = false;
 		}
 

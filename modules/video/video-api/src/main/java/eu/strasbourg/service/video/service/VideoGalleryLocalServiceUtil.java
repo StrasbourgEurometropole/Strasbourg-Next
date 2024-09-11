@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.video.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.video.model.VideoGallery;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for VideoGallery. This utility wraps
@@ -48,43 +48,37 @@ public class VideoGalleryLocalServiceUtil {
 	 * @param videoGallery the video gallery
 	 * @return the video gallery that was added
 	 */
-	public static eu.strasbourg.service.video.model.VideoGallery
-		addVideoGallery(
-			eu.strasbourg.service.video.model.VideoGallery videoGallery) {
-
+	public static VideoGallery addVideoGallery(VideoGallery videoGallery) {
 		return getService().addVideoGallery(videoGallery);
 	}
 
-	public static void addVideoVideoGalleries(
-		long videoId,
-		java.util.List<eu.strasbourg.service.video.model.VideoGallery>
-			videoGalleries) {
+	public static boolean addVideoVideoGalleries(
+		long videoId, List<VideoGallery> videoGalleries) {
 
-		getService().addVideoVideoGalleries(videoId, videoGalleries);
+		return getService().addVideoVideoGalleries(videoId, videoGalleries);
 	}
 
-	public static void addVideoVideoGalleries(long videoId, long[] galleryIds) {
-		getService().addVideoVideoGalleries(videoId, galleryIds);
+	public static boolean addVideoVideoGalleries(
+		long videoId, long[] galleryIds) {
+
+		return getService().addVideoVideoGalleries(videoId, galleryIds);
 	}
 
-	public static void addVideoVideoGallery(long videoId, long galleryId) {
-		getService().addVideoVideoGallery(videoId, galleryId);
+	public static boolean addVideoVideoGallery(long videoId, long galleryId) {
+		return getService().addVideoVideoGallery(videoId, galleryId);
 	}
 
-	public static void addVideoVideoGallery(
-		long videoId,
-		eu.strasbourg.service.video.model.VideoGallery videoGallery) {
+	public static boolean addVideoVideoGallery(
+		long videoId, VideoGallery videoGallery) {
 
-		getService().addVideoVideoGallery(videoId, videoGallery);
+		return getService().addVideoVideoGallery(videoId, videoGallery);
 	}
 
 	/**
 	 * Modifie le statut de toutes les vidéos au statut "SCHEDULED" qui ont une
 	 * date de publication dans le futur
 	 */
-	public static void checkGalleries()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static void checkGalleries() throws PortalException {
 		getService().checkGalleries();
 	}
 
@@ -93,24 +87,31 @@ public class VideoGalleryLocalServiceUtil {
 	}
 
 	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
+	}
+
+	/**
 	 * Creates a new video gallery with the primary key. Does not add the video gallery to the database.
 	 *
 	 * @param galleryId the primary key for the new video gallery
 	 * @return the new video gallery
 	 */
-	public static eu.strasbourg.service.video.model.VideoGallery
-		createVideoGallery(long galleryId) {
-
+	public static VideoGallery createVideoGallery(long galleryId) {
 		return getService().createVideoGallery(galleryId);
 	}
 
 	/**
 	 * Crée un lien vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.video.model.VideoGallery
-			createVideoGallery(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static VideoGallery createVideoGallery(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createVideoGallery(sc);
 	}
@@ -118,10 +119,9 @@ public class VideoGalleryLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
@@ -137,9 +137,8 @@ public class VideoGalleryLocalServiceUtil {
 	 * @return the video gallery that was removed
 	 * @throws PortalException if a video gallery with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.video.model.VideoGallery
-			deleteVideoGallery(long galleryId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static VideoGallery deleteVideoGallery(long galleryId)
+		throws PortalException {
 
 		return getService().deleteVideoGallery(galleryId);
 	}
@@ -154,17 +153,12 @@ public class VideoGalleryLocalServiceUtil {
 	 * @param videoGallery the video gallery
 	 * @return the video gallery that was removed
 	 */
-	public static eu.strasbourg.service.video.model.VideoGallery
-		deleteVideoGallery(
-			eu.strasbourg.service.video.model.VideoGallery videoGallery) {
-
+	public static VideoGallery deleteVideoGallery(VideoGallery videoGallery) {
 		return getService().deleteVideoGallery(videoGallery);
 	}
 
 	public static void deleteVideoVideoGalleries(
-		long videoId,
-		java.util.List<eu.strasbourg.service.video.model.VideoGallery>
-			videoGalleries) {
+		long videoId, List<VideoGallery> videoGalleries) {
 
 		getService().deleteVideoVideoGalleries(videoId, videoGalleries);
 	}
@@ -180,15 +174,20 @@ public class VideoGalleryLocalServiceUtil {
 	}
 
 	public static void deleteVideoVideoGallery(
-		long videoId,
-		eu.strasbourg.service.video.model.VideoGallery videoGallery) {
+		long videoId, VideoGallery videoGallery) {
 
 		getService().deleteVideoVideoGallery(videoId, videoGallery);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -198,9 +197,7 @@ public class VideoGalleryLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -216,9 +213,8 @@ public class VideoGalleryLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -236,10 +232,9 @@ public class VideoGalleryLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -251,9 +246,7 @@ public class VideoGalleryLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -265,15 +258,13 @@ public class VideoGalleryLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.video.model.VideoGallery
-		fetchVideoGallery(long galleryId) {
-
+	public static VideoGallery fetchVideoGallery(long galleryId) {
 		return getService().fetchVideoGallery(galleryId);
 	}
 
@@ -284,8 +275,8 @@ public class VideoGalleryLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching video gallery, or <code>null</code> if a matching video gallery could not be found
 	 */
-	public static eu.strasbourg.service.video.model.VideoGallery
-		fetchVideoGalleryByUuidAndGroupId(String uuid, long groupId) {
+	public static VideoGallery fetchVideoGalleryByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchVideoGalleryByUuidAndGroupId(uuid, groupId);
 	}
@@ -293,8 +284,8 @@ public class VideoGalleryLocalServiceUtil {
 	/**
 	 * Recherche par mots clés
 	 */
-	public static java.util.List<eu.strasbourg.service.video.model.VideoGallery>
-		findByKeyword(String keyword, long groupId, int start, int end) {
+	public static List<VideoGallery> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -315,7 +306,7 @@ public class VideoGalleryLocalServiceUtil {
 	/**
 	 * Retourne la liste des vocabulaires rattachés à l'entité
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -324,9 +315,7 @@ public class VideoGalleryLocalServiceUtil {
 	/**
 	 * Retourne toutes les galeries éditions d'un groupe
 	 */
-	public static java.util.List<eu.strasbourg.service.video.model.VideoGallery>
-		getByGroupId(long groupId) {
-
+	public static List<VideoGallery> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
@@ -357,9 +346,8 @@ public class VideoGalleryLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -375,9 +363,7 @@ public class VideoGalleryLocalServiceUtil {
 	 * @param end the upper bound of the range of video galleries (not inclusive)
 	 * @return the range of video galleries
 	 */
-	public static java.util.List<eu.strasbourg.service.video.model.VideoGallery>
-		getVideoGalleries(int start, int end) {
-
+	public static List<VideoGallery> getVideoGalleries(int start, int end) {
 		return getService().getVideoGalleries(start, end);
 	}
 
@@ -388,8 +374,8 @@ public class VideoGalleryLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching video galleries, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.video.model.VideoGallery>
-		getVideoGalleriesByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<VideoGallery> getVideoGalleriesByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getVideoGalleriesByUuidAndCompanyId(
 			uuid, companyId);
@@ -405,12 +391,9 @@ public class VideoGalleryLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching video galleries, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.video.model.VideoGallery>
-		getVideoGalleriesByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.video.model.VideoGallery>
-					orderByComparator) {
+	public static List<VideoGallery> getVideoGalleriesByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<VideoGallery> orderByComparator) {
 
 		return getService().getVideoGalleriesByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -432,9 +415,8 @@ public class VideoGalleryLocalServiceUtil {
 	 * @return the video gallery
 	 * @throws PortalException if a video gallery with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.video.model.VideoGallery
-			getVideoGallery(long galleryId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static VideoGallery getVideoGallery(long galleryId)
+		throws PortalException {
 
 		return getService().getVideoGallery(galleryId);
 	}
@@ -447,9 +429,9 @@ public class VideoGalleryLocalServiceUtil {
 	 * @return the matching video gallery
 	 * @throws PortalException if a matching video gallery could not be found
 	 */
-	public static eu.strasbourg.service.video.model.VideoGallery
-			getVideoGalleryByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static VideoGallery getVideoGalleryByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getVideoGalleryByUuidAndGroupId(uuid, groupId);
 	}
@@ -464,24 +446,19 @@ public class VideoGalleryLocalServiceUtil {
 		return getService().getVideoPrimaryKeys(galleryId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.video.model.VideoGallery>
-		getVideoVideoGalleries(long videoId) {
-
+	public static List<VideoGallery> getVideoVideoGalleries(long videoId) {
 		return getService().getVideoVideoGalleries(videoId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.video.model.VideoGallery>
-		getVideoVideoGalleries(long videoId, int start, int end) {
+	public static List<VideoGallery> getVideoVideoGalleries(
+		long videoId, int start, int end) {
 
 		return getService().getVideoVideoGalleries(videoId, start, end);
 	}
 
-	public static java.util.List<eu.strasbourg.service.video.model.VideoGallery>
-		getVideoVideoGalleries(
-			long videoId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.video.model.VideoGallery>
-					orderByComparator) {
+	public static List<VideoGallery> getVideoVideoGalleries(
+		long videoId, int start, int end,
+		OrderByComparator<VideoGallery> orderByComparator) {
 
 		return getService().getVideoVideoGalleries(
 			videoId, start, end, orderByComparator);
@@ -507,9 +484,8 @@ public class VideoGalleryLocalServiceUtil {
 	 * @return The deleted VideoGallery
 	 * @throws PortalException
 	 */
-	public static eu.strasbourg.service.video.model.VideoGallery removeGallery(
-			long galleryId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static VideoGallery removeGallery(long galleryId)
+		throws PortalException {
 
 		return getService().removeGallery(galleryId);
 	}
@@ -531,11 +507,11 @@ public class VideoGalleryLocalServiceUtil {
 	/**
 	 * Met à jour le statut de la galerie par le framework workflow
 	 */
-	public static eu.strasbourg.service.video.model.VideoGallery updateStatus(
+	public static VideoGallery updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
@@ -544,9 +520,8 @@ public class VideoGalleryLocalServiceUtil {
 	/**
 	 * Met à jour le statut de la galerie "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.video.model.VideoGallery gallery, int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(VideoGallery gallery, int status)
+		throws PortalException {
 
 		getService().updateStatus(gallery, status);
 	}
@@ -561,45 +536,29 @@ public class VideoGalleryLocalServiceUtil {
 	 * @param videoGallery the video gallery
 	 * @return the video gallery that was updated
 	 */
-	public static eu.strasbourg.service.video.model.VideoGallery
-		updateVideoGallery(
-			eu.strasbourg.service.video.model.VideoGallery videoGallery) {
-
+	public static VideoGallery updateVideoGallery(VideoGallery videoGallery) {
 		return getService().updateVideoGallery(videoGallery);
 	}
 
 	/**
 	 * Met à jour un lien et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.video.model.VideoGallery
-			updateVideoGallery(
-				eu.strasbourg.service.video.model.VideoGallery gallery,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static VideoGallery updateVideoGallery(
+			VideoGallery gallery,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateVideoGallery(gallery, sc);
 	}
 
 	public static VideoGalleryLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<VideoGalleryLocalService, VideoGalleryLocalService> _serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(VideoGalleryLocalService.class);
-
-		ServiceTracker<VideoGalleryLocalService, VideoGalleryLocalService>
-			serviceTracker =
-				new ServiceTracker
-					<VideoGalleryLocalService, VideoGalleryLocalService>(
-						bundle.getBundleContext(),
-						VideoGalleryLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(VideoGalleryLocalService service) {
+		_service = service;
 	}
+
+	private static volatile VideoGalleryLocalService _service;
 
 }

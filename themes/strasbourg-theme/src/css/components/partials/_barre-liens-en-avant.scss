@@ -1,0 +1,146 @@
+.st-barre-liens-en-avant {
+	.st-slider-container {
+		position: relative;
+	}
+
+	> .st-wrapper {
+		border-bottom: 1px solid $c_border;
+	}
+
+	.st-nav-arrows {
+		.st-btn-arrow {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+
+			@include mobile {
+				width: 20px;
+				height: 20px;
+
+				&:before {
+					font-size: 7px;
+				}
+			}
+
+			&.st--prev {
+				left: -30px;
+
+				@include mobile {
+					left: initial;
+					right: 26px;
+				}
+			}
+
+			&.st--next {
+				right: -30px;
+
+				@include mobile {
+					right: 0;
+				}
+			}
+
+			&[disabled],
+			&[aria-disabled="true"] {
+				opacity: 1;
+				background-color: $c_border;
+			}
+		}
+	}
+
+	.splide__track {
+		position: relative;
+		// Le padding est nécessaire pour ne pas couper le focus
+		padding-top: 2px;
+		padding-bottom: 2px;
+		padding-right: 40px !important;
+
+		&:after {
+			content: "";
+			display: block;
+			width: 80px;
+			height: 100%;
+			background: linear-gradient(90deg, color-mix(in srgb, $c_main 0%, transparent), color-mix(in srgb, $c_main 100%, transparent));
+			position: absolute;
+			top: 0;
+			right: 0;
+			z-index: 0;
+			pointer-events: none;
+		}
+	}
+
+	.splide__slide {
+		position: relative;
+		width: 240px;
+
+		&:not(:last-of-type) {
+			.st-container {
+				&:after {
+					content: "";
+					position: absolute;
+					right: 0;
+					top: 20px;
+					bottom: 20px;
+					display: block;
+					width: 1px;
+					background-color: $c_border;
+				}
+			}
+		}
+	}
+
+	.st-content {
+		margin-right: 20px;
+	}
+
+	.st-title {
+		@include ft($f_hx, 13px, 700, $c_white, 1);
+		@include letter-spacing(25);
+		margin-bottom: 2px;
+		@include transition(color);
+	}
+
+	.st-text {
+		@include ft($f_hx, 12px, 400, $c_txt, 1);
+		@include letter-spacing(25);
+		@include transition(color);
+	}
+
+	.st-container {
+		@include create-outline;
+		position: relative;
+		display: flex;
+		align-items: center;
+		padding: 20px;
+		height: 100%;
+
+		@include mobile {
+			padding: 16px 20px;
+		}
+
+		@include can-hover {
+			.st-title,
+			.st-content {
+				color: $c_sub;
+			}
+			.st-btn-arrow {
+				background-color: $c_sub;
+				border-color: transparent;
+
+				&:before {
+					color: $c_main;
+				}
+			}
+		}
+
+		.st-btn-arrow {
+			width: 20px;
+			height: 20px;
+			flex-shrink: 0;
+
+			&:before {
+				font-size: 7px;
+				transform: translateX(1px);
+			}
+		}
+	}
+}

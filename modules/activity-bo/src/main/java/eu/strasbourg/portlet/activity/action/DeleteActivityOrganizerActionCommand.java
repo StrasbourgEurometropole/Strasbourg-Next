@@ -31,6 +31,8 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.service.activity.service.ActivityOrganizerLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
+import java.io.IOException;
+
 @Component(
 	immediate = true,
 	property = {
@@ -47,10 +49,13 @@ public class DeleteActivityOrganizerActionCommand
 		try {
 			long activityOrganizerId = ParamUtil.getLong(request, "activityOrganizerId");
 			_activityOrganizerLocalService.removeActivityOrganizer(activityOrganizerId);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
-		return true;
+		} catch (IOException e) {
+            _log.error(e);
+        }
+        return true;
 	}
 
 	private ActivityOrganizerLocalService _activityOrganizerLocalService;

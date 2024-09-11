@@ -1,21 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.json.JSON;
@@ -27,28 +19,26 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.model.EventPeriodModel;
-import eu.strasbourg.service.agenda.model.EventPeriodSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -113,73 +103,48 @@ public class EventPeriodModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.agenda.model.EventPeriod"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.agenda.model.EventPeriod"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.agenda.model.EventPeriod"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long CAMPAIGNEVENTID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long EVENTID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long EVENTPERIODID_COLUMN_BITMASK = 8L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static EventPeriod toModel(EventPeriodSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		EventPeriod model = new EventPeriodImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setEventPeriodId(soapModel.getEventPeriodId());
-		model.setStartDate(soapModel.getStartDate());
-		model.setEndDate(soapModel.getEndDate());
-		model.setTimeDetail(soapModel.getTimeDetail());
-		model.setEventId(soapModel.getEventId());
-		model.setCampaignEventId(soapModel.getCampaignEventId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<EventPeriod> toModels(EventPeriodSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<EventPeriod> models = new ArrayList<EventPeriod>(
-			soapModels.length);
-
-		for (EventPeriodSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
@@ -237,9 +202,6 @@ public class EventPeriodModelImpl
 				attributeGetterFunction.apply((EventPeriod)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -264,211 +226,77 @@ public class EventPeriodModelImpl
 	public Map<String, Function<EventPeriod, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<EventPeriod, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, EventPeriod>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			EventPeriod.class.getClassLoader(), EventPeriod.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<EventPeriod, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<EventPeriod> constructor =
-				(Constructor<EventPeriod>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<EventPeriod, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<EventPeriod, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", EventPeriod::getUuid);
+			attributeGetterFunctions.put(
+				"eventPeriodId", EventPeriod::getEventPeriodId);
+			attributeGetterFunctions.put(
+				"startDate", EventPeriod::getStartDate);
+			attributeGetterFunctions.put("endDate", EventPeriod::getEndDate);
+			attributeGetterFunctions.put(
+				"timeDetail", EventPeriod::getTimeDetail);
+			attributeGetterFunctions.put("eventId", EventPeriod::getEventId);
+			attributeGetterFunctions.put(
+				"campaignEventId", EventPeriod::getCampaignEventId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<EventPeriod, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<EventPeriod, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<EventPeriod, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<EventPeriod, Object>>();
-		Map<String, BiConsumer<EventPeriod, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<EventPeriod, ?>>();
+		private static final Map<String, BiConsumer<EventPeriod, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<EventPeriod, Object>() {
+		static {
+			Map<String, BiConsumer<EventPeriod, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<EventPeriod, ?>>();
 
-				@Override
-				public Object apply(EventPeriod eventPeriod) {
-					return eventPeriod.getUuid();
-				}
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<EventPeriod, String>)EventPeriod::setUuid);
+			attributeSetterBiConsumers.put(
+				"eventPeriodId",
+				(BiConsumer<EventPeriod, Long>)EventPeriod::setEventPeriodId);
+			attributeSetterBiConsumers.put(
+				"startDate",
+				(BiConsumer<EventPeriod, Date>)EventPeriod::setStartDate);
+			attributeSetterBiConsumers.put(
+				"endDate",
+				(BiConsumer<EventPeriod, Date>)EventPeriod::setEndDate);
+			attributeSetterBiConsumers.put(
+				"timeDetail",
+				(BiConsumer<EventPeriod, String>)EventPeriod::setTimeDetail);
+			attributeSetterBiConsumers.put(
+				"eventId",
+				(BiConsumer<EventPeriod, Long>)EventPeriod::setEventId);
+			attributeSetterBiConsumers.put(
+				"campaignEventId",
+				(BiConsumer<EventPeriod, Long>)EventPeriod::setCampaignEventId);
 
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<EventPeriod, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(EventPeriod eventPeriod, Object uuidObject) {
-					eventPeriod.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"eventPeriodId",
-			new Function<EventPeriod, Object>() {
-
-				@Override
-				public Object apply(EventPeriod eventPeriod) {
-					return eventPeriod.getEventPeriodId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"eventPeriodId",
-			new BiConsumer<EventPeriod, Object>() {
-
-				@Override
-				public void accept(
-					EventPeriod eventPeriod, Object eventPeriodIdObject) {
-
-					eventPeriod.setEventPeriodId((Long)eventPeriodIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"startDate",
-			new Function<EventPeriod, Object>() {
-
-				@Override
-				public Object apply(EventPeriod eventPeriod) {
-					return eventPeriod.getStartDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"startDate",
-			new BiConsumer<EventPeriod, Object>() {
-
-				@Override
-				public void accept(
-					EventPeriod eventPeriod, Object startDateObject) {
-
-					eventPeriod.setStartDate((Date)startDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"endDate",
-			new Function<EventPeriod, Object>() {
-
-				@Override
-				public Object apply(EventPeriod eventPeriod) {
-					return eventPeriod.getEndDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"endDate",
-			new BiConsumer<EventPeriod, Object>() {
-
-				@Override
-				public void accept(
-					EventPeriod eventPeriod, Object endDateObject) {
-
-					eventPeriod.setEndDate((Date)endDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"timeDetail",
-			new Function<EventPeriod, Object>() {
-
-				@Override
-				public Object apply(EventPeriod eventPeriod) {
-					return eventPeriod.getTimeDetail();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"timeDetail",
-			new BiConsumer<EventPeriod, Object>() {
-
-				@Override
-				public void accept(
-					EventPeriod eventPeriod, Object timeDetailObject) {
-
-					eventPeriod.setTimeDetail((String)timeDetailObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"eventId",
-			new Function<EventPeriod, Object>() {
-
-				@Override
-				public Object apply(EventPeriod eventPeriod) {
-					return eventPeriod.getEventId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"eventId",
-			new BiConsumer<EventPeriod, Object>() {
-
-				@Override
-				public void accept(
-					EventPeriod eventPeriod, Object eventIdObject) {
-
-					eventPeriod.setEventId((Long)eventIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"campaignEventId",
-			new Function<EventPeriod, Object>() {
-
-				@Override
-				public Object apply(EventPeriod eventPeriod) {
-					return eventPeriod.getCampaignEventId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"campaignEventId",
-			new BiConsumer<EventPeriod, Object>() {
-
-				@Override
-				public void accept(
-					EventPeriod eventPeriod, Object campaignEventIdObject) {
-
-					eventPeriod.setCampaignEventId((Long)campaignEventIdObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -484,17 +312,20 @@ public class EventPeriodModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -505,6 +336,10 @@ public class EventPeriodModelImpl
 
 	@Override
 	public void setEventPeriodId(long eventPeriodId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_eventPeriodId = eventPeriodId;
 	}
 
@@ -516,6 +351,10 @@ public class EventPeriodModelImpl
 
 	@Override
 	public void setStartDate(Date startDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_startDate = startDate;
 	}
 
@@ -527,6 +366,10 @@ public class EventPeriodModelImpl
 
 	@Override
 	public void setEndDate(Date endDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_endDate = endDate;
 	}
 
@@ -586,6 +429,10 @@ public class EventPeriodModelImpl
 
 	@Override
 	public void setTimeDetail(String timeDetail) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_timeDetail = timeDetail;
 	}
 
@@ -646,19 +493,20 @@ public class EventPeriodModelImpl
 
 	@Override
 	public void setEventId(long eventId) {
-		_columnBitmask |= EVENTID_COLUMN_BITMASK;
-
-		if (!_setOriginalEventId) {
-			_setOriginalEventId = true;
-
-			_originalEventId = _eventId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_eventId = eventId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalEventId() {
-		return _originalEventId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("eventId"));
 	}
 
 	@JSON
@@ -669,22 +517,44 @@ public class EventPeriodModelImpl
 
 	@Override
 	public void setCampaignEventId(long campaignEventId) {
-		_columnBitmask |= CAMPAIGNEVENTID_COLUMN_BITMASK;
-
-		if (!_setOriginalCampaignEventId) {
-			_setOriginalCampaignEventId = true;
-
-			_originalCampaignEventId = _campaignEventId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_campaignEventId = campaignEventId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCampaignEventId() {
-		return _originalCampaignEventId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("campaignEventId"));
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -801,6 +671,27 @@ public class EventPeriodModelImpl
 	}
 
 	@Override
+	public EventPeriod cloneWithOriginalValues() {
+		EventPeriodImpl eventPeriodImpl = new EventPeriodImpl();
+
+		eventPeriodImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		eventPeriodImpl.setEventPeriodId(
+			this.<Long>getColumnOriginalValue("eventPeriodId"));
+		eventPeriodImpl.setStartDate(
+			this.<Date>getColumnOriginalValue("startDate"));
+		eventPeriodImpl.setEndDate(
+			this.<Date>getColumnOriginalValue("endDate"));
+		eventPeriodImpl.setTimeDetail(
+			this.<String>getColumnOriginalValue("timeDetail"));
+		eventPeriodImpl.setEventId(
+			this.<Long>getColumnOriginalValue("eventId"));
+		eventPeriodImpl.setCampaignEventId(
+			this.<Long>getColumnOriginalValue("campaignEventId"));
+
+		return eventPeriodImpl;
+	}
+
+	@Override
 	public int compareTo(EventPeriod eventPeriod) {
 		long primaryKey = eventPeriod.getPrimaryKey();
 
@@ -842,11 +733,19 @@ public class EventPeriodModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -854,20 +753,9 @@ public class EventPeriodModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		EventPeriodModelImpl eventPeriodModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		eventPeriodModelImpl._originalUuid = eventPeriodModelImpl._uuid;
-
-		eventPeriodModelImpl._originalEventId = eventPeriodModelImpl._eventId;
-
-		eventPeriodModelImpl._setOriginalEventId = false;
-
-		eventPeriodModelImpl._originalCampaignEventId =
-			eventPeriodModelImpl._campaignEventId;
-
-		eventPeriodModelImpl._setOriginalCampaignEventId = false;
-
-		eventPeriodModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -924,7 +812,7 @@ public class EventPeriodModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -935,9 +823,26 @@ public class EventPeriodModelImpl
 			Function<EventPeriod, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((EventPeriod)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((EventPeriod)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -950,57 +855,101 @@ public class EventPeriodModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<EventPeriod, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<EventPeriod, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<EventPeriod, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((EventPeriod)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, EventPeriod>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					EventPeriod.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _eventPeriodId;
 	private Date _startDate;
 	private Date _endDate;
 	private String _timeDetail;
 	private String _timeDetailCurrentLanguageId;
 	private long _eventId;
-	private long _originalEventId;
-	private boolean _setOriginalEventId;
 	private long _campaignEventId;
-	private long _originalCampaignEventId;
-	private boolean _setOriginalCampaignEventId;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<EventPeriod, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((EventPeriod)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("eventPeriodId", _eventPeriodId);
+		_columnOriginalValues.put("startDate", _startDate);
+		_columnOriginalValues.put("endDate", _endDate);
+		_columnOriginalValues.put("timeDetail", _timeDetail);
+		_columnOriginalValues.put("eventId", _eventId);
+		_columnOriginalValues.put("campaignEventId", _campaignEventId);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("eventPeriodId", 2L);
+
+		columnBitmasks.put("startDate", 4L);
+
+		columnBitmasks.put("endDate", 8L);
+
+		columnBitmasks.put("timeDetail", 16L);
+
+		columnBitmasks.put("eventId", 32L);
+
+		columnBitmasks.put("campaignEventId", 64L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private EventPeriod _escapedModel;
 

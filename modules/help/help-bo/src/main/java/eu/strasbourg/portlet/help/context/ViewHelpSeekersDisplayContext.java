@@ -1,38 +1,103 @@
 package eu.strasbourg.portlet.help.context;
 
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
+import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.help.util.SeekerHelpActionDropdownItemsProvider;
 import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
-import javax.portlet.*;
-import java.util.*;
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 
-import com.liferay.portal.kernel.dao.orm.QueryUtil;
 
 
-
-public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<ViewHelpSeekersDisplayContext.HelpSeeker> {
+public class ViewHelpSeekersDisplayContext extends ViewBaseDisplayContext<ViewHelpSeekersDisplayContext.HelpSeeker> {
 
     private List<HelpSeeker> _helpSeekers;
 
     public ViewHelpSeekersDisplayContext(RenderRequest request, RenderResponse response) {
-        super(HelpSeeker.class, request, response);
+        super(request, response, HelpSeeker.class);
+        _request = request;
+        _response = response;
+        _themeDisplay = (ThemeDisplay) _request.getAttribute(WebKeys.THEME_DISPLAY);
+    }
+    @SuppressWarnings("unused")
+    public SeekerHelpActionDropdownItemsProvider getActionsHelpSeeker(ViewHelpSeekersDisplayContext.HelpSeeker helpSeeker) {
+        return new SeekerHelpActionDropdownItemsProvider(helpSeeker, _request,
+                _response);
+    }
+    /**
+     * Retourne le searchContainer des help seekers
+     *
+     */
+    @Override
+    public SearchContainer<HelpSeeker> getSearchContainer() {
+
+        if (_searchContainer == null) {
+
+            PortletURL portletURL;
+            portletURL = PortletURLBuilder.createRenderURL(_response)
+
+                    .setMVCPath("/help-bo-view-help-seekers.jsp")
+                    .setKeywords(ParamUtil.getString(_request, "keywords"))
+                    .setTabs1("helpSeekers")
+                    .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+                    .setParameter("tab","helpSeekers")
+                    .setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
+                    .buildPortletURL();
+            _searchContainer = new SearchContainer<>(_request, null, null,
+                    SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
+            _searchContainer.setEmptyResultsMessageCssClass(
+                    "taglib-empty-result-message-header-has-plus-btn");
+            _searchContainer.setOrderByColParam("orderByCol");
+            _searchContainer.setOrderByTypeParam("orderByType");
+            _searchContainer.setOrderByCol(getOrderByCol());
+            _searchContainer.setOrderByType(getOrderByType());
+            try {
+                getHits();
+            } catch (PortalException e) {
+                throw new RuntimeException(e);
+            }
+            _searchContainer.setResultsAndTotal(
+                    () -> {
+                        // Création de la liste d'objet
+                        int start = this._searchContainer.getStart();
+                        int end = this._searchContainer.getEnd();
+                        int total = this._searchContainer.getTotal();
+                        _helpSeekers = _helpSeekers.subList(start, end > total ? total : end);
+                        return _helpSeekers;
+                    }, _helpSeekers.size()
+            );
+        }
+        _searchContainer.setRowChecker(
+                new EmptyOnClickRowChecker(_response));
+
+        return _searchContainer;
     }
 
-    public List<HelpSeeker> getHelpSeekers() throws PortalException {
-        int countResults = 0;
-
+    /**
+     * Retourne les Hits de recherche pour un delta
+     */
+    private void getHits() throws PortalException {
         if (_helpSeekers == null) {
 
             // Recuperation de toutes les requetes d'aide
@@ -60,7 +125,7 @@ public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<Vi
                 else {
                     // Ajout dans la liste
                     HelpSeeker helpSeeker = new HelpSeeker(PublikUserLocalServiceUtil.getByPublikUserId(helpSeekerId),
-                                                            helpRequest);
+                            helpRequest);
                     helpSeekersMap.put( helpSeekerId, helpSeeker);
                     long studentCardImageId = helpRequest.getStudentCardImageId();
                     if (studentCardImageId > 0) {
@@ -83,8 +148,8 @@ public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<Vi
                 _helpSeekers = ListUtil.sort(unsortedHelpSeekers, comp);
             }
         }
-        return _helpSeekers;
     }
+
 
     private List<HelpSeeker> getFilteredHelpSeekers(List<HelpSeeker> unfilteredSeekers) {
         List<HelpSeeker> filteredResults;
@@ -137,10 +202,12 @@ public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<Vi
         return comparator;
     }
 
+    @SuppressWarnings("unused")
     public String getCurrentURL() {
         return PortalUtil.getCurrentURL(this._request);
     }
-    public String getPublikUserEditURL(String publikUserId) throws WindowStateException, PortletModeException {
+
+    /*public String getPublikUserEditURL(String publikUserId) throws WindowStateException, PortletModeException {
         PortletURL myPortletURL = PortletURLFactoryUtil.create(this._request, StrasbourgPortletKeys.OIDC_BO,
                 this._themeDisplay.getLayout().getPlid(), PortletRequest.RENDER_PHASE);
         myPortletURL.setWindowState(WindowState.MAXIMIZED);
@@ -152,11 +219,12 @@ public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<Vi
         myPortletURL.setParameter("mvcPath", "/oidc-bo-edit-publikuser.jsp");
 
         return myPortletURL.toString();
-    }
+    }*/
 
     /**
      * Renvoie le nom de la colonne sur laquelle on fait le tri pour demandeurs (PublikUser)
      */
+    @Override
     public String getOrderByColSearchField() {
         switch (this.getOrderByCol()) {
             case "first-name":
@@ -167,25 +235,6 @@ public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<Vi
                 return "lastName";
         }
     }
-
-    /**
-     * Wrapper autour du permission checker pour les permissions de module
-     */
-    public boolean hasPermission(String actionId) throws PortalException {
-        return _themeDisplay.getPermissionChecker().hasPermission(
-                this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.HELP_BO, StrasbourgPortletKeys.HELP_BO,
-                actionId);
-    }
-
-    public boolean hasPermissionOIDC(String actionId) throws PortalException {
-        return _themeDisplay.getPermissionChecker().hasPermission(
-                this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.OIDC_BO, StrasbourgPortletKeys.OIDC_BO,
-                actionId);
-    }
-
-    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
     // Classe nested pour aggreger les donnees d'un user
     public class HelpSeeker {
@@ -230,7 +279,13 @@ public class ViewHelpSeekersDisplayContext extends ViewListBaseDisplayContext<Vi
         }
     }
 
+    @SuppressWarnings("unused")
     public Class<HelpSeeker> getHelpSeekerClass() {
         return HelpSeeker.class;
     }
+    
+    protected SearchContainer<HelpSeeker> _searchContainer;
+    private final RenderRequest _request;
+    private final RenderResponse _response;
+    protected ThemeDisplay _themeDisplay;
 }

@@ -1,114 +1,116 @@
 package eu.strasbourg.portlet.comment.display.context;
 
+import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.service.CommentLocalServiceUtil;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
+import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewCommentDisplayContext extends ViewListBaseDisplayContext<Comment> {
-
-    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-
-    private List<Comment> _comments;
+public class ViewCommentDisplayContext extends ViewBaseDisplayContext<Comment> {
 
     public ViewCommentDisplayContext(RenderRequest request, RenderResponse response) {
-        super(Comment.class, request, response);
+        super(request, response, Comment.class);
+        _request = request;
+        _response = response;
+        _themeDisplay = (ThemeDisplay) _request
+                .getAttribute(WebKeys.THEME_DISPLAY);
     }
 
-    public String getAllCommentIds() throws PortalException {
-        StringBuilder commentIds = new StringBuilder();
-        for (Comment comment : this.getComments()) {
-            if (commentIds.length() > 0) {
-                commentIds.append(",");
+    /**
+     * Retourne le searchContainer des commentaires
+     *
+     * @return SearchContainer<Comment>
+     */
+    @Override
+    public SearchContainer<Comment> getSearchContainer() {
+
+        if (_searchContainer == null) {
+
+            PortletURL portletURL = PortletURLBuilder.createRenderURL(_response)
+                    .setMVCPath("/comment-bo-view-comments.jsp")
+                    .setKeywords(ParamUtil.getString(_request, "keywords"))
+                    .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+                    .setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
+                    .buildPortletURL();
+            _searchContainer = new SearchContainer<>(_request, null, null,
+                    SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
+            _searchContainer.setEmptyResultsMessageCssClass(
+                    "taglib-empty-result-message-header-has-plus-btn");
+            _searchContainer.setOrderByColParam("orderByCol");
+            _searchContainer.setOrderByTypeParam("orderByType");
+            _searchContainer.setOrderByCol(getOrderByCol());
+            _searchContainer.setOrderByType(getOrderByType());
+            Hits hits;
+            try {
+                hits = getHits(this._themeDisplay.getScopeGroupId());
+            } catch (PortalException e) {
+                throw new RuntimeException(e);
             }
-            commentIds.append(comment.getCommentId());
+            _searchContainer.setResultsAndTotal(
+                    () -> {
+                        // Création de la liste d'objet
+                        List<Comment> results = new ArrayList<>();
+                        if (hits != null) {
+                            for (Document document : hits.getDocs()) {
+                                Comment comment = CommentLocalServiceUtil.fetchComment(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+                                if (comment!= null)
+                                    results.add(comment);
+                            }
+                        }
+
+                        return results;
+                    }, hits.getLength()
+            );
         }
-        return commentIds.toString();
+        _searchContainer.setRowChecker(new EmptyOnClickRowChecker(_response));
+        return _searchContainer;
     }
 
-
-    public List<Comment> getComments() throws PortalException {
-
-        if (this._comments == null) {
-            Hits hits = getHits(this._themeDisplay.getScopeGroupId());
-            //Création de la liste d'objet
-            this._comments = populateComments(hits);
-        }
-        return this._comments;
-    }
-
-    private List<Comment> getAllComments() throws PortalException {
-        Hits hits = getAllHits(this._themeDisplay.getCompanyGroupId());
-        return populateComments(hits);
-    }
-
-    public String getAllProjectIds() throws PortalException {
-        StringBuilder projectIds = new StringBuilder();
-        for (Comment comment : this.getAllComments()) {
-            if (projectIds.length() > 0) {
-                projectIds.append(",");
-            }
-            projectIds.append(comment.getCommentId());
-        }
-        return projectIds.toString();
-    }
-
+    /**
+     * Renvoie le nom du champ sur laquelle on fait le tri pour
+     * ElasticSearch
+     *
+     * @return String
+     */
     @Override
     public String getOrderByColSearchField() {
-        String param = this.getOrderByCol();
-        String result;
-        switch (param) {
+        switch (getOrderByCol()) {
+            case "title":
             case "userName":
-                result="userName_String_sortable";
-                break;
+                return "userName_String_sortable";
             case "reportings":
-                result= "reportings";
-                break;
-            case "entityType":
-                result= "entityType_String_sortable";
-                break;
+                return "reportings";
+            case "status":
+                return "entityType";
+            case "entityType_String_sortable":
+                return "entityType_String_sortable";
             case "entityName":
-                result= "entityName_String_sortable";
-                break;
+                return "entityName_String_sortable";
+            case "modified-date":
             default:
-                result= super.getOrderByColSearchField();
-                break;
+                return "modified_sortable";
         }
-        return result;
     }
 
-    private List<Comment> populateComments(Hits hits) {
-        List<Comment> results = new ArrayList<>();
-        if (hits != null) {
-            for (Document document :
-                    hits.getDocs()) {
-                Comment comment = CommentLocalServiceUtil.fetchComment(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
-                if (comment != null) {
+    protected SearchContainer<Comment> _searchContainer;
+    private final RenderRequest _request;
+    private final RenderResponse _response;
+    protected ThemeDisplay _themeDisplay;
+    private List<Comment> _comments;
 
-                    results.add(comment);
-                }
-            }
-        }
-        return results;
-    }
-
-    public boolean hasPermission(String actionId) {
-        return _themeDisplay.getPermissionChecker().hasPermission(
-                this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.COMMENT_BO,
-                StrasbourgPortletKeys.COMMENT_BO,
-                actionId);
-    }
 }

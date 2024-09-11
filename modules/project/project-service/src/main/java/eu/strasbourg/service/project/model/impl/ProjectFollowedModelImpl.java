@@ -1,21 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -24,26 +16,24 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.project.model.ProjectFollowed;
 import eu.strasbourg.service.project.model.ProjectFollowedModel;
-import eu.strasbourg.service.project.model.ProjectFollowedSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -104,71 +94,42 @@ public class ProjectFollowedModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.project.model.ProjectFollowed"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.project.model.ProjectFollowed"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.project.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.project.model.ProjectFollowed"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PROJECTID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLIKUSERID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PROJECTFOLLOWEDID_COLUMN_BITMASK = 4L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static ProjectFollowed toModel(ProjectFollowedSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		ProjectFollowed model = new ProjectFollowedImpl();
-
-		model.setProjectFollowedId(soapModel.getProjectFollowedId());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setPublikUserId(soapModel.getPublikUserId());
-		model.setProjectId(soapModel.getProjectId());
-		model.setGroupId(soapModel.getGroupId());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<ProjectFollowed> toModels(
-		ProjectFollowedSoap[] soapModels) {
-
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<ProjectFollowed> models = new ArrayList<ProjectFollowed>(
-			soapModels.length);
-
-		for (ProjectFollowedSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.project.service.util.PropsUtil.get(
@@ -226,9 +187,6 @@ public class ProjectFollowedModelImpl
 				attributeGetterFunction.apply((ProjectFollowed)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -253,173 +211,77 @@ public class ProjectFollowedModelImpl
 	public Map<String, Function<ProjectFollowed, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<ProjectFollowed, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, ProjectFollowed>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			ProjectFollowed.class.getClassLoader(), ProjectFollowed.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<ProjectFollowed, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<ProjectFollowed> constructor =
-				(Constructor<ProjectFollowed>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<ProjectFollowed, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<ProjectFollowed, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put(
+				"projectFollowedId", ProjectFollowed::getProjectFollowedId);
+			attributeGetterFunctions.put(
+				"createDate", ProjectFollowed::getCreateDate);
+			attributeGetterFunctions.put(
+				"publikUserId", ProjectFollowed::getPublikUserId);
+			attributeGetterFunctions.put(
+				"projectId", ProjectFollowed::getProjectId);
+			attributeGetterFunctions.put(
+				"groupId", ProjectFollowed::getGroupId);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<ProjectFollowed, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ProjectFollowed, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<ProjectFollowed, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap<String, Function<ProjectFollowed, Object>>();
-		Map<String, BiConsumer<ProjectFollowed, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ProjectFollowed, ?>>();
+		private static final Map<String, BiConsumer<ProjectFollowed, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"projectFollowedId",
-			new Function<ProjectFollowed, Object>() {
+		static {
+			Map<String, BiConsumer<ProjectFollowed, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap<String, BiConsumer<ProjectFollowed, ?>>();
 
-				@Override
-				public Object apply(ProjectFollowed projectFollowed) {
-					return projectFollowed.getProjectFollowedId();
-				}
+			attributeSetterBiConsumers.put(
+				"projectFollowedId",
+				(BiConsumer<ProjectFollowed, Long>)
+					ProjectFollowed::setProjectFollowedId);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<ProjectFollowed, Date>)
+					ProjectFollowed::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"publikUserId",
+				(BiConsumer<ProjectFollowed, String>)
+					ProjectFollowed::setPublikUserId);
+			attributeSetterBiConsumers.put(
+				"projectId",
+				(BiConsumer<ProjectFollowed, Long>)
+					ProjectFollowed::setProjectId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<ProjectFollowed, Long>)ProjectFollowed::setGroupId);
 
-			});
-		attributeSetterBiConsumers.put(
-			"projectFollowedId",
-			new BiConsumer<ProjectFollowed, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(
-					ProjectFollowed projectFollowed,
-					Object projectFollowedIdObject) {
-
-					projectFollowed.setProjectFollowedId(
-						(Long)projectFollowedIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<ProjectFollowed, Object>() {
-
-				@Override
-				public Object apply(ProjectFollowed projectFollowed) {
-					return projectFollowed.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<ProjectFollowed, Object>() {
-
-				@Override
-				public void accept(
-					ProjectFollowed projectFollowed, Object createDateObject) {
-
-					projectFollowed.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publikUserId",
-			new Function<ProjectFollowed, Object>() {
-
-				@Override
-				public Object apply(ProjectFollowed projectFollowed) {
-					return projectFollowed.getPublikUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"publikUserId",
-			new BiConsumer<ProjectFollowed, Object>() {
-
-				@Override
-				public void accept(
-					ProjectFollowed projectFollowed,
-					Object publikUserIdObject) {
-
-					projectFollowed.setPublikUserId((String)publikUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"projectId",
-			new Function<ProjectFollowed, Object>() {
-
-				@Override
-				public Object apply(ProjectFollowed projectFollowed) {
-					return projectFollowed.getProjectId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"projectId",
-			new BiConsumer<ProjectFollowed, Object>() {
-
-				@Override
-				public void accept(
-					ProjectFollowed projectFollowed, Object projectIdObject) {
-
-					projectFollowed.setProjectId((Long)projectIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<ProjectFollowed, Object>() {
-
-				@Override
-				public Object apply(ProjectFollowed projectFollowed) {
-					return projectFollowed.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<ProjectFollowed, Object>() {
-
-				@Override
-				public void accept(
-					ProjectFollowed projectFollowed, Object groupIdObject) {
-
-					projectFollowed.setGroupId((Long)groupIdObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -430,6 +292,10 @@ public class ProjectFollowedModelImpl
 
 	@Override
 	public void setProjectFollowedId(long projectFollowedId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_projectFollowedId = projectFollowedId;
 	}
 
@@ -441,6 +307,10 @@ public class ProjectFollowedModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -457,17 +327,20 @@ public class ProjectFollowedModelImpl
 
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_columnBitmask |= PUBLIKUSERID_COLUMN_BITMASK;
-
-		if (_originalPublikUserId == null) {
-			_originalPublikUserId = _publikUserId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publikUserId = publikUserId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPublikUserId() {
-		return GetterUtil.getString(_originalPublikUserId);
+		return getColumnOriginalValue("publikUserId");
 	}
 
 	@JSON
@@ -478,19 +351,21 @@ public class ProjectFollowedModelImpl
 
 	@Override
 	public void setProjectId(long projectId) {
-		_columnBitmask |= PROJECTID_COLUMN_BITMASK;
-
-		if (!_setOriginalProjectId) {
-			_setOriginalProjectId = true;
-
-			_originalProjectId = _projectId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_projectId = projectId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalProjectId() {
-		return _originalProjectId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("projectId"));
 	}
 
 	@JSON
@@ -501,10 +376,34 @@ public class ProjectFollowedModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_groupId = groupId;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -552,6 +451,24 @@ public class ProjectFollowedModelImpl
 	}
 
 	@Override
+	public ProjectFollowed cloneWithOriginalValues() {
+		ProjectFollowedImpl projectFollowedImpl = new ProjectFollowedImpl();
+
+		projectFollowedImpl.setProjectFollowedId(
+			this.<Long>getColumnOriginalValue("projectFollowedId"));
+		projectFollowedImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		projectFollowedImpl.setPublikUserId(
+			this.<String>getColumnOriginalValue("publikUserId"));
+		projectFollowedImpl.setProjectId(
+			this.<Long>getColumnOriginalValue("projectId"));
+		projectFollowedImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+
+		return projectFollowedImpl;
+	}
+
+	@Override
 	public int compareTo(ProjectFollowed projectFollowed) {
 		long primaryKey = projectFollowed.getPrimaryKey();
 
@@ -593,11 +510,19 @@ public class ProjectFollowedModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -605,17 +530,9 @@ public class ProjectFollowedModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ProjectFollowedModelImpl projectFollowedModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		projectFollowedModelImpl._originalPublikUserId =
-			projectFollowedModelImpl._publikUserId;
-
-		projectFollowedModelImpl._originalProjectId =
-			projectFollowedModelImpl._projectId;
-
-		projectFollowedModelImpl._setOriginalProjectId = false;
-
-		projectFollowedModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -655,7 +572,7 @@ public class ProjectFollowedModelImpl
 			attributeGetterFunctions = getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -666,9 +583,26 @@ public class ProjectFollowedModelImpl
 			Function<ProjectFollowed, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((ProjectFollowed)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((ProjectFollowed)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -681,52 +615,80 @@ public class ProjectFollowedModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<ProjectFollowed, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<ProjectFollowed, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<ProjectFollowed, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((ProjectFollowed)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, ProjectFollowed>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					ProjectFollowed.class, ModelWrapper.class);
 
 	}
 
 	private long _projectFollowedId;
 	private Date _createDate;
 	private String _publikUserId;
-	private String _originalPublikUserId;
 	private long _projectId;
-	private long _originalProjectId;
-	private boolean _setOriginalProjectId;
 	private long _groupId;
+
+	public <T> T getColumnValue(String columnName) {
+		Function<ProjectFollowed, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((ProjectFollowed)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("projectFollowedId", _projectFollowedId);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("publikUserId", _publikUserId);
+		_columnOriginalValues.put("projectId", _projectId);
+		_columnOriginalValues.put("groupId", _groupId);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("projectFollowedId", 1L);
+
+		columnBitmasks.put("createDate", 2L);
+
+		columnBitmasks.put("publikUserId", 4L);
+
+		columnBitmasks.put("projectId", 8L);
+
+		columnBitmasks.put("groupId", 16L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private ProjectFollowed _escapedModel;
 

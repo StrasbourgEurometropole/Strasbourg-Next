@@ -8,20 +8,27 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 >
 	<bean class="eu.strasbourg.service.council.service.impl.CouncilSessionLocalServiceImpl" id="eu.strasbourg.service.council.service.CouncilSessionLocalService" />
-	<bean class="eu.strasbourg.service.council.service.persistence.impl.CouncilSessionPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.CouncilSessionPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.council.service.persistence.impl.CouncilSessionModelArgumentsResolver" id="eu.strasbourg.service.council.service.persistence.impl.CouncilSessionModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.council.service.persistence.impl.CouncilSessionPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.CouncilSessionPersistence" />
 	<bean class="eu.strasbourg.service.council.service.impl.DeliberationLocalServiceImpl" id="eu.strasbourg.service.council.service.DeliberationLocalService" />
 	<bean class="eu.strasbourg.service.council.service.impl.DeliberationServiceImpl" id="eu.strasbourg.service.council.service.DeliberationService" />
-	<bean class="eu.strasbourg.service.council.service.persistence.impl.DeliberationPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.DeliberationPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.council.service.persistence.impl.DeliberationModelArgumentsResolver" id="eu.strasbourg.service.council.service.persistence.impl.DeliberationModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.council.service.persistence.impl.DeliberationPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.DeliberationPersistence" />
 	<bean class="eu.strasbourg.service.council.service.impl.OfficialLocalServiceImpl" id="eu.strasbourg.service.council.service.OfficialLocalService" />
 	<bean class="eu.strasbourg.service.council.service.impl.OfficialServiceImpl" id="eu.strasbourg.service.council.service.OfficialService" />
-	<bean class="eu.strasbourg.service.council.service.persistence.impl.OfficialPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.OfficialPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.council.service.persistence.impl.OfficialModelArgumentsResolver" id="eu.strasbourg.service.council.service.persistence.impl.OfficialModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.council.service.persistence.impl.OfficialPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.OfficialPersistence" />
 	<bean class="eu.strasbourg.service.council.service.impl.OfficialTypeCouncilLocalServiceImpl" id="eu.strasbourg.service.council.service.OfficialTypeCouncilLocalService" />
-	<bean class="eu.strasbourg.service.council.service.persistence.impl.OfficialTypeCouncilPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.council.service.persistence.impl.OfficialTypeCouncilModelArgumentsResolver" id="eu.strasbourg.service.council.service.persistence.impl.OfficialTypeCouncilModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.council.service.persistence.impl.OfficialTypeCouncilPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPersistence" />
 	<bean class="eu.strasbourg.service.council.service.impl.ProcurationLocalServiceImpl" id="eu.strasbourg.service.council.service.ProcurationLocalService" />
-	<bean class="eu.strasbourg.service.council.service.persistence.impl.ProcurationPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.ProcurationPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.council.service.persistence.impl.ProcurationModelArgumentsResolver" id="eu.strasbourg.service.council.service.persistence.impl.ProcurationModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.council.service.persistence.impl.ProcurationPersistenceImpl" id="eu.strasbourg.service.council.service.persistence.ProcurationPersistence" />
 	<bean class="eu.strasbourg.service.council.service.impl.TypeLocalServiceImpl" id="eu.strasbourg.service.council.service.TypeLocalService" />
 	<bean class="eu.strasbourg.service.council.service.impl.TypeServiceImpl" id="eu.strasbourg.service.council.service.TypeService" />
-	<bean class="eu.strasbourg.service.council.service.persistence.impl.TypePersistenceImpl" id="eu.strasbourg.service.council.service.persistence.TypePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.council.service.persistence.impl.TypeModelArgumentsResolver" id="eu.strasbourg.service.council.service.persistence.impl.TypeModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.council.service.persistence.impl.TypePersistenceImpl" id="eu.strasbourg.service.council.service.persistence.TypePersistence" />
 	<bean class="eu.strasbourg.service.council.service.impl.VoteLocalServiceImpl" id="eu.strasbourg.service.council.service.VoteLocalService" />
-	<bean class="eu.strasbourg.service.council.service.persistence.impl.VotePersistenceImpl" id="eu.strasbourg.service.council.service.persistence.VotePersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.council.service.persistence.impl.VoteModelArgumentsResolver" id="eu.strasbourg.service.council.service.persistence.impl.VoteModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.council.service.persistence.impl.VotePersistenceImpl" id="eu.strasbourg.service.council.service.persistence.VotePersistence" />
 </beans>

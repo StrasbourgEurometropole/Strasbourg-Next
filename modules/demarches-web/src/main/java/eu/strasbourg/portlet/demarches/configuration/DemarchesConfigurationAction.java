@@ -6,6 +6,7 @@ import javax.portlet.PortletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 
@@ -62,9 +63,8 @@ public class DemarchesConfigurationAction
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
 			// Pages sélectionnées
-			DemarchesConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-					DemarchesConfiguration.class);
+			DemarchesConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(DemarchesConfiguration.class, themeDisplay);
+
 			request.setAttribute("url",
 				configuration.url());
 			

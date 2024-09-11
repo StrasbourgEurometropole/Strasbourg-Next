@@ -63,14 +63,15 @@ public class SaveInterestActionCommand implements MVCActionCommand {
 						.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request
 						.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				PortletURL backURL = PortletURLFactoryUtil.create(request,
 						portletName, themeDisplay.getPlid(),
 						PortletRequest.RENDER_PHASE);
-				returnURL.setParameter("tab", request.getParameter("tab"));
+				backURL.setParameter("tab", request.getParameter("tab"));
 
-				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("backURL", backURL.toString());
 				response.setRenderParameter("mvcPath",
 						"/interest-bo-edit-interest.jsp");
+				response.setRenderParameter("cmd", "saveInterest");
 				return false;
 			}
 
@@ -91,17 +92,8 @@ public class SaveInterestActionCommand implements MVCActionCommand {
 			interest.setTypeId(typeId);
 
 			_interestLocalService.updateInterest(interest, sc);
-			
-			// Redirection (évite double
-			// requête POST si l'utilisateur actualise sa page)
-			ThemeDisplay themeDisplay = (ThemeDisplay) request
-					.getAttribute(WebKeys.THEME_DISPLAY);
-			String portletName = (String) request
-				.getAttribute(WebKeys.PORTLET_ID);
-			PortletURL renderUrl = PortletURLFactoryUtil.create(request,
-				portletName, themeDisplay.getPlid(),
-				PortletRequest.RENDER_PHASE);
-			response.sendRedirect(renderUrl.toString());
+
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (Exception e) {
 			_log.error(e);
 		}

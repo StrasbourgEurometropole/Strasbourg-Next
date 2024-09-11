@@ -4,12 +4,15 @@ public class Constants {
 	/* formulaire de recherche */
 	public static final String SEARCH_FORM_PLACIT = "placit";
 	public static final String SEARCH_FORM_STRASBOURG = "strasbourg";
+	public static final String SEARCH_FORM_STRASBOURG_INT = "strasbourg-int";
 
 	/* utile pour les atgs de placit */
 	public static final String PLACIT_TAG = "participer";
 
 	/* utile pour toutes les entités */
 	public static final String ATTRIBUTE_CLASSNAME = "className";
+	public static final String ATTRIBUTE_CLASSNAMEID = "classNameId";
+	public static final String ATTRIBUTE_CLASSPK = "classPk";
 	public static final String ATTRIBUTE_LINK = "link"; // inutile pour événement
 	public static final String ATTRIBUTE_TITLE = "title";
 	public static final String ATTRIBUTE_CATEGORIES = "categories"; // inutiles pour les vignettes en mode placit
@@ -18,6 +21,9 @@ public class Constants {
 
 	/* utile pour édition, événement, manif, galerie dédition, activité, projet */
 	public static final String ATTRIBUTE_DESCRIPTION = "description";
+
+
+	public static final String ATTRIBUTE_DOWNLOAD_URL = "downloadURL";
 
 	/* utile pour journalArticle, vidéo, projet, pétition, initiative */
 	public static final String ATTRIBUTE_IMAGE_URL = "imageURL";
@@ -59,6 +65,7 @@ public class Constants {
 
 	/* utile pour lieu */
 	public static final String ATTRIBUTE_CITY = "city";
+	public static final String ATTRIBUTE_IS_OPEN = "isOpen";
 
 	/* utile pour vidéo */
 	public static final String ATTRIBUTE_NB_VIEWS = "nbViews";
@@ -99,4 +106,6 @@ public class Constants {
 	public static final String DETAIL_PETITION_URL = "detail-petition/-/entity/id/";
 	public static final String DETAIL_BUDGET_PARTICIPATIF_URL = "detail-budget-participatif/-/entity/id/";
 	public static final String DETAIL_INITIATIVE_URL = "detail-atelier/-/entity/id/";
+
+	public static final String ATTRIBUTE_IS_FAVORITE = "isFavorite";
 }

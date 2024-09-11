@@ -1,4 +1,4 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.23
+FROM elasticsearch:8.10.4
 
 ENV ES_PATH=/usr/share/elasticsearch
 

@@ -1,6 +1,8 @@
 package eu.strasbourg.portlet.council.display.context;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -147,13 +149,9 @@ public class EditCouncilSessionDisplayContext {
     public String getStartDelibOrder(long startDelib){
         String getStartDelibOrder = "";
         Deliberation startDeliberation = null;
-        try {
-            startDeliberation = DeliberationLocalServiceUtil.getDeliberation(startDelib);
-            if(Validator.isNotNull(startDeliberation)){
-                getStartDelibOrder = startDelib == -1?"": String.valueOf(startDeliberation.getOrder());
-            }
-        } catch (PortalException e) {
-            e.printStackTrace();
+        startDeliberation = DeliberationLocalServiceUtil.fetchDeliberation(startDelib);
+        if(Validator.isNotNull(startDeliberation)){
+            getStartDelibOrder = startDelib == -1?"": startDeliberation.getOrder()+startDeliberation.getAmendement();
         }
         return getStartDelibOrder;
     }
@@ -166,13 +164,9 @@ public class EditCouncilSessionDisplayContext {
     public String getEndDelibOrder(long endDelib){
         String getEndDelibOrder = "";
         Deliberation endDeliberation = null;
-        try {
-            endDeliberation = DeliberationLocalServiceUtil.getDeliberation(endDelib);
-            if(Validator.isNotNull(endDeliberation)){
-                getEndDelibOrder = endDelib == -1?"": String.valueOf(endDeliberation.getOrder());
-            }
-        } catch (PortalException e) {
-            e.printStackTrace();
+        endDeliberation = DeliberationLocalServiceUtil.fetchDeliberation(endDelib);
+        if(Validator.isNotNull(endDeliberation)){
+            getEndDelibOrder = endDelib == -1?"": endDeliberation.getOrder()+endDeliberation.getAmendement();
         }
         return getEndDelibOrder;
     }
@@ -272,5 +266,7 @@ public class EditCouncilSessionDisplayContext {
                 this.themeDisplay.getScopeGroupId(), StrasbourgPortletKeys.COUNCIL_BO,
                 StrasbourgPortletKeys.COUNCIL_BO, actionId);
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass());
 
 }

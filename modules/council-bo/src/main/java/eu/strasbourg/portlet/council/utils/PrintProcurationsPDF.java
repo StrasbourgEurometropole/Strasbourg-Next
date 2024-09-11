@@ -14,13 +14,12 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.property.HorizontalAlignment;
-import com.itextpdf.layout.property.TextAlignment;
-import com.itextpdf.layout.property.VerticalAlignment;
+import com.itextpdf.layout.properties.HorizontalAlignment;
+import com.itextpdf.layout.properties.TextAlignment;
+import com.itextpdf.layout.properties.VerticalAlignment;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.council.constants.ProcurationModeEnum;
 import eu.strasbourg.service.council.constants.ProcurationPresentialEnum;
@@ -35,13 +34,12 @@ import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 import eu.strasbourg.service.council.service.ProcurationLocalServiceUtil;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.DateFormat;
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.List;
@@ -221,7 +219,7 @@ public class PrintProcurationsPDF {
                 String OfficialVoterValue = Validator.isNull(OfficialVoter) ? "Aucun" : OfficialVoter;
                 insertCell(table, OfficialVoterValue, 1, font, null, null, 120f);
 
-                // Traitement pour l'affichga des heures de debut et fin de procuration
+                // Traitement pour l'affichage des heures de debut et fin de procuration
                 SimpleDateFormat hour = new SimpleDateFormat("HH", Locale.FRANCE);
                 SimpleDateFormat minute = new SimpleDateFormat("mm");
                 // Si minute 00 alors on affiche rien pour avoir 12h et pas 12h00
@@ -239,10 +237,10 @@ public class PrintProcurationsPDF {
                 try {
                     startDelib = DeliberationLocalServiceUtil.getDeliberation(procuration.getStartDelib());
                 } catch (NoSuchDeliberationException e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage() + " : " + procuration);
                 }
                 if (Validator.isNotNull(startDelib)) {
-                    startDelibValue = procuration.getStartDelib() == -1 ? "" : String.valueOf(startDelib.getOrder());
+                    startDelibValue = procuration.getStartDelib() == -1 ? "" : startDelib.getOrder()+startDelib.getAmendement();
                     if (procuration.isIsAfterVote() && procuration.getStartHour() != null) {
                         startDelibValue += "-AV";
                     }
@@ -252,10 +250,10 @@ public class PrintProcurationsPDF {
                 try {
                     endDelib = DeliberationLocalServiceUtil.getDeliberation(procuration.getEndDelib());
                 } catch (NoSuchDeliberationException e) {
-                    e.printStackTrace();
+                    _log.error(e.getMessage() + " : " + procuration);
                 }
                 if (Validator.isNotNull(endDelib)) {
-                    endDelibValue = procuration.getEndDelib() == -1 ? "" : String.valueOf(endDelib.getOrder());
+                    endDelibValue = procuration.getEndDelib() == -1 ? "" : endDelib.getOrder()+endDelib.getAmendement();
                 }
                 insertCell(table, startTime, 1, font, null, null, 30f);
                 insertCell(table, startDelibValue, 1, font, null, null, 30f);
@@ -283,7 +281,8 @@ public class PrintProcurationsPDF {
 
             String fileName = "";
             if (Validator.isNotNull(council)) {
-                fileName += council.getTypeCouncil().getTitle();
+                // Supprime les accents qui posent souci sur la création de fichier
+                fileName += Normalizer.normalize(council.getTypeCouncil().getTitle(), Normalizer.Form.NFD).replaceAll("\\p{M}", "");;
             }
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.FRANCE);
             fileName += " " + sdf.format(council.getDate()) + "_procurations_history_" +
@@ -299,11 +298,13 @@ public class PrintProcurationsPDF {
                 fos.close();
                 return deliberationpdf;
             } catch (IOException e) {
-                e.printStackTrace();
+                _log.error(e.getMessage(), e);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            _log.error(e.getMessage(), e);
         }
         return null;
     }
+
+    private static final Log _log = LogFactoryUtil.getLog(PrintProcurationsPDF.class.getName());
 }

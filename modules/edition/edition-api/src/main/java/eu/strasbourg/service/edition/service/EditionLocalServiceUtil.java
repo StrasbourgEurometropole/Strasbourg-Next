@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.edition.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.edition.model.Edition;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for Edition. This utility wraps
@@ -48,44 +48,39 @@ public class EditionLocalServiceUtil {
 	 * @param edition the edition
 	 * @return the edition that was added
 	 */
-	public static eu.strasbourg.service.edition.model.Edition addEdition(
-		eu.strasbourg.service.edition.model.Edition edition) {
-
+	public static Edition addEdition(Edition edition) {
 		return getService().addEdition(edition);
 	}
 
-	public static void addEditionGalleryEdition(
-		long galleryId, eu.strasbourg.service.edition.model.Edition edition) {
+	public static boolean addEditionGalleryEdition(
+		long galleryId, Edition edition) {
 
-		getService().addEditionGalleryEdition(galleryId, edition);
+		return getService().addEditionGalleryEdition(galleryId, edition);
 	}
 
-	public static void addEditionGalleryEdition(
+	public static boolean addEditionGalleryEdition(
 		long galleryId, long editionId) {
 
-		getService().addEditionGalleryEdition(galleryId, editionId);
+		return getService().addEditionGalleryEdition(galleryId, editionId);
 	}
 
-	public static void addEditionGalleryEditions(
-		long galleryId,
-		java.util.List<eu.strasbourg.service.edition.model.Edition> editions) {
+	public static boolean addEditionGalleryEditions(
+		long galleryId, List<Edition> editions) {
 
-		getService().addEditionGalleryEditions(galleryId, editions);
+		return getService().addEditionGalleryEditions(galleryId, editions);
 	}
 
-	public static void addEditionGalleryEditions(
+	public static boolean addEditionGalleryEditions(
 		long galleryId, long[] editionIds) {
 
-		getService().addEditionGalleryEditions(galleryId, editionIds);
+		return getService().addEditionGalleryEditions(galleryId, editionIds);
 	}
 
 	/**
 	 * Modifie le statut de toutes les editions au statut "SCHEDULED" qui ont
 	 * une date de publication dans le futur
 	 */
-	public static void checkEditions()
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static void checkEditions() throws PortalException {
 		getService().checkEditions();
 	}
 
@@ -99,20 +94,28 @@ public class EditionLocalServiceUtil {
 	 * @param editionId the primary key for the new edition
 	 * @return the new edition
 	 */
-	public static eu.strasbourg.service.edition.model.Edition createEdition(
-		long editionId) {
-
+	public static Edition createEdition(long editionId) {
 		return getService().createEdition(editionId);
 	}
 
 	/**
 	 * Crée une edition vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.edition.model.Edition createEdition(
+	public static Edition createEdition(
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().createEdition(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -125,9 +128,7 @@ public class EditionLocalServiceUtil {
 	 * @param edition the edition
 	 * @return the edition that was removed
 	 */
-	public static eu.strasbourg.service.edition.model.Edition deleteEdition(
-		eu.strasbourg.service.edition.model.Edition edition) {
-
+	public static Edition deleteEdition(Edition edition) {
 		return getService().deleteEdition(edition);
 	}
 
@@ -142,15 +143,12 @@ public class EditionLocalServiceUtil {
 	 * @return the edition that was removed
 	 * @throws PortalException if a edition with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.edition.model.Edition deleteEdition(
-			long editionId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Edition deleteEdition(long editionId) throws PortalException {
 		return getService().deleteEdition(editionId);
 	}
 
 	public static void deleteEditionGalleryEdition(
-		long galleryId, eu.strasbourg.service.edition.model.Edition edition) {
+		long galleryId, Edition edition) {
 
 		getService().deleteEditionGalleryEdition(galleryId, edition);
 	}
@@ -162,8 +160,7 @@ public class EditionLocalServiceUtil {
 	}
 
 	public static void deleteEditionGalleryEditions(
-		long galleryId,
-		java.util.List<eu.strasbourg.service.edition.model.Edition> editions) {
+		long galleryId, List<Edition> editions) {
 
 		getService().deleteEditionGalleryEditions(galleryId, editions);
 	}
@@ -177,17 +174,22 @@ public class EditionLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -197,9 +199,7 @@ public class EditionLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -215,9 +215,8 @@ public class EditionLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -235,10 +234,9 @@ public class EditionLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -250,9 +248,7 @@ public class EditionLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -264,15 +260,13 @@ public class EditionLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.edition.model.Edition fetchEdition(
-		long editionId) {
-
+	public static Edition fetchEdition(long editionId) {
 		return getService().fetchEdition(editionId);
 	}
 
@@ -283,8 +277,8 @@ public class EditionLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching edition, or <code>null</code> if a matching edition could not be found
 	 */
-	public static eu.strasbourg.service.edition.model.Edition
-		fetchEditionByUuidAndGroupId(String uuid, long groupId) {
+	public static Edition fetchEditionByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchEditionByUuidAndGroupId(uuid, groupId);
 	}
@@ -292,8 +286,8 @@ public class EditionLocalServiceUtil {
 	/**
 	 * Lance une recherche par mots-clés
 	 */
-	public static java.util.List<eu.strasbourg.service.edition.model.Edition>
-		findByKeyword(String keyword, long groupId, int start, int end) {
+	public static List<Edition> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -314,7 +308,7 @@ public class EditionLocalServiceUtil {
 	/**
 	 * Retourne les vocabulaires rattrachés à ce type d'entité pour un groupe
 	 */
-	public static java.util.List<com.liferay.asset.kernel.model.AssetVocabulary>
+	public static List<com.liferay.asset.kernel.model.AssetVocabulary>
 		getAttachedVocabularies(long groupId) {
 
 		return getService().getAttachedVocabularies(groupId);
@@ -323,9 +317,7 @@ public class EditionLocalServiceUtil {
 	/**
 	 * Retourne toutes les editions d'un groupe
 	 */
-	public static java.util.List<eu.strasbourg.service.edition.model.Edition>
-		getByGroupId(long groupId) {
-
+	public static List<Edition> getByGroupId(long groupId) {
 		return getService().getByGroupId(groupId);
 	}
 
@@ -336,10 +328,7 @@ public class EditionLocalServiceUtil {
 	 * @return the edition
 	 * @throws PortalException if a edition with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.edition.model.Edition getEdition(
-			long editionId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Edition getEdition(long editionId) throws PortalException {
 		return getService().getEdition(editionId);
 	}
 
@@ -351,31 +340,25 @@ public class EditionLocalServiceUtil {
 	 * @return the matching edition
 	 * @throws PortalException if a matching edition could not be found
 	 */
-	public static eu.strasbourg.service.edition.model.Edition
-			getEditionByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Edition getEditionByUuidAndGroupId(String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getEditionByUuidAndGroupId(uuid, groupId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.edition.model.Edition>
-		getEditionGalleryEditions(long galleryId) {
-
+	public static List<Edition> getEditionGalleryEditions(long galleryId) {
 		return getService().getEditionGalleryEditions(galleryId);
 	}
 
-	public static java.util.List<eu.strasbourg.service.edition.model.Edition>
-		getEditionGalleryEditions(long galleryId, int start, int end) {
+	public static List<Edition> getEditionGalleryEditions(
+		long galleryId, int start, int end) {
 
 		return getService().getEditionGalleryEditions(galleryId, start, end);
 	}
 
-	public static java.util.List<eu.strasbourg.service.edition.model.Edition>
-		getEditionGalleryEditions(
-			long galleryId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.edition.model.Edition>
-					orderByComparator) {
+	public static List<Edition> getEditionGalleryEditions(
+		long galleryId, int start, int end,
+		OrderByComparator<Edition> orderByComparator) {
 
 		return getService().getEditionGalleryEditions(
 			galleryId, start, end, orderByComparator);
@@ -406,9 +389,7 @@ public class EditionLocalServiceUtil {
 	 * @param end the upper bound of the range of editions (not inclusive)
 	 * @return the range of editions
 	 */
-	public static java.util.List<eu.strasbourg.service.edition.model.Edition>
-		getEditions(int start, int end) {
-
+	public static List<Edition> getEditions(int start, int end) {
 		return getService().getEditions(start, end);
 	}
 
@@ -419,8 +400,8 @@ public class EditionLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching editions, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.edition.model.Edition>
-		getEditionsByUuidAndCompanyId(String uuid, long companyId) {
+	public static List<Edition> getEditionsByUuidAndCompanyId(
+		String uuid, long companyId) {
 
 		return getService().getEditionsByUuidAndCompanyId(uuid, companyId);
 	}
@@ -435,12 +416,9 @@ public class EditionLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching editions, or an empty list if no matches were found
 	 */
-	public static java.util.List<eu.strasbourg.service.edition.model.Edition>
-		getEditionsByUuidAndCompanyId(
-			String uuid, long companyId, int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator
-				<eu.strasbourg.service.edition.model.Edition>
-					orderByComparator) {
+	public static List<Edition> getEditionsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Edition> orderByComparator) {
 
 		return getService().getEditionsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -482,9 +460,8 @@ public class EditionLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -502,10 +479,7 @@ public class EditionLocalServiceUtil {
 	/**
 	 * Supprime une edition
 	 */
-	public static eu.strasbourg.service.edition.model.Edition removeEdition(
-			long editionId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
+	public static Edition removeEdition(long editionId) throws PortalException {
 		return getService().removeEdition(editionId);
 	}
 
@@ -535,19 +509,17 @@ public class EditionLocalServiceUtil {
 	 * @param edition the edition
 	 * @return the edition that was updated
 	 */
-	public static eu.strasbourg.service.edition.model.Edition updateEdition(
-		eu.strasbourg.service.edition.model.Edition edition) {
-
+	public static Edition updateEdition(Edition edition) {
 		return getService().updateEdition(edition);
 	}
 
 	/**
 	 * Met à jour une edition et l'enregistre en base de données
 	 */
-	public static eu.strasbourg.service.edition.model.Edition updateEdition(
-			eu.strasbourg.service.edition.model.Edition edition,
+	public static Edition updateEdition(
+			Edition edition,
 			com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		return getService().updateEdition(edition, sc);
 	}
@@ -555,9 +527,8 @@ public class EditionLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'edition "manuellement" (pas via le workflow)
 	 */
-	public static void updateStatus(
-			eu.strasbourg.service.edition.model.Edition edition, int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static void updateStatus(Edition edition, int status)
+		throws PortalException {
 
 		getService().updateStatus(edition, status);
 	}
@@ -565,34 +536,24 @@ public class EditionLocalServiceUtil {
 	/**
 	 * Met à jour le statut de l'edition par le framework workflow
 	 */
-	public static eu.strasbourg.service.edition.model.Edition updateStatus(
+	public static Edition updateStatus(
 			long userId, long entryId, int status,
 			com.liferay.portal.kernel.service.ServiceContext sc,
-			java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, entryId, status, sc, workflowContext);
 	}
 
 	public static EditionLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker<EditionLocalService, EditionLocalService>
-		_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(EditionLocalService.class);
-
-		ServiceTracker<EditionLocalService, EditionLocalService>
-			serviceTracker =
-				new ServiceTracker<EditionLocalService, EditionLocalService>(
-					bundle.getBundleContext(), EditionLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(EditionLocalService service) {
+		_service = service;
 	}
+
+	private static volatile EditionLocalService _service;
 
 }

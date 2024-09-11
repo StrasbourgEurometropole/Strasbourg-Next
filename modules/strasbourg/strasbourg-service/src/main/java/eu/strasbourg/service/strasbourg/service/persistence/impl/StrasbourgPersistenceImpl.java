@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.strasbourg.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,29 +16,29 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.strasbourg.exception.NoSuchStrasbourgException;
 import eu.strasbourg.service.strasbourg.model.Strasbourg;
+import eu.strasbourg.service.strasbourg.model.StrasbourgTable;
 import eu.strasbourg.service.strasbourg.model.impl.StrasbourgImpl;
 import eu.strasbourg.service.strasbourg.model.impl.StrasbourgModelImpl;
 import eu.strasbourg.service.strasbourg.service.persistence.StrasbourgPersistence;
+import eu.strasbourg.service.strasbourg.service.persistence.StrasbourgUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -247,10 +239,6 @@ public class StrasbourgPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -599,8 +587,6 @@ public class StrasbourgPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -623,21 +609,14 @@ public class StrasbourgPersistenceImpl
 		dbColumnNames.put("uuid", "uuid_");
 		dbColumnNames.put("id", "id_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Strasbourg.class);
+
+		setModelImplClass(StrasbourgImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(StrasbourgTable.INSTANCE);
 	}
 
 	/**
@@ -648,11 +627,10 @@ public class StrasbourgPersistenceImpl
 	@Override
 	public void cacheResult(Strasbourg strasbourg) {
 		entityCache.putResult(
-			StrasbourgModelImpl.ENTITY_CACHE_ENABLED, StrasbourgImpl.class,
-			strasbourg.getPrimaryKey(), strasbourg);
-
-		strasbourg.resetOriginalValues();
+			StrasbourgImpl.class, strasbourg.getPrimaryKey(), strasbourg);
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the strasbourgs in the entity cache if it is enabled.
@@ -661,15 +639,18 @@ public class StrasbourgPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Strasbourg> strasbourgs) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (strasbourgs.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Strasbourg strasbourg : strasbourgs) {
 			if (entityCache.getResult(
-					StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
 					StrasbourgImpl.class, strasbourg.getPrimaryKey()) == null) {
 
 				cacheResult(strasbourg);
-			}
-			else {
-				strasbourg.resetOriginalValues();
 			}
 		}
 	}
@@ -685,9 +666,7 @@ public class StrasbourgPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(StrasbourgImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(StrasbourgImpl.class);
 	}
 
 	/**
@@ -699,35 +678,22 @@ public class StrasbourgPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Strasbourg strasbourg) {
-		entityCache.removeResult(
-			StrasbourgModelImpl.ENTITY_CACHE_ENABLED, StrasbourgImpl.class,
-			strasbourg.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(StrasbourgImpl.class, strasbourg);
 	}
 
 	@Override
 	public void clearCache(List<Strasbourg> strasbourgs) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Strasbourg strasbourg : strasbourgs) {
-			entityCache.removeResult(
-				StrasbourgModelImpl.ENTITY_CACHE_ENABLED, StrasbourgImpl.class,
-				strasbourg.getPrimaryKey());
+			entityCache.removeResult(StrasbourgImpl.class, strasbourg);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(StrasbourgImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				StrasbourgModelImpl.ENTITY_CACHE_ENABLED, StrasbourgImpl.class,
-				primaryKey);
+			entityCache.removeResult(StrasbourgImpl.class, primaryKey);
 		}
 	}
 
@@ -868,10 +834,8 @@ public class StrasbourgPersistenceImpl
 		try {
 			session = openSession();
 
-			if (strasbourg.isNew()) {
+			if (isNew) {
 				session.save(strasbourg);
-
-				strasbourg.setNew(false);
 			}
 			else {
 				strasbourg = (Strasbourg)session.merge(strasbourg);
@@ -884,46 +848,12 @@ public class StrasbourgPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!StrasbourgModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {strasbourgModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((strasbourgModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					strasbourgModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {strasbourgModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-		}
-
 		entityCache.putResult(
-			StrasbourgModelImpl.ENTITY_CACHE_ENABLED, StrasbourgImpl.class,
-			strasbourg.getPrimaryKey(), strasbourg, false);
+			StrasbourgImpl.class, strasbourgModelImpl, false, true);
+
+		if (isNew) {
+			strasbourg.setNew(false);
+		}
 
 		strasbourg.resetOriginalValues();
 
@@ -972,161 +902,12 @@ public class StrasbourgPersistenceImpl
 	/**
 	 * Returns the strasbourg with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the strasbourg
-	 * @return the strasbourg, or <code>null</code> if a strasbourg with the primary key could not be found
-	 */
-	@Override
-	public Strasbourg fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			StrasbourgModelImpl.ENTITY_CACHE_ENABLED, StrasbourgImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Strasbourg strasbourg = (Strasbourg)serializable;
-
-		if (strasbourg == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				strasbourg = (Strasbourg)session.get(
-					StrasbourgImpl.class, primaryKey);
-
-				if (strasbourg != null) {
-					cacheResult(strasbourg);
-				}
-				else {
-					entityCache.putResult(
-						StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-						StrasbourgImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-					StrasbourgImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return strasbourg;
-	}
-
-	/**
-	 * Returns the strasbourg with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param id the primary key of the strasbourg
 	 * @return the strasbourg, or <code>null</code> if a strasbourg with the primary key could not be found
 	 */
 	@Override
 	public Strasbourg fetchByPrimaryKey(long id) {
 		return fetchByPrimaryKey((Serializable)id);
-	}
-
-	@Override
-	public Map<Serializable, Strasbourg> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Strasbourg> map =
-			new HashMap<Serializable, Strasbourg>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Strasbourg strasbourg = fetchByPrimaryKey(primaryKey);
-
-			if (strasbourg != null) {
-				map.put(primaryKey, strasbourg);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				StrasbourgModelImpl.ENTITY_CACHE_ENABLED, StrasbourgImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Strasbourg)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_STRASBOURG_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Strasbourg strasbourg : (List<Strasbourg>)query.list()) {
-				map.put(strasbourg.getPrimaryKeyObj(), strasbourg);
-
-				cacheResult(strasbourg);
-
-				uncachedPrimaryKeys.remove(strasbourg.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-					StrasbourgImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -1253,10 +1034,6 @@ public class StrasbourgPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1302,9 +1079,6 @@ public class StrasbourgPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1321,6 +1095,21 @@ public class StrasbourgPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "id_";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_STRASBOURG;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return StrasbourgModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1329,51 +1118,46 @@ public class StrasbourgPersistenceImpl
 	 * Initializes the strasbourg persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-			StrasbourgModelImpl.FINDER_CACHE_ENABLED, StrasbourgImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-			StrasbourgModelImpl.FINDER_CACHE_ENABLED, StrasbourgImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-			StrasbourgModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-			StrasbourgModelImpl.FINDER_CACHE_ENABLED, StrasbourgImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-			StrasbourgModelImpl.FINDER_CACHE_ENABLED, StrasbourgImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			StrasbourgModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			StrasbourgModelImpl.ENTITY_CACHE_ENABLED,
-			StrasbourgModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
+
+		StrasbourgUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		StrasbourgUtil.setPersistence(null);
+
 		entityCache.removeCache(StrasbourgImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1384,9 +1168,6 @@ public class StrasbourgPersistenceImpl
 
 	private static final String _SQL_SELECT_STRASBOURG =
 		"SELECT strasbourg FROM Strasbourg strasbourg";
-
-	private static final String _SQL_SELECT_STRASBOURG_WHERE_PKS_IN =
-		"SELECT strasbourg FROM Strasbourg strasbourg WHERE id_ IN (";
 
 	private static final String _SQL_SELECT_STRASBOURG_WHERE =
 		"SELECT strasbourg FROM Strasbourg strasbourg WHERE ";
@@ -1410,5 +1191,10 @@ public class StrasbourgPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid", "id"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

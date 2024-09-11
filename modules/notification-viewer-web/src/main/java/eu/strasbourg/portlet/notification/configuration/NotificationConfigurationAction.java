@@ -6,6 +6,7 @@ import javax.portlet.PortletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 
@@ -64,9 +65,7 @@ public class NotificationConfigurationAction extends DefaultConfigurationAction{
 				.getAttribute(WebKeys.THEME_DISPLAY);
 
 			// Pages sélectionnées
-			NotificationConfiguration configuration = themeDisplay
-				.getPortletDisplay().getPortletInstanceConfiguration(
-						NotificationConfiguration.class);
+			NotificationConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(NotificationConfiguration.class, themeDisplay);
 			
 			// Page voir tous
 			request.setAttribute("showAllURL", configuration.showAllURL());

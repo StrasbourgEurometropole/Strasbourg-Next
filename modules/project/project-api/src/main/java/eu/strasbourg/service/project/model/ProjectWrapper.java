@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -35,20 +22,12 @@ import java.util.Objects;
  * @see Project
  * @generated
  */
-public class ProjectWrapper implements ModelWrapper<Project>, Project {
+public class ProjectWrapper
+	extends BaseModelWrapper<Project>
+	implements ModelWrapper<Project>, Project {
 
 	public ProjectWrapper(Project project) {
-		_project = project;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Project.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Project.class.getName();
+		super(project);
 	}
 
 	@Override
@@ -254,13 +233,8 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	}
 
 	@Override
-	public Object clone() {
-		return new ProjectWrapper((Project)_project.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.project.model.Project project) {
-		return _project.compareTo(project);
+	public Project cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -270,7 +244,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getAllStatus() {
 
-		return _project.getAllStatus();
+		return model.getAllStatus();
 	}
 
 	/**
@@ -280,7 +254,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	public java.util.List<eu.strasbourg.service.comment.model.Comment>
 		getApprovedComments() {
 
-		return _project.getApprovedComments();
+		return model.getApprovedComments();
 	}
 
 	/**
@@ -288,7 +262,12 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _project.getAssetEntry();
+		return model.getAssetEntry();
+	}
+
+	@Override
+	public String[] getAvailableLanguageIds() {
+		return model.getAvailableLanguageIds();
 	}
 
 	/**
@@ -298,7 +277,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getBudget() {
-		return _project.getBudget();
+		return model.getBudget();
 	}
 
 	/**
@@ -309,7 +288,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _project.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -321,7 +300,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCityCategories() {
 
-		return _project.getCityCategories();
+		return model.getCityCategories();
 	}
 
 	/**
@@ -331,7 +310,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public long getCompanyId() {
-		return _project.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -341,7 +320,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getContactLine1() {
-		return _project.getContactLine1();
+		return model.getContactLine1();
 	}
 
 	/**
@@ -351,7 +330,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getContactLine2() {
-		return _project.getContactLine2();
+		return model.getContactLine2();
 	}
 
 	/**
@@ -361,7 +340,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getContactName() {
-		return _project.getContactName();
+		return model.getContactName();
 	}
 
 	/**
@@ -371,7 +350,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getContactPhoneNumber() {
-		return _project.getContactPhoneNumber();
+		return model.getContactPhoneNumber();
 	}
 
 	/**
@@ -381,7 +360,12 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _project.getCreateDate();
+		return model.getCreateDate();
+	}
+
+	@Override
+	public String getDefaultLanguageId() {
+		return model.getDefaultLanguageId();
 	}
 
 	/**
@@ -391,7 +375,73 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getDescription() {
-		return _project.getDescription();
+		return model.getDescription();
+	}
+
+	/**
+	 * Returns the localized description of this project in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized description of this project
+	 */
+	@Override
+	public String getDescription(java.util.Locale locale) {
+		return model.getDescription(locale);
+	}
+
+	/**
+	 * Returns the localized description of this project in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this project. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getDescription(java.util.Locale locale, boolean useDefault) {
+		return model.getDescription(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized description of this project in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized description of this project
+	 */
+	@Override
+	public String getDescription(String languageId) {
+		return model.getDescription(languageId);
+	}
+
+	/**
+	 * Returns the localized description of this project in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized description of this project
+	 */
+	@Override
+	public String getDescription(String languageId, boolean useDefault) {
+		return model.getDescription(languageId, useDefault);
+	}
+
+	@Override
+	public String getDescriptionCurrentLanguageId() {
+		return model.getDescriptionCurrentLanguageId();
+	}
+
+	@Override
+	public String getDescriptionCurrentValue() {
+		return model.getDescriptionCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized descriptions of this project.
+	 *
+	 * @return the locales and localized descriptions of this project
+	 */
+	@Override
+	public Map<java.util.Locale, String> getDescriptionMap() {
+		return model.getDescriptionMap();
 	}
 
 	/**
@@ -401,7 +451,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getDetailURL() {
-		return _project.getDetailURL();
+		return model.getDetailURL();
 	}
 
 	/**
@@ -413,7 +463,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getDistrictCategories() {
 
-		return _project.getDistrictCategories();
+		return model.getDistrictCategories();
 	}
 
 	/**
@@ -423,7 +473,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getDistrictLabel(java.util.Locale locale) {
-		return _project.getDistrictLabel(locale);
+		return model.getDistrictLabel(locale);
 	}
 
 	/**
@@ -433,7 +483,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getDuration() {
-		return _project.getDuration();
+		return model.getDuration();
 	}
 
 	/**
@@ -443,12 +493,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	public java.util.List<eu.strasbourg.service.agenda.model.Event>
 		getEvents() {
 
-		return _project.getEvents();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _project.getExpandoBridge();
+		return model.getEvents();
 	}
 
 	/**
@@ -458,7 +503,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getExternalImageCopyright() {
-		return _project.getExternalImageCopyright();
+		return model.getExternalImageCopyright();
 	}
 
 	/**
@@ -468,7 +513,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getExternalImageURL() {
-		return _project.getExternalImageURL();
+		return model.getExternalImageURL();
 	}
 
 	/**
@@ -478,7 +523,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public long getGroupId() {
-		return _project.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -486,7 +531,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getImageCopyright(java.util.Locale locale) {
-		return _project.getImageCopyright(locale);
+		return model.getImageCopyright(locale);
 	}
 
 	/**
@@ -496,7 +541,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public long getImageId() {
-		return _project.getImageId();
+		return model.getImageId();
 	}
 
 	/**
@@ -504,7 +549,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getImageURL() {
-		return _project.getImageURL();
+		return model.getImageURL();
 	}
 
 	/**
@@ -514,7 +559,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getLabel() {
-		return _project.getLabel();
+		return model.getLabel();
 	}
 
 	/**
@@ -524,7 +569,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _project.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -532,7 +577,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public int getNbApprovedComments() {
-		return _project.getNbApprovedComments();
+		return model.getNbApprovedComments();
 	}
 
 	/**
@@ -540,7 +585,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public int getNbFollower() {
-		return _project.getNbFollower();
+		return model.getNbFollower();
 	}
 
 	/**
@@ -548,7 +593,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getNbFollowerLabel() {
-		return _project.getNbFollowerLabel();
+		return model.getNbFollowerLabel();
 	}
 
 	/**
@@ -558,15 +603,17 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public double getOpacityImage() {
-		return _project.getOpacityImage();
+		return model.getOpacityImage();
 	}
 
 	/**
 	 * Retourne la liste des participations du projet
 	 */
 	@Override
-	public java.util.List<Participation> getParticipations() {
-		return _project.getParticipations();
+	public java.util.List<eu.strasbourg.service.project.model.Participation>
+		getParticipations() {
+
+		return model.getParticipations();
 	}
 
 	/**
@@ -576,12 +623,80 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getPartners() {
-		return _project.getPartners();
+		return model.getPartners();
+	}
+
+	/**
+	 * Returns the localized partners of this project in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized partners of this project
+	 */
+	@Override
+	public String getPartners(java.util.Locale locale) {
+		return model.getPartners(locale);
+	}
+
+	/**
+	 * Returns the localized partners of this project in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized partners of this project. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getPartners(java.util.Locale locale, boolean useDefault) {
+		return model.getPartners(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized partners of this project in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized partners of this project
+	 */
+	@Override
+	public String getPartners(String languageId) {
+		return model.getPartners(languageId);
+	}
+
+	/**
+	 * Returns the localized partners of this project in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized partners of this project
+	 */
+	@Override
+	public String getPartners(String languageId, boolean useDefault) {
+		return model.getPartners(languageId, useDefault);
 	}
 
 	@Override
-	public java.util.List<Petition> getPetitions() {
-		return _project.getPetitions();
+	public String getPartnersCurrentLanguageId() {
+		return model.getPartnersCurrentLanguageId();
+	}
+
+	@Override
+	public String getPartnersCurrentValue() {
+		return model.getPartnersCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized partnerses of this project.
+	 *
+	 * @return the locales and localized partnerses of this project
+	 */
+	@Override
+	public Map<java.util.Locale, String> getPartnersMap() {
+		return model.getPartnersMap();
+	}
+
+	@Override
+	public java.util.List<eu.strasbourg.service.project.model.Petition>
+		getPetitions() {
+
+		return model.getPetitions();
 	}
 
 	/**
@@ -589,7 +704,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public java.util.List<String> getPlaceNames(java.util.Locale locale) {
-		return _project.getPlaceNames(locale);
+		return model.getPlaceNames(locale);
 	}
 
 	/**
@@ -597,15 +712,17 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public java.util.List<String> getPlaceSIGIds(java.util.Locale locale) {
-		return _project.getPlaceSIGIds(locale);
+		return model.getPlaceSIGIds(locale);
 	}
 
 	/**
 	 * Retourne la liste des lieux placit liés au projet
 	 */
 	@Override
-	public java.util.List<PlacitPlace> getPlacitPlaces() {
-		return _project.getPlacitPlaces();
+	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
+		getPlacitPlaces() {
+
+		return model.getPlacitPlaces();
 	}
 
 	/**
@@ -615,12 +732,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _project.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _project.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -628,15 +740,17 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory getProjectCategory() {
-		return _project.getProjectCategory();
+		return model.getProjectCategory();
 	}
 
 	/**
 	 * Retourne la liste des follower au projet
 	 */
 	@Override
-	public java.util.List<ProjectFollowed> getProjectFollower() {
-		return _project.getProjectFollower();
+	public java.util.List<eu.strasbourg.service.project.model.ProjectFollowed>
+		getProjectFollower() {
+
+		return model.getProjectFollower();
 	}
 
 	/**
@@ -646,20 +760,22 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public long getProjectId() {
-		return _project.getProjectId();
+		return model.getProjectId();
 	}
 
 	@Override
 	public String getProjectStatus(java.util.Locale locale) {
-		return _project.getProjectStatus(locale);
+		return model.getProjectStatus(locale);
 	}
 
 	/**
 	 * Retourne la liste des entrées timelines du projet
 	 */
 	@Override
-	public java.util.List<ProjectTimeline> getProjectTimelines() {
-		return _project.getProjectTimelines();
+	public java.util.List<eu.strasbourg.service.project.model.ProjectTimeline>
+		getProjectTimelines() {
+
+		return model.getProjectTimelines();
 	}
 
 	/**
@@ -669,7 +785,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public int getStatus() {
-		return _project.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -679,7 +795,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _project.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -689,7 +805,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _project.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -699,7 +815,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _project.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -709,7 +825,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _project.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -719,7 +835,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getTerritoryCategories() {
 
-		return _project.getTerritoryCategories();
+		return model.getTerritoryCategories();
 	}
 
 	/**
@@ -729,7 +845,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getThematicCategories() {
 
-		return _project.getThematicCategories();
+		return model.getThematicCategories();
 	}
 
 	/**
@@ -737,7 +853,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getThematicsLabel(java.util.Locale locale) {
-		return _project.getThematicsLabel(locale);
+		return model.getThematicsLabel(locale);
 	}
 
 	/**
@@ -747,7 +863,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getTitle() {
-		return _project.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -757,7 +873,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public long getUserId() {
-		return _project.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -767,7 +883,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getUserName() {
-		return _project.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -777,7 +893,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getUserUuid() {
-		return _project.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -787,12 +903,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public String getUuid() {
-		return _project.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _project.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -802,12 +913,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public boolean isApproved() {
-		return _project.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _project.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -817,7 +923,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public boolean isDenied() {
-		return _project.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -827,12 +933,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public boolean isDraft() {
-		return _project.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _project.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -842,7 +943,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public boolean isExpired() {
-		return _project.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -852,7 +953,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public boolean isInactive() {
-		return _project.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -862,12 +963,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _project.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _project.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -877,7 +973,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public boolean isPending() {
-		return _project.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -887,7 +983,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _project.isScheduled();
+		return model.isScheduled();
 	}
 
 	/**
@@ -895,12 +991,27 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public boolean isUserFollows(String publikUserId) {
-		return _project.isUserFollows(publikUserId);
+		return model.isUserFollows(publikUserId);
 	}
 
 	@Override
 	public void persist() {
-		_project.persist();
+		model.persist();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport()
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport();
+	}
+
+	@Override
+	public void prepareLocalizedFieldsForImport(
+			java.util.Locale defaultImportLocale)
+		throws com.liferay.portal.kernel.exception.LocaleException {
+
+		model.prepareLocalizedFieldsForImport(defaultImportLocale);
 	}
 
 	/**
@@ -910,12 +1021,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setBudget(String budget) {
-		_project.setBudget(budget);
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_project.setCachedModel(cachedModel);
+		model.setBudget(budget);
 	}
 
 	/**
@@ -925,7 +1031,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_project.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -935,7 +1041,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setContactLine1(String contactLine1) {
-		_project.setContactLine1(contactLine1);
+		model.setContactLine1(contactLine1);
 	}
 
 	/**
@@ -945,7 +1051,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setContactLine2(String contactLine2) {
-		_project.setContactLine2(contactLine2);
+		model.setContactLine2(contactLine2);
 	}
 
 	/**
@@ -955,7 +1061,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setContactName(String contactName) {
-		_project.setContactName(contactName);
+		model.setContactName(contactName);
 	}
 
 	/**
@@ -965,7 +1071,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setContactPhoneNumber(String contactPhoneNumber) {
-		_project.setContactPhoneNumber(contactPhoneNumber);
+		model.setContactPhoneNumber(contactPhoneNumber);
 	}
 
 	/**
@@ -975,7 +1081,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_project.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -985,7 +1091,64 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setDescription(String description) {
-		_project.setDescription(description);
+		model.setDescription(description);
+	}
+
+	/**
+	 * Sets the localized description of this project in the language.
+	 *
+	 * @param description the localized description of this project
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setDescription(String description, java.util.Locale locale) {
+		model.setDescription(description, locale);
+	}
+
+	/**
+	 * Sets the localized description of this project in the language, and sets the default locale.
+	 *
+	 * @param description the localized description of this project
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setDescription(
+		String description, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setDescription(description, locale, defaultLocale);
+	}
+
+	@Override
+	public void setDescriptionCurrentLanguageId(String languageId) {
+		model.setDescriptionCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized descriptions of this project from the map of locales and localized descriptions.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this project
+	 */
+	@Override
+	public void setDescriptionMap(
+		Map<java.util.Locale, String> descriptionMap) {
+
+		model.setDescriptionMap(descriptionMap);
+	}
+
+	/**
+	 * Sets the localized descriptions of this project from the map of locales and localized descriptions, and sets the default locale.
+	 *
+	 * @param descriptionMap the locales and localized descriptions of this project
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setDescriptionMap(
+		Map<java.util.Locale, String> descriptionMap,
+		java.util.Locale defaultLocale) {
+
+		model.setDescriptionMap(descriptionMap, defaultLocale);
 	}
 
 	/**
@@ -995,7 +1158,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setDetailURL(String detailURL) {
-		_project.setDetailURL(detailURL);
+		model.setDetailURL(detailURL);
 	}
 
 	/**
@@ -1005,24 +1168,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setDuration(String duration) {
-		_project.setDuration(duration);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_project.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_project.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_project.setExpandoBridgeAttributes(serviceContext);
+		model.setDuration(duration);
 	}
 
 	/**
@@ -1032,7 +1178,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setExternalImageCopyright(String externalImageCopyright) {
-		_project.setExternalImageCopyright(externalImageCopyright);
+		model.setExternalImageCopyright(externalImageCopyright);
 	}
 
 	/**
@@ -1042,7 +1188,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setExternalImageURL(String externalImageURL) {
-		_project.setExternalImageURL(externalImageURL);
+		model.setExternalImageURL(externalImageURL);
 	}
 
 	/**
@@ -1052,7 +1198,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_project.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -1062,7 +1208,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setImageId(long imageId) {
-		_project.setImageId(imageId);
+		model.setImageId(imageId);
 	}
 
 	/**
@@ -1072,7 +1218,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setLabel(String label) {
-		_project.setLabel(label);
+		model.setLabel(label);
 	}
 
 	/**
@@ -1082,12 +1228,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_project.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_project.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -1097,7 +1238,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setOpacityImage(double opacityImage) {
-		_project.setOpacityImage(opacityImage);
+		model.setOpacityImage(opacityImage);
 	}
 
 	/**
@@ -1107,7 +1248,62 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setPartners(String partners) {
-		_project.setPartners(partners);
+		model.setPartners(partners);
+	}
+
+	/**
+	 * Sets the localized partners of this project in the language.
+	 *
+	 * @param partners the localized partners of this project
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setPartners(String partners, java.util.Locale locale) {
+		model.setPartners(partners, locale);
+	}
+
+	/**
+	 * Sets the localized partners of this project in the language, and sets the default locale.
+	 *
+	 * @param partners the localized partners of this project
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setPartners(
+		String partners, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setPartners(partners, locale, defaultLocale);
+	}
+
+	@Override
+	public void setPartnersCurrentLanguageId(String languageId) {
+		model.setPartnersCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized partnerses of this project from the map of locales and localized partnerses.
+	 *
+	 * @param partnersMap the locales and localized partnerses of this project
+	 */
+	@Override
+	public void setPartnersMap(Map<java.util.Locale, String> partnersMap) {
+		model.setPartnersMap(partnersMap);
+	}
+
+	/**
+	 * Sets the localized partnerses of this project from the map of locales and localized partnerses, and sets the default locale.
+	 *
+	 * @param partnersMap the locales and localized partnerses of this project
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setPartnersMap(
+		Map<java.util.Locale, String> partnersMap,
+		java.util.Locale defaultLocale) {
+
+		model.setPartnersMap(partnersMap, defaultLocale);
 	}
 
 	/**
@@ -1117,12 +1313,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_project.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_project.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -1132,7 +1323,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setProjectId(long projectId) {
-		_project.setProjectId(projectId);
+		model.setProjectId(projectId);
 	}
 
 	/**
@@ -1142,7 +1333,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setStatus(int status) {
-		_project.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -1152,7 +1343,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_project.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -1162,7 +1353,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_project.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -1172,7 +1363,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_project.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -1182,7 +1373,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_project.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -1192,7 +1383,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setTitle(String title) {
-		_project.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -1202,7 +1393,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_project.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -1212,7 +1403,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_project.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -1222,7 +1413,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_project.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -1232,19 +1423,7 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_project.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.project.model.Project> toCacheModel() {
-
-		return _project.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.Project toEscapedModel() {
-		return new ProjectWrapper(_project.toEscapedModel());
+		model.setUuid(uuid);
 	}
 
 	/**
@@ -1254,68 +1433,22 @@ public class ProjectWrapper implements ModelWrapper<Project>, Project {
 	public com.liferay.portal.kernel.json.JSONObject toJSON(
 		String publikUserId) {
 
-		return _project.toJSON(publikUserId);
-	}
-
-	@Override
-	public String toString() {
-		return _project.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.project.model.Project toUnescapedModel() {
-		return new ProjectWrapper(_project.toUnescapedModel());
+		return model.toJSON(publikUserId);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _project.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof ProjectWrapper)) {
-			return false;
-		}
-
-		ProjectWrapper projectWrapper = (ProjectWrapper)object;
-
-		if (Objects.equals(_project, projectWrapper._project)) {
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _project.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public Project getWrappedModel() {
-		return _project;
+	protected ProjectWrapper wrap(Project project) {
+		return new ProjectWrapper(project);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _project.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _project.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_project.resetOriginalValues();
-	}
-
-	private final Project _project;
 
 }

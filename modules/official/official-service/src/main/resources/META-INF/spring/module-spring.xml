@@ -9,5 +9,6 @@
 >
 	<bean class="eu.strasbourg.service.official.service.impl.OfficialLocalServiceImpl" id="eu.strasbourg.service.official.service.OfficialLocalService" />
 	<bean class="eu.strasbourg.service.official.service.impl.OfficialServiceImpl" id="eu.strasbourg.service.official.service.OfficialService" />
-	<bean class="eu.strasbourg.service.official.service.persistence.impl.OfficialPersistenceImpl" id="eu.strasbourg.service.official.service.persistence.OfficialPersistence" parent="basePersistence" />
+	<bean class="eu.strasbourg.service.official.service.persistence.impl.OfficialModelArgumentsResolver" id="eu.strasbourg.service.official.service.persistence.impl.OfficialModelArgumentsResolver" />
+	<bean class="eu.strasbourg.service.official.service.persistence.impl.OfficialPersistenceImpl" id="eu.strasbourg.service.official.service.persistence.OfficialPersistence" />
 </beans>

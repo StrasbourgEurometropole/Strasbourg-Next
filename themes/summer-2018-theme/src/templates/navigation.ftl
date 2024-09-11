@@ -1,4 +1,4 @@
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
+<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
   <#assign homeURL = "/web${layout.group.friendlyURL}" />
 <#else>
   <#assign homeURL = "" />
@@ -8,8 +8,8 @@
         <div class="container">
             <div class="row">
                 <form action="${homeURL}/recherche" method="get">
-                    <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet" />
-                    <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" id="search" placeholder="Rechercher..." />
+                    <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet" />
+                    <input type="text" name="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" id="search" placeholder="Rechercher..." />
                 </form>
             </div>
         </div>
@@ -44,8 +44,8 @@
                 <li class="mns-search-bar mns-search-bar-mobile">
                     <div class="row">
                         <form action="${homeURL}/recherche" method="get">
-                            <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_SearchAssetPortlet" />
-                            <input type="text" name="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords" id="searchMobile" placeholder="Rechercher..." />
+                            <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet" />
+                            <input type="text" name="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" id="searchMobile" placeholder="Rechercher..." />
                         </form>
                     </div>
                 </li>

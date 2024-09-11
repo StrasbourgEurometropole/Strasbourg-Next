@@ -7,11 +7,18 @@ import com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.search.*;
+import com.liferay.portal.kernel.search.BaseIndexer;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.service.DeliberationLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.IndexHelper;
 import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.PortletRequest;
@@ -59,7 +66,7 @@ public class DeliberationIndexer extends BaseIndexer<Deliberation> {
         List<AssetCategory> assetCategories = AssetVocabularyHelper
                 .getFullHierarchyCategories(deliberation.getCategories());
         document.addKeyword(Field.ASSET_CATEGORY_IDS, assetCategoryIds);
-        addSearchAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
+        IndexHelper.addAssetCategoryTitles(document, Field.ASSET_CATEGORY_TITLES, assetCategories);
 
         Map<Locale, String> titleFieldMap = new HashMap<>();
         titleFieldMap.put(Locale.FRANCE, deliberation.getTitle());
@@ -72,6 +79,8 @@ public class DeliberationIndexer extends BaseIndexer<Deliberation> {
         document.addNumber(Field.STATUS, deliberation.getStatus());
 
         document.addNumber("order", deliberation.getOrder());
+
+        document.addTextSortable("orderAmendement", padLeftZeros(String.valueOf(deliberation.getOrder()),4)+deliberation.getAmendement());
         return document;
     }
 
@@ -98,8 +107,7 @@ public class DeliberationIndexer extends BaseIndexer<Deliberation> {
     protected void doReindex(Deliberation deliberation) throws Exception {
         Document document = getDocument(deliberation);
 
-        IndexWriterHelperUtil.updateDocument(getSearchEngineId(),
-                deliberation.getCompanyId(), document, isCommitImmediately());
+        IndexWriterHelperUtil.updateDocument(deliberation.getCompanyId(), document);
 
     }
 
@@ -132,8 +140,20 @@ public class DeliberationIndexer extends BaseIndexer<Deliberation> {
 
                 });
 
-        indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
         indexableActionableDynamicQuery.performActions();
+    }
+
+    public String padLeftZeros(String inputString, int length) {
+        if (inputString.length() >= length) {
+            return inputString;
+        }
+        StringBuilder sb = new StringBuilder();
+        while (sb.length() < length - inputString.length()) {
+            sb.append('0');
+        }
+        sb.append(inputString);
+
+        return sb.toString();
     }
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());

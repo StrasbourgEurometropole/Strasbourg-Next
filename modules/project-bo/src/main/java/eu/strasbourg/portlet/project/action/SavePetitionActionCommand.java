@@ -10,6 +10,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -27,9 +28,12 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 @Component(
 	immediate = true,
@@ -67,12 +71,12 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 					.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request
 					.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				PortletURL backURL = PortletURLFactoryUtil.create(request,
 					portletName, themeDisplay.getPlid(),
 					PortletRequest.RENDER_PHASE);
 				
-				response.setRenderParameter("returnURL", returnURL.toString());
-				response.setRenderParameter("cmd", "editPetition");
+				response.setRenderParameter("backURL", backURL.toString());
+				response.setRenderParameter("cmd", "savePetition");
 				response.setRenderParameter("mvcPath","/project-bo-edit-petition.jsp");
 				return false;
 			}
@@ -95,7 +99,8 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			Long imageId = ParamUtil.getLong(request, "imageId");
 			String externalImageURL = ParamUtil.getString(request, "externalImageURL");
 			String externalImageCopyright = ParamUtil.getString(request, "externalImageCopyright");
-			String description = ParamUtil.getString(request, "description");
+			Map<Locale, String> description = LocalizationUtil
+					.getLocalizationMap(request, "description");
 			String summary = ParamUtil.getString(request, "summary");
 			Boolean isSupported = ParamUtil.getBoolean(request, "isSupported");
 			String supportedBy = ParamUtil.getString(request, "supportedBy");
@@ -163,7 +168,7 @@ public class SavePetitionActionCommand implements MVCActionCommand {
 			// -------------------------- DESCRIPTION ------------------------
 			// ---------------------------------------------------------------
 
-			petition.setDescription(description);
+			petition.setDescriptionMap(description);
 
 			// ---------------------------------------------------------------
 			// -------------------------- SUMMARY ----------------------------
@@ -264,14 +269,15 @@ public class SavePetitionActionCommand implements MVCActionCommand {
             } else {
             	petition.setExtensionDate(expirationDate);
             }
-            
-
             _petitionLocalService.updatePetition(petition,sc);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+			_log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 	
 	/**

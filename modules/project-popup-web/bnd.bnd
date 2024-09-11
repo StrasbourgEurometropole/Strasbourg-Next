@@ -2,3 +2,4 @@ Bundle-Name: project-popup-web
 Bundle-SymbolicName: project.projectpopup
 Bundle-Version: 1.0.0
 Web-ContextPath: /projectpopupweb
+-fixupmessages "Classes found in the wrong directory"; restrict:=error; is:=warning

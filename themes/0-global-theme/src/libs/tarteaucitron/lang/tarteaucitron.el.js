@@ -1,4 +1,5 @@
 /*global tarteaucitron */
+/* min ready */
 tarteaucitron.lang = {
     "middleBarHead": "☝ 🍪",
     "adblock": "Γεια σας! Ο ιστότοπος αυτός σας επιτρέπει να επιλέξετε τις υπηρεσίες που παρέχονται από τρίτους που θα θέλατε να επιτρέψετε.",
@@ -30,11 +31,13 @@ tarteaucitron.lang = {
     "more": "Διαβάστε περισσότερα",
     "source": "Δείτε τον επίσημο ιστότοπο",
     "credit": "Cookies manager by tarteaucitron.js",
+    "noServices": "Αυτός ο ιστότοπος δεν χρησιμοποιεί κανένα cookie που απαιτεί τη συγκατάθεσή σας.",
 
     "toggleInfoBox": "Προβολή/Απόκρυψη πληροφοριών για την αποθήκευση &quot;μπισκότων&quot; (cookies)",
     "title": "Πίνακας διαχείρισης &quot;Μπισκότων&quot; (Cookies)",
     "cookieDetail": "Λεπτομέρειες &quot;μπισκότων&quot; (cookies) για",
     "ourSite": "στον ιστότοπο μας",
+    "modalWindow": "(modal παράθυρο)",
     "newWindow": "(νέο παράθυρο)",
     "allowAll": "Επέτρεψε όλα τα &quot;μπισκότα&quot; (cookies)",
     "denyAll": "Απόρριψε όλα τα &quot;μπισκότα&quot; (cookies)",

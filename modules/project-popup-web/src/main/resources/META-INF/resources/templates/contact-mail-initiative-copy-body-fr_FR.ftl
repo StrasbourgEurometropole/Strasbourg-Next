@@ -90,17 +90,17 @@ mso-fareast-font-family:"Times New Roman";color:black'>Votre projet<o:p></o:p></
 
 <p class="MsoListParagraph" style="text-align:justify;vertical-align:middle"><span style="color:black"><o:p>&nbsp;</o:p></span></p>
 <p class="MsoListParagraph" style="text-align:justify;vertical-align:middle"><i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">Vous recevez ce courrier car vous avez soumis un projet d’atelier de quartier sur la plateforme participer.strasbourg.eu<o:p></o:p></span></i></p>
-<div style="background:yellow">
+<div>
 <i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">Conformément au Règlement (UE) 2016/679 du 27 avril 2016 (Règlement Général sur la Protection des Données ou RGPD) et à la Loi n°78-17 du 6 janvier 1978 modifiée (Loi Informatique
  et Libertés), vous disposez d’un droit d’accès, de rectification, d’effacement, de portabilité et de limitation des traitements. Le traitement de vos données personnelles repose sur votre consentement. Vous pouvez le retirer à tout moment.<o:p></o:p></span></i></p>
-<p class="MsoListParagraph" style="text-align:justify;background:yellow;vertical-align:middle">
+<p class="MsoListParagraph" style="text-align:justify;vertical-align:middle">
 <i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black"><o:p>&nbsp;</o:p></span></i></p>
-<p class="MsoListParagraph" style="text-align:justify;background:yellow;vertical-align:middle">
+<p class="MsoListParagraph" style="text-align:justify;vertical-align:middle">
 <i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">Pour exercer vos droits, vous pouvez vous adresser par courrier postal à la Délégation à la protection des données, Ville et Eurométropole de Strasbourg, 1 parc de l’Etoile,
  67076 Strasbourg Cedex ou par courriel à </span></i><span class="MsoHyperlink"><i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif"><a href="mailto:dpo@strasbourg.eu">dpo@strasbourg.eu</a></span></i></span><i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black"><o:p></o:p></span></i></p>
-<p class="MsoListParagraph" style="text-align:justify;background:yellow;vertical-align:middle">
+<p class="MsoListParagraph" style="text-align:justify;vertical-align:middle">
 <i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black"><o:p>&nbsp;</o:p></span></i></p>
-<p class="MsoListParagraph" style="text-align:justify;background:yellow;vertical-align:middle">
+<p class="MsoListParagraph" style="text-align:justify;vertical-align:middle">
 <i><span style="font-size:10.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">Si vous estimez, après nous avoir contactés, que vos droits «&nbsp;Informatique et Libertés&nbsp;» ne sont pas respectés, vous pouvez adresser une réclamation à la Commission Nationale
  de l’Informatique et des Libertés (CNIL). <o:p></o:p></span></i></p>
  </div>

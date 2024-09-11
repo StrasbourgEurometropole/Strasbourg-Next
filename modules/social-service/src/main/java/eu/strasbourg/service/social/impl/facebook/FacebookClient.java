@@ -1,5 +1,16 @@
 package eu.strasbourg.service.social.impl.facebook;
 
+import com.liferay.portal.kernel.cache.PortalCacheHelperUtil;
+import com.liferay.portal.kernel.cache.PortalCacheManagerNames;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import eu.strasbourg.service.social.SocialPost;
+import eu.strasbourg.service.social.impl.SocialMedia;
+import eu.strasbourg.utils.JSONHelper;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -9,28 +20,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.liferay.portal.kernel.cache.MultiVMPoolUtil;
-import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONException;
-import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-
-import eu.strasbourg.service.social.SocialPost;
-import eu.strasbourg.service.social.impl.SocialMedia;
-import eu.strasbourg.service.social.impl.twitter.twemoji.Twemoji;
-import eu.strasbourg.utils.JSONHelper;
-
 public class FacebookClient {
 
 	private static Log log = LogFactoryUtil.getLog(FacebookClient.class);
 	
 	public static List<SocialPost> getFacebookPosts(String accessToken, int count) {
 
-		Object timelineFromCache = MultiVMPoolUtil
-			.getPortalCache("facebook_cache").get(accessToken);
-		Object lastTimelineUpdate = MultiVMPoolUtil
-			.getPortalCache("facebook_cache").get(accessToken + "_last_update");
+		Object timelineFromCache = PortalCacheHelperUtil
+			.getPortalCache(PortalCacheManagerNames.MULTI_VM, "facebook_cache").get(accessToken);
+		Object lastTimelineUpdate = PortalCacheHelperUtil
+			.getPortalCache(PortalCacheManagerNames.MULTI_VM, "facebook_cache").get(accessToken + "_last_update");
 		if (timelineFromCache != null && lastTimelineUpdate != null) {
 			long now = new Date().getTime();
 			long timeBeforeNextUpdate = 100
@@ -57,7 +56,7 @@ public class FacebookClient {
 				JSONObject jsonPost = jsonPostList.getJSONObject(i);
 				
 				String content = jsonPost.getString("message");
-				post.setContent(Twemoji.parse(content));
+				post.setContent(content);
 
 				String imageURL = jsonPost.getString("full_picture");
 				post.setImageURL(imageURL);
@@ -76,12 +75,12 @@ public class FacebookClient {
 			log.error(e.getMessage());
 		}
 
-		MultiVMPoolUtil.getPortalCache("facebook_cache").remove(accessToken);
-		MultiVMPoolUtil.getPortalCache("facebook_cache")
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM, "facebook_cache").remove(accessToken);
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM, "facebook_cache")
 			.remove(accessToken + "_last_update");
-		MultiVMPoolUtil.getPortalCache("facebook_cache").put(accessToken,
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM, "facebook_cache").put(accessToken,
 			(Serializable) posts);
-		MultiVMPoolUtil.getPortalCache("facebook_cache")
+		PortalCacheHelperUtil.getPortalCache(PortalCacheManagerNames.MULTI_VM, "facebook_cache")
 			.put(accessToken + "_last_update", new Date().getTime());
 
 

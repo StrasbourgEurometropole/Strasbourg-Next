@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service.base;
@@ -20,6 +11,8 @@ import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
 import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiService;
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.service.persistence.ClassNamePersistence;
@@ -29,6 +22,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.project.model.ProjectFollowed;
 import eu.strasbourg.service.project.service.ProjectFollowedService;
+import eu.strasbourg.service.project.service.ProjectFollowedServiceUtil;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifFinder;
 import eu.strasbourg.service.project.service.persistence.BudgetParticipatifPersistence;
 import eu.strasbourg.service.project.service.persistence.BudgetPhasePersistence;
@@ -41,6 +35,7 @@ import eu.strasbourg.service.project.service.persistence.PlacitPlacePersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectFollowedPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectPersistence;
 import eu.strasbourg.service.project.service.persistence.ProjectTimelinePersistence;
+import eu.strasbourg.service.project.service.persistence.SaisineObservatoirePersistence;
 import eu.strasbourg.service.project.service.persistence.SignatairePersistence;
 
 import javax.sql.DataSource;
@@ -63,7 +58,7 @@ public abstract class ProjectFollowedServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>ProjectFollowedService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.project.service.ProjectFollowedServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>ProjectFollowedService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ProjectFollowedServiceUtil</code>.
 	 */
 
 	/**
@@ -806,6 +801,72 @@ public abstract class ProjectFollowedServiceBaseImpl
 	}
 
 	/**
+	 * Returns the saisine observatoire local service.
+	 *
+	 * @return the saisine observatoire local service
+	 */
+	public eu.strasbourg.service.project.service.SaisineObservatoireLocalService
+		getSaisineObservatoireLocalService() {
+
+		return saisineObservatoireLocalService;
+	}
+
+	/**
+	 * Sets the saisine observatoire local service.
+	 *
+	 * @param saisineObservatoireLocalService the saisine observatoire local service
+	 */
+	public void setSaisineObservatoireLocalService(
+		eu.strasbourg.service.project.service.SaisineObservatoireLocalService
+			saisineObservatoireLocalService) {
+
+		this.saisineObservatoireLocalService = saisineObservatoireLocalService;
+	}
+
+	/**
+	 * Returns the saisine observatoire remote service.
+	 *
+	 * @return the saisine observatoire remote service
+	 */
+	public eu.strasbourg.service.project.service.SaisineObservatoireService
+		getSaisineObservatoireService() {
+
+		return saisineObservatoireService;
+	}
+
+	/**
+	 * Sets the saisine observatoire remote service.
+	 *
+	 * @param saisineObservatoireService the saisine observatoire remote service
+	 */
+	public void setSaisineObservatoireService(
+		eu.strasbourg.service.project.service.SaisineObservatoireService
+			saisineObservatoireService) {
+
+		this.saisineObservatoireService = saisineObservatoireService;
+	}
+
+	/**
+	 * Returns the saisine observatoire persistence.
+	 *
+	 * @return the saisine observatoire persistence
+	 */
+	public SaisineObservatoirePersistence getSaisineObservatoirePersistence() {
+		return saisineObservatoirePersistence;
+	}
+
+	/**
+	 * Sets the saisine observatoire persistence.
+	 *
+	 * @param saisineObservatoirePersistence the saisine observatoire persistence
+	 */
+	public void setSaisineObservatoirePersistence(
+		SaisineObservatoirePersistence saisineObservatoirePersistence) {
+
+		this.saisineObservatoirePersistence = saisineObservatoirePersistence;
+	}
+
+	/**
 	 * Returns the signataire local service.
 	 *
 	 * @return the signataire local service
@@ -1043,9 +1104,11 @@ public abstract class ProjectFollowedServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
+		ProjectFollowedServiceUtil.setService(projectFollowedService);
 	}
 
 	public void destroy() {
+		ProjectFollowedServiceUtil.setService(null);
 	}
 
 	/**
@@ -1257,6 +1320,22 @@ public abstract class ProjectFollowedServiceBaseImpl
 	protected ProjectTimelinePersistence projectTimelinePersistence;
 
 	@BeanReference(
+		type = eu.strasbourg.service.project.service.SaisineObservatoireLocalService.class
+	)
+	protected
+		eu.strasbourg.service.project.service.SaisineObservatoireLocalService
+			saisineObservatoireLocalService;
+
+	@BeanReference(
+		type = eu.strasbourg.service.project.service.SaisineObservatoireService.class
+	)
+	protected eu.strasbourg.service.project.service.SaisineObservatoireService
+		saisineObservatoireService;
+
+	@BeanReference(type = SaisineObservatoirePersistence.class)
+	protected SaisineObservatoirePersistence saisineObservatoirePersistence;
+
+	@BeanReference(
 		type = eu.strasbourg.service.project.service.SignataireLocalService.class
 	)
 	protected eu.strasbourg.service.project.service.SignataireLocalService
@@ -1311,5 +1390,8 @@ public abstract class ProjectFollowedServiceBaseImpl
 
 	@ServiceReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ProjectFollowedServiceBaseImpl.class);
 
 }

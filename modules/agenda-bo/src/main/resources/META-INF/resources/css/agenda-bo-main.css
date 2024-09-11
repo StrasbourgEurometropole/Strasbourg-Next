@@ -50,10 +50,6 @@
     padding-top: 1px;
 }
 
-.lfr-form-row:nth-child(2) {
-	display: none;
-}
-
 .no-event-period {
     margin-top: 40px;
     display: inline-block;
@@ -131,4 +127,13 @@ span[id $= "displayTime"]{
 
 #registrationDiv input{
     max-width: 300px;
+}
+
+/* Liferay 7.4 */
+.button-holder{
+    padding: 20px 0 45px 0;
+}
+
+.button-holder button{
+    margin-right: 12px;
 }

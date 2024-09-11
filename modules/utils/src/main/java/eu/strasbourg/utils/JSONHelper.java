@@ -49,6 +49,7 @@ public class JSONHelper {
             httpConn.setRequestProperty("Authorization", "Basic " + encoded);
         }
         InputStream is;
+        httpConn.setRequestProperty("Accept", "text/html, image/gif, image/jpeg, */*; q=.2");
         if (httpConn.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
             is = httpConn.getInputStream();
         } else {
@@ -56,7 +57,7 @@ public class JSONHelper {
             is = httpConn.getErrorStream();
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             String errorText = readAll(rd);
-            LogFactoryUtil.getLog(JSONHelper.class).error(errorText);
+            LogFactoryUtil.getLog(JSONHelper.class).error("URL : " +  URL + "\r\n" + errorText);
             throw new IOException();
         }
 
@@ -283,6 +284,44 @@ public class JSONHelper {
         } finally {
             is.close();
         }
+    }
+
+
+    public static long[] convertJSONArraytoLongArray (JSONArray jsonArray) {
+        long[] results = new long[jsonArray.length()];
+
+        for (int i = 0 ; i < jsonArray.length() ; i++)
+            results[i] = jsonArray.getLong(i);
+
+        return results;
+    }
+
+    public static String convertListToJson(List<Long[]> list) {
+        JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
+        for (Long[] array : list) {
+            JSONArray jsonArrayElement = JSONFactoryUtil.createJSONArray();
+            for (Long element : array) {
+                jsonArrayElement.put(element);
+            }
+            jsonArray.put(jsonArrayElement);
+        }
+        return jsonArray.toString();
+    }
+
+    public static List<Long[]> parseJsonList(String jsonList) throws JSONException {
+        List<Long[]> list = new ArrayList<>();
+        JSONArray jsonArray = JSONFactoryUtil.createJSONArray(jsonList);
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONArray jsonArrayElement = jsonArray.getJSONArray(i);
+            Long[] longArray = new Long[jsonArrayElement.length()];
+            for (int j = 0; j < jsonArrayElement.length(); j++) {
+                longArray[j] = jsonArrayElement.getLong(j);
+            }
+            list.add(longArray);
+        }
+
+        return list;
     }
 
 }

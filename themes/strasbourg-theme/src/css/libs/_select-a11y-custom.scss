@@ -1,0 +1,170 @@
+
+// Surcharge de la librairie
+
+.st-page-wrapper .select-a11y {
+
+    // bouton d'ouverture de la liste
+    .btn-select-a11y {
+        padding: 19px 40px 19px 20px;
+        @include ft('', 14px, 400, $c_white, 1.42);
+        border: 1px solid color-mix(in srgb, $c_white 50%, transparent);
+        border-radius: $border-radius;
+        background-color: initial;
+        @include transition(border-color);
+
+        @include mobile {
+            padding: 19px 40px 19px 16px;
+        }
+
+        &:hover {
+            border-color: $c_white;
+        }
+        &:focus {
+            border-color: $c_sub;
+            box-shadow: initial;
+        }
+
+        &[aria-expanded="true"]{
+           .icon-select {
+                transform: translateY(-50%) scaleY(-1);
+            }
+        }
+
+        .icon-select {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            line-height: 0;
+            transform: translateY(-50%);
+            background-color: initial;
+
+            &:before {
+                @include icomoon($st-icon-arrow-down);
+                font-size: 10px;
+                color: $c_white;
+                margin-right: 20px;
+                pointer-events: none;
+
+                @include mobile {
+                    margin-right: 16px;
+                }
+            }
+        }
+    }
+
+    // liste des entrées injectée en js
+    .a11y-container {
+        padding: 15px;
+        border: initial;
+        background: $c_main;
+        border-radius: 0 0 $border-radius $border-radius;
+        box-shadow: 0 30px 60px color-mix(in srgb, $c_black 15%, transparent);
+
+        input[type="text"] {
+            padding: 10px 20px;
+        }
+    }
+
+    .a11y-suggestions {
+        border: initial;
+        background-color: initial;
+    }
+
+    .a11y-suggestion {
+        padding: 4px calc(8em / 16) 4px calc(26em / 16);
+        @include ft('', 14px, 400, $c_txt, 1.1);
+        border-radius: $border-radius-small;
+
+        &:focus,
+        &:hover {
+            color: $c_main;
+            background-color: $c_white;
+        }
+
+        &[aria-selected="true"]{
+            color: $c_txt;
+            background-color: initial;
+
+            &:before {
+                @include icomoon($st-icon-checkmark);
+                font-size: 10px;
+                color: $c_white;
+            }
+
+            &:focus,
+            &:hover {
+                color: $c_white;
+                background-color: color-mix(in srgb, $c_white 20%, transparent);
+            }
+        }
+    }
+
+    .a11y-no-suggestion {
+        @include ft('', 14px, 400, $c_txt, 1.42);
+    }
+
+    div[role="listbox"] {
+        padding-right: 8px;
+    }
+
+    .tag-item {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        padding: 8px;
+        background-color: $c_main;
+        border-radius: $border-radius-small;
+        border: initial;
+        @include ft('', 14px, 400, $c_txt, 1);
+        @include letter-spacing(25);
+        @include transition(color);
+    }
+
+    .tag-item-supp {
+        @include inline-flex-center();
+        width: 18px;
+        height: 18px;
+        margin-left: 4px;
+        background-color: transparent;
+        color: $c_pink;
+        border: 1px solid transparent;
+        border-radius: $border-radius-small;
+
+        .icon-delete:before {
+            @include icomoon($st-icon-close);
+            font-size: 8px;
+            color: inherit;
+            line-height: 1;
+        }
+
+        &:focus{
+            color: $c_greydark;
+            background-color: $c_pink;
+            outline: 1px solid $c_white;
+        }
+
+        &:hover {
+            color: $c_greydark;
+            background-color: $c_pink;
+        }
+    }
+}
+
+
+// Surchage dans la barre des filtres
+.st-page-wrapper .st-barre-listing-sit .select-a11y {
+    min-width: 140px;
+
+    // bouton d'ouverture de la liste
+    .btn-select-a11y {
+        padding: 13px 35px 13px 15px;
+    }
+
+    .a11y-container {
+        bottom: calc(100% + 10px);
+        z-index: 10;
+        min-width: 240px;
+        background: $c_greydark;
+        border-radius: $border-radius $border-radius 0 0;
+    }
+}

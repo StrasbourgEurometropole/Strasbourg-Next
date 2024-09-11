@@ -77,11 +77,8 @@ jQuery(function() {
 			if (type_facture == "childhood") {
 				appCode = "PF";
 				clientNumber = "000696";
-			} else if (type_facture == "schoolRestaurant") {
-				appCode = "RS";
-				clientNumber = "000696";
-			} else if (type_facture == "afterSchool") {
-				appCode = "GA";
+			} else if (type_facture == "schoolRestaurantAfterSchool") {
+				appCode = "SP";
 				clientNumber = "000696";
 			} else if (type_facture == "water") {
 				appCode = "EA";

@@ -1,14 +1,18 @@
 package eu.strasbourg.service.office.exporter.impl;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.text.DateFormat;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.service.AssetCategoryLocalService;
+import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.util.*;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.agenda.model.Campaign;
+import eu.strasbourg.service.agenda.model.CampaignEvent;
+import eu.strasbourg.service.agenda.model.EventPeriod;
+import eu.strasbourg.service.office.exporter.api.CampaignDocxExporter;
+import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.service.PlaceLocalService;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.UnderlinePatterns;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -17,21 +21,14 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import com.liferay.asset.kernel.model.AssetCategory;
-import com.liferay.asset.kernel.service.AssetCategoryLocalService;
-import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.ResourceBundleUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import eu.strasbourg.service.agenda.model.Campaign;
-import eu.strasbourg.service.agenda.model.CampaignEvent;
-import eu.strasbourg.service.agenda.model.EventPeriod;
-import eu.strasbourg.service.office.exporter.api.CampaignDocxExporter;
-import eu.strasbourg.service.place.model.Place;
-import eu.strasbourg.service.place.service.PlaceLocalService;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.DateFormat;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 /**
  * @author 01i345
@@ -167,7 +164,7 @@ public class CampaignDocxExporterImpl implements CampaignDocxExporter {
 			stream.flush();
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 
 	}
@@ -221,7 +218,7 @@ public class CampaignDocxExporterImpl implements CampaignDocxExporter {
 			paragraph.setIndentationLeft(200);
 			XWPFRun fieldRun = paragraph.createRun();
 			fieldRun.setFontSize(12);
-			String text  = HtmlUtil.render(entry.getValue());
+			String text  = HtmlParserUtil.render(entry.getValue());
 			fieldRun.setText(entry.getKey().getLanguage() + " : " + text);
 		}
 		if (fieldValue.size() == 0) {
@@ -231,5 +228,7 @@ public class CampaignDocxExporterImpl implements CampaignDocxExporter {
 			emptyFieldRun.setText("/");
 		}
 	}
+
+	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 
 }

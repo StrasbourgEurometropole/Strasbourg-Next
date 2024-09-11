@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Breve</name>
+        <key>5099135</key>
+        <definition>breve-structure.json</definition>
+        <layout>breve-layout.json</layout>
+    </structure>
+    <template>
+        <name>Breve</name>
+        <key>5099213</key>
+        <script>breve.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

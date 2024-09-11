@@ -1,0 +1,103 @@
+<header class="st-header-edito">
+  <div class="st-wrapper">
+    <div class="st-wrapper-modifier">
+      <h1 class="st-h1" data-lfr-editable-id="title" data-lfr-editable-type="text">
+        Titre
+      </h1>
+      [@liferay.breadcrumbs /]
+    </div>
+    <div class="st-img-wrapper" tabindex="0">
+      <figure class="st-figure st-fit-cover figcaption-only-credits" role="group">
+        <img alt="" data-lfr-editable-id="headerImage" data-lfr-editable-type="image">
+      </figure>
+    </div>
+  </div>
+
+</header>
+<div class="st-ancres st-wrapper st-js-ancres">
+  <nav class="st-ancres__container" role="navigation" aria-label="sommaire">
+    <ul class="st-ancres__list st-custom-scrollbar">
+      <li class="st-ancres__item">
+        <a href="#ancre1" class="st-ancres__link">
+          <span data-lfr-editable-id="ancreTitle1" data-lfr-editable-type="text">Ancre Titre #1</span>
+        </a>
+      </li>
+      [#if configuration.numberOfSections > 0]
+      [#list 1..configuration.numberOfSections as i]
+      <li class="st-ancres__item">
+        <a href="#ancre${i+1}" class="st-ancres__link">
+          <span data-lfr-editable-id="ancreTitle${i+1}" data-lfr-editable-type="text">Ancre Titre #${i+1}</span>
+        </a>
+      </li>
+      [/#list]
+      [/#if]
+    </ul>
+
+    <div class="st-nav-arrows st-hide-from@t-portrait">
+      <button class="splide__arrow splide__arrow--prev st-btn-arrow st--prev" aria-label="Défiler vers la gauche"></button>
+      <button class="splide__arrow splide__arrow--next st-btn-arrow st--next" aria-label="Défiler vers la droite"></button>
+    </div>
+    <div class="st-social-share st-js-social-share">
+      <button class="st-social-share__toggle" aria-expanded="false">
+        <span class="st-icon-social-share"></span>
+        <span class="st-sr-only">Partager</span>
+      </button>
+
+      <ul class="st-social-share__list">
+        <li>
+          <a id="sharefacebook" href="#facebook" class="st-btn-icon st-btn-icon--small" target="_blank" rel="noopener" title="Facebook">
+            <span class="st-icon-facebook" aria-hidden="true"></span>
+            <span class="st-sr-only">Facebook</span>
+          </a>
+        </li>
+        <li>
+          <a href="#twitter" id="sharetwitter" class="st-btn-icon st-btn-icon--small" target="_blank" rel="noopener" title="Twitter">
+            <span class="st-icon-twitter" aria-hidden="true"></span>
+            <span class="st-sr-only">Twitter</span>
+          </a>
+        </li>
+        <li>
+          <a href="#linkedin" id="ShareLinkedIn" class="st-btn-icon st-btn-icon--small" target="_blank" rel="noopener" title="LinkedIn">
+            <span class="st-icon-linkedin" aria-hidden="true"></span>
+            <span class="st-sr-only">LinkedIn</span>
+          </a>
+        </li>
+        <li>
+          <a href="#Mail" id="ShareMail"  class="st-btn-icon st-btn-icon--small" target="_blank" rel="noopener" title="Email">
+            <span class="st-icon-email" aria-hidden="true"></span>
+            <span class="st-sr-only">Email</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+
+<div class="st-header-intro-container">
+  <div id="ancre0" class="st-bloc-ancre" tabindex="-1"></div>
+  <div class="st-wrapper st-header-intro">
+    <div class="st-wrapper-modifier">
+      <p class="st-surtitre mb-4">
+        <strong data-lfr-editable-id="introductionTitle" data-lfr-editable-type="text">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+          et dolore magna aliqua.
+        </strong>
+      </p>
+    <div id="ancre1" class="st-bloc-ancre" tabindex="-1"></div>
+    <lfr-drop-zone data-lfr-drop-zone-id="1" data-lfr-priority="1">
+    </lfr-drop-zone>
+  </div>
+</div>
+</div>
+[#if configuration.numberOfSections > 0]
+[#list 1..configuration.numberOfSections as i]
+<div id="ancre${i+1}" class="st-bloc-ancre" tabindex="-1"></div>
+<div class="st-bloc st-wrapper st--has-margin">
+  <div class="st-wrapper-modifier">
+    <lfr-drop-zone data-lfr-drop-zone-id="${i+1}" data-lfr-priority="${i+1}">
+    </lfr-drop-zone>
+  </div>
+</div>
+[/#list]
+[/#if]

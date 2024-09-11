@@ -1,22 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.model.impl;
 
+import com.liferay.petra.lang.HashUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.util.HashUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 
 import eu.strasbourg.service.project.model.PlacitPlace;
 
@@ -63,7 +54,7 @@ public class PlacitPlaceCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(41);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -99,6 +90,8 @@ public class PlacitPlaceCacheModel
 		sb.append(participationId);
 		sb.append(", petitionId=");
 		sb.append(petitionId);
+		sb.append(", saisineObservatoireId=");
+		sb.append(saisineObservatoireId);
 		sb.append(", budgetParticipatifId=");
 		sb.append(budgetParticipatifId);
 		sb.append(", initiativeId=");
@@ -180,6 +173,7 @@ public class PlacitPlaceCacheModel
 		placitPlaceImpl.setProjectId(projectId);
 		placitPlaceImpl.setParticipationId(participationId);
 		placitPlaceImpl.setPetitionId(petitionId);
+		placitPlaceImpl.setSaisineObservatoireId(saisineObservatoireId);
 		placitPlaceImpl.setBudgetParticipatifId(budgetParticipatifId);
 		placitPlaceImpl.setInitiativeId(initiativeId);
 
@@ -223,6 +217,8 @@ public class PlacitPlaceCacheModel
 		participationId = objectInput.readLong();
 
 		petitionId = objectInput.readLong();
+
+		saisineObservatoireId = objectInput.readLong();
 
 		budgetParticipatifId = objectInput.readLong();
 
@@ -295,6 +291,8 @@ public class PlacitPlaceCacheModel
 
 		objectOutput.writeLong(petitionId);
 
+		objectOutput.writeLong(saisineObservatoireId);
+
 		objectOutput.writeLong(budgetParticipatifId);
 
 		objectOutput.writeLong(initiativeId);
@@ -324,6 +322,7 @@ public class PlacitPlaceCacheModel
 	public long projectId;
 	public long participationId;
 	public long petitionId;
+	public long saisineObservatoireId;
 	public long budgetParticipatifId;
 	public long initiativeId;
 	public String placeSIGId;

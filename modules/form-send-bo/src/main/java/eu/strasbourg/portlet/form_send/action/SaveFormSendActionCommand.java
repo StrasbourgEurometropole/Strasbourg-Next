@@ -1,15 +1,12 @@
 package eu.strasbourg.portlet.form_send.action;
 
-import com.liferay.dynamic.data.mapping.model.DDMContent;
 import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
-import com.liferay.dynamic.data.mapping.service.DDMContentLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
-import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -24,8 +21,12 @@ import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Component(
         immediate = true,
@@ -44,6 +45,7 @@ public class SaveFormSendActionCommand implements MVCActionCommand{
     public boolean processAction(ActionRequest actionRequest, ActionResponse actionResponse) {
         ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest
                 .getAttribute(WebKeys.THEME_DISPLAY);
+
         try {
             long recordId = ParamUtil.getLong(actionRequest,"recordId");
             if (Validator.isNotNull(recordId)) {
@@ -51,41 +53,48 @@ public class SaveFormSendActionCommand implements MVCActionCommand{
                 DDMFormInstanceRecord record = DDMFormInstanceRecordLocalServiceUtil.fetchFormInstanceRecord(recordId);
                 if(Validator.isNotNull(record)){
                     // récupère les infos du contenu du formulaire envoyé
-                    DDMContent content = DDMContentLocalServiceUtil.fetchDDMContent(record.getStorageId());
-                    if(Validator.isNotNull(content)) {
-                        // récupère le contenu du formulaire envoyé
-                        String jsonString = content.getData();
-                        if (Validator.isNotNull(jsonString)) {
-                            // récupère les infos de tous les champs du formualaire
-                            JSONArray jsonArray = JSONFactoryUtil.createJSONObject(jsonString).getJSONArray("fieldValues");
-                            for (Object jsonObject : jsonArray) {
-                                // récupère le formSendRecordField
-                                JSONObject json = JSONFactoryUtil.createJSONObject(jsonObject.toString());
-                                List<FormSendRecordField> formSendRecordFieldList = FormSendRecordFieldLocalServiceUtil.getByContentAndInstanceId(content.getContentId(), json.getString("instanceId"));
-                                if(formSendRecordFieldList.size() > 0){
-                                    FormSendRecordField formSendRecordField = formSendRecordFieldList.get(0);
-                                    if (Validator.isNotNull(formSendRecordField)){
-                                        // récupère la réponse si elle existe
-                                        String reponse = ParamUtil.getString(actionRequest,"rep-ville_" + formSendRecordField.getFormSendRecordFieldId());
-                                        // vérifi que la réponse est nouvelle
-                                        if(!reponse.equals(formSendRecordField.getResponse())){
-                                            formSendRecordField.setModifiedDate(new Date());
-                                            formSendRecordField.setResponseUserId(themeDisplay.getUserId());
-                                            formSendRecordField.setResponse(reponse);
+                    // Contient les valeurs et le type du champ, avec l'identifiant du champ comme cle de la Map
+                    Map<String, List<DDMFormFieldValue>> formfieldvaluesMap = record.getDDMFormValues().getDDMFormFieldValuesMap(false);
+                    for (String formFieldKey : formfieldvaluesMap.keySet()) {
+                        // récupère les infos du champs
+                        List<DDMFormFieldValue> formFieldValuesList = formfieldvaluesMap.get(formFieldKey);
+                        // récupère le formSendRecordField
+                        List<FormSendRecordField> formSendRecordFieldList = FormSendRecordFieldLocalServiceUtil.getByContentAndInstanceId(record.getStorageId(), formFieldValuesList.get(0).getInstanceId());
+                        if(formSendRecordFieldList.size() > 0){
+                            FormSendRecordField formSendRecordField = formSendRecordFieldList.get(0);
+                            if (Validator.isNotNull(formSendRecordField)){
+                                // récupère la réponse si elle existe
+                                String reponse = ParamUtil.getString(actionRequest,"rep-ville_" + formSendRecordField.getFormSendRecordFieldId());
+                                // vérifie que la réponse est nouvelle
+                                if(!reponse.equals(formSendRecordField.getResponse())){
+                                    formSendRecordField.setModifiedDate(new Date());
+                                    formSendRecordField.setResponseUserId(themeDisplay.getUserId());
+                                    formSendRecordField.setResponse(reponse);
 
-                                            _formSendRecordFieldLocalService.updateFormSendRecordField(formSendRecordField);
-                                        }
-                                    }
+                                    _formSendRecordFieldLocalService.updateFormSendRecordField(formSendRecordField);
                                 }
-
                             }
                         }
                     }
                 }
             }
 
+            actionResponse.sendRedirect(ParamUtil.getString(actionRequest, "backURL"));
+
+        } catch (IOException e) {
+            _log.error(e);
         } catch (PortalException e) {
             _log.error(e);
+            String portletName = (String) actionRequest
+                    .getAttribute(WebKeys.PORTLET_ID);
+            PortletURL backURL = PortletURLFactoryUtil.create(actionRequest,
+                    portletName, themeDisplay.getPlid(),
+                    PortletRequest.RENDER_PHASE);
+            actionResponse.setRenderParameter("backURL", backURL.toString());
+            actionResponse.setRenderParameter("mvcPath",
+                    "/form-send-bo-edit-form-send.jsp");
+            actionResponse.setRenderParameter("cmd", "saveFormSend");
+            return false;
         }
         return true;
     }

@@ -1,28 +1,15 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -33,20 +20,11 @@ import java.util.Objects;
  * @see Stop
  * @generated
  */
-public class StopWrapper implements ModelWrapper<Stop>, Stop {
+public class StopWrapper
+	extends BaseModelWrapper<Stop> implements ModelWrapper<Stop>, Stop {
 
 	public StopWrapper(Stop stop) {
-		_stop = stop;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return Stop.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return Stop.class.getName();
+		super(stop);
 	}
 
 	@Override
@@ -124,18 +102,8 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	}
 
 	@Override
-	public Object clone() {
-		return new StopWrapper((Stop)_stop.clone());
-	}
-
-	@Override
-	public int compareTo(eu.strasbourg.service.gtfs.model.Stop stop) {
-		return _stop.compareTo(stop);
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _stop.getExpandoBridge();
+	public Stop cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -145,7 +113,7 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public long getId() {
-		return _stop.getId();
+		return model.getId();
 	}
 
 	/**
@@ -155,12 +123,7 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _stop.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _stop.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -170,7 +133,7 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public String getStop_code() {
-		return _stop.getStop_code();
+		return model.getStop_code();
 	}
 
 	/**
@@ -180,7 +143,7 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public String getStop_desc() {
-		return _stop.getStop_desc();
+		return model.getStop_desc();
 	}
 
 	/**
@@ -190,7 +153,7 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public String getStop_id() {
-		return _stop.getStop_id();
+		return model.getStop_id();
 	}
 
 	/**
@@ -200,7 +163,7 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public String getStop_lat() {
-		return _stop.getStop_lat();
+		return model.getStop_lat();
 	}
 
 	/**
@@ -210,7 +173,7 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public String getStop_lon() {
-		return _stop.getStop_lon();
+		return model.getStop_lon();
 	}
 
 	/**
@@ -220,7 +183,7 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public String getStop_name() {
-		return _stop.getStop_name();
+		return model.getStop_name();
 	}
 
 	/**
@@ -230,7 +193,7 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public String getStop_url() {
-		return _stop.getStop_url();
+		return model.getStop_url();
 	}
 
 	/**
@@ -240,54 +203,12 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public String getUuid() {
-		return _stop.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _stop.hashCode();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _stop.isCachedModel();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _stop.isEscapedModel();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _stop.isNew();
+		return model.getUuid();
 	}
 
 	@Override
 	public void persist() {
-		_stop.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_stop.setCachedModel(cachedModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_stop.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_stop.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_stop.setExpandoBridgeAttributes(serviceContext);
+		model.persist();
 	}
 
 	/**
@@ -297,12 +218,7 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public void setId(long id) {
-		_stop.setId(id);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_stop.setNew(n);
+		model.setId(id);
 	}
 
 	/**
@@ -312,12 +228,7 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_stop.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_stop.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -327,7 +238,7 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public void setStop_code(String stop_code) {
-		_stop.setStop_code(stop_code);
+		model.setStop_code(stop_code);
 	}
 
 	/**
@@ -337,7 +248,7 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public void setStop_desc(String stop_desc) {
-		_stop.setStop_desc(stop_desc);
+		model.setStop_desc(stop_desc);
 	}
 
 	/**
@@ -347,7 +258,7 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public void setStop_id(String stop_id) {
-		_stop.setStop_id(stop_id);
+		model.setStop_id(stop_id);
 	}
 
 	/**
@@ -357,7 +268,7 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public void setStop_lat(String stop_lat) {
-		_stop.setStop_lat(stop_lat);
+		model.setStop_lat(stop_lat);
 	}
 
 	/**
@@ -367,7 +278,7 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public void setStop_lon(String stop_lon) {
-		_stop.setStop_lon(stop_lon);
+		model.setStop_lon(stop_lon);
 	}
 
 	/**
@@ -377,7 +288,7 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public void setStop_name(String stop_name) {
-		_stop.setStop_name(stop_name);
+		model.setStop_name(stop_name);
 	}
 
 	/**
@@ -387,7 +298,7 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public void setStop_url(String stop_url) {
-		_stop.setStop_url(stop_url);
+		model.setStop_url(stop_url);
 	}
 
 	/**
@@ -397,75 +308,17 @@ public class StopWrapper implements ModelWrapper<Stop>, Stop {
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_stop.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.gtfs.model.Stop> toCacheModel() {
-
-		return _stop.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Stop toEscapedModel() {
-		return new StopWrapper(_stop.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _stop.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.gtfs.model.Stop toUnescapedModel() {
-		return new StopWrapper(_stop.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _stop.toXmlString();
+		return model.toXmlString();
 	}
 
 	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof StopWrapper)) {
-			return false;
-		}
-
-		StopWrapper stopWrapper = (StopWrapper)object;
-
-		if (Objects.equals(_stop, stopWrapper._stop)) {
-			return true;
-		}
-
-		return false;
+	protected StopWrapper wrap(Stop stop) {
+		return new StopWrapper(stop);
 	}
-
-	@Override
-	public Stop getWrappedModel() {
-		return _stop;
-	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _stop.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _stop.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_stop.resetOriginalValues();
-	}
-
-	private final Stop _stop;
 
 }

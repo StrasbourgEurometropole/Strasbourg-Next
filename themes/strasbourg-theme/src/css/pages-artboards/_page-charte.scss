@@ -1,0 +1,51 @@
+
+// Styles communs aux pages de la charte
+.st-page-wrapper.st-page-charte {
+	padding: 100px 0;
+	min-height: 100vh;
+
+	@include mobile {
+		padding: 40px 0;
+	}
+
+	.st-surtitre-cat {
+		& + h1 {
+			margin-top: 4px;
+		}
+	}
+
+	.st-header-charte {
+		display: flex;
+		align-items: flex-start;
+		padding-bottom: 40px;
+		margin-bottom: 40px;
+		border-bottom: 1px dashed color-mix(in srgb, $c_white 25%, transparent);
+
+		@include mobile {
+			padding-bottom: 30px;
+			margin-bottom: 30px;
+		}
+
+		.st-text-styles {
+			flex-grow: 1;
+		}
+
+		.st-btn {
+			margin-left: 20px;
+			flex-shrink: 0;
+		}
+	}
+
+	.st-container-charte {
+		margin-top: 60px;
+
+		@include mobile {
+			margin-top: 30px;
+		}
+	}
+
+	.st-wrapper-exemple {
+		padding: 10px;
+		border: 1px dashed $c_border;
+	}
+}

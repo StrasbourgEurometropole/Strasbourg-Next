@@ -35,8 +35,7 @@ public class SelectionActionCommand implements MVCActionCommand {
 		ActionResponse actionResponse) throws PortletException {
 		String tab = ParamUtil.getString(actionRequest, "tab");
 
-		long[] selectionIds = StringUtil
-			.split(ParamUtil.getString(actionRequest, "selectionIds"), 0L);
+		long[] selectionIds = ParamUtil.getLongValues(actionRequest, "rowIds");
 
 		for (long entryId : selectionIds) {
 			try {

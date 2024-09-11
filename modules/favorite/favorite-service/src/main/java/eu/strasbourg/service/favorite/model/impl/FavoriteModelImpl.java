@@ -1,21 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.favorite.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -24,26 +16,24 @@ import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteModel;
-import eu.strasbourg.service.favorite.model.FavoriteSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -113,81 +103,60 @@ public class FavoriteModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.favorite.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.favorite.model.Favorite"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.favorite.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.favorite.model.Favorite"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.favorite.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.favorite.model.Favorite"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long CONTENT_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ENTITYID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PUBLIKUSERID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TITLE_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long TYPEID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long FAVORITEID_COLUMN_BITMASK = 32L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static Favorite toModel(FavoriteSoap soapModel) {
-		if (soapModel == null) {
-			return null;
-		}
-
-		Favorite model = new FavoriteImpl();
-
-		model.setFavoriteId(soapModel.getFavoriteId());
-		model.setPublikUserId(soapModel.getPublikUserId());
-		model.setTitle(soapModel.getTitle());
-		model.setUrl(soapModel.getUrl());
-		model.setTypeId(soapModel.getTypeId());
-		model.setEntityId(soapModel.getEntityId());
-		model.setEntityGroupId(soapModel.getEntityGroupId());
-		model.setOnDashboardDate(soapModel.getOnDashboardDate());
-		model.setOrder(soapModel.getOrder());
-		model.setContent(soapModel.getContent());
-		model.setCreateDate(soapModel.getCreateDate());
-		model.setModifiedDate(soapModel.getModifiedDate());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<Favorite> toModels(FavoriteSoap[] soapModels) {
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<Favorite> models = new ArrayList<Favorite>(soapModels.length);
-
-		for (FavoriteSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.favorite.service.util.ServiceProps.get(
@@ -244,9 +213,6 @@ public class FavoriteModelImpl
 				attributeName, attributeGetterFunction.apply((Favorite)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -271,307 +237,91 @@ public class FavoriteModelImpl
 	public Map<String, Function<Favorite, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Favorite, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Favorite>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Favorite.class.getClassLoader(), Favorite.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<Favorite, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Favorite> constructor =
-				(Constructor<Favorite>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Favorite, Object>> attributeGetterFunctions =
+				new LinkedHashMap<String, Function<Favorite, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("favoriteId", Favorite::getFavoriteId);
+			attributeGetterFunctions.put(
+				"publikUserId", Favorite::getPublikUserId);
+			attributeGetterFunctions.put("title", Favorite::getTitle);
+			attributeGetterFunctions.put("url", Favorite::getUrl);
+			attributeGetterFunctions.put("typeId", Favorite::getTypeId);
+			attributeGetterFunctions.put("entityId", Favorite::getEntityId);
+			attributeGetterFunctions.put(
+				"entityGroupId", Favorite::getEntityGroupId);
+			attributeGetterFunctions.put(
+				"onDashboardDate", Favorite::getOnDashboardDate);
+			attributeGetterFunctions.put("order", Favorite::getOrder);
+			attributeGetterFunctions.put("content", Favorite::getContent);
+			attributeGetterFunctions.put("createDate", Favorite::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Favorite::getModifiedDate);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Favorite, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Favorite, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<Favorite, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Favorite, Object>>();
-		Map<String, BiConsumer<Favorite, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Favorite, ?>>();
+		private static final Map<String, BiConsumer<Favorite, Object>>
+			_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"favoriteId",
-			new Function<Favorite, Object>() {
+		static {
+			Map<String, BiConsumer<Favorite, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Favorite, ?>>();
 
-				@Override
-				public Object apply(Favorite favorite) {
-					return favorite.getFavoriteId();
-				}
+			attributeSetterBiConsumers.put(
+				"favoriteId",
+				(BiConsumer<Favorite, Long>)Favorite::setFavoriteId);
+			attributeSetterBiConsumers.put(
+				"publikUserId",
+				(BiConsumer<Favorite, String>)Favorite::setPublikUserId);
+			attributeSetterBiConsumers.put(
+				"title", (BiConsumer<Favorite, String>)Favorite::setTitle);
+			attributeSetterBiConsumers.put(
+				"url", (BiConsumer<Favorite, String>)Favorite::setUrl);
+			attributeSetterBiConsumers.put(
+				"typeId", (BiConsumer<Favorite, Long>)Favorite::setTypeId);
+			attributeSetterBiConsumers.put(
+				"entityId", (BiConsumer<Favorite, Long>)Favorite::setEntityId);
+			attributeSetterBiConsumers.put(
+				"entityGroupId",
+				(BiConsumer<Favorite, Long>)Favorite::setEntityGroupId);
+			attributeSetterBiConsumers.put(
+				"onDashboardDate",
+				(BiConsumer<Favorite, Date>)Favorite::setOnDashboardDate);
+			attributeSetterBiConsumers.put(
+				"order", (BiConsumer<Favorite, Integer>)Favorite::setOrder);
+			attributeSetterBiConsumers.put(
+				"content", (BiConsumer<Favorite, String>)Favorite::setContent);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Favorite, Date>)Favorite::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Favorite, Date>)Favorite::setModifiedDate);
 
-			});
-		attributeSetterBiConsumers.put(
-			"favoriteId",
-			new BiConsumer<Favorite, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(Favorite favorite, Object favoriteIdObject) {
-					favorite.setFavoriteId((Long)favoriteIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publikUserId",
-			new Function<Favorite, Object>() {
-
-				@Override
-				public Object apply(Favorite favorite) {
-					return favorite.getPublikUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"publikUserId",
-			new BiConsumer<Favorite, Object>() {
-
-				@Override
-				public void accept(
-					Favorite favorite, Object publikUserIdObject) {
-
-					favorite.setPublikUserId((String)publikUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<Favorite, Object>() {
-
-				@Override
-				public Object apply(Favorite favorite) {
-					return favorite.getTitle();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"title",
-			new BiConsumer<Favorite, Object>() {
-
-				@Override
-				public void accept(Favorite favorite, Object titleObject) {
-					favorite.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"url",
-			new Function<Favorite, Object>() {
-
-				@Override
-				public Object apply(Favorite favorite) {
-					return favorite.getUrl();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"url",
-			new BiConsumer<Favorite, Object>() {
-
-				@Override
-				public void accept(Favorite favorite, Object urlObject) {
-					favorite.setUrl((String)urlObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"typeId",
-			new Function<Favorite, Object>() {
-
-				@Override
-				public Object apply(Favorite favorite) {
-					return favorite.getTypeId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"typeId",
-			new BiConsumer<Favorite, Object>() {
-
-				@Override
-				public void accept(Favorite favorite, Object typeIdObject) {
-					favorite.setTypeId((Long)typeIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"entityId",
-			new Function<Favorite, Object>() {
-
-				@Override
-				public Object apply(Favorite favorite) {
-					return favorite.getEntityId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"entityId",
-			new BiConsumer<Favorite, Object>() {
-
-				@Override
-				public void accept(Favorite favorite, Object entityIdObject) {
-					favorite.setEntityId((Long)entityIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"entityGroupId",
-			new Function<Favorite, Object>() {
-
-				@Override
-				public Object apply(Favorite favorite) {
-					return favorite.getEntityGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"entityGroupId",
-			new BiConsumer<Favorite, Object>() {
-
-				@Override
-				public void accept(
-					Favorite favorite, Object entityGroupIdObject) {
-
-					favorite.setEntityGroupId((Long)entityGroupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"onDashboardDate",
-			new Function<Favorite, Object>() {
-
-				@Override
-				public Object apply(Favorite favorite) {
-					return favorite.getOnDashboardDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"onDashboardDate",
-			new BiConsumer<Favorite, Object>() {
-
-				@Override
-				public void accept(
-					Favorite favorite, Object onDashboardDateObject) {
-
-					favorite.setOnDashboardDate((Date)onDashboardDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"order",
-			new Function<Favorite, Object>() {
-
-				@Override
-				public Object apply(Favorite favorite) {
-					return favorite.getOrder();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"order",
-			new BiConsumer<Favorite, Object>() {
-
-				@Override
-				public void accept(Favorite favorite, Object orderObject) {
-					favorite.setOrder((Integer)orderObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"content",
-			new Function<Favorite, Object>() {
-
-				@Override
-				public Object apply(Favorite favorite) {
-					return favorite.getContent();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"content",
-			new BiConsumer<Favorite, Object>() {
-
-				@Override
-				public void accept(Favorite favorite, Object contentObject) {
-					favorite.setContent((String)contentObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Favorite, Object>() {
-
-				@Override
-				public Object apply(Favorite favorite) {
-					return favorite.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Favorite, Object>() {
-
-				@Override
-				public void accept(Favorite favorite, Object createDateObject) {
-					favorite.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Favorite, Object>() {
-
-				@Override
-				public Object apply(Favorite favorite) {
-					return favorite.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Favorite, Object>() {
-
-				@Override
-				public void accept(
-					Favorite favorite, Object modifiedDateObject) {
-
-					favorite.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -582,6 +332,10 @@ public class FavoriteModelImpl
 
 	@Override
 	public void setFavoriteId(long favoriteId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_favoriteId = favoriteId;
 	}
 
@@ -598,17 +352,20 @@ public class FavoriteModelImpl
 
 	@Override
 	public void setPublikUserId(String publikUserId) {
-		_columnBitmask |= PUBLIKUSERID_COLUMN_BITMASK;
-
-		if (_originalPublikUserId == null) {
-			_originalPublikUserId = _publikUserId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_publikUserId = publikUserId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalPublikUserId() {
-		return GetterUtil.getString(_originalPublikUserId);
+		return getColumnOriginalValue("publikUserId");
 	}
 
 	@JSON
@@ -624,17 +381,20 @@ public class FavoriteModelImpl
 
 	@Override
 	public void setTitle(String title) {
-		_columnBitmask |= TITLE_COLUMN_BITMASK;
-
-		if (_originalTitle == null) {
-			_originalTitle = _title;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_title = title;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalTitle() {
-		return GetterUtil.getString(_originalTitle);
+		return getColumnOriginalValue("title");
 	}
 
 	@JSON
@@ -650,6 +410,10 @@ public class FavoriteModelImpl
 
 	@Override
 	public void setUrl(String url) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_url = url;
 	}
 
@@ -661,19 +425,20 @@ public class FavoriteModelImpl
 
 	@Override
 	public void setTypeId(long typeId) {
-		_columnBitmask |= TYPEID_COLUMN_BITMASK;
-
-		if (!_setOriginalTypeId) {
-			_setOriginalTypeId = true;
-
-			_originalTypeId = _typeId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_typeId = typeId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalTypeId() {
-		return _originalTypeId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("typeId"));
 	}
 
 	@JSON
@@ -684,19 +449,21 @@ public class FavoriteModelImpl
 
 	@Override
 	public void setEntityId(long entityId) {
-		_columnBitmask |= ENTITYID_COLUMN_BITMASK;
-
-		if (!_setOriginalEntityId) {
-			_setOriginalEntityId = true;
-
-			_originalEntityId = _entityId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_entityId = entityId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalEntityId() {
-		return _originalEntityId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("entityId"));
 	}
 
 	@JSON
@@ -707,6 +474,10 @@ public class FavoriteModelImpl
 
 	@Override
 	public void setEntityGroupId(long entityGroupId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_entityGroupId = entityGroupId;
 	}
 
@@ -718,6 +489,10 @@ public class FavoriteModelImpl
 
 	@Override
 	public void setOnDashboardDate(Date onDashboardDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_onDashboardDate = onDashboardDate;
 	}
 
@@ -729,6 +504,10 @@ public class FavoriteModelImpl
 
 	@Override
 	public void setOrder(int order) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_order = order;
 	}
 
@@ -745,17 +524,20 @@ public class FavoriteModelImpl
 
 	@Override
 	public void setContent(String content) {
-		_columnBitmask |= CONTENT_COLUMN_BITMASK;
-
-		if (_originalContent == null) {
-			_originalContent = _content;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_content = content;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalContent() {
-		return GetterUtil.getString(_originalContent);
+		return getColumnOriginalValue("content");
 	}
 
 	@JSON
@@ -766,6 +548,10 @@ public class FavoriteModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -783,10 +569,34 @@ public class FavoriteModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -841,6 +651,32 @@ public class FavoriteModelImpl
 	}
 
 	@Override
+	public Favorite cloneWithOriginalValues() {
+		FavoriteImpl favoriteImpl = new FavoriteImpl();
+
+		favoriteImpl.setFavoriteId(
+			this.<Long>getColumnOriginalValue("favoriteId"));
+		favoriteImpl.setPublikUserId(
+			this.<String>getColumnOriginalValue("publikUserId"));
+		favoriteImpl.setTitle(this.<String>getColumnOriginalValue("title"));
+		favoriteImpl.setUrl(this.<String>getColumnOriginalValue("url"));
+		favoriteImpl.setTypeId(this.<Long>getColumnOriginalValue("typeId"));
+		favoriteImpl.setEntityId(this.<Long>getColumnOriginalValue("entityId"));
+		favoriteImpl.setEntityGroupId(
+			this.<Long>getColumnOriginalValue("entityGroupId"));
+		favoriteImpl.setOnDashboardDate(
+			this.<Date>getColumnOriginalValue("onDashboardDate"));
+		favoriteImpl.setOrder(this.<Integer>getColumnOriginalValue("order_"));
+		favoriteImpl.setContent(this.<String>getColumnOriginalValue("content"));
+		favoriteImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		favoriteImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+
+		return favoriteImpl;
+	}
+
+	@Override
 	public int compareTo(Favorite favorite) {
 		long primaryKey = favorite.getPrimaryKey();
 
@@ -882,11 +718,19 @@ public class FavoriteModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -894,26 +738,11 @@ public class FavoriteModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		FavoriteModelImpl favoriteModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		favoriteModelImpl._originalPublikUserId =
-			favoriteModelImpl._publikUserId;
+		_setModifiedDate = false;
 
-		favoriteModelImpl._originalTitle = favoriteModelImpl._title;
-
-		favoriteModelImpl._originalTypeId = favoriteModelImpl._typeId;
-
-		favoriteModelImpl._setOriginalTypeId = false;
-
-		favoriteModelImpl._originalEntityId = favoriteModelImpl._entityId;
-
-		favoriteModelImpl._setOriginalEntityId = false;
-
-		favoriteModelImpl._originalContent = favoriteModelImpl._content;
-
-		favoriteModelImpl._setModifiedDate = false;
-
-		favoriteModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -998,7 +827,7 @@ public class FavoriteModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1009,9 +838,26 @@ public class FavoriteModelImpl
 			Function<Favorite, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Favorite)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Favorite)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1024,64 +870,121 @@ public class FavoriteModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Favorite, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Favorite, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Favorite, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Favorite)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Favorite>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Favorite.class, ModelWrapper.class);
 
 	}
 
 	private long _favoriteId;
 	private String _publikUserId;
-	private String _originalPublikUserId;
 	private String _title;
-	private String _originalTitle;
 	private String _url;
 	private long _typeId;
-	private long _originalTypeId;
-	private boolean _setOriginalTypeId;
 	private long _entityId;
-	private long _originalEntityId;
-	private boolean _setOriginalEntityId;
 	private long _entityGroupId;
 	private Date _onDashboardDate;
 	private int _order;
 	private String _content;
-	private String _originalContent;
 	private Date _createDate;
 	private Date _modifiedDate;
 	private boolean _setModifiedDate;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Favorite, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Favorite)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("favoriteId", _favoriteId);
+		_columnOriginalValues.put("publikUserId", _publikUserId);
+		_columnOriginalValues.put("title", _title);
+		_columnOriginalValues.put("url", _url);
+		_columnOriginalValues.put("typeId", _typeId);
+		_columnOriginalValues.put("entityId", _entityId);
+		_columnOriginalValues.put("entityGroupId", _entityGroupId);
+		_columnOriginalValues.put("onDashboardDate", _onDashboardDate);
+		_columnOriginalValues.put("order_", _order);
+		_columnOriginalValues.put("content", _content);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("order_", "order");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("favoriteId", 1L);
+
+		columnBitmasks.put("publikUserId", 2L);
+
+		columnBitmasks.put("title", 4L);
+
+		columnBitmasks.put("url", 8L);
+
+		columnBitmasks.put("typeId", 16L);
+
+		columnBitmasks.put("entityId", 32L);
+
+		columnBitmasks.put("entityGroupId", 64L);
+
+		columnBitmasks.put("onDashboardDate", 128L);
+
+		columnBitmasks.put("order_", 256L);
+
+		columnBitmasks.put("content", 512L);
+
+		columnBitmasks.put("createDate", 1024L);
+
+		columnBitmasks.put("modifiedDate", 2048L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Favorite _escapedModel;
 

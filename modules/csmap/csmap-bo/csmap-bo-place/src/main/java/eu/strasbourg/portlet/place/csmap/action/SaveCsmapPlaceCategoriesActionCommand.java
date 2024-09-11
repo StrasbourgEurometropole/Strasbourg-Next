@@ -3,12 +3,16 @@ package eu.strasbourg.portlet.place.csmap.action;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
-import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.csmap.constants.CodeCacheEnum;
 import eu.strasbourg.service.csmap.model.PlaceCategories;
 import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
@@ -21,6 +25,9 @@ import org.osgi.service.component.annotations.Reference;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,12 +67,12 @@ public class SaveCsmapPlaceCategoriesActionCommand extends BaseMVCActionCommand 
                 AssetCategory parentCategory = placeTypeCategory.getParentCategory();
                 if (Validator.isNotNull(parentCategory)) {
                     long parentId = parentCategory.getCategoryId();
-                    if (!placeTypesIdsList.contains(parentId)) {
+                    if (!placeTypesIdsList.contains(parentId) && placeTypes.indexOf(""+parentId) == -1) {
                         placeTypes.append(",").append(parentId);
                     }
                 }
             } catch (PortalException e) {
-                e.printStackTrace();
+                _log.error(e.getMessage() + " : " + placeTypesId);
             }
         }
         placeCategories.setCategoriesIds(placeTypes.toString());
@@ -74,6 +81,20 @@ public class SaveCsmapPlaceCategoriesActionCommand extends BaseMVCActionCommand 
 
         // Régénération du cache des catégories de lieu pour CSMap
         _csmapCacheLocalService.generateCsmapCache(CodeCacheEnum.CATEGORIES.getId());
+
+        // Post / Redirect / Get si tout est bon
+        ThemeDisplay themeDisplay = (ThemeDisplay) request
+                .getAttribute(WebKeys.THEME_DISPLAY);
+        String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
+        PortletURL renderURL = PortletURLFactoryUtil.create(request,
+                portletName, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE);
+        renderURL.setParameter("tab", request.getParameter("tab"));
+        renderURL.setParameter("mvcPath", request.getParameter("mvcPath"));
+        try {
+            response.sendRedirect(renderURL.toString());
+        } catch (IOException e) {
+            _log.error(e);
+        }
     }
 
     private PlaceCategoriesLocalService _placeCategoriesLocalService;
@@ -101,8 +122,10 @@ public class SaveCsmapPlaceCategoriesActionCommand extends BaseMVCActionCommand 
             if (Validator.isNotNull(type))
                 return String.valueOf(type.getVocabularyId());
         } catch (PortalException e) {
-            e.printStackTrace();
+            _log.error(e.getMessage());
         }
         return null;
     }
+
+    private final Log _log = LogFactoryUtil.getLog(this.getClass());
 }

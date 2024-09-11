@@ -1,21 +1,13 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.model.impl;
 
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -27,26 +19,24 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import eu.strasbourg.service.agenda.model.CampaignEventStatus;
 import eu.strasbourg.service.agenda.model.CampaignEventStatusModel;
-import eu.strasbourg.service.agenda.model.CampaignEventStatusSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -115,78 +105,42 @@ public class CampaignEventStatusModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.agenda.model.CampaignEventStatus"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.agenda.model.CampaignEventStatus"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.agenda.model.CampaignEventStatus"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long CAMPAIGNEVENTID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long STATUSID_COLUMN_BITMASK = 4L;
-
-	/**
-	 * Converts the soap model instance into a normal model instance.
-	 *
-	 * @param soapModel the soap model instance to convert
-	 * @return the normal model instance
-	 */
-	public static CampaignEventStatus toModel(
-		CampaignEventStatusSoap soapModel) {
-
-		if (soapModel == null) {
-			return null;
-		}
-
-		CampaignEventStatus model = new CampaignEventStatusImpl();
-
-		model.setUuid(soapModel.getUuid());
-		model.setStatusId(soapModel.getStatusId());
-		model.setStatus(soapModel.getStatus());
-		model.setComment(soapModel.getComment());
-		model.setDeletionDenied(soapModel.getDeletionDenied());
-		model.setDate(soapModel.getDate());
-		model.setCampaignEventId(soapModel.getCampaignEventId());
-		model.setPreviousStatusId(soapModel.getPreviousStatusId());
-		model.setUserId(soapModel.getUserId());
-		model.setUserName(soapModel.getUserName());
-
-		return model;
-	}
-
-	/**
-	 * Converts the soap model instances into normal model instances.
-	 *
-	 * @param soapModels the soap model instances to convert
-	 * @return the normal model instances
-	 */
-	public static List<CampaignEventStatus> toModels(
-		CampaignEventStatusSoap[] soapModels) {
-
-		if (soapModels == null) {
-			return null;
-		}
-
-		List<CampaignEventStatus> models = new ArrayList<CampaignEventStatus>(
-			soapModels.length);
-
-		for (CampaignEventStatusSoap soapModel : soapModels) {
-			models.add(toModel(soapModel));
-		}
-
-		return models;
-	}
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
 		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
@@ -244,9 +198,6 @@ public class CampaignEventStatusModelImpl
 				attributeGetterFunction.apply((CampaignEventStatus)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -271,295 +222,108 @@ public class CampaignEventStatusModelImpl
 	public Map<String, Function<CampaignEventStatus, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<CampaignEventStatus, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, CampaignEventStatus>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			CampaignEventStatus.class.getClassLoader(),
-			CampaignEventStatus.class, ModelWrapper.class);
+		private static final Map<String, Function<CampaignEventStatus, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<CampaignEventStatus> constructor =
-				(Constructor<CampaignEventStatus>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<CampaignEventStatus, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap
+						<String, Function<CampaignEventStatus, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", CampaignEventStatus::getUuid);
+			attributeGetterFunctions.put(
+				"statusId", CampaignEventStatus::getStatusId);
+			attributeGetterFunctions.put(
+				"status", CampaignEventStatus::getStatus);
+			attributeGetterFunctions.put(
+				"comment", CampaignEventStatus::getComment);
+			attributeGetterFunctions.put(
+				"deletionDenied", CampaignEventStatus::getDeletionDenied);
+			attributeGetterFunctions.put("date", CampaignEventStatus::getDate);
+			attributeGetterFunctions.put(
+				"campaignEventId", CampaignEventStatus::getCampaignEventId);
+			attributeGetterFunctions.put(
+				"previousStatusId", CampaignEventStatus::getPreviousStatusId);
+			attributeGetterFunctions.put(
+				"userId", CampaignEventStatus::getUserId);
+			attributeGetterFunctions.put(
+				"userName", CampaignEventStatus::getUserName);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<CampaignEventStatus, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CampaignEventStatus, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
 
-	static {
-		Map<String, Function<CampaignEventStatus, Object>>
-			attributeGetterFunctions =
-				new LinkedHashMap
-					<String, Function<CampaignEventStatus, Object>>();
-		Map<String, BiConsumer<CampaignEventStatus, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<CampaignEventStatus, ?>>();
+		private static final Map
+			<String, BiConsumer<CampaignEventStatus, Object>>
+				_attributeSetterBiConsumers;
 
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<CampaignEventStatus, Object>() {
+		static {
+			Map<String, BiConsumer<CampaignEventStatus, ?>>
+				attributeSetterBiConsumers =
+					new LinkedHashMap
+						<String, BiConsumer<CampaignEventStatus, ?>>();
 
-				@Override
-				public Object apply(CampaignEventStatus campaignEventStatus) {
-					return campaignEventStatus.getUuid();
-				}
+			attributeSetterBiConsumers.put(
+				"uuid",
+				(BiConsumer<CampaignEventStatus, String>)
+					CampaignEventStatus::setUuid);
+			attributeSetterBiConsumers.put(
+				"statusId",
+				(BiConsumer<CampaignEventStatus, Long>)
+					CampaignEventStatus::setStatusId);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<CampaignEventStatus, Integer>)
+					CampaignEventStatus::setStatus);
+			attributeSetterBiConsumers.put(
+				"comment",
+				(BiConsumer<CampaignEventStatus, String>)
+					CampaignEventStatus::setComment);
+			attributeSetterBiConsumers.put(
+				"deletionDenied",
+				(BiConsumer<CampaignEventStatus, Boolean>)
+					CampaignEventStatus::setDeletionDenied);
+			attributeSetterBiConsumers.put(
+				"date",
+				(BiConsumer<CampaignEventStatus, Date>)
+					CampaignEventStatus::setDate);
+			attributeSetterBiConsumers.put(
+				"campaignEventId",
+				(BiConsumer<CampaignEventStatus, Long>)
+					CampaignEventStatus::setCampaignEventId);
+			attributeSetterBiConsumers.put(
+				"previousStatusId",
+				(BiConsumer<CampaignEventStatus, Long>)
+					CampaignEventStatus::setPreviousStatusId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<CampaignEventStatus, Long>)
+					CampaignEventStatus::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<CampaignEventStatus, String>)
+					CampaignEventStatus::setUserName);
 
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<CampaignEventStatus, Object>() {
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-				@Override
-				public void accept(
-					CampaignEventStatus campaignEventStatus,
-					Object uuidObject) {
-
-					campaignEventStatus.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusId",
-			new Function<CampaignEventStatus, Object>() {
-
-				@Override
-				public Object apply(CampaignEventStatus campaignEventStatus) {
-					return campaignEventStatus.getStatusId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusId",
-			new BiConsumer<CampaignEventStatus, Object>() {
-
-				@Override
-				public void accept(
-					CampaignEventStatus campaignEventStatus,
-					Object statusIdObject) {
-
-					campaignEventStatus.setStatusId((Long)statusIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<CampaignEventStatus, Object>() {
-
-				@Override
-				public Object apply(CampaignEventStatus campaignEventStatus) {
-					return campaignEventStatus.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<CampaignEventStatus, Object>() {
-
-				@Override
-				public void accept(
-					CampaignEventStatus campaignEventStatus,
-					Object statusObject) {
-
-					campaignEventStatus.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"comment",
-			new Function<CampaignEventStatus, Object>() {
-
-				@Override
-				public Object apply(CampaignEventStatus campaignEventStatus) {
-					return campaignEventStatus.getComment();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"comment",
-			new BiConsumer<CampaignEventStatus, Object>() {
-
-				@Override
-				public void accept(
-					CampaignEventStatus campaignEventStatus,
-					Object commentObject) {
-
-					campaignEventStatus.setComment((String)commentObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"deletionDenied",
-			new Function<CampaignEventStatus, Object>() {
-
-				@Override
-				public Object apply(CampaignEventStatus campaignEventStatus) {
-					return campaignEventStatus.getDeletionDenied();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"deletionDenied",
-			new BiConsumer<CampaignEventStatus, Object>() {
-
-				@Override
-				public void accept(
-					CampaignEventStatus campaignEventStatus,
-					Object deletionDeniedObject) {
-
-					campaignEventStatus.setDeletionDenied(
-						(Boolean)deletionDeniedObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"date",
-			new Function<CampaignEventStatus, Object>() {
-
-				@Override
-				public Object apply(CampaignEventStatus campaignEventStatus) {
-					return campaignEventStatus.getDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"date",
-			new BiConsumer<CampaignEventStatus, Object>() {
-
-				@Override
-				public void accept(
-					CampaignEventStatus campaignEventStatus,
-					Object dateObject) {
-
-					campaignEventStatus.setDate((Date)dateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"campaignEventId",
-			new Function<CampaignEventStatus, Object>() {
-
-				@Override
-				public Object apply(CampaignEventStatus campaignEventStatus) {
-					return campaignEventStatus.getCampaignEventId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"campaignEventId",
-			new BiConsumer<CampaignEventStatus, Object>() {
-
-				@Override
-				public void accept(
-					CampaignEventStatus campaignEventStatus,
-					Object campaignEventIdObject) {
-
-					campaignEventStatus.setCampaignEventId(
-						(Long)campaignEventIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"previousStatusId",
-			new Function<CampaignEventStatus, Object>() {
-
-				@Override
-				public Object apply(CampaignEventStatus campaignEventStatus) {
-					return campaignEventStatus.getPreviousStatusId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"previousStatusId",
-			new BiConsumer<CampaignEventStatus, Object>() {
-
-				@Override
-				public void accept(
-					CampaignEventStatus campaignEventStatus,
-					Object previousStatusIdObject) {
-
-					campaignEventStatus.setPreviousStatusId(
-						(Long)previousStatusIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CampaignEventStatus, Object>() {
-
-				@Override
-				public Object apply(CampaignEventStatus campaignEventStatus) {
-					return campaignEventStatus.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<CampaignEventStatus, Object>() {
-
-				@Override
-				public void accept(
-					CampaignEventStatus campaignEventStatus,
-					Object userIdObject) {
-
-					campaignEventStatus.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CampaignEventStatus, Object>() {
-
-				@Override
-				public Object apply(CampaignEventStatus campaignEventStatus) {
-					return campaignEventStatus.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<CampaignEventStatus, Object>() {
-
-				@Override
-				public void accept(
-					CampaignEventStatus campaignEventStatus,
-					Object userNameObject) {
-
-					campaignEventStatus.setUserName((String)userNameObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@JSON
@@ -575,17 +339,20 @@ public class CampaignEventStatusModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@JSON
@@ -596,6 +363,10 @@ public class CampaignEventStatusModelImpl
 
 	@Override
 	public void setStatusId(long statusId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusId = statusId;
 	}
 
@@ -607,6 +378,10 @@ public class CampaignEventStatusModelImpl
 
 	@Override
 	public void setStatus(Integer status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -623,6 +398,10 @@ public class CampaignEventStatusModelImpl
 
 	@Override
 	public void setComment(String comment) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_comment = comment;
 	}
 
@@ -634,6 +413,10 @@ public class CampaignEventStatusModelImpl
 
 	@Override
 	public void setDeletionDenied(Boolean deletionDenied) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_deletionDenied = deletionDenied;
 	}
 
@@ -645,6 +428,10 @@ public class CampaignEventStatusModelImpl
 
 	@Override
 	public void setDate(Date date) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_date = date;
 	}
 
@@ -656,19 +443,21 @@ public class CampaignEventStatusModelImpl
 
 	@Override
 	public void setCampaignEventId(long campaignEventId) {
-		_columnBitmask |= CAMPAIGNEVENTID_COLUMN_BITMASK;
-
-		if (!_setOriginalCampaignEventId) {
-			_setOriginalCampaignEventId = true;
-
-			_originalCampaignEventId = _campaignEventId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_campaignEventId = campaignEventId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCampaignEventId() {
-		return _originalCampaignEventId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("campaignEventId"));
 	}
 
 	@JSON
@@ -679,6 +468,10 @@ public class CampaignEventStatusModelImpl
 
 	@Override
 	public void setPreviousStatusId(long previousStatusId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_previousStatusId = previousStatusId;
 	}
 
@@ -690,6 +483,10 @@ public class CampaignEventStatusModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -722,10 +519,34 @@ public class CampaignEventStatusModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -779,6 +600,35 @@ public class CampaignEventStatusModelImpl
 	}
 
 	@Override
+	public CampaignEventStatus cloneWithOriginalValues() {
+		CampaignEventStatusImpl campaignEventStatusImpl =
+			new CampaignEventStatusImpl();
+
+		campaignEventStatusImpl.setUuid(
+			this.<String>getColumnOriginalValue("uuid_"));
+		campaignEventStatusImpl.setStatusId(
+			this.<Long>getColumnOriginalValue("statusId"));
+		campaignEventStatusImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		campaignEventStatusImpl.setComment(
+			this.<String>getColumnOriginalValue("comment_"));
+		campaignEventStatusImpl.setDeletionDenied(
+			this.<Boolean>getColumnOriginalValue("deletionDenied"));
+		campaignEventStatusImpl.setDate(
+			this.<Date>getColumnOriginalValue("date_"));
+		campaignEventStatusImpl.setCampaignEventId(
+			this.<Long>getColumnOriginalValue("campaignEventId"));
+		campaignEventStatusImpl.setPreviousStatusId(
+			this.<Long>getColumnOriginalValue("previousStatusId"));
+		campaignEventStatusImpl.setUserId(
+			this.<Long>getColumnOriginalValue("userId"));
+		campaignEventStatusImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+
+		return campaignEventStatusImpl;
+	}
+
+	@Override
 	public int compareTo(CampaignEventStatus campaignEventStatus) {
 		long primaryKey = campaignEventStatus.getPrimaryKey();
 
@@ -820,11 +670,19 @@ public class CampaignEventStatusModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -832,17 +690,9 @@ public class CampaignEventStatusModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		CampaignEventStatusModelImpl campaignEventStatusModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		campaignEventStatusModelImpl._originalUuid =
-			campaignEventStatusModelImpl._uuid;
-
-		campaignEventStatusModelImpl._originalCampaignEventId =
-			campaignEventStatusModelImpl._campaignEventId;
-
-		campaignEventStatusModelImpl._setOriginalCampaignEventId = false;
-
-		campaignEventStatusModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -912,7 +762,7 @@ public class CampaignEventStatusModelImpl
 			attributeGetterFunctions = getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -923,9 +773,27 @@ public class CampaignEventStatusModelImpl
 			Function<CampaignEventStatus, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((CampaignEventStatus)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply(
+				(CampaignEventStatus)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -938,57 +806,114 @@ public class CampaignEventStatusModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<CampaignEventStatus, Object>>
-			attributeGetterFunctions = getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<CampaignEventStatus, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<CampaignEventStatus, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((CampaignEventStatus)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, CampaignEventStatus>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					CampaignEventStatus.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _statusId;
 	private Integer _status;
 	private String _comment;
 	private Boolean _deletionDenied;
 	private Date _date;
 	private long _campaignEventId;
-	private long _originalCampaignEventId;
-	private boolean _setOriginalCampaignEventId;
 	private long _previousStatusId;
 	private long _userId;
 	private String _userName;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<CampaignEventStatus, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((CampaignEventStatus)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("statusId", _statusId);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("comment_", _comment);
+		_columnOriginalValues.put("deletionDenied", _deletionDenied);
+		_columnOriginalValues.put("date_", _date);
+		_columnOriginalValues.put("campaignEventId", _campaignEventId);
+		_columnOriginalValues.put("previousStatusId", _previousStatusId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+		attributeNames.put("comment_", "comment");
+		attributeNames.put("date_", "date");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("statusId", 2L);
+
+		columnBitmasks.put("status", 4L);
+
+		columnBitmasks.put("comment_", 8L);
+
+		columnBitmasks.put("deletionDenied", 16L);
+
+		columnBitmasks.put("date_", 32L);
+
+		columnBitmasks.put("campaignEventId", 64L);
+
+		columnBitmasks.put("previousStatusId", 128L);
+
+		columnBitmasks.put("userId", 256L);
+
+		columnBitmasks.put("userName", 512L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private CampaignEventStatus _escapedModel;
 

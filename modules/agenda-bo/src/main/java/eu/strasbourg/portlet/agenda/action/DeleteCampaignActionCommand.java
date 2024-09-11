@@ -31,6 +31,8 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import eu.strasbourg.service.agenda.service.CampaignLocalService;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 
+import java.io.IOException;
+
 @Component(
 	immediate = true,
 	property = {
@@ -47,10 +49,13 @@ public class DeleteCampaignActionCommand
 		try {
 			long campaignId = ParamUtil.getLong(request, "campaignId");
 			_campaignLocalService.removeCampaign(campaignId);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
-		return true;
+		} catch (IOException e) {
+            _log.error(e);
+        }
+        return true;
 	}
 
 	private CampaignLocalService _campaignLocalService;

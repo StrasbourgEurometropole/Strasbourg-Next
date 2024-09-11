@@ -1,5 +1,8 @@
 package eu.strasbourg.portlet.resid;
 
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -25,15 +28,18 @@ public class ResidDisplayContext {
 	public ResidDisplayContext(ThemeDisplay themeDisplay) {
 		this.themeDisplay = themeDisplay;
 		try {
-			this.configuration = themeDisplay.getPortletDisplay()
-					.getPortletInstanceConfiguration(ResidConfiguration.class);
+			this.configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(ResidConfiguration.class, themeDisplay);
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(), e);
 		}
 	}
 
 	public ResidConfiguration getConfiguration() {
 		return configuration;
+	}
+
+	public Boolean isUnderMaintenance() {
+		return configuration.maintenance();
 	}
 
 	public String getResidURL() {
@@ -91,4 +97,6 @@ public class ResidDisplayContext {
 	public boolean isFolded() {
 		return PortletHelper.isPortletFoldedOnDashboard(themeDisplay, themeDisplay.getPortletDisplay().getId());
 	}
+
+	private Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

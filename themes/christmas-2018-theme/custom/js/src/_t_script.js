@@ -18,10 +18,6 @@ $(function () {
     FastClick.attach(document.body);
 });
 
-// Controle Date Picker (Pikaday)
-var picker_start = new Pikaday({field: document.getElementById('datepicker-start')});
-var picker_end = new Pikaday({field: document.getElementById('datepicker-end')});
-
 // Page Marché - Ouverture / Fermeture du volet
 $('.mns-volet-map').click(function () {
     $('#mns-wrapper-volet').toggleClass('expand');
@@ -105,6 +101,12 @@ if ($(window).width() > 1200) {
     $('.navbar-nav > li.dropdown').mouseleave(function () {
         $(this).removeClass('open');
     });
+
+    $(document).keyup(function(e) {
+       if (e.key === "Escape") { 
+        $('.navbar-nav > li.dropdown.open').removeClass('open');
+       }
+    });
 }
 
 
@@ -175,6 +177,12 @@ if ($(window).width() >= 1025) {
         $(this).find('.caption').addClass('open');
     });
     $('.mns-bloc-entry > div').mouseleave(function () {
+        $(this).find('.caption').removeClass('open');
+    });
+    $('.mns-bloc-entry > div a').on("focus",function () {
+        $(this).find('.caption').addClass('open');
+    });
+    $('.mns-bloc-entry > div a').on("focusout", function () {
         $(this).find('.caption').removeClass('open');
     });
 }

@@ -11,7 +11,7 @@
 				</c:if>
 				<c:if test="${required}">
 					<span class="icon-asterisk text-warning"> 
-						<span class="hide-accessible"><liferay-ui:message key="required" /></span>
+						<span class="sr-only"><liferay-ui:message key="required" /></span>
 					</span>
 				</c:if>
 			</label>
@@ -54,41 +54,37 @@
 			var multipleSelection = ${multiple};
 			var localized = ${localized};
 			var fieldName = localized ? '#<portlet:namespace />${name}_${currentLocale}' : '#<portlet:namespace />${name}';
-			var itemSelectorDialog = new A.LiferayItemSelectorDialog(
+			Liferay.Util.openSelectionModal(
 				{
-					eventName: 'itemSelected${name}${currentLocale.language}',
-					on: {
+					selectEventName: 'itemSelected${name}${currentLocale.language}',
 						// Ev�nement d�clench� lors de la s�lection d'un fichier
-						selectedItemChange: function(event) {
-							var selectedItem = event.newVal;
-							if (!!selectedItem && !!selectedItem.value) {
-								var htmlToAppend = '<li>'
-									+ selectedItem.title + ' - <a href="#" class="remove-article" data-entry-id="' + selectedItem.value + '">Supprimer</a>';
-									+ '</li>';
-								if (!multipleSelection) {
-									$('#articles-thumbnails-${name}-${currentLocale}').empty();
-								}
-								$('#articles-thumbnails-${name}-${currentLocale}').append(htmlToAppend);
-								if (!multipleSelection) {
-									$(fieldName).val(selectedItem.value);
-								} else {
-									var currentValue = $(fieldName).val();
-									var newValue = currentValue;
-									if (currentValue.length > 0) {
-										newValue += ',';
-									}
-									newValue += selectedItem.value;
-									$(fieldName).val(newValue);
-								}							
-							}
+					onSelect: function(selectedItem) {
+					if (!!selectedItem && !!selectedItem.value) {
+						var htmlToAppend = '<li>'
+							+ selectedItem.title + ' - <a href="#" class="remove-article" data-entry-id="' + selectedItem.value + '">Supprimer</a>';
+							+ '</li>';
+						if (!multipleSelection) {
+							$('#articles-thumbnails-${name}-${currentLocale}').empty();
 						}
-					},
+						$('#articles-thumbnails-${name}-${currentLocale}').append(htmlToAppend);
+						if (!multipleSelection) {
+							$(fieldName).val(selectedItem.value);
+						} else {
+							var currentValue = $(fieldName).val();
+							var newValue = currentValue;
+							if (currentValue.length > 0) {
+								newValue += ',';
+							}
+							newValue += selectedItem.value;
+							$(fieldName).val(newValue);
+						}
+					}
+				},
 					title: '<liferay-ui:message key="article"/>',
 					<c:set var="itemSelectorURLVarName" value="itemSelectorURL${currentLocale.language}" />
 					url: '${requestScope[itemSelectorURLVarName]}'
 				}
 			);
-			itemSelectorDialog.open();
 		}
 	);
 	// Suppression d'un article

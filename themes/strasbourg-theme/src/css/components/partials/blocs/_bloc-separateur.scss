@@ -1,0 +1,11 @@
+.st-bloc-separateur {
+	height: 1px;
+	margin-top: 60px;
+	margin-bottom: 30px;
+	background-color: $c_border;
+
+	@include mobile {
+		margin-top: 40px;
+		margin-bottom: 30px;
+	}
+}

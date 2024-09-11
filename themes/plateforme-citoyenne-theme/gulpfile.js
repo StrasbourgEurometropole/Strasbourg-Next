@@ -15,44 +15,43 @@ var plugins = require('gulp-load-plugins')({
 var rename = require('gulp-rename');
 var globSass = require('gulp-sass-glob-import');
 var del = require('del');
-var runSequence = require('run-sequence').use(gulp);
-
+var runSequence = require('gulp4-run-sequence');
+var sass = require('gulp-sass')(require('sass'));
 liferayThemeTasks.registerTasks({
-  gulp: gulp,
-  hookFn: function(gulp) {
-    gulp.task('build:r2', function(done) {
-      const plugins = require('gulp-load-plugins')();
-  
-      return gulp
-        .src(['./build/css/*.css','!./build/css/*_rtl.css'])
-    });
+    gulp: gulp,
+    hookFn: function(gulp) {
+        gulp.task('build:r2', function(done) {
+            const plugins = require('gulp-load-plugins')();
 
-    gulp.hook('after:build:move-compiled-css', function(done) {
-        runSequence('remove-maps', 'remove-scss', 'remove-node-modules', done);
-    })
-  }
+            return gulp
+                .src(['./build/css/*.css','!./build/css/*_rtl.css'])
+        });
+
+        gulp.hook('after:build:move-compiled-css', function(done) {
+            runSequence('remove-maps', 'remove-scss', 'remove-node-modules', done);
+        })
+    }
 });
 
 gulp.task('remove-maps', cb => {
-	del('./build/**/*.map').then(() => cb());
+    del('./build/**/*.map').then(() => cb());
 });
 
 gulp.task('remove-scss', cb => {
-	del('./build/**/*.scss').then(() => cb());
+    del('./build/**/*.scss').then(() => cb());
 });
 
 gulp.task('remove-node-modules', cb => {
-	del('./build/node_modules').then(() => cb());
+    del('./build/node_modules').then(() => cb());
 });
 
 gulp.task('css', function () {
     return gulp.src('./custom/scss/strasbourg.scss')
-        .pipe(plugins.sass({outputStyle: 'compressed'}))
+        .pipe(sass({outputStyle: 'compressed'}))
         .on('error', function (err) {
             console.log(err.toString());
             this.emit('end');
         })
-        .pipe(plugins.autoprefixer())
         .pipe(gulp.dest('./src/css/'));
 });
 

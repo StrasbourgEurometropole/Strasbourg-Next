@@ -1,34 +1,43 @@
 package eu.strasbourg.portlet.link;
 
-import java.io.IOException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.theme.PortletDisplay;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.link.display.context.EditLinkDisplayContext;
+import eu.strasbourg.portlet.link.display.context.ManagementLinksToolBarDisplayContext;
+import eu.strasbourg.portlet.link.display.context.NavigationBarDisplayContext;
+import eu.strasbourg.portlet.link.display.context.ViewLinksDisplayContext;
+import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import org.osgi.service.component.annotations.Component;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
-import com.liferay.portal.kernel.theme.PortletDisplay;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
-
-import eu.strasbourg.portlet.link.display.context.EditLinkDisplayContext;
-import eu.strasbourg.portlet.link.display.context.ViewLinksDisplayContext;
+import static eu.strasbourg.portlet.link.constants.LinkConstants.*;
 
 @Component(
 	immediate = true,
 	property = {
 		"javax.portlet.version=3.0",
+			"javax.portlet.name=" + StrasbourgPortletKeys.LINK_BO,
 		"com.liferay.portlet.instanceable=false",
 		"com.liferay.portlet.footer-portlet-javascript=/js/link-bo-main.js",
 		"com.liferay.portlet.header-portlet-css=/css/link-bo-main.css",
 		"com.liferay.portlet.single-page-application=false",
 		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/link-bo-view.jsp",
+		"javax.portlet.init-param.template-path=/META-INF/resources/",
+		"javax.portlet.init-param.view-template=/link-bo-view-links.jsp",
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
 	},
@@ -42,30 +51,43 @@ public class LinkBOPortlet extends MVCPortlet {
 
 		ThemeDisplay themeDisplay = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
-		
-		String cmd = ParamUtil.getString(renderRequest, "cmd");
-		String mvcPath = ParamUtil.getString(renderRequest, "mvcPath");
-		
+		try {
+			NavigationBarDisplayContext navigationDC = new NavigationBarDisplayContext(renderRequest, renderResponse);
+			renderRequest.setAttribute("navigationDC", navigationDC);
+			HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(renderRequest);
+			switch (navigationDC.getSelectedTab()) {
+
+				case LINKS:
+				default:
+					if (navigationDC.getSelectedCmd().equals(EDIT_LINK) || navigationDC.getSelectedCmd().equals(SAVE_LINK)) {
+						EditLinkDisplayContext dc = new EditLinkDisplayContext(renderRequest, renderResponse);
+						renderRequest.setAttribute("dc", dc);
+					} else {
+						ViewLinksDisplayContext dc = new ViewLinksDisplayContext(renderRequest, renderResponse);
+						ManagementLinksToolBarDisplayContext managementDC = new ManagementLinksToolBarDisplayContext(servletRequest,(LiferayPortletRequest) renderRequest,
+								(LiferayPortletResponse) renderResponse, dc.getSearchContainer());
+						renderRequest.setAttribute("dc", dc);
+						renderRequest.setAttribute("managementDC", managementDC);
+					}
+					break;
+			}
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}
+
 		renderResponse.setTitle("Liens");
-		
+
 		// Si on est sur la page d'ajout, on affiche une lien de retour
-		String returnURL = ParamUtil.getString(renderRequest, "returnURL");
-		boolean showBackButton = Validator.isNotNull(returnURL);
+		String backURL = ParamUtil.getString(renderRequest, "backURL");
+		boolean showBackButton = Validator.isNotNull(backURL);
 		if (showBackButton) {
 			portletDisplay.setShowBackIcon(true);
-			portletDisplay.setURLBack(returnURL.toString());
+			portletDisplay.setURLBack(backURL.toString());
 		}
-		
-		// On set le displayContext selon la page sur laquelle on est
-		if (cmd.equals("editLink")|| mvcPath.equals("/link-bo-edit-link.jsp")) {
-			EditLinkDisplayContext dc = new EditLinkDisplayContext(renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);		
-		} else {
-			ViewLinksDisplayContext dc = new ViewLinksDisplayContext(renderRequest, renderResponse); 
-			renderRequest.setAttribute("dc", dc);
-		}
-		
+
+
+
 		super.render(renderRequest, renderResponse);
-	}	
-	
+	}
 }
+

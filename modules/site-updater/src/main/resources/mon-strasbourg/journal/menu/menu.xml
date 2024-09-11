@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Menu</name>
+        <key>2154387</key>
+        <definition>menu-structure.json</definition>
+        <layout>menu-layout.json</layout>
+    </structure>
+    <template>
+        <name>Menu</name>
+        <key>2154422</key>
+        <script>menu.ftl</script>
+    </template>
+</root>

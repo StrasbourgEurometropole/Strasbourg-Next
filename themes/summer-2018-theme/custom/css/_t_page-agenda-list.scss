@@ -129,8 +129,9 @@
 					border-bottom: 1px solid $c_filet;
 					margin-bottom: 15px;
 
-					label{
+					label, legend{
 						@include ft($f_nr, 1.375rem, 400, $c_main, 1.625rem);
+						display: contents;
 					}
 
 					.mns-expand-collapse {

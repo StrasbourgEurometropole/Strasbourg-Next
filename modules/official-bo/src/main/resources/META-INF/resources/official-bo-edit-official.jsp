@@ -1,25 +1,25 @@
 <%@ include file="/official-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.official.model.Official"%>
 
-<liferay-portlet:renderURL varImpl="officialsURL">
-	<portlet:param name="tab" value="officials" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteOfficial" var="deleteOfficialURL">
 	<portlet:param name="cmd" value="deleteOfficial" />
 	<portlet:param name="tab" value="officials" />
 	<portlet:param name="officialId"
 		value="${not empty dc.official ? dc.official.officialId : ''}" />
+	<portlet:param name="mvcPath" value="/official-bo-view-officials.jsp" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveOfficial" varImpl="saveOfficialURL">
-	<portlet:param name="cmd" value="saveOfficial" />
+	<portlet:param name="tab" value="officials" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="nom-error" message="nom-error" />
 	<liferay-ui:error key="prenom-error" message="prenom-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
+	<liferay-ui:error key="email-error" message="email-error" />
 
 	<aui:form action="${saveOfficialURL}" method="post" name="fm">
 
@@ -29,7 +29,7 @@
 
 		<aui:model-context bean="${dc.official}" model="<%=Official.class %>" />
 
-		<aui:fieldset-group markupView="lexicon">
+		<div class="sheet"><div class="panel-group panel-group-flush">
 
 			<aui:input name="officialId" type="hidden" />
 
@@ -124,6 +124,8 @@
 
 				<aui:input name="missions" />
 
+				<aui:input name="resumeFonction" helpMessage="resumeFonction-help" />
+
 				<c:if test="${not empty dc.fonctionsTown}">
 					<div class="form-group input-String-wrapper">
 						<label><liferay-ui:message key="fonctions-town" /></label>
@@ -195,9 +197,11 @@
 
 				<aui:input name="contact"/>
 
+                <aui:input name="listeContact" helpMessage="liste-contact-help"   />
+
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 
 		<aui:button-row>
 
@@ -219,7 +223,7 @@
 					value="delete" />
 			</c:if>
 
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 
 		</aui:button-row>
 

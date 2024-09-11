@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Statut des modules</name>
+        <key>104414194</key>
+        <definition>module-status-structure.json</definition>
+        <layout>module-status-layout.json</layout>
+    </structure>
+</root>

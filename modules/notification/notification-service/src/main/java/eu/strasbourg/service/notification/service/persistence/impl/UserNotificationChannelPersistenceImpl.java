@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.notification.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,25 +16,27 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.notification.exception.NoSuchUserNotificationChannelException;
 import eu.strasbourg.service.notification.model.UserNotificationChannel;
+import eu.strasbourg.service.notification.model.UserNotificationChannelTable;
 import eu.strasbourg.service.notification.model.impl.UserNotificationChannelImpl;
 import eu.strasbourg.service.notification.model.impl.UserNotificationChannelModelImpl;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPK;
 import eu.strasbourg.service.notification.service.persistence.UserNotificationChannelPersistence;
+import eu.strasbourg.service.notification.service.persistence.UserNotificationChannelUtil;
 
 import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -254,10 +248,6 @@ public class UserNotificationChannelPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -622,8 +612,6 @@ public class UserNotificationChannelPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -797,10 +785,6 @@ public class UserNotificationChannelPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1138,8 +1122,6 @@ public class UserNotificationChannelPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1155,6 +1137,11 @@ public class UserNotificationChannelPersistenceImpl
 
 	public UserNotificationChannelPersistenceImpl() {
 		setModelClass(UserNotificationChannel.class);
+
+		setModelImplClass(UserNotificationChannelImpl.class);
+		setModelPKClass(UserNotificationChannelPK.class);
+
+		setTable(UserNotificationChannelTable.INSTANCE);
 	}
 
 	/**
@@ -1165,12 +1152,11 @@ public class UserNotificationChannelPersistenceImpl
 	@Override
 	public void cacheResult(UserNotificationChannel userNotificationChannel) {
 		entityCache.putResult(
-			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
 			UserNotificationChannelImpl.class,
 			userNotificationChannel.getPrimaryKey(), userNotificationChannel);
-
-		userNotificationChannel.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the user notification channels in the entity cache if it is enabled.
@@ -1181,18 +1167,22 @@ public class UserNotificationChannelPersistenceImpl
 	public void cacheResult(
 		List<UserNotificationChannel> userNotificationChannels) {
 
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (userNotificationChannels.size() >
+				 _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (UserNotificationChannel userNotificationChannel :
 				userNotificationChannels) {
 
 			if (entityCache.getResult(
-					UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
 					UserNotificationChannelImpl.class,
 					userNotificationChannel.getPrimaryKey()) == null) {
 
 				cacheResult(userNotificationChannel);
-			}
-			else {
-				userNotificationChannel.resetOriginalValues();
 			}
 		}
 	}
@@ -1208,9 +1198,7 @@ public class UserNotificationChannelPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(UserNotificationChannelImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(UserNotificationChannelImpl.class);
 	}
 
 	/**
@@ -1223,39 +1211,27 @@ public class UserNotificationChannelPersistenceImpl
 	@Override
 	public void clearCache(UserNotificationChannel userNotificationChannel) {
 		entityCache.removeResult(
-			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelImpl.class,
-			userNotificationChannel.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+			UserNotificationChannelImpl.class, userNotificationChannel);
 	}
 
 	@Override
 	public void clearCache(
 		List<UserNotificationChannel> userNotificationChannels) {
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (UserNotificationChannel userNotificationChannel :
 				userNotificationChannels) {
 
 			entityCache.removeResult(
-				UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-				UserNotificationChannelImpl.class,
-				userNotificationChannel.getPrimaryKey());
+				UserNotificationChannelImpl.class, userNotificationChannel);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(UserNotificationChannelImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(
-				UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
 				UserNotificationChannelImpl.class, primaryKey);
 		}
 	}
@@ -1402,10 +1378,8 @@ public class UserNotificationChannelPersistenceImpl
 		try {
 			session = openSession();
 
-			if (userNotificationChannel.isNew()) {
+			if (isNew) {
 				session.save(userNotificationChannel);
-
-				userNotificationChannel.setNew(false);
 			}
 			else {
 				userNotificationChannel =
@@ -1420,81 +1394,13 @@ public class UserNotificationChannelPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!UserNotificationChannelModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {
-				userNotificationChannelModelImpl.getPublikUserId()
-			};
-
-			finderCache.removeResult(_finderPathCountByPublikUserId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByPublikUserId, args);
-
-			args = new Object[] {
-				userNotificationChannelModelImpl.getChannelId()
-			};
-
-			finderCache.removeResult(_finderPathCountByChannelId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByChannelId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((userNotificationChannelModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByPublikUserId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					userNotificationChannelModelImpl.getOriginalPublikUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-
-				args = new Object[] {
-					userNotificationChannelModelImpl.getPublikUserId()
-				};
-
-				finderCache.removeResult(_finderPathCountByPublikUserId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByPublikUserId, args);
-			}
-
-			if ((userNotificationChannelModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByChannelId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					userNotificationChannelModelImpl.getOriginalChannelId()
-				};
-
-				finderCache.removeResult(_finderPathCountByChannelId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByChannelId, args);
-
-				args = new Object[] {
-					userNotificationChannelModelImpl.getChannelId()
-				};
-
-				finderCache.removeResult(_finderPathCountByChannelId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByChannelId, args);
-			}
-		}
-
 		entityCache.putResult(
-			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelImpl.class,
-			userNotificationChannel.getPrimaryKey(), userNotificationChannel,
-			false);
+			UserNotificationChannelImpl.class, userNotificationChannelModelImpl,
+			false, true);
+
+		if (isNew) {
+			userNotificationChannel.setNew(false);
+		}
 
 		userNotificationChannel.resetOriginalValues();
 
@@ -1545,59 +1451,6 @@ public class UserNotificationChannelPersistenceImpl
 	/**
 	 * Returns the user notification channel with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the user notification channel
-	 * @return the user notification channel, or <code>null</code> if a user notification channel with the primary key could not be found
-	 */
-	@Override
-	public UserNotificationChannel fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		UserNotificationChannel userNotificationChannel =
-			(UserNotificationChannel)serializable;
-
-		if (userNotificationChannel == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				userNotificationChannel = (UserNotificationChannel)session.get(
-					UserNotificationChannelImpl.class, primaryKey);
-
-				if (userNotificationChannel != null) {
-					cacheResult(userNotificationChannel);
-				}
-				else {
-					entityCache.putResult(
-						UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-						UserNotificationChannelImpl.class, primaryKey,
-						nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-					UserNotificationChannelImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return userNotificationChannel;
-	}
-
-	/**
-	 * Returns the user notification channel with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param userNotificationChannelPK the primary key of the user notification channel
 	 * @return the user notification channel, or <code>null</code> if a user notification channel with the primary key could not be found
 	 */
@@ -1606,29 +1459,6 @@ public class UserNotificationChannelPersistenceImpl
 		UserNotificationChannelPK userNotificationChannelPK) {
 
 		return fetchByPrimaryKey((Serializable)userNotificationChannelPK);
-	}
-
-	@Override
-	public Map<Serializable, UserNotificationChannel> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, UserNotificationChannel> map =
-			new HashMap<Serializable, UserNotificationChannel>();
-
-		for (Serializable primaryKey : primaryKeys) {
-			UserNotificationChannel userNotificationChannel = fetchByPrimaryKey(
-				primaryKey);
-
-			if (userNotificationChannel != null) {
-				map.put(primaryKey, userNotificationChannel);
-			}
-		}
-
-		return map;
 	}
 
 	/**
@@ -1758,10 +1588,6 @@ public class UserNotificationChannelPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1808,9 +1634,6 @@ public class UserNotificationChannelPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1827,6 +1650,21 @@ public class UserNotificationChannelPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "userNotificationChannelPK";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_USERNOTIFICATIONCHANNEL;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return UserNotificationChannelModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -1835,79 +1673,64 @@ public class UserNotificationChannelPersistenceImpl
 	 * Initializes the user notification channel persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationChannelImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationChannelImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByPublikUserId = new FinderPath(
-			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationChannelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByPublikUserId",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"publikUserId"}, true);
 
 		_finderPathWithoutPaginationFindByPublikUserId = new FinderPath(
-			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationChannelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByPublikUserId",
 			new String[] {String.class.getName()},
-			UserNotificationChannelModelImpl.PUBLIKUSERID_COLUMN_BITMASK);
+			new String[] {"publikUserId"}, true);
 
 		_finderPathCountByPublikUserId = new FinderPath(
-			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPublikUserId",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()},
+			new String[] {"publikUserId"}, false);
 
 		_finderPathWithPaginationFindByChannelId = new FinderPath(
-			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationChannelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByChannelId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"channelId"}, true);
 
 		_finderPathWithoutPaginationFindByChannelId = new FinderPath(
-			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED,
-			UserNotificationChannelImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByChannelId",
-			new String[] {Long.class.getName()},
-			UserNotificationChannelModelImpl.CHANNELID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"channelId"},
+			true);
 
 		_finderPathCountByChannelId = new FinderPath(
-			UserNotificationChannelModelImpl.ENTITY_CACHE_ENABLED,
-			UserNotificationChannelModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByChannelId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"channelId"},
+			false);
+
+		UserNotificationChannelUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		UserNotificationChannelUtil.setPersistence(null);
+
 		entityCache.removeCache(UserNotificationChannelImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -1942,5 +1765,10 @@ public class UserNotificationChannelPersistenceImpl
 
 	private static final Set<String> _compoundPKColumnNames = SetUtil.fromArray(
 		new String[] {"publikUserId", "channelId"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

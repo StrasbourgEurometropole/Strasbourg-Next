@@ -14,22 +14,17 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
+import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import eu.strasbourg.service.agenda.model.AgendaExport;
+import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
+import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalServiceUtil;
+import eu.strasbourg.utils.AssetVocabularyHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import aQute.bnd.annotation.ProviderType;
-import com.liferay.portal.kernel.exception.PortalException;
-import eu.strasbourg.service.agenda.model.AgendaExport;
-import eu.strasbourg.service.agenda.model.AgendaExportPeriod;
-import eu.strasbourg.service.agenda.service.AgendaExportLocalServiceUtil;
-import eu.strasbourg.service.agenda.service.AgendaExportPeriodLocalServiceUtil;
-import eu.strasbourg.service.agenda.service.AgendaExportService;
-import eu.strasbourg.service.agenda.service.EventPeriodLocalServiceUtil;
-import eu.strasbourg.utils.AssetVocabularyHelper;
 
 /**
  * The extended model implementation for the AgendaExport service. Represents a row in the &quot;agenda_AgendaExport&quot; database table, with each column mapped to a property of this class.

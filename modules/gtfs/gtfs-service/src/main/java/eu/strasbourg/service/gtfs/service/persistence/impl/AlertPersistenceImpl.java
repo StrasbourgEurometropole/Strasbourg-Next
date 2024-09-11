@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.gtfs.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -25,29 +17,29 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.gtfs.exception.NoSuchAlertException;
 import eu.strasbourg.service.gtfs.model.Alert;
+import eu.strasbourg.service.gtfs.model.AlertTable;
 import eu.strasbourg.service.gtfs.model.impl.AlertImpl;
 import eu.strasbourg.service.gtfs.model.impl.AlertModelImpl;
 import eu.strasbourg.service.gtfs.service.persistence.AlertPersistence;
+import eu.strasbourg.service.gtfs.service.persistence.AlertUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -247,10 +239,6 @@ public class AlertPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -599,8 +587,6 @@ public class AlertPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -757,11 +743,6 @@ public class AlertPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(
-						_finderPathFetchByUUID_G, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -850,8 +831,6 @@ public class AlertPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1051,10 +1030,6 @@ public class AlertPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1431,8 +1406,6 @@ public class AlertPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1604,10 +1577,6 @@ public class AlertPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1931,8 +1900,6 @@ public class AlertPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2098,10 +2065,6 @@ public class AlertPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2425,8 +2388,6 @@ public class AlertPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2445,21 +2406,14 @@ public class AlertPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(Alert.class);
+
+		setModelImplClass(AlertImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(AlertTable.INSTANCE);
 	}
 
 	/**
@@ -2469,16 +2423,14 @@ public class AlertPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(Alert alert) {
-		entityCache.putResult(
-			AlertModelImpl.ENTITY_CACHE_ENABLED, AlertImpl.class,
-			alert.getPrimaryKey(), alert);
+		entityCache.putResult(AlertImpl.class, alert.getPrimaryKey(), alert);
 
 		finderCache.putResult(
 			_finderPathFetchByUUID_G,
 			new Object[] {alert.getUuid(), alert.getGroupId()}, alert);
-
-		alert.resetOriginalValues();
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the alerts in the entity cache if it is enabled.
@@ -2487,15 +2439,18 @@ public class AlertPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Alert> alerts) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (alerts.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (Alert alert : alerts) {
-			if (entityCache.getResult(
-					AlertModelImpl.ENTITY_CACHE_ENABLED, AlertImpl.class,
-					alert.getPrimaryKey()) == null) {
+			if (entityCache.getResult(AlertImpl.class, alert.getPrimaryKey()) ==
+					null) {
 
 				cacheResult(alert);
-			}
-			else {
-				alert.resetOriginalValues();
 			}
 		}
 	}
@@ -2511,9 +2466,7 @@ public class AlertPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(AlertImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(AlertImpl.class);
 	}
 
 	/**
@@ -2525,39 +2478,22 @@ public class AlertPersistenceImpl
 	 */
 	@Override
 	public void clearCache(Alert alert) {
-		entityCache.removeResult(
-			AlertModelImpl.ENTITY_CACHE_ENABLED, AlertImpl.class,
-			alert.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
-		clearUniqueFindersCache((AlertModelImpl)alert, true);
+		entityCache.removeResult(AlertImpl.class, alert);
 	}
 
 	@Override
 	public void clearCache(List<Alert> alerts) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (Alert alert : alerts) {
-			entityCache.removeResult(
-				AlertModelImpl.ENTITY_CACHE_ENABLED, AlertImpl.class,
-				alert.getPrimaryKey());
-
-			clearUniqueFindersCache((AlertModelImpl)alert, true);
+			entityCache.removeResult(AlertImpl.class, alert);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(AlertImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				AlertModelImpl.ENTITY_CACHE_ENABLED, AlertImpl.class,
-				primaryKey);
+			entityCache.removeResult(AlertImpl.class, primaryKey);
 		}
 	}
 
@@ -2566,35 +2502,8 @@ public class AlertPersistenceImpl
 			alertModelImpl.getUuid(), alertModelImpl.getGroupId()
 		};
 
-		finderCache.putResult(
-			_finderPathCountByUUID_G, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByUUID_G, args, alertModelImpl, false);
-	}
-
-	protected void clearUniqueFindersCache(
-		AlertModelImpl alertModelImpl, boolean clearCurrent) {
-
-		if (clearCurrent) {
-			Object[] args = new Object[] {
-				alertModelImpl.getUuid(), alertModelImpl.getGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
-
-		if ((alertModelImpl.getColumnBitmask() &
-			 _finderPathFetchByUUID_G.getColumnBitmask()) != 0) {
-
-			Object[] args = new Object[] {
-				alertModelImpl.getOriginalUuid(),
-				alertModelImpl.getOriginalGroupId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUUID_G, args);
-			finderCache.removeResult(_finderPathFetchByUUID_G, args);
-		}
+		finderCache.putResult(_finderPathCountByUUID_G, args, Long.valueOf(1));
+		finderCache.putResult(_finderPathFetchByUUID_G, args, alertModelImpl);
 	}
 
 	/**
@@ -2732,10 +2641,8 @@ public class AlertPersistenceImpl
 		try {
 			session = openSession();
 
-			if (alert.isNew()) {
+			if (isNew) {
 				session.save(alert);
-
-				alert.setNew(false);
 			}
 			else {
 				alert = (Alert)session.merge(alert);
@@ -2748,127 +2655,13 @@ public class AlertPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
+		entityCache.putResult(AlertImpl.class, alertModelImpl, false, true);
 
-		if (!AlertModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {alertModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {
-				alertModelImpl.getUuid(), alertModelImpl.getCompanyId()
-			};
-
-			finderCache.removeResult(_finderPathCountByUuid_C, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid_C, args);
-
-			args = new Object[] {alertModelImpl.getGroupId()};
-
-			finderCache.removeResult(_finderPathCountByGroupId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByGroupId, args);
-
-			args = new Object[] {alertModelImpl.getArretId()};
-
-			finderCache.removeResult(_finderPathCountByArretId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByArretId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((alertModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {alertModelImpl.getOriginalUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {alertModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((alertModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid_C.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					alertModelImpl.getOriginalUuid(),
-					alertModelImpl.getOriginalCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-
-				args = new Object[] {
-					alertModelImpl.getUuid(), alertModelImpl.getCompanyId()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid_C, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid_C, args);
-			}
-
-			if ((alertModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByGroupId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					alertModelImpl.getOriginalGroupId()
-				};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-
-				args = new Object[] {alertModelImpl.getGroupId()};
-
-				finderCache.removeResult(_finderPathCountByGroupId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByGroupId, args);
-			}
-
-			if ((alertModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByArretId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					alertModelImpl.getOriginalArretId()
-				};
-
-				finderCache.removeResult(_finderPathCountByArretId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByArretId, args);
-
-				args = new Object[] {alertModelImpl.getArretId()};
-
-				finderCache.removeResult(_finderPathCountByArretId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByArretId, args);
-			}
-		}
-
-		entityCache.putResult(
-			AlertModelImpl.ENTITY_CACHE_ENABLED, AlertImpl.class,
-			alert.getPrimaryKey(), alert, false);
-
-		clearUniqueFindersCache(alertModelImpl, false);
 		cacheUniqueFindersCache(alertModelImpl);
+
+		if (isNew) {
+			alert.setNew(false);
+		}
 
 		alert.resetOriginalValues();
 
@@ -2915,158 +2708,12 @@ public class AlertPersistenceImpl
 	/**
 	 * Returns the alert with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the alert
-	 * @return the alert, or <code>null</code> if a alert with the primary key could not be found
-	 */
-	@Override
-	public Alert fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			AlertModelImpl.ENTITY_CACHE_ENABLED, AlertImpl.class, primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		Alert alert = (Alert)serializable;
-
-		if (alert == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				alert = (Alert)session.get(AlertImpl.class, primaryKey);
-
-				if (alert != null) {
-					cacheResult(alert);
-				}
-				else {
-					entityCache.putResult(
-						AlertModelImpl.ENTITY_CACHE_ENABLED, AlertImpl.class,
-						primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					AlertModelImpl.ENTITY_CACHE_ENABLED, AlertImpl.class,
-					primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return alert;
-	}
-
-	/**
-	 * Returns the alert with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param alertId the primary key of the alert
 	 * @return the alert, or <code>null</code> if a alert with the primary key could not be found
 	 */
 	@Override
 	public Alert fetchByPrimaryKey(long alertId) {
 		return fetchByPrimaryKey((Serializable)alertId);
-	}
-
-	@Override
-	public Map<Serializable, Alert> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, Alert> map = new HashMap<Serializable, Alert>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			Alert alert = fetchByPrimaryKey(primaryKey);
-
-			if (alert != null) {
-				map.put(primaryKey, alert);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				AlertModelImpl.ENTITY_CACHE_ENABLED, AlertImpl.class,
-				primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (Alert)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_ALERT_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (Alert alert : (List<Alert>)query.list()) {
-				map.put(alert.getPrimaryKeyObj(), alert);
-
-				cacheResult(alert);
-
-				uncachedPrimaryKeys.remove(alert.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					AlertModelImpl.ENTITY_CACHE_ENABLED, AlertImpl.class,
-					primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -3193,10 +2840,6 @@ public class AlertPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -3242,9 +2885,6 @@ public class AlertPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -3261,6 +2901,21 @@ public class AlertPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "alertId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_ALERT;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return AlertModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -3269,133 +2924,111 @@ public class AlertPersistenceImpl
 	 * Initializes the alert persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			AlertModelImpl.ENTITY_CACHE_ENABLED,
-			AlertModelImpl.FINDER_CACHE_ENABLED, AlertImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			AlertModelImpl.ENTITY_CACHE_ENABLED,
-			AlertModelImpl.FINDER_CACHE_ENABLED, AlertImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			AlertModelImpl.ENTITY_CACHE_ENABLED,
-			AlertModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			AlertModelImpl.ENTITY_CACHE_ENABLED,
-			AlertModelImpl.FINDER_CACHE_ENABLED, AlertImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			AlertModelImpl.ENTITY_CACHE_ENABLED,
-			AlertModelImpl.FINDER_CACHE_ENABLED, AlertImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			AlertModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			AlertModelImpl.ENTITY_CACHE_ENABLED,
-			AlertModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathFetchByUUID_G = new FinderPath(
-			AlertModelImpl.ENTITY_CACHE_ENABLED,
-			AlertModelImpl.FINDER_CACHE_ENABLED, AlertImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
 			new String[] {String.class.getName(), Long.class.getName()},
-			AlertModelImpl.UUID_COLUMN_BITMASK |
-			AlertModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {"uuid_", "groupId"}, true);
 
 		_finderPathCountByUUID_G = new FinderPath(
-			AlertModelImpl.ENTITY_CACHE_ENABLED,
-			AlertModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "groupId"}, false);
 
 		_finderPathWithPaginationFindByUuid_C = new FinderPath(
-			AlertModelImpl.ENTITY_CACHE_ENABLED,
-			AlertModelImpl.FINDER_CACHE_ENABLED, AlertImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
 			new String[] {
 				String.class.getName(), Long.class.getName(),
 				Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathWithoutPaginationFindByUuid_C = new FinderPath(
-			AlertModelImpl.ENTITY_CACHE_ENABLED,
-			AlertModelImpl.FINDER_CACHE_ENABLED, AlertImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
 			new String[] {String.class.getName(), Long.class.getName()},
-			AlertModelImpl.UUID_COLUMN_BITMASK |
-			AlertModelImpl.COMPANYID_COLUMN_BITMASK);
+			new String[] {"uuid_", "companyId"}, true);
 
 		_finderPathCountByUuid_C = new FinderPath(
-			AlertModelImpl.ENTITY_CACHE_ENABLED,
-			AlertModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
-			new String[] {String.class.getName(), Long.class.getName()});
+			new String[] {String.class.getName(), Long.class.getName()},
+			new String[] {"uuid_", "companyId"}, false);
 
 		_finderPathWithPaginationFindByGroupId = new FinderPath(
-			AlertModelImpl.ENTITY_CACHE_ENABLED,
-			AlertModelImpl.FINDER_CACHE_ENABLED, AlertImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"groupId"}, true);
 
 		_finderPathWithoutPaginationFindByGroupId = new FinderPath(
-			AlertModelImpl.ENTITY_CACHE_ENABLED,
-			AlertModelImpl.FINDER_CACHE_ENABLED, AlertImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
-			new String[] {Long.class.getName()},
-			AlertModelImpl.GROUPID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			true);
 
 		_finderPathCountByGroupId = new FinderPath(
-			AlertModelImpl.ENTITY_CACHE_ENABLED,
-			AlertModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"groupId"},
+			false);
 
 		_finderPathWithPaginationFindByArretId = new FinderPath(
-			AlertModelImpl.ENTITY_CACHE_ENABLED,
-			AlertModelImpl.FINDER_CACHE_ENABLED, AlertImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByArretId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"arretId"}, true);
 
 		_finderPathWithoutPaginationFindByArretId = new FinderPath(
-			AlertModelImpl.ENTITY_CACHE_ENABLED,
-			AlertModelImpl.FINDER_CACHE_ENABLED, AlertImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByArretId",
-			new String[] {Long.class.getName()},
-			AlertModelImpl.ARRETID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"arretId"},
+			true);
 
 		_finderPathCountByArretId = new FinderPath(
-			AlertModelImpl.ENTITY_CACHE_ENABLED,
-			AlertModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByArretId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"arretId"},
+			false);
+
+		AlertUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		AlertUtil.setPersistence(null);
+
 		entityCache.removeCache(AlertImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -3406,9 +3039,6 @@ public class AlertPersistenceImpl
 
 	private static final String _SQL_SELECT_ALERT =
 		"SELECT alert FROM Alert alert";
-
-	private static final String _SQL_SELECT_ALERT_WHERE_PKS_IN =
-		"SELECT alert FROM Alert alert WHERE alertId IN (";
 
 	private static final String _SQL_SELECT_ALERT_WHERE =
 		"SELECT alert FROM Alert alert WHERE ";
@@ -3432,5 +3062,10 @@ public class AlertPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

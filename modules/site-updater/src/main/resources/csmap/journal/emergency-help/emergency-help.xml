@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Aide d'urgence</name>
+        <key>93508904</key>
+        <definition>emergency-help-structure.json</definition>
+        <layout>emergency-help-layout.json</layout>
+    </structure>
+</root>

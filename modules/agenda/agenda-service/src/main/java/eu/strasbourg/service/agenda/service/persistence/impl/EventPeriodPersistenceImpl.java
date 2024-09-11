@@ -1,19 +1,11 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.agenda.service.persistence.impl;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.EntityCache;
 import com.liferay.portal.kernel.dao.orm.FinderCache;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
@@ -24,29 +16,29 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import eu.strasbourg.service.agenda.exception.NoSuchEventPeriodException;
 import eu.strasbourg.service.agenda.model.EventPeriod;
+import eu.strasbourg.service.agenda.model.EventPeriodTable;
 import eu.strasbourg.service.agenda.model.impl.EventPeriodImpl;
 import eu.strasbourg.service.agenda.model.impl.EventPeriodModelImpl;
 import eu.strasbourg.service.agenda.service.persistence.EventPeriodPersistence;
+import eu.strasbourg.service.agenda.service.persistence.EventPeriodUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -247,10 +239,6 @@ public class EventPeriodPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -599,8 +587,6 @@ public class EventPeriodPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -770,10 +756,6 @@ public class EventPeriodPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1100,8 +1082,6 @@ public class EventPeriodPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1273,10 +1253,6 @@ public class EventPeriodPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -1609,8 +1585,6 @@ public class EventPeriodPersistenceImpl
 				finderCache.putResult(finderPath, finderArgs, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(finderPath, finderArgs);
-
 				throw processException(exception);
 			}
 			finally {
@@ -1630,21 +1604,14 @@ public class EventPeriodPersistenceImpl
 
 		dbColumnNames.put("uuid", "uuid_");
 
-		try {
-			Field field = BasePersistenceImpl.class.getDeclaredField(
-				"_dbColumnNames");
-
-			field.setAccessible(true);
-
-			field.set(this, dbColumnNames);
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception, exception);
-			}
-		}
+		setDBColumnNames(dbColumnNames);
 
 		setModelClass(EventPeriod.class);
+
+		setModelImplClass(EventPeriodImpl.class);
+		setModelPKClass(long.class);
+
+		setTable(EventPeriodTable.INSTANCE);
 	}
 
 	/**
@@ -1655,11 +1622,10 @@ public class EventPeriodPersistenceImpl
 	@Override
 	public void cacheResult(EventPeriod eventPeriod) {
 		entityCache.putResult(
-			EventPeriodModelImpl.ENTITY_CACHE_ENABLED, EventPeriodImpl.class,
-			eventPeriod.getPrimaryKey(), eventPeriod);
-
-		eventPeriod.resetOriginalValues();
+			EventPeriodImpl.class, eventPeriod.getPrimaryKey(), eventPeriod);
 	}
+
+	private int _valueObjectFinderCacheListThreshold;
 
 	/**
 	 * Caches the event periods in the entity cache if it is enabled.
@@ -1668,16 +1634,19 @@ public class EventPeriodPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<EventPeriod> eventPeriods) {
+		if ((_valueObjectFinderCacheListThreshold == 0) ||
+			((_valueObjectFinderCacheListThreshold > 0) &&
+			 (eventPeriods.size() > _valueObjectFinderCacheListThreshold))) {
+
+			return;
+		}
+
 		for (EventPeriod eventPeriod : eventPeriods) {
 			if (entityCache.getResult(
-					EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
 					EventPeriodImpl.class, eventPeriod.getPrimaryKey()) ==
 						null) {
 
 				cacheResult(eventPeriod);
-			}
-			else {
-				eventPeriod.resetOriginalValues();
 			}
 		}
 	}
@@ -1693,9 +1662,7 @@ public class EventPeriodPersistenceImpl
 	public void clearCache() {
 		entityCache.clearCache(EventPeriodImpl.class);
 
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(EventPeriodImpl.class);
 	}
 
 	/**
@@ -1707,35 +1674,22 @@ public class EventPeriodPersistenceImpl
 	 */
 	@Override
 	public void clearCache(EventPeriod eventPeriod) {
-		entityCache.removeResult(
-			EventPeriodModelImpl.ENTITY_CACHE_ENABLED, EventPeriodImpl.class,
-			eventPeriod.getPrimaryKey());
-
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		entityCache.removeResult(EventPeriodImpl.class, eventPeriod);
 	}
 
 	@Override
 	public void clearCache(List<EventPeriod> eventPeriods) {
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-
 		for (EventPeriod eventPeriod : eventPeriods) {
-			entityCache.removeResult(
-				EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-				EventPeriodImpl.class, eventPeriod.getPrimaryKey());
+			entityCache.removeResult(EventPeriodImpl.class, eventPeriod);
 		}
 	}
 
+	@Override
 	public void clearCache(Set<Serializable> primaryKeys) {
-		finderCache.clearCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+		finderCache.clearCache(EventPeriodImpl.class);
 
 		for (Serializable primaryKey : primaryKeys) {
-			entityCache.removeResult(
-				EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-				EventPeriodImpl.class, primaryKey);
+			entityCache.removeResult(EventPeriodImpl.class, primaryKey);
 		}
 	}
 
@@ -1878,10 +1832,8 @@ public class EventPeriodPersistenceImpl
 		try {
 			session = openSession();
 
-			if (eventPeriod.isNew()) {
+			if (isNew) {
 				session.save(eventPeriod);
-
-				eventPeriod.setNew(false);
 			}
 			else {
 				eventPeriod = (EventPeriod)session.merge(eventPeriod);
@@ -1894,98 +1846,12 @@ public class EventPeriodPersistenceImpl
 			closeSession(session);
 		}
 
-		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-
-		if (!EventPeriodModelImpl.COLUMN_BITMASK_ENABLED) {
-			finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-		}
-		else if (isNew) {
-			Object[] args = new Object[] {eventPeriodModelImpl.getUuid()};
-
-			finderCache.removeResult(_finderPathCountByUuid, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByUuid, args);
-
-			args = new Object[] {eventPeriodModelImpl.getEventId()};
-
-			finderCache.removeResult(_finderPathCountByEventId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByEventId, args);
-
-			args = new Object[] {eventPeriodModelImpl.getCampaignEventId()};
-
-			finderCache.removeResult(_finderPathCountByCampaignEventId, args);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindByCampaignEventId, args);
-
-			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
-			finderCache.removeResult(
-				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
-		}
-		else {
-			if ((eventPeriodModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByUuid.getColumnBitmask()) !=
-					 0) {
-
-				Object[] args = new Object[] {
-					eventPeriodModelImpl.getOriginalUuid()
-				};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-
-				args = new Object[] {eventPeriodModelImpl.getUuid()};
-
-				finderCache.removeResult(_finderPathCountByUuid, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByUuid, args);
-			}
-
-			if ((eventPeriodModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByEventId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					eventPeriodModelImpl.getOriginalEventId()
-				};
-
-				finderCache.removeResult(_finderPathCountByEventId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByEventId, args);
-
-				args = new Object[] {eventPeriodModelImpl.getEventId()};
-
-				finderCache.removeResult(_finderPathCountByEventId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByEventId, args);
-			}
-
-			if ((eventPeriodModelImpl.getColumnBitmask() &
-				 _finderPathWithoutPaginationFindByCampaignEventId.
-					 getColumnBitmask()) != 0) {
-
-				Object[] args = new Object[] {
-					eventPeriodModelImpl.getOriginalCampaignEventId()
-				};
-
-				finderCache.removeResult(
-					_finderPathCountByCampaignEventId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCampaignEventId, args);
-
-				args = new Object[] {eventPeriodModelImpl.getCampaignEventId()};
-
-				finderCache.removeResult(
-					_finderPathCountByCampaignEventId, args);
-				finderCache.removeResult(
-					_finderPathWithoutPaginationFindByCampaignEventId, args);
-			}
-		}
-
 		entityCache.putResult(
-			EventPeriodModelImpl.ENTITY_CACHE_ENABLED, EventPeriodImpl.class,
-			eventPeriod.getPrimaryKey(), eventPeriod, false);
+			EventPeriodImpl.class, eventPeriodModelImpl, false, true);
+
+		if (isNew) {
+			eventPeriod.setNew(false);
+		}
 
 		eventPeriod.resetOriginalValues();
 
@@ -2034,161 +1900,12 @@ public class EventPeriodPersistenceImpl
 	/**
 	 * Returns the event period with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param primaryKey the primary key of the event period
-	 * @return the event period, or <code>null</code> if a event period with the primary key could not be found
-	 */
-	@Override
-	public EventPeriod fetchByPrimaryKey(Serializable primaryKey) {
-		Serializable serializable = entityCache.getResult(
-			EventPeriodModelImpl.ENTITY_CACHE_ENABLED, EventPeriodImpl.class,
-			primaryKey);
-
-		if (serializable == nullModel) {
-			return null;
-		}
-
-		EventPeriod eventPeriod = (EventPeriod)serializable;
-
-		if (eventPeriod == null) {
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				eventPeriod = (EventPeriod)session.get(
-					EventPeriodImpl.class, primaryKey);
-
-				if (eventPeriod != null) {
-					cacheResult(eventPeriod);
-				}
-				else {
-					entityCache.putResult(
-						EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-						EventPeriodImpl.class, primaryKey, nullModel);
-				}
-			}
-			catch (Exception exception) {
-				entityCache.removeResult(
-					EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-					EventPeriodImpl.class, primaryKey);
-
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return eventPeriod;
-	}
-
-	/**
-	 * Returns the event period with the primary key or returns <code>null</code> if it could not be found.
-	 *
 	 * @param eventPeriodId the primary key of the event period
 	 * @return the event period, or <code>null</code> if a event period with the primary key could not be found
 	 */
 	@Override
 	public EventPeriod fetchByPrimaryKey(long eventPeriodId) {
 		return fetchByPrimaryKey((Serializable)eventPeriodId);
-	}
-
-	@Override
-	public Map<Serializable, EventPeriod> fetchByPrimaryKeys(
-		Set<Serializable> primaryKeys) {
-
-		if (primaryKeys.isEmpty()) {
-			return Collections.emptyMap();
-		}
-
-		Map<Serializable, EventPeriod> map =
-			new HashMap<Serializable, EventPeriod>();
-
-		if (primaryKeys.size() == 1) {
-			Iterator<Serializable> iterator = primaryKeys.iterator();
-
-			Serializable primaryKey = iterator.next();
-
-			EventPeriod eventPeriod = fetchByPrimaryKey(primaryKey);
-
-			if (eventPeriod != null) {
-				map.put(primaryKey, eventPeriod);
-			}
-
-			return map;
-		}
-
-		Set<Serializable> uncachedPrimaryKeys = null;
-
-		for (Serializable primaryKey : primaryKeys) {
-			Serializable serializable = entityCache.getResult(
-				EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-				EventPeriodImpl.class, primaryKey);
-
-			if (serializable != nullModel) {
-				if (serializable == null) {
-					if (uncachedPrimaryKeys == null) {
-						uncachedPrimaryKeys = new HashSet<Serializable>();
-					}
-
-					uncachedPrimaryKeys.add(primaryKey);
-				}
-				else {
-					map.put(primaryKey, (EventPeriod)serializable);
-				}
-			}
-		}
-
-		if (uncachedPrimaryKeys == null) {
-			return map;
-		}
-
-		StringBundler sb = new StringBundler(
-			uncachedPrimaryKeys.size() * 2 + 1);
-
-		sb.append(_SQL_SELECT_EVENTPERIOD_WHERE_PKS_IN);
-
-		for (Serializable primaryKey : uncachedPrimaryKeys) {
-			sb.append((long)primaryKey);
-
-			sb.append(",");
-		}
-
-		sb.setIndex(sb.index() - 1);
-
-		sb.append(")");
-
-		String sql = sb.toString();
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Query query = session.createQuery(sql);
-
-			for (EventPeriod eventPeriod : (List<EventPeriod>)query.list()) {
-				map.put(eventPeriod.getPrimaryKeyObj(), eventPeriod);
-
-				cacheResult(eventPeriod);
-
-				uncachedPrimaryKeys.remove(eventPeriod.getPrimaryKeyObj());
-			}
-
-			for (Serializable primaryKey : uncachedPrimaryKeys) {
-				entityCache.putResult(
-					EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-					EventPeriodImpl.class, primaryKey, nullModel);
-			}
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-
-		return map;
 	}
 
 	/**
@@ -2315,10 +2032,6 @@ public class EventPeriodPersistenceImpl
 				}
 			}
 			catch (Exception exception) {
-				if (useFinderCache) {
-					finderCache.removeResult(finderPath, finderArgs);
-				}
-
 				throw processException(exception);
 			}
 			finally {
@@ -2364,9 +2077,6 @@ public class EventPeriodPersistenceImpl
 					_finderPathCountAll, FINDER_ARGS_EMPTY, count);
 			}
 			catch (Exception exception) {
-				finderCache.removeResult(
-					_finderPathCountAll, FINDER_ARGS_EMPTY);
-
 				throw processException(exception);
 			}
 			finally {
@@ -2383,6 +2093,21 @@ public class EventPeriodPersistenceImpl
 	}
 
 	@Override
+	protected EntityCache getEntityCache() {
+		return entityCache;
+	}
+
+	@Override
+	protected String getPKDBName() {
+		return "eventPeriodId";
+	}
+
+	@Override
+	protected String getSelectSQL() {
+		return _SQL_SELECT_EVENTPERIOD;
+	}
+
+	@Override
 	protected Map<String, Integer> getTableColumnsMap() {
 		return EventPeriodModelImpl.TABLE_COLUMNS_MAP;
 	}
@@ -2391,95 +2116,82 @@ public class EventPeriodPersistenceImpl
 	 * Initializes the event period persistence.
 	 */
 	public void afterPropertiesSet() {
+		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
+			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
+
 		_finderPathWithPaginationFindAll = new FinderPath(
-			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathWithoutPaginationFindAll = new FinderPath(
-			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll",
-			new String[0]);
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findAll", new String[0],
+			new String[0], true);
 
 		_finderPathCountAll = new FinderPath(
-			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
-			new String[0]);
+			new String[0], new String[0], false);
 
 		_finderPathWithPaginationFindByUuid = new FinderPath(
-			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid",
 			new String[] {
 				String.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"uuid_"}, true);
 
 		_finderPathWithoutPaginationFindByUuid = new FinderPath(
-			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid",
-			new String[] {String.class.getName()},
-			EventPeriodModelImpl.UUID_COLUMN_BITMASK);
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			true);
 
 		_finderPathCountByUuid = new FinderPath(
-			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid",
-			new String[] {String.class.getName()});
+			new String[] {String.class.getName()}, new String[] {"uuid_"},
+			false);
 
 		_finderPathWithPaginationFindByEventId = new FinderPath(
-			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByEventId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"eventId"}, true);
 
 		_finderPathWithoutPaginationFindByEventId = new FinderPath(
-			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByEventId",
-			new String[] {Long.class.getName()},
-			EventPeriodModelImpl.EVENTID_COLUMN_BITMASK);
+			new String[] {Long.class.getName()}, new String[] {"eventId"},
+			true);
 
 		_finderPathCountByEventId = new FinderPath(
-			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEventId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()}, new String[] {"eventId"},
+			false);
 
 		_finderPathWithPaginationFindByCampaignEventId = new FinderPath(
-			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByCampaignEventId",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
 				Integer.class.getName(), OrderByComparator.class.getName()
-			});
+			},
+			new String[] {"campaignEventId"}, true);
 
 		_finderPathWithoutPaginationFindByCampaignEventId = new FinderPath(
-			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, EventPeriodImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByCampaignEventId",
 			new String[] {Long.class.getName()},
-			EventPeriodModelImpl.CAMPAIGNEVENTID_COLUMN_BITMASK);
+			new String[] {"campaignEventId"}, true);
 
 		_finderPathCountByCampaignEventId = new FinderPath(
-			EventPeriodModelImpl.ENTITY_CACHE_ENABLED,
-			EventPeriodModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCampaignEventId",
-			new String[] {Long.class.getName()});
+			new String[] {Long.class.getName()},
+			new String[] {"campaignEventId"}, false);
+
+		EventPeriodUtil.setPersistence(this);
 	}
 
 	public void destroy() {
+		EventPeriodUtil.setPersistence(null);
+
 		entityCache.removeCache(EventPeriodImpl.class.getName());
-		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
-		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
 	@ServiceReference(type = EntityCache.class)
@@ -2490,9 +2202,6 @@ public class EventPeriodPersistenceImpl
 
 	private static final String _SQL_SELECT_EVENTPERIOD =
 		"SELECT eventPeriod FROM EventPeriod eventPeriod";
-
-	private static final String _SQL_SELECT_EVENTPERIOD_WHERE_PKS_IN =
-		"SELECT eventPeriod FROM EventPeriod eventPeriod WHERE eventPeriodId IN (";
 
 	private static final String _SQL_SELECT_EVENTPERIOD_WHERE =
 		"SELECT eventPeriod FROM EventPeriod eventPeriod WHERE ";
@@ -2516,5 +2225,10 @@ public class EventPeriodPersistenceImpl
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
 		new String[] {"uuid"});
+
+	@Override
+	protected FinderCache getFinderCache() {
+		return finderCache;
+	}
 
 }

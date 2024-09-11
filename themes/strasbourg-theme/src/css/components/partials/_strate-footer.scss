@@ -1,0 +1,176 @@
+.st-strate-footer {
+	overflow: hidden;
+	padding-top: 40px;
+
+	.st-strate-partenaires {
+		margin-bottom: 40px;
+
+		&.has-ended .splide__track:after {
+			opacity: 0;
+		}
+
+		.st-h2 {
+			margin-bottom: 40px;
+
+			@include mobile {
+				margin-bottom: 20px;
+			}
+		}
+	}
+
+	.st-slider-container {
+		position: relative;
+
+		@include tablet-landscape {
+			display: flex;
+			flex-direction: column-reverse;
+			align-items: flex-end;
+		}
+	}
+
+	.splide__track {
+		&:after {
+			content: "";
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 60px;
+			height: 100%;
+			background: linear-gradient(to left, color-mix(in srgb, $c_main 100%, transparent), color-mix(in srgb, $c_main 0%, transparent));
+			pointer-events: none;
+			@include transition(opacity);
+		}
+	}
+
+	.splide__arrows {
+		@include tablet-landscape {
+			margin-top: 20px;
+		}
+
+		.st-btn-arrow {
+			@include min-tablet-landscape {
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+
+				&.st--prev {
+					left: -50px;
+				}
+
+				&.st--next {
+					right: -50px;
+				}
+			}
+		}
+	}
+
+	.splide__slide {
+		margin-right: var(--slide-gap);
+
+		// On affiche la tooltip au hover seulement sur les slides visibles
+		&.is-visible {
+			.st-container {
+
+				&.st-has-tooltip-show {
+					.st-tooltip-logo {
+						opacity: 1;
+						transform: none;
+					}
+				}
+			}
+		}
+	}
+
+	.st-container {
+		position: relative;
+		display: block;
+		@include create-outline();
+
+		img {
+			width: 100px;
+			height: 100px;
+			border-radius: $border-radius-small;
+
+			@include mobile {
+				width: 80px;
+				height: 80px;
+			}
+		}
+
+		.st-tooltip-logo {
+			position: absolute;
+			bottom: 20px;
+			left: 50%;
+			z-index: 1;
+			transform: translateY(10px);
+			padding: 5px 10px;
+			@include ft($f_txt, 14px, 600, $c_white, 1);
+			@include letter-spacing(25);
+			white-space: nowrap;
+			background-color: $c_greydark;
+			border-radius: $border-radius-small;
+			opacity: 0;
+			pointer-events: none;
+			@include transition(opacity, visibility, transform);
+		}
+	}
+
+	.st-strate-newsletter {
+		background-color: $c_greydark;
+		border-radius: $border-radius;
+
+		.st-container {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			max-width: $wrapper-small-width;
+			width: 100%;
+			margin-left: auto;
+			margin-right: auto;
+			padding: 60px 0;
+
+			@media screen and (max-width: 1200px) {
+				width: auto;
+				margin-left: var(--border-gutter);
+				margin-right: var(--border-gutter);
+			}
+			@include mobile {
+				flex-direction: column;
+				padding: 20px 0;
+			}
+		}
+
+		.st-col-left {
+			max-width: 380px;
+			margin-right: 20px;
+
+			@include mobile {
+				max-width: initial;
+				margin-right: 0px;
+				margin-bottom: 20px;
+			}
+
+			.st-surtitre-cat {
+				margin-top: 5px;
+
+				@include mobile {
+					max-width: calc(100% - 40px);
+				}
+			}
+		}
+
+		.st-col-right {
+			@include mobile {
+				width: 100%;
+			}
+
+			.st-btn {
+				@include mobile {
+					width: 100%;
+				}
+			}
+		}
+	}
+
+
+}

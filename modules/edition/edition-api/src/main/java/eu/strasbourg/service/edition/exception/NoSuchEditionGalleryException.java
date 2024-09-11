@@ -11,17 +11,13 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-
 package eu.strasbourg.service.edition.exception;
-
-import aQute.bnd.annotation.ProviderType;
 
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author BenjaminBini
  */
-@ProviderType
 public class NoSuchEditionGalleryException extends NoSuchModelException {
 
 	public NoSuchEditionGalleryException() {
@@ -31,12 +27,12 @@ public class NoSuchEditionGalleryException extends NoSuchModelException {
 		super(msg);
 	}
 
-	public NoSuchEditionGalleryException(String msg, Throwable cause) {
-		super(msg, cause);
+	public NoSuchEditionGalleryException(String msg, Throwable throwable) {
+		super(msg, throwable);
 	}
 
-	public NoSuchEditionGalleryException(Throwable cause) {
-		super(cause);
+	public NoSuchEditionGalleryException(Throwable throwable) {
+		super(throwable);
 	}
 
 }

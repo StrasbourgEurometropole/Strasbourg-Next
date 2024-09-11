@@ -1,0 +1,21 @@
+<div class="st-bloc-accordeon">
+  <div class="st-accordion st-js-accordion">
+    <h3 class="st-accordion__header st-h2">
+      <button type="button" class="st-accordion__trigger" id="accordion-header-${fragmentEntryLinkNamespace}" aria-controls="accordion-panel-${fragmentEntryLinkNamespace}" aria-expanded="false">
+
+        <span class="accordion-title" data-lfr-editable-id="accordeon-title" data-lfr-editable-type="text">Etiam facilisis</span>
+        <span class="st-accordion__icon st-icon-arrow-up"></span>
+      </button>
+    </h3>
+
+    [#if layoutMode != "edit"]
+    <div class="st-accordion__panel" id="accordion-panel-${fragmentEntryLinkNamespace}" aria-labelledby="accordion-header-${fragmentEntryLinkNamespace}" role="region" aria-hidden="true" inert="">
+      <div class="st-accordion__content st-text-styles">
+        [/#if]
+        <lfr-drop-zone></lfr-drop-zone>
+        [#if layoutMode != "edit"]
+      </div>
+    </div>
+    [/#if]
+  </div>
+</div>

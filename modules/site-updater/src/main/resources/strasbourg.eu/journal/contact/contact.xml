@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Contact</name>
+        <key>1321744</key>
+        <definition>contact-structure.json</definition>
+        <layout>contact-layout.json</layout>
+    </structure>
+    <template>
+        <name>Contact</name>
+        <key>1326205</key>
+        <script>contact.ftl</script>
+    </template>
+    <template>
+        <name>Détail contact</name>
+        <key>1617823</key>
+        <script>contact-detail.ftl</script>
+    </template>
+</root>

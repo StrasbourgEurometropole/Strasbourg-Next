@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletException;
@@ -12,6 +14,10 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
+import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -22,7 +28,6 @@ import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration;
@@ -38,7 +43,8 @@ import eu.strasbourg.portlet.page_header.configuration.PageHeaderConfiguration;
 		"javax.portlet.name=" + StrasbourgPortletKeys.PAGE_HEADER_WEB,
 		"javax.portlet.init-param.view-template=/page-header-view.jsp",
 		"javax.portlet.resource-bundle=content.Language",
-		"javax.portlet.security-role-ref=power-user,user" },
+		"javax.portlet.security-role-ref=power-user,user",
+			"javax.portlet.version=3.0"},
 	service = Portlet.class)
 public class PageHeaderPortlet extends MVCPortlet {
 
@@ -50,15 +56,25 @@ public class PageHeaderPortlet extends MVCPortlet {
 		Layout layout = themeDisplay.getLayout();
 		
 		renderRequest.setAttribute("page", layout);
-		
+
+		String title = layout.getTitle(themeDisplay.getLocale());
+		String subTitle = layout.getDescription(themeDisplay.getLocale());
+		String imageUrl = layout.getExpandoBridge().getAttribute("image").toString();
 		String imageCredit = "";
+
 		try {
-			PageHeaderConfiguration configuration = themeDisplay
-				.getPortletDisplay()
-				.getPortletInstanceConfiguration(PageHeaderConfiguration.class);
-			imageCredit = configuration.imageCredit();
-			renderRequest.setAttribute("imageCredit",
-				imageCredit);
+			PageHeaderConfiguration configuration = ConfigurationProviderUtil.getPortletInstanceConfiguration(PageHeaderConfiguration.class, themeDisplay);
+
+			imageCredit = getNonEmptyValue(configuration.imageCredit(), imageCredit);
+			title = getNonEmptyValue(getLocalizationValue(configuration.titleXML(), themeDisplay.getLocale()), title);
+			subTitle = getNonEmptyValue(getLocalizationValue(configuration.subTitleXML(), themeDisplay.getLocale()), subTitle);
+			imageUrl = getNonEmptyValue(getLocalizationValue(configuration.imageUrlXML(), themeDisplay.getLocale()), imageUrl);
+
+			renderRequest.setAttribute("imageCredit", imageCredit);
+			renderRequest.setAttribute("title", title);
+			renderRequest.setAttribute("subTitle", subTitle);
+			renderRequest.setAttribute("imageUrl", imageUrl);
+
 		} catch (ConfigurationException e) {
 			_log.error(e);
 		}
@@ -69,6 +85,9 @@ public class PageHeaderPortlet extends MVCPortlet {
 		long displayStyleGroupId = GetterUtil.getLong(preferences.getValue("displayStyleGroupId", null), 0);
 		Map<String, Object> contextObjects = new HashMap<String, Object>();
 		contextObjects.put("imageCredit", imageCredit);
+		contextObjects.put("title", title);
+		contextObjects.put("subTitle", subTitle);
+		contextObjects.put("imageUrl", imageUrl);
 		contextObjects.put("page", layout);
 		List<Layout> entries = new ArrayList<Layout>() ;
 		renderRequest.setAttribute("displayStyle", displayStyle);
@@ -77,6 +96,15 @@ public class PageHeaderPortlet extends MVCPortlet {
 		renderRequest.setAttribute("entries", entries);
 		
 		super.render(renderRequest, renderResponse);
+	}
+
+	private String getNonEmptyValue(String configValue, String defaultValue) {
+		return Validator.isNull(configValue)  ? defaultValue : configValue;
+	}
+
+	private String getLocalizationValue(String map, Locale locale) {
+		Map<Locale, String> localizationMap = LocalizationUtil.getLocalizationMap(map);
+		return localizationMap.get(locale);
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());

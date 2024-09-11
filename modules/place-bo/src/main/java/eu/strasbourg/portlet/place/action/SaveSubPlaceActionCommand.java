@@ -15,9 +15,12 @@
  */
 package eu.strasbourg.portlet.place.action;
 
+import com.liferay.asset.kernel.model.AssetCategory;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -31,7 +34,9 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.place.util.PlacePermissionUtils;
 import eu.strasbourg.service.place.model.Period;
+import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.ScheduleException;
 import eu.strasbourg.service.place.model.Slot;
 import eu.strasbourg.service.place.model.SubPlace;
@@ -49,6 +54,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -75,14 +81,15 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 						.getAttribute(WebKeys.THEME_DISPLAY);
 				String portletName = (String) request
 						.getAttribute(WebKeys.PORTLET_ID);
-				PortletURL returnURL = PortletURLFactoryUtil.create(request,
+				PortletURL backURL = PortletURLFactoryUtil.create(request,
 						portletName, themeDisplay.getPlid(),
 						PortletRequest.RENDER_PHASE);
-				returnURL.setParameter("tab", request.getParameter("tab"));
+				backURL.setParameter("tab", request.getParameter("tab"));
 
-				response.setRenderParameter("returnURL", returnURL.toString());
+				response.setRenderParameter("backURL", backURL.toString());
 				response.setRenderParameter("mvcPath",
 						"/place-bo-edit-subplace.jsp");
+				response.setRenderParameter("cmd", "saveSubPlace");
 				return false;
 			}
 
@@ -251,11 +258,14 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 			}
 
 			_subPlaceLocalService.updateSubPlace(subPlace, sc);
+			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 		} catch (PortalException e) {
 			_log.error(e);
-		}
+		} catch (IOException e) {
+			_log.error(e);
+        }
 
-		return true;
+        return true;
 	}
 
 	/**
@@ -263,6 +273,21 @@ public class SaveSubPlaceActionCommand implements MVCActionCommand {
 	 */
 	private boolean validate(ActionRequest request) {
 		boolean isValid = true;
+
+		// vérifie que l'utilisateur à le droit d'éditer ce sous-lieu
+		long subPlaceId = ParamUtil.getLong(request, "subPlaceId");
+		SubPlace subPlace = _subPlaceLocalService.fetchSubPlace(subPlaceId);
+		if (Validator.isNotNull(subPlace)) {
+			ThemeDisplay themeDisplay = (ThemeDisplay) request
+					.getAttribute(WebKeys.THEME_DISPLAY);
+			Place place = subPlace.getParentPlace();
+			if(Validator.isNotNull(place)) {
+				if (!PlacePermissionUtils.hasEditPermission(themeDisplay, place)) {
+					SessionErrors.add(request, "permission-error");
+					isValid = false;
+				}
+			}
+		}
 
 		// Nom
 		if (Validator.isNull(ParamUtil.getString(request, "name"))) {

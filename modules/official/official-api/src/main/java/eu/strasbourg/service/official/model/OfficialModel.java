@@ -1,37 +1,23 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.official.model;
 
-import aQute.bnd.annotation.ProviderType;
-
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.exception.LocaleException;
 import com.liferay.portal.kernel.model.BaseModel;
-import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.LocalizedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedGroupedModel;
 import com.liferay.portal.kernel.model.WorkflowedModel;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
 
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+
+import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * The base model interface for the Official service. Represents a row in the &quot;official_Official&quot; database table, with each column mapped to a property of this class.
@@ -707,6 +693,122 @@ public interface OfficialModel
 	public void setOrderVicePresident(int orderVicePresident);
 
 	/**
+	 * Returns the liste contact of this official.
+	 *
+	 * @return the liste contact of this official
+	 */
+	@AutoEscape
+	public String getListeContact();
+
+	/**
+	 * Sets the liste contact of this official.
+	 *
+	 * @param listeContact the liste contact of this official
+	 */
+	public void setListeContact(String listeContact);
+
+	/**
+	 * Returns the resume fonction of this official.
+	 *
+	 * @return the resume fonction of this official
+	 */
+	public String getResumeFonction();
+
+	/**
+	 * Returns the localized resume fonction of this official in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized resume fonction of this official
+	 */
+	@AutoEscape
+	public String getResumeFonction(Locale locale);
+
+	/**
+	 * Returns the localized resume fonction of this official in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized resume fonction of this official. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getResumeFonction(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized resume fonction of this official in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized resume fonction of this official
+	 */
+	@AutoEscape
+	public String getResumeFonction(String languageId);
+
+	/**
+	 * Returns the localized resume fonction of this official in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized resume fonction of this official
+	 */
+	@AutoEscape
+	public String getResumeFonction(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getResumeFonctionCurrentLanguageId();
+
+	@AutoEscape
+	public String getResumeFonctionCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized resume fonctions of this official.
+	 *
+	 * @return the locales and localized resume fonctions of this official
+	 */
+	public Map<Locale, String> getResumeFonctionMap();
+
+	/**
+	 * Sets the resume fonction of this official.
+	 *
+	 * @param resumeFonction the resume fonction of this official
+	 */
+	public void setResumeFonction(String resumeFonction);
+
+	/**
+	 * Sets the localized resume fonction of this official in the language.
+	 *
+	 * @param resumeFonction the localized resume fonction of this official
+	 * @param locale the locale of the language
+	 */
+	public void setResumeFonction(String resumeFonction, Locale locale);
+
+	/**
+	 * Sets the localized resume fonction of this official in the language, and sets the default locale.
+	 *
+	 * @param resumeFonction the localized resume fonction of this official
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setResumeFonction(
+		String resumeFonction, Locale locale, Locale defaultLocale);
+
+	public void setResumeFonctionCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized resume fonctions of this official from the map of locales and localized resume fonctions.
+	 *
+	 * @param resumeFonctionMap the locales and localized resume fonctions of this official
+	 */
+	public void setResumeFonctionMap(Map<Locale, String> resumeFonctionMap);
+
+	/**
+	 * Sets the localized resume fonctions of this official from the map of locales and localized resume fonctions, and sets the default locale.
+	 *
+	 * @param resumeFonctionMap the locales and localized resume fonctions of this official
+	 * @param defaultLocale the default locale
+	 */
+	public void setResumeFonctionMap(
+		Map<Locale, String> resumeFonctionMap, Locale defaultLocale);
+
+	/**
 	 * Returns the image ID of this official.
 	 *
 	 * @return the image ID of this official
@@ -785,39 +887,6 @@ public interface OfficialModel
 	public boolean isScheduled();
 
 	@Override
-	public boolean isNew();
-
-	@Override
-	public void setNew(boolean n);
-
-	@Override
-	public boolean isCachedModel();
-
-	@Override
-	public void setCachedModel(boolean cachedModel);
-
-	@Override
-	public boolean isEscapedModel();
-
-	@Override
-	public Serializable getPrimaryKeyObj();
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj);
-
-	@Override
-	public ExpandoBridge getExpandoBridge();
-
-	@Override
-	public void setExpandoBridgeAttributes(BaseModel<?> baseModel);
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge);
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext);
-
-	@Override
 	public String[] getAvailableLanguageIds();
 
 	@Override
@@ -831,29 +900,10 @@ public interface OfficialModel
 		throws LocaleException;
 
 	@Override
-	public Object clone();
+	public Official cloneWithOriginalValues();
 
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.official.model.Official official);
-
-	@Override
-	public int hashCode();
-
-	@Override
-	public CacheModel<eu.strasbourg.service.official.model.Official>
-		toCacheModel();
-
-	@Override
-	public eu.strasbourg.service.official.model.Official toEscapedModel();
-
-	@Override
-	public eu.strasbourg.service.official.model.Official toUnescapedModel();
-
-	@Override
-	public String toString();
-
-	@Override
-	public String toXmlString();
+	public default String toXmlString() {
+		return null;
+	}
 
 }

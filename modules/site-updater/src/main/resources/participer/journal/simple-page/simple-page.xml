@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Page simple</name>
+        <key>2981923</key>
+        <definition>simple-page-structure.json</definition>
+        <layout>simple-page-layout.json</layout>
+    </structure>
+    <template>
+        <name>Page simple</name>
+        <key>2981929</key>
+        <script>simple-page.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

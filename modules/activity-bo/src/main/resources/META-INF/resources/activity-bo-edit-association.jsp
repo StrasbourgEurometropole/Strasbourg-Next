@@ -1,23 +1,21 @@
 <%@ include file="./activity-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.activity.model.Association"%>
 
-<liferay-portlet:renderURL varImpl="associationsURL">
-	<portlet:param name="tab" value="associations" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:actionURL name="deleteAssociation" var="deleteAssociationURL">
 	<portlet:param name="cmd" value="deleteAssociation" />
 	<portlet:param name="tab" value="associations" />
+	<portlet:param name="mvcPath" value="/activity-bo-view-associations.jsp" />
 	<portlet:param name="associationId"
 		value="${not empty dc.association ? dc.association.associationId : ''}" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 </liferay-portlet:actionURL>
 
 <liferay-portlet:actionURL name="saveAssociation" varImpl="saveAssociationURL">
-	<portlet:param name="cmd" value="saveAssociation" />
+	<portlet:param name="backURL" value="${param.backURL}" />
 	<portlet:param name="tab" value="associations" />
 </liferay-portlet:actionURL>
 
-<div class="container-fluid-1280 main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="name-error" message="title-error" />
 	
 	<aui:form action="${saveAssociationURL}" method="post" name="fm">
@@ -26,8 +24,8 @@
 			id="translationManager" />
 
 		<aui:model-context bean="${dc.association}" model="<%=Association.class %>" />
-		<aui:fieldset-group markupView="lexicon">
-			<aui:input name="associationId" type="hidden" />
+		<div class="sheet"><div class="panel-group panel-group-flush">
+		<aui:input name="associationId" type="hidden" />
 
 			<aui:fieldset collapsed="false" collapsible="true"
 				label="general">
@@ -69,13 +67,13 @@
                         <aui:validator name="custom" errorMessage="requested-vocabularies-error">
                             function (val, fieldNode, ruleValue) {
                                 var validated = true;
-                                var fields = document.querySelectorAll('.detail-practice > .field-content');
+                                var fields = document.querySelectorAll('.detail-practice .field-content');
                                 for (var i = 0; i < fields.length; i++) {
                                     fieldContent = fields[i];
                                     // on vérifie que la pratique n'est pas supprimée
                                     var parent = $(fieldContent).closest(".lfr-form-row.lfr-form-row-inline");
-                                    if($(parent).attr("class").indexOf("hide") == -1 && $(fieldContent).find('.icon-asterisk').length > 0
-                                        && $(fieldContent).find('input[type="hidden"]')[0].value.length == 0) {
+                                    if($(parent).attr("class").indexOf("hide") == -1 && $(fieldContent).find('.lexicon-icon-asterisk').length > 0
+                                        && $(fieldContent).find('input[type="hidden"]').length == 0) {
                                         validated = false;
 								    	event.preventDefault();
                                         break;
@@ -116,7 +114,7 @@
 
 			</aui:fieldset>
 
-		</aui:fieldset-group>
+		</div></div>
 		
 		<aui:button-row>
 			<c:if test="${(dc.hasPermission('ADD_ASSOCIATION') and empty dc.association or dc.hasPermission('EDIT_ASSOCIATION') and not empty dc.association) and empty themeDisplay.scopeGroup.getStagingGroup()}">
@@ -130,7 +128,7 @@
 				<aui:button cssClass="btn-lg" onClick='<%=renderResponse.getNamespace() + "deleteEntity();"%>' type="cancel"
 					value="delete" />
 			</c:if>
-			<aui:button cssClass="btn-lg" href="${param.returnURL}" type="cancel" />
+			<aui:button cssClass="btn-lg" href="${param.backURL}" type="cancel" />
 		</aui:button-row>
 
 	</aui:form>

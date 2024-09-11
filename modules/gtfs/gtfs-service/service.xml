@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
-
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.4.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_4_0.dtd">
 <service-builder package-path="eu.strasbourg.service.gtfs">
 
 	<author>Cedric Henry</author>
@@ -29,9 +28,9 @@
 		
 		<!-- Other fields -->
 		<column name="result" type="int" />
-		<column name="operations" type="String" />
-		<column name="errorDescription" type="String" />
-		<column name="errorStackTrace" type="String" />
+		<column name="operations" type="String" localized="true" />
+		<column name="errorDescription" type="String" localized="true" />
+		<column name="errorStackTrace" type="String" localized="true" />
 		<column name="startDate" type="Date" />
 		<column name="finishDate" type="Date" />
 		<column name="gtfsFileHash" type="String" />
@@ -49,7 +48,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 		
 	</entity>
 	
@@ -105,7 +104,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 		
 	</entity>
 	
@@ -199,7 +198,7 @@
 		<!-- References -->
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetLink" package-path="com.liferay.portlet.asset" />
+		<!-- References AssetLink Placeholder -->
 		
 	</entity>
 

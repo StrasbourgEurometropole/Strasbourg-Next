@@ -14,19 +14,14 @@
 
 package eu.strasbourg.service.project.service.impl;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.LongStream;
-
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -43,12 +38,18 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-
-import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
-import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.base.BudgetPhaseLocalServiceBaseImpl;
+import org.osgi.service.component.annotations.Reference;
+
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.LongStream;
 
 /**
  * The implementation of the budget phase local service.
@@ -209,11 +210,8 @@ public final static Log log = LogFactoryUtil.getLog(ProjectLocalServiceImpl.clas
 
 		if (entry != null) {
 			// Delete the link with categories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-						categoryId, entry.getEntryId());
-			}
-
+			AssetEntryAssetCategoryRelLocalServiceUtil.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Delete the link with tags
 			long[] tagIds = AssetEntryLocalServiceUtil.getAssetTagPrimaryKeys(entry.getEntryId());
 			for (int i = 0; i < tagIds.length; i++) {
@@ -222,7 +220,7 @@ public final static Log log = LogFactoryUtil.getLog(ProjectLocalServiceImpl.clas
 			}
 
 			// Supprime lien avec les autres entries
-			List<AssetLink> links = this.assetLinkLocalService
+			List<AssetLink> links = AssetLinkLocalServiceUtil
 					.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
 				this.assetLinkLocalService.deleteAssetLink(link);
@@ -350,5 +348,7 @@ public final static Log log = LogFactoryUtil.getLog(ProjectLocalServiceImpl.clas
 			return null;
 		}
 	}
-	
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

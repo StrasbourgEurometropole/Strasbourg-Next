@@ -14,12 +14,15 @@
 
 package eu.strasbourg.service.project.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
+import com.liferay.asset.link.service.AssetLinkLocalService;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -50,6 +53,7 @@ import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.ProjectFollowedServiceUtil;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalServiceUtil;
 import eu.strasbourg.service.project.service.base.ProjectLocalServiceBaseImpl;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -236,11 +240,8 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Delete the link with categories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-						categoryId, entry.getEntryId());
-			}
-
+			AssetEntryAssetCategoryRelLocalServiceUtil.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Delete the link with tags
 			long[] tagIds = AssetEntryLocalServiceUtil
 					.getAssetTagPrimaryKeys(entry.getEntryId());
@@ -250,7 +251,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 			}
 
 			// Supprime lien avec les autres entries
-			List<AssetLink> links = this.assetLinkLocalService
+			List<AssetLink> links = AssetLinkLocalServiceUtil
 					.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
 				this.assetLinkLocalService.deleteAssetLink(link);
@@ -463,4 +464,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	}
 	
 	private Log _log = LogFactoryUtil.getLog(this.getClass());
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

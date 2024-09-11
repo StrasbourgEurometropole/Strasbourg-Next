@@ -1,22 +1,22 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.project.service;
 
-import org.osgi.framework.Bundle;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.util.tracker.ServiceTracker;
+import com.liferay.petra.sql.dsl.query.DSLQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import eu.strasbourg.service.project.model.BudgetParticipatif;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides the local service utility for BudgetParticipatif. This utility wraps
@@ -48,10 +48,8 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @param budgetParticipatif the budget participatif
 	 * @return the budget participatif that was added
 	 */
-	public static eu.strasbourg.service.project.model.BudgetParticipatif
-		addBudgetParticipatif(
-			eu.strasbourg.service.project.model.BudgetParticipatif
-				budgetParticipatif) {
+	public static BudgetParticipatif addBudgetParticipatif(
+		BudgetParticipatif budgetParticipatif) {
 
 		return getService().addBudgetParticipatif(budgetParticipatif);
 	}
@@ -72,8 +70,8 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @param budgetParticipatifId the primary key for the new budget participatif
 	 * @return the new budget participatif
 	 */
-	public static eu.strasbourg.service.project.model.BudgetParticipatif
-		createBudgetParticipatif(long budgetParticipatifId) {
+	public static BudgetParticipatif createBudgetParticipatif(
+		long budgetParticipatifId) {
 
 		return getService().createBudgetParticipatif(budgetParticipatifId);
 	}
@@ -81,12 +79,21 @@ public class BudgetParticipatifLocalServiceUtil {
 	/**
 	 * Crée une participation vide avec une PK, non ajouté à la base de donnée
 	 */
-	public static eu.strasbourg.service.project.model.BudgetParticipatif
-			createBudgetParticipatif(
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static BudgetParticipatif createBudgetParticipatif(
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().createBudgetParticipatif(sc);
+	}
+
+	/**
+	 * @throws PortalException
+	 */
+	public static PersistedModel createPersistedModel(
+			Serializable primaryKeyObj)
+		throws PortalException {
+
+		return getService().createPersistedModel(primaryKeyObj);
 	}
 
 	/**
@@ -99,10 +106,8 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @param budgetParticipatif the budget participatif
 	 * @return the budget participatif that was removed
 	 */
-	public static eu.strasbourg.service.project.model.BudgetParticipatif
-		deleteBudgetParticipatif(
-			eu.strasbourg.service.project.model.BudgetParticipatif
-				budgetParticipatif) {
+	public static BudgetParticipatif deleteBudgetParticipatif(
+		BudgetParticipatif budgetParticipatif) {
 
 		return getService().deleteBudgetParticipatif(budgetParticipatif);
 	}
@@ -118,9 +123,9 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @return the budget participatif that was removed
 	 * @throws PortalException if a budget participatif with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.BudgetParticipatif
-			deleteBudgetParticipatif(long budgetParticipatifId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static BudgetParticipatif deleteBudgetParticipatif(
+			long budgetParticipatifId)
+		throws PortalException {
 
 		return getService().deleteBudgetParticipatif(budgetParticipatifId);
 	}
@@ -128,17 +133,22 @@ public class BudgetParticipatifLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			deletePersistedModel(
-				com.liferay.portal.kernel.model.PersistedModel persistedModel)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel deletePersistedModel(
+			PersistedModel persistedModel)
+		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
 	}
 
-	public static com.liferay.portal.kernel.dao.orm.DynamicQuery
-		dynamicQuery() {
+	public static <T> T dslQuery(DSLQuery dslQuery) {
+		return getService().dslQuery(dslQuery);
+	}
 
+	public static int dslQueryCount(DSLQuery dslQuery) {
+		return getService().dslQueryCount(dslQuery);
+	}
+
+	public static DynamicQuery dynamicQuery() {
 		return getService().dynamicQuery();
 	}
 
@@ -148,9 +158,7 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static <T> List<T> dynamicQuery(DynamicQuery dynamicQuery) {
 		return getService().dynamicQuery(dynamicQuery);
 	}
 
@@ -166,9 +174,8 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @param end the upper bound of the range of model instances (not inclusive)
 	 * @return the range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end) {
 
 		return getService().dynamicQuery(dynamicQuery, start, end);
 	}
@@ -186,10 +193,9 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching rows
 	 */
-	public static <T> java.util.List<T> dynamicQuery(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery, int start,
-		int end,
-		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
+	public static <T> List<T> dynamicQuery(
+		DynamicQuery dynamicQuery, int start, int end,
+		OrderByComparator<T> orderByComparator) {
 
 		return getService().dynamicQuery(
 			dynamicQuery, start, end, orderByComparator);
@@ -201,9 +207,7 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @param dynamicQuery the dynamic query
 	 * @return the number of rows matching the dynamic query
 	 */
-	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery) {
-
+	public static long dynamicQueryCount(DynamicQuery dynamicQuery) {
 		return getService().dynamicQueryCount(dynamicQuery);
 	}
 
@@ -215,14 +219,14 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @return the number of rows matching the dynamic query
 	 */
 	public static long dynamicQueryCount(
-		com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery,
+		DynamicQuery dynamicQuery,
 		com.liferay.portal.kernel.dao.orm.Projection projection) {
 
 		return getService().dynamicQueryCount(dynamicQuery, projection);
 	}
 
-	public static eu.strasbourg.service.project.model.BudgetParticipatif
-		fetchBudgetParticipatif(long budgetParticipatifId) {
+	public static BudgetParticipatif fetchBudgetParticipatif(
+		long budgetParticipatifId) {
 
 		return getService().fetchBudgetParticipatif(budgetParticipatifId);
 	}
@@ -234,8 +238,8 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @param groupId the primary key of the group
 	 * @return the matching budget participatif, or <code>null</code> if a matching budget participatif could not be found
 	 */
-	public static eu.strasbourg.service.project.model.BudgetParticipatif
-		fetchBudgetParticipatifByUuidAndGroupId(String uuid, long groupId) {
+	public static BudgetParticipatif fetchBudgetParticipatifByUuidAndGroupId(
+		String uuid, long groupId) {
 
 		return getService().fetchBudgetParticipatifByUuidAndGroupId(
 			uuid, groupId);
@@ -244,19 +248,15 @@ public class BudgetParticipatifLocalServiceUtil {
 	/**
 	 * Retourne tous les budgets participatifs publies d'un groupe
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif>
-			findActiveBPByGroupId(long groupId) {
-
+	public static List<BudgetParticipatif> findActiveBPByGroupId(long groupId) {
 		return getService().findActiveBPByGroupId(groupId);
 	}
 
 	/**
 	 * Recherche par mot clés
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif> findByKeyword(
-			String keyword, long groupId, int start, int end) {
+	public static List<BudgetParticipatif> findByKeyword(
+		String keyword, long groupId, int start, int end) {
 
 		return getService().findByKeyword(keyword, groupId, start, end);
 	}
@@ -281,16 +281,15 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @return the budget participatif
 	 * @throws PortalException if a budget participatif with the primary key could not be found
 	 */
-	public static eu.strasbourg.service.project.model.BudgetParticipatif
-			getBudgetParticipatif(long budgetParticipatifId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static BudgetParticipatif getBudgetParticipatif(
+			long budgetParticipatifId)
+		throws PortalException {
 
 		return getService().getBudgetParticipatif(budgetParticipatifId);
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif>
-			getBudgetParticipatifByPublikUserID(String publikId) {
+	public static List<BudgetParticipatif> getBudgetParticipatifByPublikUserID(
+		String publikId) {
 
 		return getService().getBudgetParticipatifByPublikUserID(publikId);
 	}
@@ -303,9 +302,9 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @return the matching budget participatif
 	 * @throws PortalException if a matching budget participatif could not be found
 	 */
-	public static eu.strasbourg.service.project.model.BudgetParticipatif
-			getBudgetParticipatifByUuidAndGroupId(String uuid, long groupId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static BudgetParticipatif getBudgetParticipatifByUuidAndGroupId(
+			String uuid, long groupId)
+		throws PortalException {
 
 		return getService().getBudgetParticipatifByUuidAndGroupId(
 			uuid, groupId);
@@ -322,9 +321,8 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @param end the upper bound of the range of budget participatifs (not inclusive)
 	 * @return the range of budget participatifs
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif>
-			getBudgetParticipatifs(int start, int end) {
+	public static List<BudgetParticipatif> getBudgetParticipatifs(
+		int start, int end) {
 
 		return getService().getBudgetParticipatifs(start, end);
 	}
@@ -336,10 +334,8 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @param companyId the primary key of the company
 	 * @return the matching budget participatifs, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif>
-			getBudgetParticipatifsByUuidAndCompanyId(
-				String uuid, long companyId) {
+	public static List<BudgetParticipatif>
+		getBudgetParticipatifsByUuidAndCompanyId(String uuid, long companyId) {
 
 		return getService().getBudgetParticipatifsByUuidAndCompanyId(
 			uuid, companyId);
@@ -355,13 +351,10 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the range of matching budget participatifs, or an empty list if no matches were found
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif>
-			getBudgetParticipatifsByUuidAndCompanyId(
-				String uuid, long companyId, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<eu.strasbourg.service.project.model.BudgetParticipatif>
-						orderByComparator) {
+	public static List<BudgetParticipatif>
+		getBudgetParticipatifsByUuidAndCompanyId(
+			String uuid, long companyId, int start, int end,
+			OrderByComparator<BudgetParticipatif> orderByComparator) {
 
 		return getService().getBudgetParticipatifsByUuidAndCompanyId(
 			uuid, companyId, start, end, orderByComparator);
@@ -379,10 +372,9 @@ public class BudgetParticipatifLocalServiceUtil {
 	/**
 	 * Retourne tous les budgets participatifs suivis par un utilisateur et une phase donnes
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif>
-			getBudgetSupportedByPublikUserInPhase(
-				String publikUserId, long budgetPhaseId) {
+	public static List<BudgetParticipatif>
+		getBudgetSupportedByPublikUserInPhase(
+			String publikUserId, long budgetPhaseId) {
 
 		return getService().getBudgetSupportedByPublikUserInPhase(
 			publikUserId, budgetPhaseId);
@@ -391,9 +383,8 @@ public class BudgetParticipatifLocalServiceUtil {
 	/**
 	 * Retourne tous les budgets participatifs d'une phase donnee
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif>
-			getByBudgetPhase(long budgetPhaseId) {
+	public static List<BudgetParticipatif> getByBudgetPhase(
+		long budgetPhaseId) {
 
 		return getService().getByBudgetPhase(budgetPhaseId);
 	}
@@ -401,17 +392,11 @@ public class BudgetParticipatifLocalServiceUtil {
 	/**
 	 * Retourne tous les budgets participatifs d'un parent
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif> getByParentId(
-			long budgetPhaseId) {
-
+	public static List<BudgetParticipatif> getByParentId(long budgetPhaseId) {
 		return getService().getByParentId(budgetPhaseId);
 	}
 
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif>
-			getByPublikUserID(String publikId) {
-
+	public static List<BudgetParticipatif> getByPublikUserID(String publikId) {
 		return getService().getByPublikUserID(publikId);
 	}
 
@@ -437,11 +422,9 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @param delta Nombre de resultats max voulu
 	 * @return Liste des budgets participatifs les plus commentes triee.
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif>
-			getMostCommented(
-				long groupId, int delta,
-				com.liferay.asset.kernel.model.AssetCategory phase) {
+	public static List<BudgetParticipatif> getMostCommented(
+		long groupId, int delta,
+		com.liferay.asset.kernel.model.AssetCategory phase) {
 
 		return getService().getMostCommented(groupId, delta, phase);
 	}
@@ -453,11 +436,9 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @param delta Nombre de resultats max voulu
 	 * @return Liste des budgets participatifs les plus soutenus triee.
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif>
-			getMostSupported(
-				long groupId, int delta,
-				com.liferay.asset.kernel.model.AssetCategory phase) {
+	public static List<BudgetParticipatif> getMostSupported(
+		long groupId, int delta,
+		com.liferay.asset.kernel.model.AssetCategory phase) {
 
 		return getService().getMostSupported(groupId, delta, phase);
 	}
@@ -474,9 +455,8 @@ public class BudgetParticipatifLocalServiceUtil {
 	/**
 	 * @throws PortalException
 	 */
-	public static com.liferay.portal.kernel.model.PersistedModel
-			getPersistedModel(java.io.Serializable primaryKeyObj)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static PersistedModel getPersistedModel(Serializable primaryKeyObj)
+		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
 	}
@@ -488,10 +468,9 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @param publikUserId
 	 * @param budgetPhaseId
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif>
-			getPublishedAndVotedByPublikUserInPhase(
-				String publikUserId, long budgetPhaseId) {
+	public static List<BudgetParticipatif>
+		getPublishedAndVotedByPublikUserInPhase(
+			String publikUserId, long budgetPhaseId) {
 
 		return getService().getPublishedAndVotedByPublikUserInPhase(
 			publikUserId, budgetPhaseId);
@@ -500,27 +479,8 @@ public class BudgetParticipatifLocalServiceUtil {
 	/**
 	 * Retourne tous les budgets participatifs publies d'un groupe
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif>
-			getPublishedByGroupId(long groupId) {
-
+	public static List<BudgetParticipatif> getPublishedByGroupId(long groupId) {
 		return getService().getPublishedByGroupId(groupId);
-	}
-
-	/**
-	 * Recuperer les budgets participatifs "coup de coeur" les plus recents
-	 *
-	 * @param groupId ID du site
-	 * @param delta Nombre de resultats max voulu
-	 * @return Liste des budgets participatifs coup de coeurs recent
-	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif>
-			getRecentIsCrushed(
-				long groupId, int delta,
-				com.liferay.asset.kernel.model.AssetCategory phase) {
-
-		return getService().getRecentIsCrushed(groupId, delta, phase);
 	}
 
 	/**
@@ -529,11 +489,8 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @param groupId ID du site
 	 * @return Liste des budgets participatifs triee par nombre de commentaires
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif>
-			getSortedByNbComments(
-				long groupId,
-				com.liferay.asset.kernel.model.AssetCategory phase) {
+	public static List<BudgetParticipatif> getSortedByNbComments(
+		long groupId, com.liferay.asset.kernel.model.AssetCategory phase) {
 
 		return getService().getSortedByNbComments(groupId, phase);
 	}
@@ -544,27 +501,14 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @param groupId ID du site
 	 * @return Liste des budgets participatifs triee par nombre de soutiens
 	 */
-	public static java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif>
-			getSortedByNbSupports(
-				long groupId,
-				com.liferay.asset.kernel.model.AssetCategory phase) {
+	public static List<BudgetParticipatif> getSortedByNbSupports(
+		long groupId, com.liferay.asset.kernel.model.AssetCategory phase) {
 
 		return getService().getSortedByNbSupports(groupId, phase);
 	}
 
-	/**
-	 * On randomise la date de modifications des budgets participatifs
-	 * Cela permet de simuler un tri aléatoire
-	 */
-	public static void randomizeModifiedDate()
-		throws com.liferay.portal.kernel.search.SearchException {
-
-		getService().randomizeModifiedDate();
-	}
-
 	public static void removeBudgetParticipatif(long budgetId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+		throws PortalException {
 
 		getService().removeBudgetParticipatif(budgetId);
 	}
@@ -579,10 +523,8 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @param budgetParticipatif the budget participatif
 	 * @return the budget participatif that was updated
 	 */
-	public static eu.strasbourg.service.project.model.BudgetParticipatif
-		updateBudgetParticipatif(
-			eu.strasbourg.service.project.model.BudgetParticipatif
-				budgetParticipatif) {
+	public static BudgetParticipatif updateBudgetParticipatif(
+		BudgetParticipatif budgetParticipatif) {
 
 		return getService().updateBudgetParticipatif(budgetParticipatif);
 	}
@@ -595,11 +537,10 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @return le budget
 	 * @throws PortalException exception
 	 */
-	public static eu.strasbourg.service.project.model.BudgetParticipatif
-			updateBudgetParticipatif(
-				eu.strasbourg.service.project.model.BudgetParticipatif budget,
-				com.liferay.portal.kernel.service.ServiceContext sc)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static BudgetParticipatif updateBudgetParticipatif(
+			BudgetParticipatif budget,
+			com.liferay.portal.kernel.service.ServiceContext sc)
+		throws PortalException {
 
 		return getService().updateBudgetParticipatif(budget, sc);
 	}
@@ -608,10 +549,8 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * Met à jour le statut du budgetParticipatif "manuellement" (pas via le workflow)
 	 */
 	public static void updateStatus(
-			eu.strasbourg.service.project.model.BudgetParticipatif
-				budgetParticipatif,
-			int status)
-		throws com.liferay.portal.kernel.exception.PortalException {
+			BudgetParticipatif budgetParticipatif, int status)
+		throws PortalException {
 
 		getService().updateStatus(budgetParticipatif, status);
 	}
@@ -627,12 +566,11 @@ public class BudgetParticipatifLocalServiceUtil {
 	 * @return le budget
 	 * @throws PortalException
 	 */
-	public static eu.strasbourg.service.project.model.BudgetParticipatif
-			updateStatus(
-				long userId, long budgetParticipatifId, int status,
-				com.liferay.portal.kernel.service.ServiceContext serviceContext,
-				java.util.Map<String, java.io.Serializable> workflowContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static BudgetParticipatif updateStatus(
+			long userId, long budgetParticipatifId, int status,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext,
+			Map<String, Serializable> workflowContext)
+		throws PortalException {
 
 		return getService().updateStatus(
 			userId, budgetParticipatifId, status, serviceContext,
@@ -640,29 +578,13 @@ public class BudgetParticipatifLocalServiceUtil {
 	}
 
 	public static BudgetParticipatifLocalService getService() {
-		return _serviceTracker.getService();
+		return _service;
 	}
 
-	private static ServiceTracker
-		<BudgetParticipatifLocalService, BudgetParticipatifLocalService>
-			_serviceTracker;
-
-	static {
-		Bundle bundle = FrameworkUtil.getBundle(
-			BudgetParticipatifLocalService.class);
-
-		ServiceTracker
-			<BudgetParticipatifLocalService, BudgetParticipatifLocalService>
-				serviceTracker =
-					new ServiceTracker
-						<BudgetParticipatifLocalService,
-						 BudgetParticipatifLocalService>(
-							 bundle.getBundleContext(),
-							 BudgetParticipatifLocalService.class, null);
-
-		serviceTracker.open();
-
-		_serviceTracker = serviceTracker;
+	public static void setService(BudgetParticipatifLocalService service) {
+		_service = service;
 	}
+
+	private static volatile BudgetParticipatifLocalService _service;
 
 }

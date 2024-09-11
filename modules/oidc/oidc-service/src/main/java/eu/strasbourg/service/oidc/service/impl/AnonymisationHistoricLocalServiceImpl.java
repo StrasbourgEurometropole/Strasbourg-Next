@@ -14,11 +14,14 @@
 
 package eu.strasbourg.service.oidc.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -38,6 +41,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.oidc.model.AnonymisationHistoric;
 import eu.strasbourg.service.oidc.service.base.AnonymisationHistoricLocalServiceBaseImpl;
 import eu.strasbourg.service.oidc.utils.OIDCAnonymiser;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -94,7 +98,6 @@ public class AnonymisationHistoricLocalServiceImpl
 
 	/**
 	 * Met à jour une entree d'anonymisation et l'enregistre en base de données
-	 * @throws IOException
 	 */
 	@Override
 	public AnonymisationHistoric updateAnonymisationHistoric(AnonymisationHistoric anonymisationHistoric, ServiceContext sc) throws PortalException {
@@ -204,10 +207,8 @@ public class AnonymisationHistoricLocalServiceImpl
 
 		if (entry != null) {
 			// Delete the link with categories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-						categoryId, entry.getEntryId());
-			}
+			AssetEntryAssetCategoryRelLocalServiceUtil.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 
 			// Delete the link with tags
 			long[] tagIds = AssetEntryLocalServiceUtil
@@ -218,7 +219,7 @@ public class AnonymisationHistoricLocalServiceImpl
 			}
 
 			// Supprime lien avec les autres entries
-			List<AssetLink> links = this.assetLinkLocalService
+			List<AssetLink> links = AssetLinkLocalServiceUtil
 					.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
 				this.assetLinkLocalService.deleteAssetLink(link);
@@ -327,4 +328,7 @@ public class AnonymisationHistoricLocalServiceImpl
 		}
 		return this.anonymisationHistoricPersistence.countWithDynamicQuery(dynamicQuery);
 	}
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/search-asset-init.jsp"%>
 <%@page
 	import="com.liferay.portal.kernel.security.permission.ResourceActionsUtil"%>
@@ -7,15 +8,15 @@
 	varImpl="configurationActionURL" />
 
 <liferay-ui:error key="wrong-friendly-url" message="wrong-friendly-url" />
-<aui:form action="${configurationActionURL}" method="post" name="fm" >
+<aui:form action="${configurationActionURL}" method="post" name="fm"  cssClass="container-fluid container-fluid-max-xl container-form-lg container-no-gutters">
 
     <aui:input name="cmd" type="hidden" value="update" />
 
     <div class="portlet-configuration-body-content">
         <div class="container-fluid-1280">
 
-            <aui:fieldset-group markupView="lexicon">
-                <!-- Type d'asset -->
+            <div class="sheet"><div class="panel-group panel-group-flush">
+            <!-- Type d'asset -->
                 <aui:fieldset collapsed="false" collapsible="true"
                     label="asset-type">
                     <liferay-ui:message key="asset-types-explanations" />
@@ -36,7 +37,7 @@
                                     name="assetClassNameId_${assetStatus.index}"
                                     label="<%= ResourceActionsUtil.getModelResource(locale, assetRendererFactory.getClassName()) %>"
                                     checked="${classNameIsChecked}"
-                                    value="${assetRendererFactory.classNameId}" inlineField="true" />
+                                    value="${assetRendererFactory.classNameId}" />
 
                                 <aui:select name="templateKey_${assetStatus.index}"
                                     inlineField="true">
@@ -63,8 +64,7 @@
                             <aui:input type="checkbox"
                                 name="searchJournalArticle"
                                 value="${searchJournalArticle}"
-                                label="web-content"
-                                inlineField="true" />
+                                label="web-content" />
                             <aui:select name="journalArticleTemplateKey"
                                 inlineField="true">
                                 <aui:option value="0"><liferay-ui:message key="select-a-template" /></aui:option>
@@ -81,8 +81,7 @@
                             <aui:input type="checkbox"
                                        name="searchDocument"
                                        value="${searchDocument}"
-                                       label="file"
-                                       inlineField="true" />
+                                       label="file" />
                             <aui:select name="documentTemplateKey"
                                         inlineField="true">
                                 <aui:option value="0"><liferay-ui:message key="select-a-template" /></aui:option>
@@ -99,8 +98,7 @@
                             <aui:input type="checkbox"
                                        name="searchDemarche"
                                        value="${searchDemarche}"
-                                       label="procedure"
-                                       inlineField="true" />
+                                       label="procedure" />
                         </div>
                     </div>
                     <div>
@@ -111,26 +109,27 @@
                 <!-- Portee -->
                 <aui:fieldset collapsed="true" collapsible="true" label="scope">
                     <liferay-ui:message key="scope-explanations" />
-                    <aui:input type="checkbox" name="globalScope" value="${globalScope}" label="global-scope" inlineField="true" />
+                    <aui:input type="checkbox" name="globalScope" value="${globalScope}" label="global-scope" />
                 </aui:fieldset>
 
                 <!-- Prefiltre -->
-                <aui:fieldset collapsed="true" collapsible="true" label="prefilter">
+                <aui:fieldset collapsed="true" collapsible="true" label="prefilter" cssClass="tag-selector">
                     <liferay-ui:message key="prefilter-explanations" />
                     <label><liferay-ui:message key="categories" /></label>
                     <p>
-                        <liferay-ui:asset-categories-selector
-                            hiddenInput="prefilterCategoriesIds"
-                            curCategoryIds="${prefilterCategoriesIds}" />
+                        <asset-category-selector:category-selector
+                                id="prefilterCategoriesIds"
+                                groupIds="${themeDisplay.scopeGroupId},${themeDisplay.companyGroupId}"
+                                label="categories"
+                                values="${prefilterCategoriesIds}"
+                                multiple="true"
+                        />
                     </p>
                     <br>
-                    <p>
-                        <liferay-ui:message key="prefilter-tag-explanations" />
-                        <label><liferay-ui:message key="tags" /></label>
-                        <liferay-ui:asset-tags-selector
-                            hiddenInput="prefilterTagsNames"
-                            curTags="${prefilterTagsNames}" />
-                    </p>
+                    <liferay-ui:message key="prefilter-tag-explanations" />
+                    <liferay-asset:asset-tags-selector
+                        hiddenInput="prefilterTagsNames"
+                        tagNames="${prefilterTagsNames}" />
                 </aui:fieldset>
 
                 <!-- Criteres de recherche -->
@@ -154,8 +153,7 @@
                             </c:if>
                             <aui:input type="checkbox" name="vocabularyId_${vocStatus.index}"
                                 label="${vocabularyLabel}" value="${vocabulary.vocabularyId}"
-                                checked="${fn:contains(vocabulariesIds, vocabulary.vocabularyId)}"
-                                inlineField="true" />
+                                checked="${fn:contains(vocabulariesIds, vocabulary.vocabularyId)}" />
 
                             <aui:select name="vocabularyControlType_${vocStatus.index}"
                                 inlineField="true">
@@ -176,25 +174,22 @@
                     <!-- Filtre par date -->
                     <div>
                         <liferay-ui:message key="date-explanations" />
-                        <aui:input type="checkbox" name="dateField" value="${dateField}" label="date-field" inlineField="true" />
+                        <aui:input type="checkbox" name="dateField" value="${dateField}" label="date-field" />
                     </div>
 
                     <!-- Tri par date -->
                     <div>
                         <liferay-ui:message key="date-sorting-explanations" />
-                        <aui:input type="checkbox" name="displayDateSorting" value="${displayDateSorting}" label="date-sorting-field" inlineField="true" />
+                        <aui:input type="checkbox" name="displayDateSorting" value="${displayDateSorting}" label="date-sorting-field" />
                     </div>
                 </aui:fieldset>
 
                 <!-- Boosts -->
-                <aui:fieldset collapsed="true" collapsible="true" label="boosts">
+                <aui:fieldset collapsed="true" collapsible="true" label="boosts" cssClass="tag-selector">
                     <liferay-ui:message key="boost-explanations" />
-                    <p>
-                        <label><liferay-ui:message key="tags" /></label>
-                        <liferay-ui:asset-tags-selector
-                            hiddenInput="boostTagsNames"
-                            curTags="${boostTagsNames}" />
-                    </p>
+                    <liferay-asset:asset-tags-selector
+                        hiddenInput="boostTagsNames"
+                        tagNames="${boostTagsNames}" />
                 </aui:fieldset>
 
                 <!-- Affichage par defaut -->
@@ -280,9 +275,6 @@
                         <aui:option value="strasbourg-generic" selected="${searchForm eq 'strasbourg-generic'}">
                             <liferay-ui:message key="strasbourg-generic" />
                         </aui:option>
-                        <aui:option value="strasbourg-offer" selected="${searchForm eq 'strasbourg-offer'}">
-                            <liferay-ui:message key="strasbourg-offer" />
-                        </aui:option>
                         <aui:option value="placit-projects" selected="${searchForm eq 'placit-projects'}">
                             <liferay-ui:message key="placit-projects" />
                         </aui:option>
@@ -300,6 +292,9 @@
                         </aui:option>
                         <aui:option value="placit-petitions" selected="${searchForm eq 'placit-petitions'}">
                             <liferay-ui:message key="placit-petitions" />
+                        </aui:option>
+                        <aui:option value="placit-saisinesObservatoire" selected="${searchForm eq 'placit-saisinesObservatoire'}">
+                            <liferay-ui:message key="placit-saisinesObservatoire" />
                         </aui:option>
                         <aui:option value="placit-budgetParticipatif" selected="${searchForm eq 'placit-budgetParticipatif'}">
                             <liferay-ui:message key="placit-budgetParticipatif" />
@@ -326,7 +321,7 @@
 
                     <!-- Bouton exporter -->
                     <aui:input type="checkbox" name="displayExport" value="${displayExport}"
-                        label="display-export" inlineField="true" />
+                        label="display-export" />
 
                     <!-- Type d'export -->
                     <aui:select name="exportType" showEmptyOption="true">
@@ -339,7 +334,7 @@
                     </aui:select>
                 </aui:fieldset>
 
-            </aui:fieldset-group>
+            </div></div>
         </div>
     </div>
 
@@ -349,33 +344,40 @@
 </aui:form>
 
 <style>
-.asset-types .asset-type-configuration .input-select-wrapper label,
-	.asset-types .input-text-wrapper label, .vocabulary-configuration .input-select-wrapper label
+html:not(#__):not(#___) .cadmin .asset-types .asset-type-configuration .input-select-wrapper label,
+html:not(#__):not(#___) .cadmin .asset-types .input-text-wrapper label,
+html:not(#__):not(#___) .cadmin .vocabulary-configuration .input-select-wrapper label
 	{
 	display: none;
 	float: right;
 }
 
-.asset-types .input-select-wrapper, .vocabulary-configuration .input-select-wrapper
-	{
+html:not(#__):not(#___) .cadmin .asset-types .input-select-wrapper,
+html:not(#__):not(#___) .cadmin .vocabulary-configuration .input-select-wrapper
+{
+    display: inline-block;
 	width: 250px;
 }
 
-.asset-types .input-text-wrapper {
+html:not(#__):not(#___) .cadmin .asset-types .input-text-wrapper {
+    display: inline-block;
 	margin-bottom: 10px;
 	margin-left: 50px;
 	width: 250px;
 }
 
-.asset-types .asset-type-configuration select, .vocabulary-configuration select
+html:not(#__):not(#___) .cadmin .asset-types .asset-type-configuration select,
+html:not(#__):not(#___) .cadmin .vocabulary-configuration select
 	{
 	margin-left: 20px;
 	min-width: 150px;
 	margin-bottom: -5px;
 }
 
-.asset-types .input-checkbox-wrapper, .vocabulary-configuration .input-checkbox-wrapper
-	{
+html:not(#__):not(#___) .cadmin .asset-types .input-checkbox-wrapper,
+html:not(#__):not(#___) .cadmin .vocabulary-configuration .input-checkbox-wrapper
+{
+    display: inline-block;
 	width: 250px;
 }
 p {
@@ -387,5 +389,19 @@ p.date {
 
 .date-range {
 	width: 100px;
+}
+
+html:not(#__):not(#___) .cadmin .panel-group-flush .panel-unstyled{
+    margin-bottom: 0;
+}
+
+html:not(#__):not(#___) .cadmin .sheet .panel-group .panel-body,
+html:not(#__):not(#___) .cadmin .sheet .panel-group .panel:last-child .panel-body{
+    padding-top:0;
+    margin-bottom: 0;
+}
+
+html:not(#__):not(#___) .cadmin .tag-selector .form-group .sheet-subtitle{
+    display: none;
 }
 </style>

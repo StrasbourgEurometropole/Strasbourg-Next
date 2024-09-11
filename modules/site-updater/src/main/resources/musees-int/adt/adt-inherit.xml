@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<root>
+    <parent>musees</parent>
+    <suf>int</suf>
+    <skipType>edition,event,navigation-menu</skipType>
+</root>

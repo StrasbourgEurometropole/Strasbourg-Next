@@ -14,11 +14,14 @@
 
 package eu.strasbourg.service.council.service.impl;
 
+import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.model.AssetLink;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.link.service.AssetLinkLocalService;
+import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -29,20 +32,30 @@ import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalServiceUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import eu.strasbourg.service.council.constants.DeliberationDataConstants;
+import eu.strasbourg.service.council.constants.StageDeliberation;
+import eu.strasbourg.service.council.model.CouncilSession;
+import eu.strasbourg.service.council.model.Deliberation;
 import eu.strasbourg.service.council.model.Official;
+import eu.strasbourg.service.council.model.OfficialTypeCouncil;
 import eu.strasbourg.service.council.model.Type;
+import eu.strasbourg.service.council.service.CouncilSessionLocalServiceUtil;
 import eu.strasbourg.service.council.service.OfficialLocalServiceUtil;
 import eu.strasbourg.service.council.service.OfficialTypeCouncilLocalServiceUtil;
 import eu.strasbourg.service.council.service.base.OfficialLocalServiceBaseImpl;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -268,11 +281,8 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 
 		if (entry != null) {
 			// Supprime les liens avec les catégories
-			for (long categoryId : entry.getCategoryIds()) {
-				this.assetEntryLocalService.deleteAssetCategoryAssetEntry(
-						categoryId, entry.getEntryId());
-			}
-
+			AssetEntryAssetCategoryRelLocalServiceUtil.
+					deleteAssetEntryAssetCategoryRelByAssetEntryId(entry.getEntryId());
 			// Supprime les liens avec les étiquettes
 			long[] tagIds = AssetEntryLocalServiceUtil
 					.getAssetTagPrimaryKeys(entry.getEntryId());
@@ -282,7 +292,7 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 			}
 
 			// Supprime lien avec les autres entries
-			List<AssetLink> links = this.assetLinkLocalService
+			List<AssetLink> links = AssetLinkLocalServiceUtil
 					.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
 				this.assetLinkLocalService.deleteAssetLink(link);
@@ -351,4 +361,7 @@ public class OfficialLocalServiceImpl extends OfficialLocalServiceBaseImpl {
 		}
 		return officials;
 	}
+
+	@Reference
+	private AssetLinkLocalService assetLinkLocalService;
 }

@@ -1,30 +1,17 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.model;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.portal.kernel.model.ModelWrapper;
-import com.liferay.portal.kernel.service.ServiceContext;
-
-import java.io.Serializable;
+import com.liferay.portal.kernel.model.wrapper.BaseModelWrapper;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * <p>
@@ -36,20 +23,11 @@ import java.util.Objects;
  * @generated
  */
 public class CouncilSessionWrapper
+	extends BaseModelWrapper<CouncilSession>
 	implements CouncilSession, ModelWrapper<CouncilSession> {
 
 	public CouncilSessionWrapper(CouncilSession councilSession) {
-		_councilSession = councilSession;
-	}
-
-	@Override
-	public Class<?> getModelClass() {
-		return CouncilSession.class;
-	}
-
-	@Override
-	public String getModelClassName() {
-		return CouncilSession.class.getName();
+		super(councilSession);
 	}
 
 	@Override
@@ -183,16 +161,8 @@ public class CouncilSessionWrapper
 	}
 
 	@Override
-	public Object clone() {
-		return new CouncilSessionWrapper(
-			(CouncilSession)_councilSession.clone());
-	}
-
-	@Override
-	public int compareTo(
-		eu.strasbourg.service.council.model.CouncilSession councilSession) {
-
-		return _councilSession.compareTo(councilSession);
+	public CouncilSession cloneWithOriginalValues() {
+		return wrap(model.cloneWithOriginalValues());
 	}
 
 	/**
@@ -200,7 +170,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry() {
-		return _councilSession.getAssetEntry();
+		return model.getAssetEntry();
 	}
 
 	/**
@@ -210,7 +180,7 @@ public class CouncilSessionWrapper
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories() {
 
-		return _councilSession.getCategories();
+		return model.getCategories();
 	}
 
 	/**
@@ -220,7 +190,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public long getCompanyId() {
-		return _councilSession.getCompanyId();
+		return model.getCompanyId();
 	}
 
 	/**
@@ -230,7 +200,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public long getCouncilSessionId() {
-		return _councilSession.getCouncilSessionId();
+		return model.getCouncilSessionId();
 	}
 
 	/**
@@ -240,7 +210,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public Date getCreateDate() {
-		return _councilSession.getCreateDate();
+		return model.getCreateDate();
 	}
 
 	/**
@@ -250,12 +220,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public Date getDate() {
-		return _councilSession.getDate();
-	}
-
-	@Override
-	public ExpandoBridge getExpandoBridge() {
-		return _councilSession.getExpandoBridge();
+		return model.getDate();
 	}
 
 	/**
@@ -265,7 +230,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public long getGroupId() {
-		return _councilSession.getGroupId();
+		return model.getGroupId();
 	}
 
 	/**
@@ -275,7 +240,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public long getLastDelibProcessed() {
-		return _councilSession.getLastDelibProcessed();
+		return model.getLastDelibProcessed();
 	}
 
 	/**
@@ -285,7 +250,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public Date getModifiedDate() {
-		return _councilSession.getModifiedDate();
+		return model.getModifiedDate();
 	}
 
 	/**
@@ -293,7 +258,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public eu.strasbourg.service.council.model.Official getOfficialLeader() {
-		return _councilSession.getOfficialLeader();
+		return model.getOfficialLeader();
 	}
 
 	/**
@@ -301,7 +266,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public String getOfficialLeaderFullName() {
-		return _councilSession.getOfficialLeaderFullName();
+		return model.getOfficialLeaderFullName();
 	}
 
 	/**
@@ -311,7 +276,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public long getOfficialLeaderId() {
-		return _councilSession.getOfficialLeaderId();
+		return model.getOfficialLeaderId();
 	}
 
 	/**
@@ -321,12 +286,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public long getPrimaryKey() {
-		return _councilSession.getPrimaryKey();
-	}
-
-	@Override
-	public Serializable getPrimaryKeyObj() {
-		return _councilSession.getPrimaryKeyObj();
+		return model.getPrimaryKey();
 	}
 
 	/**
@@ -336,7 +296,7 @@ public class CouncilSessionWrapper
 	public java.util.List<eu.strasbourg.service.council.model.Procuration>
 		getProcurations() {
 
-		return _councilSession.getProcurations();
+		return model.getProcurations();
 	}
 
 	/**
@@ -346,7 +306,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public int getStatus() {
-		return _councilSession.getStatus();
+		return model.getStatus();
 	}
 
 	/**
@@ -356,7 +316,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public long getStatusByUserId() {
-		return _councilSession.getStatusByUserId();
+		return model.getStatusByUserId();
 	}
 
 	/**
@@ -366,7 +326,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public String getStatusByUserName() {
-		return _councilSession.getStatusByUserName();
+		return model.getStatusByUserName();
 	}
 
 	/**
@@ -376,7 +336,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public String getStatusByUserUuid() {
-		return _councilSession.getStatusByUserUuid();
+		return model.getStatusByUserUuid();
 	}
 
 	/**
@@ -386,7 +346,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public Date getStatusDate() {
-		return _councilSession.getStatusDate();
+		return model.getStatusDate();
 	}
 
 	/**
@@ -396,7 +356,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public String getTitle() {
-		return _councilSession.getTitle();
+		return model.getTitle();
 	}
 
 	/**
@@ -404,7 +364,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public eu.strasbourg.service.council.model.Type getTypeCouncil() {
-		return _councilSession.getTypeCouncil();
+		return model.getTypeCouncil();
 	}
 
 	/**
@@ -414,7 +374,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public long getTypeId() {
-		return _councilSession.getTypeId();
+		return model.getTypeId();
 	}
 
 	/**
@@ -424,7 +384,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public long getUserId() {
-		return _councilSession.getUserId();
+		return model.getUserId();
 	}
 
 	/**
@@ -434,7 +394,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public String getUserName() {
-		return _councilSession.getUserName();
+		return model.getUserName();
 	}
 
 	/**
@@ -444,7 +404,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public String getUserUuid() {
-		return _councilSession.getUserUuid();
+		return model.getUserUuid();
 	}
 
 	/**
@@ -454,12 +414,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public String getUuid() {
-		return _councilSession.getUuid();
-	}
-
-	@Override
-	public int hashCode() {
-		return _councilSession.hashCode();
+		return model.getUuid();
 	}
 
 	/**
@@ -469,12 +424,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public boolean isApproved() {
-		return _councilSession.isApproved();
-	}
-
-	@Override
-	public boolean isCachedModel() {
-		return _councilSession.isCachedModel();
+		return model.isApproved();
 	}
 
 	/**
@@ -484,7 +434,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public boolean isDenied() {
-		return _councilSession.isDenied();
+		return model.isDenied();
 	}
 
 	/**
@@ -494,12 +444,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public boolean isDraft() {
-		return _councilSession.isDraft();
-	}
-
-	@Override
-	public boolean isEscapedModel() {
-		return _councilSession.isEscapedModel();
+		return model.isDraft();
 	}
 
 	/**
@@ -509,7 +454,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public boolean isExpired() {
-		return _councilSession.isExpired();
+		return model.isExpired();
 	}
 
 	/**
@@ -519,7 +464,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public boolean isInactive() {
-		return _councilSession.isInactive();
+		return model.isInactive();
 	}
 
 	/**
@@ -529,12 +474,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public boolean isIncomplete() {
-		return _councilSession.isIncomplete();
-	}
-
-	@Override
-	public boolean isNew() {
-		return _councilSession.isNew();
+		return model.isIncomplete();
 	}
 
 	/**
@@ -544,7 +484,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public boolean isPending() {
-		return _councilSession.isPending();
+		return model.isPending();
 	}
 
 	/**
@@ -554,17 +494,12 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public boolean isScheduled() {
-		return _councilSession.isScheduled();
+		return model.isScheduled();
 	}
 
 	@Override
 	public void persist() {
-		_councilSession.persist();
-	}
-
-	@Override
-	public void setCachedModel(boolean cachedModel) {
-		_councilSession.setCachedModel(cachedModel);
+		model.persist();
 	}
 
 	/**
@@ -574,7 +509,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setCompanyId(long companyId) {
-		_councilSession.setCompanyId(companyId);
+		model.setCompanyId(companyId);
 	}
 
 	/**
@@ -584,7 +519,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setCouncilSessionId(long councilSessionId) {
-		_councilSession.setCouncilSessionId(councilSessionId);
+		model.setCouncilSessionId(councilSessionId);
 	}
 
 	/**
@@ -594,7 +529,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setCreateDate(Date createDate) {
-		_councilSession.setCreateDate(createDate);
+		model.setCreateDate(createDate);
 	}
 
 	/**
@@ -604,24 +539,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setDate(Date date) {
-		_councilSession.setDate(date);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(
-		com.liferay.portal.kernel.model.BaseModel<?> baseModel) {
-
-		_councilSession.setExpandoBridgeAttributes(baseModel);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ExpandoBridge expandoBridge) {
-		_councilSession.setExpandoBridgeAttributes(expandoBridge);
-	}
-
-	@Override
-	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
-		_councilSession.setExpandoBridgeAttributes(serviceContext);
+		model.setDate(date);
 	}
 
 	/**
@@ -631,7 +549,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setGroupId(long groupId) {
-		_councilSession.setGroupId(groupId);
+		model.setGroupId(groupId);
 	}
 
 	/**
@@ -641,7 +559,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setLastDelibProcessed(long lastDelibProcessed) {
-		_councilSession.setLastDelibProcessed(lastDelibProcessed);
+		model.setLastDelibProcessed(lastDelibProcessed);
 	}
 
 	/**
@@ -651,12 +569,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
-		_councilSession.setModifiedDate(modifiedDate);
-	}
-
-	@Override
-	public void setNew(boolean n) {
-		_councilSession.setNew(n);
+		model.setModifiedDate(modifiedDate);
 	}
 
 	/**
@@ -666,7 +579,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setOfficialLeaderId(long officialLeaderId) {
-		_councilSession.setOfficialLeaderId(officialLeaderId);
+		model.setOfficialLeaderId(officialLeaderId);
 	}
 
 	/**
@@ -676,12 +589,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setPrimaryKey(long primaryKey) {
-		_councilSession.setPrimaryKey(primaryKey);
-	}
-
-	@Override
-	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		_councilSession.setPrimaryKeyObj(primaryKeyObj);
+		model.setPrimaryKey(primaryKey);
 	}
 
 	/**
@@ -691,7 +599,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setStatus(int status) {
-		_councilSession.setStatus(status);
+		model.setStatus(status);
 	}
 
 	/**
@@ -701,7 +609,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
-		_councilSession.setStatusByUserId(statusByUserId);
+		model.setStatusByUserId(statusByUserId);
 	}
 
 	/**
@@ -711,7 +619,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
-		_councilSession.setStatusByUserName(statusByUserName);
+		model.setStatusByUserName(statusByUserName);
 	}
 
 	/**
@@ -721,7 +629,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setStatusByUserUuid(String statusByUserUuid) {
-		_councilSession.setStatusByUserUuid(statusByUserUuid);
+		model.setStatusByUserUuid(statusByUserUuid);
 	}
 
 	/**
@@ -731,7 +639,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setStatusDate(Date statusDate) {
-		_councilSession.setStatusDate(statusDate);
+		model.setStatusDate(statusDate);
 	}
 
 	/**
@@ -741,7 +649,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setTitle(String title) {
-		_councilSession.setTitle(title);
+		model.setTitle(title);
 	}
 
 	/**
@@ -751,7 +659,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setTypeId(long typeId) {
-		_councilSession.setTypeId(typeId);
+		model.setTypeId(typeId);
 	}
 
 	/**
@@ -761,7 +669,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setUserId(long userId) {
-		_councilSession.setUserId(userId);
+		model.setUserId(userId);
 	}
 
 	/**
@@ -771,7 +679,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setUserName(String userName) {
-		_councilSession.setUserName(userName);
+		model.setUserName(userName);
 	}
 
 	/**
@@ -781,7 +689,7 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setUserUuid(String userUuid) {
-		_councilSession.setUserUuid(userUuid);
+		model.setUserUuid(userUuid);
 	}
 
 	/**
@@ -791,85 +699,22 @@ public class CouncilSessionWrapper
 	 */
 	@Override
 	public void setUuid(String uuid) {
-		_councilSession.setUuid(uuid);
-	}
-
-	@Override
-	public com.liferay.portal.kernel.model.CacheModel
-		<eu.strasbourg.service.council.model.CouncilSession> toCacheModel() {
-
-		return _councilSession.toCacheModel();
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.CouncilSession toEscapedModel() {
-		return new CouncilSessionWrapper(_councilSession.toEscapedModel());
-	}
-
-	@Override
-	public String toString() {
-		return _councilSession.toString();
-	}
-
-	@Override
-	public eu.strasbourg.service.council.model.CouncilSession
-		toUnescapedModel() {
-
-		return new CouncilSessionWrapper(_councilSession.toUnescapedModel());
+		model.setUuid(uuid);
 	}
 
 	@Override
 	public String toXmlString() {
-		return _councilSession.toXmlString();
-	}
-
-	@Override
-	public boolean equals(Object object) {
-		if (this == object) {
-			return true;
-		}
-
-		if (!(object instanceof CouncilSessionWrapper)) {
-			return false;
-		}
-
-		CouncilSessionWrapper councilSessionWrapper =
-			(CouncilSessionWrapper)object;
-
-		if (Objects.equals(
-				_councilSession, councilSessionWrapper._councilSession)) {
-
-			return true;
-		}
-
-		return false;
+		return model.toXmlString();
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
-		return _councilSession.getStagedModelType();
+		return model.getStagedModelType();
 	}
 
 	@Override
-	public CouncilSession getWrappedModel() {
-		return _councilSession;
+	protected CouncilSessionWrapper wrap(CouncilSession councilSession) {
+		return new CouncilSessionWrapper(councilSession);
 	}
-
-	@Override
-	public boolean isEntityCacheEnabled() {
-		return _councilSession.isEntityCacheEnabled();
-	}
-
-	@Override
-	public boolean isFinderCacheEnabled() {
-		return _councilSession.isFinderCacheEnabled();
-	}
-
-	@Override
-	public void resetOriginalValues() {
-		_councilSession.resetOriginalValues();
-	}
-
-	private final CouncilSession _councilSession;
 
 }

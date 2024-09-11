@@ -1,15 +1,6 @@
 /**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
+ * SPDX-FileCopyrightText: (c) 2023 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package eu.strasbourg.service.council.model.impl;
@@ -17,6 +8,7 @@ package eu.strasbourg.service.council.model.impl;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.CacheModel;
@@ -28,7 +20,7 @@ import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
-import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.council.model.Procuration;
@@ -36,9 +28,9 @@ import eu.strasbourg.service.council.model.ProcurationModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -46,6 +38,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -134,35 +127,71 @@ public class ProcurationModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.council.service.util.ServiceProps.get(
-			"value.object.entity.cache.enabled.eu.strasbourg.service.council.model.Procuration"),
-		false);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean ENTITY_CACHE_ENABLED = true;
 
-	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.council.service.util.ServiceProps.get(
-			"value.object.finder.cache.enabled.eu.strasbourg.service.council.model.Procuration"),
-		false);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean FINDER_CACHE_ENABLED = true;
 
-	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
-		eu.strasbourg.service.council.service.util.ServiceProps.get(
-			"value.object.column.bitmask.enabled.eu.strasbourg.service.council.model.Procuration"),
-		true);
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	public static final boolean COLUMN_BITMASK_ENABLED = true;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long COUNCILSESSIONID_COLUMN_BITMASK = 2L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long ISABSENT_COLUMN_BITMASK = 8L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long OFFICIALUNAVAILABLEID_COLUMN_BITMASK = 16L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long OFFICIALVOTERSID_COLUMN_BITMASK = 32L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long UUID_COLUMN_BITMASK = 64L;
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *		#getColumnBitmask(String)}
+	 */
+	@Deprecated
 	public static final long PROCURATIONID_COLUMN_BITMASK = 128L;
 
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(
@@ -221,9 +250,6 @@ public class ProcurationModelImpl
 				attributeGetterFunction.apply((Procuration)this));
 		}
 
-		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
-		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
-
 		return attributes;
 	}
 
@@ -248,593 +274,163 @@ public class ProcurationModelImpl
 	public Map<String, Function<Procuration, Object>>
 		getAttributeGetterFunctions() {
 
-		return _attributeGetterFunctions;
+		return AttributeGetterFunctionsHolder._attributeGetterFunctions;
 	}
 
 	public Map<String, BiConsumer<Procuration, Object>>
 		getAttributeSetterBiConsumers() {
 
-		return _attributeSetterBiConsumers;
+		return AttributeSetterBiConsumersHolder._attributeSetterBiConsumers;
 	}
 
-	private static Function<InvocationHandler, Procuration>
-		_getProxyProviderFunction() {
+	private static class AttributeGetterFunctionsHolder {
 
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			Procuration.class.getClassLoader(), Procuration.class,
-			ModelWrapper.class);
+		private static final Map<String, Function<Procuration, Object>>
+			_attributeGetterFunctions;
 
-		try {
-			Constructor<Procuration> constructor =
-				(Constructor<Procuration>)proxyClass.getConstructor(
-					InvocationHandler.class);
+		static {
+			Map<String, Function<Procuration, Object>>
+				attributeGetterFunctions =
+					new LinkedHashMap<String, Function<Procuration, Object>>();
 
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
+			attributeGetterFunctions.put("uuid", Procuration::getUuid);
+			attributeGetterFunctions.put(
+				"procurationId", Procuration::getProcurationId);
+			attributeGetterFunctions.put("groupId", Procuration::getGroupId);
+			attributeGetterFunctions.put(
+				"companyId", Procuration::getCompanyId);
+			attributeGetterFunctions.put("userId", Procuration::getUserId);
+			attributeGetterFunctions.put("userName", Procuration::getUserName);
+			attributeGetterFunctions.put(
+				"createDate", Procuration::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Procuration::getModifiedDate);
+			attributeGetterFunctions.put("status", Procuration::getStatus);
+			attributeGetterFunctions.put(
+				"statusByUserId", Procuration::getStatusByUserId);
+			attributeGetterFunctions.put(
+				"statusByUserName", Procuration::getStatusByUserName);
+			attributeGetterFunctions.put(
+				"statusDate", Procuration::getStatusDate);
+			attributeGetterFunctions.put(
+				"officialVotersId", Procuration::getOfficialVotersId);
+			attributeGetterFunctions.put(
+				"officialUnavailableId", Procuration::getOfficialUnavailableId);
+			attributeGetterFunctions.put(
+				"councilSessionId", Procuration::getCouncilSessionId);
+			attributeGetterFunctions.put("isAbsent", Procuration::getIsAbsent);
+			attributeGetterFunctions.put(
+				"procurationMode", Procuration::getProcurationMode);
+			attributeGetterFunctions.put(
+				"presential", Procuration::getPresential);
+			attributeGetterFunctions.put(
+				"isAfterVote", Procuration::getIsAfterVote);
+			attributeGetterFunctions.put(
+				"startHour", Procuration::getStartHour);
+			attributeGetterFunctions.put("endHour", Procuration::getEndHour);
+			attributeGetterFunctions.put(
+				"startDelib", Procuration::getStartDelib);
+			attributeGetterFunctions.put("endDelib", Procuration::getEndDelib);
+			attributeGetterFunctions.put(
+				"otherProcurationMode", Procuration::getOtherProcurationMode);
 
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
+			_attributeGetterFunctions = Collections.unmodifiableMap(
+				attributeGetterFunctions);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
+
 	}
 
-	private static final Map<String, Function<Procuration, Object>>
-		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Procuration, Object>>
-		_attributeSetterBiConsumers;
+	private static class AttributeSetterBiConsumersHolder {
+
+		private static final Map<String, BiConsumer<Procuration, Object>>
+			_attributeSetterBiConsumers;
+
+		static {
+			Map<String, BiConsumer<Procuration, ?>> attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<Procuration, ?>>();
+
+			attributeSetterBiConsumers.put(
+				"uuid", (BiConsumer<Procuration, String>)Procuration::setUuid);
+			attributeSetterBiConsumers.put(
+				"procurationId",
+				(BiConsumer<Procuration, Long>)Procuration::setProcurationId);
+			attributeSetterBiConsumers.put(
+				"groupId",
+				(BiConsumer<Procuration, Long>)Procuration::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId",
+				(BiConsumer<Procuration, Long>)Procuration::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId",
+				(BiConsumer<Procuration, Long>)Procuration::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName",
+				(BiConsumer<Procuration, String>)Procuration::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Procuration, Date>)Procuration::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Procuration, Date>)Procuration::setModifiedDate);
+			attributeSetterBiConsumers.put(
+				"status",
+				(BiConsumer<Procuration, Integer>)Procuration::setStatus);
+			attributeSetterBiConsumers.put(
+				"statusByUserId",
+				(BiConsumer<Procuration, Long>)Procuration::setStatusByUserId);
+			attributeSetterBiConsumers.put(
+				"statusByUserName",
+				(BiConsumer<Procuration, String>)
+					Procuration::setStatusByUserName);
+			attributeSetterBiConsumers.put(
+				"statusDate",
+				(BiConsumer<Procuration, Date>)Procuration::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"officialVotersId",
+				(BiConsumer<Procuration, Long>)
+					Procuration::setOfficialVotersId);
+			attributeSetterBiConsumers.put(
+				"officialUnavailableId",
+				(BiConsumer<Procuration, Long>)
+					Procuration::setOfficialUnavailableId);
+			attributeSetterBiConsumers.put(
+				"councilSessionId",
+				(BiConsumer<Procuration, Long>)
+					Procuration::setCouncilSessionId);
+			attributeSetterBiConsumers.put(
+				"isAbsent",
+				(BiConsumer<Procuration, Boolean>)Procuration::setIsAbsent);
+			attributeSetterBiConsumers.put(
+				"procurationMode",
+				(BiConsumer<Procuration, Integer>)
+					Procuration::setProcurationMode);
+			attributeSetterBiConsumers.put(
+				"presential",
+				(BiConsumer<Procuration, Integer>)Procuration::setPresential);
+			attributeSetterBiConsumers.put(
+				"isAfterVote",
+				(BiConsumer<Procuration, Boolean>)Procuration::setIsAfterVote);
+			attributeSetterBiConsumers.put(
+				"startHour",
+				(BiConsumer<Procuration, Date>)Procuration::setStartHour);
+			attributeSetterBiConsumers.put(
+				"endHour",
+				(BiConsumer<Procuration, Date>)Procuration::setEndHour);
+			attributeSetterBiConsumers.put(
+				"startDelib",
+				(BiConsumer<Procuration, Long>)Procuration::setStartDelib);
+			attributeSetterBiConsumers.put(
+				"endDelib",
+				(BiConsumer<Procuration, Long>)Procuration::setEndDelib);
+			attributeSetterBiConsumers.put(
+				"otherProcurationMode",
+				(BiConsumer<Procuration, String>)
+					Procuration::setOtherProcurationMode);
+
+			_attributeSetterBiConsumers = Collections.unmodifiableMap(
+				(Map)attributeSetterBiConsumers);
+		}
 
-	static {
-		Map<String, Function<Procuration, Object>> attributeGetterFunctions =
-			new LinkedHashMap<String, Function<Procuration, Object>>();
-		Map<String, BiConsumer<Procuration, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Procuration, ?>>();
-
-		attributeGetterFunctions.put(
-			"uuid",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getUuid();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(Procuration procuration, Object uuidObject) {
-					procuration.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"procurationId",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getProcurationId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"procurationId",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object procurationIdObject) {
-
-					procuration.setProcurationId((Long)procurationIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getGroupId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"groupId",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object groupIdObject) {
-
-					procuration.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getCompanyId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"companyId",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object companyIdObject) {
-
-					procuration.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userId",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object userIdObject) {
-
-					procuration.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"userName",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object userNameObject) {
-
-					procuration.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getCreateDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"createDate",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object createDateObject) {
-
-					procuration.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getModifiedDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object modifiedDateObject) {
-
-					procuration.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getStatus();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"status",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object statusObject) {
-
-					procuration.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getStatusByUserId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object statusByUserIdObject) {
-
-					procuration.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getStatusByUserName();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object statusByUserNameObject) {
-
-					procuration.setStatusByUserName(
-						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getStatusDate();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"statusDate",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object statusDateObject) {
-
-					procuration.setStatusDate((Date)statusDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"officialVotersId",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getOfficialVotersId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"officialVotersId",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object officialVotersIdObject) {
-
-					procuration.setOfficialVotersId(
-						(Long)officialVotersIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"officialUnavailableId",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getOfficialUnavailableId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"officialUnavailableId",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration,
-					Object officialUnavailableIdObject) {
-
-					procuration.setOfficialUnavailableId(
-						(Long)officialUnavailableIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"councilSessionId",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getCouncilSessionId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"councilSessionId",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object councilSessionIdObject) {
-
-					procuration.setCouncilSessionId(
-						(Long)councilSessionIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"isAbsent",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getIsAbsent();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"isAbsent",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object isAbsentObject) {
-
-					procuration.setIsAbsent((Boolean)isAbsentObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"procurationMode",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getProcurationMode();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"procurationMode",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object procurationModeObject) {
-
-					procuration.setProcurationMode(
-						(Integer)procurationModeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"presential",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getPresential();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"presential",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object presentialObject) {
-
-					procuration.setPresential((Integer)presentialObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"isAfterVote",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getIsAfterVote();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"isAfterVote",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object isAfterVoteObject) {
-
-					procuration.setIsAfterVote((Boolean)isAfterVoteObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"startHour",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getStartHour();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"startHour",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object startHourObject) {
-
-					procuration.setStartHour((Date)startHourObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"endHour",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getEndHour();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"endHour",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object endHourObject) {
-
-					procuration.setEndHour((Date)endHourObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"startDelib",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getStartDelib();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"startDelib",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object startDelibObject) {
-
-					procuration.setStartDelib((Long)startDelibObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"endDelib",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getEndDelib();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"endDelib",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration, Object endDelibObject) {
-
-					procuration.setEndDelib((Long)endDelibObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"otherProcurationMode",
-			new Function<Procuration, Object>() {
-
-				@Override
-				public Object apply(Procuration procuration) {
-					return procuration.getOtherProcurationMode();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"otherProcurationMode",
-			new BiConsumer<Procuration, Object>() {
-
-				@Override
-				public void accept(
-					Procuration procuration,
-					Object otherProcurationModeObject) {
-
-					procuration.setOtherProcurationMode(
-						(String)otherProcurationModeObject);
-				}
-
-			});
-
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
-		_attributeSetterBiConsumers = Collections.unmodifiableMap(
-			(Map)attributeSetterBiConsumers);
 	}
 
 	@Override
@@ -849,17 +445,20 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setUuid(String uuid) {
-		_columnBitmask |= UUID_COLUMN_BITMASK;
-
-		if (_originalUuid == null) {
-			_originalUuid = _uuid;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_uuid = uuid;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public String getOriginalUuid() {
-		return GetterUtil.getString(_originalUuid);
+		return getColumnOriginalValue("uuid_");
 	}
 
 	@Override
@@ -869,7 +468,9 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setProcurationId(long procurationId) {
-		_columnBitmask = -1L;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
 
 		_procurationId = procurationId;
 	}
@@ -881,19 +482,20 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setGroupId(long groupId) {
-		_columnBitmask |= GROUPID_COLUMN_BITMASK;
-
-		if (!_setOriginalGroupId) {
-			_setOriginalGroupId = true;
-
-			_originalGroupId = _groupId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_groupId = groupId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalGroupId() {
-		return _originalGroupId;
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
 	}
 
 	@Override
@@ -903,19 +505,21 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
-
-		if (!_setOriginalCompanyId) {
-			_setOriginalCompanyId = true;
-
-			_originalCompanyId = _companyId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_companyId = companyId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCompanyId() {
-		return _originalCompanyId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
 	}
 
 	@Override
@@ -925,6 +529,10 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userId = userId;
 	}
 
@@ -956,6 +564,10 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_userName = userName;
 	}
 
@@ -966,6 +578,10 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_createDate = createDate;
 	}
 
@@ -982,6 +598,10 @@ public class ProcurationModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_modifiedDate = modifiedDate;
 	}
 
@@ -992,6 +612,10 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setStatus(int status) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_status = status;
 	}
 
@@ -1002,6 +626,10 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setStatusByUserId(long statusByUserId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserId = statusByUserId;
 	}
 
@@ -1033,6 +661,10 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setStatusByUserName(String statusByUserName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusByUserName = statusByUserName;
 	}
 
@@ -1043,6 +675,10 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setStatusDate(Date statusDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_statusDate = statusDate;
 	}
 
@@ -1053,19 +689,21 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setOfficialVotersId(long officialVotersId) {
-		_columnBitmask |= OFFICIALVOTERSID_COLUMN_BITMASK;
-
-		if (!_setOriginalOfficialVotersId) {
-			_setOriginalOfficialVotersId = true;
-
-			_originalOfficialVotersId = _officialVotersId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_officialVotersId = officialVotersId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalOfficialVotersId() {
-		return _originalOfficialVotersId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("officialVotersId"));
 	}
 
 	@Override
@@ -1075,19 +713,21 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setOfficialUnavailableId(long officialUnavailableId) {
-		_columnBitmask |= OFFICIALUNAVAILABLEID_COLUMN_BITMASK;
-
-		if (!_setOriginalOfficialUnavailableId) {
-			_setOriginalOfficialUnavailableId = true;
-
-			_originalOfficialUnavailableId = _officialUnavailableId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_officialUnavailableId = officialUnavailableId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalOfficialUnavailableId() {
-		return _originalOfficialUnavailableId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("officialUnavailableId"));
 	}
 
 	@Override
@@ -1097,19 +737,21 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setCouncilSessionId(long councilSessionId) {
-		_columnBitmask |= COUNCILSESSIONID_COLUMN_BITMASK;
-
-		if (!_setOriginalCouncilSessionId) {
-			_setOriginalCouncilSessionId = true;
-
-			_originalCouncilSessionId = _councilSessionId;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_councilSessionId = councilSessionId;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public long getOriginalCouncilSessionId() {
-		return _originalCouncilSessionId;
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("councilSessionId"));
 	}
 
 	@Override
@@ -1124,19 +766,21 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setIsAbsent(boolean isAbsent) {
-		_columnBitmask |= ISABSENT_COLUMN_BITMASK;
-
-		if (!_setOriginalIsAbsent) {
-			_setOriginalIsAbsent = true;
-
-			_originalIsAbsent = _isAbsent;
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
 		}
 
 		_isAbsent = isAbsent;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
 	public boolean getOriginalIsAbsent() {
-		return _originalIsAbsent;
+		return GetterUtil.getBoolean(
+			this.<Boolean>getColumnOriginalValue("isAbsent"));
 	}
 
 	@Override
@@ -1146,6 +790,10 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setProcurationMode(int procurationMode) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_procurationMode = procurationMode;
 	}
 
@@ -1156,6 +804,10 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setPresential(int presential) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_presential = presential;
 	}
 
@@ -1171,6 +823,10 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setIsAfterVote(boolean isAfterVote) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_isAfterVote = isAfterVote;
 	}
 
@@ -1181,6 +837,10 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setStartHour(Date startHour) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_startHour = startHour;
 	}
 
@@ -1191,6 +851,10 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setEndHour(Date endHour) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_endHour = endHour;
 	}
 
@@ -1201,6 +865,10 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setStartDelib(long startDelib) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_startDelib = startDelib;
 	}
 
@@ -1211,6 +879,10 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setEndDelib(long endDelib) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_endDelib = endDelib;
 	}
 
@@ -1226,6 +898,10 @@ public class ProcurationModelImpl
 
 	@Override
 	public void setOtherProcurationMode(String otherProcurationMode) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
 		_otherProcurationMode = otherProcurationMode;
 	}
 
@@ -1316,6 +992,26 @@ public class ProcurationModelImpl
 	}
 
 	public long getColumnBitmask() {
+		if (_columnBitmask > 0) {
+			return _columnBitmask;
+		}
+
+		if ((_columnOriginalValues == null) ||
+			(_columnOriginalValues == Collections.EMPTY_MAP)) {
+
+			return 0;
+		}
+
+		for (Map.Entry<String, Object> entry :
+				_columnOriginalValues.entrySet()) {
+
+			if (!Objects.equals(
+					entry.getValue(), getColumnValue(entry.getKey()))) {
+
+				_columnBitmask |= _columnBitmasks.get(entry.getKey());
+			}
+		}
+
 		return _columnBitmask;
 	}
 
@@ -1382,6 +1078,60 @@ public class ProcurationModelImpl
 	}
 
 	@Override
+	public Procuration cloneWithOriginalValues() {
+		ProcurationImpl procurationImpl = new ProcurationImpl();
+
+		procurationImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
+		procurationImpl.setProcurationId(
+			this.<Long>getColumnOriginalValue("procurationId"));
+		procurationImpl.setGroupId(
+			this.<Long>getColumnOriginalValue("groupId"));
+		procurationImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		procurationImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		procurationImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		procurationImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		procurationImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
+		procurationImpl.setStatus(
+			this.<Integer>getColumnOriginalValue("status"));
+		procurationImpl.setStatusByUserId(
+			this.<Long>getColumnOriginalValue("statusByUserId"));
+		procurationImpl.setStatusByUserName(
+			this.<String>getColumnOriginalValue("statusByUserName"));
+		procurationImpl.setStatusDate(
+			this.<Date>getColumnOriginalValue("statusDate"));
+		procurationImpl.setOfficialVotersId(
+			this.<Long>getColumnOriginalValue("officialVotersId"));
+		procurationImpl.setOfficialUnavailableId(
+			this.<Long>getColumnOriginalValue("officialUnavailableId"));
+		procurationImpl.setCouncilSessionId(
+			this.<Long>getColumnOriginalValue("councilSessionId"));
+		procurationImpl.setIsAbsent(
+			this.<Boolean>getColumnOriginalValue("isAbsent"));
+		procurationImpl.setProcurationMode(
+			this.<Integer>getColumnOriginalValue("procurationMode"));
+		procurationImpl.setPresential(
+			this.<Integer>getColumnOriginalValue("presential"));
+		procurationImpl.setIsAfterVote(
+			this.<Boolean>getColumnOriginalValue("isAfterVote"));
+		procurationImpl.setStartHour(
+			this.<Date>getColumnOriginalValue("startHour"));
+		procurationImpl.setEndHour(
+			this.<Date>getColumnOriginalValue("endHour"));
+		procurationImpl.setStartDelib(
+			this.<Long>getColumnOriginalValue("startDelib"));
+		procurationImpl.setEndDelib(
+			this.<Long>getColumnOriginalValue("endDelib"));
+		procurationImpl.setOtherProcurationMode(
+			this.<String>getColumnOriginalValue("otherProcurationMode"));
+
+		return procurationImpl;
+	}
+
+	@Override
 	public int compareTo(Procuration procuration) {
 		int value = 0;
 
@@ -1431,11 +1181,19 @@ public class ProcurationModelImpl
 		return (int)getPrimaryKey();
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
 		return ENTITY_CACHE_ENABLED;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
 		return FINDER_CACHE_ENABLED;
@@ -1443,41 +1201,11 @@ public class ProcurationModelImpl
 
 	@Override
 	public void resetOriginalValues() {
-		ProcurationModelImpl procurationModelImpl = this;
+		_columnOriginalValues = Collections.emptyMap();
 
-		procurationModelImpl._originalUuid = procurationModelImpl._uuid;
+		_setModifiedDate = false;
 
-		procurationModelImpl._originalGroupId = procurationModelImpl._groupId;
-
-		procurationModelImpl._setOriginalGroupId = false;
-
-		procurationModelImpl._originalCompanyId =
-			procurationModelImpl._companyId;
-
-		procurationModelImpl._setOriginalCompanyId = false;
-
-		procurationModelImpl._setModifiedDate = false;
-
-		procurationModelImpl._originalOfficialVotersId =
-			procurationModelImpl._officialVotersId;
-
-		procurationModelImpl._setOriginalOfficialVotersId = false;
-
-		procurationModelImpl._originalOfficialUnavailableId =
-			procurationModelImpl._officialUnavailableId;
-
-		procurationModelImpl._setOriginalOfficialUnavailableId = false;
-
-		procurationModelImpl._originalCouncilSessionId =
-			procurationModelImpl._councilSessionId;
-
-		procurationModelImpl._setOriginalCouncilSessionId = false;
-
-		procurationModelImpl._originalIsAbsent = procurationModelImpl._isAbsent;
-
-		procurationModelImpl._setOriginalIsAbsent = false;
-
-		procurationModelImpl._columnBitmask = 0;
+		_columnBitmask = 0;
 	}
 
 	@Override
@@ -1605,7 +1333,7 @@ public class ProcurationModelImpl
 			getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			4 * attributeGetterFunctions.size() + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -1616,9 +1344,26 @@ public class ProcurationModelImpl
 			Function<Procuration, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(attributeGetterFunction.apply((Procuration)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply((Procuration)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -1631,53 +1376,19 @@ public class ProcurationModelImpl
 		return sb.toString();
 	}
 
-	@Override
-	public String toXmlString() {
-		Map<String, Function<Procuration, Object>> attributeGetterFunctions =
-			getAttributeGetterFunctions();
-
-		StringBundler sb = new StringBundler(
-			5 * attributeGetterFunctions.size() + 4);
-
-		sb.append("<model><model-name>");
-		sb.append(getModelClassName());
-		sb.append("</model-name>");
-
-		for (Map.Entry<String, Function<Procuration, Object>> entry :
-				attributeGetterFunctions.entrySet()) {
-
-			String attributeName = entry.getKey();
-			Function<Procuration, Object> attributeGetterFunction =
-				entry.getValue();
-
-			sb.append("<column><column-name>");
-			sb.append(attributeName);
-			sb.append("</column-name><column-value><![CDATA[");
-			sb.append(attributeGetterFunction.apply((Procuration)this));
-			sb.append("]]></column-value></column>");
-		}
-
-		sb.append("</model>");
-
-		return sb.toString();
-	}
-
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, Procuration>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					Procuration.class, ModelWrapper.class);
 
 	}
 
 	private String _uuid;
-	private String _originalUuid;
 	private long _procurationId;
 	private long _groupId;
-	private long _originalGroupId;
-	private boolean _setOriginalGroupId;
 	private long _companyId;
-	private long _originalCompanyId;
-	private boolean _setOriginalCompanyId;
 	private long _userId;
 	private String _userName;
 	private Date _createDate;
@@ -1688,17 +1399,9 @@ public class ProcurationModelImpl
 	private String _statusByUserName;
 	private Date _statusDate;
 	private long _officialVotersId;
-	private long _originalOfficialVotersId;
-	private boolean _setOriginalOfficialVotersId;
 	private long _officialUnavailableId;
-	private long _originalOfficialUnavailableId;
-	private boolean _setOriginalOfficialUnavailableId;
 	private long _councilSessionId;
-	private long _originalCouncilSessionId;
-	private boolean _setOriginalCouncilSessionId;
 	private boolean _isAbsent;
-	private boolean _originalIsAbsent;
-	private boolean _setOriginalIsAbsent;
 	private int _procurationMode;
 	private int _presential;
 	private boolean _isAfterVote;
@@ -1707,6 +1410,137 @@ public class ProcurationModelImpl
 	private long _startDelib;
 	private long _endDelib;
 	private String _otherProcurationMode;
+
+	public <T> T getColumnValue(String columnName) {
+		columnName = _attributeNames.getOrDefault(columnName, columnName);
+
+		Function<Procuration, Object> function =
+			AttributeGetterFunctionsHolder._attributeGetterFunctions.get(
+				columnName);
+
+		if (function == null) {
+			throw new IllegalArgumentException(
+				"No attribute getter function found for " + columnName);
+		}
+
+		return (T)function.apply((Procuration)this);
+	}
+
+	public <T> T getColumnOriginalValue(String columnName) {
+		if (_columnOriginalValues == null) {
+			return null;
+		}
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		return (T)_columnOriginalValues.get(columnName);
+	}
+
+	private void _setColumnOriginalValues() {
+		_columnOriginalValues = new HashMap<String, Object>();
+
+		_columnOriginalValues.put("uuid_", _uuid);
+		_columnOriginalValues.put("procurationId", _procurationId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
+		_columnOriginalValues.put("status", _status);
+		_columnOriginalValues.put("statusByUserId", _statusByUserId);
+		_columnOriginalValues.put("statusByUserName", _statusByUserName);
+		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("officialVotersId", _officialVotersId);
+		_columnOriginalValues.put(
+			"officialUnavailableId", _officialUnavailableId);
+		_columnOriginalValues.put("councilSessionId", _councilSessionId);
+		_columnOriginalValues.put("isAbsent", _isAbsent);
+		_columnOriginalValues.put("procurationMode", _procurationMode);
+		_columnOriginalValues.put("presential", _presential);
+		_columnOriginalValues.put("isAfterVote", _isAfterVote);
+		_columnOriginalValues.put("startHour", _startHour);
+		_columnOriginalValues.put("endHour", _endHour);
+		_columnOriginalValues.put("startDelib", _startDelib);
+		_columnOriginalValues.put("endDelib", _endDelib);
+		_columnOriginalValues.put(
+			"otherProcurationMode", _otherProcurationMode);
+	}
+
+	private static final Map<String, String> _attributeNames;
+
+	static {
+		Map<String, String> attributeNames = new HashMap<>();
+
+		attributeNames.put("uuid_", "uuid");
+
+		_attributeNames = Collections.unmodifiableMap(attributeNames);
+	}
+
+	private transient Map<String, Object> _columnOriginalValues;
+
+	public static long getColumnBitmask(String columnName) {
+		return _columnBitmasks.get(columnName);
+	}
+
+	private static final Map<String, Long> _columnBitmasks;
+
+	static {
+		Map<String, Long> columnBitmasks = new HashMap<>();
+
+		columnBitmasks.put("uuid_", 1L);
+
+		columnBitmasks.put("procurationId", 2L);
+
+		columnBitmasks.put("groupId", 4L);
+
+		columnBitmasks.put("companyId", 8L);
+
+		columnBitmasks.put("userId", 16L);
+
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("status", 256L);
+
+		columnBitmasks.put("statusByUserId", 512L);
+
+		columnBitmasks.put("statusByUserName", 1024L);
+
+		columnBitmasks.put("statusDate", 2048L);
+
+		columnBitmasks.put("officialVotersId", 4096L);
+
+		columnBitmasks.put("officialUnavailableId", 8192L);
+
+		columnBitmasks.put("councilSessionId", 16384L);
+
+		columnBitmasks.put("isAbsent", 32768L);
+
+		columnBitmasks.put("procurationMode", 65536L);
+
+		columnBitmasks.put("presential", 131072L);
+
+		columnBitmasks.put("isAfterVote", 262144L);
+
+		columnBitmasks.put("startHour", 524288L);
+
+		columnBitmasks.put("endHour", 1048576L);
+
+		columnBitmasks.put("startDelib", 2097152L);
+
+		columnBitmasks.put("endDelib", 4194304L);
+
+		columnBitmasks.put("otherProcurationMode", 8388608L);
+
+		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
+	}
+
 	private long _columnBitmask;
 	private Procuration _escapedModel;
 

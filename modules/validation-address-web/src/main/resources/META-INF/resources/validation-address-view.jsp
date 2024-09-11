@@ -80,7 +80,7 @@
 </c:if>
 
 <liferay-util:html-bottom>
-	<script	src="/o/agendabo/js/vendors/jquery.autocomplete.js"></script>
+	<script	src="/o/utils/js/jquery.autocomplete.js"></script>
 	<script>
 		window.forcedCity = '';
 	</script>

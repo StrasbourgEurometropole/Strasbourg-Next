@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Slider audio</name>
+        <key>6009613</key>
+        <definition>audio-structure.json</definition>
+        <layout>audio-layout.json</layout>
+    </structure>
+    <template>
+        <name>Slider audio</name>
+        <key>6009816</key>
+        <script>audio.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>

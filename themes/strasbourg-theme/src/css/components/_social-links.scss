@@ -1,0 +1,12 @@
+.st-page-wrapper .st-social-links {
+	display: flex;
+	flex-wrap: wrap;
+	--gap: 10px;
+	margin-left: calc(var(--gap) * -1);
+	margin-top: calc(var(--gap) * -1);
+
+	> * {
+		margin-left: var(--gap);
+		margin-top: var(--gap);
+	}
+}

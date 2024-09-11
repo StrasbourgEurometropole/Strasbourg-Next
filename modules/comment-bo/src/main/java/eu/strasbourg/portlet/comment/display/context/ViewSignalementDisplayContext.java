@@ -1,18 +1,21 @@
 package eu.strasbourg.portlet.comment.display.context;
 
+import com.liferay.portal.kernel.dao.search.EmptyOnClickRowChecker;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.comment.model.Signalement;
 import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
-import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
-import eu.strasbourg.utils.display.context.ViewListBaseDisplayContext;
+import eu.strasbourg.utils.display.context.ViewBaseDisplayContext;
 
+import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import java.util.ArrayList;
@@ -21,34 +24,22 @@ import java.util.List;
 /**
  * @author alexandre.quere
  */
-public class ViewSignalementDisplayContext extends ViewListBaseDisplayContext<Signalement> {
+public class ViewSignalementDisplayContext extends ViewBaseDisplayContext<Signalement> {
 
-    private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
-
-    private List<Signalement> _signalements;
-
-    public ViewSignalementDisplayContext(RenderRequest request, RenderResponse response) {
-        super(Signalement.class, request, response);
-    }
-
-    public List<Signalement> getSignalements() throws PortalException {
-        if (_signalements==null){
-            Hits hits= getHits(this._themeDisplay.getScopeGroupId());
-            this._signalements=populateSignalements(hits);
+    @SuppressWarnings("unused")
+    public List<Signalement> getSignalements() {
+        if (_signalements == null) {
+            this._signalements = populateSignalements(_hits);
         }
-
         return _signalements;
     }
 
-    private List<Signalement> getAllSignalement() throws PortalException{
-        Hits hits = getAllHits(this._themeDisplay.getCompanyGroupId());
-        return populateSignalements(hits);
-    }
-
-    @Override
-    public String getOrderByCol() {
-        return ParamUtil.getString(this._request, "orderByCol",
-                "reporting-date");
+    public ViewSignalementDisplayContext(RenderRequest request, RenderResponse response) {
+        super(request, response, Signalement.class);
+        _request = request;
+        _response = response;
+        _themeDisplay = (ThemeDisplay) _request
+                .getAttribute(WebKeys.THEME_DISPLAY);
     }
 
     /**
@@ -72,32 +63,74 @@ public class ViewSignalementDisplayContext extends ViewListBaseDisplayContext<Si
         return results;
     }
 
-    @Override
     public String getOrderByColSearchField() {
-        String param = this.getOrderByCol();
-        String result;
-        switch (param) {
+        switch (getOrderByCol()) {
             case "userName":
-                result="userName_String_sortable";
-                break;
+                return "userName_String_sortable";
             case "reporting-date":
-                result= "modified_sortable";
-                break;
+                return "modified_sortable";
             case "reportType":
-                result= "reportType_String_sortable";
-                break;
+                return "status_sortable";
+            case "reportType_String_sortable":
             default:
-                result= super.getOrderByColSearchField();
-                break;
+                return "modified_sortable";
         }
-        return result;
     }
 
-    public boolean hasPermission(String actionId) {
-        return _themeDisplay.getPermissionChecker().hasPermission(
-                this._themeDisplay.getScopeGroupId(),
-                StrasbourgPortletKeys.COMMENT_BO,
-                StrasbourgPortletKeys.COMMENT_BO,
-                actionId);
+    /**
+     * Retourne le searchContainer des commentaires
+     *
+     * @return SearchContainer<Comment>
+     */
+    @Override
+    public SearchContainer<Signalement> getSearchContainer() {
+
+        if (_searchContainer == null) {
+
+            PortletURL portletURL = PortletURLBuilder.createRenderURL(_response)
+                    .setMVCPath("/comment-bo-view-signalements.jsp")
+                    .setKeywords(ParamUtil.getString(_request, "keywords"))
+                    .setParameter("delta", String.valueOf(SearchContainer.DEFAULT_DELTA))
+                    .setParameter("tab","reportings")
+                    .setParameter("filterCategoriesIdByVocabulariesName", getFilterCategoriesIdByVocabulariesName())
+                    .buildPortletURL();
+            _searchContainer = new SearchContainer<>(_request, null, null,
+                    SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, portletURL, null, "no-entries-were-found");
+            _searchContainer.setEmptyResultsMessageCssClass(
+                    "taglib-empty-result-message-header-has-plus-btn");
+            _searchContainer.setOrderByColParam("orderByCol");
+            _searchContainer.setOrderByTypeParam("orderByType");
+            _searchContainer.setOrderByCol(getOrderByCol());
+            _searchContainer.setOrderByType(getOrderByType());
+            Hits hits;
+            try {
+                hits = getHits(this._themeDisplay.getScopeGroupId());
+            } catch (PortalException e) {
+                throw new RuntimeException(e);
+            }
+            _searchContainer.setResultsAndTotal(
+                    () -> {
+                        // Création de la liste d'objet
+                        List<Signalement> results = new ArrayList<>();
+                        if (hits != null) {
+                            for (Document document : hits.getDocs()) {
+                                Signalement signalement = SignalementLocalServiceUtil.fetchSignalement(GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)));
+                                if (signalement!= null)
+                                    results.add(signalement);
+                            }
+                        }
+
+                        return results;
+                    }, hits.getLength()
+            );
+        }
+        _searchContainer.setRowChecker(new EmptyOnClickRowChecker(_response));
+        return _searchContainer;
     }
+
+    protected SearchContainer<Signalement> _searchContainer;
+    private final RenderRequest _request;
+    private final RenderResponse _response;
+    protected ThemeDisplay _themeDisplay;
+    private List<Signalement> _signalements;
 }

@@ -1,9 +1,9 @@
 <%@ include file="/council-bo-init.jsp" %>
-
+<clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <%-- Composant : Body --%>
-<div class="container-fluid-1280 main-content-body council-bo">
+<div class="container-fluid container-fluid-max-xl main-content-body council-bo">
 
-	<aui:fieldset-group markupView="lexicon">
+	<div class="sheet"><div class="panel-group panel-group-flush">
 
 		<c:choose>
 		
@@ -61,7 +61,7 @@
 			
 		</c:choose>
 
-	</aui:fieldset-group>
+	</div></div>
 
 </div>
 
