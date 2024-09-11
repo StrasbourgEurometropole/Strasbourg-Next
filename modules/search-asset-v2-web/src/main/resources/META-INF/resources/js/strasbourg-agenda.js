@@ -38,64 +38,6 @@ function updateDescription(clickedElement) {
 window.selects = new Array();
 
 $(document).ready(function(){
-
-
-
-
-
-
-
-	
-	// $('select[name=idSIGPlace]').select2({
-	// 	"language": {
-	// 	       "noResults": function(){
-	// 	           return "Aucun résultat";
-	// 	       },
-	// 	       "inputTooShort": function(){
-	// 	           return 'Veuillez entrer au moins 3 caractères';
-	// 	       },
-	// 	       "searching": function(){
-	// 	           return 'Recherche ...';
-	// 	       }
-	// 	   },
-	// 	minimumInputLength : 3,
-	// 	multiple : false,
-	// 	allowClear:true,
-	// 	placeholder: Liferay.Language.get("eu.event-choose-place"),
-	// 	ajax : {
-	// 		url : "/api/jsonws/place.place/get-places-by-name-and-language/",
-	// 		dataType : 'json',
-	// 		delay : 250,
-	// 		data : function(params) {
-	// 			return {
-	// 				name : params.term,
-	// 				language : 'fr_FR',
-	// 				p_auth : Liferay.authToken
-	// 			};
-	// 		},
-	// 		processResults : function(data, params) {
-	// 			// parse the results into the format expected by Select2
-	// 			// since we are using custom formatting functions we do not need to
-	// 			// alter the remote JSON data, except to indicate that infinite
-	// 			// scrolling can be used
-	// 			params.page = params.page || 1;
-	// 			 const results = [];
-	// 		     data.forEach(function makeResults(element, index) {
-	// 		        results.push({
-	// 		        	text: element.name.fr_FR,
-	// 		        	id: element.idSurfs
-	// 		        });
-	// 		      });
-	// 		     return {
-	// 		         results: results
-	// 		       };
-	// 		},
-	// 	},
-	// 	templateResult : formatPlace,
-	// 	templateSelection : formatPlaceSelection
-	//
-	// });
-	
 	function formatPlace(place) {
 		const markup = `${place.text}`;
 		return markup;
