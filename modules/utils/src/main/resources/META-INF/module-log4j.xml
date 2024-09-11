@@ -2,7 +2,6 @@
 
 <Configuration strict="true">
     <Loggers>
-        <Logger level="ERROR" name="eu.strasbourg.portlet.search_asset.SearchAssetPortlet" />
         <Logger level="ERROR" name="eu.strasbourg.portlet.search_asset.display.context" />
         <Logger level="ERROR" name="eu.strasbourg.utils" />
         <Logger level="ERROR" name="eu.strasbourg.portlet.dynamic_search_asset.DynamicSearchAssetWebPortlet" />

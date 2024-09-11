@@ -39,8 +39,6 @@ public class StrasbourgPortletKeys {
 	
 	public static final String INTERNAL_LINK_VIEWER_WEB = "eu_strasbourg_portlet_internal_link_viewer_InternalLinkViewerPortlet";
 
-	public static final String SEARCH_ASSET_WEB = "eu_strasbourg_portlet_search_asset_SearchAssetPortlet";
-
 	public static final String TWITTER_WEB = "eu_strasbourg_portlet_twitter_TwitterPortlet";
 	public static final String SOCIAL_WALL_WEB = "eu_strasbourg_portlet_social_SocialWallPortlet";
 
