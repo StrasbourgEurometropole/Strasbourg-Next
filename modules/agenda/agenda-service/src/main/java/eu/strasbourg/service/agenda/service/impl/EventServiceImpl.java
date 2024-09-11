@@ -223,8 +223,7 @@ public class EventServiceImpl extends EventServiceBaseImpl {
             return error("not authorized");
         }
 
-        List<Event> events = new ArrayList<>();
-        // on rÃ©cupÃ¨re la catÃ©gorie liÃ©e Ã  l'externalId de la catÃ©gorie (categoryId)
+        // on récupère la catégorie liée à l'externalId de la catégorie (categoryId)
         long categId = 0;
         AssetCategory category = AssetVocabularyHelper.getCategoryByExternalId(categoryId);
         if(Validator.isNotNull(category)) {
@@ -232,6 +231,7 @@ public class EventServiceImpl extends EventServiceBaseImpl {
 
             Hits hits = SearchHelper.getEventWebServiceSearchHits(
                     Event.class.getName(), null, categId, null);
+            List<Event> events = new ArrayList<>();
             if (hits != null) {
                 for (Document document : hits.getDocs()) {
                     Event event = this.eventLocalService.fetchEvent(
@@ -241,8 +241,9 @@ public class EventServiceImpl extends EventServiceBaseImpl {
                     }
                 }
             }
+            return this.getApprovedJSONEvents(events);
         }
-        return this.getApprovedJSONEvents(events);
+        return JSONFactoryUtil.createJSONObject("{erreur:la catégorie " + categoryId +  " n'existe pas}");
     }
 
     @Override
