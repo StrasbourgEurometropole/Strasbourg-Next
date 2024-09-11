@@ -1,0 +1,12 @@
+config:
+  target: https://ems-recette-liferay2.sully-group.fr
+  phases:
+    - duration: 300
+      arrivalCount: 200
+  engines:
+    playwright: {}
+  # Path to JavaScript file that defines Playwright test functions
+  processor: './load.js'
+scenarios:
+  - engine: playwright
+    testFunction: 'loadStrasbourg'
