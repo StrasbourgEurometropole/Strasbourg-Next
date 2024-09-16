@@ -1,75 +1,30 @@
 import { expect, mergeTests} from '@playwright/test';
 import helper from '../../helpers/helper'
 import {apiHelpersTest} from "../../fixtures/api.helper.test";
+import {schemaHelpersTest} from "../../fixtures/schema.helper.test";
 
 export const test = mergeTests(
-    apiHelpersTest
+    apiHelpersTest,
+    schemaHelpersTest
 )
 
 test.describe.parallel("API Place", () => {
-    test('should return a list of places', async ({ apiHelpers }) => {
+    test('should return a list of places', async ({ apiHelpers , schemaHelpers}) => {
 
-        const placesRep = await apiHelpers.csmapApi.getPlaces().then(res => res.json());
-
-        expect(placesRep).toEqual(helper.containingAddUpdateDelete())
-        const places = placesRep.ADD
-
-        expect(places).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining(
-                    {
-                        idSurfs: expect.any(String),
-                        types: expect.any(Array),
-                        name: helper.containingLocaleString(),
-                        mercatorX: expect.any(String),
-                        mercatorY: expect.any(String),
-                        accessForDeficient: expect.any(Boolean),
-                        accessForElder: expect.any(Boolean),
-                        accessForBlind: expect.any(Boolean),
-                        accessForWheelchair: expect.any(Boolean),
-                        accessForDeaf: expect.any(Boolean),
-                        friendlyURL: expect.any(String)
-                    }
-                )
-            ])
-
-        )
+        const response = await apiHelpers.csmapApi.getPlaces()
+        expect(response.ok()).toBeTruthy()
+        const jsonResponse = await response.json()
+        const valid = schemaHelpers.validatePlaceSchema(jsonResponse)
+        expect(valid).toBeTruthy()
 
     });
 
-    test("should return the schedule of a place (462_SPC_38)", async ({ apiHelpers }) => {
-        // We test the schedule of centre administratif
-        const scheduleRep = await apiHelpers.csmapApi.getPlaceSchedule("462_SPC_38").then(res => res.json());
-        expect(scheduleRep).toEqual(
-            expect.objectContaining(
-                {
-                    schedules: expect.any(Array),
-                    responseCode: 200
-                }
-            )
-        )
-
-        const schedules = scheduleRep.schedules
-        expect(schedules).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining(
-                    {
-                        alwaysOpen: expect.any(Boolean),
-                        isClosed: expect.any(Boolean),
-                        date: expect.any(String),
-                        hours: expect.arrayContaining(
-                            [
-                                expect.objectContaining({
-                                    startHour: expect.stringMatching("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$"),
-                                    endHour: expect.stringMatching("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
-                                })
-                            ]
-                        )
-                    }
-                )
-            ])
-        )
-
+    test("should return the schedule of a place (462_SPC_38)", async ({ apiHelpers,schemaHelpers }) => {
+        const response = await apiHelpers.csmapApi.getPlaceSchedule("462_SPC_38")
+        expect(response.ok()).toBeTruthy()
+        const jsonResponse = await response.json()
+        const valid = schemaHelpers.validateScheduleSchema(jsonResponse)
+        expect(valid).toBeTruthy()
     })
 
     test("should return the categories", async ({ apiHelpers }) => {

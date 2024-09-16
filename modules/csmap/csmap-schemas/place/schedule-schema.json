@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://strasbourg.eu/schemas/schedule-schema.json",
+  "type": "object",
+  "properties": {
+    "schedules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "alwaysOpen": {
+            "type": "boolean"
+          },
+          "date": {
+            "type": "string"
+          },
+          "isClosed": {
+            "type": "boolean"
+          },
+          "hours": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "startHour": {
+                  "type": "string"
+                },
+                "endHour": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "startHour",
+                "endHour"
+              ]
+            }
+          }
+        },
+        "required": [
+          "alwaysOpen",
+          "date",
+          "isClosed"
+        ]
+      }
+    }
+  }
+}

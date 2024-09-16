@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://strasbourg.eu/schemas/type-event-schema.json",
+  "type": "object",
+  "properties": {
+    "ADD": {
+      "type": "array",
+      "items":
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "parent_id": {
+              "type": "string"
+            },
+            "name": {
+              "$ref": "definitions.json#/definitions/localisedString"
+            }
+          },
+          "required": [
+            "id",
+            "name"
+          ]
+        }
+
+    },
+    "DELETE": {
+      "type": "array",
+      "items":
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          }
+        }
+
+    },
+    "UPDATE": {
+      "$ref": "#/properties/ADD"
+    },
+    "responseCode": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "ADD",
+    "DELETE",
+    "UPDATE",
+    "responseCode"
+  ]
+}
