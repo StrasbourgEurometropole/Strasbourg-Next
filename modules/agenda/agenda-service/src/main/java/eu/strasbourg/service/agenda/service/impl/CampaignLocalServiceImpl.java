@@ -227,9 +227,9 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 			}
 
 			// Supprime lien avec les autres entries
-			List<AssetLink> links = this.assetLinkLocalService.getLinks(entry.getEntryId());
+			List<AssetLink> links = AssetLinkLocalServiceUtil.getLinks(entry.getEntryId());
 			for (AssetLink link : links) {
-				this.assetLinkLocalService.deleteAssetLink(link);
+				AssetLinkLocalServiceUtil.deleteAssetLink(link);
 			}
 
 			// Delete the AssetEntry
@@ -344,7 +344,4 @@ public class CampaignLocalServiceImpl extends CampaignLocalServiceBaseImpl {
 			campaign.export();
 		}
 	}
-
-	@Reference
-	private AssetLinkLocalService assetLinkLocalService;
 }
