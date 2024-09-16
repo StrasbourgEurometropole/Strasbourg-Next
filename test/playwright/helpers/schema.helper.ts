@@ -1,5 +1,6 @@
 import Ajv from 'ajv';
 import addFormats from "ajv-formats"
+import placeCategorySchema from '../../../modules/csmap/csmap-schemas/place/place-category-schema.json';
 import scheduleSchema from '../../../modules/csmap/csmap-schemas/place/schedule-schema.json';
 import placeSchema from '../../../modules/csmap/csmap-schemas/place/place-schema.json';
 import typeEventSchema from '../../../modules/csmap/csmap-schemas/event/type-event-schema.json';
@@ -13,7 +14,7 @@ export class SchemaHelpers {
     constructor() {
         this.ajv = new Ajv({
             allErrors: true, verbose: true,
-            schemas: [scheduleSchema, placeSchema ,typeEventSchema, agendaSchema, eventSchema, definitionSchema],
+            schemas: [placeCategorySchema, scheduleSchema, placeSchema ,typeEventSchema, agendaSchema, eventSchema, definitionSchema],
         });
         addFormats(this.ajv);
     }
@@ -46,6 +47,10 @@ export class SchemaHelpers {
 
     validateScheduleSchema(data: any) {
         return this.validateSchema("https://strasbourg.eu/schemas/schedule-schema.json", data);
+    }
+
+    validatePlaceCategorySchema(data: any) {
+        return this.validateSchema("https://strasbourg.eu/schemas/place-category-schema.json", data);
     }
 
 }

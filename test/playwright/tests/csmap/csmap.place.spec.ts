@@ -27,33 +27,12 @@ test.describe.parallel("API Place", () => {
         expect(valid).toBeTruthy()
     })
 
-    test("should return the categories", async ({ apiHelpers }) => {
-        const rep = await apiHelpers.csmapApi.getPlaceCategories().then(res => res.json());
-        expect(rep).toEqual(helper.containingAddUpdateDelete())
-        const categories = rep.ADD
-        expect(categories).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining(
-                    {
-                        id: expect.any(String),
-                        name: helper.containingLocaleString(),
-                        color_gradient: expect.objectContaining(
-                            {
-                                start: expect.stringMatching("^#[0-9A-Fa-f]{6}$"),
-                                end: expect.stringMatching("^#[0-9A-Fa-f]{6}$")
-                            }),
-                        parentId: expect.any(String),
-                        picto: expect.objectContaining(
-                            {
-                                pictoURL: expect.stringMatching("^https://"),
-                                maj: expect.any(Boolean)
-                            }
-                        )
-
-                    }
-                )
-            ])
-        )
+    test("should return the categories", async ({ apiHelpers, schemaHelpers }) => {
+        const response = await apiHelpers.csmapApi.getPlaceCategories()
+        expect(response.ok()).toBeTruthy()
+        const jsonResponse = await response.json()
+        const valid = schemaHelpers.validateScheduleSchema(jsonResponse)
+        expect(valid).toBeTruthy()
     })
 
     test("should return the points of interest", async ({ apiHelpers }) => {
