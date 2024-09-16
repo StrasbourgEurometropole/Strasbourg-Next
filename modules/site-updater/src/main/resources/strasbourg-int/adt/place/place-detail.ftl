@@ -711,7 +711,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <form id="contactForm" action="${contactURL}#contactForm" name="contactForm" method="post" class="seu-wi seu-wi-contact-form col-md-8">
                                     <@liferay_ui.error key="all-fields-required" message="eu.all-fields-required" targetNode="#contactForm" />
                                     <@liferay_ui.error key="invalid-mail" message="eu.invalid-mail" targetNode="#contactForm" />
-                                    <@liferay_ui.error key="recaptcha-error" message="eu.recaptcha-error" targetNode="#contactForm" />
+                                    <@liferay_ui.error key="friendlycaptcha-error" message="eu.friendlycaptcha-error" targetNode="#contactForm" />
 
                                     <#if renderRequest.getAttribute("mailSent")?has_content && renderRequest.getAttribute("mailSent")>
                                         <p class="mail-success">
@@ -760,7 +760,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                                    name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" checked>&nbsp;<@liferay_ui.message key="eu.do-you-want-a-notification" />
                                         </label>
                                     </div>
-                                    <div style="margin: 20px 0;" class="g-recaptcha" data-sitekey="${propsUtil.get('eu.strasbourg.recaptcha.public')}"></div>
+                                    <div style="margin: 20px 0;" class="frc-captcha" data-sitekey="${propsUtil.get('eu.strasbourg.friendlycaptcha.public')}"></div>
                                     <div style="padding-top: 20px; padding-bottom: 20px;">
                                         <@liferay_ui.message key="contact.default-privacy" />
                                     </div>
@@ -929,6 +929,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         </div>
     </main>
 </div>
+
+<script type="module" src="/o/0-global-theme/libs/friendlycaptcha/widget.module.min.js" async defer ></script>
+<script nomodule src="/o/0-global-theme/libs/friendlycaptcha/widget.min.js" async defer></script>
 
 <style>
     .lfr-alert-container {

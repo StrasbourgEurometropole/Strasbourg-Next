@@ -33,6 +33,7 @@
 	            <liferay-ui:error key="firstname-error" message="firstname-error" targetNode=".seu-main-form" />
 	            <liferay-ui:error key="content-error" message="content-error" targetNode=".seu-main-form" />
 	            <liferay-ui:error key="invalid-mail-error" message="eu.invalid-mail-error" targetNode=".seu-main-form" />
+				<liferay-ui:error key="friendlycaptcha-error" message="eu.friendlycaptcha-error" targetNode=".seu-main-form" />
 	
 	            <div class="container pro-max-900">
 	                <div class="pro-wrapper">
@@ -58,6 +59,10 @@
 	                    <div class="form-group">
 	                        <aui:input type="textarea" cssClass="form-control" name="contact.request"/>
 	                    </div>
+
+						<div class="recaptcha">
+							<div class="frc-captcha" data-sitekey="${friendlycaptcha}"></div>
+						</div>
 	                </div>
 	            </div>
 	
@@ -107,6 +112,10 @@
         </div>
     </div>
 </div>
+
+<script type="module" src="/o/0-global-theme/libs/friendlycaptcha/widget.module.min.js" async defer ></script>
+<script nomodule src="/o/0-global-theme/libs/friendlycaptcha/widget.min.js" async defer></script>
+
 <script type="text/javascript">
 
 function checkForm()

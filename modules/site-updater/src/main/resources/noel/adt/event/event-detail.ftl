@@ -160,7 +160,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     <form id="contactForm" action="${contactURL}#contactForm" name="contactForm" method="post" class="mns-wi mns-wi-contact-form">
                                         <@liferay_ui.error key="all-fields-required" message="eu.all-fields-required" targetNode="#contactForm" />
                                         <@liferay_ui.error key="invalid-mail" message="eu.invalid-mail" targetNode="#contactForm" />
-                                        <@liferay_ui.error key="recaptcha-error" message="eu.recaptcha-error" targetNode="#contactForm" />
+                                        <@liferay_ui.error key="friendlycaptcha-error" message="eu.friendlycaptcha-error" targetNode="#contactForm" />
 
                                         <#if renderRequest.getAttribute("mailSent")?has_content && renderRequest.getAttribute("mailSent")>
                                             <div class="mail-success">
@@ -191,7 +191,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                             </label>
                                         </div>
                                         <div class="recaptcha" style="margin-top: 20px;">
-                                            <div class="g-recaptcha" data-sitekey="${propsUtil.get('eu.strasbourg.recaptcha.public')}"></div>
+                                            <div class="frc-captcha" data-sitekey="${propsUtil.get('eu.strasbourg.friendlycaptcha.public')}"></div>
                                         </div>
                                         <div class="mns-submit">
                                             <span></span>
@@ -211,6 +211,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     </div>
 </div>
 
+<script type="module" src="/o/0-global-theme/libs/friendlycaptcha/widget.module.min.js" async defer ></script>
+<script nomodule src="/o/0-global-theme/libs/friendlycaptcha/widget.min.js" async defer></script>
 <script>
 (function ($) {
     $(document).ready(function(){
