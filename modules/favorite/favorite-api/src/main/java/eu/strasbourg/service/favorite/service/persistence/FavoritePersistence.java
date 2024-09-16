@@ -396,6 +396,174 @@ public interface FavoritePersistence extends BasePersistence<Favorite> {
 	public int countByEntityIdAndTypeId(long entityId, long typeId);
 
 	/**
+	 * Returns all the favorites where entityGroupId = &#63; and entityId = &#63; and typeId = &#63;.
+	 *
+	 * @param entityGroupId the entity group ID
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @return the matching favorites
+	 */
+	public java.util.List<Favorite> findByGroupIdEntityIdAndTypeId(
+		long entityGroupId, long entityId, long typeId);
+
+	/**
+	 * Returns a range of all the favorites where entityGroupId = &#63; and entityId = &#63; and typeId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>FavoriteModelImpl</code>.
+	 * </p>
+	 *
+	 * @param entityGroupId the entity group ID
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @param start the lower bound of the range of favorites
+	 * @param end the upper bound of the range of favorites (not inclusive)
+	 * @return the range of matching favorites
+	 */
+	public java.util.List<Favorite> findByGroupIdEntityIdAndTypeId(
+		long entityGroupId, long entityId, long typeId, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the favorites where entityGroupId = &#63; and entityId = &#63; and typeId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>FavoriteModelImpl</code>.
+	 * </p>
+	 *
+	 * @param entityGroupId the entity group ID
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @param start the lower bound of the range of favorites
+	 * @param end the upper bound of the range of favorites (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching favorites
+	 */
+	public java.util.List<Favorite> findByGroupIdEntityIdAndTypeId(
+		long entityGroupId, long entityId, long typeId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Favorite>
+			orderByComparator);
+
+	/**
+	 * Returns an ordered range of all the favorites where entityGroupId = &#63; and entityId = &#63; and typeId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>FavoriteModelImpl</code>.
+	 * </p>
+	 *
+	 * @param entityGroupId the entity group ID
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @param start the lower bound of the range of favorites
+	 * @param end the upper bound of the range of favorites (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching favorites
+	 */
+	public java.util.List<Favorite> findByGroupIdEntityIdAndTypeId(
+		long entityGroupId, long entityId, long typeId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Favorite>
+			orderByComparator,
+		boolean useFinderCache);
+
+	/**
+	 * Returns the first favorite in the ordered set where entityGroupId = &#63; and entityId = &#63; and typeId = &#63;.
+	 *
+	 * @param entityGroupId the entity group ID
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching favorite
+	 * @throws NoSuchFavoriteException if a matching favorite could not be found
+	 */
+	public Favorite findByGroupIdEntityIdAndTypeId_First(
+			long entityGroupId, long entityId, long typeId,
+			com.liferay.portal.kernel.util.OrderByComparator<Favorite>
+				orderByComparator)
+		throws NoSuchFavoriteException;
+
+	/**
+	 * Returns the first favorite in the ordered set where entityGroupId = &#63; and entityId = &#63; and typeId = &#63;.
+	 *
+	 * @param entityGroupId the entity group ID
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching favorite, or <code>null</code> if a matching favorite could not be found
+	 */
+	public Favorite fetchByGroupIdEntityIdAndTypeId_First(
+		long entityGroupId, long entityId, long typeId,
+		com.liferay.portal.kernel.util.OrderByComparator<Favorite>
+			orderByComparator);
+
+	/**
+	 * Returns the last favorite in the ordered set where entityGroupId = &#63; and entityId = &#63; and typeId = &#63;.
+	 *
+	 * @param entityGroupId the entity group ID
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching favorite
+	 * @throws NoSuchFavoriteException if a matching favorite could not be found
+	 */
+	public Favorite findByGroupIdEntityIdAndTypeId_Last(
+			long entityGroupId, long entityId, long typeId,
+			com.liferay.portal.kernel.util.OrderByComparator<Favorite>
+				orderByComparator)
+		throws NoSuchFavoriteException;
+
+	/**
+	 * Returns the last favorite in the ordered set where entityGroupId = &#63; and entityId = &#63; and typeId = &#63;.
+	 *
+	 * @param entityGroupId the entity group ID
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching favorite, or <code>null</code> if a matching favorite could not be found
+	 */
+	public Favorite fetchByGroupIdEntityIdAndTypeId_Last(
+		long entityGroupId, long entityId, long typeId,
+		com.liferay.portal.kernel.util.OrderByComparator<Favorite>
+			orderByComparator);
+
+	/**
+	 * Returns the favorites before and after the current favorite in the ordered set where entityGroupId = &#63; and entityId = &#63; and typeId = &#63;.
+	 *
+	 * @param favoriteId the primary key of the current favorite
+	 * @param entityGroupId the entity group ID
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next favorite
+	 * @throws NoSuchFavoriteException if a favorite with the primary key could not be found
+	 */
+	public Favorite[] findByGroupIdEntityIdAndTypeId_PrevAndNext(
+			long favoriteId, long entityGroupId, long entityId, long typeId,
+			com.liferay.portal.kernel.util.OrderByComparator<Favorite>
+				orderByComparator)
+		throws NoSuchFavoriteException;
+
+	/**
+	 * Removes all the favorites where entityGroupId = &#63; and entityId = &#63; and typeId = &#63; from the database.
+	 *
+	 * @param entityGroupId the entity group ID
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 */
+	public void removeByGroupIdEntityIdAndTypeId(
+		long entityGroupId, long entityId, long typeId);
+
+	/**
+	 * Returns the number of favorites where entityGroupId = &#63; and entityId = &#63; and typeId = &#63;.
+	 *
+	 * @param entityGroupId the entity group ID
+	 * @param entityId the entity ID
+	 * @param typeId the type ID
+	 * @return the number of matching favorites
+	 */
+	public int countByGroupIdEntityIdAndTypeId(
+		long entityGroupId, long entityId, long typeId);
+
+	/**
 	 * Returns all the favorites where typeId = &#63; and entityId = &#63; and publikUserId = &#63; and content = &#63;.
 	 *
 	 * @param typeId the type ID

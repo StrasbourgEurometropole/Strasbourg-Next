@@ -40,6 +40,5 @@
             </div>
 
         </a>
-        <@strasbourg.isFavourite entryId=entry.assetEntry.classPK entryType=3  entityGroupId=0 title=entry.getTitle(locale) url=detailURLFilter />
     </div>
 </li>

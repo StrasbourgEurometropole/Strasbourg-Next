@@ -30,8 +30,13 @@
 			<finder-column name="entityId" />		
 		</finder>
 		<finder name="EntityIdAndTypeId" return-type="Collection"  >
-			<finder-column name="entityId" />	
-			<finder-column name="typeId" />	
+			<finder-column name="entityId" />
+			<finder-column name="typeId" />
+		</finder>
+		<finder name="GroupIdEntityIdAndTypeId" return-type="Collection"  >
+			<finder-column name="entityGroupId" />
+			<finder-column name="entityId" />
+			<finder-column name="typeId" />
 		</finder>
 		<finder name="TypeIdAndEntityIdAndPublikUserIdAndContent" return-type="Collection">
 			<finder-column name="typeId" />
