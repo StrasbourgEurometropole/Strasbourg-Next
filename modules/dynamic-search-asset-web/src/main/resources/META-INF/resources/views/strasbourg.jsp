@@ -59,7 +59,9 @@ title="Overlay" />
                         <span class="st-results__total" id="results-total">0</span>
                     </div>
 
-                    <p id="results-display" class="st-text" style="width:100%; font-size: 12px; display: none;"><liferay-ui:message key="eu.strasbourg.dynamic-search-strasbourg-result-display-x" arguments="${delta}" /></p>
+                    <input type="hidden" id="nb-results" value="0" />
+                    <p id="results-display" class="st-text" style="width:100%; font-size: 12px; display: none;">
+                    </p>
                 </div>
         </form>
 
@@ -72,6 +74,9 @@ title="Overlay" />
                     </div>
                     <ul id="results"  class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small">
                     </ul>
+                    <button type="button" id="see-more" class="st-btn" style="display: none" onclick="addResult()">
+                        <liferay-ui:message key="eu.strasbourg.dynamic-search-strasbourg-see-more" />
+                    </button>
                 </div>
             </div>
         </div>
