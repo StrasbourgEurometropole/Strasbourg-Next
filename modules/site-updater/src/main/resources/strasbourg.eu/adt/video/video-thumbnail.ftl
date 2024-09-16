@@ -29,7 +29,7 @@
 
 <li>
     <div class="st-card-container">
-        <a href="${detailURLFilter}" class="st-card">
+        <a href="${detailURLFilter}" class="st-card" style="--aspect-ratio: 16/9;">
             <div class="st-caption">
                 <h3 class="st-title-card">${entry.getTitle(locale)}</h3>
                 <p class="st-surtitre-cat">${entry.getThemesLabel(locale)}</p>
