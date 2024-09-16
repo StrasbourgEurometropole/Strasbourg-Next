@@ -173,13 +173,21 @@ class Select{
     // empty this.el.options and fill it with the new options
     // options has label and value
     this.el.innerHTML = "";
+    let hasSelectedOption = false;
     options.forEach(option => {
       // create the option
         const optionHtml = document.createElement('option');
       optionHtml.value = option.value;
       optionHtml.innerText = option.label;
+      optionHtml.selected = option.selected;
+      optionHtml.defaultSelected = option.selected;
+      if(option.selected)
+          hasSelectedOption = true;
         this.el.options.add(optionHtml);
     })
+
+    if(!hasSelectedOption)
+      this.el.selectedIndex = -1;
 
     this._postSearch(false);
   }
@@ -258,17 +266,21 @@ class Select{
   }
 
   _handleShowAll() {
-    // get all  selected options
-    let selectedOptions = Array.prototype.filter.call(this.el.options, function(option, index){
-      if(option.selected){
-            return true;
+    if(this.el.multiple) {
+      // get all  selected options
+      let selectedOptions = Array.prototype.filter.call(this.el.options, function (option, index) {
+        if (option.selected) {
+          return true;
         }
-    }.bind(this));
+      }.bind(this));
 
-    // for each selected option , call _toggleSelection
-    selectedOptions.forEach((option) => {
-      this._toggleSelection(option.index, true, true);
-    });
+      // for each selected option , call _toggleSelection
+      selectedOptions.forEach((option) => {
+        this._toggleSelection(option.index, true, true);
+      });
+    }else{
+      this._toggleSelection(-1, true, true);
+    }
   }
 
   _handleFocus(){
@@ -520,7 +532,7 @@ class Select{
     }.bind(this));
 
     if(!this.multiple){
-      this._setButtonText(option.label || option.value);
+      this._setButtonText(option?.label || option?.value || "Sélectionner...");
     }
     else if(this._options.showSelected){
       this._updateSelectedList();
