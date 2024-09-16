@@ -319,6 +319,15 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
+	 * Vérifie si le lieu est déployé
+	 */
+	@Override
+	public boolean isPlaceApproved() {
+		Place place = this.getPlace();
+		return place == null ? false : place.isApproved();
+	}
+
+	/**
 	 * Retourne le nom de la ville, provenant du lieu interne s'il existe, du lieu
 	 * lié sinon
 	 */

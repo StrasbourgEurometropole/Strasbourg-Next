@@ -85,7 +85,7 @@ var th_maps = {
     lastOpenedInfoWindow: null,
 
     defaultOptions: {
-        center: {lat: 48.613322, lng: 7.718948},
+        center: {lat: 48.5734477452103, lng: 7.75215024568812},
         zoom: 12,
         draggable: true,
         scrollwheel: false,
