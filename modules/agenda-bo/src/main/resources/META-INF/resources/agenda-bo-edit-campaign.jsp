@@ -75,11 +75,11 @@
 						</option>
 					</c:forEach>
 				</select>
-				
+
 				<label><liferay-ui:message key="managers" /><span class="icon-asterisk text-warning"></span></label>
 				<select class="form-control" name="<portlet:namespace />managersIds"
-					id="managersIds"
-					placeholder="<liferay-ui:message key="select-managers" />" multiple>
+						id="managersIds"
+						placeholder="<liferay-ui:message key="select-managers" />" multiple>
 				</select>
 			</aui:fieldset>
 
@@ -106,8 +106,8 @@
 				label="categorization">
 
 				<liferay-asset:asset-tags-selector
-						className="<%= Campaign.class.getName() %>"
-						classPK="${dc.campaign.campaignId}"/>
+						groupIds="${dc.groupsIds}"
+						tagNames="${dc.tagsNames}"/>
 
 			</aui:fieldset>
 
