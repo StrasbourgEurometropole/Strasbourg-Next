@@ -907,6 +907,14 @@ public class AgendaImporter {
 			long[] categoriesIds = categories.stream()
 				.mapToLong(AssetCategory::getCategoryId).toArray();
 			sc.setAssetCategoryIds(categoriesIds);
+			JSONArray JSONTags = jsonEvent.getJSONArray("tags");
+			if(Validator.isNotNull(JSONTags) && JSONTags.length() > 0) {
+				String[] tagsNames = new String[JSONTags.length()];
+				for(int i = 0; i < JSONTags.length(); i++){
+					tagsNames[i] = JSONTags.getString(i);
+				}
+				sc.setAssetTagNames(tagsNames);
+			}
 			sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
 			sc.setModifiedDate(new Date());
 
