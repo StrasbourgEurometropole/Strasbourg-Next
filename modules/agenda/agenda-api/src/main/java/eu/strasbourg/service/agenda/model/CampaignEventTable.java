@@ -124,6 +124,8 @@ public class CampaignEventTable extends BaseTable<CampaignEventTable> {
 		"typesIds", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<CampaignEventTable, String> publicsIds = createColumn(
 		"publicsIds", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
+	public final Column<CampaignEventTable, String> tagsNames = createColumn(
+		"tagsNames", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<CampaignEventTable, Clob> bookingDescription =
 		createColumn(
 			"bookingDescription", Clob.class, Types.CLOB, Column.FLAG_DEFAULT);

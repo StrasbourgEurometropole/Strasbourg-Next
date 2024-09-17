@@ -104,6 +104,7 @@ create table agenda_CampaignEvent (
 	themesIds VARCHAR(75) null,
 	typesIds VARCHAR(75) null,
 	publicsIds VARCHAR(75) null,
+	tagsNames VARCHAR(75) null,
 	bookingDescription TEXT null,
 	bookingURL VARCHAR(400) null,
 	registration BOOLEAN,
