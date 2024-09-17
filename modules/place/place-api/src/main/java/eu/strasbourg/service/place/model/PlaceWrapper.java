@@ -74,6 +74,7 @@ public class PlaceWrapper
 		attributes.put("mail", getMail());
 		attributes.put("siteURL", getSiteURL());
 		attributes.put("siteLabel", getSiteLabel());
+		attributes.put("bookingURL", getBookingURL());
 		attributes.put("facebookURL", getFacebookURL());
 		attributes.put("facebookLabel", getFacebookLabel());
 		attributes.put("instagramURL", getInstagramURL());
@@ -357,6 +358,12 @@ public class PlaceWrapper
 
 		if (siteLabel != null) {
 			setSiteLabel(siteLabel);
+		}
+
+		String bookingURL = (String)attributes.get("bookingURL");
+
+		if (bookingURL != null) {
+			setBookingURL(bookingURL);
 		}
 
 		String facebookURL = (String)attributes.get("facebookURL");
@@ -1026,6 +1033,82 @@ public class PlaceWrapper
 	@Override
 	public String[] getAvailableLanguageIds() {
 		return model.getAvailableLanguageIds();
+	}
+
+	/**
+	 * Returns the booking url of this place.
+	 *
+	 * @return the booking url of this place
+	 */
+	@Override
+	public String getBookingURL() {
+		return model.getBookingURL();
+	}
+
+	/**
+	 * Returns the localized booking url of this place in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized booking url of this place
+	 */
+	@Override
+	public String getBookingURL(java.util.Locale locale) {
+		return model.getBookingURL(locale);
+	}
+
+	/**
+	 * Returns the localized booking url of this place in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized booking url of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@Override
+	public String getBookingURL(java.util.Locale locale, boolean useDefault) {
+		return model.getBookingURL(locale, useDefault);
+	}
+
+	/**
+	 * Returns the localized booking url of this place in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized booking url of this place
+	 */
+	@Override
+	public String getBookingURL(String languageId) {
+		return model.getBookingURL(languageId);
+	}
+
+	/**
+	 * Returns the localized booking url of this place in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized booking url of this place
+	 */
+	@Override
+	public String getBookingURL(String languageId, boolean useDefault) {
+		return model.getBookingURL(languageId, useDefault);
+	}
+
+	@Override
+	public String getBookingURLCurrentLanguageId() {
+		return model.getBookingURLCurrentLanguageId();
+	}
+
+	@Override
+	public String getBookingURLCurrentValue() {
+		return model.getBookingURLCurrentValue();
+	}
+
+	/**
+	 * Returns a map of the locales and localized booking urls of this place.
+	 *
+	 * @return the locales and localized booking urls of this place
+	 */
+	@Override
+	public Map<java.util.Locale, String> getBookingURLMap() {
+		return model.getBookingURLMap();
 	}
 
 	/**
@@ -3590,6 +3673,71 @@ public class PlaceWrapper
 		java.util.Locale defaultLocale) {
 
 		model.setAliasMap(aliasMap, defaultLocale);
+	}
+
+	/**
+	 * Sets the booking url of this place.
+	 *
+	 * @param bookingURL the booking url of this place
+	 */
+	@Override
+	public void setBookingURL(String bookingURL) {
+		model.setBookingURL(bookingURL);
+	}
+
+	/**
+	 * Sets the localized booking url of this place in the language.
+	 *
+	 * @param bookingURL the localized booking url of this place
+	 * @param locale the locale of the language
+	 */
+	@Override
+	public void setBookingURL(String bookingURL, java.util.Locale locale) {
+		model.setBookingURL(bookingURL, locale);
+	}
+
+	/**
+	 * Sets the localized booking url of this place in the language, and sets the default locale.
+	 *
+	 * @param bookingURL the localized booking url of this place
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setBookingURL(
+		String bookingURL, java.util.Locale locale,
+		java.util.Locale defaultLocale) {
+
+		model.setBookingURL(bookingURL, locale, defaultLocale);
+	}
+
+	@Override
+	public void setBookingURLCurrentLanguageId(String languageId) {
+		model.setBookingURLCurrentLanguageId(languageId);
+	}
+
+	/**
+	 * Sets the localized booking urls of this place from the map of locales and localized booking urls.
+	 *
+	 * @param bookingURLMap the locales and localized booking urls of this place
+	 */
+	@Override
+	public void setBookingURLMap(Map<java.util.Locale, String> bookingURLMap) {
+		model.setBookingURLMap(bookingURLMap);
+	}
+
+	/**
+	 * Sets the localized booking urls of this place from the map of locales and localized booking urls, and sets the default locale.
+	 *
+	 * @param bookingURLMap the locales and localized booking urls of this place
+	 * @param defaultLocale the default locale
+	 */
+	@Override
+	public void setBookingURLMap(
+		Map<java.util.Locale, String> bookingURLMap,
+		java.util.Locale defaultLocale) {
+
+		model.setBookingURLMap(bookingURLMap, defaultLocale);
 	}
 
 	/**

@@ -104,6 +104,7 @@ create table place_Place (
 	mail VARCHAR(75) null,
 	siteURL STRING null,
 	siteLabel STRING null,
+	bookingURL STRING null,
 	facebookURL STRING null,
 	facebookLabel STRING null,
 	instagramURL STRING null,

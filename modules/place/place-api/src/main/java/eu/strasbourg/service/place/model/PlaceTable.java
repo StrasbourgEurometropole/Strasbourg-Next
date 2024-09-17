@@ -112,6 +112,8 @@ public class PlaceTable extends BaseTable<PlaceTable> {
 		"siteURL", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<PlaceTable, String> siteLabel = createColumn(
 		"siteLabel", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
+	public final Column<PlaceTable, String> bookingURL = createColumn(
+		"bookingURL", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<PlaceTable, String> facebookURL = createColumn(
 		"facebookURL", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<PlaceTable, String> facebookLabel = createColumn(

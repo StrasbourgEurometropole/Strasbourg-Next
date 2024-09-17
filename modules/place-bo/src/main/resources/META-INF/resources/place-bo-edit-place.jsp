@@ -210,6 +210,10 @@
 								</aui:input>
 							</div>
 
+							<aui:input name="bookingURL"  helpMessage="url-help-message">
+								<aui:validator name="url"/>
+							</aui:input>
+
 							<aui:input name="facebookLabel" >
 								<aui:validator name="require" errorMessage="this-field-is-required" />
 							</aui:input>

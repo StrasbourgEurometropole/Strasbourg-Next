@@ -1336,6 +1336,11 @@ public class PlaceImpl extends PlaceBaseImpl {
             jsonPlace.put("websiteURL", JSONHelper.getJSONFromI18nMap(this.getSiteURLMap()));
         }
 
+        // URL de réservation
+        if (Validator.isNotNull(this.getBookingURL())) {
+            jsonPlace.put("bookingURL", JSONHelper.getJSONFromI18nMap(this.getBookingURLMap()));
+        }
+
         // Accès
         if (Validator.isNotNull(this.getAccess())) {
             jsonPlace.put("access", JSONHelper.getJSONFromI18nMap(this.getAccessMap()));

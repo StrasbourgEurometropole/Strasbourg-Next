@@ -88,6 +88,16 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                         </a>
                     </li>
                 </#if>
+                <#if entry.getBookingURL(locale)?has_content>
+                    <li>
+                        <a href="${entry.getBookingURL(locale)}" class="st-btn-icon st-btn-icon--white" target="_blank"
+                           rel="noopener"
+                           title="<@liferay_ui.message key="eu.ticket-office" />">
+                            <span class="st-icon-ticket" aria-hidden="true"></span>
+                            <span class="st-sr-only"><@liferay_ui.message key="eu.ticket-office" /></span>
+                        </a>
+                    </li>
+                </#if>
                 <#if entry.getFacebookLabel(locale)?has_content && entry.getFacebookURL(locale)?has_content>
                     <li>
                         <a href="${entry.getFacebookURL(locale)}" class="st-btn-icon st-btn-icon--white" target="_blank"
