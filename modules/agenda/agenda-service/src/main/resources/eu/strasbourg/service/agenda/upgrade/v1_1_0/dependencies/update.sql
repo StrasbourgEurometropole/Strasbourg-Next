@@ -1,10 +1,4 @@
-alter table csmap_Agenda
-    add labelLink LONGTEXT null AFTER imageId;
-alter table csmap_Agenda
-    add link LONGTEXT null AFTER labelLink;
-alter table csmap_Agenda
-    add publicationStartDate DATE null AFTER link;
-alter table csmap_Agenda
-    add publicationEndDate DATE null AFTER publicationStartDate;
+alter table agenda_CampaignEvent
+    add tagsNames VARCHAR(75) null AFTER publicsIds;
 
 COMMIT_TRANSACTION;
