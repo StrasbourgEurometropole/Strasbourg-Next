@@ -147,6 +147,7 @@
 	<script src="/o/agendabo/js/vendors/moment.min.js" type="text/javascript"></script>
 	<script src="/o/agendabo/js/vendors/choices.min.js"></script>
 	<script src="/o/agendabo/js/agenda-bo-edit-campaign.js"></script>
+	<script src="/o/agendabo/js/agenda-bo-main.js"></script>
 </liferay-util:html-bottom>
 <aui:script>
 	function <portlet:namespace />deleteEntity() {
