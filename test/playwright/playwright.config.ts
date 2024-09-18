@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import { config as csmapConfig} from './tests/csmap/config';
 import { config as strasbourgeuConfig} from "./tests/strasbourg.eu/config";
+import { config as evoteConfig } from "./tests/evote/config";
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -36,7 +37,7 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
 
-    video: 'retain-on-failure',
+    video: 'on-first-retry',
 
     ...devices['Desktop Chrome'],
 
@@ -50,6 +51,7 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
       ...csmapConfig,
-      ...strasbourgeuConfig
+      ...strasbourgeuConfig,
+      ...evoteConfig
   ],
 });

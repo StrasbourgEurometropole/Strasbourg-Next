@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://strasbourg.eu/schemas/place-category-schema.json",
+  "$id": "https://strasbourg.eu/schemas/place-poi-schema.json",
   "type": "object",
   "properties": {
     "ADD": {
@@ -9,9 +9,6 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
-          },
-          "parent_id" : {
             "type": "string"
           },
             "name": {
@@ -28,26 +25,22 @@
               }
             }
           },
-          "color_gradient" : {
-            "type": "object",
-            "properties": {
-              "start": {
-                "type": "string",
-                "maxLength": 7
-              },
-              "end": {
-                "type": "string",
-                "maxLength": 7
-              }
+          "openDataURL": {
+            "type": "string"
+          },
+          "types" : {
+            "type": "array",
+            "items": {
+              "type": "string"
             }
           }
-
         },
         "required": [
           "id",
           "name",
           "picto",
-          "color_gradient"
+          "openDataURL",
+          "types"
         ]
       }
 

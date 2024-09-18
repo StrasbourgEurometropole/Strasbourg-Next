@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://strasbourg.eu/schemas/general-condition-schema.json",
+  "type": "object",
+  "properties": {
+    "ADD": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "$ref": "definitions.json#/definitions/localisedString"
+          }
+        },
+        "required": [
+          "text"
+        ]
+
+    },
+    "UPDATE": {
+    }
+  },
+    "required": [
+        "ADD",
+        "UPDATE"
+    ]
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://strasbourg.eu/schemas/alert-schema.json",
+  "type": "object",
+  "properties": {
+    "alerts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "linesNumber": {
+            "type": "array",
+
+            "items": {
+              "type": "string"
+            }
+          },
+          "startDate": {
+            "type": "string"
+          },
+          "endDate": {
+            "type": "string"
+          },
+          "title": {
+            "$ref": "definitions.json#/definitions/localisedString"
+          },
+            "period": {
+                "$ref": "definitions.json#/definitions/localisedString"
+            },
+          "details" : {
+            "$ref": "definitions.json#/definitions/localisedString"
+          }
+        },
+        "required": [
+          "linesNumber",
+          "title",
+          "period",
+            "details",
+          "startDate",
+            "endDate"
+
+        ]
+      }
+    }
+  }
+}

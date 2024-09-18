@@ -1,0 +1,135 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://strasbourg.eu/schemas/transport-schema.json",
+  "type": "object",
+  "properties": {
+    "stops": {
+        "type": "object",
+        "properties": {
+          "ADD": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "stopId": {
+                  "type": "string"
+                },
+                "stopCode": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "number",
+                  "enum": [0, 3]
+                },
+                "title": {
+                  "type": "string"
+                },
+                "mercatorX": {
+                  "type": "string"
+                },
+                "mercatorY": {
+                  "type": "string"
+                },
+                "lines": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "lines",
+                "mercatorY",
+                "mercatorX",
+                "type",
+                "title",
+                "stopCode",
+                "stopId"
+              ]
+            }
+          },
+          "UPDATE": {
+            "$ref": "#/properties/stops/properties/ADD"
+          },
+          "DELETE": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "stopId": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "stopId"
+              ]
+            }
+          }
+        },
+        "required": [
+          "DELETE",
+          "UPDATE",
+          "ADD"
+        ]
+
+    },
+    "lines": {
+        "type": "object",
+        "properties": {
+          "ADD": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "lineNumber": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "number",
+                  "enum": [0, 3]
+                },
+                "backgroundColor": {
+                  "type": "string",
+                  "maxLength": 6
+                },
+                "textColor": {
+                  "type": "string",
+                  "maxLength": 6
+                }
+              },
+              "required": [
+                "lineNumber",
+                "backgroundColor",
+                "textColor",
+                "type"
+              ]
+            }
+          },
+          "UPDATE": {
+            "$ref": "#/properties/lines/properties/ADD"
+          },
+          "DELETE": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "stopId": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "lineNumber"
+              ]
+            }
+          }
+        },
+        "required": [
+          "DELETE",
+          "UPDATE",
+          "ADD"
+        ]
+      }
+
+
+  }
+}

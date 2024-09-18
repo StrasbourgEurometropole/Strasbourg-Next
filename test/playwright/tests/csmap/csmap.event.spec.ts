@@ -24,7 +24,6 @@ test.describe.parallel("API Event", () => {
         const jsonResponse = await response.json()
         const valid = schemaHelpers.validateAgendaSchema(jsonResponse)
         expect(valid).toBeTruthy()
-
     });
 
     test("should return a list of themes", async ({ apiHelpers , schemaHelpers }) => {
@@ -33,7 +32,6 @@ test.describe.parallel("API Event", () => {
         const jsonResponse = await response.json()
         const valid = schemaHelpers.validateTypeEventSchema(jsonResponse)
         expect(valid).toBeTruthy()
-
     })
 
 

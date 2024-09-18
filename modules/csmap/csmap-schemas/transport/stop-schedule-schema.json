@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://strasbourg.eu/schemas/stop-schedule-schema.json",
+  "type": "object",
+  "properties": {
+    "schedules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "lineNumber": {
+            "type": "string"
+          },
+          "destinationName": {
+            "type": "string"
+          },
+          "departureTime": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "lineNumber",
+          "destinationName",
+          "departureTime"
+        ]
+      }
+    }
+  }
+}

@@ -1,148 +1,56 @@
 import {expect, mergeTests} from '@playwright/test';
 import helper from "../../helpers/helper";
 import {apiHelpersTest} from "../../fixtures/api.helper.test";
+import {schemaHelpersTest} from "../../fixtures/schema.helper.test";
 
 export const test = mergeTests(
-    apiHelpersTest
+    apiHelpersTest,
+    schemaHelpersTest
 )
 
 test.describe.parallel('API Various Data', () => {
-    test("should return general conditions", async ({ apiHelpers }) => {
-
-        const rep = await apiHelpers.csmapApi.getGeneralConditions()
-
-        expect(rep.ok()).toBeTruthy()
-
-        const body = await rep.json()
-
-        expect(body).toEqual(expect.objectContaining(
-            {
-                responseCode: 200,
-                ADD: expect.any(Object),
-                UPDATE: expect.any(Object)
-            }
-        ))
-
-        expect(body.ADD).toEqual(expect.objectContaining(
-            {
-                text: helper.containingLocaleString()
-            }
-        ))
+    test("should return general conditions", async ({ apiHelpers, schemaHelpers }) => {
+        const response = await apiHelpers.csmapApi.getGeneralConditions()
+        expect(response.ok()).toBeTruthy()
+        const jsonResponse = await response.json()
+        const valid = schemaHelpers.validateGeneralConditionsSchema(jsonResponse)
+        expect(valid).toBeTruthy()
     })
 
-    test("should return accessibilities", async ({ apiHelpers }) => {
+    test("should return accessibilities", async ({ apiHelpers , schemaHelpers }) => {
 
-        const rep = await apiHelpers.csmapApi.getAccessibilities()
-
-        expect(rep.ok()).toBeTruthy()
-
-        const body = await rep.json()
-
-        expect(body).toEqual(expect.objectContaining(
-            {
-                responseCode: 200,
-                ADD: expect.any(Object),
-                UPDATE: expect.any(Object)
-            }
-        ))
-
-        expect(body.ADD).toEqual(expect.objectContaining(
-            {
-                text: helper.containingLocaleString()
-            }
-        ))
+        const response = await apiHelpers.csmapApi.getAccessibilities()
+        expect(response.ok()).toBeTruthy()
+        const jsonResponse = await response.json()
+        const valid = schemaHelpers.validateAccessibilitySchema(jsonResponse)
+        expect(valid).toBeTruthy()
 
     })
 
-    test("should return news" , async ({ apiHelpers }) => {
+    test("should return news" , async ({ apiHelpers , schemaHelpers }) => {
 
-        const rep = await apiHelpers.csmapApi.getNews()
+        const response = await apiHelpers.csmapApi.getNews()
+        expect(response.ok()).toBeTruthy()
+        const jsonResponse = await response.json()
+        const valid = schemaHelpers.validateNewsSchema(jsonResponse)
+        expect(valid).toBeTruthy()
+    })
 
-        expect(rep.ok()).toBeTruthy()
+    test("should return emergency numbers" , async ({ apiHelpers , schemaHelpers }) => {
 
-        const body = await rep.json()
-
-        expect(body).toEqual(helper.containingAddUpdateDelete())
-
-        expect(body.ADD).toEqual(expect.arrayContaining([
-            expect.objectContaining(
-                {
-                    id: expect.any(String),
-                    date : expect.any(String),
-                    title: helper.containingLocaleString(),
-                    subtitle: helper.containingLocaleString(),
-                    description: helper.containingLocaleString(),
-                    url: expect.any(String)
-                })
-        ]))
+        const response = await apiHelpers.csmapApi.getEmergencies()
+        expect(response.ok()).toBeTruthy()
+        const jsonResponse = await response.json()
+        const valid = schemaHelpers.validateEmergencySchema(jsonResponse)
+        expect(valid).toBeTruthy()
 
     })
 
-    test("should return emergency numbers" , async ({ apiHelpers }) => {
-
-        const rep = await apiHelpers.csmapApi.getEmergencies()
-
-        expect(rep.ok()).toBeTruthy()
-
-        const body = await rep.json()
-
-        expect(body).toEqual(helper.containingAddUpdateDelete())
-
-        expect(body.ADD).toEqual(expect.arrayContaining([
-            expect.objectContaining(
-                {
-                    emergencyNumbers: expect.arrayContaining([
-                        expect.objectContaining({
-                            id: expect.any(String),
-                            title: helper.containingLocaleString(),
-                            order: expect.any(String),
-                            number: expect.any(String),
-                            color: expect.objectContaining({
-                                fontColor: expect.any(String), //TODO HEX
-                                backgroundColor: expect.any(String), //TODO HEX
-                            })
-                        })
-                    ]),
-                    emergencyHelps: expect.arrayContaining([
-                        expect.objectContaining({
-                            categoryId: expect.any(String),
-                            categoryOrder: expect.any(Number),
-                            categoryTitle: helper.containingLocaleString(),
-                            categoryContent: expect.arrayContaining([
-                                expect.objectContaining({
-                                    title: helper.containingLocaleString(),
-                                    number: expect.any(String),
-                                    order: expect.any(String),
-                                })
-                            ])
-                        })
-                        ])
-                })
-        ]))
-
-    })
-
-    test("should return social networks" , async ({ apiHelpers }) => {
-
-        const rep = await apiHelpers.csmapApi.getSocialNetworks()
-
-        expect(rep.ok()).toBeTruthy()
-
-        const body = await rep.json()
-
-        expect(body).toEqual(helper.containingAddUpdateDelete())
-
-        expect(body.ADD).toEqual(expect.arrayContaining([
-            expect.objectContaining(
-                {
-                   id: expect.any(String),
-                    title: helper.containingLocaleString(),
-                    order: expect.any(String),
-                    url: expect.any(String),
-                    picto: expect.any(String),
-                    color: expect.any(String)   // TODO HEX COLOR
-                })
-        ]))
-
+    test("should return social networks" , async ({ apiHelpers , schemaHelpers }) => {
+        const response = await apiHelpers.csmapApi.getSocialNetworks()
+        expect(response.ok()).toBeTruthy()
+        const jsonResponse = await response.json()
+        const valid = schemaHelpers.validateSocialNetworkSchema(jsonResponse)
+        expect(valid).toBeTruthy()
     })
 });

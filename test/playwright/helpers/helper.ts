@@ -1,4 +1,4 @@
-import {expect} from "@playwright/test";
+import {expect, Page} from "@playwright/test";
 export default class helper {
     static containingLocaleString () {
         return expect.objectContaining({
@@ -20,5 +20,14 @@ export default class helper {
                 DELETE: expect.any(Array)
             }
         )
+    }
+
+    static async login(page : Page) {
+        await page.goto('/web/guest')
+        await page.getByRole('button', {name: 'Ouvrir une session'}).click()
+        await page.getByLabel('Adresse email').fill('thomas.tse@sully-group.com')
+        await page.getByLabel('Mot de passe').fill('test')
+        await page.getByLabel('Se souvenir de moi').check()
+        await page.getByLabel('Authentification').getByRole('button', { name: 'Ouvrir une session' }).click()
     }
 }

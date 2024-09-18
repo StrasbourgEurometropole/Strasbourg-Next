@@ -31,50 +31,24 @@ test.describe.parallel("API Place", () => {
         const response = await apiHelpers.csmapApi.getPlaceCategories()
         expect(response.ok()).toBeTruthy()
         const jsonResponse = await response.json()
-        const valid = schemaHelpers.validateScheduleSchema(jsonResponse)
+        const valid = schemaHelpers.validatePlaceCategorySchema(jsonResponse)
         expect(valid).toBeTruthy()
     })
 
-    test("should return the points of interest", async ({ apiHelpers }) => {
-        const rep = await apiHelpers.csmapApi.getPlacePOIs().then(res => res.json());
-        expect(rep).toEqual(helper.containingAddUpdateDelete())
-
-        const pois = rep.ADD
-        expect(pois).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining(
-                    {
-                        id: expect.any(String),
-                        name: helper.containingLocaleString(),
-                        openDataURL: expect.stringMatching("^https://"),
-                        picto: expect.objectContaining(
-                            {
-                                pictoURL: expect.stringMatching("^https://"),
-                                maj: expect.any(Boolean)
-                            }),
-                        types: expect.any(Array)
-                    }
-                )
-            ])
-        )
+    test("should return the points of interest", async ({ apiHelpers , schemaHelpers}) => {
+        const response = await apiHelpers.csmapApi.getPlacePOIs()
+        expect(response.ok()).toBeTruthy()
+        const jsonResponse = await response.json()
+        const valid = schemaHelpers.validatePlacePOISchema(jsonResponse)
+        expect(valid).toBeTruthy()
     })
 
-    test("should return the terroitories", async ({ apiHelpers }) => {
-        const rep = await apiHelpers.csmapApi.getPlaceTerritories().then(res => res.json());
-        expect(rep).toEqual(helper.containingAddUpdateDelete())
-
-        const territories = rep.ADD
-        expect(territories).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining(
-                    {
-                        id: expect.any(String),
-                        name: helper.containingLocaleString(),
-                        parentId: expect.any(String)
-                    }
-                )
-            ])
-        )
+    test("should return the terroitories", async ({ apiHelpers, schemaHelpers }) => {
+        const response = await apiHelpers.csmapApi.getPlaceTerritories()
+        expect(response.ok()).toBeTruthy()
+        const jsonResponse = await response.json()
+        const valid = schemaHelpers.validatePlaceTerritorySchema(jsonResponse)
+        expect(valid).toBeTruthy()
     })
 
 

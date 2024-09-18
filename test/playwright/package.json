@@ -12,5 +12,8 @@
     "@types/node": "^22.5.0",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1"
+  },
+  "dependencies": {
+    "@axe-core/playwright": "^4.10.0"
   }
 }
