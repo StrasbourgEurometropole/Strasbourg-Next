@@ -54,7 +54,7 @@ public class ExportPDF {
 
 	public static String domaine;
 
-	public static void printPDF(ResourceRequest req, ResourceResponse res, String exportType)
+	public static void printPDF(ResourceRequest req, ResourceResponse res, String exportType, String officialsIds)
 			throws PortletException, IOException, SystemException, PortalException {
 
 		ThemeDisplay themeDisplay = (ThemeDisplay) req
@@ -102,7 +102,7 @@ public class ExportPDF {
 					.setMarginBottom(5f));
 
 			// élus
-			printPDFPeople(document, req, themeDisplay, exportType, font, fontBold);
+			printPDFPeople(document, officialsIds, themeDisplay, exportType, font, fontBold);
 
 			// bas de page
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -143,13 +143,13 @@ public class ExportPDF {
 		}
 	}
 
-	public static void printPDFPeople(Document document, ResourceRequest req, ThemeDisplay themeDisplay, String exportType, PdfFont font, PdfFont fontBold)
+	public static void printPDFPeople(Document document, String officialsIds, ThemeDisplay themeDisplay, String exportType, PdfFont font, PdfFont fontBold)
 			throws SystemException, PortalException, MalformedURLException, IOException {
 
 		Table table = new Table(new UnitValue[]{UnitValue.createPercentValue(22f), UnitValue.createPercentValue(78f)})
 				.setWidth(UnitValue.createPercentValue(100f)).setBorder(Border.NO_BORDER);
 
-		List<Official> elus = getPeopleList(req);
+		List<Official> elus = getPeopleList(officialsIds);
 		for (Official elu : elus) {
 			// photo de l'élu
 			Cell cell = new Cell().setBorder(Border.NO_BORDER).setPaddings(10f, 0f, 10f, 0f);
@@ -300,12 +300,11 @@ public class ExportPDF {
 		return paragraph;
 	}
 
-	private static List<Official> getPeopleList(ResourceRequest req)
+	private static List<Official> getPeopleList(String officialsIds)
 			throws SystemException {
 
 		List<Official> elus = new ArrayList<Official>();
-		String[] officialsIds = ParamUtil.getString(req, "ids").split(",");
-		for (String id : officialsIds) {
+		for (String id : officialsIds.split(",")) {
 			if (Validator.isNotNull(id)) {
 				elus.add(OfficialLocalServiceUtil
 						.fetchOfficial(Long.parseLong(id)));
