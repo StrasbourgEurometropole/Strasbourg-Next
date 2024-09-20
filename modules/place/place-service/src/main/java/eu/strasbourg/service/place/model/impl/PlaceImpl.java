@@ -1740,10 +1740,47 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
         if(descriptions.length() > 0)
             jsonPlace.put("description", descriptions);
+
+        // exception sur 3 mois à partir d'aujourd'hui
+        GregorianCalendar premierJour = new GregorianCalendar();
+        premierJour.set(Calendar.HOUR_OF_DAY, 0);
+        premierJour.set(Calendar.MINUTE, 0);
+        premierJour.set(Calendar.SECOND, 0);
+        premierJour.set(Calendar.MILLISECOND, 0);
+        GregorianCalendar dernierJour = new GregorianCalendar();
+        dernierJour.setTime(premierJour.getTime());
+        dernierJour.add(Calendar.DAY_OF_YEAR, 1);
+        dernierJour.add(Calendar.MINUTE, -1);
+        dernierJour.add(Calendar.MONTH, 3);
         JSONArray scheduleExceptionsJSON = JSONFactoryUtil.createJSONArray();
-        for (ScheduleException scheduleException : this.getScheduleExceptions()) {
-            scheduleExceptionsJSON.put(scheduleException.toCSMapJSON());
+        List<ScheduleException> scheduleExceptions = this.getScheduleExceptions();
+        for (ScheduleException scheduleException : scheduleExceptions) {
+            if (scheduleException.getStartDate() != null && scheduleException.getEndDate() != null
+                    && scheduleException.getStartDate().compareTo(dernierJour.getTime()) <= 0
+                    && scheduleException.getEndDate().compareTo(premierJour.getTime()) >= 0) {
+                scheduleExceptionsJSON.put(scheduleException.toJSON());
+            }
         }
+        // vérifie s'il y a des jours fériés (si le lieux est sujet aux jours fériés
+        if (this.isSubjectToPublicHoliday()) {
+            for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
+                if (publicHoliday.getDate() != null) {
+                    GregorianCalendar publicHolidayYear = new GregorianCalendar();
+                    publicHolidayYear.setTime(publicHoliday.getDate());
+                    if (publicHoliday.isRecurrent()) {
+                        publicHolidayYear.set(Calendar.YEAR, premierJour.get(Calendar.YEAR));
+                    }
+                    if (publicHolidayYear.compareTo(premierJour) >= 0 && publicHolidayYear.compareTo(dernierJour) <= 0) {
+                        //On vérifie que le jour férié n'est pas déjà dans les schedules exception
+                        if (!scheduleExceptions.stream()
+                                .anyMatch(s -> (s.getStartDate().compareTo(publicHoliday.getDate()) <= 0 && s.getEndDate().compareTo(publicHoliday.getDate()) >= 0))) {
+                            scheduleExceptionsJSON.put(publicHoliday.toJSON());
+                        }
+                    }
+                }
+            }
+        }
+
         if (Validator.isNotNull(this.getExceptionalSchedule())) {
             JSONObject scheduleExceptionJSON = JSONFactoryUtil.createJSONObject();
             JSONObject exceptionalScheduleJSON = JSONFactoryUtil.createJSONObject();
