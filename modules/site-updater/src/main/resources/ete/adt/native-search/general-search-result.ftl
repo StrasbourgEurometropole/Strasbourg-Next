@@ -2,6 +2,8 @@
 <#assign pageCount=(searchResultsPortletDisplayContext.getSearchContainer().getTotal()/searchResultsPortletDisplayContext.getSearchContainer().getDelta())?ceiling />
 <#assign keyword = searchResultsPortletDisplayContext.getKeywords() />
 <#assign delta = searchResultsPortletDisplayContext.getSearchContainer().getDelta() />
+
+
 <div class="container">
     <div class="mns-view-results">
         <div class="mns-result-count">
@@ -25,10 +27,26 @@
                 <#list entries as entry>
                     <div>
                         <div class="mns-item-results">
-                            <a href="${entry.getViewURL()}">
+                            <#assign url = entry.getViewURL() />
+                            <#if entry.getClassName() == "com.liferay.journal.model.JournalArticle">
+                                <#assign urlTitle = "" />
+                                <#if entry.getDocumentFormFieldDisplayContexts()?has_content>
+                                    <#list entry.getDocumentFormFieldDisplayContexts() as field>
+                                        <#if field.getName() == "urlTitle_fr_FR_String_sortable">
+                                            <#assign urlTitle = field.getValuesToString() />
+                                        </#if>
+                                    </#list>
+                                </#if>
+
+                                <#assign url = "${strasbourg.homeURL()}-/${urlTitle}" />
+
+                            </#if>
+
+
+                            <a href="${url}">
                                 <h3>${entry.getHighlightedTitle()}</h3>
                                 <#if entry.getContent()?has_content>
-                                    <p>${entry.getContent()?replace('Entête de page','')}</p>
+                                    <p>${entry.getContent()?replace('Entête de page','')?replace('Accueil','')}</p>
                                 </#if>
                                 <span class="basic-link">Découvrir</span>
                             </a>
@@ -60,8 +78,8 @@
                         </li>
                     <#else>
                         <li class="mns-pagin-item">
-                            <a href="?q=${keyword}&delta=${delta}&start=${i}"">
-                            <span class="mns-flexbox">
+                            <a href="?q=${keyword}&delta=${delta}&start=${i}">
+						                        <span class="mns-flexbox">
 						                            <span class="mns-btn-text">${i}</span>
 						                        </span>
                             </a>
