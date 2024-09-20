@@ -246,15 +246,6 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 		return this._filterCategoriesIds;
 	}
 
-	public String getFilterCategoriesIdString(){
-		String filterCategoriesIdString = "";
-		for(Long[] filterCategoryIds : getFilterCategoriesIds()){
-			filterCategoriesIdString += Validator.isNotNull(filterCategoriesIdString)?";":"" +
-					Arrays.toString(filterCategoryIds);
-		}
-		return filterCategoriesIdString;
-	}
-
 	/**
 	 * Renvoie la liste des types d'entités ou structures sur lesquels on souhaite rechercher
 	 * les entries
