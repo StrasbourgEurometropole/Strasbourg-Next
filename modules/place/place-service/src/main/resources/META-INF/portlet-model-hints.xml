@@ -133,6 +133,7 @@
 			<hint name="max-length">400</hint>
 		</field>
 		<field localized="true" name="siteLabel" type="String" />
+		<field localized="true" name="bookingURL" type="String" />
 		<field localized="true" name="facebookURL" type="String" />
 		<field localized="true" name="facebookLabel" type="String" />
 		<field localized="true" name="instagramURL" type="String" />
