@@ -11,7 +11,7 @@
 	<portlet:param name="endDay" value="${dc.toDay}" />
 	<portlet:param name="endMonth" value="${dc.toMonthIndex}" />
 	<portlet:param name="endYear" value="${dc.toYear}" />
-	<portlet:param name="categoriesIds" value="${dc.filterCategoriesIdString}" />
+	<portlet:param name="categoriesIds" value="${dc.filterCategoriesIdsString}" />
 </portlet:resourceURL>
 
 	<!-- Formulaire -->
