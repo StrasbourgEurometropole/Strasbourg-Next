@@ -1,4 +1,4 @@
-<div class="search-asset-form container">
+<div class="search-asset-form search-asset-portlet container">
     <div class="form mns-view-filters">
         <div class="seu-filter-line">
             <div class="widget widget-big">
