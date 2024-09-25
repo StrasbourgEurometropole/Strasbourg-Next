@@ -32,9 +32,9 @@
                             <#if entry.getClassName() == "com.liferay.journal.model.JournalArticle">
                                 <#assign journalArticle = journalService.getLatestArticle(entry.getClassPK()) />
                                 <#assign detailURL = layoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay) />
-                                <#assign url = detailURL />
-
-
+                                <#if detailURL?has_content>
+                                    <#assign url = detailURL />
+                                </#if>
                             </#if>
 
 
