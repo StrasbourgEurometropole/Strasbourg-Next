@@ -158,8 +158,7 @@
                     </button>
                   </div>
                   <form action="${homeURL}/recherche" method="get">
-                      <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet" />
-                      <input type="text" name="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" id="search" placeholder="Rechercher..." />
+                      <input type="text" name="keywords" id="search" placeholder="Rechercher..." />
                   </form>
               </div>
           </div>
