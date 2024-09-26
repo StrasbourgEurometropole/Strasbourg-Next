@@ -16,6 +16,8 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
+import java.util.List;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
@@ -48,6 +50,12 @@ public interface ArretService extends BaseService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.gtfs.service.impl.ArretServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the arret remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link ArretServiceUtil} if injection and service tracking are not available.
 	 */
+
+	/**
+	 * Recuperer les lignes qui ont des alertes
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<String> getAlerts();
 
 	/**
 	 * Recuperer les donnees temps real de la CTS pour un arret

@@ -112,189 +112,317 @@
             // Copie de ce contrôle dans la div prévue à cet effet
             $('.filtres--poi').append($('.list-markers .filtres__list'));
 
-            // Création de la popup pour chaque POI
-            var poi_infos_to_display = ["visual", "name", "like", "address", "opened", "schedules", "amount", "url", "type", "contenu"];
-            var popupMarkup =
-                '<div class="aroundme__infowindow infowindow">' +
-                '     <button class="infowindow__close"></button>' +
-                '     <div class="infowindow__content">' +
-                '         <div class="infowindow__visual"></div>'+
-                '         <div class="infowindow__top">' +
-                '             <div class="infowindow__categ"></div>' +
-                '             <div class="infowindow__title-block"><div class="infowindow__name" role="heading" aria-level="3"></div><div class="infowindow__like"><a class="" href="/like"></a></div></div>' +
-                '             <div class="infowindow__address"></div>' +
-                '         </div>' +
-                '         <div class="infowindow__middle">' +
-                '             <div class="infowindow__left">' +
-                '                 <div class="infowindow__opened"></div>' +
-                '                 <div class="infowindow__schedules"></div>' +
-                '             </div>' +
-                '             <div class="infowindow__right">' +
-                '                 <div class="infowindow__amount"></div>' +
-                '             </div>' +
-                '             <div class="infowindow__contenu"></div>' +
-                '         </div>' +
-                '         <div class="infowindow__bottom">' +
-                '                 <div class="infowindow__type"></div>' +
-                '         </div>' +
-                '    </div>' +
-                '    <div class="infowindow__url"></div>' +
-                '</div>';
+            // Création de la popup pour chaque type de POI
             var onEachFeature = function(feature, layer) {
-                var popupElement = $.parseHTML(popupMarkup);
                 if (feature.properties) {
-                    var hasContenu = false;
-                    var hasOpened = false;
-                    var hasAmount = false;
-                    poi_infos_to_display.forEach(function(info_to_display) { // Pour chaque infos qu'on est censé avoir dans le poi
-                        $(popupElement).find('.infowindow__' + info_to_display).html(''); // On reset le champ dans l'infowindow
-                        if (info_to_display in feature.properties && feature.properties[info_to_display] !== '') { // Si cette info est bien renseignée
-                            var formated_info = '';
-                            if (info_to_display == 'contenu') {
-                                formated_info = feature.properties[info_to_display];
-                                hasContenu = true;
-                            } else if (info_to_display == 'amount') {
-                                var frequentation = '<div class="infowindow__opened">' + feature.properties[info_to_display]["title"] + '</div>';
-                                frequentation += '<div class="infowindow__frequentation ' + feature.properties[info_to_display]["color"] + '">' + feature.properties[info_to_display]["frequentation"] + '</div>';
-                                frequentation += '<div class="crowded-label">' + feature.properties[info_to_display]["label"];
-                                if (feature.properties[info_to_display]["label"] == "available-spots" || feature.properties[info_to_display]["label"] == "eu.place.available-velhop"){
-                                    frequentation += feature.properties[info_to_display]["frequentation"];
-                                }
-                                frequentation += '</div>';
-                                formated_info = frequentation;
-                                hasOpened = true;
-                                hasAmount = true;
-                            } else if (info_to_display == "url") {
-                                var newTabAttribute = '';
-                                if (window.newTab) {
-                                    newTabAttribute = 'target="_blank"';
-                                }
-                                formated_info = '<a href="' + feature.properties[info_to_display] + '" ' + newTabAttribute + (feature.properties.alert?'class="alert-arret"':'') + ' title="'+Liferay.Language.get("know-more") + (newTabAttribute!=''? ' (' + Liferay.Language.get("eu.new-window") + ')':'') +'">';
-                                formated_info += '<span class="flexbox"><span class="btn-text">'+Liferay.Language.get("know-more")+'</span><span class="btn-arrow"></span></span>';
-                                formated_info += '</a>';
-                            } else if (info_to_display == "like") {
-                                var state = feature.properties[info_to_display]["liked"] ? "liked" : "";
-                                formated_info = '<a class="' + state + '" href=' + feature.properties[info_to_display]["href"] + '></a>';
-                            } else if (info_to_display =="visual" && !feature.properties.amount) {//on n'affiche pas l'image si c'est un lieu avec des horaires
-                                formated_info = '<div class="infowindow__visualImage" style="background-image: url(' + feature.properties[info_to_display] + ');"></div>';
-                            } else if(info_to_display == "type") {
-                    			var addedFavorite = false;
-                    			if (window.userFavorites) {
-                    				var i;
-                    				for (i = 0; i < window.userFavorites.length; i++) {
-                    					if(window.userFavorites[i].typeId == feature.properties[info_to_display] && window.userFavorites[i].entityId == feature.properties["id"]){
-                    						addedFavorite = true;
-                    						break;
-                    					}
-                    				} 
-                    			}
-
-                                var lienFavori = `<a href="#" class="add-favorites${addedFavorite ? ' liked' : ''}" 
-                    aria-pressed="${addedFavorite ? 'true' : 'false'}" 
-                    role="button" style="display: flex; margin-bottom: 0px;" 
-                    data-type="${feature.properties[info_to_display]}" 
-                    data-title="${feature.properties['name']}" 
-                    data-url="${feature.properties['url']}" 
-                    data-id="${feature.properties['id']}">
-                    <span>${addedFavorite ? Liferay.Language.get("eu.remove-from-favorite") : Liferay.Language.get("eu.add-to-favorite")}</span>
-                 </a>`;
-
-                                formated_info = lienFavori;
-                            } else if (info_to_display == "opened"){
-                                if(feature.properties[info_to_display]["url"] !== undefined && feature.properties[info_to_display]["url"] != ""){
-                                    formated_info = '<a href="' + feature.properties[info_to_display]["url"] + '">' + Liferay.Language.get("eu.see-times") + '</a>';
-                                }else{
-                                    formated_info = feature.properties[info_to_display];
-                                }
-                                hasOpened = true;
-                            } else if (info_to_display !="visual") {
-                                formated_info = feature.properties[info_to_display];
-                            }
-                            $(popupElement).find('.infowindow__' + info_to_display).html(formated_info); // On rempli le champ dans l'infowindow
-                        }
-                    });
-                    if(!hasOpened && !hasContenu){
-                    	$(popupElement).find('.infowindow__middle').remove(); // On cache le champ dans l'infowindow
-                    }else {
-                        if(hasContenu){
-                            $(popupElement).find('.infowindow__left').remove(); // On cache le champ des horaires dans l'infowindow
-                            $(popupElement).find('.infowindow__right').remove(); // On cache le champ du temps réel dans l'infowindow
-                        }else if(!hasAmount){
-                            $(popupElement).find('.infowindow__contenu').remove(); // On cache le champ du contenu dans l'infowindow
-                            $(popupElement).find('.infowindow__right').remove(); // On cache le champ du temps réel dans l'infowindow
+                    var popupMarkup = "";
+                    // en fonction du type d'entité, le POI n'est pas le même
+                    if (feature.properties["type"] !== '') {
+                        switch (feature.properties["type"]){
+                            // arret
+                            case "14":
+                                popupMarkup =
+                                    '<div class="aroundme__infowindow infowindow">' +
+                                    '     <button class="infowindow__close"></button>' +
+                                    '     <div class="infowindow__content">' +
+                                    '         <div class="infowindow__top">' +
+                                    '             <div class="infowindow__title-block">' +
+                                    '                 <div class="infowindow__name" role="heading" aria-level="3">' +
+                                                          feature.properties["name"] +
+                                    '                 </div>' +
+                                    '             </div>' +
+                                    '         </div>' +
+                                    '         <div class="infowindow__middle">' +
+                                    '             <div class="infowindow__contenu">' +
+                                    '                 <div class="popup-content-tram-list" >' +
+                                    '                     <div class="loading">' +
+                                    '                         <div class="loading-circle"></div>' +
+                                    '                     </div>' +
+                                    '                 </div>' +
+                                    '             </div>' +
+                                    '         </div>' +
+                                    '         <div class="infowindow__bottom">' +
+                                    '             <div class="infowindow__type">' +
+                                    '                 <a href="#" class="add-favorites" aria-pressed="false" ' +
+                                    '                     role="button" style="display: flex; margin-bottom: 0px;" ' +
+                                    '                     data-type="' + feature.properties['type'] + '" ' +
+                                    '                     data-title="' + feature.properties['name'] + '" ' +
+                                    '                     data-url="' + feature.properties['url'] + '" ' +
+                                    '                     data-id="' + feature.properties['id'] +'">' +
+                                    '                     <span>' + Liferay.Language.get("eu.add-to-favorite") + '</span>' +
+                                    '                 </a>' +
+                                    '             </div>' +
+                                    '         </div>' +
+                                    '    </div>' +
+                                    '    <div class="infowindow__url">' +
+                                    '       <a href="' + feature.properties['url'] + '" ' +
+                                                (window.newTab?'target="_blank"':'') +
+                                                (feature.properties['alert']?' class="alert-arret"':'') +
+                                    '           title="' + Liferay.Language.get('know-more') +
+                                                (window.newTab? ' (' + Liferay.Language.get("eu.new-window") + ')':'') + '" >' +
+                                    '           <span class="flexbox">' +
+                                    '               <span class="btn-text">' +
+                                                       Liferay.Language.get("know-more") +
+                                    '               </span>' +
+                                    '               <span class="btn-arrow"></span>' +
+                                    '           </span>' +
+                                    '       </a>' +
+                                    '   </div>' +
+                                    '</div>';
+                                break;
+                            // place
+                            case "1":
+                                popupMarkup =
+                                    '<div class="aroundme__infowindow infowindow">' +
+                                    '     <button class="infowindow__close"></button>' +
+                                    '     <div class="infowindow__content">' +
+                                    '         <div class="infowindow__visual">' +
+                                                  ((!feature.properties["amount"])?
+                                                  '<div class="infowindow__visualImage" style="background-image: url(' +
+                                                    feature.properties['visual'] +
+                                                  ');"></div>'
+                                                  :
+                                                  '') +
+                                    '         </div>'+
+                                    '         <div class="infowindow__top">' +
+                                    '             <div class="infowindow__title-block">' +
+                                    '                 <div class="infowindow__name" role="heading" aria-level="3">' +
+                                                          feature.properties["name"] +
+                                    '                 </div>' +
+                                    '             </div>' +
+                                    '             <div class="infowindow__address">' +
+                                                      feature.properties["address"] +
+                                    '             </div>' +
+                                    '         </div>' +
+                                    '         <div class="infowindow__middle">' +
+                                                  ((!feature.properties["contenu"] && !!feature.properties["amount"]) ?
+                                    '             <div class="infowindow__left">' +
+                                    '                 <div class="popup-content-schedules">' +
+                                    '                     <div class="loading">' +
+                                    '                         <div class="loading-circle"></div>' +
+                                    '                     </div>' +
+                                    '                 </div>' +
+                                    '             </div>' +
+                                    '             <div class="infowindow__right">' +
+                                    '                 <div class="infowindow__amount">' +
+                                    '                     <div class="infowindow__opened">' +
+                                                              feature.properties["amount"]["title"] +
+                                    '                     </div>' +
+                                    '                     <div class="infowindow__frequentation ' +
+                                                              feature.properties["amount"]["color"] + '">' +
+                                                              feature.properties["amount"]["frequentation"] +
+                                    '                     </div>' +
+                                    '                     <div class="crowded-label">' +
+                                                              feature.properties["amount"]["label"] +
+                                                              ((feature.properties["amount"]["label"] == "available-spots" || feature.properties["amount"]["label"] == "eu.place.available-velhop")?
+                                                                  feature.properties["amount"]["frequentation"]
+                                                              :
+                                                                  '') +
+                                    '                     </div>' +
+                                    '                 </div>' +
+                                    '             </div>'
+                                                  :
+                                                  ((!!feature.properties["contenu"])?
+                                    '             <div class="infowindow__contenu">' +
+                                                      feature.properties["contenu"] +
+                                    '             </div>':'')) +
+                                    '         </div>' +
+                                    '         <div class="infowindow__bottom">' +
+                                    '             <div class="infowindow__type">' +
+                                    '                 <a href="#" class="add-favorites" aria-pressed="false" ' +
+                                    '                     role="button" style="display: flex; margin-bottom: 0px;" ' +
+                                    '                     data-type="' + feature.properties['type'] + '" ' +
+                                    '                     data-title="' + feature.properties['name'] + '" ' +
+                                    '                     data-url="' + feature.properties['url'] + '" ' +
+                                    '                     data-id="' + feature.properties['id'] +'">' +
+                                    '                     <span>' + Liferay.Language.get("eu.add-to-favorite") + '</span>' +
+                                    '                 </a>' +
+                                    '             </div>' +
+                                    '         </div>' +
+                                    '    </div>' +
+                                    '    <div class="infowindow__url">' +
+                                    '       <a href="' + feature.properties['url'] + '" ' +
+                                                (window.newTab?'target="_blank"':'') +
+                                    '           title="' + Liferay.Language.get('know-more') +
+                                                (window.newTab? ' (' + Liferay.Language.get("eu.new-window") + ')':'') + '" >' +
+                                    '           <span class="flexbox">' +
+                                    '               <span class="btn-text">' +
+                                                        Liferay.Language.get("know-more") +
+                                    '               </span>' +
+                                    '               <span class="btn-arrow"></span>' +
+                                    '           </span>' +
+                                    '       </a>' +
+                                    '   </div>' +
+                                    '</div>';
+                                break;
+                            // event
+                            case "2":
+                                popupMarkup =
+                                    '<div class="aroundme__infowindow infowindow">' +
+                                    '     <button class="infowindow__close"></button>' +
+                                    '     <div class="infowindow__content">' +
+                                    '         <div class="infowindow__visual">' +
+                                    '             <div class="infowindow__visualImage" style="background-image: url(' +
+                                                      feature.properties['visual'] +
+                                    '                 );"></div>' +
+                                    '         </div>'+
+                                    '         <div class="infowindow__top">' +
+                                    '             <div class="infowindow__title-block">' +
+                                    '                 <div class="infowindow__name" role="heading" aria-level="3">' +
+                                                          feature.properties["name"] +
+                                    '                 </div>' +
+                                    '             </div>' +
+                                    '             <div class="infowindow__address">' +
+                                                      feature.properties["address"] +
+                                    '             </div>' +
+                                    '         </div>' +
+                                    '         <div class="infowindow__middle">' +
+                                    '             <div class="infowindow__left">' +
+                                    '                 <div class="infowindow__opened">' +
+                                                          ((!!feature.properties["opened"] && !!feature.properties["opened"]["url"] && feature.properties["opened"]["url"] != "")?
+                                                          '<a href="' + feature.properties["opened"]["url"] + '">' + Liferay.Language.get("eu.see-times") + '</a>'
+                                                          :
+                                                          feature.properties["opened"]) +
+                                    '                 </div>' +
+                                    '                 <div class="infowindow__schedules">' +
+                                                          ((!!feature.properties["schedules"])?feature.properties["schedules"]:'') +
+                                    '                 </div>' +
+                                    '             </div>' +
+                                    '         </div>' +
+                                    '         <div class="infowindow__bottom">' +
+                                    '             <div class="infowindow__type">' +
+                                    '                 <a href="#" class="add-favorites" aria-pressed="false" ' +
+                                    '                     role="button" style="display: flex; margin-bottom: 0px;" ' +
+                                    '                     data-type="' + feature.properties['type'] + '" ' +
+                                    '                     data-title="' + feature.properties['name'] + '" ' +
+                                    '                     data-url="' + feature.properties['url'] + '" ' +
+                                    '                     data-id="' + feature.properties['id'] +'">' +
+                                    '                     <span>' + Liferay.Language.get("eu.add-to-favorite") + '</span>' +
+                                    '                 </a>' +
+                                    '             </div>' +
+                                    '         </div>' +
+                                    '    </div>' +
+                                    '    <div class="infowindow__url">' +
+                                    '       <a href="' + feature.properties['url'] + '" ' +
+                                                (window.newTab?'target="_blank"':'') +
+                                    '           title="' + Liferay.Language.get('know-more') +
+                                                (window.newTab? ' (' + Liferay.Language.get("eu.new-window") + ')':'') + '" >' +
+                                    '           <span class="flexbox">' +
+                                    '               <span class="btn-text">' +
+                                                        Liferay.Language.get("know-more") +
+                                    '               </span>' +
+                                    '               <span class="btn-arrow"></span>' +
+                                    '           </span>' +
+                                    '       </a>' +
+                                    '   </div>' +
+                                    '</div>';
+                                break;
                         }
                     }
+                    var popupElement = $.parseHTML(popupMarkup);
                     layer.bindPopup($(popupElement).html(), {closeButton: false});
                     layer.on('popupopen', function(e) {
-                        if(feature.properties.codeArret != undefined && feature.properties.codeArret != ""){
-                            // Chargement des prochains passages lors de l'ouverture de la popup
-                            var destinationList = $('.popup-content-tram-list', e.target._popup._contentNode);
+                        // renseigne les info à la volée pour les arrêts et les lieux
+                        if (feature.properties["type"] !== '') {
+                            switch (feature.properties["type"]) {
+                                // arret
+                                case "14":
+                                    // Chargement des prochains passages lors de l'ouverture de la popup
+                                    var destinationList = $('.popup-content-tram-list', e.target._popup._contentNode);
 
-                            if(feature.properties.codeArret != "999"){
-                                Liferay.Service(
-                                    '/gtfs.arret/get-arret-real-time', {
-                                        stopCode: feature.properties.codeArret
-                                    },
-                                    function(json) {
-                                        // On efface la liste
-                                        $(destinationList).empty();
+                                    if(feature.properties.codeArret != "999"){
+                                        Liferay.Service(
+                                            '/gtfs.arret/get-arret-real-time', {
+                                                stopCode: feature.properties.codeArret
+                                            },
+                                            function(json) {
+                                                // On efface la liste
+                                                $(destinationList).empty();
 
-                                        if (Object.keys(json).length != 0) {
-                                            // Parcours des horraires
-                                            var destinations = '';
-                                            json.forEach(function(visit, i) {
-                                                // On affiche que les 4 premiers resultats
-                                                if (i >= 4) return false;
+                                                if (Object.keys(json).length != 0) {
+                                                    // Parcours des horaires
+                                                    var destinations = '';
+                                                    json.forEach(function(visit, i) {
+                                                        // On affiche que les 4 premiers resultats
+                                                        if (i >= 4) return false;
 
-                                                // Formatage de l'heure
-                                                var datestr = new Date(Date.parse(visit.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime));
-                                                var timestr = datestr.toLocaleTimeString(navigator.language, {
-                                                    hour: '2-digit',
-                                                    minute:'2-digit'
-                                                });
+                                                        // Formatage de l'heure
+                                                        var datestr = new Date(Date.parse(visit.MonitoredVehicleJourney.MonitoredCall.ExpectedDepartureTime));
+                                                        var timestr = datestr.toLocaleTimeString(navigator.language, {
+                                                            hour: '2-digit',
+                                                            minute:'2-digit'
+                                                        });
 
-                                                // Couleur de la ligne
-                                                var colors = findColors(visit.MonitoredVehicleJourney.LineRef);
-                                                var backgroundColor = colors != null && colors.backgroundColor != null ? colors.backgroundColor : "eeeeee";
-                                                var textColor = colors != null && colors.textColor != null ? colors.textColor : "000000";
+                                                        // Couleur de la ligne
+                                                        var colors = findColors(visit.MonitoredVehicleJourney.LineRef);
+                                                        var backgroundColor = colors != null && colors.backgroundColor != null ? colors.backgroundColor : "eeeeee";
+                                                        var textColor = colors != null && colors.textColor != null ? colors.textColor : "000000";
 
-                                                // Formatage du nom de la destination
-                                                var destinationName = visit.MonitoredVehicleJourney.DestinationName
-                                                if (destinationName.length > 30) {
-                                                    destinationName = destinationName.substring(0, 30) + '...';
-                                                }
+                                                        // Formatage du nom de la destination
+                                                        var destinationName = visit.MonitoredVehicleJourney.DestinationName
+                                                        if (destinationName.length > 30) {
+                                                            destinationName = destinationName.substring(0, 30) + '...';
+                                                        }
 
-                                                // Ajout des horraires dans la liste
-                                                destinations +=
-                                                '<div class="row tram-destination">' +
-                                                    '<p class="tram-destination-letter">' +
-                                                        '<span class="transport-letters-icon"' +
+                                                        // Ajout des horaires dans la liste
+                                                        destinations +=
+                                                            '<div class="row tram-destination">' +
+                                                            '<p class="tram-destination-letter">' +
+                                                            '<span class="transport-letters-icon"' +
                                                             'style="background:#' + backgroundColor + '; color:#' + textColor + ';">' +
                                                             visit.MonitoredVehicleJourney.PublishedLineName +
-                                                        '</span>' +
-                                                    '</p>' +
-                                                    '<div class="tram-destination-name"><p>' +
-                                                        destinationName +
-                                                    '</p></div>' +
-                                                    '<p class="tram-destination-schedule"><strong>' + timestr + '</strong></p>' +
-                                                '</div>';
-                                            });
-                                            $(destinationList).append(destinations);
-                                        } else {
-                                            $(destinationList).append(
-                                                '<p>' + Liferay.Language.get("eu.no-visit-found") + '</p>'
-                                            );
-                                        }
+                                                            '</span>' +
+                                                            '</p>' +
+                                                            '<div class="tram-destination-name"><p>' +
+                                                            destinationName +
+                                                            '</p></div>' +
+                                                            '<p class="tram-destination-schedule"><strong>' + timestr + '</strong></p>' +
+                                                            '</div>';
+                                                    });
+                                                    $(destinationList).append(destinations);
+                                                } else {
+                                                    $(destinationList).append(
+                                                        '<div class="row tram-destination">' +
+                                                        '<div class="tram-destination-name">' +
+                                                        '<p>' + Liferay.Language.get("eu.no-visit-found") + '</p>' +
+                                                        '</div>' +
+                                                        '</div>'
+                                                    );
+                                                }
+                                            }
+                                        );
+                                    }else {
+                                        $(destinationList).append(
+                                            '<p>' + Liferay.Language.get("not-available-short") + '</p>'
+                                        );
                                     }
-                                );
-                            }else {
-                                 $(destinationList).append(
-                                     '<p>' + Liferay.Language.get("not-available-short") + '</p>'
-                                 );
-                             }
+                                    break;
+                                // place
+                                case "1":
+                                    // Chargement des horaires lors de l'ouverture de la popup
+                                    var scheduleInfo = $('.popup-content-schedules', e.target._popup._contentNode);
+
+                                    Liferay.Service(
+                                        '/place.place/get-cache-json-horaire', {
+                                            sigId: feature.properties.sigId,
+                                            localeId: Liferay.ThemeDisplay.getLanguageId()
+                                        },
+                                        function(json) {
+                                            // On efface la liste
+                                            $(scheduleInfo).empty();
+
+                                            // Ajout des horaires dans la liste
+                                            var schedules =
+                                                '<div class="infowindow__opened">' + json.opened + '</div>' +
+                                                '<div class="infowindow__schedules" >' + json.schedule + '</div>';
+                                            $(scheduleInfo).append(schedules);
+                                        }
+                                    );
+                                    break;
+                            }
                         }
 
-
+                        // réinitialise le bouton des favoris si jamais il a changé entre la création du POI et son affichage
                         var addFavoriteElement = $('.add-favorites', e.target._popup._contentNode);
                         var isFavorite = false;
                         var id = addFavoriteElement.data('id');
@@ -309,12 +437,10 @@
                             }
                         }
                         if (isFavorite) {
-                            // addFavoriteElement aria-pressed true
-                            addFavoriteElement.setAttribute('aria-pressed', 'true')
-
+                            addFavoriteElement.attr("aria-pressed", true);
                             addFavoriteElement.addClass('liked');
                         } else {
-                            addFavoriteElement.setAttribute('aria-pressed', 'false')
+                            addFavoriteElement.attr("aria-pressed", false);
                             addFavoriteElement.removeClass('liked');
                         }
                     });
@@ -343,8 +469,8 @@
            	    	formated_info = '<img src="/o/mapweb/images/' + icone + '.png" align="left" style="margin-right: 25px;"><div class="infowindow__name">' + feature.properties.type + '</div>';
        	    		//formated_info = '<img src="' + feature.properties.url + '" align="left" style="margin-right: 25px;"><div class="infowindow__name">' + feature.properties.type + '</div>';
            	    	// On rempli les champs dans l'infowindow
-                    $(popupAlerteElement).find('.infowindow__visual').html(formated_info);  
-                    $(popupAlerteElement).find('.infowindow__address').html(feature.properties.texte); 
+                    $(popupAlerteElement).find('.infowindow__visual').html(formated_info);
+                    $(popupAlerteElement).find('.infowindow__address').html(feature.properties.texte);
                     layer.bindPopup($(popupAlerteElement).html(), {closeButton: false});
                     layer.on('popupopen', function(e) {
                         $('.leaflet-popup-tip', $(e.target._popup._contentNode).parent().parent()).css('background', 'white');
@@ -370,14 +496,14 @@
                     i++;
                 }
             }
-            
+
             // Retourne l'objet marker pour un POI donné
             var pointToLayer = function(feature, latlng) {
                 if (feature.properties.icon) {
                     if (feature.properties.amount) {
                         var divIcon = new L.divIcon({
                             html:  '<img width="35" height="49" style="width:35px; height:49px;" src="' + feature.properties.icon + '"><div class="aroundme__marker-amount '
-                                + feature.properties.amount.color + '">' 
+                                + feature.properties.amount.color + '">'
                                 + feature.properties.amount.frequentation + '</div>',
                             iconSize: [35,49],
                             iconAnchor: [17, 49],
@@ -423,11 +549,11 @@
 	                        });
                             return L.marker(latlng, { icon: divIcon })
 							break;
-						}                		
+						}
                 	}
                 }
             }
-            
+
             var pointAlertToLayer = function(feature, latlng) {
             	var icone = feature.properties.type;
                 var markerIcon = new L.Icon({
@@ -443,14 +569,15 @@
             var requestsInProgress = 0;
 
             // Ajoute à la liste des markers ceux des favoris
-            var addFavoriteMarkers = function(markers) {
+            var addFavoriteMarkers = function(markers, alertsArret) {
                 requestsInProgress++;
                 showLoadingIcon();
                 Liferay.Service(
                     '/strasbourg.strasbourg/get-favorites-pois', {
                         groupId: window.groupId,
                         typeContenu: window.typesContenu,
-                        localeId: Liferay.ThemeDisplay.getLanguageId()
+                        localeId: Liferay.ThemeDisplay.getLanguageId(),
+                        alertsArret: alertsArret
                     },
                     function(data) {
                         try {
@@ -469,7 +596,7 @@
             }
 
             // Ajoute à la liste des markers ceux des catégories
-            var addCategoriesMarkers = function(markers, categories, vocabulariesEmptyIds) {
+            var addCategoriesMarkers = function(markers, categories, vocabulariesEmptyIds, alertsArret) {
                 requestsInProgress++;
                 showLoadingIcon();
                 ame.$filters_dates;
@@ -485,7 +612,8 @@
                         fromDate: $(ame.$filters_dates)[0]!=undefined?$(ame.$filters_dates)[0].value:'',
                         toDate: $(ame.$filters_dates)[1]!=undefined?$(ame.$filters_dates)[1].value:'',
                         localeId: Liferay.ThemeDisplay.getLanguageId(),
-                        globalGroupId: window.globalGroupId
+                        globalGroupId: window.globalGroupId,
+                        alertsArret: alertsArret
                     },
                     function(data) {
                         // Convertion des données geoJSON en marker
@@ -496,7 +624,7 @@
                             });
                             markers.addLayers(poisData);
                             removeDuplicates(markers);
-                        } catch(e) {}
+                        } catch(e) {console.log(e)}
                         requestsInProgress--;
                         maybeHideLoadingIcon();
                     }
@@ -504,7 +632,7 @@
             }
 
             // Ajoute à la liste des markers ceux des centres d'intérêt
-            var addInterestsMarkers = function(markers, interests) {
+            var addInterestsMarkers = function(markers, interests, alertsArret) {
                 requestsInProgress++;
                 showLoadingIcon();
                 Liferay.Service(
@@ -513,7 +641,8 @@
                         groupId: window.groupId,
                         typeContenu: window.typesContenu,
                         localeId: Liferay.ThemeDisplay.getLanguageId(),
-                        globalGroupId: window.globalGroupId
+                        globalGroupId: window.globalGroupId,
+                        alertsArret: alertsArret
                     },
                     function(data) {
                         // Convertion des données geoJSON en marker
@@ -645,7 +774,7 @@
 
                 // Récupération des données concernant les catégories
                 if (categories.length > 0) {
-                    addCategoriesMarkers(markers, categories, vocabulariesEmptyIds);
+                    addCategoriesMarkers(markers, categories, vocabulariesEmptyIds, alertsArret);
                 }
 
                 // Récupération des centres d'intérêts à afficher
@@ -667,13 +796,13 @@
 
                 // Récupération des données concernant les centres d'intérêt
                 if (interests.length > 0) {
-                    addInterestsMarkers( markers, interests);
+                    addInterestsMarkers( markers, interests, alertsArret);
                 }
 
                 // Récupération des données concernant les favoris
-                if ((window.isWidgetMode && window.showFavoritesByDefault) 
+                if ((window.isWidgetMode && window.showFavoritesByDefault)
                     || (ame.$showFavoritesFilter.length && ame.$showFavoritesFilter.is(':checked'))) {
-                    addFavoriteMarkers(markers);
+                    addFavoriteMarkers(markers, alertsArret);
                 }
 
                 // Récupération des données concernant le trafic et les alertes
@@ -762,7 +891,7 @@
 
 
             /**
-             *  Interface 
+             *  Interface
              */
             ame.$ui_fullscreen.on('click', function() {
                 $('body').toggleClass('aroundme--fullscreen');
@@ -893,12 +1022,12 @@
                     });
             	}
             }
-            
+
             function destroyPopinMap(){
                 $('#mapConfirm').remove().off('clickmapConfirm');
                 $('.mseu').off('click.mapconfirm').removeClass('overlayed');
             }
-            
+
             function createPopinMap(message, agree){
                 var template = '<div id="mapConfirm"> \
                     <div class="mapMessage">##mapMessage##</div> \
@@ -947,8 +1076,19 @@
                 mymap.scrollWheelZoom.enable();
             });
 
-            // Affichage des POIs
-            showPois();
+            // récupération des alertes gtfs
+            var alertsArret;
+            if(window.typesContenu.includes("eu.strasbourg.service.gtfs.model.Arret")){
+                Liferay.Service(
+                    '/gtfs.arret/get-alerts', {},
+                    function(data) {
+                        alertsArret = data;
+
+                        // Affichage des POIs
+                        showPois();
+                    }
+                );
+            }
             if (window.isWidgetMode) {
                 ame.close_panel_side();
             }

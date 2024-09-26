@@ -1478,8 +1478,8 @@ public class PlaceImpl extends PlaceBaseImpl {
         if (group == null) {
             group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId(), "/strasbourg.eu");
         }
+        String url = "";
         if (group != null) {
-            String url = "";
             String virtualHostName= PortalHelper.getVirtualHostname(group, Locale.FRANCE.getLanguage());
             if (virtualHostName.isEmpty()) {
                 url = "/web" + group.getFriendlyURL() + "/";
@@ -1487,12 +1487,12 @@ public class PlaceImpl extends PlaceBaseImpl {
                 url = "https://" + virtualHostName + "/";
             }
             url += "lieu/-/entity/sig/" + this.getSIGid() + "/" + this.getNormalizedAlias(locale);
-            properties.put("url", url);
         }
+        properties.put("url", url);
         // gestion des doublons
         properties.put("sigId", this.getSIGid());
         String types = "";
-        // type de lieu)
+        // type de lieu
         List<AssetCategory> categories = this.getTypes();
         for (AssetCategory assetCategory : categories) {
             if (types.length() > 0) {
@@ -1507,85 +1507,16 @@ public class PlaceImpl extends PlaceBaseImpl {
         properties.put("type", "1");
         properties.put("id", this.getPlaceId());
 
-        // Horaires et temps réel, ou contenu du tooltip carto
+        // contenu du tooltip carto
         if(!this.getContenuTooltipCarto(locale).isEmpty()){
             properties.put("contenu", this.getContenuTooltipCarto(locale));
-        }else {
-            if(this.getHasURLSchedule()){
-                // Il n'a pas d'horaires mais un lien
-                JSONObject urlPeriodJSON = JSONFactoryUtil.createJSONObject();
-                urlPeriodJSON.put("url", this.getScheduleLinkURL(locale));
-                properties.put("opened",urlPeriodJSON );
-            }else {
-                // Il a des horaires
-                // récupère les horaires en cours
-                GregorianCalendar now = new GregorianCalendar();
-                List<PlaceSchedule> currentSchedules = this.getPlaceSchedule(now, locale);
-                if (currentSchedules.size() > 0) {
-                    PlaceSchedule currentSchedule = currentSchedules.get(0);
-                    String schedule = "";
-                    String opened = "";
-                    if (currentSchedule.isAlwaysOpen()) {
-                        schedule = LanguageUtil.get(locale, "open-all-time");
-                        opened = LanguageUtil.get(locale, "open-period");
-                    } else if (this.isOpenNow()) {
-                        opened = LanguageUtil.get(locale, "open-period");
-                        for (Pair<LocalTime, LocalTime> openingTime : currentSchedule.getOpeningTimes()) {
-                            if (schedule.length() > 0) {
-                                schedule += "<br>";
-                            }
-                            String startString = openingTime.getFirst().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-                            String endString = openingTime.getSecond().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-                            schedule += startString + " - " + endString;
-                        }
-                    } else {
-                        opened = LanguageUtil.get(locale, "closed-period");
-                        // on récupère le prochain horaire d'ouverture
-                        PlaceSchedule nextOpening = this.getNextScheduleOpening(now, 2, locale);
-                        if (nextOpening == null) {
-                            opened = LanguageUtil.get(locale, "closed-now");
-                            schedule += "";
-                        } else {
-                            Pair<LocalTime, LocalTime> openingTime = nextOpening.getOpeningTimes().get(0);
-                            String startString = openingTime.getFirst().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-                            String endString = openingTime.getSecond().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-                            schedule += LanguageUtil.get(locale, "reopening") + " ";
-                            int diff = nextOpening.getStartDate().compareTo(now.getTime());
-                            if (diff > 0) {
-                                now.add(GregorianCalendar.DAY_OF_YEAR, 1);
-                                if (nextOpening.getStartDate().compareTo(now.getTime()) == 0) {
-                                    schedule += LanguageUtil.get(locale, "tomorrow") + " ";
-                                } else {
-                                    schedule += LanguageUtil.get(locale, "after-tomorrow") + " ";
-                                }
-                            }
-                            schedule += LanguageUtil.get(locale, "at") + " " + startString;
-                            if (diff == 0) {
-                                schedule += " " + LanguageUtil.get(locale, "up-to") + " " + endString;
-                            }
-                        }
-                    }
-                    properties.put("opened", opened);
-                    properties.put("schedules", schedule);
-                }
-            }
         }
-        // Icône (on prend le premier icon que l'on trouve dans une des catégories de
-        // type de lieu)
+
+        // Icône
         String icon = "";
-        String[] icons = null;
         for (AssetCategory category : categories) {
             if (!category.getDescription(locale).isEmpty()) {
-                icons = category.getDescription(locale).split(";");
-                // vérifi si le lieu dispose d'un horaire et s'il est fermé
-                if (icons.length > 1 && this.hasScheduleTable() && !this.isOpenNow()) {
-                    icon = icons[1];
-                } else {
-                    if (icons.length > 0) {
-                        icon = icons[0];
-
-                    }
-                }
+                icon = category.getDescription(locale);
                 break;
             }
         }
@@ -1597,7 +1528,7 @@ public class PlaceImpl extends PlaceBaseImpl {
             String frequentation = "";
             String label = "";
             String color = occupation.getCssClass();
-            if (this.isSwimmingPool() ||this.isIceRink()) {
+            if (this.isSwimmingPool() || this.isIceRink()) {
                 title = LanguageUtil.get(locale, "frequentation-real");
                 if(Validator.isNumber(occupation.getOccupation()))
                     frequentation = nf.format(Long.parseLong(occupation.getOccupation()));

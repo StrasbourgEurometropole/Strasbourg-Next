@@ -5,6 +5,8 @@
 
 package eu.strasbourg.service.strasbourg.service;
 
+import java.util.List;
+
 /**
  * Provides the remote service utility for Strasbourg. This utility wraps
  * <code>eu.strasbourg.service.strasbourg.service.impl.StrasbourgServiceImpl</code> and is an
@@ -40,10 +42,9 @@ public class StrasbourgServiceUtil {
 	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject addActe(
-		java.io.File fileContent, java.lang.String fileName,
-		java.lang.String commissionName, java.lang.String publicationDate,
-		java.lang.String publicationDateFin, java.lang.String documentType,
-		java.lang.String documentName) {
+		java.io.File fileContent, String fileName, String commissionName,
+		String publicationDate, String publicationDateFin, String documentType,
+		String documentName) {
 
 		return getService().addActe(
 			fileContent, fileName, commissionName, publicationDate,
@@ -64,17 +65,16 @@ public class StrasbourgServiceUtil {
 	 * @return <code>succes</code> un document de commission, sinon <code>error</code>.
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject addDocument(
-		java.lang.String fileContent, java.lang.String fileName,
-		java.lang.String commissionName, java.lang.String publicationDate,
-		java.lang.String publicationDateFin, java.lang.String documentType,
-		java.lang.String documentName) {
+		String fileContent, String fileName, String commissionName,
+		String publicationDate, String publicationDateFin, String documentType,
+		String documentName) {
 
 		return getService().addDocument(
 			fileContent, fileName, commissionName, publicationDate,
 			publicationDateFin, documentType, documentName);
 	}
 
-	public static void foldPortlet(java.lang.String portletId) {
+	public static void foldPortlet(String portletId) {
 		getService().foldPortlet(portletId);
 	}
 
@@ -82,15 +82,13 @@ public class StrasbourgServiceUtil {
 		return getService().getAlerts();
 	}
 
-	public static java.lang.String getArticleHTMLContent(
-		long groupId, java.lang.String articleId) {
-
+	public static String getArticleHTMLContent(long groupId, String articleId) {
 		return getService().getArticleHTMLContent(groupId, articleId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
 		getCategoriesByClassNameAndGroupIds(
-			long[] groupIds, java.lang.String className, long classType) {
+			long[] groupIds, String className, long classType) {
 
 		return getService().getCategoriesByClassNameAndGroupIds(
 			groupIds, className, classType);
@@ -103,35 +101,35 @@ public class StrasbourgServiceUtil {
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getCategoriesPois(
-		java.lang.String categories, java.lang.String vocabulariesEmptyIds,
-		java.lang.String prefilters, java.lang.String tags, long groupId,
-		java.lang.String typeContenu, boolean dateField,
-		java.lang.String fromDate, java.lang.String toDate,
-		java.lang.String localeId, long globalGroupId) {
+		String categories, String vocabulariesEmptyIds, String prefilters,
+		String tags, long groupId, String typeContenu, boolean dateField,
+		String fromDate, String toDate, String localeId, long globalGroupId,
+		List<String> alertsArret) {
 
 		return getService().getCategoriesPois(
 			categories, vocabulariesEmptyIds, prefilters, tags, groupId,
-			typeContenu, dateField, fromDate, toDate, localeId, globalGroupId);
+			typeContenu, dateField, fromDate, toDate, localeId, globalGroupId,
+			alertsArret);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
-		getCoordinateForAddress(
-			java.lang.String address, java.lang.String zipCode,
-			java.lang.String city) {
+		getCoordinateForAddress(String address, String zipCode, String city) {
 
 		return getService().getCoordinateForAddress(address, zipCode, city);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getCopyright(
-		long groupId, java.lang.String uuid, java.lang.String language) {
+		long groupId, String uuid, String language) {
 
 		return getService().getCopyright(groupId, uuid, language);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
-		long groupId, java.lang.String typeContenu, java.lang.String localeId) {
+		long groupId, String typeContenu, String localeId,
+		List<String> alertsArret) {
 
-		return getService().getFavoritesPois(groupId, typeContenu, localeId);
+		return getService().getFavoritesPois(
+			groupId, typeContenu, localeId, alertsArret);
 	}
 
 	/**
@@ -142,17 +140,18 @@ public class StrasbourgServiceUtil {
 	 * @return
 	 */
 	public static com.liferay.portal.kernel.json.JSONObject getFileDetails(
-		java.lang.String friendlyUrl, java.lang.String language) {
+		String friendlyUrl, String language) {
 
 		return getService().getFileDetails(friendlyUrl, language);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject getInterestsPois(
-		java.lang.String interests, long groupId, java.lang.String typeContenu,
-		java.lang.String localeId, long globalGroupId) {
+		String interests, long groupId, String typeContenu, String localeId,
+		long globalGroupId, List<String> alertsArret) {
 
 		return getService().getInterestsPois(
-			interests, groupId, typeContenu, localeId, globalGroupId);
+			interests, groupId, typeContenu, localeId, globalGroupId,
+			alertsArret);
 	}
 
 	/**
@@ -160,13 +159,12 @@ public class StrasbourgServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
-		getPracticeCategories(
-			long parentCategoryId, java.lang.String localeId) {
+		getPracticeCategories(long parentCategoryId, String localeId) {
 
 		return getService().getPracticeCategories(parentCategoryId, localeId);
 	}
@@ -179,7 +177,7 @@ public class StrasbourgServiceUtil {
 
 	public static com.liferay.portal.kernel.json.JSONObject
 		getTagsAndCategoriesByGroupIdsAndClassName(
-			long[] groupIds, java.lang.String className, long classType) {
+			long[] groupIds, String className, long classType) {
 
 		return getService().getTagsAndCategoriesByGroupIdsAndClassName(
 			groupIds, className, classType);
@@ -201,23 +199,23 @@ public class StrasbourgServiceUtil {
 		return getService().getVocabulariesByGroupIds(groupIds);
 	}
 
-	public static void hidePortlet(java.lang.String portletId) {
+	public static void hidePortlet(String portletId) {
 		getService().hidePortlet(portletId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject searchStreets(
-		java.lang.String query) {
+		String query) {
 
 		return getService().searchStreets(query);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONObject searchStreets(
-		java.lang.String query, java.lang.String city) {
+		String query, String city) {
 
 		return getService().searchStreets(query, city);
 	}
 
-	public static void unfoldPortlet(java.lang.String portletId) {
+	public static void unfoldPortlet(String portletId) {
 		getService().unfoldPortlet(portletId);
 	}
 

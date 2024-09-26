@@ -14,6 +14,9 @@
 
 package eu.strasbourg.service.place.service.impl;
 
+import com.liferay.portal.kernel.json.JSONException;
+import com.liferay.portal.kernel.language.LanguageUtil;
+import eu.strasbourg.service.place.model.CsmapCacheJson;
 import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -378,6 +381,107 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		}
 		geoJSON.put("features", features);
 		return geoJSON;
+	}
+
+	/**
+	 * Retourne les horaires du jour
+	 */
+	@Override
+	public JSONObject getCacheJsonHoraire(String sigId, String localeId) {
+		Locale locale = LocaleUtil.fromLanguageId(localeId);
+
+		// initialisation pour un lieu fermé pendant les 3 prochains jours (aujourd'hui compris)
+		JSONObject json = JSONFactoryUtil.createJSONObject();
+		String schedule = "";
+		String nextOpen = "";
+		String startHour = "";
+		String endHour = "";
+		String opened = LanguageUtil.get(locale, "closed-now");
+		// On récupère le cache horaires du lieu
+		CsmapCacheJson cache = csmapCacheJsonLocalService.fetchCsmapCacheJson(sigId);
+		if (Validator.isNotNull(cache)) {
+			try {
+				if (!cache.getJsonHoraire().equals("{}")){
+					JSONObject jsonHoraire = JSONFactoryUtil.createJSONObject(cache.getJsonHoraire());
+					JSONArray weeksJSON = jsonHoraire.getJSONArray("schedules");
+
+					for (int i = 0; i < 3; i++) {
+						JSONObject scheduleJSON = weeksJSON.getJSONObject(i);
+						if (scheduleJSON.getBoolean("alwaysOpen")) {
+							// le lieu est toujours ouvert pas besoin de continuer
+							schedule = LanguageUtil.get(locale,"open-all-time");
+							opened = LanguageUtil.get(locale,"open-period");
+							break;
+						}else{
+							if(scheduleJSON.getBoolean("isClosed")){
+								// le lieu est fermé on passe au jour suivant
+								continue;
+							}else{
+								// le lieu est ouvert
+								JSONArray hoursJSON = scheduleJSON.getJSONArray("hours");
+								if(i > 0) {
+									// pas le jour J
+									schedule = LanguageUtil.get(locale,"reopening");
+									if (i == 1) {
+										nextOpen = LanguageUtil.get(locale,"tomorrow");
+									} else {
+										nextOpen = LanguageUtil.get(locale,"after-tomorrow");
+									}
+									schedule += " " + LanguageUtil.get(locale,nextOpen);
+									JSONObject hourJSON = hoursJSON.getJSONObject(0);
+									startHour = hourJSON.getString("startHour").replace(':', 'H');
+									schedule += " " + LanguageUtil.get(locale,"at") + " " + startHour;
+									opened = LanguageUtil.get(locale,"closed-period");
+									break;
+								}else{
+									// le jour J
+									LocalTime now = LocalTime.now();
+									boolean isOpenNow = false;
+									boolean isClosedNow = true;
+									for (int j = 0; j < hoursJSON.length(); j++) {
+										JSONObject hourJSON = hoursJSON.getJSONObject(j);
+										if (schedule.length() > 0) {
+											schedule += "<br>";
+										}
+										schedule += hourJSON.getString("startHour").replace(':', 'H') + " - " + hourJSON.getString("endHour").replace(':', 'H');
+										String[] startTimeString = hourJSON.getString("startHour").split(":");
+										LocalTime startTime = LocalTime.of(Integer.parseInt(startTimeString[0]), Integer.parseInt(startTimeString[1]));
+										String[] endTimeString = hourJSON.getString("endHour").split(":");
+										LocalTime endTime = LocalTime.of(Integer.parseInt(endTimeString[0]), Integer.parseInt(endTimeString[1]));
+										if(!endTime.isBefore(now) && !startTime.isAfter(now))
+											isOpenNow = true;
+										if(!endTime.isBefore(now)) {
+											isClosedNow = false;
+											if(Validator.isNull(startHour))
+												startHour = hourJSON.getString("startHour").replace(':', 'H');
+											if(Validator.isNull(endHour))
+												endHour = hourJSON.getString("endHour").replace(':', 'H');
+										}
+
+									}
+									if(isOpenNow){
+										opened = LanguageUtil.get(locale,"open-period");
+										break;
+									}
+									if(!isClosedNow){
+										schedule = LanguageUtil.get(locale,"reopening");
+										schedule += " " + LanguageUtil.get(locale,"at") + " " + startHour;
+										schedule += " " + LanguageUtil.get(locale,"up-to") + " " + endHour;
+										opened = LanguageUtil.get(locale,"closed-period");
+										break;
+									}
+								}
+							}
+						}
+					}
+				}
+			} catch (JSONException e) {
+				_log.error(e.getMessage(), e);
+			}
+		}
+		json.put("schedule", schedule);
+		json.put("opened", opened);
+		return json;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(PlaceServiceImpl.class.getName());
