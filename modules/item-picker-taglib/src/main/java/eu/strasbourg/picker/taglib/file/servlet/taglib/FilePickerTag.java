@@ -136,10 +136,11 @@ public class FilePickerTag extends IncludeTag {
 			Map<Locale, List<FileObject>> locale_files = new HashMap<Locale, List<FileObject>>();
 			Map<Locale, String> locale_filesIds = LocalizationUtil
 					.getLocalizationMap(_value);
-			List<FileObject> files = new ArrayList<FileObject>();
+			Map<Locale, String> locale_filesIds_sanitized = new HashMap<Locale, String>();
 			for (Entry<Locale, String> locale_fileId : locale_filesIds
 				.entrySet()) {
 
+				List<FileObject> files = new ArrayList<FileObject>();
 				for (String fileId : locale_fileId.getValue().split(",")) {
 					if (Validator.isNumber(fileId)
 						&& Long.parseLong(fileId) > 0) {
@@ -151,13 +152,14 @@ public class FilePickerTag extends IncludeTag {
 					}
 				}
 				locale_files.put(locale_fileId.getKey(), files);
+				locale_filesIds_sanitized.put(locale_fileId.getKey(), files.stream()
+						.mapToLong(FileObject::getId)
+						.mapToObj(String::valueOf)
+						.collect(Collectors.joining(",")));
 			}
 
 			request.setAttribute("locale_files", locale_files);
-			request.setAttribute("locale_filesIds", files.stream()
-					.mapToLong(FileObject::getId)
-					.mapToObj(String::valueOf)
-					.collect(Collectors.joining(",")));
+			request.setAttribute("locale_filesIds", locale_filesIds_sanitized);
 		}
 
 		// ItemSelector URL
