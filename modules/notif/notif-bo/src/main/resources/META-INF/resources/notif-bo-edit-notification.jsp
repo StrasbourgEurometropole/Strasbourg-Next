@@ -218,10 +218,10 @@
 			<c:if test="${(dc.hasPermission('ADD_NOTIFICATION') and empty dc.notification or dc.hasPermission('EDIT_NOTIFICATION') and not empty dc.notification) and empty themeDisplay.scopeGroup.getStagingGroup()}">
                 <c:if test="${not dc.isOnlyView()}">
                     <c:if test="${dc.workflowEnabled}">
-                        <aui:button cssClass="btn-lg saveButton" type="submit" value="save" />
+                        <aui:button cssClass="btn-lg saveButton" type="submit" value="eu.strasbourg.notification.send.notif" />
                     </c:if>
                     <c:if test="${not dc.workflowEnabled}">
-                        <aui:button cssClass="btn-lg saveButton" type="submit" name="publish" value="save" />
+                        <aui:button cssClass="btn-lg saveButton" type="submit" name="publish" value="eu.strasbourg.notification.send.notif" />
                     </c:if>
 			    </c:if>
 			</c:if>
