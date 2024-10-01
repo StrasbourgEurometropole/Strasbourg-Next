@@ -113,7 +113,8 @@ public class PoiServiceImpl implements PoiService {
 
 	public JSONObject getPois(String idInterestsString, String idCategoriesString, String vocabulariesEmptyIds,
 							  String prefiltersString, String tagsString, long groupId, String classNames,
-							  boolean dateField, String fromDate, String toDate, String localeId, long globalGroupId) {
+							  boolean dateField, String fromDate, String toDate, String localeId, long globalGroupId,
+							  List<String> alertsArret) {
 		JSONObject geoJson = null;
 
 		// Recherche
@@ -180,7 +181,7 @@ public class PoiServiceImpl implements PoiService {
 		// récupère le fichier geoJson
 		try {
 			long startTime = System.nanoTime();
-			geoJson = getGeoJSON(places, events, arrets, groupId, LocaleUtil.fromLanguageId(localeId));
+			geoJson = getGeoJSON(places, events, arrets, groupId, LocaleUtil.fromLanguageId(localeId), alertsArret);
 			long endTime = System.nanoTime();
 			long duration = (endTime - startTime) / 1_000_000;
 			_log.debug("getGeoJSON : " + duration + "ms (" + geoJson.getJSONArray("features").length() + " items)");
@@ -191,7 +192,7 @@ public class PoiServiceImpl implements PoiService {
 		return geoJson;
 	}
 
-	public JSONObject getFavoritesPois(String userId, long groupId, String classNames, String localeId) {
+	public JSONObject getFavoritesPois(String userId, long groupId, String classNames, String localeId, List<String> alertsArret) {
 		JSONObject geoJSON = JSONFactoryUtil.createJSONObject();
 		geoJSON.put("type", "FeatureCollection");
 		Locale locale = LocaleUtil.fromLanguageId(localeId);
@@ -219,8 +220,12 @@ public class PoiServiceImpl implements PoiService {
 					for (Favorite favorite : arretFavorites.collect(Collectors.toList())) {
 						Arret arret = ArretLocalServiceUtil.fetchArret(favorite.getEntityId());
 						if (arret != null) {
-							features.put(arret.getGeoJSON(groupId,locale));
-						}
+                            try {
+                                features.put(arret.getGeoJSON(groupId,locale, alertsArret));
+                            } catch (JSONException e) {
+								_log.error(e.getMessage() + ", arret -> " + arret);
+                            }
+                        }
 					}
 				}
 			}
@@ -491,7 +496,7 @@ public class PoiServiceImpl implements PoiService {
 		return hits;
 	}
 
-	static private JSONObject getGeoJSON(List<Place> places, List<Event> events, List<Arret> arrets, long groupId, Locale locale) throws JSONException {
+	static private JSONObject getGeoJSON(List<Place> places, List<Event> events, List<Arret> arrets, long groupId, Locale locale, List<String> alertsArret) throws JSONException {
 		JSONObject geoJSON = JSONFactoryUtil.createJSONObject();
 		geoJSON.put("type", "FeatureCollection");
 
@@ -505,7 +510,7 @@ public class PoiServiceImpl implements PoiService {
 		}
 
 		for (Arret arret : arrets) {
-			features.put(arret.getGeoJSON(groupId, locale));
+			features.put(arret.getGeoJSON(groupId, locale, alertsArret));
 		}
 		geoJSON.put("features", features);
 

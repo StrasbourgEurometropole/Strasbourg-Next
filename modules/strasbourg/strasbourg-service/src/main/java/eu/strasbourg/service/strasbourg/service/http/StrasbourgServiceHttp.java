@@ -204,7 +204,8 @@ public class StrasbourgServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONObject getInterestsPois(
 		HttpPrincipal httpPrincipal, String interests, long groupId,
-		String typeContenu, String localeId, long globalGroupId) {
+		String typeContenu, String localeId, long globalGroupId,
+		java.util.List<String> alertsArret) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -213,7 +214,7 @@ public class StrasbourgServiceHttp {
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, interests, groupId, typeContenu, localeId,
-				globalGroupId);
+				globalGroupId, alertsArret);
 
 			Object returnObj = null;
 
@@ -240,7 +241,8 @@ public class StrasbourgServiceHttp {
 		HttpPrincipal httpPrincipal, String categories,
 		String vocabulariesEmptyIds, String prefilters, String tags,
 		long groupId, String typeContenu, boolean dateField, String fromDate,
-		String toDate, String localeId, long globalGroupId) {
+		String toDate, String localeId, long globalGroupId,
+		java.util.List<String> alertsArret) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -250,7 +252,7 @@ public class StrasbourgServiceHttp {
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, categories, vocabulariesEmptyIds, prefilters, tags,
 				groupId, typeContenu, dateField, fromDate, toDate, localeId,
-				globalGroupId);
+				globalGroupId, alertsArret);
 
 			Object returnObj = null;
 
@@ -275,7 +277,7 @@ public class StrasbourgServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
 		HttpPrincipal httpPrincipal, long groupId, String typeContenu,
-		String localeId) {
+		String localeId, java.util.List<String> alertsArret) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -283,7 +285,7 @@ public class StrasbourgServiceHttp {
 				_getFavoritesPoisParameterTypes10);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, groupId, typeContenu, localeId);
+				methodKey, groupId, typeContenu, localeId, alertsArret);
 
 			Object returnObj = null;
 
@@ -807,16 +809,19 @@ public class StrasbourgServiceHttp {
 		new Class[] {long.class, String.class};
 	private static final Class<?>[] _getInterestsPoisParameterTypes8 =
 		new Class[] {
-			String.class, long.class, String.class, String.class, long.class
+			String.class, long.class, String.class, String.class, long.class,
+			java.util.List.class
 		};
 	private static final Class<?>[] _getCategoriesPoisParameterTypes9 =
 		new Class[] {
 			String.class, String.class, String.class, String.class, long.class,
 			String.class, boolean.class, String.class, String.class,
-			String.class, long.class
+			String.class, long.class, java.util.List.class
 		};
 	private static final Class<?>[] _getFavoritesPoisParameterTypes10 =
-		new Class[] {long.class, String.class, String.class};
+		new Class[] {
+			long.class, String.class, String.class, java.util.List.class
+		};
 	private static final Class<?>[] _hidePortletParameterTypes11 = new Class[] {
 		String.class
 	};

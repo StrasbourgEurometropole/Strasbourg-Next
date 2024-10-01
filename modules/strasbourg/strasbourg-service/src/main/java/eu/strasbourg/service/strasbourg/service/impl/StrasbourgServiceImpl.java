@@ -275,20 +275,22 @@ import java.util.stream.Collectors;
 	}*/
 
 		@Override
-		public JSONObject getInterestsPois(String interests, long groupId, String typeContenu, String localeId, long globalGroupId) {
+		public JSONObject getInterestsPois(String interests, long groupId, String typeContenu, String localeId,
+										   long globalGroupId, List<String> alertsArret) {
 			return getPoiService().getPois(interests, "", "", "", "",  groupId, typeContenu,
-					true, "", "", localeId, globalGroupId);
+					true, "", "", localeId, globalGroupId, alertsArret);
 		}
 
 		@Override
 		public JSONObject getCategoriesPois(String categories, String vocabulariesEmptyIds, String prefilters, String tags,
-											long groupId, String typeContenu, boolean dateField, String fromDate, String toDate, String localeId, long globalGroupId) {
+											long groupId, String typeContenu, boolean dateField, String fromDate,
+											String toDate, String localeId, long globalGroupId, List<String> alertsArret) {
 			return getPoiService().getPois("", categories, vocabulariesEmptyIds, prefilters, tags, groupId, typeContenu,
-					dateField,  fromDate, toDate, localeId, globalGroupId);
+					dateField,  fromDate, toDate, localeId, globalGroupId, alertsArret);
 		}
 
 		@Override
-		public JSONObject getFavoritesPois(long groupId, String typeContenu, String localeId) {
+		public JSONObject getFavoritesPois(long groupId, String typeContenu, String localeId, List<String> alertsArret) {
 			HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
 			boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
 			String userId = null;
@@ -296,7 +298,7 @@ import java.util.stream.Collectors;
 				userId = SessionParamUtil.getString(request, "publik_internal_id");
 			}
 
-			return getPoiService().getFavoritesPois(userId, groupId, typeContenu, localeId);
+			return getPoiService().getFavoritesPois(userId, groupId, typeContenu, localeId, alertsArret);
 		}
 
 		@Override

@@ -28,6 +28,16 @@ public class PlaceServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>eu.strasbourg.service.place.service.impl.PlaceServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+
+	/**
+	 * Retourne les horaires du jour
+	 */
+	public static com.liferay.portal.kernel.json.JSONObject getCacheJsonHoraire(
+		String sigId, String localeId) {
+
+		return getService().getCacheJsonHoraire(sigId, localeId);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONArray getEquipments()
 		throws PortalException {
 

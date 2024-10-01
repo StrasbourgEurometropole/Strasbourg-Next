@@ -47,7 +47,7 @@
         <div class="st-cover-container">
             <div class="st-wrapper-maps">
                 <a href="#skip-map-cover" class="st-btn st--btn-xs st-skip-map st-sr-only st-sr-only-focusable">Passer la carte interactive</a>
-                <div class="st-maps" role="region" aria-label="Carte interactive" data-lat="${ entry.getLatitude() }" data-lng="${ entry.getLongitude() }" data-zoom="17" data-callback="initMap">
+                <div class="st-maps" role="region" aria-label="Carte interactive" data-marker="true" data-markericon="default" data-lat="${ entry.getLatitude() }" data-lng="${ entry.getLongitude() }" data-zoom="17" data-callback="initMap">
                 </div>
                 <div id="skip-map-cover"></div>
             </div>
@@ -114,19 +114,22 @@
 
     <div class="st-container">
         <#list alerts as alert>
-        <div class="st-component st-component-type-3">
-            <div class="st-component-container">
-                <h3 class="st-title-small">
-                    <#if alert.startDate?date == alert.endDate?date>
-                        <@liferay_ui.message key="eu.event.the" /> ${alert.startDate?date?string.short?replace('/', '.')}
-                    <#else>
-                        <@liferay_ui.message key="eu.event.from-date" /> ${alert.startDate?date?string.short?replace('/', '.')} <@liferay_ui.message key="eu.event.to" /> ${alert.endDate?date?string.short?replace('/', '.')}
-                    </#if>
-                </h3>
-                <h4 class="st-title-medium">${alert.getLigneAndDirection(locale)}</h4>
-                <p>${alert.getPerturbation(locale)}</p>
+            <div class="st-component st-component-type-3">
+                <div class="st-component-container">
+                    <h3 class="st-title-small">
+                        ${alert.period.fr_FR}
+                    </h3>
+                    <div class="d-flex c-gap-2 mb-3">
+                        <#list 0 ..< alert.lines.length() as i>
+                            <span class="transport-letters-icon" style="background:#${alert.lines.get(i).bg}; color:#${alert.lines.get(i).text};">${alert.lines.get(i).line}</span>
+                        </#list>
+                    </div>
+                    <h4 class="st-title-medium mb-3">
+                        ${alert.title.fr_FR}
+                    </h4>
+                    <p>${alert.details.fr_FR}</p>
+                </div>
             </div>
-        </div>
         </#list>
     </div>
 

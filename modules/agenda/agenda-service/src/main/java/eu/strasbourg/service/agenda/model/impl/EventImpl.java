@@ -1235,12 +1235,12 @@ public class EventImpl extends EventBaseImpl {
 				+ "<br>" + this.getPlaceZipCode() + " " + this.getPlaceCity(locale));
 		properties.put("visual", this.getImageURL());
 		// récupère l'url de détail du poi
+		String url = "";
 		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
 		if (group == null) {
 			group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId(), "/strasbourg.eu");
 		}
 		if (group != null) {
-			String url = "";
 			String virtualHostName = PortalHelper.getVirtualHostname(group, Locale.FRANCE.getLanguage());
 			if (virtualHostName.isEmpty()) {
 				url = "/web" + group.getFriendlyURL() + "/";
@@ -1248,8 +1248,8 @@ public class EventImpl extends EventBaseImpl {
 				url = "https://" + virtualHostName + "/";
 			}
 			url += "evenement/-/entity/id/" + this.getEventId() + "/" + this.getNormalizedTitle(locale);
-			properties.put("url", url);
 		}
+		properties.put("url", url);
 		properties.put("sigId", this.getPlaceSIGId() + "_" + this.getEventId());
 		String types = "";
 		for (AssetCategory type : this.getTypes()) {

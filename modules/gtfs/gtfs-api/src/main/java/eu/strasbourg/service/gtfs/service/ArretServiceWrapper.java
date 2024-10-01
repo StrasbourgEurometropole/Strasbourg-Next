@@ -26,6 +26,14 @@ public class ArretServiceWrapper
 	}
 
 	/**
+	 * Recuperer les lignes qui ont des alertes
+	 */
+	@Override
+	public java.util.List<String> getAlerts() {
+		return _arretService.getAlerts();
+	}
+
+	/**
 	 * Recuperer les donnees temps real de la CTS pour un arret
 	 *
 	 * @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
