@@ -1237,6 +1237,14 @@ public class PlaceWrapper
 	 * Renvoie le JSON de l'entite au format CSMap
 	 */
 	@Override
+	public com.liferay.portal.kernel.json.JSONObject getCSMapExceptionJSON() {
+		return model.getCSMapExceptionJSON();
+	}
+
+	/**
+	 * Renvoie le JSON de l'entite au format CSMap
+	 */
+	@Override
 	public com.liferay.portal.kernel.json.JSONObject getCSMapJSON() {
 		return model.getCSMapJSON();
 	}
