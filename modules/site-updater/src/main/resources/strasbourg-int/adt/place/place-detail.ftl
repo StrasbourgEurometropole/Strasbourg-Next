@@ -760,7 +760,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                                    name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" checked>&nbsp;<@liferay_ui.message key="eu.do-you-want-a-notification" />
                                         </label>
                                     </div>
-                                    <div style="margin: 20px 0;" class="frc-captcha" data-sitekey="${propsUtil.get('eu.strasbourg.friendlycaptcha.public')}"></div>
+                                    <div style="margin: 20px 0;" class="frc-captcha"
+                                         data-puzzle-endpoint="${propsUtil.get('eu.strasbourg.friendlycaptcha.puzzle.url')}"
+                                         data-sitekey="${propsUtil.get('eu.strasbourg.friendlycaptcha.public')}"></div>
                                     <div style="padding-top: 20px; padding-bottom: 20px;">
                                         <@liferay_ui.message key="contact.default-privacy" />
                                     </div>

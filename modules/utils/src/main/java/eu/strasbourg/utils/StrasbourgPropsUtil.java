@@ -28,6 +28,10 @@ public class StrasbourgPropsUtil {
 		return PropsUtil.get("eu.strasbourg.friendlycaptcha.url");
 	}
 
+	public static String getFriendlycaptchaPuzzleURL() {
+		return PropsUtil.get("eu.strasbourg.friendlycaptcha.puzzle.url");
+	}
+
 	public static String getAgendaImportMails() {
 		return PropsUtil.get("eu.strasbourg.agenda.mail");
 	}

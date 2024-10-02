@@ -241,7 +241,9 @@
                         </div>
 
                         <div>
-                            <div id="recaptcha-contact" class="frc-captcha" data-sitekey="${propsUtil.get('eu.strasbourg.friendlycaptcha.public')}"></div>
+                            <div id="recaptcha-contact" class="frc-captcha"
+                                 data-puzzle-endpoint="${propsUtil.get('eu.strasbourg.friendlycaptcha.puzzle.url')}"
+                                 data-sitekey="${propsUtil.get('eu.strasbourg.friendlycaptcha.public')}"></div>
                         </div>
 
                         <div class="st-text-mentions">

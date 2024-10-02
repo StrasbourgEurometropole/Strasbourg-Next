@@ -49,7 +49,9 @@
 	                    </label>
 	                </div>
 	                <div class="recaptcha" style="margin-top: 20px;">
-	                	<div class="frc-captcha" data-sitekey="${friendlycaptcha}"></div>
+	                	<div class="frc-captcha"
+							 data-puzzle-endpoint="${friendlycaptchaPuzzleURL}"
+							 data-sitekey="${friendlycaptcha}"></div>
 	                </div>
 	                <div class="mns-submit">
 	                    <span></span>

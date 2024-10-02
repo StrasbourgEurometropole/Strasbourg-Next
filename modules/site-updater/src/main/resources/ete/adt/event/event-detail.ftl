@@ -172,7 +172,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                             </label>
                                         </div>
                                         <div class="recaptcha" style="margin-top: 20px;">
-                                            <div class="frc-captcha" data-sitekey="${propsUtil.get('eu.strasbourg.friendlycaptcha.public')}"></div>
+                                            <div class="frc-captcha"
+                                                 data-puzzle-endpoint="${propsUtil.get('eu.strasbourg.friendlycaptcha.puzzle.url')}"
+                                                 data-sitekey="${propsUtil.get('eu.strasbourg.friendlycaptcha.public')}"></div>
                                         </div>
                                         <div class="mns-submit">
                                             <span></span>
