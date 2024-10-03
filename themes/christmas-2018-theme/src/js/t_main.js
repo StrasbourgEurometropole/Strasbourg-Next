@@ -2550,7 +2550,6 @@ $(window).on("load",function() {
 // Service Facebook Pixel
 tarteaucitron.user.facebookpixelId = '1023621684487107'; tarteaucitron.user.facebookpixelMore = function () { /* add here your optionnal facebook pixel function */ };
 (tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
-
 function isTouchDevice() {
     return 'ontouchstart' in document.documentElement;
 }
