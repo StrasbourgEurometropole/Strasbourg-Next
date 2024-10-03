@@ -1,12 +1,14 @@
 package eu.strasbourg.utils.api;
 
 import aQute.bnd.annotation.ProviderType;
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 import java.io.File;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -44,4 +46,6 @@ public interface FileEntryHelperService {
 	public String getRandomFileURLByGroupIdAndFolderName(long groupId, String nomRepertoire);
 
     String getFileExtension(long fileEntryId);
+
+	public  List<String[]> getFilesInfos(List<AssetEntry> entries, Locale locale);
 }
