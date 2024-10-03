@@ -84,6 +84,11 @@ public class ContactFormPortlet extends MVCPortlet {
 			String friendlycaptcha = StrasbourgPropsUtil.getFriendlycaptchaPublicKey();
 			renderRequest.setAttribute("friendlycaptcha", friendlycaptcha);
 
+			// URL puzzle friendlycaptcha
+			String friendlycaptchaPuzzleURL = StrasbourgPropsUtil.getFriendlycaptchaPuzzleURL();
+			renderRequest.setAttribute("friendlycaptchaPuzzleURL", friendlycaptchaPuzzleURL);
+
+
 			if (Validator.isNull(email) || Validator.isNull(template)) {
 				include("/no-config.jsp", renderRequest, renderResponse);
 			} else {

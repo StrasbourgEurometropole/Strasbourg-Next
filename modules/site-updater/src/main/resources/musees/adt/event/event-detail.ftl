@@ -201,7 +201,9 @@
                 name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" checked>&nbsp;<@liferay_ui.message key="eu.do-you-want-a-notification" />
               </label>
             </div>
-            <div class="frc-captcha" data-sitekey="${propsUtil.get('eu.strasbourg.friendlycaptcha.public')}"></div>
+            <div class="frc-captcha"
+                 data-puzzle-endpoint="${propsUtil.get('eu.strasbourg.friendlycaptcha.puzzle.url')}"
+                 data-sitekey="${propsUtil.get('eu.strasbourg.friendlycaptcha.public')}"></div>
             <p>
               <a href="#" onclick="document.querySelector('#contactForm').submit();" class="button1" aria-label="<@liferay_ui.message key="send" />" title="<@liferay_ui.message key="send" />"><@liferay_ui.message key="send" /></a>
             </p>

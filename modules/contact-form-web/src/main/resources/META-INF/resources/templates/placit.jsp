@@ -61,7 +61,9 @@
 	                    </div>
 
 						<div class="recaptcha">
-							<div class="frc-captcha" data-sitekey="${friendlycaptcha}"></div>
+							<div class="frc-captcha"
+								 data-puzzle-endpoint="${friendlycaptchaPuzzleURL}"
+								 data-sitekey="${friendlycaptcha}"></div>
 						</div>
 	                </div>
 	            </div>

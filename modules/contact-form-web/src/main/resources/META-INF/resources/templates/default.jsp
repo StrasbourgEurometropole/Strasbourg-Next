@@ -65,7 +65,9 @@
 
 			<div class="st-group-field st-col-12@t-small">
 				<div class="recaptcha" style="margin-top: 20px;">
-					<div class="frc-captcha" id="friendlycaptcha-contact-form" data-sitekey="${friendlycaptcha}"></div>
+					<div class="frc-captcha" id="friendlycaptcha-contact-form"
+						 data-puzzle-endpoint="${friendlycaptchaPuzzleURL}"
+						 data-sitekey="${friendlycaptcha}"></div>
 				</div>
 			</div>
 
