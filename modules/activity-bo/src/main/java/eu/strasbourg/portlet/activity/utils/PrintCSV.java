@@ -45,7 +45,7 @@ public class PrintCSV {
 				timestamp.getTime());
 		folder.mkdirs();
 
-		// on récupère toutes les associations
+		// on rï¿½cupï¿½re toutes les associations
 		List<Association> associations = AssociationLocalServiceUtil.getAssociations(-1,-1).stream()
 				.filter(a -> a.getStatus() == WorkflowConstants.STATUS_APPROVED).collect(Collectors.toList());
 		printAssociationsCSV(folder, associations);
@@ -54,32 +54,32 @@ public class PrintCSV {
 	}
 
 	public static void printAssociationsCSV(File folder, List<Association> associations) {
-		// Création du fichier practices.csv
+		// Crï¿½ation du fichier practices.csv
 		StringBundler practicesCsv = new StringBundler();
 		String practicesFileName = "practices.csv";
 		File practicesCSV = new File(folder.getAbsolutePath() + "/" + practicesFileName);
 		practicesCSV.getParentFile().mkdirs();
-		practicesCsv.append("Id;Domaine de pratique;Accessibilité de pratique;Public de pratique;Territoire;Id Association");
+		practicesCsv.append("Id;Domaine de pratique;Accessibilite de pratique;Public de pratique;Territoire;Id Association");
 		practicesCsv.append(CharPool.NEW_LINE);
 
-		// Création du fichier associations.csv
+		// Crï¿½ation du fichier associations.csv
 		StringBundler associationsCsv = new StringBundler();
 		String associationsFileName = "associations.csv";
 		File associationsCSV = new File(folder.getAbsolutePath() + "/" + associationsFileName);
 		associationsCSV.getParentFile().mkdirs();
 
 		// Remplissage du fichier associations.csv
-		associationsCsv.append("Id;Nom;Pr\\u00E9sentation;T\\u00E9l\\u00E9phone;URL;Email;Facebook;Autres");
+		associationsCsv.append("Id;Nom;Presentation;Telephone;URL;Email;Facebook;Autres");
 		associationsCsv.append(CharPool.NEW_LINE);
 		for (Association association : associations) {
 			associationsCsv.append(association.getAssociationId());
 			associationsCsv.append(";" + association.getName(Locale.FRANCE));
-			associationsCsv.append(";" + association.getPresentation(Locale.FRANCE));
+			associationsCsv.append(";\"" + association.getPresentation(Locale.FRANCE).replace("\"","\"\"") + "\"");
 			associationsCsv.append(";" + association.getPhone());
 			associationsCsv.append(";" + association.getSiteURL(Locale.FRANCE));
 			associationsCsv.append(";" + association.getMail());
 			associationsCsv.append(";" + association.getFacebookURL(Locale.FRANCE));
-			associationsCsv.append(";" + association.getOthersInformations(Locale.FRANCE));
+			associationsCsv.append(";\"" + association.getOthersInformations(Locale.FRANCE).replace("\"","\"\"") + "\"");
 			associationsCsv.append(CharPool.NEW_LINE);
 
 			// Ajoute les pratiques de l'association au fichier practices.csv
@@ -87,7 +87,7 @@ public class PrintCSV {
 		}
 
 		// enregistrement du fichier associations.csv
-		byte[] bytes = associationsCsv.toString().replace('.', ',').getBytes();
+		byte[] bytes = associationsCsv.toString().getBytes();
 		FileOutputStream fos;
 		try {
 			fos = new FileOutputStream(associationsCSV);
@@ -112,7 +112,7 @@ public class PrintCSV {
 
 	public static void printPracticesCSV(List<Practice> practices, StringBundler practicesCsv){
 		for (Practice practice : practices) {
-			practicesCsv.append(";" + practice.getPracticeId());
+			practicesCsv.append(practice.getPracticeId());
 			practicesCsv.append(";" + (Validator.isNotNull(practice.getPractice())?practice.getPractice().getName():""));
 			String accessibilities = practice.getAccessibilities().stream()
 					.map(assetCategory -> assetCategory.getName())
