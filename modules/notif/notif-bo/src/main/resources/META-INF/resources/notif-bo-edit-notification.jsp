@@ -71,23 +71,7 @@
                     <liferay-ui:message key="this-field-is-required" />
                 </div>
 
-                <%-- Champ : Date de diffusion --%>
-                <aui:input cssClass="hasTime" name="broadcastDate" label="eu.strasbourg.notif.broadcast-date" required="true" disabled="${dc.isOnlyView()}" />
-                <!-- Hack pour ajouter une validation -->
-                <div class="has-error form-group">
-                    <aui:input type="hidden" name="broadcastDateValidatorInputHelper" value="placeholder" >
-                        <aui:validator name="custom" errorMessage="this-field-is-required">
-                            function (val, fieldNode, ruleValue) {
-                                var validate = document.getElementById('_eu_strasbourg_portlet_notif_NotifBOPortlet_broadcastDate').value.length > 0;
-                                if (!validate) {
-                                    document.getElementById("_eu_strasbourg_portlet_notif_NotifBOPortlet_broadcastDate").scrollIntoView();
-                                    event.preventDefault();
-                                }
-                                return validate;
-                            }
-                        </aui:validator>
-                    </aui:input>
-                </div>
+
 
             </aui:fieldset>
 
@@ -187,6 +171,24 @@
                 </aui:select>
                 <div id="broadcastChannels-error" style="display: none">
                     <liferay-ui:message key="this-field-is-required" />
+                </div>
+
+                <%-- Champ : Date de diffusion --%>
+                <aui:input cssClass="hasTime" name="broadcastDate" label="eu.strasbourg.notif.broadcast-date" required="true" disabled="${dc.isOnlyView()}" />
+                <!-- Hack pour ajouter une validation -->
+                <div class="has-error form-group">
+                    <aui:input type="hidden" name="broadcastDateValidatorInputHelper" value="placeholder" >
+                        <aui:validator name="custom" errorMessage="this-field-is-required">
+                            function (val, fieldNode, ruleValue) {
+                            var validate = document.getElementById('_eu_strasbourg_portlet_notif_NotifBOPortlet_broadcastDate').value.length > 0;
+                            if (!validate) {
+                            document.getElementById("_eu_strasbourg_portlet_notif_NotifBOPortlet_broadcastDate").scrollIntoView();
+                            event.preventDefault();
+                            }
+                            return validate;
+                            }
+                        </aui:validator>
+                    </aui:input>
                 </div>
 
             </aui:fieldset>
