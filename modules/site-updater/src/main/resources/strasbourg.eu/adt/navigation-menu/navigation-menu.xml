@@ -37,4 +37,14 @@
         <name>Menu Generique Mobile</name>
         <key>menu-mobile-generic</key>
     </template>
+    <template>
+        <script>pre-header.ftl</script>
+        <name>Menu Pre Header Generique</name>
+        <key>pre-header-menu</key>
+    </template>
+    <template>
+        <script>pre-header-mobile.ftl</script>
+        <name>Menu Pre Header Generique Mobile</name>
+        <key>pre-header-menu-mobile</key>
+    </template>
 </root>
