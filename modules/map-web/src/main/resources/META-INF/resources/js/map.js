@@ -1077,7 +1077,7 @@
             });
 
             // récupération des alertes gtfs
-            var alertsArret;
+            var alertsArret = new Array();
             if(window.typesContenu.includes("eu.strasbourg.service.gtfs.model.Arret")){
                 Liferay.Service(
                     '/gtfs.arret/get-alerts', {},
@@ -1088,6 +1088,9 @@
                         showPois();
                     }
                 );
+            } else{
+                // Affichage des POIs
+                showPois();
             }
             if (window.isWidgetMode) {
                 ame.close_panel_side();
