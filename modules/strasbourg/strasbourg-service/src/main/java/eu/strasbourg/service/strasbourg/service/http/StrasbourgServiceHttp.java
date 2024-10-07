@@ -205,7 +205,8 @@ public class StrasbourgServiceHttp {
 	public static com.liferay.portal.kernel.json.JSONObject getInterestsPois(
 		HttpPrincipal httpPrincipal, String interests, long groupId,
 		String typeContenu, String localeId, long globalGroupId,
-		java.util.List<String> alertsArret) {
+		java.util.List<String> alertsArret, long territoryVocabularyId,
+		long placeTypeVocabularyId, long eventTypeVocabularyId) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -214,7 +215,8 @@ public class StrasbourgServiceHttp {
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, interests, groupId, typeContenu, localeId,
-				globalGroupId, alertsArret);
+				globalGroupId, alertsArret, territoryVocabularyId,
+				placeTypeVocabularyId, eventTypeVocabularyId);
 
 			Object returnObj = null;
 
@@ -242,7 +244,8 @@ public class StrasbourgServiceHttp {
 		String vocabulariesEmptyIds, String prefilters, String tags,
 		long groupId, String typeContenu, boolean dateField, String fromDate,
 		String toDate, String localeId, long globalGroupId,
-		java.util.List<String> alertsArret) {
+		java.util.List<String> alertsArret, long territoryVocabularyId,
+		long placeTypeVocabularyId, long eventTypeVocabularyId) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -252,7 +255,8 @@ public class StrasbourgServiceHttp {
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, categories, vocabulariesEmptyIds, prefilters, tags,
 				groupId, typeContenu, dateField, fromDate, toDate, localeId,
-				globalGroupId, alertsArret);
+				globalGroupId, alertsArret, territoryVocabularyId,
+				placeTypeVocabularyId, eventTypeVocabularyId);
 
 			Object returnObj = null;
 
@@ -277,7 +281,9 @@ public class StrasbourgServiceHttp {
 
 	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
 		HttpPrincipal httpPrincipal, long groupId, String typeContenu,
-		String localeId, java.util.List<String> alertsArret) {
+		String localeId, java.util.List<String> alertsArret,
+		long territoryVocabularyId, long placeTypeVocabularyId,
+		long eventTypeVocabularyId) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
@@ -285,7 +291,9 @@ public class StrasbourgServiceHttp {
 				_getFavoritesPoisParameterTypes10);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, groupId, typeContenu, localeId, alertsArret);
+				methodKey, groupId, typeContenu, localeId, alertsArret,
+				territoryVocabularyId, placeTypeVocabularyId,
+				eventTypeVocabularyId);
 
 			Object returnObj = null;
 
@@ -810,17 +818,19 @@ public class StrasbourgServiceHttp {
 	private static final Class<?>[] _getInterestsPoisParameterTypes8 =
 		new Class[] {
 			String.class, long.class, String.class, String.class, long.class,
-			java.util.List.class
+			java.util.List.class, long.class, long.class, long.class
 		};
 	private static final Class<?>[] _getCategoriesPoisParameterTypes9 =
 		new Class[] {
 			String.class, String.class, String.class, String.class, long.class,
 			String.class, boolean.class, String.class, String.class,
-			String.class, long.class, java.util.List.class
+			String.class, long.class, java.util.List.class, long.class,
+			long.class, long.class
 		};
 	private static final Class<?>[] _getFavoritesPoisParameterTypes10 =
 		new Class[] {
-			long.class, String.class, String.class, java.util.List.class
+			long.class, String.class, String.class, java.util.List.class,
+			long.class, long.class, long.class
 		};
 	private static final Class<?>[] _hidePortletParameterTypes11 = new Class[] {
 		String.class

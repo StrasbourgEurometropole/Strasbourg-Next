@@ -569,7 +569,7 @@
             var requestsInProgress = 0;
 
             // Ajoute à la liste des markers ceux des favoris
-            var addFavoriteMarkers = function(markers, alertsArret) {
+            var addFavoriteMarkers = function(markers) {
                 requestsInProgress++;
                 showLoadingIcon();
                 Liferay.Service(
@@ -577,7 +577,10 @@
                         groupId: window.groupId,
                         typeContenu: window.typesContenu,
                         localeId: Liferay.ThemeDisplay.getLanguageId(),
-                        alertsArret: alertsArret
+                        alertsArret: alertsArret,
+                        territoryVocabularyId: territoryVocabularyId,
+                        placeTypeVocabularyId: placeTypeVocabularyId,
+                        eventTypeVocabularyId: eventTypeVocabularyId
                     },
                     function(data) {
                         try {
@@ -596,7 +599,7 @@
             }
 
             // Ajoute à la liste des markers ceux des catégories
-            var addCategoriesMarkers = function(markers, categories, vocabulariesEmptyIds, alertsArret) {
+            var addCategoriesMarkers = function(markers, categories, vocabulariesEmptyIds) {
                 requestsInProgress++;
                 showLoadingIcon();
                 ame.$filters_dates;
@@ -613,7 +616,10 @@
                         toDate: $(ame.$filters_dates)[1]!=undefined?$(ame.$filters_dates)[1].value:'',
                         localeId: Liferay.ThemeDisplay.getLanguageId(),
                         globalGroupId: window.globalGroupId,
-                        alertsArret: alertsArret
+                        alertsArret: alertsArret,
+                        territoryVocabularyId: territoryVocabularyId,
+                        placeTypeVocabularyId: placeTypeVocabularyId,
+                        eventTypeVocabularyId: eventTypeVocabularyId
                     },
                     function(data) {
                         // Convertion des données geoJSON en marker
@@ -632,7 +638,7 @@
             }
 
             // Ajoute à la liste des markers ceux des centres d'intérêt
-            var addInterestsMarkers = function(markers, interests, alertsArret) {
+            var addInterestsMarkers = function(markers, interests) {
                 requestsInProgress++;
                 showLoadingIcon();
                 Liferay.Service(
@@ -642,7 +648,10 @@
                         typeContenu: window.typesContenu,
                         localeId: Liferay.ThemeDisplay.getLanguageId(),
                         globalGroupId: window.globalGroupId,
-                        alertsArret: alertsArret
+                        alertsArret: alertsArret,
+                        territoryVocabularyId: territoryVocabularyId,
+                        placeTypeVocabularyId: placeTypeVocabularyId,
+                        eventTypeVocabularyId: eventTypeVocabularyId
                     },
                     function(data) {
                         // Convertion des données geoJSON en marker
@@ -774,7 +783,7 @@
 
                 // Récupération des données concernant les catégories
                 if (categories.length > 0) {
-                    addCategoriesMarkers(markers, categories, vocabulariesEmptyIds, alertsArret);
+                    addCategoriesMarkers(markers, categories, vocabulariesEmptyIds);
                 }
 
                 // Récupération des centres d'intérêts à afficher
@@ -796,13 +805,13 @@
 
                 // Récupération des données concernant les centres d'intérêt
                 if (interests.length > 0) {
-                    addInterestsMarkers( markers, interests, alertsArret);
+                    addInterestsMarkers( markers, interests);
                 }
 
                 // Récupération des données concernant les favoris
                 if ((window.isWidgetMode && window.showFavoritesByDefault)
                     || (ame.$showFavoritesFilter.length && ame.$showFavoritesFilter.is(':checked'))) {
-                    addFavoriteMarkers(markers, alertsArret);
+                    addFavoriteMarkers(markers);
                 }
 
                 // Récupération des données concernant le trafic et les alertes
@@ -1078,20 +1087,45 @@
 
             // récupération des alertes gtfs
             var alertsArret = new Array();
-            if(window.typesContenu.includes("eu.strasbourg.service.gtfs.model.Arret")){
-                Liferay.Service(
-                    '/gtfs.arret/get-alerts', {},
-                    function(data) {
-                        alertsArret = data;
+            var territoryVocabularyId = -1;
+            var placeTypeVocabularyId = -1;
+            var eventTypeVocabularyId = -1;
+            Liferay.Service(
+                '/assetvocabulary/get-groups-vocabularies', {
+                    groupIds:[window.globalGroupId]
+                },
+                function(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var vocabulary = data[i];
+                        switch (vocabulary.name) {
+                            case "Territoire":
+                                territoryVocabularyId = vocabulary.vocabularyId;
+                                break;
+                            case "Type de lieu":
+                                placeTypeVocabularyId = vocabulary.vocabularyId;
+                                break;
+                            case "Type Agenda" :
+                                eventTypeVocabularyId = vocabulary.vocabularyId;
+                                break;
+                        }
+                    }
 
+                    if (window.typesContenu.includes("eu.strasbourg.service.gtfs.model.Arret")) {
+                        Liferay.Service(
+                            '/gtfs.arret/get-alerts', {},
+                            function (data) {
+                                alertsArret = data;
+
+                                // Affichage des POIs
+                                showPois();
+                            }
+                        );
+                    } else {
                         // Affichage des POIs
                         showPois();
                     }
-                );
-            } else{
-                // Affichage des POIs
-                showPois();
-            }
+                }
+            );
             if (window.isWidgetMode) {
                 ame.close_panel_side();
             }

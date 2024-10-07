@@ -276,21 +276,26 @@ import java.util.stream.Collectors;
 
 		@Override
 		public JSONObject getInterestsPois(String interests, long groupId, String typeContenu, String localeId,
-										   long globalGroupId, List<String> alertsArret) {
+										   long globalGroupId, List<String> alertsArret, long territoryVocabularyId,
+										   long placeTypeVocabularyId, long eventTypeVocabularyId) {
 			return getPoiService().getPois(interests, "", "", "", "",  groupId, typeContenu,
-					true, "", "", localeId, globalGroupId, alertsArret);
+					true, "", "", localeId, globalGroupId, alertsArret, territoryVocabularyId,
+					placeTypeVocabularyId, eventTypeVocabularyId);
 		}
 
 		@Override
 		public JSONObject getCategoriesPois(String categories, String vocabulariesEmptyIds, String prefilters, String tags,
 											long groupId, String typeContenu, boolean dateField, String fromDate,
-											String toDate, String localeId, long globalGroupId, List<String> alertsArret) {
+											String toDate, String localeId, long globalGroupId, List<String> alertsArret,
+											long territoryVocabularyId, long placeTypeVocabularyId, long eventTypeVocabularyId) {
 			return getPoiService().getPois("", categories, vocabulariesEmptyIds, prefilters, tags, groupId, typeContenu,
-					dateField,  fromDate, toDate, localeId, globalGroupId, alertsArret);
+					dateField,  fromDate, toDate, localeId, globalGroupId, alertsArret, territoryVocabularyId, placeTypeVocabularyId,
+					eventTypeVocabularyId);
 		}
 
 		@Override
-		public JSONObject getFavoritesPois(long groupId, String typeContenu, String localeId, List<String> alertsArret) {
+		public JSONObject getFavoritesPois(long groupId, String typeContenu, String localeId, List<String> alertsArret,
+										   long territoryVocabularyId, long placeTypeVocabularyId, long eventTypeVocabularyId) {
 			HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
 			boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
 			String userId = null;
@@ -298,7 +303,8 @@ import java.util.stream.Collectors;
 				userId = SessionParamUtil.getString(request, "publik_internal_id");
 			}
 
-			return getPoiService().getFavoritesPois(userId, groupId, typeContenu, localeId, alertsArret);
+			return getPoiService().getFavoritesPois(userId, groupId, typeContenu, localeId, alertsArret, territoryVocabularyId,
+					placeTypeVocabularyId, eventTypeVocabularyId);
 		}
 
 		@Override
