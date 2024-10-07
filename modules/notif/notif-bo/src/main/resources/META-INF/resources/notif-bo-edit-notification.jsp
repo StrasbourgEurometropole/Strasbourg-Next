@@ -59,6 +59,7 @@
                 <%-- Champ : Alerte --%>
                 <aui:input type="checkbox" value="1" name="notificationType" label="eu.strasbourg.notif.alerte"
                     checked="${not empty dc.notification and dc.notification.isAlert == 1}" disabled="${dc.isOnlyView()}" />
+                <div class="text-alert-warning"><liferay-ui:message key="eu.strasbourg.notification.alert.warning" /></div>
 
                 <%-- Champ : Nature   --%>
                 <aui:select cssClass="toCustomSelect" id="nature" name="nature" label="eu.strasbourg.notif.nature" required="true" disabled="${dc.isOnlyView()}" >
