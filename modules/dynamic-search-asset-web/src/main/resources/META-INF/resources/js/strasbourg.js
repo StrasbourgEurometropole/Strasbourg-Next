@@ -361,7 +361,7 @@ function addPopulateList(data) {
 
     var resultDisplay = document.getElementById('results-display');
     var seeMore = document.getElementById('see-more');
-    var nbResults = parseInt(document.getElementById('nb-results').value) + parseInt(data.find(item => item.displayResult).displayResult, 10);
+    var nbResults = parseInt(data.find(item => item.displayResult).displayResult, 10);
     document.getElementById('nb-results').value = nbResults;
     if(totalResult > nbResults) {
         resultDisplay.innerHTML = Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-result-display-x')
