@@ -1,4 +1,14 @@
 {
-	"fieldSets": [
-	]
+  "fieldSets": [
+    {
+      "fields": [
+        {
+          "name": "showLanguage",
+          "label": "Afficher le selecteur de langue",
+          "type": "checkbox",
+          "defaultValue": false
+        }
+      ]
+    }
+  ]
 }

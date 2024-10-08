@@ -85,7 +85,8 @@
 		margin-bottom: 30px;
 
 		@include mobile {
-			margin-bottom: 20px;
+			margin-bottom: 10px;
+			margin-top: 10px;
 		}
 
 		* + .st-title-overlay {

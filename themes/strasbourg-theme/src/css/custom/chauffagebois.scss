@@ -2,7 +2,7 @@
   .pre-header {
     background: $c_greydark;
     .st-barre-inner-container {
-      height: 44px;
+      height: 66px;
     }
   }
   .nav-bar {
@@ -51,11 +51,18 @@
           transform: translateX(-50%);
         }
       }
-
     }
-
   }
+}
 
 
+@media screen and (max-width: 599px) {
+      .st-overlay-menu-generic.st-overlay .st-overlay__heading {
+      margin-bottom: 10px;
+      margin-top: 25px;
+    }
+}
 
+.st-overlay-menu-generic.st-overlay-menu .st-nav-menu .st-nav-menu__link {
+    padding: 5px 0 0 20px;
 }
