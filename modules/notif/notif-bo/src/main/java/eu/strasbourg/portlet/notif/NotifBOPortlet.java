@@ -62,7 +62,7 @@ import static eu.strasbourg.portlet.notif.constants.NotifConstants.*;
 		"com.liferay.portlet.layout-cacheable=true",
 		"com.liferay.portlet.single-page-application=false",
 		"javax.portlet.init-param.template-path=/META-INF/resources/",
-		"javax.portlet.init-param.view-template=/notif-bo-view-services.jsp",
+		"javax.portlet.init-param.view-template=/notif-bo-view-notifications.jsp",
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
 	},
@@ -159,7 +159,7 @@ public class NotifBOPortlet extends MVCPortlet {
 					break;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			_log.error(e);
 		}
 
 
@@ -173,59 +173,6 @@ public class NotifBOPortlet extends MVCPortlet {
 			portletDisplay.setShowBackIcon(true);
 			portletDisplay.setURLBack(backURL);
 		}
-		// If we are on the Session, we add the corresponding
-		// display context
-	/*	if (cmd.equals("editService") || mvcPath.equals("/notif-bo-edit-service.jsp") || fromAjaxNature || fromAjaxMessage) {
-			long serviceId = ParamUtil.getLong(renderRequest, "serviceId");
-			ServiceNotif service = null;
-			List<NatureNotif> natures = new ArrayList<>();
-			List<Message> messages = new ArrayList<>();
-			if (serviceId > 0) {
-				service = _serviceNotifLocalService.fetchServiceNotif(serviceId);
-				natures = _natureNotifLocalService.getByServiceId(service.getServiceId());
-				messages = _messageLocalService.getByServiceId(service.getServiceId());
-			}
-
-			EditServiceDisplayContext dc = new EditServiceDisplayContext(renderRequest, service, natures, messages);
-			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("editNotification") || mvcPath.equals("/notif-bo-edit-notification.jsp")) {
-			long notificationId = ParamUtil.getLong(renderRequest, "notificationId");
-			Notification notification = null;
-			if (notificationId > 0) {
-				notification = _notificationLocalService.fetchNotification(notificationId);
-			}
-			List<ServiceNotif> services = new ArrayList<>();
-			try {
-				long[] organisationIds = themeDisplay.getUser().getOrganizationIds();
-				if(Validator.isNotNull(organisationIds) && organisationIds.length > 0)
-					services = _serviceNotifLocalService.getByOrganisationIds(organisationIds);
-			} catch (PortalException e) {
-				_log.error(e.getMessage() + " : "+ themeDisplay.getUser());
-			}
-			List<NatureNotif> natures = _natureNotifLocalService.getNatureNotifs(-1, -1);
-			List<Message> messages = _messageLocalService.getMessages(-1, -1);
-
-			EditNotificationDisplayContext dc = new EditNotificationDisplayContext(renderRequest, notification, services,
-					natures, messages);
-			renderRequest.setAttribute("dc", dc);
-
-		} else if (cmd.equals("notificationsByInProgress")) {
-			ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.IN_PROGRESS);
-			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("notificationsByToCome")) {
-			ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.TO_COME);
-			renderRequest.setAttribute("dc", dc);
-		} else if (cmd.equals("notificationsByPast")) {
-			ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.PAST);
-			renderRequest.setAttribute("dc", dc);
-		} else if (tab.equals("notifications") || !this.isAdminNotification()) {
-			ViewNotificationsDisplayContext dc = new ViewNotificationsDisplayContext(renderRequest, renderResponse, NotifConstants.ALL);
-			renderRequest.setAttribute("dc", dc);
-		} else {
-			ViewServicesDisplayContext dc = new ViewServicesDisplayContext(
-					renderRequest, renderResponse);
-			renderRequest.setAttribute("dc", dc);
-		}*/
 
 		// Admin Notif ou pas
 		renderRequest.setAttribute("isAdminNotification", this.isAdminNotification());

@@ -30,7 +30,7 @@ public class NavigationBarDisplayContext {
         this.selectedTab = Optional
                 .ofNullable(ParamUtil.getString(request, URL_PARAM_TAB))
                 .filter(Validator::isNotNull)
-                .orElse(SERVICES);
+                .orElse(NOTIFICATIONS);
         this.selectedCmd = Optional
                 .ofNullable(ParamUtil.getString(request, URL_PARAM_CMD))
                 .filter(Validator::isNotNull)
@@ -56,17 +56,17 @@ public class NavigationBarDisplayContext {
     public List<NavigationItem> getNavigationItems() {
         List<NavigationItem> navigationItems = new ArrayList<>();
 
-        NavigationItem serviceItem = new NavigationItem();
-        serviceItem.setLabel(LanguageUtil.get(bundle, "services"));
-        serviceItem.setActive(this.selectedTab.equals(SERVICES));
-        serviceItem.setHref(this.response.createRenderURL(), URL_PARAM_TAB, SERVICES, URL_PARAM_MVCPATH, SERVICES_PATH);
-        navigationItems.add(serviceItem);
-
         NavigationItem notificationItem = new NavigationItem();
         notificationItem.setLabel(LanguageUtil.get(bundle, "notifications"));
         notificationItem.setActive(this.selectedTab.equals(NOTIFICATIONS));
         notificationItem.setHref(this.response.createRenderURL(), URL_PARAM_TAB, NOTIFICATIONS, URL_PARAM_MVCPATH, NOTIFICATIONS_PATH);
         navigationItems.add(notificationItem);
+
+        NavigationItem serviceItem = new NavigationItem();
+        serviceItem.setLabel(LanguageUtil.get(bundle, "services"));
+        serviceItem.setActive(this.selectedTab.equals(SERVICES));
+        serviceItem.setHref(this.response.createRenderURL(), URL_PARAM_TAB, SERVICES, URL_PARAM_MVCPATH, SERVICES_PATH);
+        navigationItems.add(serviceItem);
 
 
         return navigationItems;
