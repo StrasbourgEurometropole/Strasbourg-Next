@@ -1504,15 +1504,44 @@ public class PlaceImpl extends PlaceBaseImpl {
      * Renvoie le JSON de l'entite au format GeoJSON pour la map
      */
     @Override
-    public JSONObject getGeoJSON(long groupId, Locale locale) {
+    public JSONObject getGeoJSON(long groupId, Locale locale, long territoryVocabularyId, long placeTypeVocabularyId) {
+        // récupération de la ville, du type de lieu et du premier icon qu'on trouve
+        String city = "";
+        String types = "";
+        String icon = "";
+        List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
+        for (AssetCategory assetCategory : assetCategories) {
+            try {
+                if (assetCategory.getVocabularyId() == territoryVocabularyId && assetCategory.getAncestors().size() == 1) {
+                    AssetCategory cityCategory = assetCategory;
+                    if (cityCategory != null) {
+                        city =  cityCategory.getTitle(locale);
+                    }
+                }
+                if (assetCategory.getVocabularyId() == placeTypeVocabularyId) {
+                    if (types.length() > 0) {
+                        types += ", ";
+                    }
+                    types += assetCategory.getTitle(locale);
+                }
+                if (icon == "" && !assetCategory.getDescription(locale).isEmpty()) {
+                    icon = assetCategory.getDescription(locale);
+                }
+            } catch (PortalException e) {
+                continue;
+            }
+        }
+
         NumberFormat nf = NumberFormat.getInstance(locale);
 
         JSONObject feature = JSONFactoryUtil.createJSONObject();
         feature.put("type", "Feature");
+
         JSONObject properties = JSONFactoryUtil.createJSONObject();
         properties.put("name", this.getAlias(locale));
-        properties.put("address", this.getAddressStreet() + " " + this.getAddressComplement() + "<br>"
-                + this.getAddressZipCode() + " " + this.getCity(locale));
+        String address = this.getAddressStreet() + " " + this.getAddressComplement() + "<br>"
+                + this.getAddressZipCode() + " " + city;
+        properties.put("address", address);
         properties.put("visual", this.getImageURL());
         // récupère l'url de détail du poi
         Group group = GroupLocalServiceUtil.fetchGroup(groupId);
@@ -1532,35 +1561,15 @@ public class PlaceImpl extends PlaceBaseImpl {
         properties.put("url", url);
         // gestion des doublons
         properties.put("sigId", this.getSIGid());
-        String types = "";
-        // type de lieu
-        List<AssetCategory> categories = this.getTypes();
-        for (AssetCategory assetCategory : categories) {
-            if (types.length() > 0) {
-                types += ", ";
-            }
-            types += assetCategory.getTitle(locale);
-
-        }
         properties.put("listeTypes", types);
-
         // bouton favoris
         properties.put("type", "1");
         properties.put("id", this.getPlaceId());
-
         // contenu du tooltip carto
         if(!this.getContenuTooltipCarto(locale).isEmpty()){
             properties.put("contenu", this.getContenuTooltipCarto(locale));
         }
-
         // Icône
-        String icon = "";
-        for (AssetCategory category : categories) {
-            if (!category.getDescription(locale).isEmpty()) {
-                icon = category.getDescription(locale);
-                break;
-            }
-        }
         properties.put("icon", icon);
         // Temps réel
         if (this.getRTEnabled()) {
@@ -1602,7 +1611,6 @@ public class PlaceImpl extends PlaceBaseImpl {
             amountProperty.put("color", color);
             properties.put("amount", amountProperty);
         }
-
         feature.put("properties", properties);
 
         JSONObject geometry = JSONFactoryUtil.createJSONObject();
@@ -1612,6 +1620,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         coordinates.put(Float.valueOf(this.getMercatorY()));
         geometry.put("coordinates", coordinates);
         feature.put("geometry", geometry);
+
         return feature;
     }
     /**

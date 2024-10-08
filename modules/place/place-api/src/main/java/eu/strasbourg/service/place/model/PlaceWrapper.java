@@ -1649,9 +1649,11 @@ public class PlaceWrapper
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(
-		long groupId, java.util.Locale locale) {
+		long groupId, java.util.Locale locale, long territoryVocabularyId,
+		long placeTypeVocabularyId) {
 
-		return model.getGeoJSON(groupId, locale);
+		return model.getGeoJSON(
+			groupId, locale, territoryVocabularyId, placeTypeVocabularyId);
 	}
 
 	/**

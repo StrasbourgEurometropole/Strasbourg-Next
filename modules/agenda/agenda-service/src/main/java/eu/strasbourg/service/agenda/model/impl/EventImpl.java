@@ -1224,7 +1224,31 @@ public class EventImpl extends EventBaseImpl {
 	 * Renvoie le JSON de l'entite au format GeoJSON pour la map
 	 */
 	@Override
-	public JSONObject getGeoJSON(long groupId, Locale locale) {
+	public JSONObject getGeoJSON(long groupId, Locale locale, long territoryVocabularyId, long eventTypeVocabularyId) {
+		// récupération de la ville, du type d'event et des categ du type d'event
+		String city = "";
+		String types = "";
+		List<AssetCategory> categories = new ArrayList<>();
+		List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
+		for (AssetCategory assetCategory : assetCategories) {
+			try {
+				if (assetCategory.getVocabularyId() == territoryVocabularyId && assetCategory.getAncestors().size() == 1) {
+					AssetCategory cityCategory = assetCategory;
+					if (cityCategory != null) {
+						city =  cityCategory.getTitle(locale);
+					}
+				}
+				if (assetCategory.getVocabularyId() == eventTypeVocabularyId) {
+					categories.add(assetCategory);
+					if (types.length() > 0) {
+						types += ", ";
+					}
+					types += assetCategory.getTitle(locale);
+				}
+			} catch (PortalException e) {
+				continue;
+			}
+		}
 
 		JSONObject feature = JSONFactoryUtil.createJSONObject();
 		feature.put("type", "Feature");
@@ -1251,19 +1275,10 @@ public class EventImpl extends EventBaseImpl {
 		}
 		properties.put("url", url);
 		properties.put("sigId", this.getPlaceSIGId() + "_" + this.getEventId());
-		String types = "";
-		for (AssetCategory type : this.getTypes()) {
-			if (types.length() > 0) {
-				types += ", ";
-			}
-			types += type.getTitle(locale);
-		}
 		properties.put("listeTypes", types);
-
 		// pour les favoris
 		properties.put("type", "2");
 		properties.put("id", this.getEventId());
-
 		// Prochaine date
 		if (!this.getCurrentAndFuturePeriods().isEmpty()) {
 			String opened = LanguageUtil.get(locale, "eu.next-dates");
@@ -1292,12 +1307,9 @@ public class EventImpl extends EventBaseImpl {
 			properties.put("opened", opened);
 			properties.put("schedules", schedule);
 		}
-
 		Place place = PlaceLocalServiceUtil.fetchPlace(this.getPlaceId());
-
 		// Icône (on le prend dans la catégorie type agenda)
 		AssetCategory category = null;
-		List<AssetCategory> categories = this.getTypes();
 		if (!categories.isEmpty()) {
 			category = categories.get(0);
 		} else {
@@ -1306,24 +1318,11 @@ public class EventImpl extends EventBaseImpl {
 				category = categories.get(0);
 			}
 		}
-		String[] icons = null;
-		if (category != null) {
-			icons = category.getDescription(locale).split(";");
-		}
 		String icon = "";
-		// vérifi si le lieu dispose d'un horaire et s'il est fermé
-		if (place != null) {
-			if (place.hasScheduleTable() && !place.isOpenNow() && icons.length > 1) {
-				icon = icons[1];
-			} else {
-				if (icons.length > 0) {
-					icon = icons[0];
-
-				}
-			}
+		if (category != null) {
+			icon = category.getDescription(locale);
 		}
 		properties.put("icon", icon);
-
 		feature.put("properties", properties);
 
 		JSONObject geometry = JSONFactoryUtil.createJSONObject();
@@ -1334,7 +1333,6 @@ public class EventImpl extends EventBaseImpl {
 			coordinates.put(Float.valueOf(this.getMercatorX()));
 		if(Validator.isNotNull(this.getMercatorY()))
 			coordinates.put(Float.valueOf(this.getMercatorY()));
-
 		if (coordinates != null && coordinates.length() == 2) {
 			geometry.put("coordinates", coordinates);
 			feature.put("geometry", geometry);

@@ -104,12 +104,14 @@ public class StrasbourgServiceUtil {
 		String categories, String vocabulariesEmptyIds, String prefilters,
 		String tags, long groupId, String typeContenu, boolean dateField,
 		String fromDate, String toDate, String localeId, long globalGroupId,
-		List<String> alertsArret) {
+		List<String> alertsArret, long territoryVocabularyId,
+		long placeTypeVocabularyId, long eventTypeVocabularyId) {
 
 		return getService().getCategoriesPois(
 			categories, vocabulariesEmptyIds, prefilters, tags, groupId,
 			typeContenu, dateField, fromDate, toDate, localeId, globalGroupId,
-			alertsArret);
+			alertsArret, territoryVocabularyId, placeTypeVocabularyId,
+			eventTypeVocabularyId);
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
@@ -126,10 +128,12 @@ public class StrasbourgServiceUtil {
 
 	public static com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
 		long groupId, String typeContenu, String localeId,
-		List<String> alertsArret) {
+		List<String> alertsArret, long territoryVocabularyId,
+		long placeTypeVocabularyId, long eventTypeVocabularyId) {
 
 		return getService().getFavoritesPois(
-			groupId, typeContenu, localeId, alertsArret);
+			groupId, typeContenu, localeId, alertsArret, territoryVocabularyId,
+			placeTypeVocabularyId, eventTypeVocabularyId);
 	}
 
 	/**
@@ -147,11 +151,14 @@ public class StrasbourgServiceUtil {
 
 	public static com.liferay.portal.kernel.json.JSONObject getInterestsPois(
 		String interests, long groupId, String typeContenu, String localeId,
-		long globalGroupId, List<String> alertsArret) {
+		long globalGroupId, List<String> alertsArret,
+		long territoryVocabularyId, long placeTypeVocabularyId,
+		long eventTypeVocabularyId) {
 
 		return getService().getInterestsPois(
 			interests, groupId, typeContenu, localeId, globalGroupId,
-			alertsArret);
+			alertsArret, territoryVocabularyId, placeTypeVocabularyId,
+			eventTypeVocabularyId);
 	}
 
 	/**

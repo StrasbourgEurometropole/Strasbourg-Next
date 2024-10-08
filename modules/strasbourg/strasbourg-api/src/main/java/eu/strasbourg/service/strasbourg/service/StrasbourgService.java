@@ -111,7 +111,8 @@ public interface StrasbourgService extends BaseService {
 		String categories, String vocabulariesEmptyIds, String prefilters,
 		String tags, long groupId, String typeContenu, boolean dateField,
 		String fromDate, String toDate, String localeId, long globalGroupId,
-		List<String> alertsArret);
+		List<String> alertsArret, long territoryVocabularyId,
+		long placeTypeVocabularyId, long eventTypeVocabularyId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getCoordinateForAddress(
@@ -123,7 +124,8 @@ public interface StrasbourgService extends BaseService {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getFavoritesPois(
 		long groupId, String typeContenu, String localeId,
-		List<String> alertsArret);
+		List<String> alertsArret, long territoryVocabularyId,
+		long placeTypeVocabularyId, long eventTypeVocabularyId);
 
 	/**
 	 * Retourne les information d'un fichier de la doc lib à partir de sa friendly url
@@ -138,7 +140,9 @@ public interface StrasbourgService extends BaseService {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getInterestsPois(
 		String interests, long groupId, String typeContenu, String localeId,
-		long globalGroupId, List<String> alertsArret);
+		long globalGroupId, List<String> alertsArret,
+		long territoryVocabularyId, long placeTypeVocabularyId,
+		long eventTypeVocabularyId);
 
 	/**
 	 * Returns the OSGi service identifier.

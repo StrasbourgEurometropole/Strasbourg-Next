@@ -367,7 +367,8 @@ public interface Event extends EventModel, PersistedModel {
 	 * Renvoie le JSON de l'entite au format GeoJSON pour la map
 	 */
 	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(
-		long groupId, java.util.Locale locale);
+		long groupId, java.util.Locale locale, long territoryVocabularyId,
+		long eventTypeVocabularyId);
 
 	/**
 	 * Renvoie le JSON de l'entite au format CSMap
