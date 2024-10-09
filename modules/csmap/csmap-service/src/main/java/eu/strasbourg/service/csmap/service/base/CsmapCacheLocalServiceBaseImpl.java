@@ -34,7 +34,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import eu.strasbourg.service.csmap.model.CsmapCache;
 import eu.strasbourg.service.csmap.service.CsmapCacheLocalService;
-import eu.strasbourg.service.csmap.service.CsmapCacheLocalServiceUtil;
 import eu.strasbourg.service.csmap.service.persistence.AgendaPersistence;
 import eu.strasbourg.service.csmap.service.persistence.BaseNoncePersistence;
 import eu.strasbourg.service.csmap.service.persistence.CsmapCachePersistence;
@@ -69,7 +68,7 @@ public abstract class CsmapCacheLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>CsmapCacheLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>CsmapCacheLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>CsmapCacheLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.csmap.service.CsmapCacheLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -377,7 +376,6 @@ public abstract class CsmapCacheLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		CsmapCacheLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -391,8 +389,6 @@ public abstract class CsmapCacheLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		csmapCacheLocalService = (CsmapCacheLocalService)aopProxy;
-
-		CsmapCacheLocalServiceUtil.setService(csmapCacheLocalService);
 	}
 
 	/**

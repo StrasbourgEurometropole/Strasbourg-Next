@@ -352,7 +352,7 @@ public class VideoGalleryWrapper
 	 * Renvoie la version live de la galerie, si elle existe
 	 */
 	@Override
-	public eu.strasbourg.service.video.model.VideoGallery getLiveVersion() {
+	public VideoGallery getLiveVersion() {
 		return model.getLiveVersion();
 	}
 
@@ -390,9 +390,7 @@ public class VideoGalleryWrapper
 	 * Renvoie la liste des éditions publiées de la galerie
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.video.model.Video>
-		getPublishedVideos() {
-
+	public java.util.List<Video> getPublishedVideos() {
 		return model.getPublishedVideos();
 	}
 
@@ -566,7 +564,7 @@ public class VideoGalleryWrapper
 	 * Retourne la liste des vidéos de la galerie
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.video.model.Video> getVideos() {
+	public java.util.List<Video> getVideos() {
 		return model.getVideos();
 	}
 

@@ -129,8 +129,7 @@ public interface Video extends PersistedModel, VideoModel {
 	/**
 	 * Retourne la liste des galeries de la vidéo
 	 */
-	public java.util.List<eu.strasbourg.service.video.model.VideoGallery>
-		getVideoGalleries();
+	public java.util.List<VideoGallery> getVideoGalleries();
 
 	/**
 	 * Retourne la liste des ids des galeries de la vidéo
@@ -140,13 +139,12 @@ public interface Video extends PersistedModel, VideoModel {
 	/**
 	 * Renvoie la liste des galeries vidéos publiées de la
 	 */
-	public java.util.List<eu.strasbourg.service.video.model.VideoGallery>
-		getPublishedVideoGalleries();
+	public java.util.List<VideoGallery> getPublishedVideoGalleries();
 
 	/**
 	 * Retourne la version live de la vidéo si elle existe, null sinon
 	 */
-	public eu.strasbourg.service.video.model.Video getLiveVersion();
+	public Video getLiveVersion();
 
 	/**
 	 * Retourne le site cible de la vidéo
@@ -222,16 +220,15 @@ public interface Video extends PersistedModel, VideoModel {
 	 *
 	 * @throws PortalException
 	 */
-	public java.util.List<eu.strasbourg.service.video.model.Video>
-		getSuggestions(java.util.Locale locale);
+	public java.util.List<Video> getSuggestions(java.util.Locale locale);
 
 	/**
 	 * Retourne X suggestions max pour un thème appartenant à la vidéo en cours
 	 *
 	 * @throws PortalException
 	 */
-	public java.util.List<eu.strasbourg.service.video.model.Video>
-		getSuggestions(java.util.Locale locale, int nbSuggestions);
+	public java.util.List<Video> getSuggestions(
+		java.util.Locale locale, int nbSuggestions);
 
 	/**
 	 * Retourne les thèmes de la vidéo

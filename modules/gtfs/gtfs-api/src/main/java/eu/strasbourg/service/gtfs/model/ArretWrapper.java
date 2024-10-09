@@ -175,7 +175,7 @@ public class ArretWrapper
 	 * Renvoie la liste des Alertes de cet arret
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.gtfs.model.Alert> getAlerts() {
+	public java.util.List<Alert> getAlerts() {
 		return model.getAlerts();
 	}
 
@@ -183,9 +183,7 @@ public class ArretWrapper
 	 * Renvoie la liste des Alertes en cours ou à venir de cet arret
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.gtfs.model.Alert>
-		getAlertsActives() {
-
+	public java.util.List<Alert> getAlertsActives() {
 		return model.getAlertsActives();
 	}
 
@@ -270,9 +268,7 @@ public class ArretWrapper
 	 * Renvoie la liste des Directions de cet arret
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.gtfs.model.Direction>
-		getDirections() {
-
+	public java.util.List<Direction> getDirections() {
 		return model.getDirections();
 	}
 

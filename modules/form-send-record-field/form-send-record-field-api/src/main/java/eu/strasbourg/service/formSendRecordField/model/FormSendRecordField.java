@@ -85,9 +85,7 @@ public interface FormSendRecordField
 	 *
 	 * @return la liste des signalements
 	 */
-	public java.util.List
-		<eu.strasbourg.service.formSendRecordField.model.
-			FormSendRecordFieldSignalement> findSignalements();
+	public java.util.List<FormSendRecordFieldSignalement> findSignalements();
 
 	/**
 	 * méthode qui renvoie le nombre de signalement pour un commentaire.

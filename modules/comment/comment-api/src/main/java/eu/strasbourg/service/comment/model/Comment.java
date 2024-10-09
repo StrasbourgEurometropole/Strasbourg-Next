@@ -120,16 +120,14 @@ public interface Comment extends CommentModel, PersistedModel {
 	/**
 	 * Retourne la liste des commentaires enfants de l'item
 	 */
-	public java.util.List<eu.strasbourg.service.comment.model.Comment>
-		getApprovedChildComments();
+	public java.util.List<Comment> getApprovedChildComments();
 
 	/**
 	 * méthode qui renvoie la liste des signalements d'un commentaire.
 	 *
 	 * @return la liste des signalements
 	 */
-	public java.util.List<eu.strasbourg.service.comment.model.Signalement>
-		findSignalements();
+	public java.util.List<Signalement> findSignalements();
 
 	/**
 	 * méthode qui renvoie le nombre de signalement pour un commentaire.

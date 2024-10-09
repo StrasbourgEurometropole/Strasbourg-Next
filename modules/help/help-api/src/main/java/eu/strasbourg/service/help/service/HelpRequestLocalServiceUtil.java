@@ -9,6 +9,7 @@ import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.module.service.Snapshot;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.help.model.HelpRequest;
@@ -446,13 +447,11 @@ public class HelpRequestLocalServiceUtil {
 	}
 
 	public static HelpRequestLocalService getService() {
-		return _service;
+		return _serviceSnapshot.get();
 	}
 
-	public static void setService(HelpRequestLocalService service) {
-		_service = service;
-	}
-
-	private static volatile HelpRequestLocalService _service;
+	private static final Snapshot<HelpRequestLocalService> _serviceSnapshot =
+		new Snapshot<>(
+			HelpRequestLocalServiceUtil.class, HelpRequestLocalService.class);
 
 }

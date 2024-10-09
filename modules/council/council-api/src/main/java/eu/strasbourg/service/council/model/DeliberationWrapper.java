@@ -234,9 +234,7 @@ public class DeliberationWrapper
 	}
 
 	@Override
-	public eu.strasbourg.service.council.model.CouncilSession
-		getCouncilSession() {
-
+	public CouncilSession getCouncilSession() {
 		return model.getCouncilSession();
 	}
 

@@ -375,9 +375,7 @@ public class CampaignWrapper
 	 * Retourne la liste des événements de la campagne
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.CampaignEvent>
-		getEvents() {
-
+	public java.util.List<CampaignEvent> getEvents() {
 		return model.getEvents();
 	}
 

@@ -156,8 +156,7 @@ public interface VotePersistence extends BasePersistence<Vote> {
 	 * @throws NoSuchVoteException if a vote with the primary key could not be found
 	 */
 	public Vote[] findByUuid_PrevAndNext(
-			eu.strasbourg.service.council.service.persistence.VotePK votePK,
-			String uuid,
+			VotePK votePK, String uuid,
 			com.liferay.portal.kernel.util.OrderByComparator<Vote>
 				orderByComparator)
 		throws NoSuchVoteException;
@@ -359,8 +358,7 @@ public interface VotePersistence extends BasePersistence<Vote> {
 	 * @throws NoSuchVoteException if a vote with the primary key could not be found
 	 */
 	public Vote[] findByUuid_C_PrevAndNext(
-			eu.strasbourg.service.council.service.persistence.VotePK votePK,
-			String uuid, long companyId,
+			VotePK votePK, String uuid, long companyId,
 			com.liferay.portal.kernel.util.OrderByComparator<Vote>
 				orderByComparator)
 		throws NoSuchVoteException;
@@ -505,8 +503,7 @@ public interface VotePersistence extends BasePersistence<Vote> {
 	 * @throws NoSuchVoteException if a vote with the primary key could not be found
 	 */
 	public Vote[] findByDeliberationId_PrevAndNext(
-			eu.strasbourg.service.council.service.persistence.VotePK votePK,
-			long deliberationId,
+			VotePK votePK, long deliberationId,
 			com.liferay.portal.kernel.util.OrderByComparator<Vote>
 				orderByComparator)
 		throws NoSuchVoteException;
@@ -600,8 +597,7 @@ public interface VotePersistence extends BasePersistence<Vote> {
 	 * @param votePK the primary key for the new vote
 	 * @return the new vote
 	 */
-	public Vote create(
-		eu.strasbourg.service.council.service.persistence.VotePK votePK);
+	public Vote create(VotePK votePK);
 
 	/**
 	 * Removes the vote with the primary key from the database. Also notifies the appropriate model listeners.
@@ -610,9 +606,7 @@ public interface VotePersistence extends BasePersistence<Vote> {
 	 * @return the vote that was removed
 	 * @throws NoSuchVoteException if a vote with the primary key could not be found
 	 */
-	public Vote remove(
-			eu.strasbourg.service.council.service.persistence.VotePK votePK)
-		throws NoSuchVoteException;
+	public Vote remove(VotePK votePK) throws NoSuchVoteException;
 
 	public Vote updateImpl(Vote vote);
 
@@ -623,9 +617,7 @@ public interface VotePersistence extends BasePersistence<Vote> {
 	 * @return the vote
 	 * @throws NoSuchVoteException if a vote with the primary key could not be found
 	 */
-	public Vote findByPrimaryKey(
-			eu.strasbourg.service.council.service.persistence.VotePK votePK)
-		throws NoSuchVoteException;
+	public Vote findByPrimaryKey(VotePK votePK) throws NoSuchVoteException;
 
 	/**
 	 * Returns the vote with the primary key or returns <code>null</code> if it could not be found.
@@ -633,8 +625,7 @@ public interface VotePersistence extends BasePersistence<Vote> {
 	 * @param votePK the primary key of the vote
 	 * @return the vote, or <code>null</code> if a vote with the primary key could not be found
 	 */
-	public Vote fetchByPrimaryKey(
-		eu.strasbourg.service.council.service.persistence.VotePK votePK);
+	public Vote fetchByPrimaryKey(VotePK votePK);
 
 	/**
 	 * Returns all the votes.

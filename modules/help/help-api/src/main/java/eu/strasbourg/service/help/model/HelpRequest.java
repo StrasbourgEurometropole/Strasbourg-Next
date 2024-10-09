@@ -94,7 +94,7 @@ public interface HelpRequest extends HelpRequestModel, PersistedModel {
 	 * @return
 	 * @throws PortalException
 	 */
-	public eu.strasbourg.service.help.model.HelpProposal getHelpProposal();
+	public HelpProposal getHelpProposal();
 
 	/**
 	 * Renvoie la liste des AssetCategory rattachées à cette proposition d'aide (via

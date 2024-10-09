@@ -156,9 +156,7 @@ public class CampaignEventStatusWrapper
 	}
 
 	@Override
-	public eu.strasbourg.service.agenda.model.CampaignEventStatus
-		getPreviousStatus() {
-
+	public CampaignEventStatus getPreviousStatus() {
 		return model.getPreviousStatus();
 	}
 

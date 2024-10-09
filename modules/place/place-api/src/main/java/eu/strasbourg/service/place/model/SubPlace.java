@@ -50,78 +50,66 @@ public interface SubPlace extends PersistedModel, SubPlaceModel {
 	/**
 	 * Retourne les ScheduleExceptions du sous-lieu
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.ScheduleException>
-		getScheduleExceptions();
+	public java.util.List<ScheduleException> getScheduleExceptions();
 
 	/**
 	 * Retourne les Periods du lieu auquel appartient le sous-lieu
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.Period>
-		getPeriods();
+	public java.util.List<Period> getPeriods();
 
 	/**
 	 * Retourne les périodes qui ne sont pas par défaut
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.Period>
-		getNonDefaultPeriod();
+	public java.util.List<Period> getNonDefaultPeriod();
 
 	/**
 	 * Retourne la période par défaut
 	 */
-	public eu.strasbourg.service.place.model.Period getDefaultPeriod();
+	public Period getDefaultPeriod();
 
 	/**
 	 * Retourne le lieu parent du sous-lieu
 	 */
-	public eu.strasbourg.service.place.model.Place getParentPlace();
+	public Place getParentPlace();
 
 	/**
 	 * Retourne le lieu parent du sous-lieu
 	 */
-	public eu.strasbourg.service.place.model.Place getPlaceByPlaceId(
-		long placeId);
+	public Place getPlaceByPlaceId(long placeId);
 
 	/**
 	 * Retourne les PublicHolidays
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.PublicHoliday>
-		getPublicHolidays();
+	public java.util.List<PublicHoliday> getPublicHolidays();
 
 	/**
 	 * Retourne une map contennant les horaires de chaque jour des 7 jours
 	 * suivants "startDate" (inclus)
 	 */
-	public java.util.Map
-		<String,
-		 java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>>
-			getFollowingWeekSchedules(
-				java.util.Date startDate, java.util.Locale locale);
+	public java.util.Map<String, java.util.List<PlaceSchedule>>
+		getFollowingWeekSchedules(
+			java.util.Date startDate, java.util.Locale locale);
 
 	/**
 	 * Retourne une map contennant le jour et une liste de PlaceSchedule de la
 	 * semaine en cours
 	 */
-	public java.util.Map
-		<String,
-		 java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>>
-			getHoraire(java.util.Date dateJour, java.util.Locale locale);
+	public java.util.Map<String, java.util.List<PlaceSchedule>> getHoraire(
+		java.util.Date dateJour, java.util.Locale locale);
 
 	/**
 	 * Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à
 	 * "date" + "daysCount"
 	 */
-	public java.util.Map
-		<String,
-		 java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>>
-			getSubPlaceSchedule(
-				java.util.Date date, int daysCount, java.util.Locale locale);
+	public java.util.Map<String, java.util.List<PlaceSchedule>>
+		getSubPlaceSchedule(
+			java.util.Date date, int daysCount, java.util.Locale locale);
 
 	/**
 	 * Retourne les horaires d'ouverture du jour voulu
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>
-		getSubPlaceSchedule(
-			java.util.GregorianCalendar jourSemaine, java.util.Locale locale);
+	public java.util.List<PlaceSchedule> getSubPlaceSchedule(
+		java.util.GregorianCalendar jourSemaine, java.util.Locale locale);
 
 	/**
 	 * Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
@@ -131,18 +119,15 @@ public interface SubPlace extends PersistedModel, SubPlaceModel {
 	 (false = horaires d'une journée uniquement , true = horaires
 	 sur une semaine)
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>
-		getSubPlaceScheduleException(
-			java.util.GregorianCalendar premierJour, Boolean surPeriode,
-			java.util.Locale locale);
+	public java.util.List<PlaceSchedule> getSubPlaceScheduleException(
+		java.util.GregorianCalendar premierJour, Boolean surPeriode,
+		java.util.Locale locale);
 
 	/**
 	 * Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
 	 * de la semaine en cours, jusqu'à dans 2 mois (pour freemarker)
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>
-		getSubPlaceScheduleExceptionFreeMarker(
-			java.util.Date dateDeb, Boolean surPeriode,
-			java.util.Locale locale);
+	public java.util.List<PlaceSchedule> getSubPlaceScheduleExceptionFreeMarker(
+		java.util.Date dateDeb, Boolean surPeriode, java.util.Locale locale);
 
 }

@@ -250,9 +250,8 @@ public class CacheHoursJSONUtil {
 	 * @throws NoSuchCacheHoursJSONException if a cache hours json with the primary key could not be found
 	 */
 	public static CacheHoursJSON[] findByUuid_PrevAndNext(
-			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
-				cacheHoursJSONPK,
-			String uuid, OrderByComparator<CacheHoursJSON> orderByComparator)
+			CacheHoursJSONPK cacheHoursJSONPK, String uuid,
+			OrderByComparator<CacheHoursJSON> orderByComparator)
 		throws eu.strasbourg.service.gtfs.exception.
 			NoSuchCacheHoursJSONException {
 
@@ -425,9 +424,7 @@ public class CacheHoursJSONUtil {
 	 * @throws NoSuchCacheHoursJSONException if a cache hours json with the primary key could not be found
 	 */
 	public static CacheHoursJSON[] findByStopCode_PrevAndNext(
-			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
-				cacheHoursJSONPK,
-			String stopCode,
+			CacheHoursJSONPK cacheHoursJSONPK, String stopCode,
 			OrderByComparator<CacheHoursJSON> orderByComparator)
 		throws eu.strasbourg.service.gtfs.exception.
 			NoSuchCacheHoursJSONException {
@@ -594,9 +591,8 @@ public class CacheHoursJSONUtil {
 	 * @throws NoSuchCacheHoursJSONException if a cache hours json with the primary key could not be found
 	 */
 	public static CacheHoursJSON[] findByType_PrevAndNext(
-			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
-				cacheHoursJSONPK,
-			int type, OrderByComparator<CacheHoursJSON> orderByComparator)
+			CacheHoursJSONPK cacheHoursJSONPK, int type,
+			OrderByComparator<CacheHoursJSON> orderByComparator)
 		throws eu.strasbourg.service.gtfs.exception.
 			NoSuchCacheHoursJSONException {
 
@@ -717,10 +713,7 @@ public class CacheHoursJSONUtil {
 	 * @param cacheHoursJSONPK the primary key for the new cache hours json
 	 * @return the new cache hours json
 	 */
-	public static CacheHoursJSON create(
-		eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
-			cacheHoursJSONPK) {
-
+	public static CacheHoursJSON create(CacheHoursJSONPK cacheHoursJSONPK) {
 		return getPersistence().create(cacheHoursJSONPK);
 	}
 
@@ -731,9 +724,7 @@ public class CacheHoursJSONUtil {
 	 * @return the cache hours json that was removed
 	 * @throws NoSuchCacheHoursJSONException if a cache hours json with the primary key could not be found
 	 */
-	public static CacheHoursJSON remove(
-			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
-				cacheHoursJSONPK)
+	public static CacheHoursJSON remove(CacheHoursJSONPK cacheHoursJSONPK)
 		throws eu.strasbourg.service.gtfs.exception.
 			NoSuchCacheHoursJSONException {
 
@@ -752,8 +743,7 @@ public class CacheHoursJSONUtil {
 	 * @throws NoSuchCacheHoursJSONException if a cache hours json with the primary key could not be found
 	 */
 	public static CacheHoursJSON findByPrimaryKey(
-			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
-				cacheHoursJSONPK)
+			CacheHoursJSONPK cacheHoursJSONPK)
 		throws eu.strasbourg.service.gtfs.exception.
 			NoSuchCacheHoursJSONException {
 
@@ -767,8 +757,7 @@ public class CacheHoursJSONUtil {
 	 * @return the cache hours json, or <code>null</code> if a cache hours json with the primary key could not be found
 	 */
 	public static CacheHoursJSON fetchByPrimaryKey(
-		eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
-			cacheHoursJSONPK) {
+		CacheHoursJSONPK cacheHoursJSONPK) {
 
 		return getPersistence().fetchByPrimaryKey(cacheHoursJSONPK);
 	}

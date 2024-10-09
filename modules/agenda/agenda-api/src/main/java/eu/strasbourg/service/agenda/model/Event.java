@@ -71,8 +71,7 @@ public interface Event extends EventModel, PersistedModel {
 	/**
 	 * Retourne la liste des manifestations auxquelles cette édition appartient
 	 */
-	public java.util.List<eu.strasbourg.service.agenda.model.Manifestation>
-		getManifestations();
+	public java.util.List<Manifestation> getManifestations();
 
 	/**
 	 * Retourne l'horaire de l'événement de ce jour-là
@@ -89,28 +88,24 @@ public interface Event extends EventModel, PersistedModel {
 	/**
 	 * Retourne la liste des galeries publiées
 	 */
-	public java.util.List<eu.strasbourg.service.agenda.model.Manifestation>
-		getPublishedManifestations();
+	public java.util.List<Manifestation> getPublishedManifestations();
 
 	/**
 	 * Retourne la liste des périodes auxquelles l'événement à lieu (classées par
 	 * date de début croissante)
 	 */
-	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod>
-		getEventPeriods();
+	public java.util.List<EventPeriod> getEventPeriods();
 
 	/**
 	 * Retourne la liste des périodes courantes et futures auxuqlles l'événement à
 	 * lieu
 	 */
-	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod>
-		getCurrentAndFuturePeriods();
+	public java.util.List<EventPeriod> getCurrentAndFuturePeriods();
 
 	/**
 	 * Retourne la période courrante, ou la prochaine
 	 */
-	public eu.strasbourg.service.agenda.model.EventPeriod
-		getCurrentOrFuturePeriod();
+	public EventPeriod getCurrentOrFuturePeriod();
 
 	/**
 	 * Retourne la date de début de la future ou courante période de l'événement
@@ -135,7 +130,7 @@ public interface Event extends EventModel, PersistedModel {
 	/**
 	 * Retourne la version live de l'édition, si elle existe
 	 */
-	public eu.strasbourg.service.agenda.model.Event getLiveVersion();
+	public Event getLiveVersion();
 
 	/**
 	 * Retourne l'id du lieu de l'événement s'il existe, 0 sinon
@@ -180,8 +175,7 @@ public interface Event extends EventModel, PersistedModel {
 	/**
 	 * Retourne la liste des participations de l'evenement
 	 */
-	public java.util.List<eu.strasbourg.service.agenda.model.EventParticipation>
-		getEventParticipations();
+	public java.util.List<EventParticipation> getEventParticipations();
 
 	/**
 	 * Retourne le nombre de participation a l'evenement
@@ -334,10 +328,9 @@ public interface Event extends EventModel, PersistedModel {
 	 * @param category la categorie a appliquer
 	 * @return la liste d'événements.
 	 */
-	public java.util.List<eu.strasbourg.service.agenda.model.Event>
-			getSuggestions(
-				javax.servlet.http.HttpServletRequest request,
-				int nbSuggestions, String tag, String category)
+	public java.util.List<Event> getSuggestions(
+			javax.servlet.http.HttpServletRequest request, int nbSuggestions,
+			String tag, String category)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			   com.liferay.portal.kernel.search.SearchException;
 

@@ -76,8 +76,7 @@ public interface SaisineObservatoire
 	/**
 	 * Retourne la liste des lieux placit liés à la petition
 	 */
-	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
-		getPlacitPlaces();
+	public java.util.List<PlacitPlace> getPlacitPlaces();
 
 	/**
 	 * Retourne X suggestions max pour une pétition
@@ -88,11 +87,8 @@ public interface SaisineObservatoire
 	 le nombre de suggestions.
 	 * @return la liste de pétition.
 	 */
-	public java.util.List
-		<eu.strasbourg.service.project.model.SaisineObservatoire>
-			getSuggestions(
-				javax.servlet.http.HttpServletRequest request,
-				int nbSuggestions);
+	public java.util.List<SaisineObservatoire> getSuggestions(
+		javax.servlet.http.HttpServletRequest request, int nbSuggestions);
 
 	/**
 	 * Retourne le copyright de l'image principale

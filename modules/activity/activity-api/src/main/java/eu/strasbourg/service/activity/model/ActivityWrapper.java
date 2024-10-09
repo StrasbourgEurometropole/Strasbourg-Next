@@ -183,9 +183,7 @@ public class ActivityWrapper
 	 * Retourne les cours de l'activité
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.activity.model.ActivityCourse>
-		getActivityCourses() {
-
+	public java.util.List<ActivityCourse> getActivityCourses() {
 		return model.getActivityCourses();
 	}
 
@@ -394,7 +392,7 @@ public class ActivityWrapper
 	 * @return
 	 */
 	@Override
-	public eu.strasbourg.service.activity.model.Activity getLiveVersion() {
+	public Activity getLiveVersion() {
 		return model.getLiveVersion();
 	}
 
@@ -432,9 +430,7 @@ public class ActivityWrapper
 	 * Retourne les cours publiés du lieu
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.activity.model.ActivityCourse>
-		getPublishedActivityCourses() {
-
+	public java.util.List<ActivityCourse> getPublishedActivityCourses() {
 		return model.getPublishedActivityCourses();
 	}
 

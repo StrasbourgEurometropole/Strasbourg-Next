@@ -973,6 +973,7 @@ public class SiteUpdater {
                             + templateFilePath
                             + "] This a new template, creating it...");
             DDMTemplate adt = this.ddmTemplateLocalService.addTemplate(
+                    "",
                     this.userId,
                     groupId,
                     classNameId,

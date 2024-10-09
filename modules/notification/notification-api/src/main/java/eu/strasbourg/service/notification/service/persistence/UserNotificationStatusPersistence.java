@@ -159,8 +159,7 @@ public interface UserNotificationStatusPersistence
 	 * @throws NoSuchUserNotificationStatusException if a user notification status with the primary key could not be found
 	 */
 	public UserNotificationStatus[] findByNotificationId_PrevAndNext(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationStatusPK userNotificationStatusPK,
+			UserNotificationStatusPK userNotificationStatusPK,
 			long notificationId,
 			com.liferay.portal.kernel.util.OrderByComparator
 				<UserNotificationStatus> orderByComparator)
@@ -305,8 +304,7 @@ public interface UserNotificationStatusPersistence
 	 * @throws NoSuchUserNotificationStatusException if a user notification status with the primary key could not be found
 	 */
 	public UserNotificationStatus[] findByPublikUserId_PrevAndNext(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationStatusPK userNotificationStatusPK,
+			UserNotificationStatusPK userNotificationStatusPK,
 			String publikUserId,
 			com.liferay.portal.kernel.util.OrderByComparator
 				<UserNotificationStatus> orderByComparator)
@@ -349,8 +347,7 @@ public interface UserNotificationStatusPersistence
 	 * @return the new user notification status
 	 */
 	public UserNotificationStatus create(
-		eu.strasbourg.service.notification.service.persistence.
-			UserNotificationStatusPK userNotificationStatusPK);
+		UserNotificationStatusPK userNotificationStatusPK);
 
 	/**
 	 * Removes the user notification status with the primary key from the database. Also notifies the appropriate model listeners.
@@ -360,8 +357,7 @@ public interface UserNotificationStatusPersistence
 	 * @throws NoSuchUserNotificationStatusException if a user notification status with the primary key could not be found
 	 */
 	public UserNotificationStatus remove(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationStatusPK userNotificationStatusPK)
+			UserNotificationStatusPK userNotificationStatusPK)
 		throws NoSuchUserNotificationStatusException;
 
 	public UserNotificationStatus updateImpl(
@@ -375,8 +371,7 @@ public interface UserNotificationStatusPersistence
 	 * @throws NoSuchUserNotificationStatusException if a user notification status with the primary key could not be found
 	 */
 	public UserNotificationStatus findByPrimaryKey(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationStatusPK userNotificationStatusPK)
+			UserNotificationStatusPK userNotificationStatusPK)
 		throws NoSuchUserNotificationStatusException;
 
 	/**
@@ -386,8 +381,7 @@ public interface UserNotificationStatusPersistence
 	 * @return the user notification status, or <code>null</code> if a user notification status with the primary key could not be found
 	 */
 	public UserNotificationStatus fetchByPrimaryKey(
-		eu.strasbourg.service.notification.service.persistence.
-			UserNotificationStatusPK userNotificationStatusPK);
+		UserNotificationStatusPK userNotificationStatusPK);
 
 	/**
 	 * Returns all the user notification statuses.

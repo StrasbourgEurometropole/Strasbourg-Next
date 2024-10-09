@@ -294,9 +294,7 @@ public class EditionGalleryWrapper
 	 * Renvoie la liste des éditions de la galerie
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.edition.model.Edition>
-		getEditions() {
-
+	public java.util.List<Edition> getEditions() {
 		return model.getEditions();
 	}
 
@@ -368,7 +366,7 @@ public class EditionGalleryWrapper
 	 * Renvoie la version live de la galerie d'édition, si elle existe
 	 */
 	@Override
-	public eu.strasbourg.service.edition.model.EditionGallery getLiveVersion() {
+	public EditionGallery getLiveVersion() {
 		return model.getLiveVersion();
 	}
 
@@ -406,9 +404,7 @@ public class EditionGalleryWrapper
 	 * Renvoie la liste des éditions publiées de la galerie
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.edition.model.Edition>
-		getPublishedEditions() {
-
+	public java.util.List<Edition> getPublishedEditions() {
 		return model.getPublishedEditions();
 	}
 

@@ -76,7 +76,7 @@ public interface VideoGallery extends PersistedModel, VideoGalleryModel {
 	/**
 	 * Retourne la liste des vidéos de la galerie
 	 */
-	public java.util.List<eu.strasbourg.service.video.model.Video> getVideos();
+	public java.util.List<Video> getVideos();
 
 	/**
 	 * Retourne la liste des ids des vidéos de la galerie
@@ -86,12 +86,11 @@ public interface VideoGallery extends PersistedModel, VideoGalleryModel {
 	/**
 	 * Renvoie la liste des éditions publiées de la galerie
 	 */
-	public java.util.List<eu.strasbourg.service.video.model.Video>
-		getPublishedVideos();
+	public java.util.List<Video> getPublishedVideos();
 
 	/**
 	 * Renvoie la version live de la galerie, si elle existe
 	 */
-	public eu.strasbourg.service.video.model.VideoGallery getLiveVersion();
+	public VideoGallery getLiveVersion();
 
 }

@@ -59,29 +59,24 @@ public interface ActivityCoursePlace
 	/**
 	 * Retourne les horaires du cours dans le lieu
 	 */
-	public java.util.List
-		<eu.strasbourg.service.activity.model.ActivityCourseSchedule>
-			getActivityCourseSchedules();
+	public java.util.List<ActivityCourseSchedule> getActivityCourseSchedules();
 
 	/**
 	 * Retourne les horaires du cours dans le lieu pour un jour donné (lundi =
 	 * 0, mardi = 1, etc.)
 	 */
-	public java.util.List
-		<eu.strasbourg.service.activity.model.ActivityCourseSchedule>
-			getActivityCourseSchedulesForDay(int day);
+	public java.util.List<ActivityCourseSchedule>
+		getActivityCourseSchedulesForDay(int day);
 
 	/**
 	 * Retourne le cours du lieu
 	 */
-	public eu.strasbourg.service.activity.model.ActivityCourse
-		getActivityCourse();
+	public ActivityCourse getActivityCourse();
 
 	/**
 	 * Retourne la version live de cette entité
 	 */
-	public eu.strasbourg.service.activity.model.ActivityCoursePlace
-		getLiveVersion();
+	public ActivityCoursePlace getLiveVersion();
 
 	/**
 	 * Retourne l'AssetEntry rattaché à cette entité

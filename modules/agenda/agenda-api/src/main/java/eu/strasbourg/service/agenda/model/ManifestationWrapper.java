@@ -371,9 +371,7 @@ public class ManifestationWrapper
 	 * Renvoie la liste des éditions de la galerie
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.Event>
-		getEvents() {
-
+	public java.util.List<Event> getEvents() {
 		return model.getEvents();
 	}
 
@@ -465,7 +463,7 @@ public class ManifestationWrapper
 	 * Renvoie la version live de la manifestation, si elle existe
 	 */
 	@Override
-	public eu.strasbourg.service.agenda.model.Manifestation getLiveVersion() {
+	public Manifestation getLiveVersion() {
 		return model.getLiveVersion();
 	}
 
@@ -550,9 +548,7 @@ public class ManifestationWrapper
 	 * Renvoie la liste des éditions publiées de la galerie
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.Event>
-		getPublishedEvents() {
-
+	public java.util.List<Event> getPublishedEvents() {
 		return model.getPublishedEvents();
 	}
 

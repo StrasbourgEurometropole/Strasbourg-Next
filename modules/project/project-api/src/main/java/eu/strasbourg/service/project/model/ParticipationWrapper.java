@@ -827,9 +827,7 @@ public class ParticipationWrapper
 	 * Retourne la liste des lieux placit liés à la participation
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
-		getPlacitPlaces() {
-
+	public java.util.List<PlacitPlace> getPlacitPlaces() {
 		return model.getPlacitPlaces();
 	}
 

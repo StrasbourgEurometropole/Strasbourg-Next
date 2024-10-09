@@ -52,7 +52,7 @@ public interface Practice extends PersistedModel, PracticeModel {
 	/**
 	 * Retourne la version live de cette entité
 	 */
-	public eu.strasbourg.service.activity.model.Practice getLiveVersion();
+	public Practice getLiveVersion();
 
 	/**
 	 * Retourne l'AssetEntry rattaché à cette entité
@@ -69,7 +69,7 @@ public interface Practice extends PersistedModel, PracticeModel {
 	/**
 	 * Retourne les activités de l'association
 	 */
-	public eu.strasbourg.service.activity.model.Association getAssociation();
+	public Association getAssociation();
 
 	/**
 	 * Retourne la pratique de l'association

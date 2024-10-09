@@ -257,7 +257,7 @@ public class CouncilSessionWrapper
 	 * Renvoie l'élu président du conseil rattachées à cette sessions
 	 */
 	@Override
-	public eu.strasbourg.service.council.model.Official getOfficialLeader() {
+	public Official getOfficialLeader() {
 		return model.getOfficialLeader();
 	}
 
@@ -293,9 +293,7 @@ public class CouncilSessionWrapper
 	 * Renvoie la liste des procurations rattachées à cette sessions
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.council.model.Procuration>
-		getProcurations() {
-
+	public java.util.List<Procuration> getProcurations() {
 		return model.getProcurations();
 	}
 
@@ -363,7 +361,7 @@ public class CouncilSessionWrapper
 	 * Renvoie le type de conseil rattachées à cette sessions
 	 */
 	@Override
-	public eu.strasbourg.service.council.model.Type getTypeCouncil() {
+	public Type getTypeCouncil() {
 		return model.getTypeCouncil();
 	}
 

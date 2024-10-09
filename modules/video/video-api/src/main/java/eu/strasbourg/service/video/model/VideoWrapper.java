@@ -511,7 +511,7 @@ public class VideoWrapper
 	 * Retourne la version live de la vidéo si elle existe, null sinon
 	 */
 	@Override
-	public eu.strasbourg.service.video.model.Video getLiveVersion() {
+	public Video getLiveVersion() {
 		return model.getLiveVersion();
 	}
 
@@ -632,9 +632,7 @@ public class VideoWrapper
 	 * Renvoie la liste des galeries vidéos publiées de la
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.video.model.VideoGallery>
-		getPublishedVideoGalleries() {
-
+	public java.util.List<VideoGallery> getPublishedVideoGalleries() {
 		return model.getPublishedVideoGalleries();
 	}
 
@@ -778,9 +776,7 @@ public class VideoWrapper
 	 * @throws PortalException
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.video.model.Video>
-		getSuggestions(java.util.Locale locale) {
-
+	public java.util.List<Video> getSuggestions(java.util.Locale locale) {
 		return model.getSuggestions(locale);
 	}
 
@@ -790,8 +786,8 @@ public class VideoWrapper
 	 * @throws PortalException
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.video.model.Video>
-		getSuggestions(java.util.Locale locale, int nbSuggestions) {
+	public java.util.List<Video> getSuggestions(
+		java.util.Locale locale, int nbSuggestions) {
 
 		return model.getSuggestions(locale, nbSuggestions);
 	}
@@ -962,9 +958,7 @@ public class VideoWrapper
 	 * Retourne la liste des galeries de la vidéo
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.video.model.VideoGallery>
-		getVideoGalleries() {
-
+	public java.util.List<VideoGallery> getVideoGalleries() {
 		return model.getVideoGalleries();
 	}
 

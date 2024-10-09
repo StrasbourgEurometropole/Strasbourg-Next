@@ -133,7 +133,7 @@ public class LikeWrapper
 	}
 
 	@Override
-	public eu.strasbourg.service.like.model.LikeType getLikeType() {
+	public LikeType getLikeType() {
 		return model.getLikeType();
 	}
 

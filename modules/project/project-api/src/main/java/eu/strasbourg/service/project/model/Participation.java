@@ -133,8 +133,7 @@ public interface Participation extends ParticipationModel, PersistedModel {
 	/**
 	 * Retourne la liste des lieux placit liés à la participation
 	 */
-	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
-		getPlacitPlaces();
+	public java.util.List<PlacitPlace> getPlacitPlaces();
 
 	/**
 	 * Retourne les noms des lieux placit de la participation

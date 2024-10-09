@@ -72,19 +72,17 @@ public interface Place extends PersistedModel, PlaceModel {
 	/**
 	 * Retourne le prix rattaché au lieu
 	 */
-	public eu.strasbourg.service.place.model.Price getPrice();
+	public Price getPrice();
 
 	/**
 	 * Retourne les ScheduleExceptions du lieu
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.ScheduleException>
-		getScheduleExceptions();
+	public java.util.List<ScheduleException> getScheduleExceptions();
 
 	/**
 	 * Retourne les PublicHolidays
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.PublicHoliday>
-		getPublicHolidays();
+	public java.util.List<PublicHoliday> getPublicHolidays();
 
 	/**
 	 * Renvoie la liste des IDs des ScheduleExceptions auxquelles ce lieu
@@ -95,31 +93,27 @@ public interface Place extends PersistedModel, PlaceModel {
 	/**
 	 * Retourne les sous lieux du lieux
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.SubPlace>
-		getSubPlaces();
+	public java.util.List<SubPlace> getSubPlaces();
 
 	/**
 	 * Retourne les sous lieux publiés du lieu
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.SubPlace>
-		getPublishedSubPlaces();
+	public java.util.List<SubPlace> getPublishedSubPlaces();
 
 	/**
 	 * Retourne les Periods du lieux
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.Period>
-		getPeriods();
+	public java.util.List<Period> getPeriods();
 
 	/**
 	 * Retourne les périodes qui ne sont pas par défaut (uniquement les périodes en cours ou futures)
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.Period>
-		getNonDefaultPeriods();
+	public java.util.List<Period> getNonDefaultPeriods();
 
 	/**
 	 * Retourne la période par défaut
 	 */
-	public eu.strasbourg.service.place.model.Period getDefaultPeriod();
+	public Period getDefaultPeriod();
 
 	/**
 	 * Retourne les territoire du lieu
@@ -318,59 +312,48 @@ public interface Place extends PersistedModel, PlaceModel {
 	 * Retourne une map contennant les horaires de chaque jour des 7 jours
 	 * suivants "startDate" (inclus)
 	 */
-	public java.util.Map
-		<String,
-		 java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>>
-			getFollowingWeekSchedules(
-				java.util.Date startDate, java.util.Locale locale);
+	public java.util.Map<String, java.util.List<PlaceSchedule>>
+		getFollowingWeekSchedules(
+			java.util.Date startDate, java.util.Locale locale);
 
 	/**
 	 * Retourne une map contennant le jour et une liste de PlaceSchedule de la
 	 * semaine en cours
 	 */
-	public java.util.Map
-		<String,
-		 java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>>
-			getHoraire(java.util.Date dateJour, java.util.Locale locale);
+	public java.util.Map<String, java.util.List<PlaceSchedule>> getHoraire(
+		java.util.Date dateJour, java.util.Locale locale);
 
 	/**
 	 * Retourne le PlaceSchedule de la prochaine ouverture (pour X jour)
 	 */
-	public eu.strasbourg.service.place.model.PlaceSchedule
-		getNextScheduleOpening(
-			java.util.GregorianCalendar today, int nbDays,
-			java.util.Locale locale);
+	public PlaceSchedule getNextScheduleOpening(
+		java.util.GregorianCalendar today, int nbDays, java.util.Locale locale);
 
 	/**
 	 * Retourne le PlaceSchedule de la prochaine ouverture (sous quinzaine)
 	 */
-	public eu.strasbourg.service.place.model.PlaceSchedule
-		getNextScheduleOpening(
-			java.util.GregorianCalendar today, java.util.Locale locale);
+	public PlaceSchedule getNextScheduleOpening(
+		java.util.GregorianCalendar today, java.util.Locale locale);
 
 	/**
 	 * Retourne les horaires d'ouverture du jour passé en paramètre jusqu'à
 	 * "date" + "daysCount"
 	 */
-	public java.util.Map
-		<String,
-		 java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>>
-			getPlaceSchedule(
-				java.util.Date date, int daysCount, java.util.Locale locale);
+	public java.util.Map<String, java.util.List<PlaceSchedule>>
+		getPlaceSchedule(
+			java.util.Date date, int daysCount, java.util.Locale locale);
 
 	/**
 	 * Retourne les horaires d'ouverture du jour
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>
-		getPlaceSchedule(
-			java.util.GregorianCalendar jourSemaine, java.util.Locale locale);
+	public java.util.List<PlaceSchedule> getPlaceSchedule(
+		java.util.GregorianCalendar jourSemaine, java.util.Locale locale);
 
 	/**
 	 * Retourne les horaires habituels d'ouverture du jour
 	 */
-	public eu.strasbourg.service.place.model.PlaceSchedule
-		getRegularPlaceSchedule(
-			java.util.GregorianCalendar jourSemaine, java.util.Locale locale);
+	public PlaceSchedule getRegularPlaceSchedule(
+		java.util.GregorianCalendar jourSemaine, java.util.Locale locale);
 
 	/**
 	 * Retourne les horaires des exceptions d'ouverture à partir du lundi de la
@@ -379,19 +362,16 @@ public interface Place extends PersistedModel, PlaceModel {
 	 * @param surPeriode (false = horaires d'une journée uniquement , true = horaires
 	 sur 2 mois à partir du jour + le début de la semaine)
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>
-		getPlaceScheduleException(
-			java.util.GregorianCalendar dateChoisie, Boolean surPeriode,
-			java.util.Locale locale);
+	public java.util.List<PlaceSchedule> getPlaceScheduleException(
+		java.util.GregorianCalendar dateChoisie, Boolean surPeriode,
+		java.util.Locale locale);
 
 	/**
 	 * Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
 	 * de la semaine en cours, jusqu'à dans 2 mois (pour freemarker)
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>
-		getPlaceScheduleExceptionFreeMarker(
-			java.util.Date dateDeb, Boolean surPeriode,
-			java.util.Locale locale);
+	public java.util.List<PlaceSchedule> getPlaceScheduleExceptionFreeMarker(
+		java.util.Date dateDeb, Boolean surPeriode, java.util.Locale locale);
 
 	/**
 	 * Retourne la version JSON du lieu

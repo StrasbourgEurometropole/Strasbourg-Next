@@ -907,9 +907,7 @@ public class EventWrapper
 	 * lieu
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod>
-		getCurrentAndFuturePeriods() {
-
+	public java.util.List<EventPeriod> getCurrentAndFuturePeriods() {
 		return model.getCurrentAndFuturePeriods();
 	}
 
@@ -917,9 +915,7 @@ public class EventWrapper
 	 * Retourne la période courrante, ou la prochaine
 	 */
 	@Override
-	public eu.strasbourg.service.agenda.model.EventPeriod
-		getCurrentOrFuturePeriod() {
-
+	public EventPeriod getCurrentOrFuturePeriod() {
 		return model.getCurrentOrFuturePeriod();
 	}
 
@@ -1109,9 +1105,7 @@ public class EventWrapper
 	 * Retourne la liste des participations de l'evenement
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.EventParticipation>
-		getEventParticipations() {
-
+	public java.util.List<EventParticipation> getEventParticipations() {
 		return model.getEventParticipations();
 	}
 
@@ -1120,9 +1114,7 @@ public class EventWrapper
 	 * date de début croissante)
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod>
-		getEventPeriods() {
-
+	public java.util.List<EventPeriod> getEventPeriods() {
 		return model.getEventPeriods();
 	}
 
@@ -1304,7 +1296,7 @@ public class EventWrapper
 	 * Retourne la version live de l'édition, si elle existe
 	 */
 	@Override
-	public eu.strasbourg.service.agenda.model.Event getLiveVersion() {
+	public Event getLiveVersion() {
 		return model.getLiveVersion();
 	}
 
@@ -1312,9 +1304,7 @@ public class EventWrapper
 	 * Retourne la liste des manifestations auxquelles cette édition appartient
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.Manifestation>
-		getManifestations() {
-
+	public java.util.List<Manifestation> getManifestations() {
 		return model.getManifestations();
 	}
 
@@ -1843,9 +1833,7 @@ public class EventWrapper
 	 * Retourne la liste des galeries publiées
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.Manifestation>
-		getPublishedManifestations() {
-
+	public java.util.List<Manifestation> getPublishedManifestations() {
 		return model.getPublishedManifestations();
 	}
 
@@ -2078,10 +2066,9 @@ public class EventWrapper
 	 * @return la liste d'événements.
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.Event>
-			getSuggestions(
-				javax.servlet.http.HttpServletRequest request,
-				int nbSuggestions, String tag, String category)
+	public java.util.List<Event> getSuggestions(
+			javax.servlet.http.HttpServletRequest request, int nbSuggestions,
+			String tag, String category)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			   com.liferay.portal.kernel.search.SearchException {
 

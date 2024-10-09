@@ -153,7 +153,7 @@ public class VoteWrapper
 	 * Renvoie l'élu à qui appartient le vote
 	 */
 	@Override
-	public eu.strasbourg.service.council.model.Official getOfficial() {
+	public Official getOfficial() {
 		return model.getOfficial();
 	}
 
@@ -179,9 +179,7 @@ public class VoteWrapper
 	 * Renvoie l'élu qui a voté par procuration
 	 */
 	@Override
-	public eu.strasbourg.service.council.model.Official
-		getOfficialProcuration() {
-
+	public Official getOfficialProcuration() {
 		return model.getOfficialProcuration();
 	}
 

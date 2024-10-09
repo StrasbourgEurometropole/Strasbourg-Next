@@ -267,8 +267,7 @@ public class UserNotificationStatusUtil {
 	 * @throws NoSuchUserNotificationStatusException if a user notification status with the primary key could not be found
 	 */
 	public static UserNotificationStatus[] findByNotificationId_PrevAndNext(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationStatusPK userNotificationStatusPK,
+			UserNotificationStatusPK userNotificationStatusPK,
 			long notificationId,
 			OrderByComparator<UserNotificationStatus> orderByComparator)
 		throws eu.strasbourg.service.notification.exception.
@@ -447,8 +446,7 @@ public class UserNotificationStatusUtil {
 	 * @throws NoSuchUserNotificationStatusException if a user notification status with the primary key could not be found
 	 */
 	public static UserNotificationStatus[] findByPublikUserId_PrevAndNext(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationStatusPK userNotificationStatusPK,
+			UserNotificationStatusPK userNotificationStatusPK,
 			String publikUserId,
 			OrderByComparator<UserNotificationStatus> orderByComparator)
 		throws eu.strasbourg.service.notification.exception.
@@ -506,8 +504,7 @@ public class UserNotificationStatusUtil {
 	 * @return the new user notification status
 	 */
 	public static UserNotificationStatus create(
-		eu.strasbourg.service.notification.service.persistence.
-			UserNotificationStatusPK userNotificationStatusPK) {
+		UserNotificationStatusPK userNotificationStatusPK) {
 
 		return getPersistence().create(userNotificationStatusPK);
 	}
@@ -520,8 +517,7 @@ public class UserNotificationStatusUtil {
 	 * @throws NoSuchUserNotificationStatusException if a user notification status with the primary key could not be found
 	 */
 	public static UserNotificationStatus remove(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationStatusPK userNotificationStatusPK)
+			UserNotificationStatusPK userNotificationStatusPK)
 		throws eu.strasbourg.service.notification.exception.
 			NoSuchUserNotificationStatusException {
 
@@ -542,8 +538,7 @@ public class UserNotificationStatusUtil {
 	 * @throws NoSuchUserNotificationStatusException if a user notification status with the primary key could not be found
 	 */
 	public static UserNotificationStatus findByPrimaryKey(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationStatusPK userNotificationStatusPK)
+			UserNotificationStatusPK userNotificationStatusPK)
 		throws eu.strasbourg.service.notification.exception.
 			NoSuchUserNotificationStatusException {
 
@@ -557,8 +552,7 @@ public class UserNotificationStatusUtil {
 	 * @return the user notification status, or <code>null</code> if a user notification status with the primary key could not be found
 	 */
 	public static UserNotificationStatus fetchByPrimaryKey(
-		eu.strasbourg.service.notification.service.persistence.
-			UserNotificationStatusPK userNotificationStatusPK) {
+		UserNotificationStatusPK userNotificationStatusPK) {
 
 		return getPersistence().fetchByPrimaryKey(userNotificationStatusPK);
 	}

@@ -158,10 +158,8 @@ public interface Petition extends PersistedModel, PetitionModel {
 	 le nombre de suggestions.
 	 * @return la liste de pétition.
 	 */
-	public java.util.List<eu.strasbourg.service.project.model.Petition>
-			getSuggestions(
-				javax.servlet.http.HttpServletRequest request,
-				int nbSuggestions)
+	public java.util.List<Petition> getSuggestions(
+			javax.servlet.http.HttpServletRequest request, int nbSuggestions)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			   com.liferay.portal.kernel.search.SearchException;
 
@@ -205,8 +203,7 @@ public interface Petition extends PersistedModel, PetitionModel {
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getCategories();
 
-	public java.util.List<eu.strasbourg.service.project.model.Signataire>
-		getSignataires();
+	public java.util.List<Signataire> getSignataires();
 
 	/**
 	 * Retourne le status de la petition
@@ -269,8 +266,7 @@ public interface Petition extends PersistedModel, PetitionModel {
 	/**
 	 * Retourne la liste des lieux placit liés à la petition
 	 */
-	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
-		getPlacitPlaces();
+	public java.util.List<PlacitPlace> getPlacitPlaces();
 
 	/**
 	 * Demande si l'utilisateur demandé a signe la petition

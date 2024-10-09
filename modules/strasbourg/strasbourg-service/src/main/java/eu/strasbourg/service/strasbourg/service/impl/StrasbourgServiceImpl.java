@@ -582,6 +582,7 @@ import java.util.stream.Collectors;
 									decoder,
 									null,
 									null,
+									null,
 									sc);
 						} catch (PortalException ex) {
 							log.error(e);
@@ -606,6 +607,7 @@ import java.util.stream.Collectors;
 									document,
 									null,
 									document.length(),
+									null,
 									null,
 									null,
 									sc);
@@ -900,6 +902,7 @@ import java.util.stream.Collectors;
 									decoder,
 									null,
 									null,
+									null,
 									sc);
 
 						} catch (PortalException ex) {
@@ -925,6 +928,7 @@ import java.util.stream.Collectors;
 									document,
 									null,
 									document.length(),
+									null,
 									null,
 									null,
 									sc);

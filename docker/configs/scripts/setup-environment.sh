@@ -22,7 +22,7 @@ run_copy_db_script() {
 
   # Dump the source database
   echo "Dumping source database..."
-  mysqldump --no-tablespaces -h "s17st" -u "lportal" -p"$SOURCE_DB_PASSWORD" "05_08_liferay_74" > /tmp/db_backup.sql
+  mysqldump --no-tablespaces -h "s17st" -u "lportal" -p"$SOURCE_DB_PASSWORD" "25_09_liferay_74" > /tmp/db_backup.sql
 
   # Import the dump into the target database
   echo "Importing database to target..."

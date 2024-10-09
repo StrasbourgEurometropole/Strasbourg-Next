@@ -71,32 +71,23 @@ public interface ImportReport extends ImportReportModel, PersistedModel {
 
 	public void incrementDeletedManifestations();
 
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
-		getLines();
+	public java.util.List<ImportReportLine> getLines();
 
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
-		getNewManifestationsLines();
+	public java.util.List<ImportReportLine> getNewManifestationsLines();
 
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
-		getModifiedManifestationsLines();
+	public java.util.List<ImportReportLine> getModifiedManifestationsLines();
 
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
-		getErrorManifestationsLines();
+	public java.util.List<ImportReportLine> getErrorManifestationsLines();
 
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
-		getDeletedManifestationsLines();
+	public java.util.List<ImportReportLine> getDeletedManifestationsLines();
 
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
-		getNewEventsLines();
+	public java.util.List<ImportReportLine> getNewEventsLines();
 
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
-		getModifiedEventsLines();
+	public java.util.List<ImportReportLine> getModifiedEventsLines();
 
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
-		getErrorEventsLines();
+	public java.util.List<ImportReportLine> getErrorEventsLines();
 
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
-		getDeletedEventsLines();
+	public java.util.List<ImportReportLine> getDeletedEventsLines();
 
 	public void sendMail();
 

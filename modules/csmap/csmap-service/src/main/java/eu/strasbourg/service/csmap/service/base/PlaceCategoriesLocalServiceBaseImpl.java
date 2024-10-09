@@ -34,7 +34,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import eu.strasbourg.service.csmap.model.PlaceCategories;
 import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalService;
-import eu.strasbourg.service.csmap.service.PlaceCategoriesLocalServiceUtil;
 import eu.strasbourg.service.csmap.service.persistence.AgendaPersistence;
 import eu.strasbourg.service.csmap.service.persistence.BaseNoncePersistence;
 import eu.strasbourg.service.csmap.service.persistence.CsmapCachePersistence;
@@ -70,7 +69,7 @@ public abstract class PlaceCategoriesLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>PlaceCategoriesLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>PlaceCategoriesLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>PlaceCategoriesLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.csmap.service.PlaceCategoriesLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -388,7 +387,6 @@ public abstract class PlaceCategoriesLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		PlaceCategoriesLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -402,8 +400,6 @@ public abstract class PlaceCategoriesLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		placeCategoriesLocalService = (PlaceCategoriesLocalService)aopProxy;
-
-		PlaceCategoriesLocalServiceUtil.setService(placeCategoriesLocalService);
 	}
 
 	/**

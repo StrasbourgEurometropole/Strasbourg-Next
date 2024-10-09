@@ -65,7 +65,6 @@ public interface AgendaExport extends AgendaExportModel, PersistedModel {
 	 * Retourne la liste des périodes auxquelles l'événement à lieu (classées par
 	 * date de début croissante)
 	 */
-	public java.util.List<eu.strasbourg.service.agenda.model.AgendaExportPeriod>
-		getAgendaExportPeriods();
+	public java.util.List<AgendaExportPeriod> getAgendaExportPeriods();
 
 }

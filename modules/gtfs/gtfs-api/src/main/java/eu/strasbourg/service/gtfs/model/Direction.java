@@ -50,6 +50,6 @@ public interface Direction extends DirectionModel, PersistedModel {
 	/**
 	 * Renvoie la Ligne de cette direction
 	 */
-	public eu.strasbourg.service.gtfs.model.Ligne getLigne();
+	public Ligne getLigne();
 
 }

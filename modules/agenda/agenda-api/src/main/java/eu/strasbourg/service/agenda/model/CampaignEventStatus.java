@@ -50,8 +50,7 @@ public interface CampaignEventStatus
 
 		};
 
-	public eu.strasbourg.service.agenda.model.CampaignEventStatus
-		getPreviousStatus();
+	public CampaignEventStatus getPreviousStatus();
 
 	/**
 	 * Retourne le label correspondant au statut

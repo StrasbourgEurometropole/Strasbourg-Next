@@ -316,7 +316,7 @@ public class LinkWrapper
 	 * Renvoie la version live du lien, si elle existe
 	 */
 	@Override
-	public eu.strasbourg.service.link.model.Link getLiveVersion() {
+	public Link getLiveVersion() {
 		return model.getLiveVersion();
 	}
 

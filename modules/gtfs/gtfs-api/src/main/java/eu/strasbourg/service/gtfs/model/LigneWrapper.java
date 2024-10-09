@@ -232,9 +232,7 @@ public class LigneWrapper
 	 * Renvoie la liste des Directions de cette ligne
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.gtfs.model.Direction>
-		getDirections() {
-
+	public java.util.List<Direction> getDirections() {
 		return model.getDirections();
 	}
 

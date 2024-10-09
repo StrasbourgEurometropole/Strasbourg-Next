@@ -492,7 +492,7 @@ public class CampaignEventWrapper
 	}
 
 	@Override
-	public eu.strasbourg.service.agenda.model.Campaign getCampaign() {
+	public Campaign getCampaign() {
 		return model.getCampaign();
 	}
 
@@ -717,9 +717,7 @@ public class CampaignEventWrapper
 	 * Renvoie le dernier statut en date de l'événement
 	 */
 	@Override
-	public eu.strasbourg.service.agenda.model.CampaignEventStatus
-		getLastStatus() {
-
+	public CampaignEventStatus getLastStatus() {
 		return model.getLastStatus();
 	}
 
@@ -795,9 +793,7 @@ public class CampaignEventWrapper
 	 * Retourne les périodes
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod>
-		getPeriods() {
-
+	public java.util.List<EventPeriod> getPeriods() {
 		return model.getPeriods();
 	}
 
@@ -1172,10 +1168,7 @@ public class CampaignEventWrapper
 	 * des statuts de l'événement classé par ordre chronologique
 	 */
 	@Override
-	public java.util.List
-		<eu.strasbourg.service.agenda.model.CampaignEventStatus>
-			getStatusHistory() {
-
+	public java.util.List<CampaignEventStatus> getStatusHistory() {
 		return model.getStatusHistory();
 	}
 
@@ -2637,7 +2630,7 @@ public class CampaignEventWrapper
 	}
 
 	@Override
-	public eu.strasbourg.service.agenda.model.CampaignEventStatus updateStatus(
+	public CampaignEventStatus updateStatus(
 			int newStatus, String comment,
 			com.liferay.portal.kernel.model.User user)
 		throws com.liferay.portal.kernel.exception.PortalException {

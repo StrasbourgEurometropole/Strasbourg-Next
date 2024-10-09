@@ -1,5 +1,5 @@
-create index IX_D0DAEFFC on notification_Notification (expirationDate, status);
-create index IX_E7FE9F4B on notification_Notification (publicationDate, status);
+create index IX_7F2824FC on notification_Notification (status, expirationDate);
+create index IX_7C8F543F on notification_Notification (status, publicationDate);
 
 create index IX_5870626F on notification_UserNotificationChannel (channelId);
 

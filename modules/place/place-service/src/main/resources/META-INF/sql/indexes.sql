@@ -1,10 +1,8 @@
-create index IX_3CA26AC3 on place_CsmapCacheJson (createPlace, isActive);
-create index IX_85063253 on place_CsmapCacheJson (createPlace, modifiedPlace, isActive);
-create index IX_C37BEC16 on place_CsmapCacheJson (modifiedPlace, isActive);
+create index IX_9860A813 on place_CsmapCacheJson (isActive, createPlace, modifiedPlace);
+create index IX_ABC28D8E on place_CsmapCacheJson (isActive, modifiedPlace);
 create index IX_42240398 on place_CsmapCacheJson (uuid_[$COLUMN_LENGTH:75$]);
 
 create index IX_6AE2BDA8 on place_GoogleMyBusinessHistoric (groupId);
-create index IX_596C76B6 on place_GoogleMyBusinessHistoric (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_51EF32B8 on place_GoogleMyBusinessHistoric (uuid_[$COLUMN_LENGTH:75$], groupId);
 
 create index IX_6FFF5F54 on place_Historic (suppressionDate);
@@ -17,7 +15,6 @@ create index IX_9DFD4BE7 on place_Place (SIGid[$COLUMN_LENGTH:75$]);
 create index IX_A56E7895 on place_Place (groupId);
 create index IX_240ACBB4 on place_Place (name[$COLUMN_LENGTH:400$]);
 create index IX_7F1EBE5F on place_Place (priceId);
-create index IX_4F6FB669 on place_Place (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_FB14C32B on place_Place (uuid_[$COLUMN_LENGTH:75$], groupId);
 
 create index IX_C6227E5D on place_Price (uuid_[$COLUMN_LENGTH:75$]);

@@ -254,7 +254,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
                         folder.getFolderId(), budgetPhoto.getName(),
                         MimeTypesUtil.getContentType(budgetPhoto),
                         budgetPhoto.getName(), "", title,
-                        "", imageBytes, null, null, sc);
+                        "", imageBytes, null,  null, null, sc);
                 // Lien de l'image a l'entite
                 budgetParticipatif.setImageId(fileEntry.getFileEntryId());
                 
@@ -350,7 +350,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
                                             folder.getFolderId(), name,
                                             MimeTypesUtil.getContentType(file),
                                             name, "", title,
-                                            "", imageBytes, null, null, sc);
+                                            "", imageBytes, null,  null, null, sc);
                                 }catch(Exception e) {
                                     fileEntry = DLAppLocalServiceUtil.getFileEntry(
                                             themeDisplay.getScopeGroupId(), folder.getFolderId(), name);

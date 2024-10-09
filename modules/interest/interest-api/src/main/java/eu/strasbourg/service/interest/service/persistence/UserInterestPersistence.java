@@ -157,9 +157,7 @@ public interface UserInterestPersistence extends BasePersistence<UserInterest> {
 	 * @throws NoSuchUserInterestException if a user interest with the primary key could not be found
 	 */
 	public UserInterest[] findByInterestId_PrevAndNext(
-			eu.strasbourg.service.interest.service.persistence.UserInterestPK
-				userInterestPK,
-			long interestId,
+			UserInterestPK userInterestPK, long interestId,
 			com.liferay.portal.kernel.util.OrderByComparator<UserInterest>
 				orderByComparator)
 		throws NoSuchUserInterestException;
@@ -302,9 +300,7 @@ public interface UserInterestPersistence extends BasePersistence<UserInterest> {
 	 * @throws NoSuchUserInterestException if a user interest with the primary key could not be found
 	 */
 	public UserInterest[] findByPublikUserId_PrevAndNext(
-			eu.strasbourg.service.interest.service.persistence.UserInterestPK
-				userInterestPK,
-			String publikUserId,
+			UserInterestPK userInterestPK, String publikUserId,
 			com.liferay.portal.kernel.util.OrderByComparator<UserInterest>
 				orderByComparator)
 		throws NoSuchUserInterestException;
@@ -344,9 +340,7 @@ public interface UserInterestPersistence extends BasePersistence<UserInterest> {
 	 * @param userInterestPK the primary key for the new user interest
 	 * @return the new user interest
 	 */
-	public UserInterest create(
-		eu.strasbourg.service.interest.service.persistence.UserInterestPK
-			userInterestPK);
+	public UserInterest create(UserInterestPK userInterestPK);
 
 	/**
 	 * Removes the user interest with the primary key from the database. Also notifies the appropriate model listeners.
@@ -355,9 +349,7 @@ public interface UserInterestPersistence extends BasePersistence<UserInterest> {
 	 * @return the user interest that was removed
 	 * @throws NoSuchUserInterestException if a user interest with the primary key could not be found
 	 */
-	public UserInterest remove(
-			eu.strasbourg.service.interest.service.persistence.UserInterestPK
-				userInterestPK)
+	public UserInterest remove(UserInterestPK userInterestPK)
 		throws NoSuchUserInterestException;
 
 	public UserInterest updateImpl(UserInterest userInterest);
@@ -369,9 +361,7 @@ public interface UserInterestPersistence extends BasePersistence<UserInterest> {
 	 * @return the user interest
 	 * @throws NoSuchUserInterestException if a user interest with the primary key could not be found
 	 */
-	public UserInterest findByPrimaryKey(
-			eu.strasbourg.service.interest.service.persistence.UserInterestPK
-				userInterestPK)
+	public UserInterest findByPrimaryKey(UserInterestPK userInterestPK)
 		throws NoSuchUserInterestException;
 
 	/**
@@ -380,9 +370,7 @@ public interface UserInterestPersistence extends BasePersistence<UserInterest> {
 	 * @param userInterestPK the primary key of the user interest
 	 * @return the user interest, or <code>null</code> if a user interest with the primary key could not be found
 	 */
-	public UserInterest fetchByPrimaryKey(
-		eu.strasbourg.service.interest.service.persistence.UserInterestPK
-			userInterestPK);
+	public UserInterest fetchByPrimaryKey(UserInterestPK userInterestPK);
 
 	/**
 	 * Returns all the user interests.

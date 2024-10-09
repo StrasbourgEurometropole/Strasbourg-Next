@@ -68,9 +68,7 @@ public class UserNotificationStatusWrapper
 	}
 
 	@Override
-	public eu.strasbourg.service.notification.model.Notification
-		getNotification() {
-
+	public Notification getNotification() {
 		return model.getNotification();
 	}
 

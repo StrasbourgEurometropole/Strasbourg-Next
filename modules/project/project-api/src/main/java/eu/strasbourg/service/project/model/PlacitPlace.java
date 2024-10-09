@@ -52,12 +52,12 @@ public interface PlacitPlace extends PersistedModel, PlacitPlaceModel {
 	/**
 	 * Retourne le projet du lieu Placit
 	 */
-	public eu.strasbourg.service.project.model.Project getProject();
+	public Project getProject();
 
 	/**
 	 * Retourne la participation du lieu Placit
 	 */
-	public eu.strasbourg.service.project.model.Participation getParticipation();
+	public Participation getParticipation();
 
 	/**
 	 * Retourne l'AssetEntry rattaché à cette entité

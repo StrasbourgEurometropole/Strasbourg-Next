@@ -193,9 +193,7 @@ public class ImportReportWrapper
 	}
 
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
-		getDeletedEventsLines() {
-
+	public java.util.List<ImportReportLine> getDeletedEventsLines() {
 		return model.getDeletedEventsLines();
 	}
 
@@ -210,9 +208,7 @@ public class ImportReportWrapper
 	}
 
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
-		getDeletedManifestationsLines() {
-
+	public java.util.List<ImportReportLine> getDeletedManifestationsLines() {
 		return model.getDeletedManifestationsLines();
 	}
 
@@ -237,9 +233,7 @@ public class ImportReportWrapper
 	}
 
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
-		getErrorEventsLines() {
-
+	public java.util.List<ImportReportLine> getErrorEventsLines() {
 		return model.getErrorEventsLines();
 	}
 
@@ -254,9 +248,7 @@ public class ImportReportWrapper
 	}
 
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
-		getErrorManifestationsLines() {
-
+	public java.util.List<ImportReportLine> getErrorManifestationsLines() {
 		return model.getErrorManifestationsLines();
 	}
 
@@ -281,9 +273,7 @@ public class ImportReportWrapper
 	}
 
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
-		getLines() {
-
+	public java.util.List<ImportReportLine> getLines() {
 		return model.getLines();
 	}
 
@@ -298,9 +288,7 @@ public class ImportReportWrapper
 	}
 
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
-		getModifiedEventsLines() {
-
+	public java.util.List<ImportReportLine> getModifiedEventsLines() {
 		return model.getModifiedEventsLines();
 	}
 
@@ -315,9 +303,7 @@ public class ImportReportWrapper
 	}
 
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
-		getModifiedManifestationsLines() {
-
+	public java.util.List<ImportReportLine> getModifiedManifestationsLines() {
 		return model.getModifiedManifestationsLines();
 	}
 
@@ -332,9 +318,7 @@ public class ImportReportWrapper
 	}
 
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
-		getNewEventsLines() {
-
+	public java.util.List<ImportReportLine> getNewEventsLines() {
 		return model.getNewEventsLines();
 	}
 
@@ -349,9 +333,7 @@ public class ImportReportWrapper
 	}
 
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.ImportReportLine>
-		getNewManifestationsLines() {
-
+	public java.util.List<ImportReportLine> getNewManifestationsLines() {
 		return model.getNewManifestationsLines();
 	}
 

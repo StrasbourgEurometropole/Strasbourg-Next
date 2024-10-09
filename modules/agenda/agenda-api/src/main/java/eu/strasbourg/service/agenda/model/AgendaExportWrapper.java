@@ -194,9 +194,7 @@ public class AgendaExportWrapper
 	 * date de début croissante)
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.agenda.model.AgendaExportPeriod>
-		getAgendaExportPeriods() {
-
+	public java.util.List<AgendaExportPeriod> getAgendaExportPeriods() {
 		return model.getAgendaExportPeriods();
 	}
 

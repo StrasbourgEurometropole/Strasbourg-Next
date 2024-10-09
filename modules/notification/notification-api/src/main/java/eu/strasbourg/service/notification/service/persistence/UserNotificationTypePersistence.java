@@ -159,9 +159,7 @@ public interface UserNotificationTypePersistence
 	 * @throws NoSuchUserNotificationTypeException if a user notification type with the primary key could not be found
 	 */
 	public UserNotificationType[] findByPublikUserId_PrevAndNext(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationTypePK userNotificationTypePK,
-			String publikUserId,
+			UserNotificationTypePK userNotificationTypePK, String publikUserId,
 			com.liferay.portal.kernel.util.OrderByComparator
 				<UserNotificationType> orderByComparator)
 		throws NoSuchUserNotificationTypeException;
@@ -304,9 +302,7 @@ public interface UserNotificationTypePersistence
 	 * @throws NoSuchUserNotificationTypeException if a user notification type with the primary key could not be found
 	 */
 	public UserNotificationType[] findByTypeId_PrevAndNext(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationTypePK userNotificationTypePK,
-			long typeId,
+			UserNotificationTypePK userNotificationTypePK, long typeId,
 			com.liferay.portal.kernel.util.OrderByComparator
 				<UserNotificationType> orderByComparator)
 		throws NoSuchUserNotificationTypeException;
@@ -348,8 +344,7 @@ public interface UserNotificationTypePersistence
 	 * @return the new user notification type
 	 */
 	public UserNotificationType create(
-		eu.strasbourg.service.notification.service.persistence.
-			UserNotificationTypePK userNotificationTypePK);
+		UserNotificationTypePK userNotificationTypePK);
 
 	/**
 	 * Removes the user notification type with the primary key from the database. Also notifies the appropriate model listeners.
@@ -359,8 +354,7 @@ public interface UserNotificationTypePersistence
 	 * @throws NoSuchUserNotificationTypeException if a user notification type with the primary key could not be found
 	 */
 	public UserNotificationType remove(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationTypePK userNotificationTypePK)
+			UserNotificationTypePK userNotificationTypePK)
 		throws NoSuchUserNotificationTypeException;
 
 	public UserNotificationType updateImpl(
@@ -374,8 +368,7 @@ public interface UserNotificationTypePersistence
 	 * @throws NoSuchUserNotificationTypeException if a user notification type with the primary key could not be found
 	 */
 	public UserNotificationType findByPrimaryKey(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationTypePK userNotificationTypePK)
+			UserNotificationTypePK userNotificationTypePK)
 		throws NoSuchUserNotificationTypeException;
 
 	/**
@@ -385,8 +378,7 @@ public interface UserNotificationTypePersistence
 	 * @return the user notification type, or <code>null</code> if a user notification type with the primary key could not be found
 	 */
 	public UserNotificationType fetchByPrimaryKey(
-		eu.strasbourg.service.notification.service.persistence.
-			UserNotificationTypePK userNotificationTypePK);
+		UserNotificationTypePK userNotificationTypePK);
 
 	/**
 	 * Returns all the user notification types.

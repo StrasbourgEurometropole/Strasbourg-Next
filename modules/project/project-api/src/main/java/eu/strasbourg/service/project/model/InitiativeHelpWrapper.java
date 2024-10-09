@@ -191,7 +191,7 @@ public class InitiativeHelpWrapper
 	 * @throws PortalException
 	 */
 	@Override
-	public eu.strasbourg.service.project.model.Initiative getInitiative() {
+	public Initiative getInitiative() {
 		return model.getInitiative();
 	}
 

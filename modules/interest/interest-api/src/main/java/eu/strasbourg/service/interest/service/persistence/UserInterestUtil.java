@@ -255,9 +255,8 @@ public class UserInterestUtil {
 	 * @throws NoSuchUserInterestException if a user interest with the primary key could not be found
 	 */
 	public static UserInterest[] findByInterestId_PrevAndNext(
-			eu.strasbourg.service.interest.service.persistence.UserInterestPK
-				userInterestPK,
-			long interestId, OrderByComparator<UserInterest> orderByComparator)
+			UserInterestPK userInterestPK, long interestId,
+			OrderByComparator<UserInterest> orderByComparator)
 		throws eu.strasbourg.service.interest.exception.
 			NoSuchUserInterestException {
 
@@ -432,9 +431,7 @@ public class UserInterestUtil {
 	 * @throws NoSuchUserInterestException if a user interest with the primary key could not be found
 	 */
 	public static UserInterest[] findByPublikUserId_PrevAndNext(
-			eu.strasbourg.service.interest.service.persistence.UserInterestPK
-				userInterestPK,
-			String publikUserId,
+			UserInterestPK userInterestPK, String publikUserId,
 			OrderByComparator<UserInterest> orderByComparator)
 		throws eu.strasbourg.service.interest.exception.
 			NoSuchUserInterestException {
@@ -486,10 +483,7 @@ public class UserInterestUtil {
 	 * @param userInterestPK the primary key for the new user interest
 	 * @return the new user interest
 	 */
-	public static UserInterest create(
-		eu.strasbourg.service.interest.service.persistence.UserInterestPK
-			userInterestPK) {
-
+	public static UserInterest create(UserInterestPK userInterestPK) {
 		return getPersistence().create(userInterestPK);
 	}
 
@@ -500,9 +494,7 @@ public class UserInterestUtil {
 	 * @return the user interest that was removed
 	 * @throws NoSuchUserInterestException if a user interest with the primary key could not be found
 	 */
-	public static UserInterest remove(
-			eu.strasbourg.service.interest.service.persistence.UserInterestPK
-				userInterestPK)
+	public static UserInterest remove(UserInterestPK userInterestPK)
 		throws eu.strasbourg.service.interest.exception.
 			NoSuchUserInterestException {
 
@@ -520,9 +512,7 @@ public class UserInterestUtil {
 	 * @return the user interest
 	 * @throws NoSuchUserInterestException if a user interest with the primary key could not be found
 	 */
-	public static UserInterest findByPrimaryKey(
-			eu.strasbourg.service.interest.service.persistence.UserInterestPK
-				userInterestPK)
+	public static UserInterest findByPrimaryKey(UserInterestPK userInterestPK)
 		throws eu.strasbourg.service.interest.exception.
 			NoSuchUserInterestException {
 
@@ -536,8 +526,7 @@ public class UserInterestUtil {
 	 * @return the user interest, or <code>null</code> if a user interest with the primary key could not be found
 	 */
 	public static UserInterest fetchByPrimaryKey(
-		eu.strasbourg.service.interest.service.persistence.UserInterestPK
-			userInterestPK) {
+		UserInterestPK userInterestPK) {
 
 		return getPersistence().fetchByPrimaryKey(userInterestPK);
 	}

@@ -34,7 +34,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import eu.strasbourg.service.csmap.model.Thematic;
 import eu.strasbourg.service.csmap.service.ThematicLocalService;
-import eu.strasbourg.service.csmap.service.ThematicLocalServiceUtil;
 import eu.strasbourg.service.csmap.service.persistence.AgendaPersistence;
 import eu.strasbourg.service.csmap.service.persistence.BaseNoncePersistence;
 import eu.strasbourg.service.csmap.service.persistence.CsmapCachePersistence;
@@ -69,7 +68,7 @@ public abstract class ThematicLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>ThematicLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>ThematicLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>ThematicLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.csmap.service.ThematicLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -376,7 +375,6 @@ public abstract class ThematicLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		ThematicLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -390,8 +388,6 @@ public abstract class ThematicLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		thematicLocalService = (ThematicLocalService)aopProxy;
-
-		ThematicLocalServiceUtil.setService(thematicLocalService);
 	}
 
 	/**

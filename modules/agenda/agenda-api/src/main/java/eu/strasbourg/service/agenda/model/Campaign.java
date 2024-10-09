@@ -82,8 +82,7 @@ public interface Campaign extends CampaignModel, PersistedModel {
 	/**
 	 * Retourne la liste des événements de la campagne
 	 */
-	public java.util.List<eu.strasbourg.service.agenda.model.CampaignEvent>
-		getEvents();
+	public java.util.List<CampaignEvent> getEvents();
 
 	/**
 	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry

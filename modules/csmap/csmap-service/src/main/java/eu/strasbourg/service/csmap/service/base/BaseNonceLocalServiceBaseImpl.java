@@ -34,7 +34,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import eu.strasbourg.service.csmap.model.BaseNonce;
 import eu.strasbourg.service.csmap.service.BaseNonceLocalService;
-import eu.strasbourg.service.csmap.service.BaseNonceLocalServiceUtil;
 import eu.strasbourg.service.csmap.service.persistence.AgendaPersistence;
 import eu.strasbourg.service.csmap.service.persistence.BaseNoncePersistence;
 import eu.strasbourg.service.csmap.service.persistence.CsmapCachePersistence;
@@ -69,7 +68,7 @@ public abstract class BaseNonceLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>BaseNonceLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>BaseNonceLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>BaseNonceLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.csmap.service.BaseNonceLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -377,7 +376,6 @@ public abstract class BaseNonceLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		BaseNonceLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -391,8 +389,6 @@ public abstract class BaseNonceLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		baseNonceLocalService = (BaseNonceLocalService)aopProxy;
-
-		BaseNonceLocalServiceUtil.setService(baseNonceLocalService);
 	}
 
 	/**

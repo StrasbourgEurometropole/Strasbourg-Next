@@ -84,6 +84,6 @@ public interface InitiativeHelp extends InitiativeHelpModel, PersistedModel {
 	 * @return
 	 * @throws PortalException
 	 */
-	public eu.strasbourg.service.project.model.Initiative getInitiative();
+	public Initiative getInitiative();
 
 }

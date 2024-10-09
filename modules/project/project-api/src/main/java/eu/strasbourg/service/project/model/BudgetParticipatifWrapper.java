@@ -442,9 +442,7 @@ public class BudgetParticipatifWrapper
 	 * Retourne la liste des entrées timelines du projet
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.ProjectTimeline>
-		getBudgetParticipatifTimelines() {
-
+	public java.util.List<ProjectTimeline> getBudgetParticipatifTimelines() {
 		return model.getBudgetParticipatifTimelines();
 	}
 
@@ -476,9 +474,7 @@ public class BudgetParticipatifWrapper
 	 * @return la liste de bp.
 	 */
 	@Override
-	public java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif> getChilds() {
-
+	public java.util.List<BudgetParticipatif> getChilds() {
 		return model.getChilds();
 	}
 
@@ -1021,7 +1017,7 @@ public class BudgetParticipatifWrapper
 	 * @return Le BP parent
 	 */
 	@Override
-	public eu.strasbourg.service.project.model.BudgetParticipatif getParent() {
+	public BudgetParticipatif getParent() {
 		return model.getParent();
 	}
 
@@ -1036,7 +1032,7 @@ public class BudgetParticipatifWrapper
 	}
 
 	@Override
-	public eu.strasbourg.service.project.model.BudgetPhase getPhase() {
+	public BudgetPhase getPhase() {
 		return model.getPhase();
 	}
 
@@ -1067,9 +1063,7 @@ public class BudgetParticipatifWrapper
 	 * Retourne la liste des lieux placit liés
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
-		getPlacitPlaces() {
-
+	public java.util.List<PlacitPlace> getPlacitPlaces() {
 		return model.getPlacitPlaces();
 	}
 
@@ -1177,12 +1171,10 @@ public class BudgetParticipatifWrapper
 	 * @return la liste de bp.
 	 */
 	@Override
-	public java.util.List
-		<eu.strasbourg.service.project.model.BudgetParticipatif> getSuggestions(
-				javax.servlet.http.HttpServletRequest request,
-				int nbSuggestions)
-			throws com.liferay.portal.kernel.exception.PortalException,
-				   com.liferay.portal.kernel.search.SearchException {
+	public java.util.List<BudgetParticipatif> getSuggestions(
+			javax.servlet.http.HttpServletRequest request, int nbSuggestions)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			   com.liferay.portal.kernel.search.SearchException {
 
 		return model.getSuggestions(request, nbSuggestions);
 	}
@@ -1203,9 +1195,7 @@ public class BudgetParticipatifWrapper
 	 * @return Liste des soutiens
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.BudgetSupport>
-		getSupports() {
-
+	public java.util.List<BudgetSupport> getSupports() {
 		return model.getSupports();
 	}
 
@@ -1475,8 +1465,7 @@ public class BudgetParticipatifWrapper
 	 */
 	@Override
 	public void setBPStatus(
-		eu.strasbourg.service.project.model.BudgetParticipatif
-			budgetParticipatif,
+		BudgetParticipatif budgetParticipatif,
 		eu.strasbourg.service.project.constants.ParticiperCategories status,
 		long groupID) {
 

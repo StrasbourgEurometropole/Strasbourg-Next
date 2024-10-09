@@ -59,7 +59,7 @@ public class UserInterestWrapper
 	}
 
 	@Override
-	public eu.strasbourg.service.interest.model.Interest getInterest() {
+	public Interest getInterest() {
 		return model.getInterest();
 	}
 

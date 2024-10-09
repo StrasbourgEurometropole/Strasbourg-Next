@@ -49,23 +49,20 @@ public interface CampaignEvent extends CampaignEventModel, PersistedModel {
 
 		};
 
-	public eu.strasbourg.service.agenda.model.Campaign getCampaign();
+	public Campaign getCampaign();
 
 	/**
 	 * Retourne la liste de CampaignEventStatus, correspondant à l'historique
 	 * des statuts de l'événement classé par ordre chronologique
 	 */
-	public java.util.List
-		<eu.strasbourg.service.agenda.model.CampaignEventStatus>
-			getStatusHistory();
+	public java.util.List<CampaignEventStatus> getStatusHistory();
 
 	/**
 	 * Renvoie le dernier statut en date de l'événement
 	 */
-	public eu.strasbourg.service.agenda.model.CampaignEventStatus
-		getLastStatus();
+	public CampaignEventStatus getLastStatus();
 
-	public eu.strasbourg.service.agenda.model.CampaignEventStatus updateStatus(
+	public CampaignEventStatus updateStatus(
 			int newStatus, String comment,
 			com.liferay.portal.kernel.model.User user)
 		throws com.liferay.portal.kernel.exception.PortalException;
@@ -136,8 +133,7 @@ public interface CampaignEvent extends CampaignEventModel, PersistedModel {
 	/**
 	 * Retourne les périodes
 	 */
-	public java.util.List<eu.strasbourg.service.agenda.model.EventPeriod>
-		getPeriods();
+	public java.util.List<EventPeriod> getPeriods();
 
 	/**
 	 * Retourne le territoire (la ville) de l'événement (si lieu manuel)

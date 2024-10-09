@@ -205,6 +205,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 						imageBytes,
 						null,
 						null,
+						null,
 						sc);
 				
 				imageId = fileEntry.getFileEntryId();
@@ -231,6 +232,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 						"",
 						"",
 						imageBytes,
+						null ,
 						null,
 						null,
 						sc);

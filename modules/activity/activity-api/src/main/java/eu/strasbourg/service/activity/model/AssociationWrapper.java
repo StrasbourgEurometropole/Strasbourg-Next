@@ -329,7 +329,7 @@ public class AssociationWrapper
 	 * Retourne la version live de cette entité
 	 */
 	@Override
-	public eu.strasbourg.service.activity.model.Association getLiveVersion() {
+	public Association getLiveVersion() {
 		return model.getLiveVersion();
 	}
 
@@ -521,9 +521,7 @@ public class AssociationWrapper
 	 * Retourne les activités de l'association
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.activity.model.Practice>
-		getPractices() {
-
+	public java.util.List<Practice> getPractices() {
 		return model.getPractices();
 	}
 
@@ -531,10 +529,7 @@ public class AssociationWrapper
 	 * Retourne les catégories des activités triées par domaine de l'association
 	 */
 	@Override
-	public java.util.List
-		<eu.strasbourg.service.activity.model.PracticeCategories>
-			getPracticesCategories() {
-
+	public java.util.List<PracticeCategories> getPracticesCategories() {
 		return model.getPracticesCategories();
 	}
 

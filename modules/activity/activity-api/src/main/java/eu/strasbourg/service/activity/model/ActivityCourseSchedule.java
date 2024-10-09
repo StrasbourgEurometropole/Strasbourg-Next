@@ -54,14 +54,12 @@ public interface ActivityCourseSchedule
 	/**
 	 * Retourne le lieu de l'horaire
 	 */
-	public eu.strasbourg.service.activity.model.ActivityCoursePlace
-		getActivityCoursePlace();
+	public ActivityCoursePlace getActivityCoursePlace();
 
 	/**
 	 * Retourne la version live de cette entité
 	 */
-	public eu.strasbourg.service.activity.model.ActivityCourseSchedule
-		getLiveVersion();
+	public ActivityCourseSchedule getLiveVersion();
 
 	/**
 	 * Retourne l'AssetEntry rattaché à cette entité

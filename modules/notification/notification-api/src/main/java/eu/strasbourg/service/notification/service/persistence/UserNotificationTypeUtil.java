@@ -264,9 +264,7 @@ public class UserNotificationTypeUtil {
 	 * @throws NoSuchUserNotificationTypeException if a user notification type with the primary key could not be found
 	 */
 	public static UserNotificationType[] findByPublikUserId_PrevAndNext(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationTypePK userNotificationTypePK,
-			String publikUserId,
+			UserNotificationTypePK userNotificationTypePK, String publikUserId,
 			OrderByComparator<UserNotificationType> orderByComparator)
 		throws eu.strasbourg.service.notification.exception.
 			NoSuchUserNotificationTypeException {
@@ -438,9 +436,7 @@ public class UserNotificationTypeUtil {
 	 * @throws NoSuchUserNotificationTypeException if a user notification type with the primary key could not be found
 	 */
 	public static UserNotificationType[] findByTypeId_PrevAndNext(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationTypePK userNotificationTypePK,
-			long typeId,
+			UserNotificationTypePK userNotificationTypePK, long typeId,
 			OrderByComparator<UserNotificationType> orderByComparator)
 		throws eu.strasbourg.service.notification.exception.
 			NoSuchUserNotificationTypeException {
@@ -495,8 +491,7 @@ public class UserNotificationTypeUtil {
 	 * @return the new user notification type
 	 */
 	public static UserNotificationType create(
-		eu.strasbourg.service.notification.service.persistence.
-			UserNotificationTypePK userNotificationTypePK) {
+		UserNotificationTypePK userNotificationTypePK) {
 
 		return getPersistence().create(userNotificationTypePK);
 	}
@@ -509,8 +504,7 @@ public class UserNotificationTypeUtil {
 	 * @throws NoSuchUserNotificationTypeException if a user notification type with the primary key could not be found
 	 */
 	public static UserNotificationType remove(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationTypePK userNotificationTypePK)
+			UserNotificationTypePK userNotificationTypePK)
 		throws eu.strasbourg.service.notification.exception.
 			NoSuchUserNotificationTypeException {
 
@@ -531,8 +525,7 @@ public class UserNotificationTypeUtil {
 	 * @throws NoSuchUserNotificationTypeException if a user notification type with the primary key could not be found
 	 */
 	public static UserNotificationType findByPrimaryKey(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationTypePK userNotificationTypePK)
+			UserNotificationTypePK userNotificationTypePK)
 		throws eu.strasbourg.service.notification.exception.
 			NoSuchUserNotificationTypeException {
 
@@ -546,8 +539,7 @@ public class UserNotificationTypeUtil {
 	 * @return the user notification type, or <code>null</code> if a user notification type with the primary key could not be found
 	 */
 	public static UserNotificationType fetchByPrimaryKey(
-		eu.strasbourg.service.notification.service.persistence.
-			UserNotificationTypePK userNotificationTypePK) {
+		UserNotificationTypePK userNotificationTypePK) {
 
 		return getPersistence().fetchByPrimaryKey(userNotificationTypePK);
 	}

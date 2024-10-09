@@ -47,7 +47,7 @@ public interface Like extends LikeModel, PersistedModel {
 
 		};
 
-	public eu.strasbourg.service.like.model.LikeType getLikeType();
+	public LikeType getLikeType();
 
 	/**
 	 * Retourne la version JSON d'un like/dislike

@@ -172,10 +172,7 @@ public class FormSendRecordFieldWrapper
 	 * @return la liste des signalements
 	 */
 	@Override
-	public java.util.List
-		<eu.strasbourg.service.formSendRecordField.model.
-			FormSendRecordFieldSignalement> findSignalements() {
-
+	public java.util.List<FormSendRecordFieldSignalement> findSignalements() {
 		return model.findSignalements();
 	}
 

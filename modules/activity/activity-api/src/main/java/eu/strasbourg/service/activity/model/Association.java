@@ -52,7 +52,7 @@ public interface Association extends AssociationModel, PersistedModel {
 	/**
 	 * Retourne la version live de cette entité
 	 */
-	public eu.strasbourg.service.activity.model.Association getLiveVersion();
+	public Association getLiveVersion();
 
 	/**
 	 * Retourne l'AssetEntry rattaché à cette entité
@@ -69,15 +69,12 @@ public interface Association extends AssociationModel, PersistedModel {
 	/**
 	 * Retourne les activités de l'association
 	 */
-	public java.util.List<eu.strasbourg.service.activity.model.Practice>
-		getPractices();
+	public java.util.List<Practice> getPractices();
 
 	/**
 	 * Retourne les catégories des activités triées par domaine de l'association
 	 */
-	public java.util.List
-		<eu.strasbourg.service.activity.model.PracticeCategories>
-			getPracticesCategories();
+	public java.util.List<PracticeCategories> getPracticesCategories();
 
 	/**
 	 * Retourne les territoires de l'association

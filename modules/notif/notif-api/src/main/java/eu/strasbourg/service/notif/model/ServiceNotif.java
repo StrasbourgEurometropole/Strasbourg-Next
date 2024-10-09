@@ -52,13 +52,11 @@ public interface ServiceNotif extends PersistedModel, ServiceNotifModel {
 	/**
 	 * Retourne les Natures du service
 	 */
-	public java.util.List<eu.strasbourg.service.notif.model.NatureNotif>
-		getNatures();
+	public java.util.List<NatureNotif> getNatures();
 
 	/**
 	 * Retourne les Messages du service
 	 */
-	public java.util.List<eu.strasbourg.service.notif.model.Message>
-		getMessages();
+	public java.util.List<Message> getMessages();
 
 }

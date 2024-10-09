@@ -52,7 +52,7 @@ public interface Official extends OfficialModel, PersistedModel {
 	/**
 	 * Renvoie la version live de l'élu, si il existe
 	 */
-	public eu.strasbourg.service.official.model.Official getLiveVersion();
+	public Official getLiveVersion();
 
 	/**
 	 * Renvoie l'URL de l'image à partir de l'id du DLFileEntry

@@ -505,9 +505,7 @@ public class InitiativeWrapper
 	 * Retourne les aides qu'on affiche de l'initiative
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.InitiativeHelp>
-		getHelps() {
-
+	public java.util.List<InitiativeHelp> getHelps() {
 		return model.getHelps();
 	}
 
@@ -675,9 +673,7 @@ public class InitiativeWrapper
 	 * Retourne la liste des lieux placit liés à l'initiative
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
-		getPlacitPlaces() {
-
+	public java.util.List<PlacitPlace> getPlacitPlaces() {
 		return model.getPlacitPlaces();
 	}
 
@@ -807,10 +803,8 @@ public class InitiativeWrapper
 	 * @return la liste d'initiatives.
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.Initiative>
-			getSuggestions(
-				javax.servlet.http.HttpServletRequest request,
-				int nbSuggestions)
+	public java.util.List<Initiative> getSuggestions(
+			javax.servlet.http.HttpServletRequest request, int nbSuggestions)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			   com.liferay.portal.kernel.search.SearchException {
 

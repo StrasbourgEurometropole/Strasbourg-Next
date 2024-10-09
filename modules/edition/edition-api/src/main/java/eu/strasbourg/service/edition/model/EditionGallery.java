@@ -74,8 +74,7 @@ public interface EditionGallery extends EditionGalleryModel, PersistedModel {
 	/**
 	 * Renvoie la liste des éditions de la galerie
 	 */
-	public java.util.List<eu.strasbourg.service.edition.model.Edition>
-		getEditions();
+	public java.util.List<Edition> getEditions();
 
 	/**
 	 * Renvoie la liste des ids des éditions de la galerie sous forme de String
@@ -96,13 +95,12 @@ public interface EditionGallery extends EditionGalleryModel, PersistedModel {
 	/**
 	 * Renvoie la liste des éditions publiées de la galerie
 	 */
-	public java.util.List<eu.strasbourg.service.edition.model.Edition>
-		getPublishedEditions();
+	public java.util.List<Edition> getPublishedEditions();
 
 	/**
 	 * Renvoie la version live de la galerie d'édition, si elle existe
 	 */
-	public eu.strasbourg.service.edition.model.EditionGallery getLiveVersion();
+	public EditionGallery getLiveVersion();
 
 	/**
 	 * Retourne la version JSON de la galerie

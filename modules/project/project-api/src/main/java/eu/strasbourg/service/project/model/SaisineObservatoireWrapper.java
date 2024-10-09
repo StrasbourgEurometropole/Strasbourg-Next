@@ -793,9 +793,7 @@ public class SaisineObservatoireWrapper
 	 * Retourne la liste des lieux placit liés à la petition
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
-		getPlacitPlaces() {
-
+	public java.util.List<PlacitPlace> getPlacitPlaces() {
 		return model.getPlacitPlaces();
 	}
 
@@ -927,11 +925,8 @@ public class SaisineObservatoireWrapper
 	 * @return la liste de pétition.
 	 */
 	@Override
-	public java.util.List
-		<eu.strasbourg.service.project.model.SaisineObservatoire>
-			getSuggestions(
-				javax.servlet.http.HttpServletRequest request,
-				int nbSuggestions) {
+	public java.util.List<SaisineObservatoire> getSuggestions(
+		javax.servlet.http.HttpServletRequest request, int nbSuggestions) {
 
 		return model.getSuggestions(request, nbSuggestions);
 	}

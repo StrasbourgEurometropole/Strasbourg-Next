@@ -80,8 +80,7 @@ public interface Official extends OfficialModel, PersistedModel {
 	/**
 	 * Renvoie les types de conseil rattachés à cet élu
 	 */
-	public java.util.List<eu.strasbourg.service.council.model.Type>
-		getCouncilTypes();
+	public java.util.List<Type> getCouncilTypes();
 
 	/**
 	 * Renvoie un strind 'id types de conseil rattachés à cet élu

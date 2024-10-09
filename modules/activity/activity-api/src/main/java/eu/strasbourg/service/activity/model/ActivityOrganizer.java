@@ -54,8 +54,7 @@ public interface ActivityOrganizer
 	/**
 	 * Retourne la version live de cette entité
 	 */
-	public eu.strasbourg.service.activity.model.ActivityOrganizer
-		getLiveVersion();
+	public ActivityOrganizer getLiveVersion();
 
 	/**
 	 * Retourne l'AssetEntry rattaché à cette entité

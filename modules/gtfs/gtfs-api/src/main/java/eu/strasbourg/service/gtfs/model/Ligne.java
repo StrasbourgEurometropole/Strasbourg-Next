@@ -62,8 +62,7 @@ public interface Ligne extends LigneModel, PersistedModel {
 	/**
 	 * Renvoie la liste des Directions de cette ligne
 	 */
-	public java.util.List<eu.strasbourg.service.gtfs.model.Direction>
-		getDirections();
+	public java.util.List<Direction> getDirections();
 
 	/**
 	 * Retourne les couleurs de la ligne au format JSON

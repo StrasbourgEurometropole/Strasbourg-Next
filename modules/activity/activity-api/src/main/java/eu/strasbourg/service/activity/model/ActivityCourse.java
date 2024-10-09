@@ -97,20 +97,17 @@ public interface ActivityCourse extends ActivityCourseModel, PersistedModel {
 	/**
 	 * Retourne l'organisateur du cours
 	 */
-	public eu.strasbourg.service.activity.model.ActivityOrganizer
-		getActivityOrganizer();
+	public ActivityOrganizer getActivityOrganizer();
 
 	/**
 	 * Retourne l'activité du cours
 	 */
-	public eu.strasbourg.service.activity.model.Activity getActivity();
+	public Activity getActivity();
 
 	/**
 	 * Retourne les horaires par lieu du cours
 	 */
-	public java.util.List
-		<eu.strasbourg.service.activity.model.ActivityCoursePlace>
-			getActivityCoursePlaces();
+	public java.util.List<ActivityCoursePlace> getActivityCoursePlaces();
 
 	/**
 	 * Retourne les noms des lieux du cours
@@ -147,7 +144,7 @@ public interface ActivityCourse extends ActivityCourseModel, PersistedModel {
 	/**
 	 * Retourne la version live de cette entité
 	 */
-	public eu.strasbourg.service.activity.model.ActivityCourse getLiveVersion();
+	public ActivityCourse getLiveVersion();
 
 	/**
 	 * Retourne l'AssetEntry rattaché à cette entité
@@ -168,8 +165,7 @@ public interface ActivityCourse extends ActivityCourseModel, PersistedModel {
 	 *
 	 * En : Period -> Place -> Schedule
 	 */
-	public eu.strasbourg.service.activity.model.CourseAgenda getCourseAgenda(
-		long groupId, java.util.Locale locale);
+	public CourseAgenda getCourseAgenda(long groupId, java.util.Locale locale);
 
 	/**
 	 * Retourne la version JSON de la course

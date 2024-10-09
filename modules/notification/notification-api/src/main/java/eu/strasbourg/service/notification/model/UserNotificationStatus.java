@@ -78,7 +78,6 @@ public interface UserNotificationStatus
 	 */
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
 
-	public eu.strasbourg.service.notification.model.Notification
-		getNotification();
+	public Notification getNotification();
 
 }

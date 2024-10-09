@@ -478,7 +478,7 @@ public class OfficialWrapper
 	 * Renvoie la version live de l'élu, si il existe
 	 */
 	@Override
-	public eu.strasbourg.service.official.model.Official getLiveVersion() {
+	public Official getLiveVersion() {
 		return model.getLiveVersion();
 	}
 

@@ -266,8 +266,7 @@ public class UserNotificationChannelUtil {
 	 * @throws NoSuchUserNotificationChannelException if a user notification channel with the primary key could not be found
 	 */
 	public static UserNotificationChannel[] findByPublikUserId_PrevAndNext(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationChannelPK userNotificationChannelPK,
+			UserNotificationChannelPK userNotificationChannelPK,
 			String publikUserId,
 			OrderByComparator<UserNotificationChannel> orderByComparator)
 		throws eu.strasbourg.service.notification.exception.
@@ -446,9 +445,7 @@ public class UserNotificationChannelUtil {
 	 * @throws NoSuchUserNotificationChannelException if a user notification channel with the primary key could not be found
 	 */
 	public static UserNotificationChannel[] findByChannelId_PrevAndNext(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationChannelPK userNotificationChannelPK,
-			long channelId,
+			UserNotificationChannelPK userNotificationChannelPK, long channelId,
 			OrderByComparator<UserNotificationChannel> orderByComparator)
 		throws eu.strasbourg.service.notification.exception.
 			NoSuchUserNotificationChannelException {
@@ -505,8 +502,7 @@ public class UserNotificationChannelUtil {
 	 * @return the new user notification channel
 	 */
 	public static UserNotificationChannel create(
-		eu.strasbourg.service.notification.service.persistence.
-			UserNotificationChannelPK userNotificationChannelPK) {
+		UserNotificationChannelPK userNotificationChannelPK) {
 
 		return getPersistence().create(userNotificationChannelPK);
 	}
@@ -519,8 +515,7 @@ public class UserNotificationChannelUtil {
 	 * @throws NoSuchUserNotificationChannelException if a user notification channel with the primary key could not be found
 	 */
 	public static UserNotificationChannel remove(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationChannelPK userNotificationChannelPK)
+			UserNotificationChannelPK userNotificationChannelPK)
 		throws eu.strasbourg.service.notification.exception.
 			NoSuchUserNotificationChannelException {
 
@@ -541,8 +536,7 @@ public class UserNotificationChannelUtil {
 	 * @throws NoSuchUserNotificationChannelException if a user notification channel with the primary key could not be found
 	 */
 	public static UserNotificationChannel findByPrimaryKey(
-			eu.strasbourg.service.notification.service.persistence.
-				UserNotificationChannelPK userNotificationChannelPK)
+			UserNotificationChannelPK userNotificationChannelPK)
 		throws eu.strasbourg.service.notification.exception.
 			NoSuchUserNotificationChannelException {
 
@@ -556,8 +550,7 @@ public class UserNotificationChannelUtil {
 	 * @return the user notification channel, or <code>null</code> if a user notification channel with the primary key could not be found
 	 */
 	public static UserNotificationChannel fetchByPrimaryKey(
-		eu.strasbourg.service.notification.service.persistence.
-			UserNotificationChannelPK userNotificationChannelPK) {
+		UserNotificationChannelPK userNotificationChannelPK) {
 
 		return getPersistence().fetchByPrimaryKey(userNotificationChannelPK);
 	}

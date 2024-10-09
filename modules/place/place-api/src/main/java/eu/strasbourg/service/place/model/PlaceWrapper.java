@@ -1250,7 +1250,7 @@ public class PlaceWrapper
 	 * Retourne la période par défaut
 	 */
 	@Override
-	public eu.strasbourg.service.place.model.Period getDefaultPeriod() {
+	public Period getDefaultPeriod() {
 		return model.getDefaultPeriod();
 	}
 
@@ -1545,10 +1545,8 @@ public class PlaceWrapper
 	 * suivants "startDate" (inclus)
 	 */
 	@Override
-	public Map
-		<String,
-		 java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>>
-			getFollowingWeekSchedules(Date startDate, java.util.Locale locale) {
+	public Map<String, java.util.List<PlaceSchedule>> getFollowingWeekSchedules(
+		Date startDate, java.util.Locale locale) {
 
 		return model.getFollowingWeekSchedules(startDate, locale);
 	}
@@ -1588,10 +1586,8 @@ public class PlaceWrapper
 	 * semaine en cours
 	 */
 	@Override
-	public Map
-		<String,
-		 java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>>
-			getHoraire(Date dateJour, java.util.Locale locale) {
+	public Map<String, java.util.List<PlaceSchedule>> getHoraire(
+		Date dateJour, java.util.Locale locale) {
 
 		return model.getHoraire(dateJour, locale);
 	}
@@ -1920,10 +1916,9 @@ public class PlaceWrapper
 	 * Retourne le PlaceSchedule de la prochaine ouverture (pour X jour)
 	 */
 	@Override
-	public eu.strasbourg.service.place.model.PlaceSchedule
-		getNextScheduleOpening(
-			java.util.GregorianCalendar today, int nbDays,
-			java.util.Locale locale) {
+	public PlaceSchedule getNextScheduleOpening(
+		java.util.GregorianCalendar today, int nbDays,
+		java.util.Locale locale) {
 
 		return model.getNextScheduleOpening(today, nbDays, locale);
 	}
@@ -1932,9 +1927,8 @@ public class PlaceWrapper
 	 * Retourne le PlaceSchedule de la prochaine ouverture (sous quinzaine)
 	 */
 	@Override
-	public eu.strasbourg.service.place.model.PlaceSchedule
-		getNextScheduleOpening(
-			java.util.GregorianCalendar today, java.util.Locale locale) {
+	public PlaceSchedule getNextScheduleOpening(
+		java.util.GregorianCalendar today, java.util.Locale locale) {
 
 		return model.getNextScheduleOpening(today, locale);
 	}
@@ -1943,9 +1937,7 @@ public class PlaceWrapper
 	 * Retourne les périodes qui ne sont pas par défaut (uniquement les périodes en cours ou futures)
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.place.model.Period>
-		getNonDefaultPeriods() {
-
+	public java.util.List<Period> getNonDefaultPeriods() {
 		return model.getNonDefaultPeriods();
 	}
 
@@ -1969,9 +1961,7 @@ public class PlaceWrapper
 	 * Retourne les Periods du lieux
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.place.model.Period>
-		getPeriods() {
-
+	public java.util.List<Period> getPeriods() {
 		return model.getPeriods();
 	}
 
@@ -2000,11 +1990,8 @@ public class PlaceWrapper
 	 * "date" + "daysCount"
 	 */
 	@Override
-	public Map
-		<String,
-		 java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>>
-			getPlaceSchedule(
-				Date date, int daysCount, java.util.Locale locale) {
+	public Map<String, java.util.List<PlaceSchedule>> getPlaceSchedule(
+		Date date, int daysCount, java.util.Locale locale) {
 
 		return model.getPlaceSchedule(date, daysCount, locale);
 	}
@@ -2013,9 +2000,8 @@ public class PlaceWrapper
 	 * Retourne les horaires d'ouverture du jour
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>
-		getPlaceSchedule(
-			java.util.GregorianCalendar jourSemaine, java.util.Locale locale) {
+	public java.util.List<PlaceSchedule> getPlaceSchedule(
+		java.util.GregorianCalendar jourSemaine, java.util.Locale locale) {
 
 		return model.getPlaceSchedule(jourSemaine, locale);
 	}
@@ -2028,10 +2014,9 @@ public class PlaceWrapper
 	 sur 2 mois à partir du jour + le début de la semaine)
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>
-		getPlaceScheduleException(
-			java.util.GregorianCalendar dateChoisie, Boolean surPeriode,
-			java.util.Locale locale) {
+	public java.util.List<PlaceSchedule> getPlaceScheduleException(
+		java.util.GregorianCalendar dateChoisie, Boolean surPeriode,
+		java.util.Locale locale) {
 
 		return model.getPlaceScheduleException(dateChoisie, surPeriode, locale);
 	}
@@ -2041,9 +2026,8 @@ public class PlaceWrapper
 	 * de la semaine en cours, jusqu'à dans 2 mois (pour freemarker)
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>
-		getPlaceScheduleExceptionFreeMarker(
-			Date dateDeb, Boolean surPeriode, java.util.Locale locale) {
+	public java.util.List<PlaceSchedule> getPlaceScheduleExceptionFreeMarker(
+		Date dateDeb, Boolean surPeriode, java.util.Locale locale) {
 
 		return model.getPlaceScheduleExceptionFreeMarker(
 			dateDeb, surPeriode, locale);
@@ -2129,7 +2113,7 @@ public class PlaceWrapper
 	 * Retourne le prix rattaché au lieu
 	 */
 	@Override
-	public eu.strasbourg.service.place.model.Price getPrice() {
+	public Price getPrice() {
 		return model.getPrice();
 	}
 
@@ -2157,9 +2141,7 @@ public class PlaceWrapper
 	 * Retourne les PublicHolidays
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.place.model.PublicHoliday>
-		getPublicHolidays() {
-
+	public java.util.List<PublicHoliday> getPublicHolidays() {
 		return model.getPublicHolidays();
 	}
 
@@ -2167,9 +2149,7 @@ public class PlaceWrapper
 	 * Retourne les sous lieux publiés du lieu
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.place.model.SubPlace>
-		getPublishedSubPlaces() {
-
+	public java.util.List<SubPlace> getPublishedSubPlaces() {
 		return model.getPublishedSubPlaces();
 	}
 
@@ -2213,9 +2193,8 @@ public class PlaceWrapper
 	 * Retourne les horaires habituels d'ouverture du jour
 	 */
 	@Override
-	public eu.strasbourg.service.place.model.PlaceSchedule
-		getRegularPlaceSchedule(
-			java.util.GregorianCalendar jourSemaine, java.util.Locale locale) {
+	public PlaceSchedule getRegularPlaceSchedule(
+		java.util.GregorianCalendar jourSemaine, java.util.Locale locale) {
 
 		return model.getRegularPlaceSchedule(jourSemaine, locale);
 	}
@@ -2332,9 +2311,7 @@ public class PlaceWrapper
 	 * Retourne les ScheduleExceptions du lieu
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.place.model.ScheduleException>
-		getScheduleExceptions() {
-
+	public java.util.List<ScheduleException> getScheduleExceptions() {
 		return model.getScheduleExceptions();
 	}
 
@@ -2809,9 +2786,7 @@ public class PlaceWrapper
 	 * Retourne les sous lieux du lieux
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.place.model.SubPlace>
-		getSubPlaces() {
-
+	public java.util.List<SubPlace> getSubPlaces() {
 		return model.getSubPlaces();
 	}
 

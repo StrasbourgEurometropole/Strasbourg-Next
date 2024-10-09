@@ -310,7 +310,7 @@ public class SubmitInitiativeResourceCommand implements MVCResourceCommand {
                         folder.getFolderId(), photo.getName(),
                         MimeTypesUtil.getContentType(photo),
                         photo.getName(), "", initiative.getTitle(),
-                        "", imageBytes, null, null, sc);
+                        "", imageBytes, null, null, null, sc);
                 // Lien de l'image a l'entite
                 initiative.setImageId(fileEntry.getFileEntryId());
                 

@@ -346,9 +346,7 @@ public class ActivityOrganizerWrapper
 	 * Retourne la version live de cette entité
 	 */
 	@Override
-	public eu.strasbourg.service.activity.model.ActivityOrganizer
-		getLiveVersion() {
-
+	public ActivityOrganizer getLiveVersion() {
 		return model.getLiveVersion();
 	}
 

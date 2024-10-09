@@ -417,7 +417,7 @@ public class HelpRequestWrapper
 	 * @throws PortalException
 	 */
 	@Override
-	public eu.strasbourg.service.help.model.HelpProposal getHelpProposal() {
+	public HelpProposal getHelpProposal() {
 		return model.getHelpProposal();
 	}
 

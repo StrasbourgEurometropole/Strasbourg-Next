@@ -880,9 +880,7 @@ public class PetitionWrapper
 	 * Retourne la liste des lieux placit liés à la petition
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
-		getPlacitPlaces() {
-
+	public java.util.List<PlacitPlace> getPlacitPlaces() {
 		return model.getPlacitPlaces();
 	}
 
@@ -975,9 +973,7 @@ public class PetitionWrapper
 	}
 
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.Signataire>
-		getSignataires() {
-
+	public java.util.List<Signataire> getSignataires() {
 		return model.getSignataires();
 	}
 
@@ -1041,10 +1037,8 @@ public class PetitionWrapper
 	 * @return la liste de pétition.
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.project.model.Petition>
-			getSuggestions(
-				javax.servlet.http.HttpServletRequest request,
-				int nbSuggestions)
+	public java.util.List<Petition> getSuggestions(
+			javax.servlet.http.HttpServletRequest request, int nbSuggestions)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			   com.liferay.portal.kernel.search.SearchException {
 

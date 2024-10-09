@@ -68,6 +68,6 @@ public interface UserInterest extends PersistedModel, UserInterestModel {
 
 		};
 
-	public eu.strasbourg.service.interest.model.Interest getInterest();
+	public Interest getInterest();
 
 }

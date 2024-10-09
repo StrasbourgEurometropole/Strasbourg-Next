@@ -383,7 +383,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                     folder.getFolderId(), photoFile.getName(),
                     MimeTypesUtil.getContentType(photoFile),
                     photoFile.getName(), "", budgetParticipatif.getTitle(),
-                    "", imageBytes, null, null, sc);
+                    "", imageBytes, null, null, null, sc);
 
             // Lien de l'image a l'entite
             budgetParticipatif.setImageId(fileEntry.getFileEntryId());
@@ -464,7 +464,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                             folder.getFolderId(), name,
                             MimeTypesUtil.getContentType(file),
                             name, "", budgetParticipatif.getTitle(),
-                            "", imageBytes, null, null, sc);
+                            "", imageBytes, null,  null, null, sc);
                 }catch(Exception e) {
                     fileEntry = DLAppLocalServiceUtil.getFileEntry(
                             themeDisplay.getScopeGroupId(), folder.getFolderId(), name);

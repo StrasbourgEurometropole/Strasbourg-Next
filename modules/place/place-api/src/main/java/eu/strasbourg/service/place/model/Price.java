@@ -50,7 +50,7 @@ public interface Price extends PersistedModel, PriceModel {
 	/**
 	 * Retourne les lieux du tarif
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.Place> getPlaces();
+	public java.util.List<Place> getPlaces();
 
 	/**
 	 * Renvoie la liste des IDs des lieux auxquelles ce tarif

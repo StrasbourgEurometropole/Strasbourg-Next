@@ -343,7 +343,7 @@ public class SubmitSaisineObservatoireResourceCommand implements MVCResourceComm
                         folder.getFolderId(), photo.getName(),
                         MimeTypesUtil.getContentType(photo),
                         photo.getName(), "", saisine.getTitle(),
-                        "", imageBytes, null, null, sc);
+                        "", imageBytes, null, null, null, sc);
                 // Lien de l'image a l'entite
                 saisine.setImageId(fileEntry.getFileEntryId());
 

@@ -34,7 +34,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import eu.strasbourg.service.csmap.model.Agenda;
 import eu.strasbourg.service.csmap.service.AgendaLocalService;
-import eu.strasbourg.service.csmap.service.AgendaLocalServiceUtil;
 import eu.strasbourg.service.csmap.service.persistence.AgendaPersistence;
 import eu.strasbourg.service.csmap.service.persistence.BaseNoncePersistence;
 import eu.strasbourg.service.csmap.service.persistence.CsmapCachePersistence;
@@ -69,7 +68,7 @@ public abstract class AgendaLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>AgendaLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>AgendaLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>AgendaLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.csmap.service.AgendaLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -374,7 +373,6 @@ public abstract class AgendaLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		AgendaLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -388,8 +386,6 @@ public abstract class AgendaLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		agendaLocalService = (AgendaLocalService)aopProxy;
-
-		AgendaLocalServiceUtil.setService(agendaLocalService);
 	}
 
 	/**

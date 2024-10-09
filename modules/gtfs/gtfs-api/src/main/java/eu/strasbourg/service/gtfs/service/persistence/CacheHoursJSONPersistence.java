@@ -158,9 +158,7 @@ public interface CacheHoursJSONPersistence
 	 * @throws NoSuchCacheHoursJSONException if a cache hours json with the primary key could not be found
 	 */
 	public CacheHoursJSON[] findByUuid_PrevAndNext(
-			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
-				cacheHoursJSONPK,
-			String uuid,
+			CacheHoursJSONPK cacheHoursJSONPK, String uuid,
 			com.liferay.portal.kernel.util.OrderByComparator<CacheHoursJSON>
 				orderByComparator)
 		throws NoSuchCacheHoursJSONException;
@@ -303,9 +301,7 @@ public interface CacheHoursJSONPersistence
 	 * @throws NoSuchCacheHoursJSONException if a cache hours json with the primary key could not be found
 	 */
 	public CacheHoursJSON[] findByStopCode_PrevAndNext(
-			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
-				cacheHoursJSONPK,
-			String stopCode,
+			CacheHoursJSONPK cacheHoursJSONPK, String stopCode,
 			com.liferay.portal.kernel.util.OrderByComparator<CacheHoursJSON>
 				orderByComparator)
 		throws NoSuchCacheHoursJSONException;
@@ -448,9 +444,7 @@ public interface CacheHoursJSONPersistence
 	 * @throws NoSuchCacheHoursJSONException if a cache hours json with the primary key could not be found
 	 */
 	public CacheHoursJSON[] findByType_PrevAndNext(
-			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
-				cacheHoursJSONPK,
-			int type,
+			CacheHoursJSONPK cacheHoursJSONPK, int type,
 			com.liferay.portal.kernel.util.OrderByComparator<CacheHoursJSON>
 				orderByComparator)
 		throws NoSuchCacheHoursJSONException;
@@ -540,9 +534,7 @@ public interface CacheHoursJSONPersistence
 	 * @param cacheHoursJSONPK the primary key for the new cache hours json
 	 * @return the new cache hours json
 	 */
-	public CacheHoursJSON create(
-		eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
-			cacheHoursJSONPK);
+	public CacheHoursJSON create(CacheHoursJSONPK cacheHoursJSONPK);
 
 	/**
 	 * Removes the cache hours json with the primary key from the database. Also notifies the appropriate model listeners.
@@ -551,9 +543,7 @@ public interface CacheHoursJSONPersistence
 	 * @return the cache hours json that was removed
 	 * @throws NoSuchCacheHoursJSONException if a cache hours json with the primary key could not be found
 	 */
-	public CacheHoursJSON remove(
-			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
-				cacheHoursJSONPK)
+	public CacheHoursJSON remove(CacheHoursJSONPK cacheHoursJSONPK)
 		throws NoSuchCacheHoursJSONException;
 
 	public CacheHoursJSON updateImpl(CacheHoursJSON cacheHoursJSON);
@@ -565,9 +555,7 @@ public interface CacheHoursJSONPersistence
 	 * @return the cache hours json
 	 * @throws NoSuchCacheHoursJSONException if a cache hours json with the primary key could not be found
 	 */
-	public CacheHoursJSON findByPrimaryKey(
-			eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
-				cacheHoursJSONPK)
+	public CacheHoursJSON findByPrimaryKey(CacheHoursJSONPK cacheHoursJSONPK)
 		throws NoSuchCacheHoursJSONException;
 
 	/**
@@ -576,9 +564,7 @@ public interface CacheHoursJSONPersistence
 	 * @param cacheHoursJSONPK the primary key of the cache hours json
 	 * @return the cache hours json, or <code>null</code> if a cache hours json with the primary key could not be found
 	 */
-	public CacheHoursJSON fetchByPrimaryKey(
-		eu.strasbourg.service.gtfs.service.persistence.CacheHoursJSONPK
-			cacheHoursJSONPK);
+	public CacheHoursJSON fetchByPrimaryKey(CacheHoursJSONPK cacheHoursJSONPK);
 
 	/**
 	 * Returns all the cache hours jsons.

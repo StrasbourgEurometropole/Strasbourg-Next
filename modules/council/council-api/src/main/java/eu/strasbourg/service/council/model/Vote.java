@@ -69,7 +69,7 @@ public interface Vote extends PersistedModel, VoteModel {
 	/**
 	 * Renvoie l'élu à qui appartient le vote
 	 */
-	public eu.strasbourg.service.council.model.Official getOfficial();
+	public Official getOfficial();
 
 	/**
 	 * Renvoie le nom complet de l'élu à qui appartient le vote
@@ -79,8 +79,7 @@ public interface Vote extends PersistedModel, VoteModel {
 	/**
 	 * Renvoie l'élu qui a voté par procuration
 	 */
-	public eu.strasbourg.service.council.model.Official
-		getOfficialProcuration();
+	public Official getOfficialProcuration();
 
 	/**
 	 * Renvoie le nom complet de l'élu l'élu qui a voté par procuration

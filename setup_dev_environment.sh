@@ -1,0 +1,1 @@
+cp -r ./docker/configs/files/osgi/configs/* /opt/liferay/osgi/configs/

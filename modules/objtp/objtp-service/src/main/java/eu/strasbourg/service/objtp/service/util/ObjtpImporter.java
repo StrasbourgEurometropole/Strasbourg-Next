@@ -378,6 +378,7 @@ public class ObjtpImporter {
 						null,
 						null,
 						imageBytes,
+						dateDepot,
 						null,
 						null,
 						serviceContext);

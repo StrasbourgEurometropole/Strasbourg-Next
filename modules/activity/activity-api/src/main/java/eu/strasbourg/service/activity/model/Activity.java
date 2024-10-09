@@ -52,21 +52,19 @@ public interface Activity extends ActivityModel, PersistedModel {
 	/**
 	 * Retourne les cours de l'activité
 	 */
-	public java.util.List<eu.strasbourg.service.activity.model.ActivityCourse>
-		getActivityCourses();
+	public java.util.List<ActivityCourse> getActivityCourses();
 
 	/**
 	 * Retourne les cours publiés du lieu
 	 */
-	public java.util.List<eu.strasbourg.service.activity.model.ActivityCourse>
-		getPublishedActivityCourses();
+	public java.util.List<ActivityCourse> getPublishedActivityCourses();
 
 	/**
 	 * Retourne la version live de cette entité
 	 *
 	 * @return
 	 */
-	public eu.strasbourg.service.activity.model.Activity getLiveVersion();
+	public Activity getLiveVersion();
 
 	/**
 	 * Retourne l'AssetEntry rattaché à cette entité

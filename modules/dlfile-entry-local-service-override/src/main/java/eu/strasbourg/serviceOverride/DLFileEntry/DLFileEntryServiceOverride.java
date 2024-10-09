@@ -56,7 +56,7 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
             long folderId, String sourceFileName, String mimeType, String title, String urlTitle,
             String description, String changeLog, long fileEntryTypeId,
             Map <String, DDMFormValues> ddmFormValuesMap, File file, InputStream is, long size,
-            Date expirationDate, Date reviewDate, ServiceContext serviceContext) throws PortalException {
+            Date displayDate, Date expirationDate, Date reviewDate, ServiceContext serviceContext) throws PortalException {
         DLFileEntry entry = DLFileEntryLocalServiceUtil.fetchFileEntry(groupId, folderId, title);
         Map<String, Object> map = new HashMap<>(overrideDLFileEntry(entry,sourceFileName, mimeType, title, file, is, size));
         sourceFileName = (String) map.get("sourceFileName");
@@ -67,7 +67,7 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
         size = (long) map.get("size");
         return super.addFileEntry(externalReferenceCode, userId, groupId, repositoryId, folderId, sourceFileName,
                 mimeType, title, urlTitle, description, changeLog, fileEntryTypeId, ddmFormValuesMap, file,
-                is, size, expirationDate, reviewDate, serviceContext);
+                is, size, displayDate , expirationDate, reviewDate, serviceContext);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
             long userId, long fileEntryId, String sourceFileName, String mimeType, String title, String urlTitle,
             String description, String changeLog, DLVersionNumberIncrease dlVersionNumberIncrease,
             long fileEntryTypeId, Map<String, DDMFormValues> ddmFormValuesMap, File file,
-            InputStream is, long size, Date expirationDate, Date reviewDate, ServiceContext serviceContext)
+            InputStream is, long size, Date displayDate , Date expirationDate, Date reviewDate, ServiceContext serviceContext)
             throws PortalException {
         DLFileEntry entry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryTypeId);
         Map<String, Object> map = new HashMap<>(overrideDLFileEntry(entry, sourceFileName,
@@ -89,7 +89,7 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
         size = (long) map.get("size");
         return super.updateFileEntry(userId, fileEntryId, sourceFileName, mimeType, title, urlTitle,
                 description, changeLog, dlVersionNumberIncrease, fileEntryTypeId, ddmFormValuesMap, file,
-                is, size, expirationDate, reviewDate, serviceContext);
+                is, size,displayDate, expirationDate, reviewDate, serviceContext);
     }
 
     private RenderedImage readImage(boolean imageInFile, InputStream is, File file) throws IOException {

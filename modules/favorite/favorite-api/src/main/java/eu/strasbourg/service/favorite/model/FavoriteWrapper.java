@@ -185,7 +185,7 @@ public class FavoriteWrapper
 	}
 
 	@Override
-	public eu.strasbourg.service.favorite.model.FavoriteType getFavoriteType() {
+	public FavoriteType getFavoriteType() {
 		return model.getFavoriteType();
 	}
 

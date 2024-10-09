@@ -241,8 +241,8 @@ public class VoteUtil {
 	 * @throws NoSuchVoteException if a vote with the primary key could not be found
 	 */
 	public static Vote[] findByUuid_PrevAndNext(
-			eu.strasbourg.service.council.service.persistence.VotePK votePK,
-			String uuid, OrderByComparator<Vote> orderByComparator)
+			VotePK votePK, String uuid,
+			OrderByComparator<Vote> orderByComparator)
 		throws eu.strasbourg.service.council.exception.NoSuchVoteException {
 
 		return getPersistence().findByUuid_PrevAndNext(
@@ -485,8 +485,7 @@ public class VoteUtil {
 	 * @throws NoSuchVoteException if a vote with the primary key could not be found
 	 */
 	public static Vote[] findByUuid_C_PrevAndNext(
-			eu.strasbourg.service.council.service.persistence.VotePK votePK,
-			String uuid, long companyId,
+			VotePK votePK, String uuid, long companyId,
 			OrderByComparator<Vote> orderByComparator)
 		throws eu.strasbourg.service.council.exception.NoSuchVoteException {
 
@@ -657,8 +656,8 @@ public class VoteUtil {
 	 * @throws NoSuchVoteException if a vote with the primary key could not be found
 	 */
 	public static Vote[] findByDeliberationId_PrevAndNext(
-			eu.strasbourg.service.council.service.persistence.VotePK votePK,
-			long deliberationId, OrderByComparator<Vote> orderByComparator)
+			VotePK votePK, long deliberationId,
+			OrderByComparator<Vote> orderByComparator)
 		throws eu.strasbourg.service.council.exception.NoSuchVoteException {
 
 		return getPersistence().findByDeliberationId_PrevAndNext(
@@ -782,9 +781,7 @@ public class VoteUtil {
 	 * @param votePK the primary key for the new vote
 	 * @return the new vote
 	 */
-	public static Vote create(
-		eu.strasbourg.service.council.service.persistence.VotePK votePK) {
-
+	public static Vote create(VotePK votePK) {
 		return getPersistence().create(votePK);
 	}
 
@@ -795,8 +792,7 @@ public class VoteUtil {
 	 * @return the vote that was removed
 	 * @throws NoSuchVoteException if a vote with the primary key could not be found
 	 */
-	public static Vote remove(
-			eu.strasbourg.service.council.service.persistence.VotePK votePK)
+	public static Vote remove(VotePK votePK)
 		throws eu.strasbourg.service.council.exception.NoSuchVoteException {
 
 		return getPersistence().remove(votePK);
@@ -813,8 +809,7 @@ public class VoteUtil {
 	 * @return the vote
 	 * @throws NoSuchVoteException if a vote with the primary key could not be found
 	 */
-	public static Vote findByPrimaryKey(
-			eu.strasbourg.service.council.service.persistence.VotePK votePK)
+	public static Vote findByPrimaryKey(VotePK votePK)
 		throws eu.strasbourg.service.council.exception.NoSuchVoteException {
 
 		return getPersistence().findByPrimaryKey(votePK);
@@ -826,9 +821,7 @@ public class VoteUtil {
 	 * @param votePK the primary key of the vote
 	 * @return the vote, or <code>null</code> if a vote with the primary key could not be found
 	 */
-	public static Vote fetchByPrimaryKey(
-		eu.strasbourg.service.council.service.persistence.VotePK votePK) {
-
+	public static Vote fetchByPrimaryKey(VotePK votePK) {
 		return getPersistence().fetchByPrimaryKey(votePK);
 	}
 

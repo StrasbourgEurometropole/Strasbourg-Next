@@ -34,7 +34,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import eu.strasbourg.service.csmap.model.RefreshToken;
 import eu.strasbourg.service.csmap.service.RefreshTokenLocalService;
-import eu.strasbourg.service.csmap.service.RefreshTokenLocalServiceUtil;
 import eu.strasbourg.service.csmap.service.persistence.AgendaPersistence;
 import eu.strasbourg.service.csmap.service.persistence.BaseNoncePersistence;
 import eu.strasbourg.service.csmap.service.persistence.CsmapCachePersistence;
@@ -69,7 +68,7 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>RefreshTokenLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>RefreshTokenLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>RefreshTokenLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.csmap.service.RefreshTokenLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -383,7 +382,6 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		RefreshTokenLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -397,8 +395,6 @@ public abstract class RefreshTokenLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		refreshTokenLocalService = (RefreshTokenLocalService)aopProxy;
-
-		RefreshTokenLocalServiceUtil.setService(refreshTokenLocalService);
 	}
 
 	/**

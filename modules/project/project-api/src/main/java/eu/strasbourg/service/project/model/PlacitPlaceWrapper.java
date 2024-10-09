@@ -357,9 +357,7 @@ public class PlacitPlaceWrapper
 	 * Retourne la participation du lieu Placit
 	 */
 	@Override
-	public eu.strasbourg.service.project.model.Participation
-		getParticipation() {
-
+	public Participation getParticipation() {
 		return model.getParticipation();
 	}
 
@@ -541,7 +539,7 @@ public class PlacitPlaceWrapper
 	 * Retourne le projet du lieu Placit
 	 */
 	@Override
-	public eu.strasbourg.service.project.model.Project getProject() {
+	public Project getProject() {
 		return model.getProject();
 	}
 

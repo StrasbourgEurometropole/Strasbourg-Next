@@ -48,7 +48,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import eu.strasbourg.service.help.model.HelpRequest;
 import eu.strasbourg.service.help.service.HelpRequestLocalService;
-import eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil;
 import eu.strasbourg.service.help.service.persistence.HelpProposalPersistence;
 import eu.strasbourg.service.help.service.persistence.HelpRequestPersistence;
 
@@ -79,7 +78,7 @@ public abstract class HelpRequestLocalServiceBaseImpl
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this class directly. Use <code>HelpRequestLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>HelpRequestLocalServiceUtil</code>.
+	 * Never modify or reference this class directly. Use <code>HelpRequestLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>eu.strasbourg.service.help.service.HelpRequestLocalServiceUtil</code>.
 	 */
 
 	/**
@@ -555,7 +554,6 @@ public abstract class HelpRequestLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		HelpRequestLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -569,8 +567,6 @@ public abstract class HelpRequestLocalServiceBaseImpl
 	@Override
 	public void setAopProxy(Object aopProxy) {
 		helpRequestLocalService = (HelpRequestLocalService)aopProxy;
-
-		HelpRequestLocalServiceUtil.setService(helpRequestLocalService);
 	}
 
 	/**

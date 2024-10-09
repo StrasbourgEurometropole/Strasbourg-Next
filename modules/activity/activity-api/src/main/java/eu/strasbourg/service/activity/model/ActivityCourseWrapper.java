@@ -211,7 +211,7 @@ public class ActivityCourseWrapper
 	 * Retourne l'activité du cours
 	 */
 	@Override
-	public eu.strasbourg.service.activity.model.Activity getActivity() {
+	public Activity getActivity() {
 		return model.getActivity();
 	}
 
@@ -229,10 +229,7 @@ public class ActivityCourseWrapper
 	 * Retourne les horaires par lieu du cours
 	 */
 	@Override
-	public java.util.List
-		<eu.strasbourg.service.activity.model.ActivityCoursePlace>
-			getActivityCoursePlaces() {
-
+	public java.util.List<ActivityCoursePlace> getActivityCoursePlaces() {
 		return model.getActivityCoursePlaces();
 	}
 
@@ -250,9 +247,7 @@ public class ActivityCourseWrapper
 	 * Retourne l'organisateur du cours
 	 */
 	@Override
-	public eu.strasbourg.service.activity.model.ActivityOrganizer
-		getActivityOrganizer() {
-
+	public ActivityOrganizer getActivityOrganizer() {
 		return model.getActivityOrganizer();
 	}
 
@@ -374,9 +369,7 @@ public class ActivityCourseWrapper
 	 * En : Period -> Place -> Schedule
 	 */
 	@Override
-	public eu.strasbourg.service.activity.model.CourseAgenda getCourseAgenda(
-		long groupId, java.util.Locale locale) {
-
+	public CourseAgenda getCourseAgenda(long groupId, java.util.Locale locale) {
 		return model.getCourseAgenda(groupId, locale);
 	}
 
@@ -505,9 +498,7 @@ public class ActivityCourseWrapper
 	 * Retourne la version live de cette entité
 	 */
 	@Override
-	public eu.strasbourg.service.activity.model.ActivityCourse
-		getLiveVersion() {
-
+	public ActivityCourse getLiveVersion() {
 		return model.getLiveVersion();
 	}
 

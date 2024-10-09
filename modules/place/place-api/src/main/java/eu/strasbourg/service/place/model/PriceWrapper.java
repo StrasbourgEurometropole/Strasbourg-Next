@@ -114,7 +114,7 @@ public class PriceWrapper
 	 * Retourne les lieux du tarif
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.place.model.Place> getPlaces() {
+	public java.util.List<Place> getPlaces() {
 		return model.getPlaces();
 	}
 

@@ -64,8 +64,7 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	/**
 	 * Retourne la liste des lieux placit liés à l'initiative
 	 */
-	public java.util.List<eu.strasbourg.service.project.model.PlacitPlace>
-		getPlacitPlaces();
+	public java.util.List<PlacitPlace> getPlacitPlaces();
 
 	/**
 	 * Retourne les noms des lieux placit de l'initiative
@@ -178,8 +177,7 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	/**
 	 * Retourne les aides qu'on affiche de l'initiative
 	 */
-	public java.util.List<eu.strasbourg.service.project.model.InitiativeHelp>
-		getHelps();
+	public java.util.List<InitiativeHelp> getHelps();
 
 	/**
 	 * L'utilisateur donne a t-il deja propose son aide a l'initiative
@@ -262,10 +260,8 @@ public interface Initiative extends InitiativeModel, PersistedModel {
 	 * @param nbSuggestions le nombre de suggestions.
 	 * @return la liste d'initiatives.
 	 */
-	public java.util.List<eu.strasbourg.service.project.model.Initiative>
-			getSuggestions(
-				javax.servlet.http.HttpServletRequest request,
-				int nbSuggestions)
+	public java.util.List<Initiative> getSuggestions(
+			javax.servlet.http.HttpServletRequest request, int nbSuggestions)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			   com.liferay.portal.kernel.search.SearchException;
 

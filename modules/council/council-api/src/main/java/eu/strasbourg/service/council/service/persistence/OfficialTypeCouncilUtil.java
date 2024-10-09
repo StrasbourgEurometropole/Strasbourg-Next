@@ -255,9 +255,7 @@ public class OfficialTypeCouncilUtil {
 	 * @throws NoSuchOfficialTypeCouncilException if a official type council with the primary key could not be found
 	 */
 	public static OfficialTypeCouncil[] findByUuid_PrevAndNext(
-			eu.strasbourg.service.council.service.persistence.
-				OfficialTypeCouncilPK officialTypeCouncilPK,
-			String uuid,
+			OfficialTypeCouncilPK officialTypeCouncilPK, String uuid,
 			OrderByComparator<OfficialTypeCouncil> orderByComparator)
 		throws eu.strasbourg.service.council.exception.
 			NoSuchOfficialTypeCouncilException {
@@ -509,9 +507,8 @@ public class OfficialTypeCouncilUtil {
 	 * @throws NoSuchOfficialTypeCouncilException if a official type council with the primary key could not be found
 	 */
 	public static OfficialTypeCouncil[] findByUuid_C_PrevAndNext(
-			eu.strasbourg.service.council.service.persistence.
-				OfficialTypeCouncilPK officialTypeCouncilPK,
-			String uuid, long companyId,
+			OfficialTypeCouncilPK officialTypeCouncilPK, String uuid,
+			long companyId,
 			OrderByComparator<OfficialTypeCouncil> orderByComparator)
 		throws eu.strasbourg.service.council.exception.
 			NoSuchOfficialTypeCouncilException {
@@ -689,9 +686,7 @@ public class OfficialTypeCouncilUtil {
 	 * @throws NoSuchOfficialTypeCouncilException if a official type council with the primary key could not be found
 	 */
 	public static OfficialTypeCouncil[] findByOfficialId_PrevAndNext(
-			eu.strasbourg.service.council.service.persistence.
-				OfficialTypeCouncilPK officialTypeCouncilPK,
-			long officialId,
+			OfficialTypeCouncilPK officialTypeCouncilPK, long officialId,
 			OrderByComparator<OfficialTypeCouncil> orderByComparator)
 		throws eu.strasbourg.service.council.exception.
 			NoSuchOfficialTypeCouncilException {
@@ -861,9 +856,7 @@ public class OfficialTypeCouncilUtil {
 	 * @throws NoSuchOfficialTypeCouncilException if a official type council with the primary key could not be found
 	 */
 	public static OfficialTypeCouncil[] findByTypeId_PrevAndNext(
-			eu.strasbourg.service.council.service.persistence.
-				OfficialTypeCouncilPK officialTypeCouncilPK,
-			long typeId,
+			OfficialTypeCouncilPK officialTypeCouncilPK, long typeId,
 			OrderByComparator<OfficialTypeCouncil> orderByComparator)
 		throws eu.strasbourg.service.council.exception.
 			NoSuchOfficialTypeCouncilException {
@@ -988,8 +981,7 @@ public class OfficialTypeCouncilUtil {
 	 * @return the new official type council
 	 */
 	public static OfficialTypeCouncil create(
-		eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPK
-			officialTypeCouncilPK) {
+		OfficialTypeCouncilPK officialTypeCouncilPK) {
 
 		return getPersistence().create(officialTypeCouncilPK);
 	}
@@ -1002,8 +994,7 @@ public class OfficialTypeCouncilUtil {
 	 * @throws NoSuchOfficialTypeCouncilException if a official type council with the primary key could not be found
 	 */
 	public static OfficialTypeCouncil remove(
-			eu.strasbourg.service.council.service.persistence.
-				OfficialTypeCouncilPK officialTypeCouncilPK)
+			OfficialTypeCouncilPK officialTypeCouncilPK)
 		throws eu.strasbourg.service.council.exception.
 			NoSuchOfficialTypeCouncilException {
 
@@ -1024,8 +1015,7 @@ public class OfficialTypeCouncilUtil {
 	 * @throws NoSuchOfficialTypeCouncilException if a official type council with the primary key could not be found
 	 */
 	public static OfficialTypeCouncil findByPrimaryKey(
-			eu.strasbourg.service.council.service.persistence.
-				OfficialTypeCouncilPK officialTypeCouncilPK)
+			OfficialTypeCouncilPK officialTypeCouncilPK)
 		throws eu.strasbourg.service.council.exception.
 			NoSuchOfficialTypeCouncilException {
 
@@ -1039,8 +1029,7 @@ public class OfficialTypeCouncilUtil {
 	 * @return the official type council, or <code>null</code> if a official type council with the primary key could not be found
 	 */
 	public static OfficialTypeCouncil fetchByPrimaryKey(
-		eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPK
-			officialTypeCouncilPK) {
+		OfficialTypeCouncilPK officialTypeCouncilPK) {
 
 		return getPersistence().fetchByPrimaryKey(officialTypeCouncilPK);
 	}

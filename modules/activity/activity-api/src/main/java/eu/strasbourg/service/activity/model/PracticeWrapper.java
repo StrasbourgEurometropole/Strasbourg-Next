@@ -159,7 +159,7 @@ public class PracticeWrapper
 	 * Retourne les activités de l'association
 	 */
 	@Override
-	public eu.strasbourg.service.activity.model.Association getAssociation() {
+	public Association getAssociation() {
 		return model.getAssociation();
 	}
 
@@ -228,7 +228,7 @@ public class PracticeWrapper
 	 * Retourne la version live de cette entité
 	 */
 	@Override
-	public eu.strasbourg.service.activity.model.Practice getLiveVersion() {
+	public Practice getLiveVersion() {
 		return model.getLiveVersion();
 	}
 

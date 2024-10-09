@@ -195,9 +195,7 @@ public class ActivityCourseScheduleWrapper
 	 * Retourne le lieu de l'horaire
 	 */
 	@Override
-	public eu.strasbourg.service.activity.model.ActivityCoursePlace
-		getActivityCoursePlace() {
-
+	public ActivityCoursePlace getActivityCoursePlace() {
 		return model.getActivityCoursePlace();
 	}
 
@@ -380,9 +378,7 @@ public class ActivityCourseScheduleWrapper
 	 * Retourne la version live de cette entité
 	 */
 	@Override
-	public eu.strasbourg.service.activity.model.ActivityCourseSchedule
-		getLiveVersion() {
-
+	public ActivityCourseSchedule getLiveVersion() {
 		return model.getLiveVersion();
 	}
 

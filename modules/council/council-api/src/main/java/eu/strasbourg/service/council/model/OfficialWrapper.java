@@ -205,9 +205,7 @@ public class OfficialWrapper
 	 * Renvoie les types de conseil rattachés à cet élu
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.council.model.Type>
-		getCouncilTypes() {
-
+	public java.util.List<Type> getCouncilTypes() {
 		return model.getCouncilTypes();
 	}
 

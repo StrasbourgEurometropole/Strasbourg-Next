@@ -158,9 +158,7 @@ public interface OfficialTypeCouncilPersistence
 	 * @throws NoSuchOfficialTypeCouncilException if a official type council with the primary key could not be found
 	 */
 	public OfficialTypeCouncil[] findByUuid_PrevAndNext(
-			eu.strasbourg.service.council.service.persistence.
-				OfficialTypeCouncilPK officialTypeCouncilPK,
-			String uuid,
+			OfficialTypeCouncilPK officialTypeCouncilPK, String uuid,
 			com.liferay.portal.kernel.util.OrderByComparator
 				<OfficialTypeCouncil> orderByComparator)
 		throws NoSuchOfficialTypeCouncilException;
@@ -363,9 +361,8 @@ public interface OfficialTypeCouncilPersistence
 	 * @throws NoSuchOfficialTypeCouncilException if a official type council with the primary key could not be found
 	 */
 	public OfficialTypeCouncil[] findByUuid_C_PrevAndNext(
-			eu.strasbourg.service.council.service.persistence.
-				OfficialTypeCouncilPK officialTypeCouncilPK,
-			String uuid, long companyId,
+			OfficialTypeCouncilPK officialTypeCouncilPK, String uuid,
+			long companyId,
 			com.liferay.portal.kernel.util.OrderByComparator
 				<OfficialTypeCouncil> orderByComparator)
 		throws NoSuchOfficialTypeCouncilException;
@@ -511,9 +508,7 @@ public interface OfficialTypeCouncilPersistence
 	 * @throws NoSuchOfficialTypeCouncilException if a official type council with the primary key could not be found
 	 */
 	public OfficialTypeCouncil[] findByOfficialId_PrevAndNext(
-			eu.strasbourg.service.council.service.persistence.
-				OfficialTypeCouncilPK officialTypeCouncilPK,
-			long officialId,
+			OfficialTypeCouncilPK officialTypeCouncilPK, long officialId,
 			com.liferay.portal.kernel.util.OrderByComparator
 				<OfficialTypeCouncil> orderByComparator)
 		throws NoSuchOfficialTypeCouncilException;
@@ -656,9 +651,7 @@ public interface OfficialTypeCouncilPersistence
 	 * @throws NoSuchOfficialTypeCouncilException if a official type council with the primary key could not be found
 	 */
 	public OfficialTypeCouncil[] findByTypeId_PrevAndNext(
-			eu.strasbourg.service.council.service.persistence.
-				OfficialTypeCouncilPK officialTypeCouncilPK,
-			long typeId,
+			OfficialTypeCouncilPK officialTypeCouncilPK, long typeId,
 			com.liferay.portal.kernel.util.OrderByComparator
 				<OfficialTypeCouncil> orderByComparator)
 		throws NoSuchOfficialTypeCouncilException;
@@ -753,8 +746,7 @@ public interface OfficialTypeCouncilPersistence
 	 * @return the new official type council
 	 */
 	public OfficialTypeCouncil create(
-		eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPK
-			officialTypeCouncilPK);
+		OfficialTypeCouncilPK officialTypeCouncilPK);
 
 	/**
 	 * Removes the official type council with the primary key from the database. Also notifies the appropriate model listeners.
@@ -764,8 +756,7 @@ public interface OfficialTypeCouncilPersistence
 	 * @throws NoSuchOfficialTypeCouncilException if a official type council with the primary key could not be found
 	 */
 	public OfficialTypeCouncil remove(
-			eu.strasbourg.service.council.service.persistence.
-				OfficialTypeCouncilPK officialTypeCouncilPK)
+			OfficialTypeCouncilPK officialTypeCouncilPK)
 		throws NoSuchOfficialTypeCouncilException;
 
 	public OfficialTypeCouncil updateImpl(
@@ -779,8 +770,7 @@ public interface OfficialTypeCouncilPersistence
 	 * @throws NoSuchOfficialTypeCouncilException if a official type council with the primary key could not be found
 	 */
 	public OfficialTypeCouncil findByPrimaryKey(
-			eu.strasbourg.service.council.service.persistence.
-				OfficialTypeCouncilPK officialTypeCouncilPK)
+			OfficialTypeCouncilPK officialTypeCouncilPK)
 		throws NoSuchOfficialTypeCouncilException;
 
 	/**
@@ -790,8 +780,7 @@ public interface OfficialTypeCouncilPersistence
 	 * @return the official type council, or <code>null</code> if a official type council with the primary key could not be found
 	 */
 	public OfficialTypeCouncil fetchByPrimaryKey(
-		eu.strasbourg.service.council.service.persistence.OfficialTypeCouncilPK
-			officialTypeCouncilPK);
+		OfficialTypeCouncilPK officialTypeCouncilPK);
 
 	/**
 	 * Returns all the official type councils.

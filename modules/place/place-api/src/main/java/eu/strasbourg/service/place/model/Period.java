@@ -50,30 +50,27 @@ public interface Period extends PeriodModel, PersistedModel {
 	/**
 	 * Retourne les Slots de la période pour un lieu
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.Slot> getAllSlots();
+	public java.util.List<Slot> getAllSlots();
 
 	/**
 	 * Retourne les Slots de la période pour un lieu
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.Slot> getSlots();
+	public java.util.List<Slot> getSlots();
 
 	/**
 	 * Retourne les Slots de la période pour un sous-lieu
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.Slot> getSlots(
-		long subPlaceId);
+	public java.util.List<Slot> getSlots(long subPlaceId);
 
 	/**
 	 * Retourne la liste des horaires par jour (0 = lundi, 1 = mardi, etc.)
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>
-		getWeekSchedule();
+	public java.util.List<PlaceSchedule> getWeekSchedule();
 
 	/**
 	 * Retourne la liste des horaires par jour pour le sous lieu (0 = lundi, 1 = mardi, etc.)
 	 */
-	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>
-		getWeekSchedule(long subPlaceId);
+	public java.util.List<PlaceSchedule> getWeekSchedule(long subPlaceId);
 
 	public String getDisplay(java.util.Locale locale);
 

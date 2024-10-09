@@ -53,7 +53,7 @@ public interface Favorite extends FavoriteModel, PersistedModel {
 
 	public com.liferay.asset.kernel.model.AssetEntry getAssetEntry();
 
-	public eu.strasbourg.service.favorite.model.FavoriteType getFavoriteType();
+	public FavoriteType getFavoriteType();
 
 	public boolean isOnDashboard();
 

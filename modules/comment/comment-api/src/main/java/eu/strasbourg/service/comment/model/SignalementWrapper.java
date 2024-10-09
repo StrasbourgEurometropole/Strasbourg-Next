@@ -174,7 +174,7 @@ public class SignalementWrapper
 	 * @return le commentaire.
 	 */
 	@Override
-	public eu.strasbourg.service.comment.model.Comment getComment() {
+	public Comment getComment() {
 		return model.getComment();
 	}
 

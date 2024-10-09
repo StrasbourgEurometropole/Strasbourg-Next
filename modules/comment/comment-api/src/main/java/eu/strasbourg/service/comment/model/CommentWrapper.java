@@ -193,9 +193,7 @@ public class CommentWrapper
 	 * @return la liste des signalements
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.comment.model.Signalement>
-		findSignalements() {
-
+	public java.util.List<Signalement> findSignalements() {
 		return model.findSignalements();
 	}
 
@@ -203,9 +201,7 @@ public class CommentWrapper
 	 * Retourne la liste des commentaires enfants de l'item
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.comment.model.Comment>
-		getApprovedChildComments() {
-
+	public java.util.List<Comment> getApprovedChildComments() {
 		return model.getApprovedChildComments();
 	}
 

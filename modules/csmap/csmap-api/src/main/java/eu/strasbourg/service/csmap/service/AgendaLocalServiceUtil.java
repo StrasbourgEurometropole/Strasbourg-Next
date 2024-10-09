@@ -9,6 +9,7 @@ import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.module.service.Snapshot;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import eu.strasbourg.service.csmap.model.Agenda;
@@ -300,13 +301,10 @@ public class AgendaLocalServiceUtil {
 	}
 
 	public static AgendaLocalService getService() {
-		return _service;
+		return _serviceSnapshot.get();
 	}
 
-	public static void setService(AgendaLocalService service) {
-		_service = service;
-	}
-
-	private static volatile AgendaLocalService _service;
+	private static final Snapshot<AgendaLocalService> _serviceSnapshot =
+		new Snapshot<>(AgendaLocalServiceUtil.class, AgendaLocalService.class);
 
 }

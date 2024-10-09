@@ -74,7 +74,7 @@ public interface Manifestation extends ManifestationModel, PersistedModel {
 	/**
 	 * Renvoie la liste des éditions de la galerie
 	 */
-	public java.util.List<eu.strasbourg.service.agenda.model.Event> getEvents();
+	public java.util.List<Event> getEvents();
 
 	/**
 	 * Renvoie la liste des ids des éditions de la galerie sous forme de String
@@ -84,8 +84,7 @@ public interface Manifestation extends ManifestationModel, PersistedModel {
 	/**
 	 * Renvoie la liste des éditions publiées de la galerie
 	 */
-	public java.util.List<eu.strasbourg.service.agenda.model.Event>
-		getPublishedEvents();
+	public java.util.List<Event> getPublishedEvents();
 
 	/**
 	 * Retourne la période principale de la manifestation sous forme de String
@@ -96,7 +95,7 @@ public interface Manifestation extends ManifestationModel, PersistedModel {
 	/**
 	 * Renvoie la version live de la manifestation, si elle existe
 	 */
-	public eu.strasbourg.service.agenda.model.Manifestation getLiveVersion();
+	public Manifestation getLiveVersion();
 
 	/**
 	 * Retourne les types de la manifestation

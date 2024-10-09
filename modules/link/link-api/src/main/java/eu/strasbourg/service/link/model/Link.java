@@ -62,6 +62,6 @@ public interface Link extends LinkModel, PersistedModel {
 	/**
 	 * Renvoie la version live du lien, si elle existe
 	 */
-	public eu.strasbourg.service.link.model.Link getLiveVersion();
+	public Link getLiveVersion();
 
 }

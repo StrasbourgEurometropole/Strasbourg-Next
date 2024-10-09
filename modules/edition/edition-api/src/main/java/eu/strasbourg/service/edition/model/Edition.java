@@ -72,8 +72,7 @@ public interface Edition extends EditionModel, PersistedModel {
 	/**
 	 * Renvoie la liste des galleries auxquelles cette édition appartient
 	 */
-	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery>
-		getEditionGalleries();
+	public java.util.List<EditionGallery> getEditionGalleries();
 
 	/**
 	 * Renvoie la liste des IDs des galleries auxquelles cette édition
@@ -84,8 +83,7 @@ public interface Edition extends EditionModel, PersistedModel {
 	/**
 	 * Renvoie la liste des galeries publiées
 	 */
-	public java.util.List<eu.strasbourg.service.edition.model.EditionGallery>
-		getPublishedEditionGalleries();
+	public java.util.List<EditionGallery> getPublishedEditionGalleries();
 
 	/**
 	 * Renvoie l'URL de téléchargement du fichier (que ce soit un FileEntry ou
@@ -112,7 +110,7 @@ public interface Edition extends EditionModel, PersistedModel {
 	/**
 	 * Renvoie la version live de l'édition, si elle existe
 	 */
-	public eu.strasbourg.service.edition.model.Edition getLiveVersion();
+	public Edition getLiveVersion();
 
 	/**
 	 * Retourne les sources de l'édition

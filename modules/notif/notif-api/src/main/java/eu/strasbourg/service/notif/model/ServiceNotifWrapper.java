@@ -155,9 +155,7 @@ public class ServiceNotifWrapper
 	 * Retourne les Messages du service
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.notif.model.Message>
-		getMessages() {
-
+	public java.util.List<Message> getMessages() {
 		return model.getMessages();
 	}
 
@@ -185,9 +183,7 @@ public class ServiceNotifWrapper
 	 * Retourne les Natures du service
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.notif.model.NatureNotif>
-		getNatures() {
-
+	public java.util.List<NatureNotif> getNatures() {
 		return model.getNatures();
 	}
 

@@ -144,7 +144,7 @@ public class DirectionWrapper
 	 * Renvoie la Ligne de cette direction
 	 */
 	@Override
-	public eu.strasbourg.service.gtfs.model.Ligne getLigne() {
+	public Ligne getLigne() {
 		return model.getLigne();
 	}
 
