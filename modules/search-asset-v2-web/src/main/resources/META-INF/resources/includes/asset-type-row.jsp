@@ -20,7 +20,7 @@
                     </c:forEach>
                 </aui:select>
                 <c:if test="${param.index gt 0}">
-                    <aui:button cssClass="form-group btn-icon icon icon-trash icon-2x" type="button" onClick="deleteAssetType(${param.index});"/>
+                    <clay:button class="form-group" icon="trash"  onClick="deleteAssetType(${param.index});" />
                 </c:if>
             </div>
 
@@ -67,8 +67,7 @@
                         </liferay-util:include>
                     </c:forEach>
                 </div>
-
-                <aui:button cssClass="btn-icon icon icon-plus icon-2x" type="button" onClick="addPrefilter(${param.index});"/>
+                <clay:button icon="plus"  onClick="addPrefilter(${param.index});" />
             </aui:fieldset>
         </aui:fieldset>
     </div>

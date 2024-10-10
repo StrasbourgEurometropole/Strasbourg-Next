@@ -66,12 +66,18 @@
 	
 	<!-- Ajout, suppression, duplication -->
 	<button class="add-schedule btn btn-default btn-icon-only toolbar-first toolbar-item" title="" type="button">
-		<span class="btn-icon icon icon-plus"></span>
+		<svg aria-hidden="true" class="lexicon-icon lexicon-icon-plus">
+			<use xlink:href="<%= themeDisplay.getPathThemeSpritemap() %>#plus" />
+		</svg>
 	</button>
 	<button class="remove-schedule btn btn-default btn-icon-only toolbar-first toolbar-item" title="" type="button">
-		<span class="btn-icon icon icon-minus"></span>
+		<svg aria-hidden="true" class="lexicon-icon lexicon-icon-minus">
+			<use xlink:href="<%= themeDisplay.getPathThemeSpritemap() %>#minus" />
+		</svg>
 	</button>
 	<button class="duplicate-schedule btn btn-default btn-icon-only toolbar-first toolbar-item" title="" type="button">
-		<span class="btn-icon icon icon-copy"></span>
+		<svg aria-hidden="true" class="lexicon-icon lexicon-icon-copy">
+			<use xlink:href="<%= themeDisplay.getPathThemeSpritemap() %>#copy" />
+		</svg>
 	</button>
 </div>

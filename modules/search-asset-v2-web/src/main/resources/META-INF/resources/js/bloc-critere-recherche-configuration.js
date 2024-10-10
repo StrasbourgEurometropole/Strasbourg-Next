@@ -14,6 +14,12 @@ var blocVocabulary = "" +
                 "<option class='' value='check'>" + Liferay.Language.get("checkbox") + "</option>" +
             "</select>" +
         "</div>     " +
-        "<button class='form-group btn btn-icon icon icon-trash icon-2x btn-default' id='" + namespace + "meht' onclick='deleteVocabulary(%%INDEX%%);' type='button'></button>" +
+    `
+			<button class="form-group btn btn-icon-only btn-monospaced btn-primary " id='${namespace}meht' onclick='deleteVocabulary(%%INDEX%%);'>
+					<svg aria-hidden="true" class="lexicon-icon lexicon-icon-trash " focusable="false" role="presentation">
+					  <use href="/o/admin-theme/images/clay/icons.svg#trash"></use>
+					</svg>
+			</button>
+` +
         "</div>" +
 "</div>";

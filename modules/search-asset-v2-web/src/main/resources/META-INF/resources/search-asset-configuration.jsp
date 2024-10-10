@@ -42,7 +42,7 @@
                             </c:forEach>
                         </div>
 
-                        <aui:button cssClass="btn-icon icon icon-plus icon-2x" type="button" onClick="addAssetType();"/>
+                        <clay:button icon="plus" onClick="addAssetType();"/>
 
                     </aui:fieldset>
 
@@ -63,8 +63,7 @@
                                 </liferay-util:include>
                             </c:forEach>
                         </div>
-
-                        <aui:button cssClass="btn-icon icon icon-plus icon-2x" type="button" onClick="addVocabulary();"/>
+                        <clay:button icon="plus"  onClick="addVocabulary();" />
 
                         <!-- CHAMP : Affichage du filtre par date -->
                         <div>
@@ -86,7 +85,7 @@
 
                         <!-- CHAMP : Affichage des types d'asset -->
                         <div>
-                            <liferay-ui:message key="eu.search.asset.web.configuration.asset-type-explanations" />
+                            ${LanguageUtil.get(request, "eu.search.asset.web.configuration.asset-type-explanations")}
                             <aui:input type="checkbox" name="displayAssetType" value="${dc.configurationData.isDisplayAssetType()}" label="eu.search.asset.web.configuration.asset-type-field" />
                         </div>
 

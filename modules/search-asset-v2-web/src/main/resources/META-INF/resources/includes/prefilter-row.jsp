@@ -29,7 +29,7 @@
                 <liferay-ui:message key="eu.search.asset.web.configuration.tags"/>
             </aui:option>
         </aui:select>
-        <aui:button cssClass="form-group btn-icon icon icon-trash icon-2x" type="button" onClick="deletePrefilter(${param.assetTypeIndex},${param.ruleIndex});"/>
+        <clay:button icon="trash"  onClick="deletePrefilter(${param.assetTypeIndex},${param.ruleIndex});" />
     </div>
 
     <aui:input name="prefilterSelectedIds${param.assetTypeIndex}_${param.ruleIndex}" value="${not empty prefilterData  ? prefilterData.categoryOrTagIdsJSON : ''}" type="hidden" />

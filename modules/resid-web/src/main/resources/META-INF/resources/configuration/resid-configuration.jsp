@@ -27,7 +27,7 @@
 		<aui:fieldset id="zones">
 			<label><liferay-ui:message key="zone-pdf" /></label>
 			<section id="newZone">
-				<aui:button cssClass="btn-icon icon icon-plus icon-2x" type="button" onClick="addZone(); return false;"/>
+				<clay:button icon="plus" onClick="addZone(); return false;" >
 				<liferay-ui:message key="new-zone" /><br>
 			</section>
 			<c:set var="nbZone" value="0"/>
@@ -37,7 +37,7 @@
 					<aui:input name="code" type="text" value="${zoneValue[0]}" label="Code de la zone" />
 					<aui:input cssClass="urlPDF" name="url" type="text" value="${zoneValue[1]}" label="URL du PDF de la zone" />
 					<div class="form-group" >
-						<aui:button style="margin-top:24px;" cssClass="btn-icon icon icon-trash icon-2x btn-default" type="button" onClick="deleteZone(${status.index}); return false;" />
+						<clay:button style="margin-top:24px;" icon="trash"  onClick="deleteZone(${status.index}); return false;" />
 					</div>
 				</div>
 				<c:set var="nbZone" value="${nbZone + 1}"/>

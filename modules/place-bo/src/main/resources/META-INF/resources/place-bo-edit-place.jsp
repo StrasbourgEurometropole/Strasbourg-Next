@@ -316,20 +316,13 @@
 										 id="onglet${nbPeriod}" >
 											<a aria-controls="period${nbPeriod}" href="#period${nbPeriod}" class="nav-link" data-toggle="tab" role="tab">
 												<liferay-ui:message key="period" /> ${status.count}
-												<span class="btn-icon icon icon-trash  ml-2" onClick="deletePeriod(${nbPeriod}); return false;"></span>
+												<clay:button cssClass="btn-sm" icon="trash" displayType="outline-borderless"  onClick="deletePeriod(${nbPeriod}); return false;" />
 											</a>
 										</li>
 										<c:set var="nbPeriod" value="${nbPeriod + 1}"/>
 									</c:forEach>
-									<button
-											title="Ajouter"
-											class="btn btn-monospaced btn-sm"
-											type="button"
-											aria-controls="add"
-											id="addPeriod"
-											onClick="window.addPeriod(); return false;">
-										<span class="btn-icon icon icon-plus"></span>
-									</button>
+									<clay:button  size="sm" cssClass="btn-sm" icon="plus"  displayType="secondary"  id="addPeriod"  onClick="window.addPeriod(); return false;" />
+
 								</ul>
 							</div>
 

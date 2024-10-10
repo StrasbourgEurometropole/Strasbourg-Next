@@ -58,13 +58,19 @@ function addPeriod() {
 		lastPeriod = parseInt($('input[name*=numPeriod]')[nbPeriod - 1].id
 				.split(namespace + 'numPeriod')[1]) + 1;
 	}
-	var htmlOnglet = "<li role='presentation' id='onglet" + lastPeriod
-			+ "' class='active nav-item' >" + "<a aria-controls='period" + lastPeriod
-			+ "' href='#period" + lastPeriod
-			+ "' data-toggle='tab' class='nav-link' role='tab'>"
-			+ Liferay.Language.get('period') + " " + (parseInt(lastPeriod) + 1)
-			+ " <span class='btn-icon icon icon-trash ml-2' onClick='deletePeriod("
-			+ lastPeriod + "); return false;'></span>" + "</a>" + "</li>";
+	var htmlOnglet = `
+    <li role='presentation' id='onglet${lastPeriod}' class='active nav-item'>
+    
+        <a aria-controls='period${lastPeriod}' href='#period${lastPeriod}' data-toggle='tab' class='nav-link active' role='tab'>
+            Période ${parseInt(lastPeriod) + 1}
+            <button class="btn btn-monospaced btn-outline-borderless btn-sm" onClick='deletePeriod(${lastPeriod}); return false;'>
+					<svg aria-hidden="true" class="lexicon-icon lexicon-icon-trash " focusable="false" role="presentation">
+					  <use href="/o/admin-theme/images/clay/icons.svg#trash"></use>
+					</svg>
+			</button>
+        </a>
+    </li>`;
+
 
 	$.ajax({
 		url : getperiodRowJSPURL + '&' + namespace + 'index=' + lastPeriod,

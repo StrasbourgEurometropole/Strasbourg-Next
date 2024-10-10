@@ -22,6 +22,6 @@
                 <liferay-ui:message key="checkbox"/>
             </aui:option>
         </aui:select>
-        <aui:button cssClass="form-group btn-icon icon icon-trash icon-2x" type="button" onClick="deleteVocabulary(${param.index});"/>
+        <clay:button icon="trash"  onClick="deleteVocabulary(${param.index});" />
     </div>
 </div>

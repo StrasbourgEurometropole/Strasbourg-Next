@@ -36,8 +36,17 @@ var blocAssetType = "" +
 	blocAssetType += "" +
 							"</select>" +
 						"</div>" +
-						"<button class='form-group btn btn-icon icon icon-trash icon-2x btn-default' id='" + namespace + "epfa' onclick='deleteAssetType(%%INDEX%%);' type='button'></button>" +
-					"</div>" +
+
+		`
+			<button class="form-group btn btn-icon-only btn-monospaced btn-primary " id='${namespace}epfa' onclick='deleteAssetType(${index});'>
+					<svg aria-hidden="true" class="lexicon-icon lexicon-icon-trash " focusable="false" role="presentation">
+					  <use href="/o/admin-theme/images/clay/icons.svg#trash"></use>
+					</svg>
+			</button>
+` +
+
+
+		"</div>" +
 		            "<!-- Portée -->" +
                     "<fieldset class='panel panel-unstyled' id='scope%%INDEX%%'>" +
 						"<legend class='sr-only'>" + Liferay.Language.get('scope') + "</legend>" +
@@ -153,7 +162,14 @@ var blocAssetType = "" +
                                     "<input class='field form-control' id='" + namespace + "nbPrefiltre%%INDEX%%' name='" + namespace + "nbPrefiltre%%INDEX%%' type='hidden' value='0'>" +
                                     "<input class='field form-control' id='" + namespace + "prefilterIndexes%%INDEX%%' name='" + namespace + "prefilterIndexes%%INDEX%%' type='hidden'>" +
                                 "</div>" +
-                                "<button class='btn btn-icon icon icon-plus icon-2x btn-default' id='" + namespace + "famg' onclick='addPrefilter(%%INDEX%%);' type='button'></button>" +
+`
+<button class="form-group btn btn-icon-only btn-monospaced btn-primary " id='${namespace}famg' onclick='addPrefilter(%%INDEX%%);'>
+					<svg aria-hidden="true" class="lexicon-icon lexicon-icon-plus " focusable="false" role="presentation">
+					  <use href="/o/admin-theme/images/clay/icons.svg#plus"></use>
+					</svg>
+			</button>
+`+
+
 		                    "</div>" +
 	                    "</div>" +
                     "</fieldset>" +
