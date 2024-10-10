@@ -146,7 +146,7 @@
             },
             {
               "name": "headerBg2Color",
-              "label": "Background sous menu + hover texte bouton",
+              "label": "Background sous menu (desktop) + hover texte bouton + texte menu burger et fermeture (mobile)",
               "type": "String",
               "editorType": "ColorPicker",
               "defaultValue": "#171C22",
@@ -159,7 +159,7 @@
             },
             {
               "name": "headerBorderHoverColor",
-              "label": "Border + hover texte",
+              "label": "Border (desktop) + hover texte + scroll bar (mobile) + hover bouton descendre (mobile) + menu burger (mobile)",
               "type": "String",
               "editorType": "ColorPicker",
               "defaultValue": "#2AD783",
@@ -171,8 +171,34 @@
               ]
             },
             {
+              "name": "headerScrollColor",
+              "label": "Arrière du scroll (mobile)",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#51555A",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "headerScrollColor"
+                }
+              ]
+            },
+            {
+              "name": "headerCloseColor",
+              "label": "Bouton fermeture (mobile)",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#FF9F9F",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "headerCloseColor"
+                }
+              ]
+            },
+            {
               "name": "headerMainColor",
-              "label": "Texte principal + hover bouton",
+              "label": "Texte principal + hover bouton (desktop) + hover menu burger et bouton fermeture (mobile) + bouton descendre (mobile)",
               "type": "String",
               "editorType": "ColorPicker",
               "defaultValue": "#FFFFFF",
@@ -191,7 +217,7 @@
           "frontendTokens": [
             {
               "name": "footerBgColor",
-              "label": "Background + hover texte bouton",
+              "label": "Background footer + hover texte bouton",
               "type": "String",
               "editorType": "ColorPicker",
               "defaultValue": "#171C22",
@@ -204,7 +230,7 @@
             },
             {
               "name": "footerBg2Color",
-              "label": "Background 2",
+              "label": "Background en bas du footer",
               "type": "String",
               "editorType": "ColorPicker",
               "defaultValue": "#20272F",
@@ -217,7 +243,7 @@
             },
             {
               "name": "footerMainColor",
-              "label": "Texte principal + hover bouton",
+              "label": "Texte principal + texte bouton et réseaux sociaux + hover bouton",
               "type": "String",
               "editorType": "ColorPicker",
               "defaultValue": "#FFFFFF",
