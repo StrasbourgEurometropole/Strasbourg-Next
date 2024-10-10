@@ -1,4 +1,4 @@
-FROM harbor-cds.sully-group.fr/proxy_cache/liferay/dxp:2023.q4.8
+FROM harbor-cds.sully-group.fr/proxy_cache/liferay/dxp:2024.q3.2
 
 COPY --chown=liferay:liferay build/docker/deploy /mnt/liferay/deploy
 
