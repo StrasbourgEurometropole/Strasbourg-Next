@@ -2550,9 +2550,6 @@ $(window).on("load",function() {
 // Service Facebook Pixel
 tarteaucitron.user.facebookpixelId = '1023621684487107'; tarteaucitron.user.facebookpixelMore = function () { /* add here your optionnal facebook pixel function */ };
 (tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
-
-// Service reCAPTCHA
-(tarteaucitron.job = tarteaucitron.job || []).push('recaptcha_ems');
 function isTouchDevice() {
     return 'ontouchstart' in document.documentElement;
 }

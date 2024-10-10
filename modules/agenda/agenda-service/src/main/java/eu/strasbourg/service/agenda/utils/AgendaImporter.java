@@ -907,6 +907,14 @@ public class AgendaImporter {
 			long[] categoriesIds = categories.stream()
 				.mapToLong(AssetCategory::getCategoryId).toArray();
 			sc.setAssetCategoryIds(categoriesIds);
+			JSONArray JSONTags = jsonEvent.getJSONArray("tags");
+			if(Validator.isNotNull(JSONTags) && JSONTags.length() > 0) {
+				String[] tagsNames = new String[JSONTags.length()];
+				for(int i = 0; i < JSONTags.length(); i++){
+					tagsNames[i] = JSONTags.getString(i);
+				}
+				sc.setAssetTagNames(tagsNames);
+			}
 			sc.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
 			sc.setModifiedDate(new Date());
 
@@ -982,31 +990,33 @@ public class AgendaImporter {
 
 				// Lieu
 				if (Validator.isNotNull(placeSIGId)) {
-					event.setPlaceSIGId(placeSIGId);
-					event.setAccessForBlind(false);
-					event.setAccessForDeaf(false);
-					event.setAccessForWheelchair(false);
-					event.setAccessForElder(false);
-					event.setAccessForDeficient(false);
-
-					// Dans le cas d'un lieu SIG, on ajoute automatiquement les
-					// catégories territoires du lieu aux catégories à ajouter à
-					// l'entité
 					Place place = PlaceLocalServiceUtil.getPlaceBySIGId(placeSIGId);
-					List<AssetCategory> territories = place.getTerritories();
-					long[] newCategories = sc.getAssetCategoryIds();
-					for (AssetCategory territory : territories) {
-						if (!ArrayUtil.contains(newCategories,
-								territory.getCategoryId())) {
-							newCategories = ArrayUtil.append(newCategories,
-									territory.getCategoryId());
-						}
-					}
-					sc.setAssetCategoryIds(newCategories);
+					if(place.isApproved()) {
+						event.setPlaceSIGId(placeSIGId);
+						event.setAccessForBlind(false);
+						event.setAccessForDeaf(false);
+						event.setAccessForWheelchair(false);
+						event.setAccessForElder(false);
+						event.setAccessForDeficient(false);
 
-					// Récupération des coordonées X et Y
-					event.setMercatorX(place.getMercatorX());
-					event.setMercatorY(place.getMercatorY());
+						// Dans le cas d'un lieu SIG, on ajoute automatiquement les
+						// catégories territoires du lieu aux catégories à ajouter à
+						// l'entité
+						List<AssetCategory> territories = place.getTerritories();
+						long[] newCategories = sc.getAssetCategoryIds();
+						for (AssetCategory territory : territories) {
+							if (!ArrayUtil.contains(newCategories,
+									territory.getCategoryId())) {
+								newCategories = ArrayUtil.append(newCategories,
+										territory.getCategoryId());
+							}
+						}
+						sc.setAssetCategoryIds(newCategories);
+
+						// Récupération des coordonées X et Y
+						event.setMercatorX(place.getMercatorX());
+						event.setMercatorY(place.getMercatorY());
+					}
 
 				} else {
 					JSONObject jsonPlace = jsonEvent.getJSONObject("place");

@@ -180,10 +180,10 @@ public class ArretWrapper
 	}
 
 	/**
-	 * Renvoie la liste des Alertes en cours ou à venir de cet arret
+	 * Renvoie la liste des Alertes en cours ou à venir des lignes de cet arrêt
 	 */
 	@Override
-	public java.util.List<eu.strasbourg.service.gtfs.model.Alert>
+	public java.util.List<com.liferay.portal.kernel.json.JSONObject>
 		getAlertsActives() {
 
 		return model.getAlertsActives();
@@ -289,9 +289,11 @@ public class ArretWrapper
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(
-		long groupId, java.util.Locale locale) {
+			long groupId, java.util.Locale locale,
+			java.util.List<String> alertsArret)
+		throws com.liferay.portal.kernel.json.JSONException {
 
-		return model.getGeoJSON(groupId, locale);
+		return model.getGeoJSON(groupId, locale, alertsArret);
 	}
 
 	/**

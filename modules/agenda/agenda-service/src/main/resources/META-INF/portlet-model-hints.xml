@@ -121,6 +121,7 @@
 		<field name="themesIds" type="String" />
 		<field name="typesIds" type="String" />
 		<field name="publicsIds" type="String" />
+		<field name="tagsNames" type="String" />
 		<field localized="true" name="bookingDescription" type="String">
 			<hint-collection name="EDITOR" />
 		</field>

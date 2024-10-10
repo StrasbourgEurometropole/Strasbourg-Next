@@ -122,6 +122,9 @@ public interface FavoriteLocalService
 
 	public void deleteFavoriteByEntityIdAndType(long entityId, long typeId);
 
+	public void deleteFavoriteByGroupIdEntityIdAndType(
+		long groupId, long entityId, long typeId);
+
 	/**
 	 * @throws PortalException
 	 */

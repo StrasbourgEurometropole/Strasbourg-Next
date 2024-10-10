@@ -53,13 +53,15 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
         </div>
         <div class="st-container-right">
             <ul class="st-liens-rapides">
-                <li>
-                    <a href="#horaire" class="st-btn-icon st-btn-icon--white" rel="noopener"
-                       title="Horaires">
-                        <span class="st-icon-clock" aria-hidden="true"></span>
-                        <span class="st-sr-only">Horaires</span>
-                    </a>
-                </li>
+                <#if entry.periods?has_content || entry.hasURLSchedule>
+                    <li>
+                        <a href="#horaire" class="st-btn-icon st-btn-icon--white" rel="noopener"
+                           title="Horaires">
+                            <span class="st-icon-clock" aria-hidden="true"></span>
+                            <span class="st-sr-only">Horaires</span>
+                        </a>
+                    </li>
+                </#if>
                 <#if entry.phone?has_content>
                     <li>
                         <a href="tel:${entry.phone?replace(" ","")?replace("(0)","")}" class="st-btn-icon st-btn-icon--white"
@@ -85,6 +87,16 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                            title="${entry.getSiteLabel(locale)}">
                             <span class="st-icon-web" aria-hidden="true"></span>
                             <span class="st-sr-only">${entry.getSiteLabel(locale)}</span>
+                        </a>
+                    </li>
+                </#if>
+                <#if entry.getBookingURL(locale)?has_content>
+                    <li>
+                        <a href="${entry.getBookingURL(locale)}" class="st-btn-icon st-btn-icon--white" target="_blank"
+                           rel="noopener"
+                           title="<@liferay_ui.message key="eu.ticket-office" />">
+                            <span class="st-icon-ticket" aria-hidden="true"></span>
+                            <span class="st-sr-only"><@liferay_ui.message key="eu.ticket-office" /></span>
                         </a>
                     </li>
                 </#if>

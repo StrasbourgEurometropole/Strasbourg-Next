@@ -124,9 +124,9 @@
 						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
 							function (val, fieldNode, ruleValue) {
 								var validated = true;
-								var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
+								var fields = document.querySelectorAll('[id*=assetCategoriesSelector]');
 								for (var i = 0; i < fields.length; i++) {
-									fieldContent = fields[i];
+									var fieldContent = fields[i];
 								    if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
 								    	&& $(fieldContent).find('input[type="hidden"]').length == 0) {
 								    	validated = false;

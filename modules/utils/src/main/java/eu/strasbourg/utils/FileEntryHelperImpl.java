@@ -2,6 +2,7 @@ package eu.strasbourg.utils;
 
 import com.liferay.adaptive.media.image.media.query.MediaQuery;
 import com.liferay.adaptive.media.image.media.query.MediaQueryProvider;
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.repository.model.FileEntry;
@@ -127,6 +128,11 @@ public class FileEntryHelperImpl implements FileEntryHelperService {
 	@Override
 	public String getFileExtension(long fileEntryId) {
 		return FileEntryHelper.getFileExtension(fileEntryId);
+	}
+
+	@Override
+	public List<String[]> getFilesInfos(List<AssetEntry> entries, Locale locale) {
+		return FileEntryHelper.getFilesInfos(entries, locale);
 	}
 
 	private static MediaQueryProvider _mediaQueryProvider;

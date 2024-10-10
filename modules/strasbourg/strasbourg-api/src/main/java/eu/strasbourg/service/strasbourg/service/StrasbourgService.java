@@ -19,6 +19,8 @@ import com.liferay.portal.kernel.transaction.Transactional;
 
 import java.io.File;
 
+import java.util.List;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
@@ -108,7 +110,9 @@ public interface StrasbourgService extends BaseService {
 	public JSONObject getCategoriesPois(
 		String categories, String vocabulariesEmptyIds, String prefilters,
 		String tags, long groupId, String typeContenu, boolean dateField,
-		String fromDate, String toDate, String localeId, long globalGroupId);
+		String fromDate, String toDate, String localeId, long globalGroupId,
+		List<String> alertsArret, long territoryVocabularyId,
+		long placeTypeVocabularyId, long eventTypeVocabularyId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getCoordinateForAddress(
@@ -119,7 +123,9 @@ public interface StrasbourgService extends BaseService {
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getFavoritesPois(
-		long groupId, String typeContenu, String localeId);
+		long groupId, String typeContenu, String localeId,
+		List<String> alertsArret, long territoryVocabularyId,
+		long placeTypeVocabularyId, long eventTypeVocabularyId);
 
 	/**
 	 * Retourne les information d'un fichier de la doc lib à partir de sa friendly url
@@ -134,7 +140,9 @@ public interface StrasbourgService extends BaseService {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getInterestsPois(
 		String interests, long groupId, String typeContenu, String localeId,
-		long globalGroupId);
+		long globalGroupId, List<String> alertsArret,
+		long territoryVocabularyId, long placeTypeVocabularyId,
+		long eventTypeVocabularyId);
 
 	/**
 	 * Returns the OSGi service identifier.

@@ -1195,6 +1195,7 @@ public class PlaceImpl extends PlaceBaseImpl {
                 }
             }
         }
+
         listPlaceSchedules = listPlaceSchedules.stream()
                 .sorted((s1, s2) -> s1.getStartDate().compareTo(s2.getStartDate())).collect(Collectors.toList());
         return listPlaceSchedules;
@@ -1336,6 +1337,11 @@ public class PlaceImpl extends PlaceBaseImpl {
             jsonPlace.put("websiteURL", JSONHelper.getJSONFromI18nMap(this.getSiteURLMap()));
         }
 
+        // URL de réservation
+        if (Validator.isNotNull(this.getBookingURL())) {
+            jsonPlace.put("bookingURL", JSONHelper.getJSONFromI18nMap(this.getBookingURLMap()));
+        }
+
         // Accès
         if (Validator.isNotNull(this.getAccess())) {
             jsonPlace.put("access", JSONHelper.getJSONFromI18nMap(this.getAccessMap()));
@@ -1366,9 +1372,44 @@ public class PlaceImpl extends PlaceBaseImpl {
             jsonPlace.put("periods", periodsJSON);
         }
 
+        // exception sur 3 mois à partir d'aujourd'hui
+        GregorianCalendar premierJour = new GregorianCalendar();
+        premierJour.set(Calendar.HOUR_OF_DAY, 0);
+        premierJour.set(Calendar.MINUTE, 0);
+        premierJour.set(Calendar.SECOND, 0);
+        premierJour.set(Calendar.MILLISECOND, 0);
+        GregorianCalendar dernierJour = new GregorianCalendar();
+        dernierJour.setTime(premierJour.getTime());
+        dernierJour.add(Calendar.DAY_OF_YEAR, 1);
+        dernierJour.add(Calendar.MINUTE, -1);
+        dernierJour.add(Calendar.MONTH, 3);
         JSONArray scheduleExceptionsJSON = JSONFactoryUtil.createJSONArray();
-        for (ScheduleException scheduleException : this.getScheduleExceptions()) {
-            scheduleExceptionsJSON.put(scheduleException.toJSON());
+        List<ScheduleException> scheduleExceptions = this.getScheduleExceptions();
+        for (ScheduleException scheduleException : scheduleExceptions) {
+            if (scheduleException.getStartDate() != null && scheduleException.getEndDate() != null
+                    && scheduleException.getStartDate().compareTo(dernierJour.getTime()) <= 0
+                    && scheduleException.getEndDate().compareTo(premierJour.getTime()) >= 0) {
+                scheduleExceptionsJSON.put(scheduleException.toJSON());
+            }
+        }
+        // vérifie s'il y a des jours fériés (si le lieux est sujet aux jours fériés
+        if (this.isSubjectToPublicHoliday()) {
+            for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
+                if (publicHoliday.getDate() != null) {
+                    GregorianCalendar publicHolidayYear = new GregorianCalendar();
+                    publicHolidayYear.setTime(publicHoliday.getDate());
+                    if (publicHoliday.isRecurrent()) {
+                        publicHolidayYear.set(Calendar.YEAR, premierJour.get(Calendar.YEAR));
+                    }
+                    if (publicHolidayYear.compareTo(premierJour) >= 0 && publicHolidayYear.compareTo(dernierJour) <= 0) {
+                        //On vérifie que le jour férié n'est pas déjà dans les schedules exception
+                        if (!scheduleExceptions.stream()
+                                .anyMatch(s -> (s.getStartDate().compareTo(publicHoliday.getDate()) <= 0 && s.getEndDate().compareTo(publicHoliday.getDate()) >= 0))) {
+                            scheduleExceptionsJSON.put(publicHoliday.toJSON());
+                        }
+                    }
+                }
+            }
         }
         if (scheduleExceptionsJSON.length() > 0) {
             jsonPlace.put("exceptions", scheduleExceptionsJSON);
@@ -1463,23 +1504,52 @@ public class PlaceImpl extends PlaceBaseImpl {
      * Renvoie le JSON de l'entite au format GeoJSON pour la map
      */
     @Override
-    public JSONObject getGeoJSON(long groupId, Locale locale) {
+    public JSONObject getGeoJSON(long groupId, Locale locale, long territoryVocabularyId, long placeTypeVocabularyId) {
+        // récupération de la ville, du type de lieu et du premier icon qu'on trouve
+        String city = "";
+        String types = "";
+        String icon = "";
+        List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
+        for (AssetCategory assetCategory : assetCategories) {
+            try {
+                if (assetCategory.getVocabularyId() == territoryVocabularyId && assetCategory.getAncestors().size() == 1) {
+                    AssetCategory cityCategory = assetCategory;
+                    if (cityCategory != null) {
+                        city =  cityCategory.getTitle(locale);
+                    }
+                }
+                if (assetCategory.getVocabularyId() == placeTypeVocabularyId) {
+                    if (types.length() > 0) {
+                        types += ", ";
+                    }
+                    types += assetCategory.getTitle(locale);
+                }
+                if (icon == "" && !assetCategory.getDescription(locale).isEmpty()) {
+                    icon = assetCategory.getDescription(locale);
+                }
+            } catch (PortalException e) {
+                continue;
+            }
+        }
+
         NumberFormat nf = NumberFormat.getInstance(locale);
 
         JSONObject feature = JSONFactoryUtil.createJSONObject();
         feature.put("type", "Feature");
+
         JSONObject properties = JSONFactoryUtil.createJSONObject();
         properties.put("name", this.getAlias(locale));
-        properties.put("address", this.getAddressStreet() + " " + this.getAddressComplement() + "<br>"
-                + this.getAddressZipCode() + " " + this.getCity(locale));
+        String address = this.getAddressStreet() + " " + this.getAddressComplement() + "<br>"
+                + this.getAddressZipCode() + " " + city;
+        properties.put("address", address);
         properties.put("visual", this.getImageURL());
         // récupère l'url de détail du poi
         Group group = GroupLocalServiceUtil.fetchGroup(groupId);
         if (group == null) {
             group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId(), "/strasbourg.eu");
         }
+        String url = "";
         if (group != null) {
-            String url = "";
             String virtualHostName= PortalHelper.getVirtualHostname(group, Locale.FRANCE.getLanguage());
             if (virtualHostName.isEmpty()) {
                 url = "/web" + group.getFriendlyURL() + "/";
@@ -1487,108 +1557,19 @@ public class PlaceImpl extends PlaceBaseImpl {
                 url = "https://" + virtualHostName + "/";
             }
             url += "lieu/-/entity/sig/" + this.getSIGid() + "/" + this.getNormalizedAlias(locale);
-            properties.put("url", url);
         }
+        properties.put("url", url);
         // gestion des doublons
         properties.put("sigId", this.getSIGid());
-        String types = "";
-        // type de lieu)
-        List<AssetCategory> categories = this.getTypes();
-        for (AssetCategory assetCategory : categories) {
-            if (types.length() > 0) {
-                types += ", ";
-            }
-            types += assetCategory.getTitle(locale);
-
-        }
         properties.put("listeTypes", types);
-
         // bouton favoris
         properties.put("type", "1");
         properties.put("id", this.getPlaceId());
-
-        // Horaires et temps réel, ou contenu du tooltip carto
+        // contenu du tooltip carto
         if(!this.getContenuTooltipCarto(locale).isEmpty()){
             properties.put("contenu", this.getContenuTooltipCarto(locale));
-        }else {
-            if(this.getHasURLSchedule()){
-                // Il n'a pas d'horaires mais un lien
-                JSONObject urlPeriodJSON = JSONFactoryUtil.createJSONObject();
-                urlPeriodJSON.put("url", this.getScheduleLinkURL(locale));
-                properties.put("opened",urlPeriodJSON );
-            }else {
-                // Il a des horaires
-                // récupère les horaires en cours
-                GregorianCalendar now = new GregorianCalendar();
-                List<PlaceSchedule> currentSchedules = this.getPlaceSchedule(now, locale);
-                if (currentSchedules.size() > 0) {
-                    PlaceSchedule currentSchedule = currentSchedules.get(0);
-                    String schedule = "";
-                    String opened = "";
-                    if (currentSchedule.isAlwaysOpen()) {
-                        schedule = LanguageUtil.get(locale, "open-all-time");
-                        opened = LanguageUtil.get(locale, "open-period");
-                    } else if (this.isOpenNow()) {
-                        opened = LanguageUtil.get(locale, "open-period");
-                        for (Pair<LocalTime, LocalTime> openingTime : currentSchedule.getOpeningTimes()) {
-                            if (schedule.length() > 0) {
-                                schedule += "<br>";
-                            }
-                            String startString = openingTime.getFirst().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-                            String endString = openingTime.getSecond().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-                            schedule += startString + " - " + endString;
-                        }
-                    } else {
-                        opened = LanguageUtil.get(locale, "closed-period");
-                        // on récupère le prochain horaire d'ouverture
-                        PlaceSchedule nextOpening = this.getNextScheduleOpening(now, 2, locale);
-                        if (nextOpening == null) {
-                            opened = LanguageUtil.get(locale, "closed-now");
-                            schedule += "";
-                        } else {
-                            Pair<LocalTime, LocalTime> openingTime = nextOpening.getOpeningTimes().get(0);
-                            String startString = openingTime.getFirst().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-                            String endString = openingTime.getSecond().format(DateTimeFormatter.ofPattern("HH'h'mm"));
-                            schedule += LanguageUtil.get(locale, "reopening") + " ";
-                            int diff = nextOpening.getStartDate().compareTo(now.getTime());
-                            if (diff > 0) {
-                                now.add(GregorianCalendar.DAY_OF_YEAR, 1);
-                                if (nextOpening.getStartDate().compareTo(now.getTime()) == 0) {
-                                    schedule += LanguageUtil.get(locale, "tomorrow") + " ";
-                                } else {
-                                    schedule += LanguageUtil.get(locale, "after-tomorrow") + " ";
-                                }
-                            }
-                            schedule += LanguageUtil.get(locale, "at") + " " + startString;
-                            if (diff == 0) {
-                                schedule += " " + LanguageUtil.get(locale, "up-to") + " " + endString;
-                            }
-                        }
-                    }
-                    properties.put("opened", opened);
-                    properties.put("schedules", schedule);
-                }
-            }
         }
-        // Icône (on prend le premier icon que l'on trouve dans une des catégories de
-        // type de lieu)
-        String icon = "";
-        String[] icons = null;
-        for (AssetCategory category : categories) {
-            if (!category.getDescription(locale).isEmpty()) {
-                icons = category.getDescription(locale).split(";");
-                // vérifi si le lieu dispose d'un horaire et s'il est fermé
-                if (icons.length > 1 && this.hasScheduleTable() && !this.isOpenNow()) {
-                    icon = icons[1];
-                } else {
-                    if (icons.length > 0) {
-                        icon = icons[0];
-
-                    }
-                }
-                break;
-            }
-        }
+        // Icône
         properties.put("icon", icon);
         // Temps réel
         if (this.getRTEnabled()) {
@@ -1597,7 +1578,7 @@ public class PlaceImpl extends PlaceBaseImpl {
             String frequentation = "";
             String label = "";
             String color = occupation.getCssClass();
-            if (this.isSwimmingPool() ||this.isIceRink()) {
+            if (this.isSwimmingPool() || this.isIceRink()) {
                 title = LanguageUtil.get(locale, "frequentation-real");
                 if(Validator.isNumber(occupation.getOccupation()))
                     frequentation = nf.format(Long.parseLong(occupation.getOccupation()));
@@ -1630,7 +1611,6 @@ public class PlaceImpl extends PlaceBaseImpl {
             amountProperty.put("color", color);
             properties.put("amount", amountProperty);
         }
-
         feature.put("properties", properties);
 
         JSONObject geometry = JSONFactoryUtil.createJSONObject();
@@ -1640,6 +1620,7 @@ public class PlaceImpl extends PlaceBaseImpl {
         coordinates.put(Float.valueOf(this.getMercatorY()));
         geometry.put("coordinates", coordinates);
         feature.put("geometry", geometry);
+
         return feature;
     }
     /**
@@ -1699,10 +1680,14 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
         if(descriptions.length() > 0)
             jsonPlace.put("description", descriptions);
+
+        // Exceptions
         JSONArray scheduleExceptionsJSON = JSONFactoryUtil.createJSONArray();
-        for (ScheduleException scheduleException : this.getScheduleExceptions()) {
-            scheduleExceptionsJSON.put(scheduleException.toCSMapJSON());
+        List<ScheduleException> scheduleExceptions = this.getScheduleExceptions();
+        for (ScheduleException scheduleException : scheduleExceptions) {
+            scheduleExceptionsJSON.put(scheduleException.toJSON());
         }
+
         if (Validator.isNotNull(this.getExceptionalSchedule())) {
             JSONObject scheduleExceptionJSON = JSONFactoryUtil.createJSONObject();
             JSONObject exceptionalScheduleJSON = JSONFactoryUtil.createJSONObject();
@@ -1729,6 +1714,66 @@ public class PlaceImpl extends PlaceBaseImpl {
             jsonPlace.put("websiteURL", this.getSiteURL(Locale.FRANCE));
         }
         return jsonPlace;
+    }
+
+    /**
+     * Renvoie le JSON de l'entite au format CSMap
+     */
+    @Override
+    public JSONObject getCSMapExceptionJSON()    {
+        JSONObject jsonExceptions = JSONFactoryUtil.createJSONObject();
+
+        // exception sur 3 mois à partir d'aujourd'hui
+        GregorianCalendar premierJour = new GregorianCalendar();
+        premierJour.set(Calendar.HOUR_OF_DAY, 0);
+        premierJour.set(Calendar.MINUTE, 0);
+        premierJour.set(Calendar.SECOND, 0);
+        premierJour.set(Calendar.MILLISECOND, 0);
+        GregorianCalendar dernierJour = new GregorianCalendar();
+        dernierJour.setTime(premierJour.getTime());
+        dernierJour.add(Calendar.DAY_OF_YEAR, 1);
+        dernierJour.add(Calendar.MINUTE, -1);
+        dernierJour.add(Calendar.MONTH, 3);
+        JSONArray scheduleExceptionsJSON = JSONFactoryUtil.createJSONArray();
+        List<ScheduleException> scheduleExceptions = this.getScheduleExceptions();
+        for (ScheduleException scheduleException : scheduleExceptions) {
+            if (scheduleException.getStartDate() != null && scheduleException.getEndDate() != null
+                    && scheduleException.getStartDate().compareTo(dernierJour.getTime()) <= 0
+                    && scheduleException.getEndDate().compareTo(premierJour.getTime()) >= 0) {
+                scheduleExceptionsJSON.put(scheduleException.toJSON());
+            }
+        }
+        // vérifie s'il y a des jours fériés (si le lieux est sujet aux jours fériés
+        if (this.isSubjectToPublicHoliday()) {
+            for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
+                if (publicHoliday.getDate() != null) {
+                    GregorianCalendar publicHolidayYear = new GregorianCalendar();
+                    publicHolidayYear.setTime(publicHoliday.getDate());
+                    if (publicHoliday.isRecurrent()) {
+                        publicHolidayYear.set(Calendar.YEAR, premierJour.get(Calendar.YEAR));
+                    }
+                    if (publicHolidayYear.compareTo(premierJour) >= 0 && publicHolidayYear.compareTo(dernierJour) <= 0) {
+                        //On vérifie que le jour férié n'est pas déjà dans les schedules exception
+                        if (!scheduleExceptions.stream()
+                                .anyMatch(s -> (s.getStartDate().compareTo(publicHoliday.getDate()) <= 0 && s.getEndDate().compareTo(publicHoliday.getDate()) >= 0))) {
+                            scheduleExceptionsJSON.put(publicHoliday.toJSON());
+                        }
+                    }
+                }
+            }
+        }
+
+        if (Validator.isNotNull(this.getExceptionalSchedule())) {
+            JSONObject scheduleExceptionJSON = JSONFactoryUtil.createJSONObject();
+            JSONObject exceptionalScheduleJSON = JSONFactoryUtil.createJSONObject();
+            exceptionalScheduleJSON.put("fr_FR", this.getExceptionalSchedule(Locale.FRANCE));
+            scheduleExceptionJSON.put("description", exceptionalScheduleJSON);
+            scheduleExceptionsJSON.put(scheduleExceptionJSON);
+        }
+        if (scheduleExceptionsJSON.length() > 0) {
+            jsonExceptions.put("exceptions", scheduleExceptionsJSON);
+        }
+        return jsonExceptions;
     }
 
     /**

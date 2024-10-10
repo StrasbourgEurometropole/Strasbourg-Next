@@ -226,6 +226,7 @@
 	var saved_nbFiles = "${nbFiles}";
 	var saved_typesFiles = "${typesFiles}";
 	var saved_sizeFile = "${sizeFile}";
+    var button_confirm = $('#sendBudget')[0];
 
     $(document).ready(function(){
         $('#modalConfirmerBudget').modal('hide');
@@ -248,6 +249,7 @@
 
     $("#sendBudget").click(function(event){
         event.preventDefault();
+        button_confirm.setAttribute("disabled", "");
         var response = validateFormSubmitBudget();
         if (response){            
             var request = new XMLHttpRequest();
@@ -281,6 +283,7 @@
                     }else{
                         $("#modalErrorBudget h4").text(data.message);
                         $('#modalErrorBudget').modal('show');
+                        button_confirm.removeAttribute("disabled");
                     }
                 } else {
                     // We reached our target server, but it returned an error
@@ -301,6 +304,8 @@
             formData.append("<portlet:namespace/>nbFileMax", nbFileMaxValue); 
             formData.append("<portlet:namespace/>typesFiles", typesFilesValue); 
             request.send(formData);
+        } else {
+            button_confirm.removeAttribute("disabled");
         }
     });
 

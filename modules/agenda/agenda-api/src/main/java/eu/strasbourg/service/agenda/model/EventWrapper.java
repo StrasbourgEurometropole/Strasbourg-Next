@@ -1201,9 +1201,11 @@ public class EventWrapper
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(
-		long groupId, java.util.Locale locale) {
+		long groupId, java.util.Locale locale, long territoryVocabularyId,
+		long eventTypeVocabularyId) {
 
-		return model.getGeoJSON(groupId, locale);
+		return model.getGeoJSON(
+			groupId, locale, territoryVocabularyId, eventTypeVocabularyId);
 	}
 
 	/**
@@ -2504,6 +2506,14 @@ public class EventWrapper
 	@Override
 	public boolean isPending() {
 		return model.isPending();
+	}
+
+	/**
+	 * Vérifie si le lieu est déployé
+	 */
+	@Override
+	public boolean isPlaceApproved() {
+		return model.isPlaceApproved();
 	}
 
 	/**

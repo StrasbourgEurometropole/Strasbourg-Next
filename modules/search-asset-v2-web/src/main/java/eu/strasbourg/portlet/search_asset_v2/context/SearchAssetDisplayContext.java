@@ -49,6 +49,8 @@ import org.osgi.util.tracker.ServiceTracker;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 import javax.portlet.ResourceURL;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -57,6 +59,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -283,6 +286,17 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 			_keywords = HtmlUtil.escape(ParamUtil.getString(this._request, "keywords"));
 		}
 		return _keywords;
+	}
+
+
+	/**
+	 * Retourne les mots-clés de recherche
+	 */
+	public String getSortFieldAndTypeFromParam() {
+		if (Validator.isNull(_sortFieldAndTypeFromParam)) {
+			_sortFieldAndTypeFromParam = ParamUtil.getString(this._request, "sortFieldAndType");
+		}
+		return _sortFieldAndTypeFromParam;
 	}
 
 	/**
@@ -847,52 +861,6 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 		return getConfigurationData().isDisplayExport();
 	}
 
-	public ResourceURL getExportResourceURL() throws PortalException {
-		ResourceURL exportURL = this._response.createResourceURL();
-
-		HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(_request);
-
-		SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
-
-		// Mots clés
-		String keywords = HtmlUtil.escape(ParamUtil.getString(this._request, "keywords"));
-
-		// Filtre
-		LocalDate fromDate = LocalDate.of(this.getFromYear(), this.getFromMonthValue(), this.getFromDay());
-		LocalDate toDate = LocalDate.of(this.getToYear(), this.getToMonthValue(), this.getToDay());
-
-		// Catégories sélectionnées par l'utilisateur
-		List<Long[]> categoriesIds = this.getFilterCategoriesIds();
-
-		// Recherche
-		SearchHits searchHits = getSearchHelperV2().getGlobalSearchHitsV2(searchContext,
-				getConfigurationData().getUtilsAssetTypeList(),
-				getConfigurationData().isDisplayDateField(), getConfigurationData().getFilterField(), this.getSeed(),
-				getSortFieldsAndTypes(), /*getCategoriesIdsForGroupBy(),*/ keywords, fromDate, toDate, categoriesIds,
-				null, this.getFilterClassNamesOrStructures(), this._themeDisplay.getLocale(), -1, -1);
-
-		StringBuilder ids = new StringBuilder();
-		if (searchHits != null) {
-			for (SearchHit  searchHit : searchHits.getSearchHits()) {
-				com.liferay.portal.search.document.Document document = searchHit.getDocument();
-
-				AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
-						document.getString(Field.ENTRY_CLASS_NAME),
-						document.getLong(Field.ENTRY_CLASS_PK));
-				if (entry != null) {
-					if (ids.length() >= 0) {
-						ids.append(",");
-					}
-					ids.append(entry.getClassPK());
-				}
-			}
-		}
-
-		exportURL.setParameter("ids", ids.toString());
-		exportURL.setParameter("classNames", this.getFilterClassNamesOrStructuresString());
-		return exportURL;
-	}
-
 	/**
 	 * Retourne la liste des types d'entités sur lesquels on souhaite rechercher
 	 * les entries, sous forme de String
@@ -1093,6 +1061,7 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 	private List<AssetVocabulary> _vocabularies;
 	private LinkedHashMap<String, String> _sortFieldsAndTypes;
 	private String _keywords;
+	private String _sortFieldAndTypeFromParam;
 	private List<Long[]> _filterCategoriesIds;
 	private String _filterCategoriesIdString;
 	private List<String> _filterClassNamesOrStructures;

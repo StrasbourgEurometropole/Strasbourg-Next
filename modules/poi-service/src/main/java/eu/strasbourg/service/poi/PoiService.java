@@ -1,6 +1,9 @@
 package eu.strasbourg.service.poi;
 
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONObject;
+
+import java.util.List;
 
 public interface PoiService {
 
@@ -13,9 +16,13 @@ public interface PoiService {
 	int getFavoritesPoisCount(String userId, long groupId, String classNames);*/
 
 	JSONObject getPois(String idInterests, String idCategories, String vocabulariesEmptyIds,
-							  String prefilters, String tags, long groupId,
-							  String classNames, boolean dateField, String fromDate, String toDate, String localeId, long globalGroupId);
+					  	String prefilters, String tags, long groupId, String classNames,
+					   boolean dateField, String fromDate, String toDate, String localeId,
+					   long globalGroupId, List<String> alertsArret, long territoryVocabularyId,
+					   long placeTypeVocabularyId, long eventTypeVocabularyId);
 	
-	JSONObject getFavoritesPois(String userId, long groupId, String classNames, String LocaleId);
+	JSONObject getFavoritesPois(String userId, long groupId, String classNames, String LocaleId,
+						List<String> alertsArret, long territoryVocabularyId, long placeTypeVocabularyId,
+						long eventTypeVocabularyId);
 
 }

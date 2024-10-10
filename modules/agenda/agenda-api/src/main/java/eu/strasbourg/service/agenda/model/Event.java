@@ -143,6 +143,11 @@ public interface Event extends EventModel, PersistedModel {
 	public long getPlaceId();
 
 	/**
+	 * Vérifie si le lieu est déployé
+	 */
+	public boolean isPlaceApproved();
+
+	/**
 	 * Retourne le nom de la ville, provenant du lieu interne s'il existe, du lieu
 	 * lié sinon
 	 */
@@ -362,7 +367,8 @@ public interface Event extends EventModel, PersistedModel {
 	 * Renvoie le JSON de l'entite au format GeoJSON pour la map
 	 */
 	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(
-		long groupId, java.util.Locale locale);
+		long groupId, java.util.Locale locale, long territoryVocabularyId,
+		long eventTypeVocabularyId);
 
 	/**
 	 * Renvoie le JSON de l'entite au format CSMap

@@ -3,10 +3,10 @@
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
-
-<#if portletHelper.getPortletTitle('', renderRequest)?has_content>
+<#assign portletTitle = portletHelper.getPortletTitle('', renderRequest) />
+<#if portletTitle?has_content>
     <div class="st-bloc st-wrapper st--has-margin-small">
-        <h2 class="st-h2">${portletHelper.getPortletTitle('e', renderRequest)}</h2>
+        <h2 class="st-h2">${portletTitle}</h2>
     </div>
 </#if>
 
@@ -20,19 +20,18 @@
 <div class="st-bloc st-bloc-liens st-wrapper st--has-margin">
     <div class="st-component-container">
         <ul class="st-liste st-limit-height">
-            <#list entries as curEntry>
-                <#assign file = curEntry.getAssetRenderer().getAssetObject() />
-                <#if fileEntryHelper.getFileTitle??>
-                    <#assign fileTitle = fileEntryHelper.getFileTitle(file.getFileEntryId(), locale) />
+            <#assign filesInfos = fileEntryHelper.getFilesInfos(entries, locale) />
+            <#list filesInfos as fileInfos>
+                <#if fileInfos[0]??>
+                    <#assign fileTitle = fileInfos[0] />
                 <#else>
                     <#assign fileTitle = file.getTitle() />
                 </#if>
-                <#assign AssetVocabularyLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetVocabularyLocalService")>
                 <li class="st-lien-container">
-                    <a href="${fileEntryHelper.getFileEntryURL(file.getFileEntryId())}" class="st-lien" target="_blank" aria-labelledby="fileTitle-${curEntry?index}">
-                        <p class="st-title-lien" id="fileTitle-${curEntry?index}"> ${fileTitle}</p>
+                    <a href="${fileInfos[1]}" class="st-lien" target="_blank" aria-labelledby="fileTitle-${fileInfos?index}">
+                        <p class="st-title-lien" id="fileTitle-${fileInfos?index}"> ${fileTitle}</p>
                         <div class="st-lien-content">
-                            <p class="st-type">(${file.getExtension()?upper_case} - ${fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale)})</p>
+                            <p class="st-type">(${fileInfos[2]?upper_case} - ${fileInfos[3]})</p>
                             <p class="st-text"><@liferay_ui.message key="eu.download" /></p>
                         </div>
                     </a>

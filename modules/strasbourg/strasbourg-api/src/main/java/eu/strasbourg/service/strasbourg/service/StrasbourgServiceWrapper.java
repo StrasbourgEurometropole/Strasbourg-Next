@@ -109,11 +109,15 @@ public class StrasbourgServiceWrapper
 	public com.liferay.portal.kernel.json.JSONObject getCategoriesPois(
 		String categories, String vocabulariesEmptyIds, String prefilters,
 		String tags, long groupId, String typeContenu, boolean dateField,
-		String fromDate, String toDate, String localeId, long globalGroupId) {
+		String fromDate, String toDate, String localeId, long globalGroupId,
+		java.util.List<String> alertsArret, long territoryVocabularyId,
+		long placeTypeVocabularyId, long eventTypeVocabularyId) {
 
 		return _strasbourgService.getCategoriesPois(
 			categories, vocabulariesEmptyIds, prefilters, tags, groupId,
-			typeContenu, dateField, fromDate, toDate, localeId, globalGroupId);
+			typeContenu, dateField, fromDate, toDate, localeId, globalGroupId,
+			alertsArret, territoryVocabularyId, placeTypeVocabularyId,
+			eventTypeVocabularyId);
 	}
 
 	@Override
@@ -133,10 +137,13 @@ public class StrasbourgServiceWrapper
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getFavoritesPois(
-		long groupId, String typeContenu, String localeId) {
+		long groupId, String typeContenu, String localeId,
+		java.util.List<String> alertsArret, long territoryVocabularyId,
+		long placeTypeVocabularyId, long eventTypeVocabularyId) {
 
 		return _strasbourgService.getFavoritesPois(
-			groupId, typeContenu, localeId);
+			groupId, typeContenu, localeId, alertsArret, territoryVocabularyId,
+			placeTypeVocabularyId, eventTypeVocabularyId);
 	}
 
 	/**
@@ -156,10 +163,14 @@ public class StrasbourgServiceWrapper
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getInterestsPois(
 		String interests, long groupId, String typeContenu, String localeId,
-		long globalGroupId) {
+		long globalGroupId, java.util.List<String> alertsArret,
+		long territoryVocabularyId, long placeTypeVocabularyId,
+		long eventTypeVocabularyId) {
 
 		return _strasbourgService.getInterestsPois(
-			interests, groupId, typeContenu, localeId, globalGroupId);
+			interests, groupId, typeContenu, localeId, globalGroupId,
+			alertsArret, territoryVocabularyId, placeTypeVocabularyId,
+			eventTypeVocabularyId);
 	}
 
 	/**

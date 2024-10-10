@@ -137,6 +137,10 @@ $(document).ready(function(){
 				onChange: function (selectClass, optionIndex) {
 					if(typeof selectPlaceA11yOnChange !== 'undefined'){
 						selectPlaceA11yOnChange(selectClass, optionIndex);
+						if(optionIndex == -1)
+							idSIGPlace = "";
+						else
+							idSIGPlace = selectClass.el.options[optionIndex].value;
 					}
 				},
 
@@ -146,10 +150,18 @@ $(document).ready(function(){
 
 					const response = await fetch(`/api/jsonws/place.place/get-places-by-name-and-language/?name=${searchTerm}&language=fr_FR&p_auth=${Liferay.authToken}`).then(response => response.json());
 					const results = response.map(place => {
-						return {
-							value: place.idSurfs,
-							label: place.name.fr_FR
-						}
+						if(idSIGPlace == place.idSurfs)
+							return {
+								value: place.idSurfs,
+								label: place.name.fr_FR,
+								selected: true
+							}
+						else
+							return {
+								value: place.idSurfs,
+								label: place.name.fr_FR,
+								selected: false
+							}
 					})
 					return results;
 				}
@@ -163,34 +175,27 @@ $(document).ready(function(){
 	function selectPlaceA11yOnChange (selectClass, optionIndex) {
 		var select = selectClass
 		var id = select.id
-		// check if the id the Barre at the end of the id
+		// check if the id the Barre at the end of the id and get the id of the other filter
 		if(id.indexOf("Barre") > -1) {
-			// get the id of the filter`
 			var filterId = id.replace("Barre", "");
-			// get the filter
-			window.selects.forEach(function (selectA11y) {
-				if(selectA11y.id == filterId) {
-					removeOptions(selectA11y.el);
-					selectA11y.suggestions = [];
-					selectA11y.el.options.add(new Option(select.el.options[optionIndex].text, select.el.options[optionIndex].value, true, true));
-					selectA11y._toggleSelection(0, true, false);
-				}
-			});
-
 		}
 		else {
-			// get the id of the filter
 			var filterId = id + "Barre";
-			// get the filter
-			window.selects.forEach(function (selectA11y) {
-				if(selectA11y.id == filterId) {
-					removeOptions(selectA11y.el);
-					selectA11y.suggestions = [];
+		}
+		// get the filter
+		window.selects.forEach(function (selectA11y) {
+			if(selectA11y.id == filterId) {
+				removeOptions(selectA11y.el);
+				selectA11y.suggestions = [];
+				selectA11y.list.innerHTML = `<p class="a11y-no-suggestion">${selectA11y._options.text.noResult}</p>`;
+				if(optionIndex > -1) {
 					selectA11y.el.options.add(new Option(select.el.options[optionIndex].text, select.el.options[optionIndex].value, true, true));
 					selectA11y._toggleSelection(0, true, false);
+				}else{
+					selectA11y._setButtonText("Sélectionner...");
 				}
-			});
-		}
+			}
+		});
 	}
 
 

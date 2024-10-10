@@ -14,6 +14,8 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
+import com.liferay.asset.kernel.model.AssetTag;
+import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
 import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
@@ -778,6 +780,15 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		}
 		if (jsonServices.length() > 0) {
 			jsonEvent.put("services", jsonServices);
+		}
+
+		// Tags
+		JSONArray jsonTags = JSONFactoryUtil.createJSONArray();
+		for (String TagName : this.getTagsNames().split(",")) {
+			jsonTags.put(TagName);
+		}
+		if (jsonTags.length() > 0) {
+			jsonEvent.put("tags", jsonTags);
 		}
 
 		return jsonEvent;

@@ -23,8 +23,8 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.contact.configuration.ContactFormConfiguration;
+import eu.strasbourg.utils.FriendlycaptchaHelper;
 import eu.strasbourg.utils.MailHelper;
-import eu.strasbourg.utils.RecaptchaHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -89,11 +89,11 @@ public class ContactFormContactAction implements MVCActionCommand {
 
         // Validation
         boolean hasError = false;
-        String gRecaptchaResponse = ParamUtil.getString(request, "g-recaptcha-response");
+        String friendlycaptchaResponse = ParamUtil.getString(request, "frc-captcha-solution");
         String placit= ParamUtil.getString(request, "placit");
-        if (placit.isEmpty()&&!RecaptchaHelper.verify(gRecaptchaResponse)) {
-            // Recaptcha
-            SessionErrors.add(request, "recaptcha-error");
+        if (!FriendlycaptchaHelper.verify(friendlycaptchaResponse)) {
+            // Friendlycaptcha
+            SessionErrors.add(request, "friendlycaptcha-error");
             hasError = true;
         }
         if (Validator.isNull(emailFrom)) {
