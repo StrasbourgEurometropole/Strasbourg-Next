@@ -17,7 +17,7 @@ variables:
     - 'echo -e "Host *\n\tStrictHostKeyChecking no" > ~/.ssh/config'
 
 theme_build:
-  image: azul/zulu-openjdk:21.0.4-jdk
+  image: azul/zulu-openjdk:11.0.24-jdk
   stage: build
   cache:
     key:
@@ -43,7 +43,7 @@ theme_build:
 
 # Gradle build stage
 modules_build:
-  image: azul/zulu-openjdk:21.0.4-jdk
+  image: azul/zulu-openjdk:11.0.24-jdk
   stage: build
   cache:
     key:
@@ -66,7 +66,7 @@ modules_build:
 
 # Gradle build stage
 war_build:
-  image: azul/zulu-openjdk:21.0.4-jdk
+  image: azul/zulu-openjdk:11.0.24-jdk
   stage: build
   cache:
     key:

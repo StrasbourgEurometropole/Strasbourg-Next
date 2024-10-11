@@ -9,7 +9,7 @@ services:
     image: harbor-cds.sully-group.fr/ems/strasbourg-next:recette
     environment:
       - SOURCE_DB_PASSWORD=${SOURCE_DB_PASSWORD}
-      - JAVA_VERSION=zulu11
+      - JAVA_VERSION=zulu21
       - LIFERAY_DISABLE_TRIAL_LICENSE=true
       - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME=com.mysql.cj.jdbc.Driver
       - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_URL=jdbc:mysql://db/lportal?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&useFastDateParsing=false&useUnicode=true&serverTimezone=Europe/Paris

@@ -20,8 +20,6 @@ RUN mkdir -p /tmp/certificates
 COPY --chown=liferay:liferay wait-for-it.sh /
 RUN chmod +x /wait-for-it.sh
 
-ENV JAVA_VERSION=zulu11
-
 # Repositionnement sur l'utilisateur liferay
 USER liferay
 
