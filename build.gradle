@@ -9,11 +9,16 @@ sonar {
         property "sonar.qualitygate.wait", true
     }
 }
+subprojects {
 
-tasks.withType(JavaCompile) {
+    tasks.withType(JavaCompile) {
 
-    // Generated classes using Jodd library are unable to be read when compiled against JDK 11
+        // Generated classes using Jodd library are unable to be read when compiled against JDK 11
 
-    sourceCompatibility = "11"
-    targetCompatibility = "11"
+        sourceCompatibility = JavaVersion.VERSION_11
+
+        targetCompatibility = JavaVersion.VERSION_11
+
+    }
+
 }
