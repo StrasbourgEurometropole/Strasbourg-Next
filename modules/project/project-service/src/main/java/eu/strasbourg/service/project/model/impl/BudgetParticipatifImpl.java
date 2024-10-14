@@ -283,7 +283,7 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
     public String getDistrictLabel(Locale locale) {
         List<AssetCategory> districts = getDistrictCategories();
 		List<AssetCategory> cities = getCityCategories();
-        return AssetVocabularyHelper.getDistrictTitleForCity(locale, districts, cities, CategoryNames.OLD_STRASBOURG);
+        return AssetVocabularyHelper.getDistrictTitleForCity(locale, districts, cities, List.of(CategoryNames.OLD_STRASBOURG, CategoryNames.STRASBOURG));
     }
 
     /**

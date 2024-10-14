@@ -115,6 +115,13 @@ public class FavoriteLocalServiceUtil {
 		getService().deleteFavoriteByEntityIdAndType(entityId, typeId);
 	}
 
+	public static void deleteFavoriteByGroupIdEntityIdAndType(
+		long groupId, long entityId, long typeId) {
+
+		getService().deleteFavoriteByGroupIdEntityIdAndType(
+			groupId, entityId, typeId);
+	}
+
 	/**
 	 * @throws PortalException
 	 */

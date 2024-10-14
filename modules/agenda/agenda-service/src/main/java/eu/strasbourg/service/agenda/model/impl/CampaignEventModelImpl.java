@@ -93,8 +93,9 @@ public class CampaignEventModelImpl
 		{"websiteName", Types.VARCHAR}, {"free", Types.INTEGER},
 		{"price", Types.CLOB}, {"campaignId", Types.BIGINT},
 		{"themesIds", Types.VARCHAR}, {"typesIds", Types.VARCHAR},
-		{"publicsIds", Types.VARCHAR}, {"bookingDescription", Types.CLOB},
-		{"bookingURL", Types.VARCHAR}, {"registration", Types.BOOLEAN},
+		{"publicsIds", Types.VARCHAR}, {"tagsNames", Types.VARCHAR},
+		{"bookingDescription", Types.CLOB}, {"bookingURL", Types.VARCHAR},
+		{"registration", Types.BOOLEAN},
 		{"registrationStartDate", Types.TIMESTAMP},
 		{"registrationEndDate", Types.TIMESTAMP}, {"maxGauge", Types.BIGINT}
 	};
@@ -147,6 +148,7 @@ public class CampaignEventModelImpl
 		TABLE_COLUMNS_MAP.put("themesIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("typesIds", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("publicsIds", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("tagsNames", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("bookingDescription", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("bookingURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("registration", Types.BOOLEAN);
@@ -156,7 +158,7 @@ public class CampaignEventModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table agenda_CampaignEvent (uuid_ VARCHAR(75) null,campaignEventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,firstName VARCHAR(75) null,lastName VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,serviceId LONG,service VARCHAR(75) null,onSiteFirstName VARCHAR(75) null,onSiteLastName VARCHAR(75) null,onSitePhone VARCHAR(75) null,title STRING null,subtitle STRING null,description TEXT null,imageId LONG,webImageId LONG,imageOwner VARCHAR(75) null,manifestationsIds VARCHAR(75) null,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,placeCountry VARCHAR(75) null,promoter VARCHAR(75) null,publicPhone VARCHAR(75) null,publicEmail VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,campaignId LONG,themesIds VARCHAR(75) null,typesIds VARCHAR(75) null,publicsIds VARCHAR(75) null,bookingDescription TEXT null,bookingURL VARCHAR(400) null,registration BOOLEAN,registrationStartDate DATE null,registrationEndDate DATE null,maxGauge LONG)";
+		"create table agenda_CampaignEvent (uuid_ VARCHAR(75) null,campaignEventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,firstName VARCHAR(75) null,lastName VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,serviceId LONG,service VARCHAR(75) null,onSiteFirstName VARCHAR(75) null,onSiteLastName VARCHAR(75) null,onSitePhone VARCHAR(75) null,title STRING null,subtitle STRING null,description TEXT null,imageId LONG,webImageId LONG,imageOwner VARCHAR(75) null,manifestationsIds VARCHAR(75) null,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCityId LONG,placeCountry VARCHAR(75) null,promoter VARCHAR(75) null,publicPhone VARCHAR(75) null,publicEmail VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,campaignId LONG,themesIds VARCHAR(75) null,typesIds VARCHAR(75) null,publicsIds VARCHAR(75) null,tagsNames VARCHAR(75) null,bookingDescription TEXT null,bookingURL VARCHAR(400) null,registration BOOLEAN,registrationStartDate DATE null,registrationEndDate DATE null,maxGauge LONG)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table agenda_CampaignEvent";
@@ -400,6 +402,8 @@ public class CampaignEventModelImpl
 			attributeGetterFunctions.put(
 				"publicsIds", CampaignEvent::getPublicsIds);
 			attributeGetterFunctions.put(
+				"tagsNames", CampaignEvent::getTagsNames);
+			attributeGetterFunctions.put(
 				"bookingDescription", CampaignEvent::getBookingDescription);
 			attributeGetterFunctions.put(
 				"bookingURL", CampaignEvent::getBookingURL);
@@ -580,6 +584,9 @@ public class CampaignEventModelImpl
 				"publicsIds",
 				(BiConsumer<CampaignEvent, String>)
 					CampaignEvent::setPublicsIds);
+			attributeSetterBiConsumers.put(
+				"tagsNames",
+				(BiConsumer<CampaignEvent, String>)CampaignEvent::setTagsNames);
 			attributeSetterBiConsumers.put(
 				"bookingDescription",
 				(BiConsumer<CampaignEvent, String>)
@@ -2075,6 +2082,25 @@ public class CampaignEventModelImpl
 	}
 
 	@Override
+	public String getTagsNames() {
+		if (_tagsNames == null) {
+			return "";
+		}
+		else {
+			return _tagsNames;
+		}
+	}
+
+	@Override
+	public void setTagsNames(String tagsNames) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_tagsNames = tagsNames;
+	}
+
+	@Override
 	public String getBookingDescription() {
 		if (_bookingDescription == null) {
 			return "";
@@ -2596,6 +2622,7 @@ public class CampaignEventModelImpl
 		campaignEventImpl.setThemesIds(getThemesIds());
 		campaignEventImpl.setTypesIds(getTypesIds());
 		campaignEventImpl.setPublicsIds(getPublicsIds());
+		campaignEventImpl.setTagsNames(getTagsNames());
 		campaignEventImpl.setBookingDescription(getBookingDescription());
 		campaignEventImpl.setBookingURL(getBookingURL());
 		campaignEventImpl.setRegistration(isRegistration());
@@ -2698,6 +2725,8 @@ public class CampaignEventModelImpl
 			this.<String>getColumnOriginalValue("typesIds"));
 		campaignEventImpl.setPublicsIds(
 			this.<String>getColumnOriginalValue("publicsIds"));
+		campaignEventImpl.setTagsNames(
+			this.<String>getColumnOriginalValue("tagsNames"));
 		campaignEventImpl.setBookingDescription(
 			this.<String>getColumnOriginalValue("bookingDescription"));
 		campaignEventImpl.setBookingURL(
@@ -3101,6 +3130,14 @@ public class CampaignEventModelImpl
 			campaignEventCacheModel.publicsIds = null;
 		}
 
+		campaignEventCacheModel.tagsNames = getTagsNames();
+
+		String tagsNames = campaignEventCacheModel.tagsNames;
+
+		if ((tagsNames != null) && (tagsNames.length() == 0)) {
+			campaignEventCacheModel.tagsNames = null;
+		}
+
 		campaignEventCacheModel.bookingDescription = getBookingDescription();
 
 		String bookingDescription = campaignEventCacheModel.bookingDescription;
@@ -3256,6 +3293,7 @@ public class CampaignEventModelImpl
 	private String _themesIds;
 	private String _typesIds;
 	private String _publicsIds;
+	private String _tagsNames;
 	private String _bookingDescription;
 	private String _bookingDescriptionCurrentLanguageId;
 	private String _bookingURL;
@@ -3338,6 +3376,7 @@ public class CampaignEventModelImpl
 		_columnOriginalValues.put("themesIds", _themesIds);
 		_columnOriginalValues.put("typesIds", _typesIds);
 		_columnOriginalValues.put("publicsIds", _publicsIds);
+		_columnOriginalValues.put("tagsNames", _tagsNames);
 		_columnOriginalValues.put("bookingDescription", _bookingDescription);
 		_columnOriginalValues.put("bookingURL", _bookingURL);
 		_columnOriginalValues.put("registration", _registration);
@@ -3456,17 +3495,19 @@ public class CampaignEventModelImpl
 
 		columnBitmasks.put("publicsIds", 8796093022208L);
 
-		columnBitmasks.put("bookingDescription", 17592186044416L);
+		columnBitmasks.put("tagsNames", 17592186044416L);
 
-		columnBitmasks.put("bookingURL", 35184372088832L);
+		columnBitmasks.put("bookingDescription", 35184372088832L);
 
-		columnBitmasks.put("registration", 70368744177664L);
+		columnBitmasks.put("bookingURL", 70368744177664L);
 
-		columnBitmasks.put("registrationStartDate", 140737488355328L);
+		columnBitmasks.put("registration", 140737488355328L);
 
-		columnBitmasks.put("registrationEndDate", 281474976710656L);
+		columnBitmasks.put("registrationStartDate", 281474976710656L);
 
-		columnBitmasks.put("maxGauge", 562949953421312L);
+		columnBitmasks.put("registrationEndDate", 562949953421312L);
+
+		columnBitmasks.put("maxGauge", 1125899906842624L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

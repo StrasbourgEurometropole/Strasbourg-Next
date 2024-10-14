@@ -14,35 +14,33 @@
 
 package eu.strasbourg.service.gtfs.model.impl;
 
-import eu.strasbourg.utils.PortalHelper;
-import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
-import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.gtfs.model.Alert;
 import eu.strasbourg.service.gtfs.model.Arret;
+import eu.strasbourg.service.gtfs.model.CacheAlertJSON;
 import eu.strasbourg.service.gtfs.model.Direction;
 import eu.strasbourg.service.gtfs.model.Ligne;
 import eu.strasbourg.service.gtfs.service.AlertLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.ArretServiceUtil;
+import eu.strasbourg.service.gtfs.service.CacheAlertJSONLocalServiceUtil;
 import eu.strasbourg.service.gtfs.service.DirectionLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
+import eu.strasbourg.utils.PortalHelper;
+import org.osgi.annotation.versioning.ProviderType;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -108,17 +106,51 @@ public class ArretImpl extends ArretBaseImpl {
     }
 
     /**
-     * Renvoie la liste des Alertes en cours ou à venir de cet arret
+     * Renvoie la liste des Alertes en cours ou à venir des lignes de cet arrêt
      */
     @Override
-    public List<Alert> getAlertsActives() {
-		LocalDateTime now = LocalDate.now().atTime(0,0, 0, 0);
-		Date today = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
-        List<Alert> alerts = AlertLocalServiceUtil.getByArretId(this.getArretId()).stream()
-                .filter(a -> !a.getEndDate().before(today))
-				.collect(Collectors.toList());
+    public List<JSONObject> getAlertsActives() {
+		// récupération des lignes de l'arrêt
+		// Map <ligne, {nom de ligne, couleur background, couleur text}
+		Map<String, JSONObject> lignes = new HashMap<>();
+		List<Direction> lignesMap = this.getDirections();
+		for (Direction direction : lignesMap) {
+			Ligne line = direction.getLigne();
+			JSONObject lineJson = JSONFactoryUtil.createJSONObject();
+			lineJson.put("line",line.getShortName());
+			lineJson.put("bg", line.getBackgroundColor());
+			lineJson.put("text", line.getTextColor());
+			lignes.put(line.getShortName(),lineJson);
+		}
 
-        return  alerts;
+		// récupération des alertes
+		CacheAlertJSON cache = CacheAlertJSONLocalServiceUtil.getCacheAlertJSONs(-1, -1).get(0);
+		List<JSONObject> alertsByLine = new ArrayList<>();
+		try {
+			JSONObject json = JSONFactoryUtil.createJSONObject(cache.getJsonAlert());
+			JSONArray alertsJson = json.getJSONArray("alerts");
+			for (int i = 0; i < alertsJson.length() ; i++) {
+				JSONObject alertJson = alertsJson.getJSONObject(i);
+				// on récupère les lignes touchées par cette alerte
+				JSONArray linesAlertJson = alertJson.getJSONArray("linesNumber");
+				JSONArray linesJson = JSONFactoryUtil.createJSONArray();
+				for (int j = 0; j < linesAlertJson.length() ; j++) {
+					String lineNumber = linesAlertJson.getString(j);
+					// vérifie si la ligne passe à cet arrêt
+					JSONObject line = lignes.get(lineNumber);
+					if(Validator.isNotNull(line)){
+						linesJson.put(line);
+					}
+				}
+				if(linesJson.length() > 0) {
+					alertJson.put("lines", linesJson);
+					alertsByLine.add(alertJson);
+				}
+			}
+		} catch (JSONException e) {
+			_log.error(e.getMessage(), e);
+		}
+        return  alertsByLine;
     }
 	/**
 	 * Renvoie le count des Alertes en cours ou à venir de cet arret
@@ -180,25 +212,14 @@ public class ArretImpl extends ArretBaseImpl {
 	 * Renvoie le JSON de l'entite au format GeoJSON pour la map
 	 */
 	@Override
-	public JSONObject getGeoJSON(long groupId, Locale locale) {
+	public JSONObject getGeoJSON(long groupId, Locale locale, List<String> alertsArret) throws JSONException {
 		JSONObject feature = JSONFactoryUtil.createJSONObject();
 		feature.put("type", "Feature");
 
 		JSONObject properties = JSONFactoryUtil.createJSONObject();
 		properties.put("name", this.getTypeText() + " - " + this.getTitle());
 
-		String contenu = "<div class='popup-content-tram-list' data-code='" + this.getCode() + "'>" +
-				"				<div class='loading'>" +
-				"					<div class='loading-circle'></div>" +
-				"				</div>" +
-				"			</div>";
-		properties.put("contenu", contenu);
-
 		properties.put("icon", "/o/mapweb/images/picto_" + this.getTypeText().toLowerCase() + ".png");
-
-		// vérifi si l'arrêt a une alerte
-		if(this.getCountAlertsActives() > 0)
-			properties.put("alert", true);
 
 		// récupère les numéros de lignes de l'arrêt
 		JSONArray lignes = JSONFactoryUtil.createJSONArray();
@@ -210,6 +231,9 @@ public class ArretImpl extends ArretBaseImpl {
 			infoLigne.put("textColor",ligne.getValue()[1]);
 			infoLigne.put("numero",ligne.getKey());
 			lignes.put(infoLigne);
+			// vérifie si la ligne a une alerte
+			if(alertsArret.contains(ligne.getKey()))
+				properties.put("alert", true);
 		}
 		properties.put("lignes", lignes);
 
@@ -218,8 +242,8 @@ public class ArretImpl extends ArretBaseImpl {
 		if (group == null) {
 			group = GroupLocalServiceUtil.fetchFriendlyURLGroup(PortalUtil.getDefaultCompanyId(), "/strasbourg.eu");
 		}
+		String url = "";
 		if (group != null) {
-			String url = "";
 			String virtualHostName=PortalHelper.getVirtualHostname(group, Locale.FRANCE.getLanguage());
 			if (virtualHostName.isEmpty()) {
 				url = "/web" + group.getFriendlyURL() + "/";
@@ -227,8 +251,8 @@ public class ArretImpl extends ArretBaseImpl {
 				url = "https://" + virtualHostName + "/";
 			}
 			url += "arret/-/entity/id/" + this.getArretId();
-			properties.put("url", url);
 		}
+		properties.put("url", url);
 
 		// bouton favoris
 		properties.put("type", "14");
@@ -252,5 +276,6 @@ public class ArretImpl extends ArretBaseImpl {
 
 		return feature;
 	}
-	
+
+	private static final Log _log = LogFactoryUtil.getLog(ArretImpl.class.getName());
 }

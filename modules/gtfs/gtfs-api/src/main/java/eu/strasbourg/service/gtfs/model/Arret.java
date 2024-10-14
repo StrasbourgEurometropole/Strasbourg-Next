@@ -62,17 +62,19 @@ public interface Arret extends ArretModel, PersistedModel {
 	/**
 	 * Renvoie la liste des Directions de cet arret
 	 */
-	public java.util.List<Direction> getDirections();
+	public java.util.List<eu.strasbourg.service.gtfs.model.Direction>
+		getDirections();
 
 	/**
 	 * Renvoie la liste des Alertes de cet arret
 	 */
-	public java.util.List<Alert> getAlerts();
+	public java.util.List<eu.strasbourg.service.gtfs.model.Alert> getAlerts();
 
 	/**
-	 * Renvoie la liste des Alertes en cours ou à venir de cet arret
+	 * Renvoie la liste des Alertes en cours ou à venir des lignes de cet arrêt
 	 */
-	public java.util.List<Alert> getAlertsActives();
+	public java.util.List<com.liferay.portal.kernel.json.JSONObject>
+		getAlertsActives();
 
 	/**
 	 * Renvoie le count des Alertes en cours ou à venir de cet arret
@@ -99,6 +101,8 @@ public interface Arret extends ArretModel, PersistedModel {
 	 * Renvoie le JSON de l'entite au format GeoJSON pour la map
 	 */
 	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(
-		long groupId, java.util.Locale locale);
+			long groupId, java.util.Locale locale,
+			java.util.List<String> alertsArret)
+		throws com.liferay.portal.kernel.json.JSONException;
 
 }

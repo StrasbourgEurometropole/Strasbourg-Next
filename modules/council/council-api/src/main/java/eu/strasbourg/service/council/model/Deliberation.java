@@ -62,6 +62,8 @@ public interface Deliberation extends DeliberationModel, PersistedModel {
 
 	public CouncilSession getCouncilSession();
 
+	public String getOrderAmendement();
+
 	public boolean isCree();
 
 	public boolean isAffichageEnCours();

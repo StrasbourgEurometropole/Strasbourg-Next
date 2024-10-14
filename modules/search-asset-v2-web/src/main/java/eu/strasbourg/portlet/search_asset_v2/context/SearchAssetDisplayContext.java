@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
@@ -28,7 +27,6 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.search.hits.SearchHit;
 import com.liferay.portal.search.hits.SearchHits;
 import com.liferay.portlet.asset.model.impl.AssetEntryImpl;
@@ -51,6 +49,8 @@ import org.osgi.util.tracker.ServiceTracker;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 import javax.portlet.ResourceURL;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -58,7 +58,16 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"deprecation", "unused"})
@@ -100,6 +109,9 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 		iteratorURL.setParameter("className", ArrayUtil.toStringArray(this.getFilterClassNamesOrStructures()));
 
 		iteratorURL.setParameter("keywords", String.valueOf(this.getKeywords()));
+
+		// Lieu (pour la recherche agenda)
+		iteratorURL.setParameter("idSIGPlace", String.valueOf(this.getIdSIGPlace()));
 
 		if (getConfigurationData().isDisplayDateField()) {
 			iteratorURL.setParameter("fromDay", String.valueOf(this.getFromDay()));
@@ -274,6 +286,17 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 			_keywords = HtmlUtil.escape(ParamUtil.getString(this._request, "keywords"));
 		}
 		return _keywords;
+	}
+
+
+	/**
+	 * Retourne les mots-clés de recherche
+	 */
+	public String getSortFieldAndTypeFromParam() {
+		if (Validator.isNull(_sortFieldAndTypeFromParam)) {
+			_sortFieldAndTypeFromParam = ParamUtil.getString(this._request, "sortFieldAndType");
+		}
+		return _sortFieldAndTypeFromParam;
 	}
 
 	/**
@@ -493,7 +516,7 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 		// Filtre sur les dates
 		LocalDate fromDate = LocalDate.of(2017,1, 1);
 		LocalDate toDate = LocalDate.now().minusDays(1);
-		if(getConfigurationData().getUtilsAssetTypeList().size() == 0 || getConfigurationData().getUtilsAssetTypeList().size() > 1 || !getConfigurationData().getUtilsAssetTypeList().get(0).getClassName().equals("eu.strasbourg.service.ejob.model.Offer")
+		if(getConfigurationData().getUtilsAssetTypeList().size() == 0 || getConfigurationData().getUtilsAssetTypeList().size() > 1
 				|| !getConfigurationData().getFilterField().equals("endDate_Number_sortable")){
 			fromDate = LocalDate.of(this.getFromYear(), this.getFromMonthValue(), this.getFromDay());
 			toDate = LocalDate.of(this.getToYear(), this.getToMonthValue(), this.getToDay());
@@ -504,8 +527,11 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 
 		// Permet de remonter la hiérarchie des Request
 		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(servletRequest);
+
 		// Lieu (pour la recherche agenda)
 		String idSIGPlace = ParamUtil.getString(originalRequest, "idSIGPlace");
+		if(Validator.isNull(idSIGPlace))
+			idSIGPlace = ParamUtil.getString(this._request, "idSIGPlace");
 
 
 		// Recherche
@@ -794,7 +820,7 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 		try {
 			boostTagsNames = StringUtil.split(this.getConfiguration().boostTagsNames());
 		} catch (ConfigurationException e) {
-			e.printStackTrace();
+			_log.error(e.getMessage(),e);
 		}
 		String[] finalBoostTagsNames = boostTagsNames;
 		return entry.getTags().stream().anyMatch(t -> ArrayUtil.contains(finalBoostTagsNames, t.getName()));
@@ -835,52 +861,6 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 		return getConfigurationData().isDisplayExport();
 	}
 
-	public ResourceURL getExportResourceURL() throws PortalException {
-		ResourceURL exportURL = this._response.createResourceURL();
-
-		HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(_request);
-
-		SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
-
-		// Mots clés
-		String keywords = HtmlUtil.escape(ParamUtil.getString(this._request, "keywords"));
-
-		// Filtre
-		LocalDate fromDate = LocalDate.of(this.getFromYear(), this.getFromMonthValue(), this.getFromDay());
-		LocalDate toDate = LocalDate.of(this.getToYear(), this.getToMonthValue(), this.getToDay());
-
-		// Catégories sélectionnées par l'utilisateur
-		List<Long[]> categoriesIds = this.getFilterCategoriesIds();
-
-		// Recherche
-		SearchHits searchHits = getSearchHelperV2().getGlobalSearchHitsV2(searchContext,
-				getConfigurationData().getUtilsAssetTypeList(),
-				getConfigurationData().isDisplayDateField(), getConfigurationData().getFilterField(), this.getSeed(),
-				getSortFieldsAndTypes(), /*getCategoriesIdsForGroupBy(),*/ keywords, fromDate, toDate, categoriesIds,
-				null, this.getFilterClassNamesOrStructures(), this._themeDisplay.getLocale(), -1, -1);
-
-		StringBuilder ids = new StringBuilder();
-		if (searchHits != null) {
-			for (SearchHit  searchHit : searchHits.getSearchHits()) {
-				com.liferay.portal.search.document.Document document = searchHit.getDocument();
-
-				AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
-						document.getString(Field.ENTRY_CLASS_NAME),
-						document.getLong(Field.ENTRY_CLASS_PK));
-				if (entry != null) {
-					if (ids.length() >= 0) {
-						ids.append(",");
-					}
-					ids.append(entry.getClassPK());
-				}
-			}
-		}
-
-		exportURL.setParameter("ids", ids.toString());
-		exportURL.setParameter("classNames", this.getFilterClassNamesOrStructuresString());
-		return exportURL;
-	}
-
 	/**
 	 * Retourne la liste des types d'entités sur lesquels on souhaite rechercher
 	 * les entries, sous forme de String
@@ -906,7 +886,11 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 
 	public String getIdSIGPlace() {
 		HttpServletRequest originalRequest = PortalUtil.getOriginalServletRequest(PortalUtil.getHttpServletRequest(_request));
-		return ParamUtil.getString(originalRequest, "idSIGPlace");
+		String idSIGPlace = ParamUtil.getString(originalRequest, "idSIGPlace");
+		if(Validator.isNull(idSIGPlace))
+			idSIGPlace = ParamUtil.getString(this._request, "idSIGPlace");
+
+		return idSIGPlace;
 	}
 
 	public String getToDate(){
@@ -1077,6 +1061,7 @@ public class SearchAssetDisplayContext extends BaseDisplayContext {
 	private List<AssetVocabulary> _vocabularies;
 	private LinkedHashMap<String, String> _sortFieldsAndTypes;
 	private String _keywords;
+	private String _sortFieldAndTypeFromParam;
 	private List<Long[]> _filterCategoriesIds;
 	private String _filterCategoriesIdString;
 	private List<String> _filterClassNamesOrStructures;

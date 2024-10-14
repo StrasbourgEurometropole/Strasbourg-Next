@@ -38,6 +38,7 @@
 
 	<%-- Composant : definit la liste des messages d'erreur  (voir methode "validate" dans le saveAction de l'entite) --%>
 	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="amendement-error" message="amendement-error" />
 	<liferay-ui:error key="order-error" message="order-error" />
 	<liferay-ui:error key="council-session-error" message="council-session-error" />
 	<liferay-ui:error key="stage-deliberation-error" message="stage-deliberation-error" />
@@ -57,6 +58,9 @@
 
 			    <%-- Champ : Ordre --%>
                 <aui:input name="order" required="true" />
+
+			    <%-- Champ : Amendement --%>
+                <aui:input name="amendement" max="3"/>
 
 			    <%-- Champ : Titre --%>
 			    <c:choose>
@@ -187,9 +191,9 @@
                         <aui:validator name="custom" errorMessage="requested-vocabularies-error">
                             function (val, fieldNode, ruleValue) {
                                 var validated = true;
-                                var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
+                                var fields = document.querySelectorAll('[id*=assetCategoriesSelector]');
                                 for (var i = 0; i < fields.length; i++) {
-                                    fieldContent = fields[i];
+                                    var fieldContent = fields[i];
                                     if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
                                         && $(fieldContent).find('input[type="hidden"]').length == 0) {
                                         validated = false;

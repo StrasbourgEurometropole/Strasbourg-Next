@@ -15,6 +15,7 @@
  */
 package eu.strasbourg.portlet.agenda.portlet.action;
 
+import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
@@ -38,6 +39,7 @@ import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -414,6 +416,13 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 			campaignEvent.setThemesIds(StringUtil.merge(themesIds));
 			campaignEvent.setTypesIds(StringUtil.merge(typesIds));
 			campaignEvent.setPublicsIds(StringUtil.merge(publicsIds));
+
+			// Tags
+			Campaign campaign = CampaignLocalServiceUtil.fetchCampaign(campaignId);
+			if(Validator.isNotNull(campaign)) {
+				String tags = ListUtil.toString(campaign.getAssetEntry().getTags(), "name");
+				campaignEvent.setTagsNames(tags);
+			}
 
 			// Gestion du statut
 			CampaignEventStatus status;

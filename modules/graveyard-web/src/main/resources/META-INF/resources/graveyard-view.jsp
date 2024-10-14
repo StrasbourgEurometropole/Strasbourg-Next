@@ -256,7 +256,7 @@
                                         </div>
                                     </div>
 
-                                    <a href="/o/graveyardweb/images/${tot.graveyardMapping.sigId}.jpg"
+                                    <a href="/o/graveyardweb/images/${tot.graveyardMapping.sigId}.jpg" download
                                        class="st-btn st--btn-secondary st--btn-secondary-ghost st--btn-small-padding st--btn-full-width-mobile"><liferay-ui:message
                                             key="graveyard.downloadPlan"/></a>
                                 </div>

@@ -23,10 +23,12 @@ import com.liferay.portal.kernel.search.SearchContextFactory;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.search.hits.SearchHit;
@@ -43,20 +45,8 @@ import eu.strasbourg.service.help.model.HelpProposal;
 import eu.strasbourg.service.help.service.HelpProposalLocalServiceUtil;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
-import eu.strasbourg.service.project.model.BudgetParticipatif;
-import eu.strasbourg.service.project.model.Initiative;
-import eu.strasbourg.service.project.model.Participation;
-import eu.strasbourg.service.project.model.Petition;
-import eu.strasbourg.service.project.model.Project;
-import eu.strasbourg.service.project.service.BudgetParticipatifLocalService;
-import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
-import eu.strasbourg.service.project.service.InitiativeLocalService;
-import eu.strasbourg.service.project.service.InitiativeLocalServiceUtil;
-import eu.strasbourg.service.project.service.ParticipationLocalService;
-import eu.strasbourg.service.project.service.ParticipationLocalServiceUtil;
-import eu.strasbourg.service.project.service.PetitionLocalService;
-import eu.strasbourg.service.project.service.PetitionLocalServiceUtil;
-import eu.strasbourg.service.project.service.ProjectLocalServiceUtil;
+import eu.strasbourg.service.project.model.*;
+import eu.strasbourg.service.project.service.*;
 import eu.strasbourg.service.video.model.Video;
 import eu.strasbourg.service.video.service.VideoLocalServiceUtil;
 import eu.strasbourg.utils.AssetPublisherTemplateHelper;
@@ -121,6 +111,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class SearchAssetPortlet extends MVCPortlet {
 
 	public final static String PETITION = "eu.strasbourg.service.project.model.Petition";
+	public final static String SAISINE_OBSERVATOIRE = "eu.strasbourg.service.project.model.SaisineObservatoire";
 	public final static String PARTICIPATION = "eu.strasbourg.service.project.model.Participation";
 	public final static String BUDGET = "eu.strasbourg.service.project.model.BudgetParticipatif";
 	public final static String INITIATIVE = "eu.strasbourg.service.project.model.Initiative";
@@ -182,6 +173,10 @@ public class SearchAssetPortlet extends MVCPortlet {
 					renderRequest.setAttribute("petitionListMostSigned", petitionListMostSigned);
 					renderRequest.setAttribute("petitionListLessSigned", petitionListLessSigned);
 					renderRequest.setAttribute("petitionListMostCommented", petitionListMostCommented);
+				} else if (className.equals(SAISINE_OBSERVATOIRE)) {
+					List<SaisineObservatoire> saisineObservatoireListMostCommented = _saisineObservatoireLocalService.getTheMostCommented(themeDisplay.getScopeGroupId());
+
+					renderRequest.setAttribute("saisineObservatoireListMostCommented", saisineObservatoireListMostCommented);
 
 				} else if (className.equals(BUDGET)) {
 
@@ -199,11 +194,9 @@ public class SearchAssetPortlet extends MVCPortlet {
 					if(phase != null) {
 						List<BudgetParticipatif> budgetsMostSupported = _budgetParticipatifLocalService.getMostSupported(groupId, 3, phase);
 						List<BudgetParticipatif> budgetsMostCommented = _budgetParticipatifLocalService.getMostCommented(groupId, 3, phase);
-						List<BudgetParticipatif> budgetsIsCrush = _budgetParticipatifLocalService.getRecentIsCrushed(groupId, 3, phase);
 
 						renderRequest.setAttribute("budgetsMostSupported", budgetsMostSupported);
 						renderRequest.setAttribute("budgetsMostCommented", budgetsMostCommented);
-						renderRequest.setAttribute("budgetsIsCrush", budgetsIsCrush);
 					}
 
 				} else if (className.equals(INITIATIVE)) {
@@ -349,175 +342,253 @@ public class SearchAssetPortlet extends MVCPortlet {
 
 			// Verifions qu'il n'y ait pas d'entourloupe dans la solicitation
 			// et réaction au type de la demande
-			if (resourceID != null && resourceID.startsWith("entrySelection")) { // Nouvelle sélection de videos
+			if (resourceID != null) {
+				if (resourceID.startsWith("entrySelection")) {
+					// Nouvelle sélection de videos
 
-				// Recherche
-				SearchHits searchHits = searchEntries(resourceRequest, themeDisplay, configurationData);
+					// Recherche
+					SearchHits searchHits = searchEntries(resourceRequest, themeDisplay, configurationData);
 
-				List<AssetEntry> entries = new ArrayList<>();
-				if (searchHits != null) {
-					for (SearchHit searchHit : searchHits.getSearchHits()) {
-						com.liferay.portal.search.document.Document document = searchHit.getDocument();
-						AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
-								document.getString(Field.ENTRY_CLASS_NAME),
-								document.getLong(Field.ENTRY_CLASS_PK));
-						if (entry != null) {
-							entries.add(entry);
+					List<AssetEntry> entries = new ArrayList<>();
+					if (searchHits != null) {
+						for (SearchHit searchHit : searchHits.getSearchHits()) {
+							com.liferay.portal.search.document.Document document = searchHit.getDocument();
+							AssetEntry entry = AssetEntryLocalServiceUtil.fetchEntry(
+									document.getString(Field.ENTRY_CLASS_NAME),
+									document.getLong(Field.ENTRY_CLASS_PK));
+							if (entry != null) {
+								entries.add(entry);
+							}
 						}
 					}
-				}
 
-				// Récupération du json des entités
-				JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
-				JSONArray jsonEntries = JSONFactoryUtil.createJSONArray();
-				for (AssetEntry entry : entries) {
-					String className = entry.getClassName();
+					// Récupération du json des entités
+					JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
+					JSONArray jsonEntries = JSONFactoryUtil.createJSONArray();
+					for (AssetEntry entry : entries) {
+						String className = entry.getClassName();
 
-					switch (className) {
-						case "eu.strasbourg.service.agenda.model.Event":
-							Event event = EventLocalServiceUtil.fetchEvent(entry.getClassPK());
-							JSONObject jsonEvent = JSONFactoryUtil.createJSONObject();
-							jsonEvent.put("class", className);
-							JSONObject json = event.toJSON();
-							json.put("eventScheduleDisplay", event.getCurrentOrFuturePeriodStringDate());
-							json.put("placeAlias", event.getPlaceAlias(Locale.FRANCE));
-							jsonEvent.put("json", json);
-							jsonEntries.put(jsonEvent);
-							break;
-						case "eu.strasbourg.service.project.model.Project":
-							Project project = ProjectLocalServiceUtil.fetchProject(entry.getClassPK());
-							JSONObject jsonProject = JSONFactoryUtil.createJSONObject();
-							jsonProject.put("class", className);
-							json = project.toJSON(publikUserId);
-							json.put("nbParticipations", project.getParticipations().size());
-							json.put("nbEvents", project.getEvents().size());
-							JSONArray jsonThematicCategoriesTitle = JSONFactoryUtil.createJSONArray();
-							List<AssetCategory> thematicCategories = project.getThematicCategories();
-							for (AssetCategory assetCategory : thematicCategories) {
-								jsonThematicCategoriesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
-							}
-							json.put("jsonThematicCategoriesTitle", jsonThematicCategoriesTitle);
-							jsonProject.put("json", json);
-							jsonEntries.put(jsonProject);
-							break;
-						case "eu.strasbourg.service.project.model.Participation":
-							Participation participation = ParticipationLocalServiceUtil.fetchParticipation(entry.getClassPK());
-							JSONObject jsonParticipation = JSONFactoryUtil.createJSONObject();
-							jsonParticipation.put("class", className);
-							json = participation.toJSON(themeDisplay);
-							json.put("todayExpirationDifferenceDays", participation.getTodayExpirationDifferenceDays());
-							json.put("todayPublicationDifferenceDays", participation.getTodayPublicationDifferenceDays());
-							json.put("isJudgeable", participation.isJudgeable());
-							json.put("groupId", participation.getGroupId());
-							LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(resourceRequest);
-							HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
-							json.put("hasPactSigned", originalRequest.getSession().getAttribute("has_pact_signed"));
-							jsonThematicCategoriesTitle = JSONFactoryUtil.createJSONArray();
-							thematicCategories = participation.getThematicCategories();
-							for (AssetCategory assetCategory : thematicCategories) {
-								jsonThematicCategoriesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
-							}
-							json.put("jsonThematicCategoriesTitle", jsonThematicCategoriesTitle);
-							jsonParticipation.put("json", json);
-							jsonEntries.put(jsonParticipation);
-							break;
-						case "eu.strasbourg.service.project.model.Petition":
-							Petition petition = PetitionLocalServiceUtil.fetchPetition(entry.getClassPK());
-							JSONObject jsonPetition = JSONFactoryUtil.createJSONObject();
-							jsonPetition.put("class", className);
-							json = petition.toJSON(publikUserId);
-							jsonThematicCategoriesTitle = JSONFactoryUtil.createJSONArray();
-							thematicCategories = petition.getThematicCategories();
-							for (AssetCategory assetCategory : thematicCategories) {
-								jsonThematicCategoriesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
-							}
-							json.put("jsonThematicCategoriesTitle", jsonThematicCategoriesTitle);
-							json.put("jsonProjectCategoryTitle", JSONHelper.getJSONFromI18nMap((Validator.isNull(petition.getProjectCategory())? LocalizationUtil.getLocalizationMap("") : petition.getProjectCategory().getTitleMap())));
-							jsonPetition.put("json", json);
-							jsonEntries.put(jsonPetition);
-							break;
-						case "eu.strasbourg.service.project.model.BudgetParticipatif":
-							BudgetParticipatif budgetParticipatif = BudgetParticipatifLocalServiceUtil.fetchBudgetParticipatif(entry.getClassPK());
-							JSONObject jsonBudget = JSONFactoryUtil.createJSONObject();
-							jsonBudget.put("class", className);
-							jsonBudget.put("json", budgetParticipatif.toJSON(publikUserId));
-							jsonEntries.put(jsonBudget);
-							break;
-						case "eu.strasbourg.service.project.model.Initiative":
-							Initiative initiative = InitiativeLocalServiceUtil.fetchInitiative(entry.getClassPK());
-							JSONObject jsonInitiative = JSONFactoryUtil.createJSONObject();
-							jsonInitiative.put("class", className);
-							jsonInitiative.put("json", initiative.toJSON());
-							jsonEntries.put(jsonInitiative);
-							break;
-						case "eu.strasbourg.service.help.model.HelpProposal":
-							HelpProposal helpProposal = HelpProposalLocalServiceUtil.fetchHelpProposal(entry.getClassPK());
-							JSONObject jsonHelpProposal = JSONFactoryUtil.createJSONObject();
-							jsonHelpProposal.put("class", className);
-							Locale locale = themeDisplay.getLocale();
-							jsonHelpProposal.put("json", helpProposal.toJSON(locale));
-							jsonEntries.put(jsonHelpProposal);
-							break;
-						case "eu.strasbourg.service.video.model.Video":
-							Video video = VideoLocalServiceUtil.fetchVideo(entry.getClassPK());
-							JSONObject jsonVideo = JSONFactoryUtil.createJSONObject();
-							jsonVideo.put("class", className);
-							jsonVideo.put("json", video.toJSON());
-							jsonEntries.put(jsonVideo);
-							break;
-						case "com.liferay.journal.model.JournalArticle":
-							JournalArticle journalArticle = JournalArticleLocalServiceUtil.getLatestArticle(entry.getClassPK());
-							JSONObject jsonJournalArticle = JSONFactoryUtil.createJSONObject();
-							jsonJournalArticle.put("class", className);
-							json = JSONFactoryUtil.createJSONObject();
-							json.put("detailURL", LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay));
-							String title = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "title", Locale.FRANCE);
-							if (Validator.isNull(title)) {
-								title = journalArticle.getTitle(Locale.FRANCE);
-							}
-							json.put("title", title);
-							String thumbnail = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "thumbnail", Locale.FRANCE);
-							String imageURL ="";
-							if(!thumbnail.isEmpty()){
-								imageURL = AssetPublisherTemplateHelper.getDocumentUrl(thumbnail);
-							}
-							json.put("thumbnail", imageURL);
-							String image = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "image", Locale.FRANCE);
-							if(!image.isEmpty()){
-								imageURL = AssetPublisherTemplateHelper.getDocumentUrl(image);
-							}
-							json.put("image", imageURL);
-							AssetEntry asset = AssetEntryLocalServiceUtil.getAssetEntry(entry.getEntryId());
-							List<AssetCategory> listVocabulary = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "territoire");
-							List<AssetCategory> districtCategories = AssetVocabularyHelper.getDistrictCategories(listVocabulary);
-							List<AssetCategory> cityCategories = AssetVocabularyHelper.getCityCategories(listVocabulary);
-							String districts = AssetVocabularyHelper.getDistrictTitle(Locale.FRANCE, districtCategories, cityCategories);
-							json.put("jsonVocabulariesTitle", districts);
-							List<AssetCategory> listMuseum = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "musees");
-							JSONArray museums = JSONFactoryUtil.createJSONArray();
-							for (AssetCategory museum : listMuseum) {
-								museums.put(museum.getTitle(Locale.FRANCE));
-							}
-							json.put("jsonMuseumsTitle", museums);
-							SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
-							json.put("modifiedDate", dateFormat.format(journalArticle.getModifiedDate()));
-							String chapo = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "chapo", Locale.FRANCE);
-							json.put("chapo", chapo.replaceAll("<[^>]*>", "").substring(0, Math.min(chapo.length(), 100)));
-							jsonJournalArticle.put("json", json);
-							jsonEntries.put(jsonJournalArticle);
-							break;
+						switch (className) {
+							case "eu.strasbourg.service.agenda.model.Event":
+								Event event = EventLocalServiceUtil.fetchEvent(entry.getClassPK());
+								JSONObject jsonEvent = JSONFactoryUtil.createJSONObject();
+								jsonEvent.put("class", className);
+								JSONObject json = event.toJSON();
+								json.put("eventScheduleDisplay", event.getCurrentOrFuturePeriodStringDate());
+								json.put("placeAlias", event.getPlaceAlias(Locale.FRANCE));
+								jsonEvent.put("json", json);
+								jsonEntries.put(jsonEvent);
+								break;
+							case "eu.strasbourg.service.project.model.Project":
+								Project project = ProjectLocalServiceUtil.fetchProject(entry.getClassPK());
+								JSONObject jsonProject = JSONFactoryUtil.createJSONObject();
+								jsonProject.put("class", className);
+								json = project.toJSON(publikUserId);
+								json.put("nbParticipations", project.getParticipations().size());
+								json.put("nbEvents", project.getEvents().size());
+								JSONArray jsonThematicCategoriesTitle = JSONFactoryUtil.createJSONArray();
+								List<AssetCategory> thematicCategories = project.getThematicCategories();
+								for (AssetCategory assetCategory : thematicCategories) {
+									jsonThematicCategoriesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
+								}
+								json.put("jsonThematicCategoriesTitle", jsonThematicCategoriesTitle);
+								jsonProject.put("json", json);
+								jsonEntries.put(jsonProject);
+								break;
+							case "eu.strasbourg.service.project.model.Participation":
+								Participation participation = ParticipationLocalServiceUtil.fetchParticipation(entry.getClassPK());
+								JSONObject jsonParticipation = JSONFactoryUtil.createJSONObject();
+								jsonParticipation.put("class", className);
+								json = participation.toJSON(themeDisplay);
+								json.put("todayExpirationDifferenceDays", participation.getTodayExpirationDifferenceDays());
+								json.put("todayPublicationDifferenceDays", participation.getTodayPublicationDifferenceDays());
+								json.put("isJudgeable", participation.isJudgeable());
+								json.put("groupId", participation.getGroupId());
+								LiferayPortletRequest liferayPortletRequest = PortalUtil.getLiferayPortletRequest(resourceRequest);
+								HttpServletRequest originalRequest = liferayPortletRequest.getHttpServletRequest();
+								json.put("hasPactSigned", originalRequest.getSession().getAttribute("has_pact_signed"));
+								jsonThematicCategoriesTitle = JSONFactoryUtil.createJSONArray();
+								thematicCategories = participation.getThematicCategories();
+								for (AssetCategory assetCategory : thematicCategories) {
+									jsonThematicCategoriesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
+								}
+								json.put("jsonThematicCategoriesTitle", jsonThematicCategoriesTitle);
+								jsonParticipation.put("json", json);
+								jsonEntries.put(jsonParticipation);
+								break;
+							case "eu.strasbourg.service.project.model.Petition":
+								Petition petition = PetitionLocalServiceUtil.fetchPetition(entry.getClassPK());
+								JSONObject jsonPetition = JSONFactoryUtil.createJSONObject();
+								jsonPetition.put("class", className);
+								json = petition.toJSON(publikUserId);
+								jsonThematicCategoriesTitle = JSONFactoryUtil.createJSONArray();
+								thematicCategories = petition.getThematicCategories();
+								for (AssetCategory assetCategory : thematicCategories) {
+									jsonThematicCategoriesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
+								}
+								json.put("jsonThematicCategoriesTitle", jsonThematicCategoriesTitle);
+								json.put("jsonProjectCategoryTitle", JSONHelper.getJSONFromI18nMap((Validator.isNull(petition.getProjectCategory()) ? LocalizationUtil.getLocalizationMap("") : petition.getProjectCategory().getTitleMap())));
+								jsonPetition.put("json", json);
+								jsonEntries.put(jsonPetition);
+								break;
+							case "eu.strasbourg.service.project.model.SaisineObservatoire":
+								SaisineObservatoire saisineObservatoire = SaisineObservatoireLocalServiceUtil.fetchSaisineObservatoire(entry.getClassPK());
+								JSONObject jsonSaisineObservatoire = JSONFactoryUtil.createJSONObject();
+								jsonSaisineObservatoire.put("class", className);
+								json = saisineObservatoire.toJSON(publikUserId);
+								jsonThematicCategoriesTitle = JSONFactoryUtil.createJSONArray();
+								thematicCategories = saisineObservatoire.getThematicCategories();
+								for (AssetCategory assetCategory : thematicCategories) {
+									jsonThematicCategoriesTitle.put(JSONHelper.getJSONFromI18nMap(assetCategory.getTitleMap()));
+								}
+								json.put("jsonThematicCategoriesTitle", jsonThematicCategoriesTitle);
+								json.put("jsonProjectCategoryTitle", JSONHelper.getJSONFromI18nMap((Validator.isNull(saisineObservatoire.getProjectCategory()) ? LocalizationUtil.getLocalizationMap("") : saisineObservatoire.getProjectCategory().getTitleMap())));
+								jsonSaisineObservatoire.put("json", json);
+								jsonEntries.put(jsonSaisineObservatoire);
+								break;
+							case "eu.strasbourg.service.project.model.BudgetParticipatif":
+								BudgetParticipatif budgetParticipatif = BudgetParticipatifLocalServiceUtil.fetchBudgetParticipatif(entry.getClassPK());
+								JSONObject jsonBudget = JSONFactoryUtil.createJSONObject();
+								jsonBudget.put("class", className);
+								jsonBudget.put("json", budgetParticipatif.toJSON(publikUserId));
+								jsonEntries.put(jsonBudget);
+								break;
+							case "eu.strasbourg.service.project.model.Initiative":
+								Initiative initiative = InitiativeLocalServiceUtil.fetchInitiative(entry.getClassPK());
+								JSONObject jsonInitiative = JSONFactoryUtil.createJSONObject();
+								jsonInitiative.put("class", className);
+								jsonInitiative.put("json", initiative.toJSON());
+								jsonEntries.put(jsonInitiative);
+								break;
+							case "eu.strasbourg.service.help.model.HelpProposal":
+								HelpProposal helpProposal = HelpProposalLocalServiceUtil.fetchHelpProposal(entry.getClassPK());
+								JSONObject jsonHelpProposal = JSONFactoryUtil.createJSONObject();
+								jsonHelpProposal.put("class", className);
+								Locale locale = themeDisplay.getLocale();
+								jsonHelpProposal.put("json", helpProposal.toJSON(locale));
+								jsonEntries.put(jsonHelpProposal);
+								break;
+							case "eu.strasbourg.service.video.model.Video":
+								Video video = VideoLocalServiceUtil.fetchVideo(entry.getClassPK());
+								JSONObject jsonVideo = JSONFactoryUtil.createJSONObject();
+								jsonVideo.put("class", className);
+								jsonVideo.put("json", video.toJSON());
+								jsonEntries.put(jsonVideo);
+								break;
+							case "com.liferay.journal.model.JournalArticle":
+								JournalArticle journalArticle = JournalArticleLocalServiceUtil.getLatestArticle(entry.getClassPK());
+								JSONObject jsonJournalArticle = JSONFactoryUtil.createJSONObject();
+								jsonJournalArticle.put("class", className);
+								json = JSONFactoryUtil.createJSONObject();
+								json.put("detailURL", LayoutHelper.getJournalArticleLayoutURL(journalArticle.getGroupId(), journalArticle.getArticleId(), themeDisplay));
+								String title = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "title", Locale.FRANCE);
+								if (Validator.isNull(title)) {
+									title = journalArticle.getTitle(Locale.FRANCE);
+								}
+								json.put("title", title);
+								String thumbnail = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "thumbnail", Locale.FRANCE);
+								String imageURL = "";
+								if (!thumbnail.isEmpty()) {
+									imageURL = AssetPublisherTemplateHelper.getDocumentUrl(thumbnail);
+								}
+								json.put("thumbnail", imageURL);
+								String image = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "image", Locale.FRANCE);
+								if (!image.isEmpty()) {
+									imageURL = AssetPublisherTemplateHelper.getDocumentUrl(image);
+								}
+								json.put("image", imageURL);
+								AssetEntry asset = AssetEntryLocalServiceUtil.getAssetEntry(entry.getEntryId());
+								List<AssetCategory> listVocabulary = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "territoire");
+								List<AssetCategory> districtCategories = AssetVocabularyHelper.getDistrictCategories(listVocabulary);
+								List<AssetCategory> cityCategories = AssetVocabularyHelper.getCityCategories(listVocabulary);
+								String districts = AssetVocabularyHelper.getDistrictTitle(Locale.FRANCE, districtCategories, cityCategories);
+								json.put("jsonVocabulariesTitle", districts);
+								List<AssetCategory> listMuseum = AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(asset, "musees");
+								JSONArray museums = JSONFactoryUtil.createJSONArray();
+								for (AssetCategory museum : listMuseum) {
+									museums.put(museum.getTitle(Locale.FRANCE));
+								}
+								json.put("jsonMuseumsTitle", museums);
+								SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
+								json.put("modifiedDate", dateFormat.format(journalArticle.getModifiedDate()));
+								String chapo = JournalArticleHelper.getJournalArticleFieldValue(journalArticle, "chapo", Locale.FRANCE);
+								json.put("chapo", chapo.replaceAll("<[^>]*>", "").substring(0, Math.min(chapo.length(), 100)));
+								jsonJournalArticle.put("json", json);
+								jsonEntries.put(jsonJournalArticle);
+								break;
+						}
 					}
+					jsonResponse.put("entries", jsonEntries);
+					jsonResponse.put("total", searchHits.getTotalHits());
+
+					// Recuperation de l'élément d'écriture de la réponse
+					PrintWriter writer = resourceResponse.getWriter();
+					writer.print(jsonResponse.toString());
+
+				} else if (resourceID.equals("exportResource")) {
+					// pour l'export PDF
+
+					HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(resourceRequest);
+					SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
+
+					// seed
+					int seed = ParamUtil.getInteger(resourceRequest, "seed");
+
+					// sortFieldAndType
+					String sortFieldAndType = ParamUtil.getString(resourceRequest, "sortFieldAndType");
+
+					// Mots clés
+					String keywords = HtmlUtil.escape(ParamUtil.getString(resourceRequest, "keywords"));
+
+					// Filtre sur les dates
+					LocalDate fromDate = LocalDate.of(2017,1, 1);
+					LocalDate toDate = LocalDate.now().minusDays(1);
+					if(configurationData.getUtilsAssetTypeList().size() == 0
+							|| configurationData.getUtilsAssetTypeList().size() > 1
+							|| !configurationData.getFilterField().equals("endDate_Number_sortable")){
+						int startDay = ParamUtil.getInteger(resourceRequest, "startDay");
+						int startMonth = ParamUtil.getInteger(resourceRequest, "startMonth");
+						int startYear = ParamUtil.getInteger(resourceRequest, "startYear");
+						int endDay = ParamUtil.getInteger(resourceRequest, "endDay");
+						int endMonth = ParamUtil.getInteger(resourceRequest, "endMonth");
+						int endYear = ParamUtil.getInteger(resourceRequest, "endYear");
+						fromDate = LocalDate.of(startYear, startMonth, startDay);
+						toDate = LocalDate.of(endYear, endMonth, endDay);
+					}
+
+					// Catégories sélectionnées par l'utilisateur
+					List<Long[]> categoriesIds = new ArrayList<>();
+					String categoriesIdsString = ParamUtil.getString(resourceRequest, "categoriesIds");
+					if (Validator.isNotNull(categoriesIdsString)) {
+						for (String prefilterCategoriesIdsAnd : categoriesIdsString.split(";")) {
+							Long[] categoriesIdsOr = ArrayUtil.toLongArray(StringUtil.split(prefilterCategoriesIdsAnd, ",", 0));
+							categoriesIds.add(categoriesIdsOr);
+						}
+					}
+
+					// Recherche
+					SearchHits searchHits = _searchHelperV2.getGlobalSearchHitsV2(searchContext,
+							configurationData.getUtilsAssetTypeList(), configurationData.isDisplayDateField(),
+							configurationData.getFilterField(), seed,
+							getSortFieldsAndTypes(configurationData, sortFieldAndType, keywords),
+							/*getCategoriesIdsForGroupBy(configurationData),*/ keywords, fromDate, toDate, categoriesIds,
+							null, getClassNames(configurationData), themeDisplay.getLocale(), -1, -1);
+
+					StringBuilder ids = new StringBuilder();
+					if (searchHits != null) {
+						for (SearchHit searchHit : searchHits.getSearchHits()) {
+							com.liferay.portal.search.document.Document document = searchHit.getDocument();
+
+							if (ids.length() >= 0) {
+								ids.append(",");
+							}
+							ids.append(document.getLong(Field.ENTRY_CLASS_PK));
+						}
+					}
+
+					String exportType = configuration.exportType();
+					ExportPDF.printPDF(resourceRequest, resourceResponse, exportType, ids.toString());
 				}
-				jsonResponse.put("entries", jsonEntries);
-				jsonResponse.put("total", searchHits.getTotalHits());
-
-				// Recuperation de l'élément d'écriture de la réponse
-				PrintWriter writer = resourceResponse.getWriter();
-				writer.print(jsonResponse.toString());
-
-			} else { // pour l'export PDF
-				String exportType = configuration.exportType();
-				ExportPDF.printPDF(resourceRequest, resourceResponse, exportType);
 			}
 		} catch (Exception e2) {
 			_log.error(e2);
@@ -570,7 +641,6 @@ public class SearchAssetPortlet extends MVCPortlet {
 			projects = ParamUtil.getLongValues(request, "selectedProject");
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
 		if (resourceID.equals("entrySelectionProject")) {
 			keywords = ParamUtil.getString(request, "selectedKeyWords");
@@ -583,7 +653,6 @@ public class SearchAssetPortlet extends MVCPortlet {
 			statuts = ParamUtil.getLongValues(request, "selectedStatut");
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
 		if (resourceID.equals("entrySelectionParticipation")) {
 			keywords = ParamUtil.getString(request, "selectedKeyWords");
@@ -597,7 +666,6 @@ public class SearchAssetPortlet extends MVCPortlet {
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
 			types = ParamUtil.getLongValues(request, "selectedTypes");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
 		if (resourceID.equals("entrySelectionAgenda")) {
 			keywords = ParamUtil.getString(request, "selectedKeyWords");
@@ -610,7 +678,6 @@ public class SearchAssetPortlet extends MVCPortlet {
 			projects = ParamUtil.getLongValues(request, "selectedProject");
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
 		if (resourceID.equals("entrySelectionPetition")) {
 			keywords = ParamUtil.getString(request, "selectedKeyWords");
@@ -623,7 +690,19 @@ public class SearchAssetPortlet extends MVCPortlet {
 			states = ParamUtil.getLongValues(request, "selectedStates");
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
+		}
+		if (resourceID.equals("entrySelectionSaisineObservatoire")) {
+			keywords = ParamUtil.getString(request, "selectedKeyWords");
+			startDay = ParamUtil.getInteger(request, "selectedStartDay");
+			startMonth = ParamUtil.getString(request, "selectedStartMonth");
+			startYear = ParamUtil.getInteger(request, "selectedStartYear");
+			endDay = ParamUtil.getInteger(request, "selectedEndDay");
+			endMonth = ParamUtil.getString(request, "selectedEndMonth");
+			endYear = ParamUtil.getInteger(request, "selectedEndYear");
+			states = ParamUtil.getLongValues(request, "selectedStates");
+			projects = ParamUtil.getLongValues(request, "selectedProject");
+			districts = ParamUtil.getLongValues(request, "selectedDistricts");
+			thematics = ParamUtil.getLongValues(request, "selectedThematics");
 		}
 		if (resourceID.equals("entrySelectionBudgetParticipatif")) {
 			keywords = ParamUtil.getString(request, "selectedKeyWords");
@@ -636,7 +715,6 @@ public class SearchAssetPortlet extends MVCPortlet {
 			bpStatus = ParamUtil.getLongValues(request, "selectedBPStatus");
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
 		if (resourceID.equals("entrySelectionInitiative")) {
 			keywords = ParamUtil.getString(request, "selectedKeyWords");
@@ -649,9 +727,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 			initiativeStatus = ParamUtil.getLongValues(request, "selectedInitiativeStatus");
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
-
 		if (resourceID.equals("entrySelectionHelpProposal")) {
 			keywords = ParamUtil.getString(request, "selectedKeyWords");
 			startDay = ParamUtil.getInteger(request, "selectedStartDay");
@@ -663,7 +739,6 @@ public class SearchAssetPortlet extends MVCPortlet {
 			helpProposalTypes = ParamUtil.getLongValues(request, "selectedHelpProposalTypes");
 			helpProposalActivityStatus = ParamUtil.getLongValues(request, "selectedHelpProposalActivityStatus");
 			localisations = ParamUtil.getLongValues(request, "selectedLocalisations");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
 		if (resourceID.equals("entrySelectionNews")) {
 			startDay = ParamUtil.getInteger(request, "selectedStartDay");
@@ -675,9 +750,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 			states = ParamUtil.getLongValues(request, "selectedStates");
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
-
 		if (resourceID.equals("entrySelectionProjectWorkshop")) {
 			keywords = null;
 			startDay = ParamUtil.getInteger(request, "selectedStartDay");
@@ -689,9 +762,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 			states = ParamUtil.getLongValues(request, "selectedStates");
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-			sortFieldAndType = ParamUtil.getString(request, "sortFieldAndType");
 		}
-
 		if (resourceID.equals("entrySelectionMuseum")) {
 			startDay = ParamUtil.getInteger(request, "selectedStartDay");
 			startMonth = ParamUtil.getString(request, "selectedStartMonth");
@@ -1089,6 +1160,11 @@ public class SearchAssetPortlet extends MVCPortlet {
 	private PetitionLocalService _petitionLocalService;
 
 	/**
+	 * interface des saisines
+	 */
+	private SaisineObservatoireLocalService _saisineObservatoireLocalService;
+
+	/**
 	 * interface des budgets
 	 */
 	private BudgetParticipatifLocalService _budgetParticipatifLocalService;
@@ -1106,6 +1182,11 @@ public class SearchAssetPortlet extends MVCPortlet {
 	@Reference(unbind = "-")
 	protected void setPetitionLocalService(PetitionLocalService petitionLocalService) {
 		_petitionLocalService = petitionLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setSaisineObservatoireLocalService(SaisineObservatoireLocalService saisineObservatoireLocalService) {
+		_saisineObservatoireLocalService = saisineObservatoireLocalService;
 	}
 
 	@Reference(unbind = "-")

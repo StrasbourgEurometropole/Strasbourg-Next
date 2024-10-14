@@ -39,8 +39,8 @@ import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
+import eu.strasbourg.utils.FriendlycaptchaHelper;
 import eu.strasbourg.utils.MailHelper;
-import eu.strasbourg.utils.RecaptchaHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -140,28 +140,32 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 			mailBody = out.toString();
 
 			// Validation
-			String gRecaptchaResponse = ParamUtil.getString(request, "g-recaptcha-response");
+			String friendlycaptchaResponse = ParamUtil.getString(request, "frc-captcha-solution");
 			boolean hasError = false;
-			if (!RecaptchaHelper.verify(gRecaptchaResponse)) { // Captcha
-				SessionErrors.add(request, "recaptcha-error");
+			if (!FriendlycaptchaHelper.verify(friendlycaptchaResponse)) { // Friendlycaptcha
+				SessionErrors.add(request, "friendlycaptcha-error");
 				hasError = true;
 			}
 			// Champs vides
 			// Check each field individually and add specific errors
 			if (Validator.isNull(email)) {
 				SessionErrors.add(request, "email-required-error");
+				SessionErrors.add(request, "all-fields-required");
 				hasError = true;
 			}
 			if (Validator.isNull(firstName)) {
 				SessionErrors.add(request, "first-name-required-error");
+				SessionErrors.add(request, "all-fields-required");
 				hasError = true;
 			}
 			if (Validator.isNull(lastName)) {
 				SessionErrors.add(request, "last-name-required-error");
+				SessionErrors.add(request, "all-fields-required");
 				hasError = true;
 			}
 			if (Validator.isNull(message)) {
 				SessionErrors.add(request, "message-required-error");
+				SessionErrors.add(request, "all-fields-required");
 				hasError = true;
 			}
 
@@ -238,7 +242,6 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 		request.setAttribute("firstName", firstName);
 		request.setAttribute("lastName", lastName);
 		request.setAttribute("email", email);
-		request.setAttribute("message", message);
 		request.setAttribute("message", message);
 		request.setAttribute("notificationEmail", notificationEmail);
 

@@ -13,7 +13,7 @@
         <liferay-portlet:actionURL name="contact" var="contactURL" />
         <form action="${contactURL}" method="post" class="seu-main-form">
             <liferay-ui:error key="unknown-error" message="eu.unknown-error" targetNode=".seu-main-form" />
-            <liferay-ui:error key="recaptcha-error" message="eu.recaptcha-error" targetNode=".seu-main-form" />
+            <liferay-ui:error key="friendlycaptcha-error" message="eu.friendlycaptcha-error" targetNode=".seu-main-form" />
             <liferay-ui:error key="email-error" message="email-error" targetNode=".seu-main-form" />
             <liferay-ui:error key="lastname-error" message="lastname-error" targetNode=".seu-main-form" />
             <liferay-ui:error key="firstname-error" message="firstname-error" targetNode=".seu-main-form" />
@@ -54,7 +54,9 @@
             </fieldset>
 
             <div class="recaptcha" style="margin-top: 20px;">
-                <div class="g-recaptcha" data-sitekey="${recaptchaKey}"></div>
+                <div class="frc-captcha"
+                     data-puzzle-endpoint="${friendlycaptchaPuzzleURL}"
+                     data-sitekey="${friendlycaptcha}"></div>
             </div>
 
             <div style="padding: 20px 0;">
@@ -99,6 +101,10 @@
 
     </c:if>
 </div>
+
+<script type="module" src="/o/0-global-theme/libs/friendlycaptcha/widget.module.min.js" async defer ></script>
+<script nomodule src="/o/0-global-theme/libs/friendlycaptcha/widget.min.js" async defer></script>
+
 <style>
     .lfr-alert-container {
         position: static;

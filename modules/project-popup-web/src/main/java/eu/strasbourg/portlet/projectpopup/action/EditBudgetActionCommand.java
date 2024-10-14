@@ -371,7 +371,7 @@ public class EditBudgetActionCommand implements MVCActionCommand {
                     }
                 }else{
                     throw new PortalException("Fichier(s) trop volumineux (maximum autoris&eacute; : "
-                            + ParamUtil.getLong(request, "sizeFile") + "Mo)");
+                            + sizeFile + " Mo)");
                 }
             } else {
                 throw new PortalException("Extension(s) de fichier(s) non valide(s)");
@@ -478,11 +478,6 @@ public class EditBudgetActionCommand implements MVCActionCommand {
         // title
         if (Validator.isNull(title)) {
             return "title";
-        }
-        
-        // Resume
-        if (Validator.isNull(summary)) {
-            return "summary";
         }
 
         // description

@@ -12,7 +12,7 @@
 		@include pseudo-block(100%, 20px);
 		top: 100%;
 		left: 0;
-		background-image: linear-gradient(to bottom, rgba($c_main, 1), rgba($c_main, 0));
+		background-image: linear-gradient(to bottom, color-mix(in srgb, $c_main 100%, transparent), color-mix(in srgb, $c_main 0%, transparent));
 	}
 }
 
@@ -22,7 +22,7 @@
 	height: 60px;
 	width: 100%;
 	padding: 0 20px 0 56px;
-	@include ft($f_txt, 14px, 400, rgba($c_greydark, 0.75), 1);
+	@include ft($f_txt, 14px, 400, color-mix(in srgb, $c_greydark 75%, transparent), 1);
 	@include letter-spacing(25);
 	text-align: left;
 	background-color: $c_white;

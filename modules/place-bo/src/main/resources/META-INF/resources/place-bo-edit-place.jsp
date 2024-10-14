@@ -135,6 +135,27 @@
 					<liferay-asset:asset-categories-selector
 							className="<%= Place.class.getName() %>"
 							classPK="${dc.place.placeId}"/>
+					<!-- Hack pour ajouter une validation sur les vocabulaires obligatoires -->
+					<div class="has-error">
+						<aui:input type="hidden" name="assetCategoriesValidatorInputHelper" value="placeholder">
+							<aui:validator name="custom" errorMessage="requested-vocabularies-error">
+										function (val, fieldNode, ruleValue) {
+											var validated = true;
+											var fields = document.querySelectorAll('[id*=assetCategoriesSelector]');
+											for (var i = 0; i < fields.length; i++) {
+												var fieldContent = fields[i];
+												if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
+														&& $(fieldContent).find('input[type="hidden"]').length == 0) {
+													validated = false;
+													event.preventDefault();
+													break;
+												}
+											}
+											return validated;
+										}
+							</aui:validator>
+						</aui:input>
+					</div>
 
 					<liferay-asset:asset-tags-selector
 							className="<%= Place.class.getName() %>"
@@ -209,6 +230,10 @@
 									<aui:validator name="require" errorMessage="this-field-is-required" />
 								</aui:input>
 							</div>
+
+							<aui:input name="bookingURL"  helpMessage="url-help-message">
+								<aui:validator name="url"/>
+							</aui:input>
 
 							<aui:input name="facebookLabel" >
 								<aui:validator name="require" errorMessage="this-field-is-required" />

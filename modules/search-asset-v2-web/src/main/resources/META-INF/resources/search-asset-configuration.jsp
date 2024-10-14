@@ -318,6 +318,9 @@
                             <aui:option value="placit-petitions" selected="${dc.configurationData.searchForm eq 'placit-petitions'}">
                                 <liferay-ui:message key="eu.search.asset.web.configuration.template.placit-petitions" />
                             </aui:option>
+                            <aui:option value="placit-saisinesObservatoire" selected="${dc.configurationData.searchForm eq 'placit-saisinesObservatoire'}">
+                                <liferay-ui:message key="eu.search.asset.web.configuration.template.placit-saisinesObservatoire" />
+                            </aui:option>
                             <aui:option value="placit-budgetParticipatif" selected="${dc.configurationData.searchForm eq 'placit-budgetParticipatif'}">
                                 <liferay-ui:message key="eu.search.asset.web.configuration.template.placit-budgetParticipatif" />
                             </aui:option>

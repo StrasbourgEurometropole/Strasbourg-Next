@@ -3,6 +3,7 @@ package eu.strasbourg.portlet.projectpopup.resource;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetCategoryModel;
 import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
@@ -42,14 +43,17 @@ import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetPhase;
+import eu.strasbourg.service.project.model.PlacitPlace;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalServiceUtil;
 import eu.strasbourg.service.project.service.BudgetPhaseLocalServiceUtil;
+import eu.strasbourg.service.project.service.PlacitPlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.PublikApiClient;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
+import eu.strasbourg.utils.constants.VocabularyNames;
 import org.osgi.service.component.annotations.Component;
 
 import javax.mail.internet.InternetAddress;
@@ -61,14 +65,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static eu.strasbourg.portlet.projectpopup.ProjectPopupPortlet.CITY_NAME;
@@ -79,6 +76,7 @@ import static eu.strasbourg.portlet.projectpopup.utils.ProjectPopupUtils.getPubl
  * @author Romain Vernier
  * @author Anglélique Zunino Champougny
  * @author Cédric Henry
+ * @author Thomas Tse
  */
 @Component(
         immediate = true,
@@ -134,11 +132,11 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
             _log.error(e);
         }
         DateFormat dateFormat = new SimpleDateFormat(PATTERN);
-        
+
         // Initialisations respectives de : resultat probant de la requete, sauvegarde ou non des informations Publik, message de retour
         boolean result = false;
         boolean savedInfo = false;
-        
+
         // Recuperation de l'utilsiteur Publik ayant lance la demande
         PublikUser user = null;
         String publikID = getPublikID(request);
@@ -148,7 +146,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
 
         // Recuperation la phase active
         BudgetPhase activePhase = BudgetPhaseLocalServiceUtil.getActivePhase(themeDisplay.getScopeGroupId());
-        
+
         // Recuperation des informations du formulaire
         String title = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETTITLE));
         String summary = HtmlUtil.stripHtml(ParamUtil.getString(request, BUDGETSUMMARY));
@@ -169,15 +167,17 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         File photoFile = uploadRequest.getFile("budgetPhoto");
         File[] documentFiles = uploadRequest.getFiles("budgetFile");
         String[] documentsFileNames = uploadRequest.getFileNames("budgetFile");
-        
+        String commitment = ParamUtil.getString(request, "commitment");
+
         // Verification de la validite des informations
-        String message = validate(request, configuration, publikID, user,  activePhase, title, summary,
+        String message = validate(request, configuration, publikID, user, activePhase, title, summary,
                 squiredescription, city, address, postalcode, quartierId, photoFileName, photoFile, documentFiles,
-                documentsFileNames);
+                documentsFileNames, commitment);
+        Long entityId = 0L;
         if (message.equals("")) {
-        
-        	// Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
-        	savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
+
+            // Mise a jour des informations du compte Publik si requete valide et demande par l'utilisateur
+            savedInfo = ParamUtil.getBoolean(request, SAVEINFO);
             if (savedInfo) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String dateNaiss = sdf.format(birthday);
@@ -240,6 +240,8 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                 budgetParticipatif.setPlaceTextArea(lieu);
                 budgetParticipatif.setCitoyenPhone(phone);
                 budgetParticipatif.setPublikId(publikID);
+                budgetParticipatif.setCommitment(commitment);
+
                 budgetParticipatif = uploadFile(photoFile, themeDisplay, sc, budgetParticipatif);
 
                 // Récpère la phase active (si elle existe)
@@ -275,19 +277,24 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
                 message = LanguageUtil.get(languageBundle, ERROR_DURING_SAVING_PROJECT);
             }
             _log.info("budget cree : " + budgetParticipatif);
-            
-            if(message.equals("")) {
+
+            if (message.equals("")) {
                 result = true;
                 sendBPMailConfirmation(request, themeDisplay, title, squiredescription, user);
             }
-        }else if(message.equals("error"))
+
+            entityId = budgetParticipatif.getBudgetParticipatifId();
+        } else if (message.equals("error"))
             message = "";
-        
+
         // Retour des informations de la requete en JSON
         JSONObject jsonResponse = JSONFactoryUtil.createJSONObject();
         jsonResponse.put("result", result);
         jsonResponse.put("message", message);
         jsonResponse.put("savedInfo", savedInfo);
+        if (entityId != 0) {
+            jsonResponse.put("entityId", entityId);
+        }
 
         // Recuperation de l'élément d'écriture de la réponse
         PrintWriter writer;
@@ -562,7 +569,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
     private String validate(ResourceRequest request, ProjectPopupConfiguration configuration, String publikID,
                             PublikUser user, BudgetPhase activePhase, String title, String summary, String description,
                             String city, String address, long postalcode, long quartierId, String photoFileName,
-                            File photoFile, File[] documentFiles, String[] documentsFileNames) {
+                            File photoFile, File[] documentFiles, String[] documentsFileNames,String commitment) {
         // utilisateur
         if (publikID == null || publikID.isEmpty()) {
             return "Utilisateur non reconnu";
@@ -587,35 +594,24 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
         if (Validator.isNull(title)) {
             return "Titre non valide";
         }
-        
-        // resume
-        if (Validator.isNull(summary)) {
-            return "Resume non valide";
-        }
-
-        // description
-        if (Validator.isNull(HtmlUtil.stripHtml(description))) {
-            return "Description non valide";
-        }
-
-        // quartier
-        if (Validator.isNull(quartierId)) {
-            return "Quartier non valide";
-        }
 
         // city
         if (Validator.isNull(city)) {
             return "Ville non valide";
         }
 
-        // address
-        if (Validator.isNull(address)) {
-            return "Adresse non valide";
-        }
-
         // postalcode
         if (Validator.isNull(postalcode)) {
             return "Code postal non valide";
+        }
+
+        // description
+        if (Validator.isNull(HtmlUtil.stripHtml(description))) {
+            return "Description non valide";
+        }
+        // Niveau d'engagement
+        if (Validator.isNull(commitment)) {
+            return "Niveau d'engagement non valide";
         }
 
         // Photo
@@ -636,7 +632,7 @@ public class SubmitBudgetResourceCommand implements MVCResourceCommand {
             } else {
                 if (!validateFileSizes(configuration, documentFiles)) {
                     return LanguageUtil.get(languageBundle, ERROR_FILE_TO_LARGE)
-                            + ParamUtil.getLong(request, "sizeFile") + "Mo)";
+                            + configuration.sizeFile() + "Mo)";
                 } else {
                     message = antiVirusVerif(documentFiles);
                     if (!message.equals("")) {

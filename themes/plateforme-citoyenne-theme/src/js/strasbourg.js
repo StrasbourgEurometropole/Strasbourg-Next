@@ -27815,7 +27815,7 @@ function createBudgetParticipatif(budgetParticipatif) {
           <div class="pro-content-budget">
             <span class="pro-district prefix-location">${budgetParticipatif.districtsLabel}</span>
             <a href="${homeURL}detail-budget-participatif/-/entity/id/${budgetParticipatif.id}" title="lien détail du projet citoyen"><h3>${budgetParticipatif.title}</h3></a>
-            <span class="pro-time">Publiée le ${budgetParticipatif.publicationDate}</time></span>
+            <span class="pro-time">Publié le ${budgetParticipatif.publicationDate}</time></span>
             <p class="pro-summary">${budgetParticipatif.summary}</p>
           </div>
         </div>
@@ -28029,3 +28029,11 @@ function scrollToAnchor(anchorId) {
 
 // Service custom : genially
 (tarteaucitron.job = tarteaucitron.job || []).push('genially');
+
+// Service Vimeo
+// <div class="vimeo_player" videoID="video_id" width="width" height="height"></div>
+(tarteaucitron.job = tarteaucitron.job || []).push('vimeo');
+
+// Service Calameo
+// <div class="calameo-canvas" data-id="bkcode" width="width" height="height"></div>
+(tarteaucitron.job = tarteaucitron.job || []).push('calameo');

@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchContextFactory;
+import com.liferay.portal.kernel.security.auth.AuthTokenUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -425,7 +426,7 @@ public class SearchAssociationDisplayContext extends BaseDisplayContext {
     public String getURLForPage(long pageIndex) {
         PortletURL url = this.getSearchContainer().getIteratorURL();
         url.setParameter("cur", String.valueOf(pageIndex));
-        String valueToReturn = url.toString();
+        String valueToReturn = url + "&p_auth=" + AuthTokenUtil.getToken(PortalUtil.getHttpServletRequest(this._request));
         url.setParameter("cur", String.valueOf(this.getSearchContainer().getCur()));
         return valueToReturn;
     }

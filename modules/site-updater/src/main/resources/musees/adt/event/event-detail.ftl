@@ -147,7 +147,7 @@
           <@liferay_ui.success key="mail-success" message="eu.mail-success" />
           <@liferay_ui.error key="all-fields-required" message="eu.all-fields-required" />
           <@liferay_ui.error key="invalid-mail" message="eu.invalid-mail" />
-          <@liferay_ui.error key="recaptcha-error" message="eu.recaptcha-error" />
+          <@liferay_ui.error key="friendlycaptcha-error" message="eu.friendlycaptcha-error" />
           <p class="error-message all-fields-required-message" style="display:none;">
             <@liferay_ui.message key="eu.all-fields-required" />
           </p>
@@ -201,9 +201,11 @@
                 name="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" id="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_notificationEmail" checked>&nbsp;<@liferay_ui.message key="eu.do-you-want-a-notification" />
               </label>
             </div>
-            <div class="g-recaptcha" data-sitekey="${propsUtil.get('eu.strasbourg.recaptcha.public')}"></div>
+            <div class="frc-captcha"
+                 data-puzzle-endpoint="${propsUtil.get('eu.strasbourg.friendlycaptcha.puzzle.url')}"
+                 data-sitekey="${propsUtil.get('eu.strasbourg.friendlycaptcha.public')}"></div>
             <p>
-                  <a href="$('#contactForm').submit()" class="button1" aria-label="<@liferay_ui.message key="send" />" title="<@liferay_ui.message key="send" />"><@liferay_ui.message key="send" /></a>
+              <a href="#" onclick="document.querySelector('#contactForm').submit();" class="button1" aria-label="<@liferay_ui.message key="send" />" title="<@liferay_ui.message key="send" />"><@liferay_ui.message key="send" /></a>
             </p>
             <p>
             * :  <@liferay_ui.message key="eu.required-field" />
@@ -215,4 +217,8 @@
         </div>
       </#if>
     </div>
+
+  <script type="module" src="/o/0-global-theme/libs/friendlycaptcha/widget.module.min.js" async defer ></script>
+  <script nomodule src="/o/0-global-theme/libs/friendlycaptcha/widget.min.js" async defer></script>
+
 </section>

@@ -73,11 +73,6 @@ h2 {
         }
 
         .delib-description div{
-            max-height: 3rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-
             &.skype-description {
                 max-height: none;
                 overflow: unset;

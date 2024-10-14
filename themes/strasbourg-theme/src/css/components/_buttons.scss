@@ -125,7 +125,7 @@
 	&.st--btn-position {
 		padding: 14px 20px;
 		background-color: transparent;
-		border-color: rgba($c_white, 0.25);
+		border-color: color-mix(in srgb, $c_white 25%, transparent);
 		color: $c_white;
 
 		&:before {
@@ -163,7 +163,7 @@
 	&:before {
 		@include icomoon();
 		font-size: 10px;
-		color: rgba($c_black, 0.75);
+		color: color-mix(in srgb, $c_black 75%, transparent);
 		@include transition(color);
 	}
 
@@ -210,7 +210,7 @@
 	}
 
 	&.st--btn-outline {
-		border-color: rgba($c_white, 0.25);
+		border-color: color-mix(in srgb, $c_white 25%, transparent);
 		background-color: $c_main;
 		@include transition(background-color, border-color);
 
@@ -259,7 +259,7 @@
 		width: 20px;
 		height: 20px;
 		margin-left: 20px;
-		border: 1px solid rgba($c_white, 0.25);
+		border: 1px solid color-mix(in srgb, $c_white 25%, transparent);
 		border-radius: $border-radius-small;
 		color: $c_white;
 		font-size: 8px;
@@ -410,7 +410,7 @@
 	@include ft($f_txt, $s_link, 600, $c_white, 1);
 	@include letter-spacing(25);
 	text-align: center;
-	border: 1px solid rgba($c_white, 0.25);
+	border: 1px solid color-mix(in srgb, $c_white 25%, transparent);
 	border-radius: $border-radius;
 	@include transition(color, background-color);
 
@@ -514,7 +514,7 @@
 
 	// -- modifiers
 	&.st-btn-icon--white {
-		border: 1px solid rgba($c_white, 0.25);
+		border: 1px solid color-mix(in srgb, $c_white 25%, transparent);
 
 		@include mobile {
 			width: 36px;
@@ -653,7 +653,7 @@
 	@include letter-spacing(25);
 	text-align: center;
 	text-align-last: center; // fix iphone
-	border: 1px solid rgba($c_white, 0.25);
+	border: 1px solid color-mix(in srgb, $c_white 25%, transparent);
 	border-radius: $border-radius;
 	@include transition(color);
 

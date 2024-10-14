@@ -387,12 +387,18 @@ public interface Place extends PersistedModel, PlaceModel {
 	 * Renvoie le JSON de l'entite au format GeoJSON pour la map
 	 */
 	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(
-		long groupId, java.util.Locale locale);
+		long groupId, java.util.Locale locale, long territoryVocabularyId,
+		long placeTypeVocabularyId);
 
 	/**
 	 * Renvoie le JSON de l'entite au format CSMap
 	 */
 	public com.liferay.portal.kernel.json.JSONObject getCSMapJSON();
+
+	/**
+	 * Renvoie le JSON de l'entite au format CSMap
+	 */
+	public com.liferay.portal.kernel.json.JSONObject getCSMapExceptionJSON();
 
 	/**
 	 * Renvoie le JSON des horaires sur 7 jours au format CSMap

@@ -52,7 +52,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(137);
+		StringBundler sb = new StringBundler(139);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -136,6 +136,8 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		sb.append(siteURL);
 		sb.append(", siteLabel=");
 		sb.append(siteLabel);
+		sb.append(", bookingURL=");
+		sb.append(bookingURL);
 		sb.append(", facebookURL=");
 		sb.append(facebookURL);
 		sb.append(", facebookLabel=");
@@ -437,6 +439,13 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 			placeImpl.setSiteLabel(siteLabel);
 		}
 
+		if (bookingURL == null) {
+			placeImpl.setBookingURL("");
+		}
+		else {
+			placeImpl.setBookingURL(bookingURL);
+		}
+
 		if (facebookURL == null) {
 			placeImpl.setFacebookURL("");
 		}
@@ -611,6 +620,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 		mail = objectInput.readUTF();
 		siteURL = objectInput.readUTF();
 		siteLabel = objectInput.readUTF();
+		bookingURL = objectInput.readUTF();
 		facebookURL = objectInput.readUTF();
 		facebookLabel = objectInput.readUTF();
 		instagramURL = objectInput.readUTF();
@@ -875,6 +885,13 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 			objectOutput.writeUTF(siteLabel);
 		}
 
+		if (bookingURL == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(bookingURL);
+		}
+
 		if (facebookURL == null) {
 			objectOutput.writeUTF("");
 		}
@@ -1039,6 +1056,7 @@ public class PlaceCacheModel implements CacheModel<Place>, Externalizable {
 	public String mail;
 	public String siteURL;
 	public String siteLabel;
+	public String bookingURL;
 	public String facebookURL;
 	public String facebookLabel;
 	public String instagramURL;

@@ -5,6 +5,8 @@
 
 package eu.strasbourg.service.gtfs.service;
 
+import java.util.List;
+
 /**
  * Provides the remote service utility for Arret. This utility wraps
  * <code>eu.strasbourg.service.gtfs.service.impl.ArretServiceImpl</code> and is an
@@ -26,12 +28,19 @@ public class ArretServiceUtil {
 	 */
 
 	/**
+	 * Recuperer les lignes qui ont des alertes
+	 */
+	public static List<String> getAlerts() {
+		return getService().getAlerts();
+	}
+
+	/**
 	 * Recuperer les donnees temps real de la CTS pour un arret
 	 *
 	 * @param stopCode code SMS de l'arret (ex: "275c" pour l'arret de tram Homme de fer)
 	 */
 	public static com.liferay.portal.kernel.json.JSONArray getArretRealTime(
-		java.lang.String stopCode) {
+		String stopCode) {
 
 		return getService().getArretRealTime(stopCode);
 	}
@@ -43,7 +52,7 @@ public class ArretServiceUtil {
 	 * @param type type de l'arret (0 -> tram, 3 -> bus)
 	 */
 	public static com.liferay.portal.kernel.json.JSONArray getArretRealTime(
-		java.lang.String stopCode, int type, int timeOut) {
+		String stopCode, int type, int timeOut) {
 
 		return getService().getArretRealTime(stopCode, type, timeOut);
 	}
@@ -53,7 +62,7 @@ public class ArretServiceUtil {
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
 	}
 

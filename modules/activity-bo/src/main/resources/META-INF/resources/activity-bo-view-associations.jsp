@@ -59,6 +59,15 @@
 				markupView="lexicon" searchContainer="${dc.searchContainer}" />
 		</liferay-ui:search-container>
 	</aui:form>
+
+	<liferay-portlet:resourceURL var="exportURL" id="export" copyCurrentRenderParameters="false">
+	</liferay-portlet:resourceURL>
+	<form method="POST" action="${exportURL}">
+		<aui:button-row>
+			<aui:button cssClass="btn-lg" type="submit"
+						value="export" />
+		</aui:button-row>
+	</form>
 </div>
 
 <liferay-portlet:actionURL name="selectionAction"

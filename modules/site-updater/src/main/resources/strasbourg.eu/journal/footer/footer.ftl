@@ -12,22 +12,26 @@
                 </p>
             </div>
             <ul class="st-liens-rapides">
-                <li>
-                    <a href="${locationLinkLabelFieldSet.locationLinkURL.getFriendlyUrl()}" class="st-lien">
-                        <span class="st-icon-itineraire" aria-hidden="true"></span>
-                        <span class="st-text">
+                <#if locationLinkLabelFieldSet.locationLinkURL.getFriendlyUrl()?has_content>
+                    <li>
+                        <a href="${locationLinkLabelFieldSet.locationLinkURL.getFriendlyUrl()}" class="st-lien">
+                            <span class="st-icon-itineraire" aria-hidden="true"></span>
+                            <span class="st-text">
                           ${locationLinkLabelFieldSet.locationLinkLabel.getData()}
                         </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="${cityHallLinkLabelFieldSet.cityHallLinkURL.getFriendlyUrl()}" class="st-lien">
-                        <span class="st-icon-maison" aria-hidden="true"></span>
-                        <span class="st-text">
+                        </a>
+                    </li>
+                </#if>
+                <#if cityHallLinkLabelFieldSet.cityHallLinkURL.getFriendlyUrl()?has_content>
+                    <li>
+                        <a href="${cityHallLinkLabelFieldSet.cityHallLinkURL.getFriendlyUrl()}" class="st-lien">
+                            <span class="st-icon-maison" aria-hidden="true"></span>
+                            <span class="st-text">
                           ${cityHallLinkLabel.getData()}
                         </span>
-                    </a>
-                </li>
+                        </a>
+                    </li>
+                </#if>
             </ul>
             <ul class="st-liens-contact">
                 <li>
@@ -48,7 +52,7 @@
                 <p class="st-surtitre">
                     ${followUs.getData()}
                 </p>
-                <p class="st-hashtag">#Strasbourg</p>
+                <p class="st-hashtag">#${hashtag.getData()?has_content?then(hashtag.getData(), "Strasbourg")}</p>
                 <ul class="st-social-links">
                     <#if socialNetwork.getSiblings()?has_content>
                         <#list socialNetwork.getSiblings() as cur_socialNetwork>

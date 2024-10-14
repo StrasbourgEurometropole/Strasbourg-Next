@@ -1,0 +1,88 @@
+<header id="st-barre-navigation" class="st-barre-navigation" role="banner">
+
+  <div>
+    <div class="pre-header">
+      <div class="st-wrapper st-barre-inner-container">
+        <div>
+          <a href="${strasbourg.homeURL()}" class="st-logo">
+            <figure class="st-figure st-fit-cover">
+              <picture>
+                <img width="154" height="30" alt="Strasbourg.eu eurométropole"
+                     src="/o/strasbourg-theme/images/medias/logo.png"
+                     srcset="/o/strasbourg-theme/images/medias/logo.png 1x, /o/strasbourg-theme/images/medias/logo@2x.png 2x">
+              </picture>
+            </figure>
+          </a>
+        </div>
+
+        <nav class="st-nav-primary" role="navigation">
+          [#if configuration.showLanguage ]
+
+          <ul class="st-nav-primary__menu">
+            <li class="st-has-lang-dropdown">
+              <select onchange="document.location.href = this.value;" class="select-lang" title="FR - changer la langue du site">
+                [#list languageUtil.getAvailableLocales(themeDisplay.getScopeGroupId()) as lang ]
+                <option value="${themeDisplay.getLayout().getFriendlyURL(lang)}" aria-label="${lang.getLanguage()?upper_case}" selected=""> ${lang.getLanguage()?upper_case} </option>
+                [/#list]
+
+              </select>
+            </li>
+          </ul>
+          [/#if]
+          <lfr-widget-nav>
+          </lfr-widget-nav>
+        </nav>
+
+      </div>
+    </div>
+
+    <lfr-drop-zone id="main-header" data-lfr-drop-zone-id="main" data-lfr-priority="0"></lfr-drop-zone>
+  </div>
+</header>
+
+
+<header class="st-toolbar-navigation" role="banner">
+  <div class="st-wrapper">
+    <ul class="st-toolbar-inner">
+      <li class="st-has-logo">
+        <a href="${strasbourg.homeURL()}" class="st-logo">
+          <figure class="st-figure st-fit-cover" role="group">
+            <picture>
+              <img
+                alt="Strasbourg.eu eurométropole"
+                src="/o/strasbourg-theme/images/medias/logo.png"
+                srcset="/o/strasbourg-theme/images/medias/logo.png 1x,/o/strasbourg-theme/images/medias/logo@2x.png 2x">
+            </picture>
+          </figure>
+
+        </a>
+      </li>
+      <li>
+        <nav class="st-btn-menu__wrapper" role="navigation" aria-label="Menu principal">
+          <button class="st-btn-menu" aria-haspopup="dialog" data-overlay-open="st-overlay-menu">
+                       <span class="st-btn-menu__icon" aria-hidden="true">
+                           <span class="st-btn-menu__line"></span>
+                            <span class="st-btn-menu__line"></span>
+                            <span class="st-btn-menu__line"></span>
+                       </span>
+            <span class="st-sr-only">Menu</span>
+          </button>
+        </nav>
+      </li>
+    </ul>
+  </div>
+</header>
+
+
+<div id="st-overlay-menu" class="st-overlay st-overlay-menu st-overlay-menu-generic" role="dialog" aria-modal="true" aria-label="Menu principal">
+<button class="st-btn-close" data-overlay-close="st-overlay-menu" aria-label="Fermer"></button>
+<div class="st-overlay__inner">
+  <div class="st-overlay__body st-custom-scrollbar">
+    <lfr-drop-zone id="overlay-header"  data-lfr-drop-zone-id="overlay" data-lfr-priority="1"></lfr-drop-zone>
+  </div>
+  <div class="st-overlay__footer  st-has-btn-compte st-hide-from@t-small">
+
+  </div>
+  <button class="st-btn-arrow st--down st-scroll-indicator st-js-scroll-overlay" aria-label="Faire défiler le menu"></button>
+</div>
+</div>

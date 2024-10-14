@@ -53,6 +53,7 @@ public class BudgetParticipatifWrapper
 		attributes.put("motif", getMotif());
 		attributes.put("placeTextArea", getPlaceTextArea());
 		attributes.put("inTheNameOf", getInTheNameOf());
+		attributes.put("commitment", getCommitment());
 		attributes.put("citoyenLastname", getCitoyenLastname());
 		attributes.put("citoyenFirstname", getCitoyenFirstname());
 		attributes.put("citoyenAdresse", getCitoyenAdresse());
@@ -192,6 +193,12 @@ public class BudgetParticipatifWrapper
 
 		if (inTheNameOf != null) {
 			setInTheNameOf(inTheNameOf);
+		}
+
+		String commitment = (String)attributes.get("commitment");
+
+		if (commitment != null) {
+			setCommitment(commitment);
 		}
 
 		String citoyenLastname = (String)attributes.get("citoyenLastname");
@@ -578,6 +585,16 @@ public class BudgetParticipatifWrapper
 		getCityCategories() {
 
 		return model.getCityCategories();
+	}
+
+	/**
+	 * Returns the commitment of this budget participatif.
+	 *
+	 * @return the commitment of this budget participatif
+	 */
+	@Override
+	public String getCommitment() {
+		return model.getCommitment();
 	}
 
 	/**
@@ -1590,6 +1607,16 @@ public class BudgetParticipatifWrapper
 	@Override
 	public void setCitoyenPostalCode(long citoyenPostalCode) {
 		model.setCitoyenPostalCode(citoyenPostalCode);
+	}
+
+	/**
+	 * Sets the commitment of this budget participatif.
+	 *
+	 * @param commitment the commitment of this budget participatif
+	 */
+	@Override
+	public void setCommitment(String commitment) {
+		model.setCommitment(commitment);
 	}
 
 	/**
