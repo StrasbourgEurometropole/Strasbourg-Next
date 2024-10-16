@@ -158,10 +158,31 @@
       "upgradedStructure": false,
       "readOnly": false,
       "label": {
-        "fr_FR": "Groupe de champs"
+        "fr_FR": "Itinéraire"
       },
       "type": "fieldset",
-      "rows": "[{\"columns\":[{\"size\":12,\"fields\":[\"locationLinkLabel\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"locationLinkURL\"]}]}]",
+      "rows": [
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fields": [
+                "locationLinkLabel"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fields": [
+                "locationLinkURL"
+              ]
+            }
+          ]
+        }
+      ],
       "collapsible": false,
       "showLabel": true,
       "required": false,
@@ -247,10 +268,31 @@
       "upgradedStructure": false,
       "readOnly": false,
       "label": {
-        "fr_FR": "Groupe de champs"
+        "fr_FR": "Mairie"
       },
       "type": "fieldset",
-      "rows": "[{\"columns\":[{\"size\":12,\"fields\":[\"cityHallLinkLabel\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"cityHallLinkURL\"]}]}]",
+      "rows": [
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fields": [
+                "cityHallLinkLabel"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fields": [
+                "cityHallLinkURL"
+              ]
+            }
+          ]
+        }
+      ],
       "collapsible": false,
       "showLabel": true,
       "required": false,
@@ -336,10 +378,31 @@
       "upgradedStructure": false,
       "readOnly": false,
       "label": {
-        "fr_FR": "Groupe de champs"
+        "fr_FR": "Téléphone"
       },
       "type": "fieldset",
-      "rows": "[{\"columns\":[{\"size\":12,\"fields\":[\"phoneNumber\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"phoneLink\"]}]}]",
+      "rows": [
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fields": [
+                "phoneNumber"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fields": [
+                "phoneLink"
+              ]
+            }
+          ]
+        }
+      ],
       "collapsible": false,
       "showLabel": true,
       "required": false,
@@ -499,9 +562,6 @@
     {
       "labelAtStructureLevel": true,
       "ddmDataProviderInstanceId": [],
-      "predefinedValue": {
-        "fr_FR": ""
-      },
       "tooltip": {
         "fr_FR": ""
       },
@@ -510,10 +570,6 @@
       "showLabel": true,
       "required": false,
       "displayStyle": "singleline",
-      "requiredErrorMessage": {
-        "fr_FR": ""
-      },
-      "objectFieldName": "",
       "ddmDataProviderInstanceOutput": [],
       "repeatable": false,
       "options": [
@@ -566,7 +622,28 @@
         "fr_FR": "Reseau social"
       },
       "type": "fieldset",
-      "rows": "[{\"columns\":[{\"size\":12,\"fields\":[\"Select83299526\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"socialNetworkURL\"]}]}]",
+      "rows": [
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fields": [
+                "Select83299526"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fields": [
+                "socialNetworkURL"
+              ]
+            }
+          ]
+        }
+      ],
       "collapsible": false,
       "showLabel": true,
       "required": false,
@@ -586,8 +663,8 @@
           "fieldNamespace": "",
           "visibilityExpression": "",
           "indexType": "keyword",
-          "alphabeticalOrder": false,
           "ddmDataProviderInstanceOutput": [],
+          "alphabeticalOrder": false,
           "repeatable": false,
           "name": "Select83299526",
           "options": [
@@ -716,10 +793,51 @@
       "upgradedStructure": false,
       "readOnly": false,
       "label": {
-        "fr_FR": "Groupe de champs"
+        "fr_FR": "Liens footer"
       },
       "type": "fieldset",
-      "rows": "[{\"columns\":[{\"size\":12,\"fields\":[\"mediaLinkLabel\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"mediaLinkURL\"]}]}]",
+      "rows": [
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fields": [
+                "footerLinkLabel"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fields": [
+                "footerLink"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fields": [
+                "footerExtLink"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fields": [
+                "footerActiveTab"
+              ]
+            }
+          ]
+        }
+      ],
       "collapsible": false,
       "showLabel": true,
       "required": false,
@@ -748,7 +866,7 @@
           ],
           "nativeField": false,
           "confirmationLabel": {},
-          "fieldReference": "mediaLinkLabel",
+          "fieldReference": "footerLinkLabel",
           "tip": {
             "fr_FR": ""
           },
@@ -762,12 +880,12 @@
           "dataType": "string",
           "readOnly": false,
           "label": {
-            "fr_FR": "Lien presse"
+            "fr_FR": "Lien footer"
           },
           "fieldNamespace": "",
           "visibilityExpression": "",
           "indexType": "none",
-          "name": "mediaLinkLabel",
+          "name": "footerLinkLabel",
           "localizable": true,
           "dataSourceType": "manual"
         },
@@ -784,259 +902,12 @@
           "visibilityExpression": "null",
           "indexType": "none",
           "repeatable": false,
-          "name": "mediaLinkURL",
+          "name": "footerLink",
           "localizable": true,
-          "fieldReference": "mediaLinkURL",
+          "fieldReference": "footerLink",
           "tip": {
             "fr_FR": ""
           }
-        }
-      ],
-      "normalizedStructure": false,
-      "repeatable": false,
-      "name": "mediaLinkLabelFieldSet",
-      "localizable": false,
-      "fieldReference": "mediaLinkLabelFieldSet"
-    },
-    {
-      "labelAtStructureLevel": true,
-      "ddmStructureLayoutId": "",
-      "ddmStructureId": "",
-      "upgradedStructure": false,
-      "readOnly": false,
-      "label": {
-        "fr_FR": "Groupe de champs"
-      },
-      "type": "fieldset",
-      "rows": "[{\"columns\":[{\"size\":12,\"fields\":[\"newsletterLinkLabel\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"newsletterLinkURL\"]}]}]",
-      "collapsible": false,
-      "showLabel": true,
-      "required": false,
-      "nestedFields": [
-        {
-          "labelAtStructureLevel": false,
-          "ddmDataProviderInstanceId": [],
-          "tooltip": {
-            "fr_FR": ""
-          },
-          "requireConfirmation": false,
-          "type": "text",
-          "showLabel": true,
-          "required": false,
-          "displayStyle": "singleline",
-          "ddmDataProviderInstanceOutput": [],
-          "repeatable": false,
-          "options": [
-            {
-              "reference": "",
-              "label": {
-                "fr_FR": "Option"
-              },
-              "value": "Option"
-            }
-          ],
-          "nativeField": false,
-          "confirmationLabel": {},
-          "fieldReference": "newsletterLinkLabel",
-          "tip": {
-            "fr_FR": ""
-          },
-          "placeholder": {
-            "fr_FR": ""
-          },
-          "direction": [],
-          "confirmationErrorMessage": {},
-          "hideField": false,
-          "autocomplete": false,
-          "dataType": "string",
-          "readOnly": false,
-          "label": {
-            "fr_FR": "Lien newsletter"
-          },
-          "fieldNamespace": "",
-          "visibilityExpression": "",
-          "indexType": "none",
-          "name": "newsletterLinkLabel",
-          "localizable": true,
-          "dataSourceType": "manual"
-        },
-        {
-          "dataType": "link-to-page",
-          "readOnly": false,
-          "label": {
-            "fr_FR": "Lien"
-          },
-          "type": "link_to_layout",
-          "showLabel": true,
-          "required": false,
-          "fieldNamespace": "",
-          "visibilityExpression": "null",
-          "indexType": "none",
-          "repeatable": false,
-          "name": "newsletterLinkURL",
-          "localizable": true,
-          "fieldReference": "newsletterLinkURL",
-          "tip": {
-            "fr_FR": ""
-          }
-        }
-      ],
-      "normalizedStructure": false,
-      "repeatable": false,
-      "name": "newsletterLinkLabelFieldSet",
-      "localizable": false,
-      "fieldReference": "newsletterLinkLabelFieldSet"
-    },
-    {
-      "labelAtStructureLevel": true,
-      "ddmStructureLayoutId": "",
-      "ddmStructureId": "",
-      "upgradedStructure": false,
-      "readOnly": false,
-      "label": {
-        "fr_FR": "Groupe de champs"
-      },
-      "type": "fieldset",
-      "rows": "[{\"columns\":[{\"size\":12,\"fields\":[\"offerLinkLabel\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"offerLinkURL\"]}]}]",
-      "collapsible": false,
-      "showLabel": true,
-      "required": false,
-      "nestedFields": [
-        {
-          "labelAtStructureLevel": false,
-          "ddmDataProviderInstanceId": [],
-          "tooltip": {
-            "fr_FR": ""
-          },
-          "requireConfirmation": false,
-          "type": "text",
-          "showLabel": true,
-          "required": false,
-          "displayStyle": "singleline",
-          "ddmDataProviderInstanceOutput": [],
-          "repeatable": false,
-          "options": [
-            {
-              "reference": "",
-              "label": {
-                "fr_FR": "Option"
-              },
-              "value": "Option"
-            }
-          ],
-          "nativeField": false,
-          "confirmationLabel": {},
-          "fieldReference": "offerLinkLabel",
-          "tip": {
-            "fr_FR": ""
-          },
-          "placeholder": {
-            "fr_FR": ""
-          },
-          "direction": [],
-          "confirmationErrorMessage": {},
-          "hideField": false,
-          "autocomplete": false,
-          "dataType": "string",
-          "readOnly": false,
-          "label": {
-            "fr_FR": "Lien offre d'emploi"
-          },
-          "fieldNamespace": "",
-          "visibilityExpression": "",
-          "indexType": "none",
-          "name": "offerLinkLabel",
-          "localizable": true,
-          "dataSourceType": "manual"
-        },
-        {
-          "dataType": "link-to-page",
-          "readOnly": false,
-          "label": {
-            "fr_FR": "Lien"
-          },
-          "type": "link_to_layout",
-          "showLabel": true,
-          "required": false,
-          "fieldNamespace": "",
-          "visibilityExpression": "null",
-          "indexType": "none",
-          "repeatable": false,
-          "name": "offerLinkURL",
-          "localizable": true,
-          "fieldReference": "offerLinkURL",
-          "tip": {
-            "fr_FR": ""
-          }
-        }
-      ],
-      "normalizedStructure": false,
-      "repeatable": false,
-      "name": "offerLinkLabelFieldSet",
-      "localizable": false,
-      "fieldReference": "offerLinkLabelFieldSet"
-    },
-    {
-      "labelAtStructureLevel": true,
-      "ddmStructureLayoutId": "",
-      "ddmStructureId": "",
-      "upgradedStructure": false,
-      "readOnly": false,
-      "label": {
-        "fr_FR": "Groupe de champs"
-      },
-      "type": "fieldset",
-      "rows": "[{\"columns\":[{\"size\":12,\"fields\":[\"strasAppLinkLabel\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"strasAppLinkURL\"]}]}]",
-      "collapsible": false,
-      "showLabel": true,
-      "required": false,
-      "nestedFields": [
-        {
-          "labelAtStructureLevel": false,
-          "ddmDataProviderInstanceId": [],
-          "tooltip": {
-            "fr_FR": ""
-          },
-          "requireConfirmation": false,
-          "type": "text",
-          "showLabel": true,
-          "required": false,
-          "displayStyle": "singleline",
-          "ddmDataProviderInstanceOutput": [],
-          "repeatable": false,
-          "options": [
-            {
-              "reference": "",
-              "label": {
-                "fr_FR": "Option"
-              },
-              "value": "Option"
-            }
-          ],
-          "nativeField": false,
-          "confirmationLabel": {},
-          "fieldReference": "strasAppLinkLabel",
-          "tip": {
-            "fr_FR": ""
-          },
-          "placeholder": {
-            "fr_FR": ""
-          },
-          "direction": [],
-          "confirmationErrorMessage": {},
-          "hideField": false,
-          "autocomplete": false,
-          "dataType": "string",
-          "readOnly": false,
-          "label": {
-            "fr_FR": "Lien StrasApp"
-          },
-          "fieldNamespace": "",
-          "visibilityExpression": "",
-          "indexType": "none",
-          "name": "strasAppLinkLabel",
-          "localizable": true,
-          "dataSourceType": "manual"
         },
         {
           "labelAtStructureLevel": false,
@@ -1062,7 +933,7 @@
           ],
           "nativeField": false,
           "confirmationLabel": {},
-          "fieldReference": "strasAppLinkURL",
+          "fieldReference": "footerExtLink",
           "tip": {
             "fr_FR": ""
           },
@@ -1076,21 +947,43 @@
           "dataType": "string",
           "readOnly": false,
           "label": {
-            "fr_FR": "Lien"
+            "fr_FR": "Lien externe"
           },
           "fieldNamespace": "",
           "visibilityExpression": "",
           "indexType": "keyword",
-          "name": "strasAppLinkURL",
+          "name": "footerExtLink",
           "localizable": true,
           "dataSourceType": "manual"
+        },
+        {
+          "labelAtStructureLevel": false,
+          "dataType": "boolean",
+          "readOnly": false,
+          "showAsSwitcher": false,
+          "label": {
+            "fr_FR": "Ouverture onglet actif"
+          },
+          "type": "checkbox",
+          "showLabel": true,
+          "required": false,
+          "fieldNamespace": "null",
+          "visibilityExpression": "null",
+          "indexType": "keyword",
+          "repeatable": false,
+          "name": "footerActiveTab",
+          "localizable": true,
+          "fieldReference": "footerActiveTab",
+          "tip": {
+            "fr_FR": ""
+          }
         }
       ],
       "normalizedStructure": false,
-      "repeatable": false,
-      "name": "strasAppLinkLabelFieldSet",
+      "repeatable": true,
+      "name": "footerLinkLabelFieldSet",
       "localizable": false,
-      "fieldReference": "strasAppLinkLabelFieldSet"
+      "fieldReference": "footerLinkLabelFieldSet"
     },
     {
       "labelAtStructureLevel": true,
@@ -1099,10 +992,51 @@
       "upgradedStructure": false,
       "readOnly": false,
       "label": {
-        "fr_FR": "Groupe de champs"
+        "fr_FR": "Liens sous-footer"
       },
       "type": "fieldset",
-      "rows": "[{\"columns\":[{\"size\":12,\"fields\":[\"subfooterLinkLabel\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"Lien2ga2\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"ExtLink\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"activeTab\"]}]}]",
+      "rows": [
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fields": [
+                "subfooterLinkLabel"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fields": [
+                "Lien2ga2"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fields": [
+                "ExtLink"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fields": [
+                "activeTab"
+              ]
+            }
+          ]
+        }
+      ],
       "collapsible": false,
       "showLabel": true,
       "required": false,

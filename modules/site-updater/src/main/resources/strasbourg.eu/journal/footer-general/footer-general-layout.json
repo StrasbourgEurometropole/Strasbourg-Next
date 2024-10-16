@@ -100,37 +100,7 @@
             {
               "size": 12,
               "fieldNames": [
-                "mediaLinkLabelFieldSet"
-              ]
-            }
-          ]
-        },
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fieldNames": [
-                "newsletterLinkLabelFieldSet"
-              ]
-            }
-          ]
-        },
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fieldNames": [
-                "offerLinkLabelFieldSet"
-              ]
-            }
-          ]
-        },
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fieldNames": [
-                "strasAppLinkLabelFieldSet"
+                "footerLinkLabelFieldSet"
               ]
             }
           ]
