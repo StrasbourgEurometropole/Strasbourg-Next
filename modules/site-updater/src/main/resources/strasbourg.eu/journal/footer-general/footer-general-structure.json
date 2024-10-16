@@ -161,28 +161,7 @@
         "fr_FR": "Itinéraire"
       },
       "type": "fieldset",
-      "rows": [
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fields": [
-                "locationLinkLabel"
-              ]
-            }
-          ]
-        },
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fields": [
-                "locationLinkURL"
-              ]
-            }
-          ]
-        }
-      ],
+      "rows": "[{\"columns\":[{\"size\":12,\"fields\":[\"locationLinkLabel\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"locationLinkURL\"]}]}]",
       "collapsible": false,
       "showLabel": true,
       "required": false,
@@ -271,28 +250,7 @@
         "fr_FR": "Mairie"
       },
       "type": "fieldset",
-      "rows": [
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fields": [
-                "cityHallLinkLabel"
-              ]
-            }
-          ]
-        },
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fields": [
-                "cityHallLinkURL"
-              ]
-            }
-          ]
-        }
-      ],
+      "rows": "[{\"columns\":[{\"size\":12,\"fields\":[\"cityHallLinkLabel\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"cityHallLinkURL\"]}]}]",
       "collapsible": false,
       "showLabel": true,
       "required": false,
@@ -381,28 +339,7 @@
         "fr_FR": "Téléphone"
       },
       "type": "fieldset",
-      "rows": [
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fields": [
-                "phoneNumber"
-              ]
-            }
-          ]
-        },
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fields": [
-                "phoneLink"
-              ]
-            }
-          ]
-        }
-      ],
+      "rows": "[{\"columns\":[{\"size\":12,\"fields\":[\"phoneNumber\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"phoneLink\"]}]}]",
       "collapsible": false,
       "showLabel": true,
       "required": false,
@@ -507,6 +444,143 @@
       "name": "phoneNumberFieldSet",
       "localizable": false,
       "fieldReference": "phoneNumberFieldSet"
+    },
+    {
+      "labelAtStructureLevel": true,
+      "ddmStructureLayoutId": "",
+      "ddmStructureId": "",
+      "upgradedStructure": false,
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Contact"
+      },
+      "type": "fieldset",
+      "rows": [
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fields": [
+                "labelContact"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fields": [
+                "linkContact"
+              ]
+            }
+          ]
+        }
+      ],
+      "collapsible": false,
+      "showLabel": true,
+      "required": false,
+      "nestedFields": [
+        {
+          "labelAtStructureLevel": false,
+          "ddmDataProviderInstanceId": [],
+          "tooltip": {
+            "fr_FR": ""
+          },
+          "requireConfirmation": false,
+          "type": "text",
+          "showLabel": true,
+          "required": false,
+          "displayStyle": "singleline",
+          "ddmDataProviderInstanceOutput": [],
+          "repeatable": false,
+          "options": [
+            {
+              "reference": "",
+              "label": {
+                "fr_FR": "Option"
+              },
+              "value": "Option"
+            }
+          ],
+          "nativeField": false,
+          "confirmationLabel": {},
+          "fieldReference": "labelContact",
+          "tip": {
+            "fr_FR": ""
+          },
+          "placeholder": {
+            "fr_FR": ""
+          },
+          "direction": [],
+          "confirmationErrorMessage": {},
+          "hideField": false,
+          "autocomplete": false,
+          "dataType": "string",
+          "readOnly": false,
+          "label": {
+            "fr_FR": "Label bouton"
+          },
+          "fieldNamespace": "",
+          "visibilityExpression": "",
+          "indexType": "none",
+          "name": "labelContact",
+          "localizable": true,
+          "dataSourceType": "manual"
+        },
+        {
+          "labelAtStructureLevel": false,
+          "ddmDataProviderInstanceId": [],
+          "tooltip": {
+            "fr_FR": ""
+          },
+          "requireConfirmation": false,
+          "type": "text",
+          "showLabel": true,
+          "required": false,
+          "displayStyle": "singleline",
+          "ddmDataProviderInstanceOutput": [],
+          "repeatable": false,
+          "options": [
+            {
+              "reference": "",
+              "label": {
+                "fr_FR": "Option"
+              },
+              "value": "Option"
+            }
+          ],
+          "nativeField": false,
+          "confirmationLabel": {},
+          "fieldReference": "linkContact",
+          "tip": {
+            "fr_FR": ""
+          },
+          "placeholder": {
+            "fr_FR": ""
+          },
+          "direction": [],
+          "confirmationErrorMessage": {},
+          "hideField": false,
+          "autocomplete": false,
+          "dataType": "string",
+          "readOnly": false,
+          "label": {
+            "fr_FR": "Lien contact"
+          },
+          "fieldNamespace": "",
+          "visibilityExpression": "",
+          "indexType": "none",
+          "name": "linkContact",
+          "localizable": true,
+          "dataSourceType": "manual"
+        }
+      ],
+      "normalizedStructure": false,
+      "repeatable": false,
+      "name": "contactLinkLabelFieldSet",
+      "localizable": false,
+      "fieldReference": "contactLinkLabelFieldSet"
     },
     {
       "labelAtStructureLevel": false,
@@ -622,28 +696,7 @@
         "fr_FR": "Reseau social"
       },
       "type": "fieldset",
-      "rows": [
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fields": [
-                "Select83299526"
-              ]
-            }
-          ]
-        },
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fields": [
-                "socialNetworkURL"
-              ]
-            }
-          ]
-        }
-      ],
+      "rows": "[{\"columns\":[{\"size\":12,\"fields\":[\"Select83299526\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"socialNetworkURL\"]}]}]",
       "collapsible": false,
       "showLabel": true,
       "required": false,
@@ -796,48 +849,7 @@
         "fr_FR": "Liens footer"
       },
       "type": "fieldset",
-      "rows": [
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fields": [
-                "footerLinkLabel"
-              ]
-            }
-          ]
-        },
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fields": [
-                "footerLink"
-              ]
-            }
-          ]
-        },
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fields": [
-                "footerExtLink"
-              ]
-            }
-          ]
-        },
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fields": [
-                "footerActiveTab"
-              ]
-            }
-          ]
-        }
-      ],
+      "rows": "[{\"columns\":[{\"size\":12,\"fields\":[\"footerLinkLabel\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"footerLink\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"footerExtLink\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"footerActiveTab\"]}]}]",
       "collapsible": false,
       "showLabel": true,
       "required": false,
@@ -995,48 +1007,7 @@
         "fr_FR": "Liens sous-footer"
       },
       "type": "fieldset",
-      "rows": [
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fields": [
-                "subfooterLinkLabel"
-              ]
-            }
-          ]
-        },
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fields": [
-                "Lien2ga2"
-              ]
-            }
-          ]
-        },
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fields": [
-                "ExtLink"
-              ]
-            }
-          ]
-        },
-        {
-          "columns": [
-            {
-              "size": 12,
-              "fields": [
-                "activeTab"
-              ]
-            }
-          ]
-        }
-      ],
+      "rows": "[{\"columns\":[{\"size\":12,\"fields\":[\"subfooterLinkLabel\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"Lien2ga2\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"ExtLink\"]}]},{\"columns\":[{\"size\":12,\"fields\":[\"activeTab\"]}]}]",
       "collapsible": false,
       "showLabel": true,
       "required": false,

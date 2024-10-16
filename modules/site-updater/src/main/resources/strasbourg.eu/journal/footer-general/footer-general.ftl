@@ -42,11 +42,14 @@
                         </a>
                     </li>
                 </#if>
-                <li>
-                    <a href="/contact" class="st-btn st--btn-secondary st--btn-footer">
-                        <@liferay.language key="eu.contact-mail" />
-                    </a>
-                </li>
+                <#if contactLinkLabelFieldSet.linkContact.getData()?has_content && contactLinkLabelFieldSet.labelContact.getData()?has_content>
+                    <li>
+                        <a href="${contactLinkLabelFieldSet.linkContact.getData()}"
+                           class="st-btn st--btn-secondary st--btn-footer">
+                            ${contactLinkLabelFieldSet.labelContact.getData()}
+                        </a>
+                    </li>
+                </#if>
             </ul>
         </div>
         <div class="st-col-right">

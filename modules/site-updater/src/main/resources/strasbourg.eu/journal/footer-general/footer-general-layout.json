@@ -70,6 +70,16 @@
             {
               "size": 12,
               "fieldNames": [
+                "contactLinkLabelFieldSet"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
                 "followUs"
               ]
             }
