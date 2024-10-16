@@ -250,6 +250,14 @@ public interface CommentLocalService
 		long assetEntryId, int level, int status);
 
 	/**
+	 * Retourne tous les commentaires d'un asset entry
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Comment> getByAssetEntryAndLevelOrderByDate(
+		long assetEntryId, int level, int status, int start, int end,
+		Boolean isSortDesc);
+
+	/**
 	 * Retourne tous les commentaires d'un groupe
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

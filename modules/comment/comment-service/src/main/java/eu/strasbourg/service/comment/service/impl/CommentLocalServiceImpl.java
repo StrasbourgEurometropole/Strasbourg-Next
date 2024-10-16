@@ -33,13 +33,17 @@ import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.comment.model.Comment;
 import eu.strasbourg.service.comment.model.Signalement;
+import eu.strasbourg.service.comment.model.impl.CommentImpl;
 import eu.strasbourg.service.comment.service.SignalementLocalServiceUtil;
 import eu.strasbourg.service.comment.service.base.CommentLocalServiceBaseImpl;
 import eu.strasbourg.service.like.model.Like;
 import eu.strasbourg.service.like.service.LikeLocalServiceUtil;
+import eu.strasbourg.service.oidc.model.PublikUser;
 import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
@@ -94,13 +98,27 @@ public class CommentLocalServiceImpl extends CommentLocalServiceBaseImpl {
 	public List<Comment> getByAssetEntry(long assetEntryId, int status) {
 		return this.commentPersistence.findByAssetEntryId(assetEntryId, status);
 	}
-	
+
 	/**
 	 * Retourne tous les commentaires d'un asset entry
 	 */
 	@Override
 	public List<Comment> getByAssetEntryAndLevel(long assetEntryId, int level, int status) {
 		return this.commentPersistence.findByAssetEntryIdAndLevel(assetEntryId, level, status);
+	}
+
+	/**
+	 * Retourne tous les commentaires d'un asset entry
+	 */
+	@Override
+	public List<Comment> getByAssetEntryAndLevelOrderByDate(long assetEntryId, int level, int status, int start, int end, Boolean isSortAsc) {
+
+		// Creation du comparateur permettant le tri et la selection de l'ordre de tri
+		OrderByComparator<Comment> orderByComparator = OrderByComparatorFactoryUtil.create(
+				CommentImpl.TABLE_NAME,
+				"createDate",
+				isSortAsc);
+		return this.commentPersistence.findByAssetEntryIdAndLevel(assetEntryId, level, status, start, end, orderByComparator);
 	}
 	
 	/**
