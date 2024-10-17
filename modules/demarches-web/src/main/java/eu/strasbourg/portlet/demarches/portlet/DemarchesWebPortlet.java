@@ -8,6 +8,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.demarches.configuration.DemarchesConfiguration;
 import eu.strasbourg.utils.PortletHelper;
@@ -52,7 +53,8 @@ public class DemarchesWebPortlet extends MVCPortlet {
 			// récupération des démarches
 			List<Procedure> procedures = new ArrayList();
 			try {
-				procedures = ProcedureHelper.getProcedures(idUser);
+				if(Validator.isNotNull(idUser))
+					procedures = ProcedureHelper.getProcedures(idUser);
 			}catch (NoUserFormException e){
 				renderRequest.setAttribute("error", "publik");
 			}
