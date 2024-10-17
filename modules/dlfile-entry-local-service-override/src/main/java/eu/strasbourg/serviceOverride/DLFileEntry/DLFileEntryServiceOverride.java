@@ -206,48 +206,53 @@ public class DLFileEntryServiceOverride extends DLFileEntryLocalServiceWrapper {
                         }
                     }
                 } else {
-                    int limitNbPixels = height * width / 4;
-                    boolean isPng = entry == null && mimeType.equals("image/png");
-                    boolean isSizeBiggerThan500ko = size >= 500000;
-                    boolean isSizeSmallerThan500ko = size < 500000;
+                    // on vérifie que le fichier n'est pas préfixé par bypass-compress-
+                    if(!sourceFileName.startsWith("bypass-compress-")) {
+                        int limitNbPixels = height * width / 4;
+                        boolean isPng = entry == null && mimeType.equals("image/png");
+                        boolean isSizeBiggerThan500ko = size >= 500000;
+                        boolean isSizeSmallerThan500ko = size < 500000;
 
-                    boolean isPngBiggerThan500ko = isPng && isSizeBiggerThan500ko;
-                    boolean isSmallButHeavyPng = isPng && isSizeSmallerThan500ko && size > limitNbPixels;
+                        boolean isPngBiggerThan500ko = isPng && isSizeBiggerThan500ko;
+                        boolean isSmallButHeavyPng = isPng && isSizeSmallerThan500ko && size > limitNbPixels;
 
-                    if (isPngBiggerThan500ko || isSmallButHeavyPng) {
-                        _log.info("PNG lourd detecte");
-                        // Scaling
-                        if (height > 1920 || width > 1920) {
-                            _log.info("Scaling");
-                            image = ImageToolUtil.scale(image, 1920, 1920);
-                        }
-                        // Elimination de la transparence du PNG
-                        BufferedImage newImg = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
-                        newImg.createGraphics().drawImage((Image) image, 0, 0, Color.WHITE, null);
-                        image = newImg;
-                        // Compression
-                        float compressionQuality = 0.88f;
-                        ByteArrayOutputStream baos = compressImage(image, compressionQuality);
-                        // Calcul du nouveau pourcentage de compression
-                        float newCompressionRatio = 100 * (float) baos.size() / size;
-                        // Remplacement de l'image si le pourcentage de compression est satisfaisant
-                        if (newCompressionRatio < 90) {
-                            _log.info("On remplace le PNG.");
-                            is = saveImage(imageInFile, baos, file);
-                            size = baos.size();
-                            // Modif extension fichier
-                            mimeType = "image/jpeg";
-                            if (sourceFileName.endsWith(".png")) {
-                                sourceFileName = sourceFileName.substring(0, sourceFileName.length() - 4) + ".jpg";
-                                _log.info("Nouveau nom de fichier:" + sourceFileName);
+                        if (isPngBiggerThan500ko || isSmallButHeavyPng) {
+                            _log.info("PNG lourd detecte");
+                            // Scaling
+                            if (height > 1920 || width > 1920) {
+                                _log.info("Scaling");
+                                image = ImageToolUtil.scale(image, 1920, 1920);
                             }
-                            if (title.endsWith(".png")) {
-                                title = title.substring(0, title.length() - 4) + ".jpg";
-                                _log.info("Nouveau titre (doclib):" + title);
+                            // Elimination de la transparence du PNG
+                            BufferedImage newImg = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+                            newImg.createGraphics().drawImage((Image) image, 0, 0, Color.WHITE, null);
+                            image = newImg;
+                            // Compression
+                            float compressionQuality = 0.88f;
+                            ByteArrayOutputStream baos = compressImage(image, compressionQuality);
+                            // Calcul du nouveau pourcentage de compression
+                            float newCompressionRatio = 100 * (float) baos.size() / size;
+                            // Remplacement de l'image si le pourcentage de compression est satisfaisant
+                            if (newCompressionRatio < 90) {
+                                _log.info("On remplace le PNG.");
+                                is = saveImage(imageInFile, baos, file);
+                                size = baos.size();
+                                // Modif extension fichier
+                                mimeType = "image/jpeg";
+                                if (sourceFileName.endsWith(".png")) {
+                                    sourceFileName = sourceFileName.substring(0, sourceFileName.length() - 4) + ".jpg";
+                                    _log.info("Nouveau nom de fichier:" + sourceFileName);
+                                }
+                                if (title.endsWith(".png")) {
+                                    title = title.substring(0, title.length() - 4) + ".jpg";
+                                    _log.info("Nouveau titre (doclib):" + title);
+                                }
+                            } else {
+                                _log.info("Compression insatisfaisante, on garde le PNG.");
                             }
-                        } else {
-                            _log.info("Compression insatisfaisante, on garde le PNG.");
                         }
+                    } else {
+                        _log.info("Bypass de la compression pour le fichier : " + sourceFileName);
                     }
                 }
             }
