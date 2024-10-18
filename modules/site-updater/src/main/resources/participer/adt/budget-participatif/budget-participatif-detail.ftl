@@ -327,9 +327,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <#assign nbSupportOfUserForEntry = entry.getNbSupportOfUser(userID) >
                     <#assign nbSupportOfUserForActivePhase = entry.getNbSupportOfUserInActivePhase(userID) >
 
-                    <a href="#Support" data-nbsupports="${nbSupportOfUserForEntry}" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
+                    <a href="#Support" data-nbsupports="${nbSupportOfUserForEntry}" class="pro-btn-black" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
                     <p class="pro-txt-vote">Il vous reste <strong  id="nbUserSupports">${nbSupportForActivePhase - nbSupportOfUserForActivePhase}</strong> possibilité(s) de voter pour un projet</p>
-                    <a href="#RemoveSupport" class="pro-btn-yellow">
+                    <a href="#RemoveSupport" class="pro-btn-black">
                         Retirer vote (<strong  id="nbUserEntrySupports">${nbSupportOfUserForEntry}</strong>)
                     </a>
 
@@ -347,13 +347,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </script>
 
                 <#elseif isUserBanned> <#--  -->
-                    <a href="#" name="#IsBanned" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
+                    <a href="#" name="#IsBanned" class="pro-btn-black" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
                 <#else> <#--  -->
-                    <a href="#" name="#Pact-sign" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
+                    <a href="#" name="#Pact-sign" class="pro-btn-black data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
                     <p class="pro-txt-vote">Il vous reste <strong>${nbSupportForActivePhase}</strong> possibilités de voter pour un projet</p>
                 </#if>
             <#elseif isEditable && isUserloggedIn && hasUserPactSign && !isUserBanned && isAuthor>
-                <a href="#showModalEditBudget" data-toggle="modal" data-target="#modalEditBudget" class="pro-btn-yellow">MODIFIER</a>
+                <a href="#showModalEditBudget" data-toggle="modal" data-target="#modalEditBudget" class="pro-btn-black">MODIFIER</a>
             <#else>
                 <a href="#" class="pro-btn-black" id="voteButton">${entry.getBPbuttonMessageState(request)}</a>
             </#if>
