@@ -282,7 +282,9 @@
 	<model name="eu.strasbourg.service.agenda.model.ImportReport">
 		<field name="uuid" type="String" />
 		<field name="reportId" type="long" />
-		<field name="provider" type="String" />
+		<field name="provider" type="String">
+			<hint name="max-length">400</hint>
+		</field>
 		<field name="filename" type="String" />
 		<field name="status" type="long" />
 		<field name="globalErrorCause" type="String" />
