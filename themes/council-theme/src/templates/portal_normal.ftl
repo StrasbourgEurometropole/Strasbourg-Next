@@ -20,6 +20,8 @@
 
 
 <body class="${css_class} seu-no-js seu-body seu-not-front">
+
+<div id="wrapper">
   
   <@liferay_ui["quick-access"] contentId="#main-content" />
 
@@ -93,6 +95,6 @@
 
   <@liferay_util["include"] page=bottom_include />
 <!-- endinject --> 
-
+</div>
 </body>
 </html>
