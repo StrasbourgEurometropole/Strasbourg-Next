@@ -57,7 +57,6 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="mns-top-header mns-top-header-mobile">
                     <div>
-                        <a href="#" class="mns-w-fixe-2"><span>Pro & Presse</span></a>
                         <#assign entity = themeDisplay.getURLCurrent()?keep_after(layout.friendlyURL)?keep_before('\\?','r') />
                         <#if homeURL != "/">
                             <a href="/fr${homeURL}${layout.friendlyURL}${entity}" title="Français" class="${(locale.language =='fr')?then('active','')}" lang="fr">FR</a>  
@@ -82,6 +81,13 @@
                     <a href="${homeURL}/" aria-label="<@liferay_ui.message key='eu.breadcrumb-home' />">
                         <span class="icon-ico-home"></span>
                     </a>
+                </li>
+                <li class="menu-preheader">
+                    <@liferay_portlet["runtime"]
+                    portletProviderAction=portletProviderAction.VIEW
+                    portletName="com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
+                    instanceId="preheadermenu"
+                    settingsScope="group" />
                 </li>
                 <#list nav_items as nav_item>
                     <#if nav_item.hasChildren()>
