@@ -26,6 +26,7 @@ import eu.strasbourg.portlet.search_asset_v2.configuration.bean.ConfigurationDat
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -98,6 +99,15 @@ public class SearchAssetConfigurationDisplayContext {
             jsonGroup.put("value", group.getGroupId());
             jsonGroup.put("label", group.getGroupKey());
             jsonGroups.put(jsonGroup);
+            // récupère les enfants du group
+            List<Group> groupChilds = GroupLocalServiceUtil.getGroups(themeDisplay.getCompanyId(), Group.class.getName(), group.getGroupId())
+                    .stream().filter(g -> g.getSite()).collect(Collectors.toList());
+            for (Group groupChild : groupChilds) {
+                JSONObject jsonGroupChild = JSONFactoryUtil.createJSONObject();
+                jsonGroupChild.put("value", groupChild.getGroupId());
+                jsonGroupChild.put("label", "  "+groupChild.getGroupKey());
+                jsonGroups.put(jsonGroupChild);
+            }
         }
         return jsonGroups;
     }
@@ -108,10 +118,18 @@ public class SearchAssetConfigurationDisplayContext {
         for (AssetRendererFactory assetRendererFactory : this.availableAssetRendererFactories) {
             String className = assetRendererFactory.getClassName();
             long classNameId = assetRendererFactory.getClassNameId();
+            JSONArray templatesJson = JSONFactoryUtil.createJSONArray();
+            List<DDMTemplate> allTemplates = new ArrayList<>();
             List<DDMTemplate> templates = DDMTemplateLocalServiceUtil
                     .getTemplates(themeDisplay.getScopeGroupId(), classNameId);
-            JSONArray templatesJson = JSONFactoryUtil.createJSONArray();
-            for (DDMTemplate template: templates) {
+            if(templates.size() > 0)
+                allTemplates.addAll(templates);
+            // récupère les templates du groupe parent
+            List<DDMTemplate> parentTemplates = DDMTemplateLocalServiceUtil
+                    .getTemplates(themeDisplay.getScopeGroup().getParentGroupId(), classNameId);
+            if(parentTemplates.size() > 0)
+                allTemplates.addAll(parentTemplates);
+            for (DDMTemplate template: allTemplates) {
                 JSONObject templateJson = JSONFactoryUtil.createJSONObject();
                 templateJson.put("id", template.getTemplateKey());
                 templateJson.put("value", template.getName(Locale.FRANCE));
@@ -124,11 +142,20 @@ public class SearchAssetConfigurationDisplayContext {
         // ajoute les templates de contenus web
         long assetEntryClassNameId = ClassNameLocalServiceUtil
                 .getClassNameId(AssetEntry.class);
+        JSONArray templatesJson = JSONFactoryUtil.createJSONArray();
+        List<DDMTemplate> allAssetEntryTemplates = new ArrayList<>();
         List<DDMTemplate> assetEntryTemplates = DDMTemplateLocalServiceUtil
                 .getTemplates(themeDisplay.getScopeGroupId(),
                         assetEntryClassNameId);
-        JSONArray templatesJson = JSONFactoryUtil.createJSONArray();
-        for (DDMTemplate template: assetEntryTemplates) {
+        if(assetEntryTemplates.size() > 0)
+            allAssetEntryTemplates.addAll(assetEntryTemplates);
+        // ajoute les templates de contenus web du group parent
+        List<DDMTemplate> assetEntryParentTemplates = DDMTemplateLocalServiceUtil
+                .getTemplates(themeDisplay.getScopeGroup().getParentGroupId(),
+                        assetEntryClassNameId);
+        if(assetEntryParentTemplates.size() > 0)
+            allAssetEntryTemplates.addAll(assetEntryParentTemplates);
+        for (DDMTemplate template: allAssetEntryTemplates) {
             JSONObject templateJson = JSONFactoryUtil.createJSONObject();
             templateJson.put("id", template.getTemplateKey());
             templateJson.put("value", template.getName(Locale.FRANCE));
@@ -139,11 +166,20 @@ public class SearchAssetConfigurationDisplayContext {
         // ajoute les templates de fichiers
         long documentClassNameId = ClassNameLocalServiceUtil
                 .getClassNameId(FileEntry.class);
+        templatesJson = JSONFactoryUtil.createJSONArray();
+        List<DDMTemplate> allDocumentTemplates = new ArrayList<>();
         List<DDMTemplate> documentTemplates = DDMTemplateLocalServiceUtil
                 .getTemplates(themeDisplay.getScopeGroupId(),
                         documentClassNameId);
-        templatesJson = JSONFactoryUtil.createJSONArray();
-        for (DDMTemplate template: documentTemplates) {
+        if(documentTemplates.size() > 0)
+            allDocumentTemplates.addAll(documentTemplates);
+        // ajoute les templates de fichiers du group parent
+        List<DDMTemplate> documentParentTemplates = DDMTemplateLocalServiceUtil
+                .getTemplates(themeDisplay.getScopeGroup().getParentGroupId(),
+                        documentClassNameId);
+        if(documentParentTemplates.size() > 0)
+            allDocumentTemplates.addAll(documentParentTemplates);
+        for (DDMTemplate template: allDocumentTemplates) {
             JSONObject templateJson = JSONFactoryUtil.createJSONObject();
             templateJson.put("id", template.getTemplateKey());
             templateJson.put("value", template.getName(Locale.FRANCE));
