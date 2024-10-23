@@ -56,7 +56,8 @@ create table agenda_Campaign (
 	managersIds VARCHAR(75) null,
 	exportEnabled BOOLEAN,
 	startDate DATE null,
-	endDate DATE null
+	endDate DATE null,
+	provider VARCHAR(20) null
 );
 
 create table agenda_CampaignEvent (

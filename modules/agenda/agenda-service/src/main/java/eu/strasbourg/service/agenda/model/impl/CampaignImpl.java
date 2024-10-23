@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
+import com.liferay.portal.kernel.util.Validator;
 import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
@@ -167,8 +168,11 @@ public class CampaignImpl extends CampaignBaseImpl {
 	public void export() {
 		JSONObject json = this.generateExport();
 		String jsonString = json.toJSONString();
-		String provider = FriendlyURLNormalizerUtil
-			.normalize(this.getTitleCurrentValue());
+		String provider = this.getProvider();
+		if(Validator.isNull(provider))
+			provider = FriendlyURLNormalizerUtil
+					.normalize(this.getTitleCurrentValue()).substring(0, 20);
+
 		String fullPath = StrasbourgPropsUtil.getAgendaImportDirectory() + "/"
 			+ provider + ".json";
 		File file = new File(fullPath);
@@ -186,9 +190,13 @@ public class CampaignImpl extends CampaignBaseImpl {
 		JSONObject json = JSONFactoryUtil.createJSONObject();
 
 		// Provider
-		String provider = FriendlyURLNormalizerUtil
-			.normalize(this.getTitleCurrentValue());
-		json.put("provider", provider);
+		if(Validator.isNotNull(this.getProvider()))
+			json.put("provider", this.getProvider());
+		else {
+			String provider = FriendlyURLNormalizerUtil
+					.normalize(this.getTitleCurrentValue()).substring(0, 20);
+			json.put("provider", provider);
+		}
 
 		// Manifestations (vide)
 		JSONArray jsonManifestations = JSONFactoryUtil.createJSONArray();

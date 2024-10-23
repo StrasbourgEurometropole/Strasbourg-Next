@@ -67,6 +67,9 @@
 		<field name="exportEnabled" type="Boolean" />
 		<field name="startDate" type="Date" />
 		<field name="endDate" type="Date" />
+		<field name="provider" type="String">
+			<hint name="max-length">20</hint>
+		</field>
 	</model>
 	<model name="eu.strasbourg.service.agenda.model.CampaignEvent">
 		<field name="uuid" type="String" />

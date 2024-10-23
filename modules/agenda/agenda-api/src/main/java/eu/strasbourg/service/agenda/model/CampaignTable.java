@@ -65,6 +65,8 @@ public class CampaignTable extends BaseTable<CampaignTable> {
 		"startDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
 	public final Column<CampaignTable, Date> endDate = createColumn(
 		"endDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
+	public final Column<CampaignTable, String> provider = createColumn(
+		"provider", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 
 	private CampaignTable() {
 		super("agenda_Campaign", CampaignTable::new);
