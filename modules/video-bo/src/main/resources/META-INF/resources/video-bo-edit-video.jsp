@@ -1,5 +1,8 @@
 <%@ include file="/video-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.video.model.Video"%>
+<%@ page import="com.liferay.asset.kernel.exception.AssetCategoryException" %>
+<%@ page import="com.liferay.asset.kernel.model.AssetVocabulary" %>
+<%@ page import="com.liferay.petra.string.StringPool" %>
 <clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 
 <liferay-portlet:actionURL name="deleteVideo" var="deleteVideoURL">
@@ -20,6 +23,29 @@
 	<liferay-ui:error key="url-error" message="url-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
 	<liferay-ui:error key="description-error" message="description-error" />
+	<liferay-ui:error exception="<%= AssetCategoryException.class %>">
+
+		<%
+			AssetCategoryException ace = (AssetCategoryException)errorException;
+
+			AssetVocabulary vocabulary = ace.getVocabulary();
+
+			String vocabularyTitle = StringPool.BLANK;
+
+			if (vocabulary != null) {
+				vocabularyTitle = vocabulary.getTitle(locale);
+			}
+		%>
+
+		<c:choose>
+			<c:when test="<%= ace.getType() == AssetCategoryException.AT_LEAST_ONE_CATEGORY %>">
+				<liferay-ui:message arguments="<%= vocabularyTitle %>" key="please-select-at-least-one-category-for-x" translateArguments="<%= false %>" />
+			</c:when>
+			<c:when test="<%= ace.getType() == AssetCategoryException.TOO_MANY_CATEGORIES %>">
+				<liferay-ui:message arguments="<%= vocabularyTitle %>" key="you-cannot-select-more-than-one-category-for-x" translateArguments="<%= false %>" />
+			</c:when>
+		</c:choose>
+	</liferay-ui:error>
 
 	<aui:form action="${saveVideoURL}" method="post" name="fm">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
