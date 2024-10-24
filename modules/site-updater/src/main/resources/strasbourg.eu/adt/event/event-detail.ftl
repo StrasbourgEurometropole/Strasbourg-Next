@@ -242,6 +242,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                         ${entry.phone}
                                     </a>
                                 </#if>
+                            </li>
+                            <li class="st-lien-container">
                                 <#if entry.email?has_content>
                                     <a data-overlay-open="st-overlay-contact" href="#"
                                        class="st-btn st--btn-secondary st--btn-small-padding">
