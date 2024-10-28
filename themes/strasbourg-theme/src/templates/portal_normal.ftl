@@ -16,6 +16,7 @@
     <meta content="initial-scale=1.0, width=device-width" name="viewport"/>
     <script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
     <script type="text/javascript" src="/o/0-global-theme/js/tarteaucitron.init.js"></script>
+    <script type="text/javascript" src="/o/strasbourg-theme/js/config.js"></script>
     <@liferay_util["include"] page=top_head_include />
     <#include "${full_templates_path}/seo.ftl" />
 </head>
@@ -43,6 +44,9 @@
         </#if>
         <div id="overlay-shadow" class="st-shadow-overlay"></div>
         <script type="text/javascript">
+            var environment, environmentChanged;
+            testEnvironment();
+
             window.onload = function () {
                 window.loginURL = '${layoutHelper.getPublikLoginURL(currentUrl)?html}';
                 var url = window.location.toString();
@@ -51,7 +55,27 @@
                 document.getElementById("ShareLinkedIn")?.setAttribute("href", "https://www.linkedin.com/shareArticle?mini=true&url=" + url);
                 document.getElementById("ShareMail")?.setAttribute("href", "mailto:?body=" + url);
             }
-            environment = 'desktop';
+
+            window.onresize = function(){
+                testEnvironment();
+            }
+
+            function testEnvironment() {
+                var currentEnvironment = environment;
+                if (isTabletPaysageOrSmalller) {
+                    environment = 'tablette';
+                    if (isMobileOrSmaller) {
+                        environment = 'mobile';
+                    }
+                } else {
+                    environment = 'desktop';
+                }
+                if (currentEnvironment != environment) {
+                    environmentChanged = true;
+                } else {
+                    environmentChanged = false;
+                }
+            }
         </script>
         <@liferay_util["include"] page=body_bottom_include />
         <#include "${full_templates_path}/alert.ftl" />
