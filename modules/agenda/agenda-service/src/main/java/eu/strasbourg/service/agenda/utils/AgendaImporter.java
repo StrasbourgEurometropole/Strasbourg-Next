@@ -954,6 +954,10 @@ public class AgendaImporter {
 				event.setCreateDateSource(createDateSource);
 				event.setModifiedDateSource(modifiedDateSource);
 				event.setExternalImageURL(imageURL);
+				if(imageURL.contains("www.coze.fr") && imageCopyright.endsWith("-thumb-w")) {
+					String externalImageThumbnail = imageURL.replace("-thumb-w", "-thumb");
+					event.setExternalImageThumbnailURL(externalImageThumbnail);
+				}
 				event.setExternalImageCopyright(imageCopyright);
 				event.setImageId((long) 0);
 				event.setPublicationDate(new Date());

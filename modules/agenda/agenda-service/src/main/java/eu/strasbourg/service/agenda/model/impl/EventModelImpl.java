@@ -82,6 +82,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		{"statusDate", Types.TIMESTAMP}, {"title", Types.VARCHAR},
 		{"subtitle", Types.VARCHAR}, {"description", Types.CLOB},
 		{"externalImageURL", Types.VARCHAR},
+		{"externalImageThumbnailURL", Types.VARCHAR},
 		{"externalImageCopyright", Types.VARCHAR},
 		{"imageWidth", Types.INTEGER}, {"imageHeight", Types.INTEGER},
 		{"placeSIGId", Types.VARCHAR}, {"placeName", Types.VARCHAR},
@@ -131,6 +132,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		TABLE_COLUMNS_MAP.put("subtitle", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("externalImageThumbnailURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("imageWidth", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("imageHeight", Types.INTEGER);
@@ -179,7 +181,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,bookingDescription TEXT null,bookingURL VARCHAR(400) null,subscriptionURL VARCHAR(400) null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,distribution STRING null,composer VARCHAR(400) null,concertId VARCHAR(75) null,program TEXT null,firstStartDate DATE null,lastEndDate DATE null,createDateSource DATE null,modifiedDateSource DATE null,imageId LONG,registration BOOLEAN,registrationStartDate DATE null,registrationEndDate DATE null,maxGauge LONG)";
+		"create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageThumbnailURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,bookingDescription TEXT null,bookingURL VARCHAR(400) null,subscriptionURL VARCHAR(400) null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,distribution STRING null,composer VARCHAR(400) null,concertId VARCHAR(75) null,program TEXT null,firstStartDate DATE null,lastEndDate DATE null,createDateSource DATE null,modifiedDateSource DATE null,imageId LONG,registration BOOLEAN,registrationStartDate DATE null,registrationEndDate DATE null,maxGauge LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table agenda_Event";
 
@@ -422,6 +424,9 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			attributeGetterFunctions.put(
 				"externalImageURL", Event::getExternalImageURL);
 			attributeGetterFunctions.put(
+				"externalImageThumbnailURL",
+				Event::getExternalImageThumbnailURL);
+			attributeGetterFunctions.put(
 				"externalImageCopyright", Event::getExternalImageCopyright);
 			attributeGetterFunctions.put("imageWidth", Event::getImageWidth);
 			attributeGetterFunctions.put("imageHeight", Event::getImageHeight);
@@ -543,6 +548,9 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			attributeSetterBiConsumers.put(
 				"externalImageURL",
 				(BiConsumer<Event, String>)Event::setExternalImageURL);
+			attributeSetterBiConsumers.put(
+				"externalImageThumbnailURL",
+				(BiConsumer<Event, String>)Event::setExternalImageThumbnailURL);
 			attributeSetterBiConsumers.put(
 				"externalImageCopyright",
 				(BiConsumer<Event, String>)Event::setExternalImageCopyright);
@@ -1318,6 +1326,26 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		}
 
 		_externalImageURL = externalImageURL;
+	}
+
+	@JSON
+	@Override
+	public String getExternalImageThumbnailURL() {
+		if (_externalImageThumbnailURL == null) {
+			return "";
+		}
+		else {
+			return _externalImageThumbnailURL;
+		}
+	}
+
+	@Override
+	public void setExternalImageThumbnailURL(String externalImageThumbnailURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_externalImageThumbnailURL = externalImageThumbnailURL;
 	}
 
 	@JSON
@@ -3480,6 +3508,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		eventImpl.setSubtitle(getSubtitle());
 		eventImpl.setDescription(getDescription());
 		eventImpl.setExternalImageURL(getExternalImageURL());
+		eventImpl.setExternalImageThumbnailURL(getExternalImageThumbnailURL());
 		eventImpl.setExternalImageCopyright(getExternalImageCopyright());
 		eventImpl.setImageWidth(getImageWidth());
 		eventImpl.setImageHeight(getImageHeight());
@@ -3560,6 +3589,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			this.<String>getColumnOriginalValue("description"));
 		eventImpl.setExternalImageURL(
 			this.<String>getColumnOriginalValue("externalImageURL"));
+		eventImpl.setExternalImageThumbnailURL(
+			this.<String>getColumnOriginalValue("externalImageThumbnailURL"));
 		eventImpl.setExternalImageCopyright(
 			this.<String>getColumnOriginalValue("externalImageCopyright"));
 		eventImpl.setImageWidth(
@@ -3817,6 +3848,18 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 		if ((externalImageURL != null) && (externalImageURL.length() == 0)) {
 			eventCacheModel.externalImageURL = null;
+		}
+
+		eventCacheModel.externalImageThumbnailURL =
+			getExternalImageThumbnailURL();
+
+		String externalImageThumbnailURL =
+			eventCacheModel.externalImageThumbnailURL;
+
+		if ((externalImageThumbnailURL != null) &&
+			(externalImageThumbnailURL.length() == 0)) {
+
+			eventCacheModel.externalImageThumbnailURL = null;
 		}
 
 		eventCacheModel.externalImageCopyright = getExternalImageCopyright();
@@ -4242,6 +4285,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private String _description;
 	private String _descriptionCurrentLanguageId;
 	private String _externalImageURL;
+	private String _externalImageThumbnailURL;
 	private String _externalImageCopyright;
 	private Integer _imageWidth;
 	private Integer _imageHeight;
@@ -4344,6 +4388,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		_columnOriginalValues.put("subtitle", _subtitle);
 		_columnOriginalValues.put("description", _description);
 		_columnOriginalValues.put("externalImageURL", _externalImageURL);
+		_columnOriginalValues.put(
+			"externalImageThumbnailURL", _externalImageThumbnailURL);
 		_columnOriginalValues.put(
 			"externalImageCopyright", _externalImageCopyright);
 		_columnOriginalValues.put("imageWidth", _imageWidth);
@@ -4449,95 +4495,97 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 		columnBitmasks.put("externalImageURL", 65536L);
 
-		columnBitmasks.put("externalImageCopyright", 131072L);
+		columnBitmasks.put("externalImageThumbnailURL", 131072L);
 
-		columnBitmasks.put("imageWidth", 262144L);
+		columnBitmasks.put("externalImageCopyright", 262144L);
 
-		columnBitmasks.put("imageHeight", 524288L);
+		columnBitmasks.put("imageWidth", 524288L);
 
-		columnBitmasks.put("placeSIGId", 1048576L);
+		columnBitmasks.put("imageHeight", 1048576L);
 
-		columnBitmasks.put("placeName", 2097152L);
+		columnBitmasks.put("placeSIGId", 2097152L);
 
-		columnBitmasks.put("placeStreetNumber", 4194304L);
+		columnBitmasks.put("placeName", 4194304L);
 
-		columnBitmasks.put("placeStreetName", 8388608L);
+		columnBitmasks.put("placeStreetNumber", 8388608L);
 
-		columnBitmasks.put("placeZipCode", 16777216L);
+		columnBitmasks.put("placeStreetName", 16777216L);
 
-		columnBitmasks.put("placeCity", 33554432L);
+		columnBitmasks.put("placeZipCode", 33554432L);
 
-		columnBitmasks.put("placeCountry", 67108864L);
+		columnBitmasks.put("placeCity", 67108864L);
 
-		columnBitmasks.put("mercatorX", 134217728L);
+		columnBitmasks.put("placeCountry", 134217728L);
 
-		columnBitmasks.put("mercatorY", 268435456L);
+		columnBitmasks.put("mercatorX", 268435456L);
 
-		columnBitmasks.put("access_", 536870912L);
+		columnBitmasks.put("mercatorY", 536870912L);
 
-		columnBitmasks.put("accessForDisabled", 1073741824L);
+		columnBitmasks.put("access_", 1073741824L);
 
-		columnBitmasks.put("accessForBlind", 2147483648L);
+		columnBitmasks.put("accessForDisabled", 2147483648L);
 
-		columnBitmasks.put("accessForDeaf", 4294967296L);
+		columnBitmasks.put("accessForBlind", 4294967296L);
 
-		columnBitmasks.put("accessForWheelchair", 8589934592L);
+		columnBitmasks.put("accessForDeaf", 8589934592L);
 
-		columnBitmasks.put("accessForElder", 17179869184L);
+		columnBitmasks.put("accessForWheelchair", 17179869184L);
 
-		columnBitmasks.put("accessForDeficient", 34359738368L);
+		columnBitmasks.put("accessForElder", 34359738368L);
 
-		columnBitmasks.put("promoter", 68719476736L);
+		columnBitmasks.put("accessForDeficient", 68719476736L);
 
-		columnBitmasks.put("phone", 137438953472L);
+		columnBitmasks.put("promoter", 137438953472L);
 
-		columnBitmasks.put("email", 274877906944L);
+		columnBitmasks.put("phone", 274877906944L);
 
-		columnBitmasks.put("websiteURL", 549755813888L);
+		columnBitmasks.put("email", 549755813888L);
 
-		columnBitmasks.put("websiteName", 1099511627776L);
+		columnBitmasks.put("websiteURL", 1099511627776L);
 
-		columnBitmasks.put("free", 2199023255552L);
+		columnBitmasks.put("websiteName", 2199023255552L);
 
-		columnBitmasks.put("price", 4398046511104L);
+		columnBitmasks.put("free", 4398046511104L);
 
-		columnBitmasks.put("bookingDescription", 8796093022208L);
+		columnBitmasks.put("price", 8796093022208L);
 
-		columnBitmasks.put("bookingURL", 17592186044416L);
+		columnBitmasks.put("bookingDescription", 17592186044416L);
 
-		columnBitmasks.put("subscriptionURL", 35184372088832L);
+		columnBitmasks.put("bookingURL", 35184372088832L);
 
-		columnBitmasks.put("source", 70368744177664L);
+		columnBitmasks.put("subscriptionURL", 70368744177664L);
 
-		columnBitmasks.put("idSource", 140737488355328L);
+		columnBitmasks.put("source", 140737488355328L);
 
-		columnBitmasks.put("publicationDate", 281474976710656L);
+		columnBitmasks.put("idSource", 281474976710656L);
 
-		columnBitmasks.put("distribution", 562949953421312L);
+		columnBitmasks.put("publicationDate", 562949953421312L);
 
-		columnBitmasks.put("composer", 1125899906842624L);
+		columnBitmasks.put("distribution", 1125899906842624L);
 
-		columnBitmasks.put("concertId", 2251799813685248L);
+		columnBitmasks.put("composer", 2251799813685248L);
 
-		columnBitmasks.put("program", 4503599627370496L);
+		columnBitmasks.put("concertId", 4503599627370496L);
 
-		columnBitmasks.put("firstStartDate", 9007199254740992L);
+		columnBitmasks.put("program", 9007199254740992L);
 
-		columnBitmasks.put("lastEndDate", 18014398509481984L);
+		columnBitmasks.put("firstStartDate", 18014398509481984L);
 
-		columnBitmasks.put("createDateSource", 36028797018963968L);
+		columnBitmasks.put("lastEndDate", 36028797018963968L);
 
-		columnBitmasks.put("modifiedDateSource", 72057594037927936L);
+		columnBitmasks.put("createDateSource", 72057594037927936L);
 
-		columnBitmasks.put("imageId", 144115188075855872L);
+		columnBitmasks.put("modifiedDateSource", 144115188075855872L);
 
-		columnBitmasks.put("registration", 288230376151711744L);
+		columnBitmasks.put("imageId", 288230376151711744L);
 
-		columnBitmasks.put("registrationStartDate", 576460752303423488L);
+		columnBitmasks.put("registration", 576460752303423488L);
 
-		columnBitmasks.put("registrationEndDate", 1152921504606846976L);
+		columnBitmasks.put("registrationStartDate", 1152921504606846976L);
 
-		columnBitmasks.put("maxGauge", 2305843009213693952L);
+		columnBitmasks.put("registrationEndDate", 2305843009213693952L);
+
+		columnBitmasks.put("maxGauge", 4611686018427387904L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

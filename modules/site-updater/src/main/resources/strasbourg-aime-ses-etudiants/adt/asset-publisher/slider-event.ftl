@@ -12,7 +12,7 @@
 
             <div class="event-content"> 
                 <a href="${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}">
-                    <img class="event-image" src="${entry.getImageURL()}" />
+                    <img class="event-image" src="${entry.getImageThumbnailURL()}" />
                 </a>
                 <div class="event-meta"> 
                     <span class="event-category">${entry.getThemeLabel(locale)}</span>

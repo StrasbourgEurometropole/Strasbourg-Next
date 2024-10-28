@@ -64,6 +64,11 @@ public interface Event extends EventModel, PersistedModel {
 	public String getImageURL();
 
 	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	public String getImageThumbnailURL();
+
+	/**
 	 * Retourne le copyright de l'image principale
 	 */
 	public String getImageCopyright(java.util.Locale locale);

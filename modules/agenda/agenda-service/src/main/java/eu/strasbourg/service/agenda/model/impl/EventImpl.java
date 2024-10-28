@@ -145,6 +145,18 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	@Override
+	public String getImageThumbnailURL() {
+		if (Validator.isNotNull(this.getExternalImageThumbnailURL())) {
+			return this.getExternalImageThumbnailURL();
+		} else {
+			return this.getImageURL();
+		}
+	}
+
+	/**
 	 * Retourne le copyright de l'image principale
 	 */
 	@Override

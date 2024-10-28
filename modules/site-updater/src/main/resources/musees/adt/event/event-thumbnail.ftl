@@ -13,7 +13,7 @@
 
 <#assign detailURL = homeURL + "evenement/-/entity/id/" + entry.getEventId() />
 
-<a href="${detailURL}" aria-label="${entry.getTitle(locale)?html}" title="${entry.getTitle(locale)?html}" class="event-thumbnail" style="background-image: url(${entry.getImageURL()})">
+<a href="${detailURL}" aria-label="${entry.getTitle(locale)?html}" title="${entry.getTitle(locale)?html}" class="event-thumbnail" style="background-image: url(${entry.getImageThumbnailURL()})">
     <#if entry.getActivityTypeLabel(locale)?has_content>
         <div class="visit">
             <span>${entry.getActivityTypeLabel(locale)}</span>
