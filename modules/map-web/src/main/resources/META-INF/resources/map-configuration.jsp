@@ -24,6 +24,9 @@
 
                     <!-- Accesibilité -->
                     <aui:fieldset collapsed="true" collapsible="true" label="accessibility" >
+                        <!-- afficher le titre -->
+                        <aui:input type="checkbox" name="showTitle" value="${showTitle || !hasConfig}" label="show-title" />
+
                         <!-- Hyérarchie du titre -->
                         <div>
                             <aui:select class="group" label="select-hierarchy" name="hierarchy">
@@ -38,8 +41,7 @@
                     </aui:fieldset>
 
                     <!-- Type de contenu carto autre que widget -->
-                    <aui:fieldset collapsed="true" collapsible="true"
-                            label="type-contenu" cssClass="noWidgetMode" >
+                    <aui:fieldset collapsed="true" collapsible="true" label="type-contenu" cssClass="noWidgetMode" >
                         <!-- Lieux -->
                         <aui:input type="checkbox" name="typeContenu" id="placeContentType" value="eu.strasbourg.service.place.model.Place" label="eu.places"
                             checked="${fn:contains(typesContenu, 'eu.strasbourg.service.place.model.Place') || !hasConfig}" ></aui:input>
@@ -153,8 +155,7 @@
 
                     <!-- Carto normale -->
                     <!-- Préfiltres -->
-                    <aui:fieldset collapsed="true" collapsible="true"
-                            label="prefilters" cssClass="normalMode">
+                    <aui:fieldset collapsed="true" collapsible="true" label="prefilters" cssClass="normalMode">
                         <div>
                             <label><liferay-ui:message key="prefilter-label" /></label>
                             <p>
@@ -186,8 +187,7 @@
                     </aui:fieldset>
 
                     <!-- Filtres -->
-                    <aui:fieldset collapsed="true" collapsible="true"
-                            label="filters" cssClass="normalMode">
+                    <aui:fieldset collapsed="true" collapsible="true" label="filters" cssClass="normalMode">
                         <div>
                             <label><liferay-ui:message key="filter-label" /></label>
                             <p>
@@ -265,8 +265,7 @@
                     </aui:fieldset>
 
                     <!-- MonStrabourg -->
-                    <aui:fieldset collapsed="true" collapsible="true"
-                            label="mon-strasbourg" cssClass="monStrasbourgMode">
+                    <aui:fieldset collapsed="true" collapsible="true" label="mon-strasbourg" cssClass="monStrasbourgMode">
                         <!-- Mode widget -->
                         <!-- Texte d'intro mode widget -->
                         <div class="widgetMode">
@@ -317,8 +316,7 @@
                     </aui:fieldset>
 
                     <!-- Info trafic -->
-                    <aui:fieldset collapsed="true" collapsible="true"
-                            label="traffic" cssClass="noWidgetMode infoTraffic">
+                    <aui:fieldset collapsed="true" collapsible="true" label="traffic" cssClass="noWidgetMode infoTraffic">
                         <!-- Affichage de l'info trafic -->
                         <div>
                             <aui:input type="checkbox" name="showTraffic" value="${showTraffic}" label="show-traffic" />

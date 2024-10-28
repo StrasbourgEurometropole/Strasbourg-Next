@@ -78,6 +78,10 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// Widget mod
 			setPreference(request, "widgetMod", String.valueOf(mode.equals("widget")));
 
+			// Affichage du titre
+			String showTitle = ParamUtil.getString(request, "showTitle");
+			setPreference(request, "showTitle", showTitle);
+
 			// Choix de la hiérarchie du titre
 			String hierarchy = ParamUtil.getString(request, "hierarchy");
 			setPreference(request, "hierarchy", hierarchy);
@@ -534,6 +538,9 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 
 			// Widget mod du portlet
 			request.setAttribute("widgetMod", configuration.widgetMod());
+
+			// Affichage du titre
+			request.setAttribute("showTitle", configuration.showTitle());
 
 			// Choix de la hiérarchie du titre
 			request.setAttribute("hierarchy", configuration.hierarchy());
