@@ -1,0 +1,58 @@
+{
+  "pages": [
+    {
+      "description": {
+        "fr_FR": "Description"
+      },
+      "rows": [
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "title"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "subtitle"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "catchphrase"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "fieldGroupButon"
+              ]
+            }
+          ]
+        }
+      ],
+      "title": {
+        "fr_FR": "Page"
+      }
+    }
+  ],
+  "definitionSchemaVersion": "2.0",
+  "paginationMode": "single-page",
+  "defaultLanguageId": "fr_FR",
+  "fields": []
+}

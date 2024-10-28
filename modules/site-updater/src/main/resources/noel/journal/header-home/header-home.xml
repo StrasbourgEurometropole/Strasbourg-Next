@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Header home</name>
+        <key>466560269</key>
+        <definition>header-home-structure.json</definition>
+        <layout>header-home-layout.json</layout>
+    </structure>
+    <template>
+        <name>Header home</name>
+        <key>466560274</key>
+        <script>header-home.ftl</script>
+        <cacheable>true</cacheable>
+    </template>
+</root>
