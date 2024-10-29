@@ -60,7 +60,7 @@ title="Overlay" />
                     </div>
 
                     <input type="hidden" id="nb-results" value="0" />
-                    <p id="results-display" class="st-text" style="width:100%; font-size: 12px; display: none;">
+                    <p id="results-display" class="st-results-show" style="display: none;">
                     </p>
                 </div>
         </form>
