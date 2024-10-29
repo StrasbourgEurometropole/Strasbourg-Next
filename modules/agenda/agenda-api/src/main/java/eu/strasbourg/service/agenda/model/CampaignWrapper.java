@@ -54,6 +54,7 @@ public class CampaignWrapper
 		attributes.put("exportEnabled", getExportEnabled());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
+		attributes.put("provider", getProvider());
 
 		return attributes;
 	}
@@ -179,6 +180,12 @@ public class CampaignWrapper
 
 		if (endDate != null) {
 			setEndDate(endDate);
+		}
+
+		String provider = (String)attributes.get("provider");
+
+		if (provider != null) {
+			setProvider(provider);
 		}
 	}
 
@@ -444,6 +451,16 @@ public class CampaignWrapper
 	@Override
 	public long getPrimaryKey() {
 		return model.getPrimaryKey();
+	}
+
+	/**
+	 * Returns the provider of this campaign.
+	 *
+	 * @return the provider of this campaign
+	 */
+	@Override
+	public String getProvider() {
+		return model.getProvider();
 	}
 
 	/**
@@ -930,6 +947,16 @@ public class CampaignWrapper
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		model.setPrimaryKey(primaryKey);
+	}
+
+	/**
+	 * Sets the provider of this campaign.
+	 *
+	 * @param provider the provider of this campaign
+	 */
+	@Override
+	public void setProvider(String provider) {
+		model.setProvider(provider);
 	}
 
 	/**

@@ -39,8 +39,10 @@
 
 				<aui:input name="title">
 					<aui:validator name="required"
-						errorMessage="this-field-is-required" />
+								   errorMessage="this-field-is-required" />
 				</aui:input>
+
+				<aui:input name="provider" label="source-name"/>
 
 				<strasbourg-picker:image label="eu.default-image" name="defaultImageId"
 						required="true" value="${dc.campaign.defaultImageId}" global="true" />

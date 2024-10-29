@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -67,7 +68,8 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 			}
 
 			Map<Locale, String> title = LocalizationUtil
-				.getLocalizationMap(request, "title");
+					.getLocalizationMap(request, "title");
+			String provider = ParamUtil.getString(request, "provider");
 			Boolean exportEnabled = ParamUtil.getBoolean(request, "exportEnabled");
 			long defaultImageId = ParamUtil.getLong(request, "defaultImageId");
 			Map<Locale, String> defaultImageCopyright = LocalizationUtil
@@ -128,6 +130,13 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 			}
 
 			campaign.setTitleMap(title);
+			if(Validator.isNotNull(provider))
+				campaign.setProvider(provider);
+			else{
+				String titleFR = FriendlyURLNormalizerUtil
+						.normalize(title.get(Locale.FRANCE));
+				campaign.setProvider(titleFR.substring(0, 20));
+			}
 			campaign.setDefaultImageId(defaultImageId);
 			campaign.setDefaultImageCopyrightMap(defaultImageCopyright);
 			campaign.setExportEnabled(exportEnabled);
