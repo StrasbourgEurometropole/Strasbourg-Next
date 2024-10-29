@@ -268,7 +268,8 @@ public class OIDCFilter extends BaseFilter {
         String authURL = StrasbourgPropsUtil.getPublikTokenURL();
 
         HttpURLConnection connection = (HttpURLConnection) new URL(authURL).openConnection();
-
+        connection.setConnectTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());
+        connection.setReadTimeout(StrasbourgPropsUtil.getWebServiceDefaultTimeout());
         connection.setRequestMethod("POST");
 
         // Authentification
