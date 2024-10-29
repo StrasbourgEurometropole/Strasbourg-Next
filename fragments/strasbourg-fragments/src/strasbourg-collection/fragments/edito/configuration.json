@@ -8,6 +8,12 @@
           "type": "text",
           "dataType": "int",
           "defaultValue": "3"
+        },
+        {
+          "name": "showImage",
+          "label": "Afficher l'image",
+          "type": "checkbox",
+          "defaultValue": true
         }
       ]
     }
