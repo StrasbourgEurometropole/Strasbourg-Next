@@ -598,7 +598,8 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			request.setAttribute("clippingCategoryId", configuration.clippingCategoryId());
 
 			// Choix du site vers lequel les liens redirigent
-			List<Group> sites = GroupLocalServiceUtil.getGroups(themeDisplay.getCompanyId(), 0, true);
+			List<Group> sites = GroupLocalServiceUtil.getCompanyGroups(themeDisplay.getCompanyId(), -1, -1)
+					.stream().filter(s -> s.getSite()).collect(Collectors.toList());
 			request.setAttribute("sites", sites);
 			long groupId = configuration.groupId();
 			if(Validator.isNull(groupId)){
