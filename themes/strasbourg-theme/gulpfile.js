@@ -48,8 +48,7 @@ liferayThemeTasks.registerTasks({
                     'build/js/libs/*.js',
                     'build/js/libs/**/*.js',
                     'build/js/config-splide.js',
-                    'build/js/**/*.js',
-                    '!build/js/config.js'
+                    'build/js/**/*.js'
                 ]
             )
                 .pipe(concat("main.js")).on('error', onError)

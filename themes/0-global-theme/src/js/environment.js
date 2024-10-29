@@ -87,3 +87,38 @@ function isMobileOrSmaller() {
 function convertPxToRem(px) {
     return px / parseFloat(getComputedStyle(document.documentElement).fontSize.replace('px', ''));
 }
+
+var environment, environmentChanged, windowWidth, windowHeight;
+testEnvironment();
+testScrollMagic();
+
+window.onresize = function(){
+    testEnvironment();
+    testScrollMagic();
+}
+
+function testEnvironment() {
+    var currentEnvironment = environment;
+    if (isTabletPaysageOrSmalller) {
+        environment = 'tablette';
+        if (isMobileOrSmaller) {
+            environment = 'mobile';
+        }
+    } else {
+        environment = 'desktop';
+    }
+    if (currentEnvironment != environment) {
+        environmentChanged = true;
+        $(document).trigger( "environment:changed", [{old_environment: currentEnvironment, new_environment: environment}] );
+    } else {
+        environmentChanged = false;
+    }
+}
+
+function testScrollMagic(){
+    if(environment != 'mobile' && $(window).height() > 720){
+        $('body').addClass('can-scrollMagic');
+    }else{
+        $('body').removeClass('can-scrollMagic');
+    }
+}
