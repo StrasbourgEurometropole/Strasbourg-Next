@@ -15,6 +15,7 @@
  */
 package eu.strasbourg.portlet.activity.action;
 
+import com.liferay.asset.kernel.exception.AssetCategoryException;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -195,6 +196,22 @@ public class SaveAssociationActionCommand extends BaseMVCActionCommand {
 
 				}
 			}
+
+		} catch (AssetCategoryException e){
+			SessionErrors.add(request, AssetCategoryException.class, e);
+			// on reste sur la page d'édition
+			PortalUtil.copyRequestParameters(request, response);
+
+			PortletURL backURL = PortletURLFactoryUtil.create(request,
+					portletName, themeDisplay.getPlid(),
+					PortletRequest.RENDER_PHASE);
+			backURL.setParameter("tab", request.getParameter("tab"));
+
+			response.setRenderParameter("backURL", backURL.toString());
+			response.setRenderParameter("mvcPath",
+					"/activity-bo-edit-association.jsp");
+			response.setRenderParameter("cmd", "saveAssociation");
+			return;
 		} catch (Exception e) {
 			_log.error(e);
 		}
