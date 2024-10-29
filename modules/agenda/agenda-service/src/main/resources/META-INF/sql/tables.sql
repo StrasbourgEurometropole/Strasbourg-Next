@@ -237,7 +237,7 @@ create table agenda_Historic (
 create table agenda_ImportReport (
 	uuid_ VARCHAR(75) null,
 	reportId LONG not null primary key,
-	provider VARCHAR(75) null,
+	provider VARCHAR(400) null,
 	filename VARCHAR(75) null,
 	status LONG,
 	globalErrorCause VARCHAR(75) null,
