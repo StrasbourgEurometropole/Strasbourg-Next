@@ -123,41 +123,13 @@
                     <img src="/o/christmas-2018-theme/images/logo-strasbourg-eu.png" alt="Strasbourg.eu" width="183" height="40" />
                 </a>
             </div>
-            <div class="menu">
-                <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
-                <#if request.session.getAttribute("publik_logged_in")!false>
-                  <#assign notificationService = serviceLocator.findService("eu.strasbourg.service.notification.service.UserNotificationStatusLocalService") />
-                  <div class="nav-account nav-btn">
-                    <button id="trigger-account-menu" onClick="javascript: location='${layoutHelper.getDashboardURL()}';">
-                      <span class="flexbox">
-                        <#assign notifCount = notificationService.getUnreadNotificationCount(request.session.getAttribute("publik_internal_id")) />
-                        <span class="picto">
-                            <#if (notifCount > 0)>
-                                <span class="notif-amount">${notifCount}</span>
-                            </#if>
-                        </span>
-                        <a href="${layoutHelper.getDashboardURL()}" style="text-decoration: none; width: auto;" title="<@liferay_ui.message key='eu.dashboard' />" class="connect">
-                          <span class="text">${request.session.getAttribute("publik_given_name")?html}&nbsp;${request.session.getAttribute("publik_family_name")[0..0]?html}.</span>
-                        </a>
-                        <span class="arrow" style="display: none;"></span>
-                      </span>
-                    </button>
-                    <!-- Menu connecté -->
-                    <@liferay_portlet["runtime"]
-                      portletProviderAction=portletProviderAction.VIEW
-                      portletName="com_liferay_journal_content_web_portlet_JournalContentPortlet"
-                      instanceId="loggedinmenu"
-                      settingsScope="group" />
-                    </div>
-                <#else>
-                  <a href="${layoutHelper.getPublikLoginURL(currentUrl)?html}" title="<@liferay_ui.message key='eu.login.strasbourg' />" class="connect">
-                    <span class="flexbox">
-                      <span class="picto"></span>
-                      <span class="text"><@liferay_ui.message key='eu.login.strasbourg' /></span>
-                    </span>    
-                  </a>
-                </#if>
-                <!-- <a href="/carte" class="mns-w-fixe-1"><span><@liferay_ui.message key='dynamic-map' /></span></a> -->
+            <div>
+                <!-- Menu préheader -->
+                <@liferay_portlet["runtime"]
+                portletProviderAction=portletProviderAction.VIEW
+                portletName="com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
+                instanceId="preheadermenu"
+                settingsScope="group" />
                 <a href="/pro-presse" class="mns-w-fixe-2"><span><@liferay_ui.message key='pro-and-press' /></span></a>
                 <a href="#" class="hidden-xs hidden-sm menu-search" aria-label="<@liferay_ui.message key='to-research' />"><span class="icon-search"></span></a>
                 <#assign entity = themeDisplay.getURLCurrent()?keep_after(layout.friendlyURL)?keep_before('\\?','r') />
