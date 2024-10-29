@@ -120,6 +120,7 @@ public class MapPortlet extends MVCPortlet {
             boolean hasConfig = false; // Permet de cocher tous les POI si aucune configuration
             String mode = ""; // Mode d'affichage
             boolean widgetMod = false;
+            boolean showTitle = configuration.showTitle(); // Affichage du titre
             String hierarchy = Validator.isNotNull(configuration.hierarchy())?configuration.hierarchy():"h1";; // Choix de la hiérarchie du titre
             boolean defaultConfig = configuration.defaultConfig();
 
@@ -506,6 +507,7 @@ public class MapPortlet extends MVCPortlet {
 
             request.setAttribute("hasConfig", hasConfig);
             request.setAttribute("mode", mode);
+            request.setAttribute("showTitle", showTitle);
             request.setAttribute("hierarchy", hierarchy);
             request.setAttribute("widgetMod", widgetMod);
             request.setAttribute("defaultConfig", defaultConfig);
