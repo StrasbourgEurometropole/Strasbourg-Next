@@ -36,7 +36,7 @@
                 not-front
             </#if>
         ">
-
+    <div id="wrapper">
     <@liferay_ui["quick-access"] contentId="#main-content" />
     <@liferay_util["include"] page=body_top_include />
     <@liferay.control_menu />
@@ -206,6 +206,6 @@
 
     <@liferay_util["include"] page=body_bottom_include />
     <@liferay_util["include"] page=bottom_include />
-
+    </div>
     </body>
 </html>

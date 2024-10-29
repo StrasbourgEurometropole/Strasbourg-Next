@@ -107,6 +107,8 @@
 
   <body class="${css_class}">
 
+     <div id="wrapper">
+
     <@liferay_ui["quick-access"] contentId="#main-content" />
 
     <@liferay_util["include"] page=body_top_include />
@@ -227,6 +229,6 @@
 		<!-- Lightbox implementation and Vendors JS -->
 		<script src="${javascript_folder}/lightbox-custom.js?languageId=${locale}" charset="utf-8"></script>  
     <script type="text/javascript" src="/o/christmas-2018-theme/js/lightbox.js?languageId=${locale}" charset="utf-8"></script> 
-
+    </div>
   </body>
 </html>
