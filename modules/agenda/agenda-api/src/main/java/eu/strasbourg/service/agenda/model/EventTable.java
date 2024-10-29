@@ -58,6 +58,10 @@ public class EventTable extends BaseTable<EventTable> {
 		"description", Clob.class, Types.CLOB, Column.FLAG_DEFAULT);
 	public final Column<EventTable, String> externalImageURL = createColumn(
 		"externalImageURL", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
+	public final Column<EventTable, String> externalImageThumbnailURL =
+		createColumn(
+			"externalImageThumbnailURL", String.class, Types.VARCHAR,
+			Column.FLAG_DEFAULT);
 	public final Column<EventTable, String> externalImageCopyright =
 		createColumn(
 			"externalImageCopyright", String.class, Types.VARCHAR,

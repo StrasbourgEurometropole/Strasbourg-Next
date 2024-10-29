@@ -156,6 +156,7 @@ create table agenda_Event (
 	subtitle STRING null,
 	description TEXT null,
 	externalImageURL VARCHAR(255) null,
+	externalImageThumbnailURL VARCHAR(255) null,
 	externalImageCopyright VARCHAR(400) null,
 	imageWidth INTEGER,
 	imageHeight INTEGER,
