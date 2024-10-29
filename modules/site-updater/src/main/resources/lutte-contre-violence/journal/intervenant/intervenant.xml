@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Intervenant</name>
+        <key>intervenant</key>
+        <definition>intervenant-structure.json</definition>
+        <layout>intervenant-layout.json</layout>
+    </structure>
+</root>
