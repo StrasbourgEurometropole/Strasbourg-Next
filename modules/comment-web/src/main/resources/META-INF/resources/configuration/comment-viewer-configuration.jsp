@@ -18,10 +18,10 @@
 		<aui:fieldset>
 			<!-- Mode d'affichage -->
 			<aui:select name="orderBy">
-				<aui:option value="asc" selected="${template eq 'asc'}">
+				<aui:option value="asc" selected="${orderBy eq 'asc'}">
 					<liferay-ui:message key="order-by-asc" />
 				</aui:option>
-				<aui:option value="desc" selected="${template eq 'desc'}">
+				<aui:option value="desc" selected="${orderBy eq 'desc'}">
 					<liferay-ui:message key="order-by-desc" />
 				</aui:option>
 			</aui:select>
