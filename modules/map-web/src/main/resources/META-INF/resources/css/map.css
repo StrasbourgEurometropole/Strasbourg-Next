@@ -723,11 +723,8 @@
 }
 @media only screen and (max-width: 767px) {
   #aroundme .infowindow__content {
-    padding: 20px;
+    padding: 10px 10px 0;
   }
-}
-#aroundme .infowindow__top {
-  padding-bottom: 10px;
 }
 #aroundme .infowindow__title-block {
   display: flex;
@@ -834,6 +831,14 @@
   display: block;
   width: calc(100% + 60px);
   margin: -30px -30px 20px -30px;
+}
+
+@media only screen and (max-width: 767px) {
+  #aroundme .infowindow__visualImage {
+    padding-bottom: 50%;
+    width: calc(100% + 20px);
+    margin: -20px 0 10px -10px;
+  }
 }
 #aroundme .infowindow__right {
   border-left: solid 1px #dddddd;
