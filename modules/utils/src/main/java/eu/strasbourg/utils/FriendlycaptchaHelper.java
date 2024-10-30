@@ -19,7 +19,6 @@ public class FriendlycaptchaHelper {
 
 	public static boolean verify(String friendlycaptchaResponse) {
 		if (friendlycaptchaResponse == null || "".equals(friendlycaptchaResponse)) {
-			_log.warn("friendlyCaptchaResponse is null or empty");
 			return false;
 		}
 
@@ -51,9 +50,6 @@ public class FriendlycaptchaHelper {
 
 			JSONObject json = JSONFactoryUtil
 				.createJSONObject(response.toString());
-
-			_log.info("Boolean response : " +json.getBoolean("success"));
-			_log.info("response : " +json);
 
 			return json.getBoolean("success");
 		} catch (Exception e) {
