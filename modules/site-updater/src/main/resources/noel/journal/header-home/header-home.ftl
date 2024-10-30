@@ -11,14 +11,16 @@
             <h2>${catchphrase.data}</h2>
         </#if>
         <#if fieldGroupButon.getSiblings()?has_content>
-            <#list fieldGroupButon.getSiblings() as cur_fieldGroupButon>
-                <#if fieldGroupButon.buttonLink?? && fieldGroupButon.buttonLink.data?has_content
-                && fieldGroupButon.buttonLabel?? && fieldGroupButon.buttonLabel.data?has_content>
-                    <a style="margin-top: 40px;" href="${fieldGroupButon.buttonLink.data}" class="mns-btn-chevron">
-                        ${fieldGroupButon.buttonLabel.data}
-                    </a>
-                </#if>
-            </#list>
+            <div class="button-flex">
+                <#list fieldGroupButon.getSiblings() as cur_fieldGroupButon>
+                    <#if fieldGroupButon.buttonLink?? && fieldGroupButon.buttonLink.data?has_content
+                    && fieldGroupButon.buttonLabel?? && fieldGroupButon.buttonLabel.data?has_content>
+                        <a href="${fieldGroupButon.buttonLink.data}" class="mns-btn-chevron">
+                            ${fieldGroupButon.buttonLabel.data}
+                        </a>
+                    </#if>
+                </#list>
+            </div>
         </#if>
     </div>
 </header>
