@@ -255,7 +255,7 @@ public interface CommentLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Comment> getByAssetEntryAndLevelOrderByDate(
 		long assetEntryId, int level, int status, int start, int end,
-		Boolean isSortDesc);
+		Boolean isSortAsc);
 
 	/**
 	 * Retourne tous les commentaires d'un groupe

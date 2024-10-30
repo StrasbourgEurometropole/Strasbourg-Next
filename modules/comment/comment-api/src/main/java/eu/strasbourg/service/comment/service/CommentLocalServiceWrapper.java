@@ -311,10 +311,10 @@ public class CommentLocalServiceWrapper
 	public java.util.List<eu.strasbourg.service.comment.model.Comment>
 		getByAssetEntryAndLevelOrderByDate(
 			long assetEntryId, int level, int status, int start, int end,
-			Boolean isSortDesc) {
+			Boolean isSortAsc) {
 
 		return _commentLocalService.getByAssetEntryAndLevelOrderByDate(
-			assetEntryId, level, status, start, end, isSortDesc);
+			assetEntryId, level, status, start, end, isSortAsc);
 	}
 
 	/**

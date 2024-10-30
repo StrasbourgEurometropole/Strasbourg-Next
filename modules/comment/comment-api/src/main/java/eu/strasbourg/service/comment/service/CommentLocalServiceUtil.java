@@ -277,10 +277,10 @@ public class CommentLocalServiceUtil {
 	 */
 	public static List<Comment> getByAssetEntryAndLevelOrderByDate(
 		long assetEntryId, int level, int status, int start, int end,
-		Boolean isSortDesc) {
+		Boolean isSortAsc) {
 
 		return getService().getByAssetEntryAndLevelOrderByDate(
-			assetEntryId, level, status, start, end, isSortDesc);
+			assetEntryId, level, status, start, end, isSortAsc);
 	}
 
 	/**
