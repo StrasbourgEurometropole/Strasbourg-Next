@@ -6,6 +6,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.office.exporter.api.BudgetsParticipatifsXlsxExporter;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.service.BudgetParticipatifLocalService;
@@ -40,6 +41,8 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
 
     private BudgetParticipatifLocalService budgetParticipatifLocalService;
 
+    private static String DETAIL_LINK="https://participer.strasbourg.eu/detail-budget-participatif/-/entity/id/";
+
     @Reference(unbind = "-")
     public void setBudgetParticipatifLocalService(BudgetParticipatifLocalService budgetParticipatifLocalService) {
         this.budgetParticipatifLocalService = budgetParticipatifLocalService;
@@ -69,6 +72,7 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                 LanguageUtil.get(bundle, "budget-part-modified-date"),
                 LanguageUtil.get(bundle, "budget-part-budget"),
                 LanguageUtil.get(bundle, "budget-part-motif"),
+                LanguageUtil.get(bundle, "budget-part-in-name"),
                 LanguageUtil.get(bundle, "budget-part-lastname"),
                 LanguageUtil.get(bundle, "budget-part-firstname"),
                 LanguageUtil.get(bundle, "budget-part-address"),
@@ -77,6 +81,7 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                 LanguageUtil.get(bundle, "budget-part-phone"),
                 LanguageUtil.get(bundle, "budget-part-mobile"),
                 LanguageUtil.get(bundle, "budget-part-email"),
+                LanguageUtil.get(bundle, "budget-part-commitment"),
                 LanguageUtil.get(bundle, "budget-part-place-text-area"),
                 LanguageUtil.get(bundle, "budget-part-is-crush"),
                 LanguageUtil.get(bundle, "budget-part-crush-comment"),
@@ -86,7 +91,11 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                 LanguageUtil.get(bundle, "user-liferay"),
                 LanguageUtil.get(bundle, "budget-part-place-name"),
                 LanguageUtil.get(bundle, "budget-part-place-mercator-x"),
-                LanguageUtil.get(bundle, "budget-part-place-mercator-y")
+                LanguageUtil.get(bundle, "budget-part-place-mercator-y"),
+                LanguageUtil.get(bundle, "budget-part-link-detail"),
+                LanguageUtil.get(bundle, "budget-part-image"),
+                LanguageUtil.get(bundle, "budget-part-documents"),
+                LanguageUtil.get(bundle, "budget-part-link-documents")
 		));
         	
         // Parcours des budget et creation de la ligne a ajouter dans l'excel
@@ -114,13 +123,14 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                     getfield(unescapeHtml4(budgetParticipatif.getPhaseTitleLabel())),
                     getfield(unescapeHtml4(budgetParticipatif.getBudgetParticipatifStatusTitle(Locale.FRANCE))),
                     getfield(unescapeHtml4(budgetParticipatif.getTitle())),
-                    getfield(unescapeHtml4(budgetParticipatif.getDescription())),
+                    getfield(unescapeHtml4(budgetParticipatif.getDescription()).replaceAll("<[^>]*>", "")),
                     getfield(unescapeHtml4(budgetParticipatif.getSummary())),
                     getfield(Long.toString(budgetParticipatif.getNbSupports())),
                     getfield(budgetParticipatif.getCreateDate()),
                     getfield(budgetParticipatif.getModifiedDate()),
                     getfield(budgetParticipatif.getBudget()),
                     getfield(unescapeHtml4(budgetParticipatif.getMotif())),
+                    getfield(unescapeHtml4(budgetParticipatif.getInTheNameOf())),
                     getfield(unescapeHtml4(budgetParticipatif.getCitoyenLastname())),
                     getfield(unescapeHtml4(budgetParticipatif.getCitoyenFirstname())),
                     getfield(unescapeHtml4(budgetParticipatif.getCitoyenAdresse())),
@@ -129,6 +139,7 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                     getfield(budgetParticipatif.getCitoyenPhone()),
                     getfield(budgetParticipatif.getCitoyenMobile()),
                     getfield(budgetParticipatif.getCitoyenEmail()),
+                    getfield(budgetParticipatif.getCommitment()),
                     getfield(unescapeHtml4(budgetParticipatif.getPlaceTextArea())),
                     getfield(budgetParticipatif.getIsCrush()),
                     getfield(budgetParticipatif.getCrushComment()),
@@ -138,7 +149,11 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
                     getfield(budgetParticipatif.getUserName()),
                     getfield(placesNames),
                     getfield(placesX),
-                    getfield(placesY)
+                    getfield(placesY),
+                    getfield(DETAIL_LINK + budgetParticipatif.getBudgetParticipatifId()),
+                    getfield(isImage(budgetParticipatif)),
+                    getfield(isDocuments(budgetParticipatif)),
+                    getfield(getLinkDocuments(budgetParticipatif))
         			));
         }
 
@@ -202,6 +217,21 @@ public class BudgetsParticipatifsXslxExporterImpl implements BudgetsParticipatif
         if (param != 0)
             result = String.valueOf(Math.toIntExact(param));
         return result;
+    }
+
+    private boolean isImage(BudgetParticipatif budgetParticipatif) {
+        return (
+                Validator.isNotNull(budgetParticipatif.getImageId())
+                ||
+                Validator.isNotNull(budgetParticipatif.getImageURL())
+        );
+    }
+
+    private boolean isDocuments(BudgetParticipatif budgetParticipatif) {
+        return (Validator.isNotNull(budgetParticipatif.getFilesIds()));
+    }
+    private String getLinkDocuments(BudgetParticipatif budgetParticipatif) {
+        return budgetParticipatif.getFilesURLs().stream().collect(Collectors.joining(",")).toString();
     }
 
     private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
