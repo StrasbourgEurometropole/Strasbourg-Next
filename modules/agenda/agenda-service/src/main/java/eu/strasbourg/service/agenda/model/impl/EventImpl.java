@@ -1317,15 +1317,17 @@ public class EventImpl extends EventBaseImpl {
 			properties.put("opened", opened);
 			properties.put("schedules", schedule);
 		}
-		Place place = PlaceLocalServiceUtil.fetchPlace(this.getPlaceId());
 		// Icône (on le prend dans la catégorie type agenda)
 		AssetCategory category = null;
 		if (!categories.isEmpty()) {
 			category = categories.get(0);
 		} else {
-			categories = place.getTypes();
-			if (!categories.isEmpty()) {
-				category = categories.get(0);
+			Place place = PlaceLocalServiceUtil.fetchPlace(this.getPlaceId());
+			if(Validator.isNotNull(place)) {
+				categories = place.getTypes();
+				if (!categories.isEmpty()) {
+					category = categories.get(0);
+				}
 			}
 		}
 		String icon = "";
