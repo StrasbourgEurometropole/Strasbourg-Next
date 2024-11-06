@@ -1,6 +1,9 @@
 dependencies {
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
-	compileInclude group: 'com.itextpdf', name: 'html2pdf', version: '5.0.3'
+	compileInclude group: 'com.github.librepdf', name: 'openpdf', version: '1.4.2'
+	compileInclude group: 'org.jsoup', name: 'jsoup', version: '1.17.2'
+	compileInclude group: 'org.xhtmlrenderer', name: 'flying-saucer-pdf', version: '9.5.0'
+
 
 	compileInclude group: 'org.apache.commons', name: 'commons-lang3', version: '3.14.0'
 
