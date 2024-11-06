@@ -60,24 +60,28 @@ public class ObjtpImporter {
 	@Transactional(isolation = Isolation.DEFAULT, rollbackFor = {PortalException.class, SystemException.class,IOException.class,JSONException.class, ParseException.class})	
 	public void doImport() throws PortalException, ParseException {
 		_log.info("Start importing objtp");
-	
-		ImportReportObjtp report = new ImportReportObjtp();
-		
-		this.doObjectCategoriesImport(report);
-		
-		if(!report.getReportLinesObjectCategory().isEmpty() && report.getObjectCategoryStatus() != ImportReportStatusObjtp.FAILURE) {
-			report.setObjectCategoryStatus(ImportReportStatusObjtp.SUCCESS_WITH_ERRORS);
-		}else {
+		try {
 
-			this.doFoundObjectsImport(report);
+			ImportReportObjtp report = new ImportReportObjtp();
 
-			if(!report.getReportLinesFoundObject().isEmpty() && report.getFoundObjectStatus() != ImportReportStatusObjtp.FAILURE) {
-				report.setFoundObjectStatus(ImportReportStatusObjtp.SUCCESS_WITH_ERRORS);
+			this.doObjectCategoriesImport(report);
+
+			if(!report.getReportLinesObjectCategory().isEmpty() && report.getObjectCategoryStatus() != ImportReportStatusObjtp.FAILURE) {
+				report.setObjectCategoryStatus(ImportReportStatusObjtp.SUCCESS_WITH_ERRORS);
+			}else {
+
+				this.doFoundObjectsImport(report);
+
+				if(!report.getReportLinesFoundObject().isEmpty() && report.getFoundObjectStatus() != ImportReportStatusObjtp.FAILURE) {
+					report.setFoundObjectStatus(ImportReportStatusObjtp.SUCCESS_WITH_ERRORS);
+				}
 			}
+			report.setEndDate(new Date());
+			report.sendMail();
+			_log.info("Finish importing objtp");
+		} catch(Exception e) {
+			_log.error(e);
 		}
-		report.setEndDate(new Date());
-		report.sendMail();
-		_log.info("Finish importing objtp");
 	}
 
 	/**
@@ -341,6 +345,8 @@ public class ObjtpImporter {
 				Company defaultCompany = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com");
 				long globalGroupId = defaultCompany.getGroup().getGroupId();
 
+				// serviceContext nécessaire à la création du dossier et de l'enregistrement de l'image dans le dossier
+				ServiceContext serviceContext = new ServiceContext();
 				Role adminRole;
 				try {
 					// On récupère les droits d'admin pour les donner au thread, pour pouvoir manipuler Documents et Medias
@@ -349,6 +355,7 @@ public class ObjtpImporter {
 					PrincipalThreadLocal.setName(adminUsers.get(0).getUserId());
 					PermissionChecker permissionChecker = PermissionCheckerFactoryUtil.create(adminUsers.get(0));
 					PermissionThreadLocal.setPermissionChecker(permissionChecker);
+					serviceContext.setUserId(adminUsers.get(0).getUserId());
 				} catch (Exception e) {
 					// Dans le cas où ça plante sur la récupération des droits d'admin
 					reportLine.error("Erreur récupération de droit d'admin");
@@ -358,8 +365,7 @@ public class ObjtpImporter {
 
 				long repositoryId = DLFolderConstants.getDataRepositoryId(globalGroupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID);
 
-				// serviceContext nécessaire à la création du dossier et de l'enregistrement de l'image dans le dossier
-				ServiceContext serviceContext = new ServiceContext();
+
 				serviceContext.setAddGroupPermissions(true);
 				serviceContext.setAddGuestPermissions(true);
 
