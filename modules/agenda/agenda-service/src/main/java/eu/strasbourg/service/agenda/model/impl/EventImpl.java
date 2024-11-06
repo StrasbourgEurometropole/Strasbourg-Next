@@ -1292,42 +1292,42 @@ public class EventImpl extends EventBaseImpl {
 		properties.put("type", "2");
 		properties.put("id", this.getEventId());
 		// Prochaine date
-		if (!this.getCurrentAndFuturePeriods().isEmpty()) {
+		List<EventPeriod> currentAndFuturePeriods = this.getCurrentAndFuturePeriods();
+		if (!currentAndFuturePeriods.isEmpty()) {
 			String opened = LanguageUtil.get(locale, "eu.next-dates");
 			String schedule = "";
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			List<EventPeriod> currentAndFuturePeriods = this.getCurrentAndFuturePeriods();
-			if (!currentAndFuturePeriods.isEmpty()) {
-				EventPeriod period = currentAndFuturePeriods.get(0);
-				// Si ça n'est pas ue période mais un jour, afficher la période suivante
-				// if (period.getStartDate().equals(period.getEndDate())
-				// && period.getStartDate().compareTo(new Date()) == 0 &&
-				// currentAndFuturePeriods.size() > 1) {
-				// period = currentAndFuturePeriods.get(1);
+			EventPeriod period = currentAndFuturePeriods.get(0);
+			// Si ça n'est pas ue période mais un jour, afficher la période suivante
+			// if (period.getStartDate().equals(period.getEndDate())
+			// && period.getStartDate().compareTo(new Date()) == 0 &&
+			// currentAndFuturePeriods.size() > 1) {
+			// period = currentAndFuturePeriods.get(1);
+			// }
+			if (period.getStartDate().equals(period.getEndDate())) {
+				schedule = LanguageUtil.get(locale, "eu.event.the") +" " + sdf.format(period.getStartDate());
+			} else {
+				// if (period.getStartDate().compareTo(new Date()) <= 0) {
+				// schedule = "Du " + sdf.format(LocalDate.now()) + " au " +
+				// sdf.format(period.getEndDate());
+				// } else {
+				schedule = LanguageUtil.get(locale, "eu.event.from-date")+ " " + sdf.format(period.getStartDate()) + " "+LanguageUtil.get(locale, "eu.event.to")+" " + sdf.format(period.getEndDate());
 				// }
-				if (period.getStartDate().equals(period.getEndDate())) {
-					schedule = LanguageUtil.get(locale, "eu.event.the") +" " + sdf.format(period.getStartDate());
-				} else {
-					// if (period.getStartDate().compareTo(new Date()) <= 0) {
-					// schedule = "Du " + sdf.format(LocalDate.now()) + " au " +
-					// sdf.format(period.getEndDate());
-					// } else {
-					schedule = LanguageUtil.get(locale, "eu.event.from-date")+ " " + sdf.format(period.getStartDate()) + " "+LanguageUtil.get(locale, "eu.event.to")+" " + sdf.format(period.getEndDate());
-					// }
-				}
 			}
 			properties.put("opened", opened);
 			properties.put("schedules", schedule);
 		}
-		Place place = PlaceLocalServiceUtil.fetchPlace(this.getPlaceId());
 		// Icône (on le prend dans la catégorie type agenda)
 		AssetCategory category = null;
 		if (!categories.isEmpty()) {
 			category = categories.get(0);
 		} else {
-			categories = place.getTypes();
-			if (!categories.isEmpty()) {
-				category = categories.get(0);
+			Place place = PlaceLocalServiceUtil.fetchPlace(this.getPlaceId());
+			if(Validator.isNotNull(place)) {
+				categories = place.getTypes();
+				if (!categories.isEmpty()) {
+					category = categories.get(0);
+				}
 			}
 		}
 		String icon = "";
