@@ -65,7 +65,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     ${entry.placeZipCode} ${entry.getPlaceCity(locale)}
                 </p>
             </div>
-            <#if (entry.placeId> 0)>
+            <#if (entry.placeId > 0 && entry.isPlaceApproved())>
                 <div class="st-top-bar__right">
                     <a href="${strasbourg.homeURL()}lieu/-/entity/id/${entry.placeId}/${uriHelper.normalizeToFriendlyUrl(entry.getPlaceAlias(locale))}"
                        class="st-btn st--btn-full-width-mobile">
@@ -95,7 +95,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         </#if>
         <div class="st-wrapper-maps">
             <a href="#skip-map-cover" class="st-btn st--btn-xs st-skip-map st-sr-only st-sr-only-focusable">Passer la carte interactive</a>
-            <div class="st-maps" role="region" aria-label="Carte interactive" data-lat="${ entry.getMercatorY() }" data-lng="${ entry.getMercatorX() }" data-zoom="17" data-callback="initMap" data-marker="true" data-markericon="default">
+            <div class="st-maps" role="region" aria-label="Carte interactive" data-lat="${ entry.getMercatorY() }" data-lng="${ entry.getMercatorX() }" data-zoom="17" data-callback="initMap" data-marker="${(entry.mercatorY?has_content && entry.mercatorX?has_content)?then('true', '')}" data-markericon="default">
             </div>
             <div id="skip-map-cover"></div>
         </div>
@@ -242,6 +242,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                         ${entry.phone}
                                     </a>
                                 </#if>
+                            </li>
+                            <li class="st-lien-container">
                                 <#if entry.email?has_content>
                                     <a data-overlay-open="st-overlay-contact" href="#"
                                        class="st-btn st--btn-secondary st--btn-small-padding">

@@ -1,5 +1,8 @@
 <%@ include file="/agenda-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.agenda.model.Event"%>
+<%@ page import="com.liferay.asset.kernel.exception.AssetCategoryException" %>
+<%@ page import="com.liferay.asset.kernel.model.AssetVocabulary" %>
+<%@ page import="com.liferay.petra.string.StringPool" %>
 
 <liferay-portlet:actionURL name="deleteEvent" var="deleteEventURL">
 	<portlet:param name="cmd" value="deleteEvent" />
@@ -27,6 +30,29 @@
 	<liferay-ui:error key="place-city-error" message="place-city-error" />
 	<liferay-ui:error key="period-date-error" message="period-date-error" />
 	<liferay-ui:error key="period-error" message="period-error" />
+	<liferay-ui:error exception="<%= AssetCategoryException.class %>">
+
+		<%
+			AssetCategoryException ace = (AssetCategoryException)errorException;
+
+			AssetVocabulary vocabulary = ace.getVocabulary();
+
+			String vocabularyTitle = StringPool.BLANK;
+
+			if (vocabulary != null) {
+				vocabularyTitle = vocabulary.getTitle(locale);
+			}
+		%>
+
+		<c:choose>
+			<c:when test="<%= ace.getType() == AssetCategoryException.AT_LEAST_ONE_CATEGORY %>">
+				<liferay-ui:message arguments="<%= vocabularyTitle %>" key="please-select-at-least-one-category-for-x" translateArguments="<%= false %>" />
+			</c:when>
+			<c:when test="<%= ace.getType() == AssetCategoryException.TOO_MANY_CATEGORIES %>">
+				<liferay-ui:message arguments="<%= vocabularyTitle %>" key="you-cannot-select-more-than-one-category-for-x" translateArguments="<%= false %>" />
+			</c:when>
+		</c:choose>
+	</liferay-ui:error>
 
 	<aui:form action="${saveEventURL}" method="post" name="fm" onSubmit="validatePeriods(event);">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
@@ -280,9 +306,9 @@
 						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
 							function (val, fieldNode, ruleValue) {
 								var validated = true;
-								var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
+								var fields = document.querySelectorAll('[id*=assetCategoriesSelector]');
 								for (var i = 0; i < fields.length; i++) {
-									fieldContent = fields[i];
+									var fieldContent = fields[i];
 							if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
 								&& $(fieldContent).find('input[type="hidden"]').length == 0) {
 								    	validated = false;

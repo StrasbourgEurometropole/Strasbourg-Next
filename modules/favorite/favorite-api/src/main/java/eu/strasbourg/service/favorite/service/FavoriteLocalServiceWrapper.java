@@ -118,6 +118,14 @@ public class FavoriteLocalServiceWrapper
 		_favoriteLocalService.deleteFavoriteByEntityIdAndType(entityId, typeId);
 	}
 
+	@Override
+	public void deleteFavoriteByGroupIdEntityIdAndType(
+		long groupId, long entityId, long typeId) {
+
+		_favoriteLocalService.deleteFavoriteByGroupIdEntityIdAndType(
+			groupId, entityId, typeId);
+	}
+
 	/**
 	 * @throws PortalException
 	 */

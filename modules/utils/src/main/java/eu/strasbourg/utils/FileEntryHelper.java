@@ -1,14 +1,18 @@
 package eu.strasbourg.utils;
 
+import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.document.library.kernel.antivirus.AntivirusScannerException;
 import com.liferay.document.library.kernel.antivirus.AntivirusScannerUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFileEntryType;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFileEntryTypeLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.document.library.util.DLURLHelperUtil;
 import com.liferay.dynamic.data.mapping.kernel.DDMFormFieldValue;
 import com.liferay.dynamic.data.mapping.kernel.DDMFormValues;
+import com.liferay.dynamic.data.mapping.kernel.DDMStructure;
 import com.liferay.dynamic.data.mapping.kernel.Value;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -40,11 +44,18 @@ import java.util.*;
 public class FileEntryHelper {
 	public static String getFileTitle(long fileEntryId, Locale locale) {
 		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryId);
-		String titleFromStructure = getStructureFieldValue(fileEntry.getFileEntryId(), "Titre", locale);
+		if(fileEntry == null) {
+			_log.warn("No file entry found with id " + fileEntryId);
+			return "";
+		}
+		return getFileTitle(fileEntry, locale);
+	}
+	public static String getFileTitle(DLFileEntry fileEntry, Locale locale) {
+		String titleFromStructure = getStructureFieldValue(fileEntry, "Titre", locale);
 		if (Validator.isNotNull(titleFromStructure)) {
 			return titleFromStructure;
 		}
-		String titleFromAnotherStricture = getStructureFieldValue(fileEntry.getFileEntryId(), "title", locale);
+		String titleFromAnotherStricture = getStructureFieldValue(fileEntry, "title", locale);
 		if (Validator.isNotNull(titleFromAnotherStricture)) {
 			return titleFromAnotherStricture;
 		}
@@ -60,12 +71,17 @@ public class FileEntryHelper {
 		if (fileEntry != null) {
 			return getFileEntryURL(fileEntry);
 		} else {
+			_log.warn("No file entry found with id " + fileEntryId);
 			return "";
 		}
 	}
 
 	public static String getFileEntryURLWithTimeStamp(long fileEntryId) {
 		DLFileEntry fileEntry = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryId);
+		if(fileEntry == null) {
+			_log.warn("No file entry found with id " + fileEntryId);
+			return "";
+		}
 
 		return getFileEntryURLWithTimeStamp(fileEntry);
 	}
@@ -103,6 +119,7 @@ public class FileEntryHelper {
 		if (fileEntry != null) {
 			return getReadableFileEntrySize(fileEntry, locale);
 		} else {
+			_log.warn("No file entry found with id " + fileEntryId);
 			return "";
 		}
 	}
@@ -198,6 +215,20 @@ public class FileEntryHelper {
 	public static String getStructureFieldValue(Long fileEntryId, String fieldName, Locale locale) {
 		String fieldValue = "";
 		DLFileEntry file = DLFileEntryLocalServiceUtil.fetchDLFileEntry(fileEntryId);
+		return getStructureFieldValue(file, fieldName, locale) ;
+	}
+
+	/**
+	 * @param file
+	 *            ID du fichier
+	 * @param fieldName
+	 *            Nom du champ personnalisé
+	 * @param locale
+	 *            Locale
+	 * @return La valeur du champ personnalisé dans la langue désirée
+	 */
+	public static String getStructureFieldValue(DLFileEntry file, String fieldName, Locale locale) {
+		String fieldValue = "";
 		if (file != null) {
 			try {
 				Map<String, DDMFormValues> map = file
@@ -226,6 +257,9 @@ public class FileEntryHelper {
 
 	public static String getFileThumbnail(Long fileEntryId, ThemeDisplay themeDisplay) {
 		FileEntry fileEntry = FileEntryUtil.fetchByPrimaryKey(fileEntryId);
+		if(fileEntry == null) {
+			return "";
+		}
 		try {
 			return DLURLHelperUtil.getThumbnailSrc(fileEntry, themeDisplay);
 		} catch (Exception e) {
@@ -354,6 +388,22 @@ public class FileEntryHelper {
 			return fileEntry.getExtension();
 		}
 		return "";
+	}
+
+	public static List<String[]> getFilesInfos(List<AssetEntry> entries, Locale locale) {
+		List<String[]> filesInfos = new ArrayList<>();
+		for(AssetEntry entry : entries) {
+			DLFileEntry file = DLFileEntryLocalServiceUtil.fetchDLFileEntry(entry.getClassPK());
+			if(Validator.isNotNull(file)) {
+				String title = getFileTitle(file, locale);
+				String url = getFileEntryURL(file);
+				String extension = file.getExtension();
+				String size = getReadableFileEntrySize(file, locale);
+				String[] fileInfo = {title, url, extension, size};
+				filesInfos.add(fileInfo);
+			}
+		}
+		return filesInfos;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(FileEntryHelper.class.getName());

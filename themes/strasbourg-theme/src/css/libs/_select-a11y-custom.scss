@@ -7,7 +7,7 @@
     .btn-select-a11y {
         padding: 19px 40px 19px 20px;
         @include ft('', 14px, 400, $c_white, 1.42);
-        border: 1px solid rgba($c_white, 0.5);
+        border: 1px solid color-mix(in srgb, $c_white 50%, transparent);
         border-radius: $border-radius;
         background-color: initial;
         @include transition(border-color);
@@ -58,7 +58,7 @@
         border: initial;
         background: $c_main;
         border-radius: 0 0 $border-radius $border-radius;
-        box-shadow: 0 30px 60px rgba($c_black, 0.15);
+        box-shadow: 0 30px 60px color-mix(in srgb, $c_black 15%, transparent);
 
         input[type="text"] {
             padding: 10px 20px;
@@ -94,7 +94,7 @@
             &:focus,
             &:hover {
                 color: $c_white;
-                background-color: rgba($c_white, 0.2);
+                background-color: color-mix(in srgb, $c_white 20%, transparent);
             }
         }
     }

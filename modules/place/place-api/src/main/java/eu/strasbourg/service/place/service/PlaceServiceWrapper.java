@@ -25,6 +25,16 @@ public class PlaceServiceWrapper
 		_placeService = placeService;
 	}
 
+	/**
+	 * Retourne les horaires du jour
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getCacheJsonHoraire(
+		String sigId, String localeId) {
+
+		return _placeService.getCacheJsonHoraire(sigId, localeId);
+	}
+
 	@Override
 	public com.liferay.portal.kernel.json.JSONArray getEquipments()
 		throws com.liferay.portal.kernel.exception.PortalException {

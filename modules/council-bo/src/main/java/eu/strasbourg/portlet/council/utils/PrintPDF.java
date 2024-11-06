@@ -111,7 +111,7 @@ public class PrintPDF {
 				.setPaddings(0f,10f,0f,150f)
 				.setTextAlignment(TextAlignment.CENTER);
 			document.add(title);
-			title = new Paragraph(deliberation.getTitle()).setFont(font)
+			title = new Paragraph(deliberation.getOrderAmendement() + ". " + deliberation.getTitle()).setFont(font)
 				.setPaddings(0f,10f,0f,150f)
 				.setTextAlignment(TextAlignment.CENTER)
 				.setFontSize(13.5f);
@@ -249,7 +249,7 @@ public class PrintPDF {
 				fileName +=  Normalizer.normalize(council.getTypeCouncil().getTitle(), Normalizer.Form.NFD).replaceAll("\\p{M}", "");
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.FRANCE);
-			fileName += " " + sdf.format(council.getDate()) + " - Point " + deliberation.getOrder() + ".pdf";
+			fileName += " " + sdf.format(council.getDate()) + " - Point " + deliberation.getOrder() + deliberation.getAmendement() + ".pdf";
 
 			// enregistrement du fichier
 			File deliberationpdf = new File(folder.getAbsolutePath() + "/" + fileName);

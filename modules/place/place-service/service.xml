@@ -60,6 +60,7 @@
 		<column name="mail" type="String" />
 		<column name="siteURL" type="String" localized="true" />
 		<column name="siteLabel" type="String" localized="true" />
+		<column name="bookingURL" type="String" localized="true" />
 		<column name="facebookURL" type="String" localized="true" />
 		<column name="facebookLabel" type="String" localized="true" />
 		<column name="instagramURL" type="String" localized="true" />

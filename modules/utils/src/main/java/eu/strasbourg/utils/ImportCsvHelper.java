@@ -39,14 +39,27 @@ public class ImportCsvHelper {
      * @throws Exception
      */
     public static String csvCheckHeader(File csvFile, String[] headerMapping) throws IOException {
+        return csvCheckHeader(csvFile, headerMapping, ',', ';');
+    }
+
+    /**
+     * Vérification du Header du CSV => Nombre de colonne, ordre des headers, libellé des headers
+     *
+     * @param csvFile
+     * @param headerMapping
+     * @param rowSeparator
+     * @param colSseparator
+     * @throws Exception
+     */
+    public static String csvCheckHeader(File csvFile, String[] headerMapping, char rowSeparator, char colSseparator) throws IOException {
         String error = "";
-        CSVParser csvFileParser = CSVParser.parse(csvFile, StandardCharsets.UTF_8, CSVFormat.DEFAULT);
+        CSVParser csvFileParser = CSVParser.parse(csvFile, StandardCharsets.UTF_8, CSVFormat.DEFAULT.withDelimiter(rowSeparator));
         List<CSVRecord> csvRecords = csvFileParser.getRecords();
 
         CSVRecord headerRecord = csvRecords.get(0);
 
         if (headerRecord != null && headerRecord.get(0) != null) {
-            String[] headerCsv = headerRecord.get(0).split(";");
+            String[] headerCsv = headerRecord.get(0).split(String.valueOf(colSseparator));
 
             // Vérification taille du header
             if (headerCsv.length != headerMapping.length) {
@@ -88,7 +101,7 @@ public class ImportCsvHelper {
 
                 int count = 1;
                 for (int k = 0; k < value.length(); k++) {
-                    if (value.charAt(k) == ';') {
+                    if (value.charAt(k) == colSseparator) {
                         count++;
                     }
                 }

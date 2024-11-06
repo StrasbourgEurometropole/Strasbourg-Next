@@ -52,10 +52,12 @@
 			    </div>       
 		    </fieldset>         
 		    
-			<div class="recaptcha" style="margin-top: 20px;">
-				<div class="g-recaptcha" data-sitekey="${recaptchaKey}"></div>
+			<div class="friendlycaptcha" style="margin-top: 20px;">
+				<div class="frc-captcha"
+					 data-puzzle-endpoint="${friendlycaptchaPuzzleURL}"
+					 data-sitekey="${friendlycaptcha}"></div>
 			</div>
-            <liferay-ui:error key="recaptcha-error" message="eu.recaptcha-error" targetNode=".recaptcha" />
+            <liferay-ui:error key="friendlycaptcha-error" message="eu.friendlycaptcha-error" targetNode=".friendlycaptcha" />
 			
 			<div style="padding: 20px 0;">
 				${privacyText}
@@ -99,6 +101,9 @@
    		
    	</c:if>
 </div>
+
+<script type="module" src="/o/0-global-theme/libs/friendlycaptcha/widget.module.min.js" async defer ></script>
+<script nomodule src="/o/0-global-theme/libs/friendlycaptcha/widget.min.js" async defer></script>
 
 <style>
 </style>

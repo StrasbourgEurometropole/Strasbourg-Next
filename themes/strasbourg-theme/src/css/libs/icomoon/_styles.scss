@@ -562,6 +562,24 @@
 		content: $st-icon-facebook;
 	}
 }
+.st-icon-youtube {
+	&:before {
+		content: "";
+		-webkit-mask: url("../images/youtube.svg") no-repeat 50% 50%;
+		mask: url("../images/youtube.svg") no-repeat 50% 50%;
+		-webkit-mask-size: cover;
+		mask-size: cover;
+		background-color: $c_white;
+		width: 16px;
+		height: 16px;
+		display: inline-block;
+
+		body:not(.no-hover) .st-btn-icon:hover &,
+		body:not(.no-hover) .st-btn-icon:focus & {
+			background-color: $c_main;
+		}
+	}
+}
 .st-icon-twitter {
 	&:before {
 		content: "";

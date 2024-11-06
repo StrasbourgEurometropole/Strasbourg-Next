@@ -13,7 +13,7 @@
 	.leaflet-popup-wrapper {
 		padding: 0;
 		border-radius: 0;
-		box-shadow: 0 10px 20px rgba($c_black, 0.1);
+		box-shadow: 0 10px 20px color-mix(in srgb, $c_black 10%, transparent);
 
 		.leaflet-popup-content {
 			margin: 0;

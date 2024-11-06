@@ -59,6 +59,7 @@
                 <%-- Champ : Alerte --%>
                 <aui:input type="checkbox" value="1" name="notificationType" label="eu.strasbourg.notif.alerte"
                     checked="${not empty dc.notification and dc.notification.isAlert == 1}" disabled="${dc.isOnlyView()}" />
+                <div class="text-alert-warning"><liferay-ui:message key="eu.strasbourg.notification.alert.warning" /></div>
 
                 <%-- Champ : Nature   --%>
                 <aui:select cssClass="toCustomSelect" id="nature" name="nature" label="eu.strasbourg.notif.nature" required="true" disabled="${dc.isOnlyView()}" >
@@ -71,23 +72,7 @@
                     <liferay-ui:message key="this-field-is-required" />
                 </div>
 
-                <%-- Champ : Date de diffusion --%>
-                <aui:input cssClass="hasTime" name="broadcastDate" label="eu.strasbourg.notif.broadcast-date" required="true" disabled="${dc.isOnlyView()}" />
-                <!-- Hack pour ajouter une validation -->
-                <div class="has-error form-group">
-                    <aui:input type="hidden" name="broadcastDateValidatorInputHelper" value="placeholder" >
-                        <aui:validator name="custom" errorMessage="this-field-is-required">
-                            function (val, fieldNode, ruleValue) {
-                                var validate = document.getElementById('_eu_strasbourg_portlet_notif_NotifBOPortlet_broadcastDate').value.length > 0;
-                                if (!validate) {
-                                    document.getElementById("_eu_strasbourg_portlet_notif_NotifBOPortlet_broadcastDate").scrollIntoView();
-                                    event.preventDefault();
-                                }
-                                return validate;
-                            }
-                        </aui:validator>
-                    </aui:input>
-                </div>
+
 
             </aui:fieldset>
 
@@ -189,6 +174,24 @@
                     <liferay-ui:message key="this-field-is-required" />
                 </div>
 
+                <%-- Champ : Date de diffusion --%>
+                <aui:input cssClass="hasTime" name="broadcastDate" label="eu.strasbourg.notif.broadcast-date" required="true" disabled="${dc.isOnlyView()}" />
+                <!-- Hack pour ajouter une validation -->
+                <div class="has-error form-group">
+                    <aui:input type="hidden" name="broadcastDateValidatorInputHelper" value="placeholder" >
+                        <aui:validator name="custom" errorMessage="this-field-is-required">
+                            function (val, fieldNode, ruleValue) {
+                            var validate = document.getElementById('_eu_strasbourg_portlet_notif_NotifBOPortlet_broadcastDate').value.length > 0;
+                            if (!validate) {
+                            document.getElementById("_eu_strasbourg_portlet_notif_NotifBOPortlet_broadcastDate").scrollIntoView();
+                            event.preventDefault();
+                            }
+                            return validate;
+                            }
+                        </aui:validator>
+                    </aui:input>
+                </div>
+
             </aui:fieldset>
 
             <c:if test="${not empty dc.notification && not dc.notification.new}">
@@ -218,10 +221,10 @@
 			<c:if test="${(dc.hasPermission('ADD_NOTIFICATION') and empty dc.notification or dc.hasPermission('EDIT_NOTIFICATION') and not empty dc.notification) and empty themeDisplay.scopeGroup.getStagingGroup()}">
                 <c:if test="${not dc.isOnlyView()}">
                     <c:if test="${dc.workflowEnabled}">
-                        <aui:button cssClass="btn-lg saveButton" type="submit" value="save" />
+                        <aui:button cssClass="btn-lg saveButton" type="submit" value="eu.strasbourg.notification.send.notif" />
                     </c:if>
                     <c:if test="${not dc.workflowEnabled}">
-                        <aui:button cssClass="btn-lg saveButton" type="submit" name="publish" value="save" />
+                        <aui:button cssClass="btn-lg saveButton" type="submit" name="publish" value="eu.strasbourg.notification.send.notif" />
                     </c:if>
 			    </c:if>
 			</c:if>

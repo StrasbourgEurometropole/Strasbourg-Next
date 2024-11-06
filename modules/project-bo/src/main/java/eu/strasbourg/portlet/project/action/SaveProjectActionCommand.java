@@ -1,7 +1,10 @@
 package eu.strasbourg.portlet.project.action;
 
+import com.liferay.asset.kernel.exception.AssetCategoryException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.Language;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -354,8 +357,22 @@ public class SaveProjectActionCommand implements MVCActionCommand {
 			_projectLocalService.updateProject(project, sc);
 			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
-		} catch (PortalException | IOException | AddressException e) {
-			_log.error(e);
+		} catch (AssetCategoryException e){
+			SessionErrors.add(request, AssetCategoryException.class, e);
+			// on reste sur la page d'édition
+			PortalUtil.copyRequestParameters(request, response);
+
+			ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+			String portletName = (String) request.getAttribute(WebKeys.PORTLET_ID);
+			PortletURL backURL = PortletURLFactoryUtil.create(request, portletName, themeDisplay.getPlid(),
+					PortletRequest.RENDER_PHASE);
+
+			response.setRenderParameter("backURL", backURL.toString());
+			response.setRenderParameter("cmd", "saveProject");
+			response.setRenderParameter("mvcPath", "/project-bo-edit-project.jsp");
+			return false;
+		} catch(PortalException | IOException | AddressException e) {
+				_log.error(e);
 		}
 		return true;
 	}

@@ -73,9 +73,9 @@
         }
         .side__overflow {
                 --scrollbar-width: 10px;
-                --track-color: #51555A;
-                --thumb-color: #2AD783;
-                --thumb-hover-color: #FFFFFF;
+                --track-color: var(--border, #51555A);
+                --thumb-color: var(--secondary, #2AD783);
+                --thumb-hover-color: var(--whiteColor, #FFFFFF);
                 /* Firefox */
                 scrollbar-width: auto; /* can also be normal, or none, to not render scrollbar */
                 scrollbar-height: auto; /* can also be normal, or none, to not render scrollbar */
@@ -106,7 +106,7 @@
 
         }
         .leaflet-pane .leaflet-popup-content {
-            background-color: $c_greymedium;
+            background-color: $c_greydark;
 
         }
 
@@ -274,7 +274,7 @@
             padding-top: 20px;
         }
         .filtres--poi {
-            background-color: $c_greymedium;
+            background-color: $c_greydark;
             .filtres__title {
                 color: $c_white;
             }
@@ -282,7 +282,7 @@
         .filtres__list {
 
             .filtres__item {
-                background-color: $c_greymedium;
+                background-color: $c_greydark;
                 border-radius: 5px;
                 border: 1px solid rgba(255,255,255,.25);
                 margin-bottom: 10px;

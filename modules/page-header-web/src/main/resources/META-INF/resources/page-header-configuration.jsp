@@ -25,16 +25,16 @@
                     </aui:fieldset>
 
                     <aui:fieldset>
-                        <aui:input name="title" type="text" value="${title}" />
+                        <aui:input name="titleMap" type="text" value="${title}" localized="true" />
                     </aui:fieldset>
 
 
                     <aui:fieldset>
-                        <aui:input name="subTitle" type="text" value="${subTitle}" />
+                        <aui:input name="subTitleMap" type="text" value="${subTitle}" localized="true" />
                     </aui:fieldset>
 
                     <aui:fieldset>
-                        <aui:input name="imageUrl" type="text" value="${imageUrl}" />
+                        <aui:input name="imageUrlMap" type="text" value="${imageUrl}" localized="true" />
                     </aui:fieldset>
 
 

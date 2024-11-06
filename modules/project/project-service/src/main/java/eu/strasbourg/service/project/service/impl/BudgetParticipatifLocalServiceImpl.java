@@ -438,32 +438,6 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
     }
     
     /**
-     * Recuperer les budgets participatifs "coup de coeur" les plus recents
-     * @param groupId ID du site
-     * @param delta Nombre de resultats max voulu
-     * @return Liste des budgets participatifs coup de coeurs recent
-     */
-	@Override
-    public List<BudgetParticipatif> getRecentIsCrushed(long groupId, int delta, AssetCategory phase) {
-        List<BudgetParticipatif> budgetsParticipatifs = this.budgetParticipatifPersistence.findByisCrushAndPublished(
-        													true,
-        													WorkflowConstants.STATUS_APPROVED,
-        													groupId);
-        //Filtre les BP de la phase passee en parametre
-        budgetsParticipatifs = budgetsParticipatifs
-        		.stream()
-        		.filter(bp -> AssetVocabularyHelper.hasAssetCategoryAssetEntry(phase.getCategoryId() ,
-                        bp.getAssetEntry().getEntryId())).collect((Collectors.toList()));
-        
-        
-        // Si la longueur de liste est inferieur a la taille voulu, aucun besoin de la couper
-        if (budgetsParticipatifs.size() < delta)
-            return budgetsParticipatifs;
-        else 
-        	return budgetsParticipatifs.stream().limit(delta).collect(Collectors.toList());
-    }
-    
-    /**
 	 * Retourne tous les budgets participatifs d'une phase donnee
      */
 	@Override
@@ -600,35 +574,6 @@ public class BudgetParticipatifLocalServiceImpl extends BudgetParticipatifLocalS
         assetEntryLocalService.updateAssetEntry(entry);
         reindex(budgetParticipatif, false);
         return budgetParticipatif;
-    }
-
-    /**
-     * On randomise la date de modifications des budgets participatifs
-     * Cela permet de simuler un tri aléatoire
-     */
-    @Override
-    public void randomizeModifiedDate() throws SearchException {
-        List<BudgetParticipatif> budgets = this.getBudgetParticipatifs(-1,-1);
-        Random rnd;
-        Date    dt;
-        long    ms;
-
-        for (BudgetParticipatif budget: budgets) {
-
-            // Get a new random instance, seeded from the clock
-            rnd = new Random();
-
-            // Get an Epoch value roughly between 1940 and 2010
-            // -946771200000L = January 1, 1940
-            // Add up to 70 years to it (using modulus on the next long)
-            ms = -946771200000L + (Math.abs(rnd.nextLong()) % (70L * 365 * 24 * 60 * 60 * 1000));
-
-            // Construct a date
-            dt = new Date(ms);
-            budget.setModifiedDate(dt);
-            this.updateBudgetParticipatif(budget);
-            this.reindex(budget, false);
-        }
     }
     
     @Override

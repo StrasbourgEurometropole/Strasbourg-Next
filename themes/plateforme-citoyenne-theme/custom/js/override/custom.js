@@ -1272,7 +1272,7 @@ function createBudgetParticipatif(budgetParticipatif) {
           <div class="pro-header-budget" ${budgetParticipatif.imageURL != "" ?
         `style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, transparent 45%), url('${budgetParticipatif.imageURL}${budgetParticipatif.authorImageURL.includes('?') ? '&' : '?'}imagePreview=1')"`
         :
-        ''
+        `style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, transparent 45%)"`
     }>
             <figure role="group">
               <img src="${budgetParticipatif.authorImageURL}${budgetParticipatif.authorImageURL.includes('?') ? '&' : '?'}imagePreview=1" loading="lazy" width="40" height="40" alt="Arrière plan page standard"/>
@@ -1293,7 +1293,7 @@ function createBudgetParticipatif(budgetParticipatif) {
           <div class="pro-content-budget">
             <span class="pro-district prefix-location">${budgetParticipatif.districtsLabel}</span>
             <a href="${homeURL}detail-budget-participatif/-/entity/id/${budgetParticipatif.id}" title="lien détail du projet citoyen"><h3>${budgetParticipatif.title}</h3></a>
-            <span class="pro-time">Publiée le ${budgetParticipatif.publicationDate}</time></span>
+            <span class="pro-time">Publié le ${budgetParticipatif.publicationDate}</time></span>
             <p class="pro-summary">${budgetParticipatif.summary}</p>
           </div>
         </div>

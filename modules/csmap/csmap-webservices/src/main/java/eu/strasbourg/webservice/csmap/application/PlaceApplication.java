@@ -183,6 +183,26 @@ public class PlaceApplication extends Application {
         return WSResponseUtil.buildOkResponse(json);
     }
 
+    @GET
+    @Produces("application/json")
+    @Path("/get-exceptions/{sigid}")
+    public Response getExceptions(
+            @PathParam("sigid") String sigid) {
+        JSONObject json;
+
+        // On récupère tous le lieu
+        Place place = placeLocalService.getPlaceBySIGId(sigid);
+        if(place != null){
+            json = place.getCSMapExceptionJSON();
+            if (json.equals("{}"))
+                return WSResponseUtil.buildOkResponse(json, 201);
+        }else {
+            return WSResponseUtil.buildErrorResponse(404, "Lieu introuvable");
+        }
+
+        return WSResponseUtil.buildOkResponse(json);
+    }
+
     @POST
     @Produces("application/json")
     @Path("/get-categories")

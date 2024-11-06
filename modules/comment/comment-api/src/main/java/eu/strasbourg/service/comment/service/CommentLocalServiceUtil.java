@@ -273,6 +273,17 @@ public class CommentLocalServiceUtil {
 	}
 
 	/**
+	 * Retourne tous les commentaires d'un asset entry
+	 */
+	public static List<Comment> getByAssetEntryAndLevelOrderByDate(
+		long assetEntryId, int level, int status, int start, int end,
+		Boolean isSortAsc) {
+
+		return getService().getByAssetEntryAndLevelOrderByDate(
+			assetEntryId, level, status, start, end, isSortAsc);
+	}
+
+	/**
 	 * Retourne tous les commentaires d'un groupe
 	 */
 	public static List<Comment> getByGroupId(long groupId) {

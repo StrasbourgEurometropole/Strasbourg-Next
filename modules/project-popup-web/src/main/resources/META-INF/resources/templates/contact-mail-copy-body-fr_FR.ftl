@@ -1,13 +1,20 @@
 <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
 
 <p class="MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class="MsoNormal" style="margin-bottom:12.0pt"><span style="font-size:11.0pt;font-family:&quot;Calibri Light&quot;,sans-serif">Bravo,
+<p class="MsoNormal" style="margin-bottom:12.0pt"><span style="font-size:11.0pt;font-family:&quot;Calibri Light&quot;,sans-serif">Bravo!
 <span style="color:#1F497D"><o:p></o:p></span></span></p>
-<p class="MsoNormal" style="margin-bottom:12.0pt"><span style="font-size:11.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">Vous venez de soumettre un projet au Budget participatif, vous pouvez le modifier en ligne à tout moment durant la période de
- dépôt. Vous ne pourrez plus le modifier après son analyse définitive de recevabilité (fin mars 2020). &nbsp;</span><span style="font-size:10.5pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">Si vous souhaitez vous faire accompagner dans la rédaction de votre
- projet vous pouvez contacter le service de la Mission participation citoyenne : </span>
-<a href="mailto:participer@strasbourg.eu"><span style="font-size:10.5pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">participer@strasbourg.eu</span></a><span style="font-size:10.5pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black"> ou 03 68 98 69
- 38.<br>
+<p class="MsoNormal" style="margin-bottom:12.0pt">
+    <span style="font-size:11.0pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">
+        Vous venez de déposer un projet au Budget Participatif, vous pouvez le modifier en ligne à tout moment durant la période de dépôt (16 septembre au 17 novembre 2024)
+        &nbsp;</span>
+    <span style="font-size:10.5pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">
+       Si vous souhaitez vous faire accompagner dans la rédaction de votre projet, vous pouvez nous contacter via notre adresse </span>
+<a href="mailto:participer@strasbourg.eu"><span style="font-size:10.5pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">participer@strasbourg.eu</span></a><span style="font-size:10.5pt;font-family:&quot;Calibri Light&quot;,sans-serif;color:black">, par téléphone au 06 37 39 74 69 / 06 76 77 88 51 ou pendant les permanences de l’équipe Budget Participatif dans votre quartier
+(retrouvez sur cette page les dates des permanences :
+        <a href="https://stras.me/permanences-bp">
+            https://stras.me/permanences-bp
+            </a>)
+         <br>
 <h2>Votre projet</h2></span><span style="font-size:11.0pt;font-family:&quot;Calibri Light&quot;,sans-serif"><o:p></o:p></span></p>
 <center>
 

@@ -1331,6 +1331,21 @@ public interface CampaignEventModel
 	public void setPublicsIds(String publicsIds);
 
 	/**
+	 * Returns the tags names of this campaign event.
+	 *
+	 * @return the tags names of this campaign event
+	 */
+	@AutoEscape
+	public String getTagsNames();
+
+	/**
+	 * Sets the tags names of this campaign event.
+	 *
+	 * @param tagsNames the tags names of this campaign event
+	 */
+	public void setTagsNames(String tagsNames);
+
+	/**
 	 * Returns the booking description of this campaign event.
 	 *
 	 * @return the booking description of this campaign event

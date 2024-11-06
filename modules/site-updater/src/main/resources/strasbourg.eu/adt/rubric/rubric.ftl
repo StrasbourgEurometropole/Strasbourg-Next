@@ -24,11 +24,11 @@
         <ul class="st-ancres__list st-custom-scrollbar">
             <#list entries as currentPage>
                 <#if currentPage.getName(locale) !='Raccourcis' && !currentPage.hidden>
-                <li class="st-ancres__item">
-                    <a href="#ancre-${currentPage.friendlyURL?remove_beginning('/')}" class="st-ancres__link">
-                        <span>${currentPage?counter}. ${currentPage.getName(locale)}</span>
-                    </a>
-                </li>
+                    <li class="st-ancres__item">
+                        <a href="#ancre-${currentPage.friendlyURL?remove_beginning('/')}" class="st-ancres__link">
+                            <span>${currentPage?counter}. ${currentPage.getName(locale)}</span>
+                        </a>
+                    </li>
                 </#if>
             </#list>
         </ul>
@@ -114,12 +114,13 @@
             <#else>
                 <div class="st-bloc st-bloc-image-hub st-wrapper st--has-margin">
                     <div class="st-wrapper-modifier">
-                    <div class="st-container st--text-only">
-                        <div class="st-col-text">
-                            <div class="st-text-styles">
-                                <h2 class="st-h2">
-                                    ${currentPage.getName(locale)}
-                                </h2>
+                        <div class="st-container st--text-only">
+                            <div class="st-col-text">
+                                <div class="st-text-styles">
+                                    <h2 class="st-h2">
+                                        ${currentPage.getName(locale)}
+                                    </h2>
+                                </div>
                                 <div class="st-component-container">
                                     <ul class="st-liste st-limit-height">
                                         <li class="st-lien-container">
@@ -152,7 +153,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                 </div>
             </#if>

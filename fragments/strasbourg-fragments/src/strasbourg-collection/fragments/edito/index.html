@@ -6,11 +6,13 @@
       </h1>
       [@liferay.breadcrumbs /]
     </div>
-    <div class="st-img-wrapper" tabindex="0">
-      <figure class="st-figure st-fit-cover figcaption-only-credits" role="group">
-        <img alt="" data-lfr-editable-id="headerImage" data-lfr-editable-type="image">
-      </figure>
-    </div>
+    [#if configuration.showImage]
+      <div class="st-img-wrapper" tabindex="0">
+        <figure class="st-figure st-fit-cover figcaption-only-credits" role="group">
+          <img alt="" data-lfr-editable-id="headerImage" data-lfr-editable-type="image">
+        </figure>
+      </div>
+    [/#if]
   </div>
 
 </header>

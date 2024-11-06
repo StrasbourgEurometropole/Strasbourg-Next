@@ -69,11 +69,6 @@ switch (window.tarteaucitronForceLanguage) {
 
 /* API */
 /*******/
-// Service reCAPTCHA
-//<div class="g-recaptcha" data-sitekey="sitekey"></div>calame
-(tarteaucitron.job = tarteaucitron.job || []).push('recaptcha');
-//old (tarteaucitron.job = tarteaucitron.job || []).push('recaptcha_ems');
-
 // Service Timeline JS
 //<div class="timelinejs-canvas" spreadsheet_id="spreadsheet_id" width="width" height="height" lang="lang_2_letter" font="font (Bevan-PotanoSans | Georgia-Helvetica | Arvo-PTSans)" map="map (toner | osm)" start_at_end="start_at_end (false | true)" hash_bookmark="hash_bookmark (false | true)" start_at_slide="start_at_slide (0 | ...)" start_zoom="start_zoom (0 | ... | 5)"></div>
 (tarteaucitron.job = tarteaucitron.job || []).push('timelinejs');

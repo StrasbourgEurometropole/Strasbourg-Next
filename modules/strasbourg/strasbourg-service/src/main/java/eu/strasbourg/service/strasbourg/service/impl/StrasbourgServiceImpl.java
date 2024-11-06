@@ -275,20 +275,27 @@ import java.util.stream.Collectors;
 	}*/
 
 		@Override
-		public JSONObject getInterestsPois(String interests, long groupId, String typeContenu, String localeId, long globalGroupId) {
+		public JSONObject getInterestsPois(String interests, long groupId, String typeContenu, String localeId,
+										   long globalGroupId, List<String> alertsArret, long territoryVocabularyId,
+										   long placeTypeVocabularyId, long eventTypeVocabularyId) {
 			return getPoiService().getPois(interests, "", "", "", "",  groupId, typeContenu,
-					true, "", "", localeId, globalGroupId);
+					true, "", "", localeId, globalGroupId, alertsArret, territoryVocabularyId,
+					placeTypeVocabularyId, eventTypeVocabularyId);
 		}
 
 		@Override
 		public JSONObject getCategoriesPois(String categories, String vocabulariesEmptyIds, String prefilters, String tags,
-											long groupId, String typeContenu, boolean dateField, String fromDate, String toDate, String localeId, long globalGroupId) {
+											long groupId, String typeContenu, boolean dateField, String fromDate,
+											String toDate, String localeId, long globalGroupId, List<String> alertsArret,
+											long territoryVocabularyId, long placeTypeVocabularyId, long eventTypeVocabularyId) {
 			return getPoiService().getPois("", categories, vocabulariesEmptyIds, prefilters, tags, groupId, typeContenu,
-					dateField,  fromDate, toDate, localeId, globalGroupId);
+					dateField,  fromDate, toDate, localeId, globalGroupId, alertsArret, territoryVocabularyId, placeTypeVocabularyId,
+					eventTypeVocabularyId);
 		}
 
 		@Override
-		public JSONObject getFavoritesPois(long groupId, String typeContenu, String localeId) {
+		public JSONObject getFavoritesPois(long groupId, String typeContenu, String localeId, List<String> alertsArret,
+										   long territoryVocabularyId, long placeTypeVocabularyId, long eventTypeVocabularyId) {
 			HttpServletRequest request = ServiceContextThreadLocal.getServiceContext().getRequest();
 			boolean isLoggedIn = SessionParamUtil.getBoolean(request, "publik_logged_in");
 			String userId = null;
@@ -296,7 +303,8 @@ import java.util.stream.Collectors;
 				userId = SessionParamUtil.getString(request, "publik_internal_id");
 			}
 
-			return getPoiService().getFavoritesPois(userId, groupId, typeContenu, localeId);
+			return getPoiService().getFavoritesPois(userId, groupId, typeContenu, localeId, alertsArret, territoryVocabularyId,
+					placeTypeVocabularyId, eventTypeVocabularyId);
 		}
 
 		@Override
@@ -980,10 +988,10 @@ import java.util.stream.Collectors;
 
 		@Override
 		public JSONObject getTagsAndCategoriesByGroupIdsAndClassName(long[] groupIds,
-																	 String className) {
+																	 String className, long classType) {
 			JSONObject json = JSONFactoryUtil.createJSONObject();
 			json.put("tags", getTagsByGroupIds(groupIds));
-			json.put("categories", getCategoriesByClassNameAndGroupIds(groupIds, className));
+			json.put("categories", getCategoriesByClassNameAndGroupIds(groupIds, className, classType));
 			return json;
 		}
 
@@ -1039,7 +1047,7 @@ import java.util.stream.Collectors;
 
 		@Override
 		public JSONArray getCategoriesByClassNameAndGroupIds(long[] groupIds,
-															 String className) {
+															 String className, long classType) {
 			JSONArray categoriesJson = JSONFactoryUtil.createJSONArray();
 
 			// on ajoute le groupe global aux groupes
@@ -1056,7 +1064,7 @@ import java.util.stream.Collectors;
 				if(className.equals("searchJournalArticle")) className = JournalArticle.class.getName();
 
 				// récupère les vocabulaires d'un className et des groupIds
-				List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getGroupsVocabularies(groupIds, className);
+				List<AssetVocabulary> vocabularies = AssetVocabularyLocalServiceUtil.getGroupsVocabularies(groupIds, className, classType);
 				for (AssetVocabulary vocabulary : vocabularies) {
 					// récupère le groupe de la catégorie
 					Group group = GroupLocalServiceUtil.fetchGroup(vocabulary.getGroupId());

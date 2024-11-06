@@ -1,0 +1,19 @@
+.page-editor__fragment-content {
+  #st-barre-navigation {
+    top:150px;
+    width: 75%;
+    .pre-header {
+      .portlet {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+#st-barre-navigation {
+  .pre-header {
+    .portlet {
+      margin-bottom: 0;
+    }
+  }
+}

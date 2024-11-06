@@ -27,10 +27,10 @@
 			width: auto;
 		}
 		> div {
-			text-align: right;
 			display: inline-block;
 			vertical-align: middle;
 			width: 20%;
+
 			&:nth-child(1) {
 				a {
 					border: none;
@@ -38,11 +38,14 @@
 					padding: 0;
 				}
 			}
+
 			&:nth-child(2) {
-				text-align: right;
 				width: 80%;
+				display: inline-flex;
+				justify-content: end;
 			}
-			a {
+
+			a, span[role='button'] {
 				color: $c_white;
 				font-size: $s_p;
 				font-weight: 400;
@@ -52,24 +55,40 @@
 				align-items: center;
 				@include ft($f_arial, 12px, 400, $c_white, normal);
 				@include an(all, 0.3);
+
 				&:hover, &:focus, &.active {
 					color: $c_main;
+
 					span {
 						color: $c_main;
 					}
 				}
 
-				&.mns-w-fixe-1 {
-					width: 130px;
-					display: inline-flex;
-					align-items: center;
+				&.mns-w-fixe-2 {
 					text-align: center;
 				}
-				&.mns-w-fixe-2 {
-					width: 110px;
-					display: inline-flex;
-					align-items: center;
-					text-align: center;
+			}
+
+			.sub-menu {
+				position: absolute;
+				background-color: #333;
+				padding: 13px 15px;
+				font-family: "Arial", sans-serif;
+				font-size: 12px;
+				font-weight: 400;
+				color: #fff;
+				line-height: normal;
+				transition: all 0.3s;
+
+				li {
+					padding-left: 0;
+					text-align: left;
+
+					a, span {
+						border-left: none;
+						padding: 0;
+						white-space: nowrap;
+					}
 				}
 			}
 		}
@@ -214,6 +233,18 @@
 					padding-left: 25px;
 				}
 			}
+		}
+	}
+
+	.menu-preheader{
+		background: $c_white;
+		position: relative;
+		width: 100%;
+		z-index: 800;
+		display: none;
+
+		@include tablet_portrait {
+			display: block;
 		}
 	}
 
@@ -368,7 +399,7 @@
 					background: $c_white;
 					margin: 0;
 					li {
-						a {
+						a, span[role="button"] {
 							line-height: 50px;
 							color: $c_txt;
 							height: auto;
@@ -544,6 +575,15 @@
 						top: 50%;
 						transform: translateY(-50%);
 					}
+				}
+
+				span[role="button"]{
+					@include ft($f_txt, 14px, 700, $c_white, 50px);
+					text-transform: uppercase;
+					padding: 0 8px;
+					height: 50px;
+					@include an(all, 0.3);
+					background: none;
 				}
 			}
 		}
@@ -822,8 +862,45 @@
 				}
 			}
 		}
+
+		.navbar-collapse ul li .menu{
+			border-bottom: solid $c_sub 1px;
+			margin-bottom: 10px;
+			padding-bottom: 10px;
+
+			a, span[role="button"]{
+				font-weight: 400;
+				line-height: 30px;
+				text-transform: none;
+			}
+
+			ul{
+				box-shadow: none;
+				border-bottom: none;
+			}
+		}
 	}
 
+
+	span[role='button']:after {
+		content: "\E91C";
+		font-family: "icomoon" !important;
+		font-style: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		line-height: 1;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		display: inline-block;
+		margin-left: 4px;
+		transition: transform .2s;
+		transform: rotate(180deg);
+	}
+
+	span[role='button'][aria-expanded=true]:after {
+		transform: rotate(0deg);
+	}
 
 
 	@include tablet_portrait {

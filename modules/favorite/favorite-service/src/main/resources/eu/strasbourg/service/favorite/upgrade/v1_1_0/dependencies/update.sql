@@ -1,0 +1,1 @@
+create index IX_B9B7B5D on favorite_Favorite (entityGroupId, entityId, typeId);

@@ -98,7 +98,7 @@ public class ImportReportModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table agenda_ImportReport (uuid_ VARCHAR(75) null,reportId LONG not null primary key,provider VARCHAR(75) null,filename VARCHAR(75) null,status LONG,globalErrorCause VARCHAR(75) null,newEventsCount LONG,modifiedEventsCount LONG,errorEventsCount LONG,unmodifiedEventsCount LONG,deletedEventsCount LONG,newManifestationsCount LONG,modifiedManifestationsCount LONG,errorManifestationsCount LONG,unmodifiedManifestationsCount LONG,deletedManifestationsCount LONG,startDate DATE null,endDate DATE null)";
+		"create table agenda_ImportReport (uuid_ VARCHAR(75) null,reportId LONG not null primary key,provider VARCHAR(400) null,filename VARCHAR(75) null,status LONG,globalErrorCause VARCHAR(75) null,newEventsCount LONG,modifiedEventsCount LONG,errorEventsCount LONG,unmodifiedEventsCount LONG,deletedEventsCount LONG,newManifestationsCount LONG,modifiedManifestationsCount LONG,errorManifestationsCount LONG,unmodifiedManifestationsCount LONG,deletedManifestationsCount LONG,startDate DATE null,endDate DATE null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table agenda_ImportReport";

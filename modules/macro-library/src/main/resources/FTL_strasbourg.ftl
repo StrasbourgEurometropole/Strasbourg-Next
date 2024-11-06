@@ -202,7 +202,7 @@
                     <@strasbourg.alertError key="last-name-required-error" message="eu.last-name-required-error" fieldId="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_lastName"/>
                     <@strasbourg.alertError key="first-name-required-error" message="eu.first-name-required-error" fieldId="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_firstName"/>
                     <@strasbourg.alertError key="message-required-error" message="eu.message-required-error" fieldId="_eu_strasbourg_portlet_entity_detail_EntityDetailPortlet_message"/>
-                    <@strasbourg.alertError key="recaptcha-error" message="eu.recaptcha-error" />
+                    <@strasbourg.alertError key="friendlycaptcha-error" message="eu.friendlycaptcha-error" />
                     </@strasbourg.hasError>
 
                     <@strasbourg.alertInfo key="mail-success-with-copy" message="eu.form-success-with-copy" />
@@ -241,7 +241,9 @@
                         </div>
 
                         <div>
-                            <div id="recaptcha-contact" class="g-recaptcha" data-sitekey="${propsUtil.get('eu.strasbourg.recaptcha.public')}"></div>
+                            <div id="recaptcha-contact" class="frc-captcha"
+                                 data-puzzle-endpoint="${propsUtil.get('eu.strasbourg.friendlycaptcha.puzzle.url')}"
+                                 data-sitekey="${propsUtil.get('eu.strasbourg.friendlycaptcha.public')}"></div>
                         </div>
 
                         <div class="st-text-mentions">
@@ -260,6 +262,9 @@
             </div>
         </form>
     </div>
+
+    <script type="module" src="/o/0-global-theme/libs/friendlycaptcha/widget.module.min.js" async defer ></script>
+    <script nomodule src="/o/0-global-theme/libs/friendlycaptcha/widget.min.js" async defer></script>
 </#macro>
 
 <#macro socialShare >

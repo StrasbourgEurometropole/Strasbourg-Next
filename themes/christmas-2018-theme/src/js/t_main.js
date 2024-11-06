@@ -2550,9 +2550,6 @@ $(window).on("load",function() {
 // Service Facebook Pixel
 tarteaucitron.user.facebookpixelId = '1023621684487107'; tarteaucitron.user.facebookpixelMore = function () { /* add here your optionnal facebook pixel function */ };
 (tarteaucitron.job = tarteaucitron.job || []).push('facebookpixel');
-
-// Service reCAPTCHA
-(tarteaucitron.job = tarteaucitron.job || []).push('recaptcha_ems');
 function isTouchDevice() {
     return 'ontouchstart' in document.documentElement;
 }
@@ -2944,3 +2941,82 @@ if ($(window).width() >= 1025) {
            checkboxes.height("100%");
         }
     });
+
+
+
+/*
+ *   @constructorDisclosureButton
+ *
+ *
+ */
+class DisclosureButton {
+    constructor(buttonNode) {
+        this.buttonNode = buttonNode;
+        this.controlledNode = false;
+
+        var controler = this.buttonNode.getAttribute('aria-controls');
+
+        if (controler) {
+            this.controlledNode = this.buttonNode.closest("div").querySelector("."+controler);
+        }
+
+        this.buttonNode.setAttribute('aria-expanded', 'false');
+        this.hideContent();
+
+        this.buttonNode.addEventListener('click', this.onClick.bind(this));
+        this.buttonNode.addEventListener('focus', this.onFocus.bind(this));
+        this.buttonNode.addEventListener('blur', this.onBlur.bind(this));
+    }
+
+    showContent() {
+        if (this.controlledNode) {
+            this.controlledNode.style.display = 'block';
+        }
+    }
+
+    hideContent() {
+        if (this.controlledNode) {
+            this.controlledNode.style.display = 'none';
+        }
+    }
+
+    toggleExpand() {
+        if (this.buttonNode.getAttribute('aria-expanded') === 'true') {
+            this.buttonNode.setAttribute('aria-expanded', 'false');
+            this.hideContent();
+        } else {
+            this.buttonNode.setAttribute('aria-expanded', 'true');
+            this.showContent();
+        }
+    }
+
+    /* EVENT HANDLERS */
+
+    onClick() {
+        this.toggleExpand();
+    }
+
+    onFocus() {
+        this.buttonNode.classList.add('focus');
+    }
+
+    onBlur() {
+        this.buttonNode.classList.remove('focus');
+    }
+}
+
+/* Initialize Hide/Show Buttons */
+
+window.addEventListener(
+    'DOMContentLoaded',
+    function () {
+        var buttons = document.querySelectorAll(
+            '.mns-w-fixe-2[aria-expanded][aria-controls]'
+        );
+
+        for (var i = 0; i < buttons.length; i++) {
+            new DisclosureButton(buttons[i]);
+        }
+    },
+    false
+);

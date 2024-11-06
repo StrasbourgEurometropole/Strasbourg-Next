@@ -1688,6 +1688,107 @@ public interface PlaceModel
 		Map<Locale, String> siteLabelMap, Locale defaultLocale);
 
 	/**
+	 * Returns the booking url of this place.
+	 *
+	 * @return the booking url of this place
+	 */
+	public String getBookingURL();
+
+	/**
+	 * Returns the localized booking url of this place in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the locale of the language
+	 * @return the localized booking url of this place
+	 */
+	@AutoEscape
+	public String getBookingURL(Locale locale);
+
+	/**
+	 * Returns the localized booking url of this place in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param locale the local of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized booking url of this place. If <code>useDefault</code> is <code>false</code> and no localization exists for the requested language, an empty string will be returned.
+	 */
+	@AutoEscape
+	public String getBookingURL(Locale locale, boolean useDefault);
+
+	/**
+	 * Returns the localized booking url of this place in the language. Uses the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @return the localized booking url of this place
+	 */
+	@AutoEscape
+	public String getBookingURL(String languageId);
+
+	/**
+	 * Returns the localized booking url of this place in the language, optionally using the default language if no localization exists for the requested language.
+	 *
+	 * @param languageId the ID of the language
+	 * @param useDefault whether to use the default language if no localization exists for the requested language
+	 * @return the localized booking url of this place
+	 */
+	@AutoEscape
+	public String getBookingURL(String languageId, boolean useDefault);
+
+	@AutoEscape
+	public String getBookingURLCurrentLanguageId();
+
+	@AutoEscape
+	public String getBookingURLCurrentValue();
+
+	/**
+	 * Returns a map of the locales and localized booking urls of this place.
+	 *
+	 * @return the locales and localized booking urls of this place
+	 */
+	public Map<Locale, String> getBookingURLMap();
+
+	/**
+	 * Sets the booking url of this place.
+	 *
+	 * @param bookingURL the booking url of this place
+	 */
+	public void setBookingURL(String bookingURL);
+
+	/**
+	 * Sets the localized booking url of this place in the language.
+	 *
+	 * @param bookingURL the localized booking url of this place
+	 * @param locale the locale of the language
+	 */
+	public void setBookingURL(String bookingURL, Locale locale);
+
+	/**
+	 * Sets the localized booking url of this place in the language, and sets the default locale.
+	 *
+	 * @param bookingURL the localized booking url of this place
+	 * @param locale the locale of the language
+	 * @param defaultLocale the default locale
+	 */
+	public void setBookingURL(
+		String bookingURL, Locale locale, Locale defaultLocale);
+
+	public void setBookingURLCurrentLanguageId(String languageId);
+
+	/**
+	 * Sets the localized booking urls of this place from the map of locales and localized booking urls.
+	 *
+	 * @param bookingURLMap the locales and localized booking urls of this place
+	 */
+	public void setBookingURLMap(Map<Locale, String> bookingURLMap);
+
+	/**
+	 * Sets the localized booking urls of this place from the map of locales and localized booking urls, and sets the default locale.
+	 *
+	 * @param bookingURLMap the locales and localized booking urls of this place
+	 * @param defaultLocale the default locale
+	 */
+	public void setBookingURLMap(
+		Map<Locale, String> bookingURLMap, Locale defaultLocale);
+
+	/**
 	 * Returns the facebook url of this place.
 	 *
 	 * @return the facebook url of this place

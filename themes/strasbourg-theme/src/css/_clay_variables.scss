@@ -5,13 +5,13 @@ $input: (
         outline-offset: 1px,
         font-size: 0.875rem,
         font-weight: 400,
-        color: #fff,
+        color: var(--whiteColor, #FFFFFF),
         line-height: 1.42,
         width: 100%,
         padding: 18px 20px,
         border: 1px solid rgba(255, 255, 255, .5),
         border-radius: 5px,
-        background-color: #171C22,
+        background-color: var(--main, #171C22),
         transition: all .2s ease,
         height: 100%,
         mobile: (
@@ -25,47 +25,90 @@ $input: (
 );
 $custom-control-indicator-size: 1.25rem;
 $panel-bg: transparent;
-$active-bg: #2ad783;
-$component-active-bg: #212529;
-$component-active-color: #fff;
-$custom-control-indicator-checked-border-color: #fff;
+$active-bg: var(--secondary, #2AD783);
+$component-active-bg: var(--main, #171C22);
+$component-active-color: var(--whiteColor, #FFFFFF);
+$custom-control-indicator-checked-border-color: var(--whiteColor, #FFFFFF);
 $custom-control-indicator-bg: transparent;
 $custom-control-indicator-bg-size: 90% 90%;
 $custom-checkbox-indicator-icon-checked: clay-svg-url(
-                "<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-1.5 -2.5 8 8'><rect x='0' y='0' width='5' height='5' fill='#{$active-bg}'/></svg>"
+                "<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-1.5 -2.5 8 8'><rect x='0' y='0' width='5' height='5' fill='#FFF'/></svg>"
+);
+
+$custom-checkbox: (
+        custom-control-input: (
+          checked: (
+            custom-control-label: (
+              after: (
+                mask-image: $custom-checkbox-indicator-icon-checked,
+                mask-size: cover,
+                color: $active-bg,
+                border: solid calc($custom-control-indicator-size / 2)
+              )
+            )
+          )
+        )
 );
 
 $custom-radio-indicator-icon-checked: clay-svg-url(
-                "<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-4 -4 8 8'><circle r='3' fill='#{$active-bg}'/></svg>"
+                "<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-4 -4 8 8'><circle r='3' fill='FFF'/></svg>"
 );
+
+$custom-radio:(
+        custom-control-input: (
+          checked: (
+            custom-control-label: (
+              after: (
+                mask-image: $custom-radio-indicator-icon-checked,
+                mask-size: cover,
+                color: $active-bg,
+                border: solid calc($custom-control-indicator-size / 2)
+              )
+            )
+          )
+        )
+);
+
 $custom-control-label: (
         margin-bottom: initial,
         font-size: 0.875rem,
         font-weight: 500,
-        color: #fff,
+        color: var(--whiteColor, #FFFFFF),
         line-height: 1.42,
         vertical-align: sub,
 );
-$primary: #2ad783;
+$primary: var(--secondary, #2AD783);
 $btn-padding-x: 60px;
 $btn-padding-y: 16px;
 $btn-font-size: 0.875rem;
 $btn-font-weight: 600;
 
 $btn-primary: (
+        color: var(--main, #171c22),
         hover: (
                 background-color: $component-active-color,
-                color: #212529
+                border-color: $component-active-color,
+                color: var(--main, #171C22)
+        ),
+);
+
+$btn-outline-primary: (
+        color: var(--whiteColor, #FFFFFF),
+        hover: (
+                background-color: $component-active-color,
+                border-color: $component-active-color,
+                color: var(--main, #171C22)
         ),
 );
 
 $multi-step-icon-active-bg: $active-bg;
 
-$table-color: #fff;
+$table-color: var(--whiteColor, #FFFFFF);
 $table-accent-bg: transparent;
 $table-bg: transparent;
 $table-border-color: rgba(255,255,255,.25);
-$table-head-bg: #2ad783;
+$table-caption-color: var(--textColor, #B1B9C3);
+$table-head-bg: var(--secondary, #2AD783);
 
 $c-table: () !default;
 $c-table: map-merge(
@@ -87,7 +130,7 @@ $c-table-thead: map-merge(
 );
 
 $table-list-accent-bg: transparent;
-$table-list-head-bg: #2ad783;
+$table-list-head-bg: var(--secondary, #2AD783);
 $table-list-border-radius: 0;
 $table-list-border-y-width: 0;
 $c-table-list-thead: () !default;
@@ -129,7 +172,7 @@ $table-list-hover-bg: transparent;
     display: block;
     font-size: 30px;
     font-weight: 600;
-    color: #fff;
+    color: var(--whiteColor, #FFFFFF);
     line-height: 1;
   }
   .lfr-ddm__default-page-header-line {
@@ -137,7 +180,7 @@ $table-list-hover-bg: transparent;
   }
   .lfr-ddm-form-container {
     .form-control {
-      color: #fff;
+      color: var(--whiteColor, #FFFFFF);
 
       &::placeholder {
         color: #6b6c7e;
@@ -149,16 +192,16 @@ $table-list-hover-bg: transparent;
       }
       &:before {
         content: '*';
-        color: #ff9f9f;
+        color: var(--errorSecondaryColor, #FF9F9F);
         font-size: 0.875rem;
         font-weight: 500;
       }
     }
     .option-selected {
-        color: #fff;
+        color: var(--whiteColor, #FFFFFF);
     }
     .custom-control-label-text {
-        color: #fff;
+        color: var(--whiteColor, #FFFFFF);
     }
     .lfr-ddm-form-pagination-controls, .ddm-page-container-layout {
       .btn {
@@ -178,14 +221,14 @@ $table-list-hover-bg: transparent;
         height: 100%;
       }
       .btn.btn-primary {
-        color: #171C22;
-        background-color: #2AD783;
+        color: var(--main, #171C22);
+        background-color: var(--secondary, #2AD783);
         border: 1px solid transparent;
       }
       .btn.btn-secondary {
-        color: #ffffff;
-        background-color: #171C22;
-        border: 1px solid #2AD783;
+        color: var(--whiteColor, #FFFFFF);
+        background-color: var(--main, #171C22);
+        border: 1px solid var(--secondary, #2AD783);
       }
 
       @media screen and (max-width: 599px) {
@@ -202,14 +245,14 @@ $table-list-hover-bg: transparent;
         }
       }
       .btn:focus {
-        color: #171C22;
-        background-color: #FFFFFF;
+        color: var(--main, #171C22);
+        background-color: var(--whiteColor, #FFFFFF);
         border-color: transparent;
       }
 
       .btn:hover {
-        color: #171C22;
-        background-color: #FFFFFF;
+        color: var(--main, #171C22);
+        background-color: var(--whiteColor, #FFFFFF);
         border-color: transparent;
       }
 
@@ -225,14 +268,14 @@ $table-list-hover-bg: transparent;
   }
   .ddm-form-page-container {
     .ddm-form-pagination .ddm-wizard .multi-step-item.active .multi-step-divider {
-      background-color: #2ad783;
+      background-color: var(--secondary, #2AD783);
     }
     label, .lfr-ddm-legend {
       display: inline-block;
       margin-bottom: 5px;
       font-size: 0.875rem;
       font-weight: 500;
-      color: #2ad783;
+      color: var(--secondary, #2AD783);
       line-height: 1.42;
       cursor: pointer;
     }
@@ -246,7 +289,7 @@ $table-list-hover-bg: transparent;
 
 .dropdown-menu.date-picker {
   select.form-control{
-    color: #ffffff;
+    color: var(--whiteColor, #FFFFFF);
   }
 
   .nav-btn{

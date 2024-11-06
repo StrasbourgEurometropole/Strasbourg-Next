@@ -198,7 +198,7 @@ public class ManagementBudgetParticipatifsToolBarDisplayContext extends Manageme
 
                     dropdownItem.setHref(
                             liferayPortletResponse.createRenderURL(),
-                            "tab", "budget-participatifs",
+                            "tab", "budgets-participatifs",
                             "cmd", "editBudgetParticipatif",
                             "mvcPath", "/project-bo-edit-budget-participatif.jsp",
                             "backURL", themeDisplay.getURLCurrent());

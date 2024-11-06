@@ -232,6 +232,7 @@ function createCourseVignette(data) {
             <div class="st-caption">
             ${data.title ? `<h3 class="st-title-card">${data.title}</h3>` : ''}
                ${data.categories ? `<p class="st-surtitre-cat">${data.categories}</p>` : ''}
+               ${data.description ?`<p class="st-text">${data.description}</p>` : ''}
             </div>
            <div class="st-image">
                 ${generateImage(data.imageURL)}
@@ -341,20 +342,40 @@ function populateList(data) {
     var resultList = document.getElementById('results');
     resultList.innerHTML = ''; // Clear existing list items
 
-    var totalResult = parseInt(data.find(item => item.totalResult).totalResult, 10)
+    var totalResult = parseInt(data.find(item => item.totalResult).totalResult, 10);
     var resultTotal = document.getElementById('results-total');
     resultTotal.innerHTML = numberFormat.format(totalResult);
 
+    document.getElementById('nb-results').value = 0;
+
+    addPopulateList(data);
+
+    // remonte le scroll en haut
+    if(resultList.querySelector("li") != undefined)
+        resultList.querySelector("li").scrollIntoView(false);
+}
+
+function addPopulateList(data) {
+    var resultList = document.getElementById('results');
+    var totalResult = parseInt(data.find(item => item.totalResult).totalResult, 10);
+
     var resultDisplay = document.getElementById('results-display');
-    var delta = parseInt(data.find(item => item.displayResult).displayResult, 10)
-    if(totalResult > delta)
+    var seeMore = document.getElementById('see-more');
+    var nbResults = parseInt(data.find(item => item.displayResult).displayResult, 10);
+    document.getElementById('nb-results').value = nbResults;
+    if(totalResult > nbResults) {
+        resultDisplay.innerHTML = Liferay.Language.get('eu.strasbourg.dynamic-search-strasbourg-result-display-x')
+            .replace('{0}', nbResults);
         resultDisplay.style.display = "block";
-    else
+        seeMore.style.display = "block";
+    }else {
         resultDisplay.style.display = "none";
+        seeMore.style.display = "none"
+    }
 
     searchLogId = data.find(item => item.searchLogId).searchLogId;
 
-    data = data.filter(item => !item.totalResult);
+    data = data.filter(item => !item.totalResult && !item.displayResult && !item.searchLogId);
     // Remove all click event from favorite buttons
     var favoriteButtons = document.querySelectorAll('.st-btn-favorite-card');
     favoriteButtons.forEach(function (button) {
@@ -381,10 +402,6 @@ function populateList(data) {
     addClickEventToFavoriteButtons();
 
     addClickEventToThumbnails();
-
-    // remonte le scroll en haut
-    if(resultList.querySelector("li") != undefined)
-        resultList.querySelector("li").scrollIntoView(false);
 }
 
 var searchInput = document.getElementById('recherche-input');
@@ -414,6 +431,14 @@ sendSearch = function () {
     var postData = `${porletNamespace}keywords=${encodeURIComponent(searchTerm)}&${porletNamespace}selectedClassNames=${getSelectedClassNames()}`;
 
     callSearchUrl(searchSubmitURL, postData, populateList);
+}
+
+addResult = function () {
+    var searchTerm = searchInput.value;
+    var start = document.getElementById('nb-results').value;
+    var postData = `${porletNamespace}keywords=${encodeURIComponent(searchTerm)}&${porletNamespace}selectedClassNames=${getSelectedClassNames()}&${porletNamespace}start=` + start;
+
+    callSearchUrl(searchSubmitURL, postData, addPopulateList);
 }
 
 function getSelectedClassNames() {

@@ -1,0 +1,3 @@
+ALTER TABLE project_BudgetParticipatif MODIFY COLUMN summary VARCHAR(600) null;
+
+COMMIT_TRANSACTION;

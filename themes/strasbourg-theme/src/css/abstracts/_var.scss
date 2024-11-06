@@ -1,16 +1,11 @@
 // ==============================================
-
 //        VARIABLES SASS & CSS
-
 // ==============================================
-
 
 // Fonts
 // ==========================================================================
-$f_hx: 'TTFors', Sans-Serif;
-$f_txt: 'TTFors', Sans-Serif;
-$f_spe: 'TTFors', Sans-Serif;
-
+$f_hx: var(--f-hx, 'TTFors', Sans-Serif);
+$f_txt: var(--f-txt, 'TTFors', Sans-Serif);
 
 // Surcharge du path par défaut des fonts icomoon
 // ==========================================================================
@@ -18,20 +13,36 @@ $icomoon-font-path: "../fonts/icomoon/fonts";
 
 
 // Colors
-// ================================================ ==========================
-$c_main: #171C22;
-$c_sub: var(--secondary,#2AD783);
-$c_greydark: var(--greyDark,#20272F);
-$c_greymedium: var(--greyMedium,#282F38);
-$c_border: var(--border,#51555A);
-$c_grey: var(--grey,#B1B9C3);
-$c_gradient: var(--gradient,#1E2329);
-$c_txt: var(--textColor,#B1B9C3);
+// ==========================================================================
+$c_main: var(--main, #171C22);
+$c_sub: var(--secondary, #2AD783);
+$c_greydark: var(--greyDark, #20272F);
+$c_border: var(--border, #51555A);
+$c_gradient: var(--gradient, #1E2329);
+$c_txt: var(--textColor, #B1B9C3);
 
-$c_black: #000000;
-$c_white: #FFFFFF;
-$c_pink: #FF9F9F;
-$c_error: #E91741;
+$c_black: var(--blackColor, #000000);
+$c_white: var(--whiteColor, #FFFFFF);
+$c_pink: var(--errorSecondaryColor, #FF9F9F);
+
+
+// Colors header
+// ==========================================================================
+$c_headerBgColor: var(--headerBgColor, #20272F);
+$c_headerBg2Color: var(--headerBg2Color, #171C22);
+$c_headerBorderHoverColor: var(--headerBorderHoverColor, #2AD783);
+$c_headerScrollColor: var(--headerScrollColor, #51555A);
+$c_headerCloseColor: var(--headerCloseColor, #FF9F9F);
+$c_headerMainColor: var(--headerMainColor, #FFFFFF);
+
+
+// Colors footer
+// ==========================================================================
+$c_footerBgColor: var(--footerBgColor, #171C22);
+$c_footerBg2Color: var(--footerBg2Color, #20272F);
+$c_footerBorderHoverColor: var(--footerBorderHoverColor, #2AD783);
+$c_footerMainColor: var(--footerMainColor, #FFFFFF);
+$c_footerSubColor: var(--footerSecondaryColor, #B1B9C3);
 
 // Sizes
 // ==========================================================================
@@ -62,7 +73,6 @@ $z-layers: (
 		'default' : 1,
 		'below' : -1,
 );
-
 
 // Width / Height / Spacing
 // ==========================================================================
@@ -120,7 +130,6 @@ $border-radius-small: 3px;
 
 // Breakpoints
 // ==========================================================================
-
 $breakpoints: (
 		mobile-small : 320px,
 		mobile : 599px,

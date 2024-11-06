@@ -15,6 +15,7 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
+import com.liferay.asset.kernel.exception.AssetCategoryException;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import eu.strasbourg.service.project.model.ProjectTimeline;
 import eu.strasbourg.service.project.service.ProjectTimelineLocalService;
@@ -132,6 +133,10 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             // Citoyen : Mobile
             String mobile = ParamUtil.getString(request, "citoyenMobile");
             budgetParticipatif.setCitoyenMobile(mobile);
+
+			// Niveau d'engagement
+			String commitment = ParamUtil.getString(request, "commitment");
+			budgetParticipatif.setCommitment(commitment);
             
             // ---------------------------------------------------------------
  			// -------------------------- FUSION -----------------------------
@@ -360,6 +365,12 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
             // Sauvegarde du budget
             _budgetLocalService.updateBudgetParticipatif(budgetParticipatif, sc);
 			response.sendRedirect(ParamUtil.getString(request, "backURL"));
+
+		} catch (AssetCategoryException e){
+			SessionErrors.add(request, AssetCategoryException.class, e);
+			// on reste sur la page d'édition
+			setResponse(request, response);
+			return false;
             
         } catch (PortalException e) {
             _log.error("erreur lors de la mise à jour d'un budget : ",e);

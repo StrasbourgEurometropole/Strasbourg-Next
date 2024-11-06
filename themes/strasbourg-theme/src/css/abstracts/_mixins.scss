@@ -100,7 +100,7 @@
 
 
 @mixin shadow() {
-	box-shadow: 0 30px 60px rgba($c_black, 0.10);
+	box-shadow: 0 30px 60px color-mix(in srgb, $c_black 10%, transparent);
 }
 
 // Étend un bouton dans son container en version mobile

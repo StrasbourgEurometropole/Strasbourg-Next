@@ -51,6 +51,13 @@ public interface PlaceService extends BaseService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>eu.strasbourg.service.place.service.impl.PlaceServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the place remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link PlaceServiceUtil} if injection and service tracking are not available.
 	 */
+
+	/**
+	 * Retourne les horaires du jour
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getCacheJsonHoraire(String sigId, String localeId);
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getEquipments() throws PortalException;
 

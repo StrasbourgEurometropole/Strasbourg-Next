@@ -453,7 +453,7 @@ body {
   .st-bloc-elu__inner {
     .st-resume-fonction {
       display: block;
-      @include ft($f_txt, $s_link, 400, $c_grey, 1.16);
+      @include ft($f_txt, $s_link, 400, $c_txt, 1.16);
       letter-spacing: 0.025em;
       margin-bottom: 5px;
     }
@@ -485,7 +485,7 @@ body {
     margin-bottom: 5px;
     font-size: 0.875rem;
     font-weight: 500;
-    color: #2ad783;
+    color: $c_sub;
     line-height: 1.42;
     cursor: pointer;
   }
@@ -493,13 +493,13 @@ body {
   .form-control {
     font-size: 0.875rem;
     font-weight: 400;
-    color: #fff;
+    color: $c_white;
     line-height: 1.42;
     width: 100%;
     padding: 18px 20px;
-    border: 1px solid rgba(255, 255, 255, .5);
+    border: 1px solid color-mix(in srgb, $c_white 50%, transparent);
     border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: color-mix(in srgb, $c_black 0%, transparent);
     transition: color .2s, border-color .2s;
   }
 
@@ -511,7 +511,7 @@ body {
     place-content: center;
     width: 20px;
     height: 20px;
-    border: 1px solid rgba(255, 255, 255, .5);
+    border: 1px solid color-mix(in srgb, $c_white 50%, transparent);
     transform: translateY(-1px);
     cursor: pointer;
     transition: border-color .2s;
@@ -523,7 +523,7 @@ body {
     height: 12px;
     opacity: 0;
     transform: scale(0.5);
-    background-color: #2ad783;
+    background-color: $c_sub;
     transition: opacity 150ms, transform 150ms;
   }
 
@@ -538,15 +538,15 @@ body {
     align-items: center;
     max-width: 100%;
     padding: 16px 60px;
-    font-family: "TTForsTrial", Sans-Serif;
+    font-family: $f_txt;
     font-size: 0.875rem;
     font-weight: 600;
-    color: #171c22;
+    color: $c_main;
     line-height: 1;
     letter-spacing: .025em;
     text-align: center;
-    background-color: #2ad783;
-    border: 1px solid rgba(0, 0, 0, 0);
+    background-color: $c_sub;
+    border: 1px solid color-mix(in srgb, $c_black 0%, transparent);
     border-radius: 5px;
     transition: color .2s, background-color .2s, border-color .2s;
   }
@@ -564,8 +564,8 @@ body {
 
 body:not(.no-hover) .st-page-wrapper .login-container button{
   &:hover,&:focus {
-    color: #171c22;
-    background-color: #fff;
+    color: $c_main;
+    background-color: $c_white;
   }
 }
 
@@ -652,7 +652,7 @@ body:not(.no-hover) .st-page-wrapper .login-container button{
   border: none;
 
   input{
-    color: white;
+    color: $c_white;
   }
 
   .btn {
@@ -661,31 +661,31 @@ body:not(.no-hover) .st-page-wrapper .login-container button{
     align-items: center;
     max-width: 100%;
     padding: 16px 60px;
-    font-family: "TTFors", Sans-Serif;
+    font-family: $f_txt;
     font-size: 14px;
     font-weight: 600;
-    color: #171C22;
+    color: $c_main;
     line-height: 1;
     letter-spacing: 0.025em;
     text-align: center;
-    background-color: #2AD783;
+    background-color: $c_sub;
     border: 1px solid transparent;
     border-radius: 5px;
     transition: color 0.2s, background-color 0.2s, border-color 0.2s;
 
     &:hover, &:focus {
-      color: #171C22;
-      background-color: #FFFFFF;
+      color: $c_main;
+      background-color: $c_white;
     }
   }
 
   .btn-secondary {
-    color: #FFFFFF;
-    background-color: #171C22;
-    border: 1px solid #2AD783;
+    color: $c_white;
+    background-color: $c_main;
+    border: 1px solid $c_sub;
 
     &:hover, &:focus {
-      color: #171C22;
+      color: $c_main;
       border-color: transparent;
     }
   }

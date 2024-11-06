@@ -49,4 +49,9 @@ public interface PublicHoliday extends PersistedModel, PublicHolidayModel {
 
 		};
 
+	/**
+	 * Retourne la version JSON des jours fériés
+	 */
+	public com.liferay.portal.kernel.json.JSONObject toJSON();
+
 }

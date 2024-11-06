@@ -1,7 +1,7 @@
 <%@ include file="/council-bo-init.jsp" %>
 <clay:navigation-bar inverted="true" navigationItems='${navigationDC.navigationItems}' />
 <%-- Composant : Body --%>
-<div class="container-fluid container-fluid-max-xl main-content-body">
+<div class="container-fluid container-fluid-max-xl main-content-body council-bo">
 
 	<div class="sheet"><div class="panel-group panel-group-flush">
 

@@ -64,6 +64,11 @@ public interface Event extends EventModel, PersistedModel {
 	public String getImageURL();
 
 	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	public String getImageThumbnailURL();
+
+	/**
 	 * Retourne le copyright de l'image principale
 	 */
 	public String getImageCopyright(java.util.Locale locale);
@@ -141,6 +146,11 @@ public interface Event extends EventModel, PersistedModel {
 	 * Retourne l'id du lieu de l'événement s'il existe, 0 sinon
 	 */
 	public long getPlaceId();
+
+	/**
+	 * Vérifie si le lieu est déployé
+	 */
+	public boolean isPlaceApproved();
 
 	/**
 	 * Retourne le nom de la ville, provenant du lieu interne s'il existe, du lieu
@@ -362,7 +372,8 @@ public interface Event extends EventModel, PersistedModel {
 	 * Renvoie le JSON de l'entite au format GeoJSON pour la map
 	 */
 	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(
-		long groupId, java.util.Locale locale);
+		long groupId, java.util.Locale locale, long territoryVocabularyId,
+		long eventTypeVocabularyId);
 
 	/**
 	 * Renvoie le JSON de l'entite au format CSMap

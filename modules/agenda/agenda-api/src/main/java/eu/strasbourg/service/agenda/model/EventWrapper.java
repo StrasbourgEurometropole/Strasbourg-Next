@@ -50,6 +50,8 @@ public class EventWrapper
 		attributes.put("subtitle", getSubtitle());
 		attributes.put("description", getDescription());
 		attributes.put("externalImageURL", getExternalImageURL());
+		attributes.put(
+			"externalImageThumbnailURL", getExternalImageThumbnailURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("imageWidth", getImageWidth());
 		attributes.put("imageHeight", getImageHeight());
@@ -201,6 +203,13 @@ public class EventWrapper
 
 		if (externalImageURL != null) {
 			setExternalImageURL(externalImageURL);
+		}
+
+		String externalImageThumbnailURL = (String)attributes.get(
+			"externalImageThumbnailURL");
+
+		if (externalImageThumbnailURL != null) {
+			setExternalImageThumbnailURL(externalImageThumbnailURL);
 		}
 
 		String externalImageCopyright = (String)attributes.get(
@@ -1167,6 +1176,16 @@ public class EventWrapper
 	}
 
 	/**
+	 * Returns the external image thumbnail url of this event.
+	 *
+	 * @return the external image thumbnail url of this event
+	 */
+	@Override
+	public String getExternalImageThumbnailURL() {
+		return model.getExternalImageThumbnailURL();
+	}
+
+	/**
 	 * Returns the external image url of this event.
 	 *
 	 * @return the external image url of this event
@@ -1201,9 +1220,11 @@ public class EventWrapper
 	 */
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getGeoJSON(
-		long groupId, java.util.Locale locale) {
+		long groupId, java.util.Locale locale, long territoryVocabularyId,
+		long eventTypeVocabularyId) {
 
-		return model.getGeoJSON(groupId, locale);
+		return model.getGeoJSON(
+			groupId, locale, territoryVocabularyId, eventTypeVocabularyId);
 	}
 
 	/**
@@ -1252,6 +1273,14 @@ public class EventWrapper
 	@Override
 	public Long getImageId() {
 		return model.getImageId();
+	}
+
+	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	@Override
+	public String getImageThumbnailURL() {
+		return model.getImageThumbnailURL();
 	}
 
 	/**
@@ -2507,6 +2536,14 @@ public class EventWrapper
 	}
 
 	/**
+	 * Vérifie si le lieu est déployé
+	 */
+	@Override
+	public boolean isPlaceApproved() {
+		return model.isPlaceApproved();
+	}
+
+	/**
 	 * Returns <code>true</code> if this event is registration.
 	 *
 	 * @return <code>true</code> if this event is registration; <code>false</code> otherwise
@@ -3029,6 +3066,16 @@ public class EventWrapper
 	@Override
 	public void setExternalImageCopyright(String externalImageCopyright) {
 		model.setExternalImageCopyright(externalImageCopyright);
+	}
+
+	/**
+	 * Sets the external image thumbnail url of this event.
+	 *
+	 * @param externalImageThumbnailURL the external image thumbnail url of this event
+	 */
+	@Override
+	public void setExternalImageThumbnailURL(String externalImageThumbnailURL) {
+		model.setExternalImageThumbnailURL(externalImageThumbnailURL);
 	}
 
 	/**

@@ -194,6 +194,10 @@ public class SavePlaceActionCommand implements MVCActionCommand {
 					"siteURL");
 			place.setSiteURLMap(siteURLs);
 
+			Map<Locale, String> bookingURLs = LocalizationUtil.getLocalizationMap(request,
+					"bookingURL");
+			place.setBookingURLMap(bookingURLs);
+
 			Map<Locale, String> facebookLabels = LocalizationUtil.getLocalizationMap(request,
 					"facebookLabel");
 			place.setFacebookLabelMap(facebookLabels);

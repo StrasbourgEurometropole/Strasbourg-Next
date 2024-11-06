@@ -1,3 +1,9 @@
+#resultList{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 #resultList .loading-animation {
     width: 100%;
     height: 10em;
@@ -23,6 +29,14 @@
     left: 50%;
     -webkit-animation: chargement 1s linear infinite;
     animation: chargement 1s linear infinite;
+}
+
+#resultList #see-more {
+    margin-top: 30px;
+}
+
+#resultList #results {
+    width: 100%;
 }
 
 span.loading-small-animation  {

@@ -55,7 +55,6 @@ function getSelectedEntries() {
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndYear : selectedEndYear,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedThematics : selectedThematics,
 				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedDistricts : selectedDistricts,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_sortFieldAndType : sortField + ',' + sortType,
 			},
 			on: {
                 success: function(e) {
@@ -86,14 +85,3 @@ $("fieldset[id='thematics_fieldset'] input").change(function() {
 $("fieldset[id='districts_fieldset'] input").change(function() {
 	getSelectedEntries();
 });
-
-// Permet le tri des vidéos
-function sortVideo(type) {
-    // change l'affichage du tri
-    if(type == "asc"){
-        $('#sortType').text = "Tri A-Z";
-    }else{
-        $('#sortType').text = "Tri Z-A";
-    }
-    getSelectedEntries();
-}

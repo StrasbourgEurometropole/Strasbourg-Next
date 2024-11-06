@@ -89,14 +89,17 @@
 					<!-- Campagne -->
 					<div class="col-md-5">
 						<aui:select name="campaignId" required="true" label="campaign" helpMessage="campagne-help">
-							<aui:option value="" label="select-campaign" />
+							<option value="" label="select-campaign" />
 							<c:forEach var="campaign" items="${dc.campaigns}">
 								<fmt:formatDate value="${campaign.getStartDate()}" pattern="dd/MM/YYYY" type="date" var="formattedStartCampaign"/>
 								<fmt:formatDate value="${campaign.getEndDate()}" pattern="dd/MM/YYYY" type="date" var="formattedEndCampaign"/>
-								<aui:option value="${campaign.campaignId}"
-									label="${campaign.getTitle(locale)} (du ${formattedStartCampaign} au ${formattedEndCampaign})"
-									selected="${campaign.campaignId eq dc.campaignEvent.campaignId}"
-									localizeLabel="false" />
+								<option value="${campaign.campaignId}" localizeLabel="false"
+									<c:if test="${campaign.campaignId eq dc.campaignEvent.campaignId}">
+										selected
+									</c:if>
+									>
+									${campaign.getTitle(locale)} (du ${formattedStartCampaign} au ${formattedEndCampaign})
+								</option>
 							</c:forEach>
 						</aui:select>
 					</div>

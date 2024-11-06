@@ -24,6 +24,7 @@ import java.util.Map;
 
 import javax.portlet.*;
 
+import com.liferay.asset.kernel.exception.AssetCategoryException;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.*;
@@ -131,6 +132,25 @@ public class SaveVideoActionCommand
 			
 			_videoLocalService.updateVideo(video, sc);
 			response.sendRedirect(ParamUtil.getString(request, "backURL"));
+
+		} catch (AssetCategoryException e){
+			SessionErrors.add(request, AssetCategoryException.class, e);
+			// on reste sur la page d'édition
+			PortalUtil.copyRequestParameters(request, response);
+
+			ThemeDisplay themeDisplay = (ThemeDisplay) request
+					.getAttribute(WebKeys.THEME_DISPLAY);
+			String portletName = (String) request
+					.getAttribute(WebKeys.PORTLET_ID);
+			PortletURL backURL = PortletURLFactoryUtil.create(request,
+					portletName, themeDisplay.getPlid(),
+					PortletRequest.RENDER_PHASE);
+			backURL.setParameter("tab", request.getParameter("tab"));
+			response.setRenderParameter("backURL", backURL.toString());
+			response.setRenderParameter("cmd", "saveVideo");
+			response.setRenderParameter("mvcPath",
+					"/video-bo-edit-video.jsp");
+			return false;
 		} catch (PortalException e) {
 			_log.error(e);
 		} catch (IOException e) {

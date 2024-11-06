@@ -106,11 +106,42 @@ public class ArretServiceHttp {
 		}
 	}
 
+	public static java.util.List<String> getAlerts(
+		HttpPrincipal httpPrincipal) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				ArretServiceUtil.class, "getAlerts", _getAlertsParameterTypes2);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (java.util.List<String>)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(ArretServiceHttp.class);
 
 	private static final Class<?>[] _getArretRealTimeParameterTypes0 =
 		new Class[] {String.class};
 	private static final Class<?>[] _getArretRealTimeParameterTypes1 =
 		new Class[] {String.class, int.class, int.class};
+	private static final Class<?>[] _getAlertsParameterTypes2 = new Class[] {};
 
 }

@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-sm-8">
         	<liferay-ui:error key="unknown-error" message="eu.unknown-error" targetNode=".mns-page-contact .col-sm-8" />
-        	<liferay-ui:error key="recaptcha-error" message="eu.recaptcha-error" targetNode=".mns-page-contact .col-sm-8" />
+        	<liferay-ui:error key="friendlycaptcha-error" message="eu.friendlycaptcha-error" targetNode=".mns-page-contact .col-sm-8" />
         	<liferay-ui:error key="email-error" message="email-error" targetNode=".mns-page-contact .col-sm-8" />
         	<liferay-ui:error key="lastname-error" message="lastname-error" targetNode=".mns-page-contact .col-sm-8" />
         	<liferay-ui:error key="firstname-error" message="firstname-error" targetNode=".mns-page-contact .col-sm-8" />
@@ -49,7 +49,9 @@
 	                    </label>
 	                </div>
 	                <div class="recaptcha" style="margin-top: 20px;">
-	                	<div class="g-recaptcha" data-sitekey="${recaptchaKey}"></div>
+	                	<div class="frc-captcha"
+							 data-puzzle-endpoint="${friendlycaptchaPuzzleURL}"
+							 data-sitekey="${friendlycaptcha}"></div>
 	                </div>
 	                <div class="mns-submit">
 	                    <span></span>
@@ -75,6 +77,10 @@
         </aside>
     </div>
 </div>
+
+<script type="module" src="/o/0-global-theme/libs/friendlycaptcha/widget.module.min.js" async defer ></script>
+<script nomodule src="/o/0-global-theme/libs/friendlycaptcha/widget.min.js" async defer></script>
+
 <style>
 	.lfr-alert-container {
 	    position: static;

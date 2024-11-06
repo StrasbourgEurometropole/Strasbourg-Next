@@ -114,10 +114,13 @@ function displayInfos(obj) {
                 // A partir du moment où on a des infos sur la delib, on peut l'afficher
                 if(deliberationJSON.order && deliberationJSON.title) {
                     var title = frontDelibTitle.getElementsByTagName("h2")[0];
-                    title.textContent = obj.session.title +' Point '+deliberationJSON.order;
+                    title.innerHTML = obj.session.title + ' -  <span style="text-transform: none"> Point n°' + deliberationJSON.order + '</span>';
 
                     var description = frontDelibDescription.getElementsByTagName("div")[0];
-                    description.textContent = deliberationJSON.title;
+                    var amendement = "";
+                    if(deliberationJSON.amendement != "")
+                        amendement = deliberationJSON.orderAmendement + ". "
+                    description.textContent = amendement + deliberationJSON.title;
 
                     frontDelibTitle.style.display = "flex";
                     frontDelibDescription.style.display = "block";

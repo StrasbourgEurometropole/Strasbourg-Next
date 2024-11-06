@@ -78,6 +78,7 @@ public class CampaignEventWrapper
 		attributes.put("themesIds", getThemesIds());
 		attributes.put("typesIds", getTypesIds());
 		attributes.put("publicsIds", getPublicsIds());
+		attributes.put("tagsNames", getTagsNames());
 		attributes.put("bookingDescription", getBookingDescription());
 		attributes.put("bookingURL", getBookingURL());
 		attributes.put("registration", isRegistration());
@@ -352,6 +353,12 @@ public class CampaignEventWrapper
 
 		if (publicsIds != null) {
 			setPublicsIds(publicsIds);
+		}
+
+		String tagsNames = (String)attributes.get("tagsNames");
+
+		if (tagsNames != null) {
+			setTagsNames(tagsNames);
 		}
 
 		String bookingDescription = (String)attributes.get(
@@ -1253,6 +1260,16 @@ public class CampaignEventWrapper
 	@Override
 	public Map<java.util.Locale, String> getSubtitleMap() {
 		return model.getSubtitleMap();
+	}
+
+	/**
+	 * Returns the tags names of this campaign event.
+	 *
+	 * @return the tags names of this campaign event
+	 */
+	@Override
+	public String getTagsNames() {
+		return model.getTagsNames();
 	}
 
 	/**
@@ -2355,6 +2372,16 @@ public class CampaignEventWrapper
 		java.util.Locale defaultLocale) {
 
 		model.setSubtitleMap(subtitleMap, defaultLocale);
+	}
+
+	/**
+	 * Sets the tags names of this campaign event.
+	 *
+	 * @param tagsNames the tags names of this campaign event
+	 */
+	@Override
+	public void setTagsNames(String tagsNames) {
+		model.setTagsNames(tagsNames);
 	}
 
 	/**

@@ -26,7 +26,10 @@ title="Overlay" />
 
                         <ul class="st-filters-list">
                             <li>
-                                <button type="button" id="dynamic_search_type_pages" data-entity-classname="com.liferay.journal.model.JournalArticle" class="st-btn-filter-search st-is-active" aria-pressed="true">Pages</button>
+                                <button type="button" id="dynamic_search_type_layouts" data-entity-classname="com.liferay.portal.kernel.model.Layout" class="st-btn-filter-search st-is-active" aria-pressed="true"><liferay-ui:message key="search.pages" /></button>
+                            </li>
+                            <li>
+                                <button type="button" id="dynamic_search_type_pages" data-entity-classname="com.liferay.journal.model.JournalArticle" class="st-btn-filter-search st-is-active" aria-pressed="true"><liferay-ui:message key="search.news" /></button>
                             </li>
                             <li>
                                 <button type="button" id="dynamic_search_type_events" data-entity-classname="eu.strasbourg.service.agenda.model.Event" class="st-btn-filter-search st-is-active" aria-pressed="true"><liferay-ui:message key="search.event" /></button>
@@ -40,6 +43,12 @@ title="Overlay" />
                             <li>
                                 <button type="button" id="dynamic_search_type_officals" data-entity-classname="eu.strasbourg.service.official.model.Official" class="st-btn-filter-search st-is-active" aria-pressed="true"><liferay-ui:message key="search.officals" /></button>
                             </li>
+                            <li>
+                                <button type="button" id="dynamic_search_type_activity" data-entity-classname="eu.strasbourg.service.activity.model.Activity" class="st-btn-filter-search st-is-active" aria-pressed="true"><liferay-ui:message key="search.activity" /></button>
+                            </li>
+                            <li>
+                                <button type="button" id="dynamic_search_type_activityCourse" data-entity-classname="eu.strasbourg.service.activity.model.ActivityCourse" class="st-btn-filter-search st-is-active" aria-pressed="true"><liferay-ui:message key="search.activity-course" /></button>
+                            </li>
                         </ul>
                     </fieldset>
 
@@ -50,7 +59,9 @@ title="Overlay" />
                         <span class="st-results__total" id="results-total">0</span>
                     </div>
 
-                    <p id="results-display" class="st-text" style="width:100%; font-size: 12px; display: none;"><liferay-ui:message key="eu.strasbourg.dynamic-search-strasbourg-result-display-x" arguments="${delta}" /></p>
+                    <input type="hidden" id="nb-results" value="0" />
+                    <p id="results-display" class="st-results-show" style="display: none;">
+                    </p>
                 </div>
         </form>
 
@@ -63,6 +74,9 @@ title="Overlay" />
                     </div>
                     <ul id="results"  class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small">
                     </ul>
+                    <button type="button" id="see-more" class="st-btn" style="display: none" onclick="addResult()">
+                        <liferay-ui:message key="eu.strasbourg.dynamic-search-strasbourg-see-more" />
+                    </button>
                 </div>
             </div>
         </div>

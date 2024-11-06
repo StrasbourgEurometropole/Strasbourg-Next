@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <structure>
+        <name>Footer général</name>
+        <key>footer-general</key>
+        <definition>footer-general-structure.json</definition>
+        <layout>footer-general-layout.json</layout>
+    </structure>
+    <template>
+        <name>Footer général</name>
+        <key>footer-general</key>
+        <script>footer-general.ftl</script>
+    </template>
+</root>

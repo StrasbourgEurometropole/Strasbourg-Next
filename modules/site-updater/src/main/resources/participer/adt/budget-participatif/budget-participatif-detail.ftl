@@ -272,6 +272,11 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     <#list entry.filesIds?split(",") as fileId>
 
                                             <#assign url = fileEntryHelper.getFileEntryURL(fileId?number) />
+
+                                            <#if url="">
+                                                <#continue>
+                                            </#if>
+
                                             <#assign title = fileEntryHelper.getFileTitle(fileId?number, locale) />
                                             <#assign size = fileEntryHelper.getReadableFileEntrySize(fileId?number, locale) />
 
@@ -327,9 +332,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <#assign nbSupportOfUserForEntry = entry.getNbSupportOfUser(userID) >
                     <#assign nbSupportOfUserForActivePhase = entry.getNbSupportOfUserInActivePhase(userID) >
 
-                    <a href="#Support" data-nbsupports="${nbSupportOfUserForEntry}" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
+                    <a href="#Support" data-nbsupports="${nbSupportOfUserForEntry}" class="pro-btn-black" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
                     <p class="pro-txt-vote">Il vous reste <strong  id="nbUserSupports">${nbSupportForActivePhase - nbSupportOfUserForActivePhase}</strong> possibilité(s) de voter pour un projet</p>
-                    <a href="#RemoveSupport" class="pro-btn-yellow">
+                    <a href="#RemoveSupport" class="pro-btn-black">
                         Retirer vote (<strong  id="nbUserEntrySupports">${nbSupportOfUserForEntry}</strong>)
                     </a>
 
@@ -347,13 +352,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     </script>
 
                 <#elseif isUserBanned> <#--  -->
-                    <a href="#" name="#IsBanned" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
+                    <a href="#" name="#IsBanned" class="pro-btn-black" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
                 <#else> <#--  -->
-                    <a href="#" name="#Pact-sign" class="pro-btn-yellow" data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
+                    <a href="#" name="#Pact-sign" class="pro-btn-black data-toggle="modal" data-target="#modalVote">${entry.getBPbuttonMessageState(request)}</a>
                     <p class="pro-txt-vote">Il vous reste <strong>${nbSupportForActivePhase}</strong> possibilités de voter pour un projet</p>
                 </#if>
             <#elseif isEditable && isUserloggedIn && hasUserPactSign && !isUserBanned && isAuthor>
-                <a href="#showModalEditBudget" data-toggle="modal" data-target="#modalEditBudget" class="pro-btn-yellow">MODIFIER</a>
+                <a href="#showModalEditBudget" data-toggle="modal" data-target="#modalEditBudget" class="pro-btn-black">MODIFIER</a>
             <#else>
                 <a href="#" class="pro-btn-black" id="voteButton">${entry.getBPbuttonMessageState(request)}</a>
             </#if>
@@ -479,6 +484,21 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             var marker = getBudgetParticipatifMarker(
                 budgetParticipatifJSON,
                 [budgetParticipatifJSON.placitPlaces[i].mercatorY, budgetParticipatifJSON.placitPlaces[i].mercatorX]
+            );
+
+            // Ajout du point dans le Cluster de marqueurs
+            markersCluster.addLayer(marker);
+            // Ajout du marker dans le tempon
+            budgetParticipatifMarkers.push(marker);
+        }
+
+        if(budgetParticipatifMarkers.length == 0) {
+            // Par defaut on mets le centre administratif de la ville de Strasbourg
+            // 48.5737017330932, 7.752943258552335
+
+            var marker = getBudgetParticipatifMarker(
+                budgetParticipatifJSON,
+                [48.5737017330932, 7.752943258552335]
             );
 
             // Ajout du point dans le Cluster de marqueurs

@@ -359,6 +359,14 @@ public class PublicHolidayWrapper
 		model.setUuid(uuid);
 	}
 
+	/**
+	 * Retourne la version JSON des jours fériés
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON() {
+		return model.toJSON();
+	}
+
 	@Override
 	public String toXmlString() {
 		return model.toXmlString();

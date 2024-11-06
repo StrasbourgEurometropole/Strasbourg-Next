@@ -1,0 +1,221 @@
+{
+  "definitionSchemaVersion": "2.0",
+  "availableLanguageIds": [
+    "fr_FR"
+  ],
+  "successPage": {
+    "body": {},
+    "title": {},
+    "enabled": false
+  },
+  "defaultLanguageId": "fr_FR",
+  "fields": [
+    {
+      "dataType": "image",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Image"
+      },
+      "type": "image",
+      "required": false,
+      "showLabel": true,
+      "indexType": "text",
+      "visibilityExpression": "",
+      "fieldNamespace": "",
+      "repeatable": false,
+      "requiredDescription": true,
+      "name": "image",
+      "localizable": true,
+      "fieldReference": "image",
+      "tip": {
+        "fr_FR": ""
+      }
+    },
+    {
+      "labelAtStructureLevel": true,
+      "ddmDataProviderInstanceId": [],
+      "tooltip": {
+        "fr_FR": ""
+      },
+      "requireConfirmation": false,
+      "type": "text",
+      "required": false,
+      "showLabel": true,
+      "displayStyle": "singleline",
+      "ddmDataProviderInstanceOutput": [],
+      "repeatable": false,
+      "options": [
+        {
+          "reference": "Option06724654",
+          "label": {
+            "fr_FR": "Option"
+          },
+          "value": "Option06724654"
+        }
+      ],
+      "nativeField": false,
+      "confirmationLabel": {
+        "fr_FR": ""
+      },
+      "fieldReference": "lastname",
+      "tip": {
+        "fr_FR": ""
+      },
+      "placeholder": {
+        "fr_FR": ""
+      },
+      "direction": [
+        "vertical"
+      ],
+      "hideField": false,
+      "confirmationErrorMessage": {
+        "fr_FR": ""
+      },
+      "autocomplete": false,
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Nom"
+      },
+      "indexType": "keyword",
+      "visibilityExpression": "",
+      "fieldNamespace": "",
+      "name": "lastname",
+      "localizable": true,
+      "dataSourceType": "manual"
+    },
+    {
+      "labelAtStructureLevel": true,
+      "ddmDataProviderInstanceId": [],
+      "tooltip": {
+        "fr_FR": ""
+      },
+      "requireConfirmation": false,
+      "type": "text",
+      "required": false,
+      "showLabel": true,
+      "displayStyle": "singleline",
+      "ddmDataProviderInstanceOutput": [],
+      "repeatable": false,
+      "options": [
+        {
+          "reference": "Option06724654",
+          "label": {
+            "fr_FR": "Option"
+          },
+          "value": "Option06724654"
+        }
+      ],
+      "nativeField": false,
+      "confirmationLabel": {
+        "fr_FR": ""
+      },
+      "fieldReference": "firstname",
+      "tip": {
+        "fr_FR": ""
+      },
+      "placeholder": {
+        "fr_FR": ""
+      },
+      "direction": [
+        "vertical"
+      ],
+      "hideField": false,
+      "confirmationErrorMessage": {
+        "fr_FR": ""
+      },
+      "autocomplete": false,
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Prénom"
+      },
+      "indexType": "keyword",
+      "visibilityExpression": "",
+      "fieldNamespace": "",
+      "name": "firstname",
+      "localizable": true,
+      "dataSourceType": "manual"
+    },
+    {
+      "labelAtStructureLevel": true,
+      "ddmDataProviderInstanceId": [],
+      "tooltip": {
+        "fr_FR": ""
+      },
+      "requireConfirmation": false,
+      "type": "text",
+      "required": false,
+      "showLabel": true,
+      "displayStyle": "singleline",
+      "ddmDataProviderInstanceOutput": [],
+      "repeatable": false,
+      "options": [
+        {
+          "reference": "Option06724654",
+          "label": {
+            "fr_FR": "Option"
+          },
+          "value": "Option06724654"
+        }
+      ],
+      "nativeField": false,
+      "confirmationLabel": {
+        "fr_FR": ""
+      },
+      "fieldReference": "function",
+      "tip": {
+        "fr_FR": ""
+      },
+      "placeholder": {
+        "fr_FR": ""
+      },
+      "direction": [
+        "vertical"
+      ],
+      "hideField": false,
+      "confirmationErrorMessage": {
+        "fr_FR": ""
+      },
+      "autocomplete": false,
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Fonction/Rôle"
+      },
+      "indexType": "keyword",
+      "visibilityExpression": "",
+      "fieldNamespace": "",
+      "name": "function",
+      "localizable": true,
+      "dataSourceType": "manual"
+    },
+    {
+      "dataType": "string",
+      "predefinedValue": {
+        "fr_FR": ""
+      },
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Bio"
+      },
+      "type": "rich_text",
+      "required": false,
+      "showLabel": true,
+      "indexType": "text",
+      "requiredErrorMessage": {
+        "fr_FR": ""
+      },
+      "visibilityExpression": "",
+      "fieldNamespace": "",
+      "objectFieldName": "",
+      "repeatable": false,
+      "name": "bio",
+      "localizable": true,
+      "fieldReference": "bio",
+      "tip": {
+        "fr_FR": ""
+      }
+    }
+  ]
+}

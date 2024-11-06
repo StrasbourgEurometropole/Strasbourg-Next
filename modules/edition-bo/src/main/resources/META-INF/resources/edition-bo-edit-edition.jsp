@@ -1,5 +1,8 @@
 <%@ include file="/edition-bo-init.jsp"%>
 <%@page import="eu.strasbourg.service.edition.model.Edition"%>
+<%@ page import="com.liferay.asset.kernel.exception.AssetCategoryException" %>
+<%@ page import="com.liferay.asset.kernel.model.AssetVocabulary" %>
+<%@ page import="com.liferay.petra.string.StringPool" %>
 
 <liferay-portlet:actionURL name="deleteEdition" var="deleteEditionURL">
 	<portlet:param name="cmd" value="deleteEdition" />
@@ -21,6 +24,29 @@
 	<liferay-ui:error key="image-error" message="image-error" />
 	<liferay-ui:error key="description-error" message="description-error" />
 	<liferay-ui:error key="year-error" message="year-error" />
+	<liferay-ui:error exception="<%= AssetCategoryException.class %>">
+
+		<%
+			AssetCategoryException ace = (AssetCategoryException)errorException;
+
+			AssetVocabulary vocabulary = ace.getVocabulary();
+
+			String vocabularyTitle = StringPool.BLANK;
+
+			if (vocabulary != null) {
+				vocabularyTitle = vocabulary.getTitle(locale);
+			}
+		%>
+
+		<c:choose>
+			<c:when test="<%= ace.getType() == AssetCategoryException.AT_LEAST_ONE_CATEGORY %>">
+				<liferay-ui:message arguments="<%= vocabularyTitle %>" key="please-select-at-least-one-category-for-x" translateArguments="<%= false %>" />
+			</c:when>
+			<c:when test="<%= ace.getType() == AssetCategoryException.TOO_MANY_CATEGORIES %>">
+				<liferay-ui:message arguments="<%= vocabularyTitle %>" key="you-cannot-select-more-than-one-category-for-x" translateArguments="<%= false %>" />
+			</c:when>
+		</c:choose>
+	</liferay-ui:error>
 
 	<aui:form action="${saveEditionURL}" method="post" name="fm">
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
@@ -53,7 +79,7 @@
 								var validate = $('#_eu_strasbourg_portlet_edition_EditionBOPortlet_description_fr_FR').val().length > 0;
 								if (!validate) {
 									$("#_eu_strasbourg_portlet_edition_EditionBOPortlet_descriptionEditorContainer").get(0).scrollIntoView();
-									edition.preventDefault();
+									event.preventDefault();
 								}
 								return validate;
 							}
@@ -111,13 +137,13 @@
 						<aui:validator name="custom" errorMessage="requested-vocabularies-error">
 							function (val, fieldNode, ruleValue) {
 								var validated = true;
-								var fields = document.querySelectorAll('[id$=assetCategoriesSelector] > .field-content');
+								var fields = document.querySelectorAll('[id*=assetCategoriesSelector]');
 								for (var i = 0; i < fields.length; i++) {
-									fieldContent = fields[i];
+									var fieldContent = fields[i];
 								    if ($(fieldContent).find('.lexicon-icon-asterisk').length > 0
 								    	&& $(fieldContent).find('input[type="hidden"]').length == 0) {
 								    	validated = false;
-                                        edition.preventDefault();
+                                        event.preventDefault();
 								    	break;
 								    }
 								}

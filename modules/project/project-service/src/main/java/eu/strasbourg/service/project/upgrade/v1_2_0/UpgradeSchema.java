@@ -9,6 +9,6 @@ public class UpgradeSchema extends UpgradeProcess {
     protected void doUpgrade() throws Exception {
         String template = StringUtil.read(
                 UpgradeSchema.class.getResourceAsStream("dependencies/update.sql"));
-        runSQLTemplateString(template, false);
+        runSQLTemplateString(template, true);
     }
 }

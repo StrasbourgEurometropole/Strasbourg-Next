@@ -15,6 +15,7 @@
  */
 package eu.strasbourg.portlet.agenda.action;
 
+import com.liferay.asset.kernel.exception.AssetCategoryException;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -387,6 +388,25 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			_eventLocalService.updateEvent(event, sc);
 			response.sendRedirect(ParamUtil.getString(request, "backURL"));
 
+		} catch (AssetCategoryException e){
+			SessionErrors.add(request, AssetCategoryException.class, e);
+			// on reste sur la page d'édition
+			PortalUtil.copyRequestParameters(request, response);
+
+			ThemeDisplay themeDisplay = (ThemeDisplay) request
+					.getAttribute(WebKeys.THEME_DISPLAY);
+			String portletName = (String) request
+					.getAttribute(WebKeys.PORTLET_ID);
+			PortletURL backURL = PortletURLFactoryUtil.create(request,
+					portletName, themeDisplay.getPlid(),
+					PortletRequest.RENDER_PHASE);
+
+			response.setRenderParameter("backURL", backURL.toString());
+			response.setRenderParameter("cmd", "saveEvent");
+			response.setRenderParameter("mvcPath",
+					"/agenda-bo-edit-event.jsp");
+			return false;
+
 		} catch (PortalException e) {
 			_log.error(e);
 		} catch (IOException e) {
@@ -442,7 +462,7 @@ public class SaveEventActionCommand implements MVCActionCommand {
 			isValid = false;
 		}
 
-		if (!Validator.isUrl(imageURL)) {
+		if (imageId == 0 && !Validator.isUrl(imageURL)) {
 			SessionErrors.add(request, "image-format-error");
 			isValid = false;
 		}

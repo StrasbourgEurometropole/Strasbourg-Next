@@ -465,6 +465,38 @@ public class PlaceServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject getCacheJsonHoraire(
+		HttpPrincipal httpPrincipal, String sigId, String localeId) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				PlaceServiceUtil.class, "getCacheJsonHoraire",
+				_getCacheJsonHoraireParameterTypes14);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, sigId, localeId);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(PlaceServiceHttp.class);
 
 	private static final Class<?>[] _getPlacesParameterTypes0 = new Class[] {};
@@ -492,5 +524,7 @@ public class PlaceServiceHttp {
 		new Class[] {};
 	private static final Class<?>[] _getPlacesGeoJSONParameterTypes11 =
 		new Class[] {};
+	private static final Class<?>[] _getCacheJsonHoraireParameterTypes14 =
+		new Class[] {String.class, String.class};
 
 }

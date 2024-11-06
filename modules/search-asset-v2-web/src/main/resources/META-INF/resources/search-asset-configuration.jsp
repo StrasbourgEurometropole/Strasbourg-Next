@@ -277,9 +277,6 @@
                             <aui:option value="videos" selected="${dc.configurationData.searchForm eq 'videos'}">
                                 <liferay-ui:message key="eu.search.asset.web.configuration.template.videos" />
                             </aui:option>
-                            <aui:option value="summer-christmas-general" selected="${dc.configurationData.searchForm eq 'summer-christmas-general'}">
-                                <liferay-ui:message key="eu.search.asset.web.configuration.template.summer-christmas-general" />
-                            </aui:option>
                             <aui:option value="summer-christmas-agenda" selected="${dc.configurationData.searchForm eq 'summer-christmas-agenda'}">
                                 <liferay-ui:message key="eu.search.asset.web.configuration.template.summer-christmas-agenda" />
                             </aui:option>
@@ -318,6 +315,9 @@
                             </aui:option>
                             <aui:option value="placit-petitions" selected="${dc.configurationData.searchForm eq 'placit-petitions'}">
                                 <liferay-ui:message key="eu.search.asset.web.configuration.template.placit-petitions" />
+                            </aui:option>
+                            <aui:option value="placit-saisinesObservatoire" selected="${dc.configurationData.searchForm eq 'placit-saisinesObservatoire'}">
+                                <liferay-ui:message key="eu.search.asset.web.configuration.template.placit-saisinesObservatoire" />
                             </aui:option>
                             <aui:option value="placit-budgetParticipatif" selected="${dc.configurationData.searchForm eq 'placit-budgetParticipatif'}">
                                 <liferay-ui:message key="eu.search.asset.web.configuration.template.placit-budgetParticipatif" />

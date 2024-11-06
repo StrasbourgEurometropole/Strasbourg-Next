@@ -1,6 +1,19 @@
 <%@ include file="/search-asset-init.jsp" %>
 
 <liferay-portlet:actionURL varImpl="searchActionURL" />
+<portlet:resourceURL id="exportResource" var="exportResourceURL">
+	<portlet:param name="seed" value="${dc.seed}" />
+	<portlet:param name="sortFieldAndType" value="${dc.sortFieldAndTypeFromParam}" />
+	<portlet:param name="keywords" value="${dc.keywords}" />
+	<portlet:param name="startDay" value="${dc.fromDay}" />
+	<portlet:param name="startMonth" value="${dc.fromMonthIndex}" />
+	<portlet:param name="startYear" value="${dc.fromYear}" />
+	<portlet:param name="endDay" value="${dc.toDay}" />
+	<portlet:param name="endMonth" value="${dc.toMonthIndex}" />
+	<portlet:param name="endYear" value="${dc.toYear}" />
+	<portlet:param name="categoriesIds" value="${dc.filterCategoriesIdsString}" />
+</portlet:resourceURL>
+
 	<!-- Formulaire -->
 	<aui:form action="${searchActionURL}" method="get" name="fm" id="search-asset-form" cssClass="seu-view-filters">
 		<liferay-portlet:renderURLParams varImpl="searchActionURL" />
@@ -100,7 +113,7 @@
 		<!-- Export -->
 		<c:if test="${dc.displayExport}">
 			<div class="btn-line">
-				<a href="${dc.exportResourceURL}" title="<liferay-ui:message key="save-to-pdf" />" download class="st-btn" role="button" onkeydown="simulateClick(event)">
+				<a href="${exportResourceURL}" title="<liferay-ui:message key="save-to-pdf" />" download class="st-btn" role="button" onkeydown="simulateClick(event)">
 					<liferay-ui:message key="save-to-pdf" />
 				</a>
 			</div>

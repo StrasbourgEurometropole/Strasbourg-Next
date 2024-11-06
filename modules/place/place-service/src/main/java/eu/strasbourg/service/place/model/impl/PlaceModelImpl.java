@@ -94,11 +94,11 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		{"scheduleLinkName", Types.VARCHAR}, {"scheduleLinkURL", Types.VARCHAR},
 		{"phone", Types.VARCHAR}, {"mail", Types.VARCHAR},
 		{"siteURL", Types.VARCHAR}, {"siteLabel", Types.VARCHAR},
-		{"facebookURL", Types.VARCHAR}, {"facebookLabel", Types.VARCHAR},
-		{"instagramURL", Types.VARCHAR}, {"instagramLabel", Types.VARCHAR},
-		{"accesMap", Types.VARCHAR}, {"access_", Types.CLOB},
-		{"accessForDisabled", Types.CLOB}, {"accessForBlind", Types.BOOLEAN},
-		{"accessForDeaf", Types.BOOLEAN},
+		{"bookingURL", Types.VARCHAR}, {"facebookURL", Types.VARCHAR},
+		{"facebookLabel", Types.VARCHAR}, {"instagramURL", Types.VARCHAR},
+		{"instagramLabel", Types.VARCHAR}, {"accesMap", Types.VARCHAR},
+		{"access_", Types.CLOB}, {"accessForDisabled", Types.CLOB},
+		{"accessForBlind", Types.BOOLEAN}, {"accessForDeaf", Types.BOOLEAN},
 		{"accessForWheelchair", Types.BOOLEAN},
 		{"accessForElder", Types.BOOLEAN},
 		{"accessForDeficient", Types.BOOLEAN}, {"RTEnabled", Types.BOOLEAN},
@@ -156,6 +156,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		TABLE_COLUMNS_MAP.put("mail", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("siteURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("siteLabel", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("bookingURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("facebookURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("facebookLabel", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("instagramURL", Types.VARCHAR);
@@ -186,7 +187,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(400) null,addressComplement VARCHAR(400) null,addressStreet VARCHAR(400) null,addressDistribution VARCHAR(400) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,locationId VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,contenuTooltipCarto TEXT null,hasURLSchedule BOOLEAN,scheduleLinkName STRING null,scheduleLinkURL STRING null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,facebookURL STRING null,facebookLabel STRING null,instagramURL STRING null,instagramLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTEnabled BOOLEAN,RTType VARCHAR(75) null,RTExternalId VARCHAR(75) null,RTAvailable LONG,RTOccupation LONG,RTCapacity LONG,RTStatus VARCHAR(75) null,RTLastUpdate DATE null,imageId LONG,imageWidth INTEGER,imageHeight INTEGER,imageIds VARCHAR(400) null,videosIds VARCHAR(400) null,priceId LONG,documentsIds VARCHAR(400) null)";
+		"create table place_Place (uuid_ VARCHAR(75) null,placeId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,SIGid VARCHAR(75) null,name VARCHAR(400) null,addressComplement VARCHAR(400) null,addressStreet VARCHAR(400) null,addressDistribution VARCHAR(400) null,addressZipCode VARCHAR(75) null,addressCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,RGF93X VARCHAR(75) null,RGF93Y VARCHAR(75) null,locationId VARCHAR(75) null,alias_ STRING null,presentation TEXT null,serviceAndActivities TEXT null,characteristics TEXT null,subjectToPublicHoliday BOOLEAN,exceptionalSchedule TEXT null,displayEvents BOOLEAN,additionalInformation TEXT null,contenuTooltipCarto TEXT null,hasURLSchedule BOOLEAN,scheduleLinkName STRING null,scheduleLinkURL STRING null,phone VARCHAR(75) null,mail VARCHAR(75) null,siteURL STRING null,siteLabel STRING null,bookingURL STRING null,facebookURL STRING null,facebookLabel STRING null,instagramURL STRING null,instagramLabel STRING null,accesMap STRING null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,RTEnabled BOOLEAN,RTType VARCHAR(75) null,RTExternalId VARCHAR(75) null,RTAvailable LONG,RTOccupation LONG,RTCapacity LONG,RTStatus VARCHAR(75) null,RTLastUpdate DATE null,imageId LONG,imageWidth INTEGER,imageHeight INTEGER,imageIds VARCHAR(400) null,videosIds VARCHAR(400) null,priceId LONG,documentsIds VARCHAR(400) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table place_Place";
 
@@ -376,6 +377,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			attributeGetterFunctions.put("mail", Place::getMail);
 			attributeGetterFunctions.put("siteURL", Place::getSiteURL);
 			attributeGetterFunctions.put("siteLabel", Place::getSiteLabel);
+			attributeGetterFunctions.put("bookingURL", Place::getBookingURL);
 			attributeGetterFunctions.put("facebookURL", Place::getFacebookURL);
 			attributeGetterFunctions.put(
 				"facebookLabel", Place::getFacebookLabel);
@@ -534,6 +536,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 				"siteURL", (BiConsumer<Place, String>)Place::setSiteURL);
 			attributeSetterBiConsumers.put(
 				"siteLabel", (BiConsumer<Place, String>)Place::setSiteLabel);
+			attributeSetterBiConsumers.put(
+				"bookingURL", (BiConsumer<Place, String>)Place::setBookingURL);
 			attributeSetterBiConsumers.put(
 				"facebookURL",
 				(BiConsumer<Place, String>)Place::setFacebookURL);
@@ -2529,6 +2533,118 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 
 	@JSON
 	@Override
+	public String getBookingURL() {
+		if (_bookingURL == null) {
+			return "";
+		}
+		else {
+			return _bookingURL;
+		}
+	}
+
+	@Override
+	public String getBookingURL(Locale locale) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getBookingURL(languageId);
+	}
+
+	@Override
+	public String getBookingURL(Locale locale, boolean useDefault) {
+		String languageId = LocaleUtil.toLanguageId(locale);
+
+		return getBookingURL(languageId, useDefault);
+	}
+
+	@Override
+	public String getBookingURL(String languageId) {
+		return LocalizationUtil.getLocalization(getBookingURL(), languageId);
+	}
+
+	@Override
+	public String getBookingURL(String languageId, boolean useDefault) {
+		return LocalizationUtil.getLocalization(
+			getBookingURL(), languageId, useDefault);
+	}
+
+	@Override
+	public String getBookingURLCurrentLanguageId() {
+		return _bookingURLCurrentLanguageId;
+	}
+
+	@JSON
+	@Override
+	public String getBookingURLCurrentValue() {
+		Locale locale = getLocale(_bookingURLCurrentLanguageId);
+
+		return getBookingURL(locale);
+	}
+
+	@Override
+	public Map<Locale, String> getBookingURLMap() {
+		return LocalizationUtil.getLocalizationMap(getBookingURL());
+	}
+
+	@Override
+	public void setBookingURL(String bookingURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_bookingURL = bookingURL;
+	}
+
+	@Override
+	public void setBookingURL(String bookingURL, Locale locale) {
+		setBookingURL(bookingURL, locale, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setBookingURL(
+		String bookingURL, Locale locale, Locale defaultLocale) {
+
+		String languageId = LocaleUtil.toLanguageId(locale);
+		String defaultLanguageId = LocaleUtil.toLanguageId(defaultLocale);
+
+		if (Validator.isNotNull(bookingURL)) {
+			setBookingURL(
+				LocalizationUtil.updateLocalization(
+					getBookingURL(), "BookingURL", bookingURL, languageId,
+					defaultLanguageId));
+		}
+		else {
+			setBookingURL(
+				LocalizationUtil.removeLocalization(
+					getBookingURL(), "BookingURL", languageId));
+		}
+	}
+
+	@Override
+	public void setBookingURLCurrentLanguageId(String languageId) {
+		_bookingURLCurrentLanguageId = languageId;
+	}
+
+	@Override
+	public void setBookingURLMap(Map<Locale, String> bookingURLMap) {
+		setBookingURLMap(bookingURLMap, LocaleUtil.getSiteDefault());
+	}
+
+	@Override
+	public void setBookingURLMap(
+		Map<Locale, String> bookingURLMap, Locale defaultLocale) {
+
+		if (bookingURLMap == null) {
+			return;
+		}
+
+		setBookingURL(
+			LocalizationUtil.updateLocalization(
+				bookingURLMap, getBookingURL(), "BookingURL",
+				LocaleUtil.toLanguageId(defaultLocale)));
+	}
+
+	@JSON
+	@Override
 	public String getFacebookURL() {
 		if (_facebookURL == null) {
 			return "";
@@ -3890,6 +4006,17 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			}
 		}
 
+		Map<Locale, String> bookingURLMap = getBookingURLMap();
+
+		for (Map.Entry<Locale, String> entry : bookingURLMap.entrySet()) {
+			Locale locale = entry.getKey();
+			String value = entry.getValue();
+
+			if (Validator.isNotNull(value)) {
+				availableLanguageIds.add(LocaleUtil.toLanguageId(locale));
+			}
+		}
+
 		Map<Locale, String> facebookURLMap = getFacebookURLMap();
 
 		for (Map.Entry<Locale, String> entry : facebookURLMap.entrySet()) {
@@ -4134,6 +4261,16 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 				getSiteLabel(defaultLocale), defaultLocale, defaultLocale);
 		}
 
+		String bookingURL = getBookingURL(defaultLocale);
+
+		if (Validator.isNull(bookingURL)) {
+			setBookingURL(getBookingURL(modelDefaultLanguageId), defaultLocale);
+		}
+		else {
+			setBookingURL(
+				getBookingURL(defaultLocale), defaultLocale, defaultLocale);
+		}
+
 		String facebookURL = getFacebookURL(defaultLocale);
 
 		if (Validator.isNull(facebookURL)) {
@@ -4270,6 +4407,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		placeImpl.setMail(getMail());
 		placeImpl.setSiteURL(getSiteURL());
 		placeImpl.setSiteLabel(getSiteLabel());
+		placeImpl.setBookingURL(getBookingURL());
 		placeImpl.setFacebookURL(getFacebookURL());
 		placeImpl.setFacebookLabel(getFacebookLabel());
 		placeImpl.setInstagramURL(getInstagramURL());
@@ -4374,6 +4512,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		placeImpl.setSiteURL(this.<String>getColumnOriginalValue("siteURL"));
 		placeImpl.setSiteLabel(
 			this.<String>getColumnOriginalValue("siteLabel"));
+		placeImpl.setBookingURL(
+			this.<String>getColumnOriginalValue("bookingURL"));
 		placeImpl.setFacebookURL(
 			this.<String>getColumnOriginalValue("facebookURL"));
 		placeImpl.setFacebookLabel(
@@ -4784,6 +4924,14 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 			placeCacheModel.siteLabel = null;
 		}
 
+		placeCacheModel.bookingURL = getBookingURL();
+
+		String bookingURL = placeCacheModel.bookingURL;
+
+		if ((bookingURL != null) && (bookingURL.length() == 0)) {
+			placeCacheModel.bookingURL = null;
+		}
+
 		placeCacheModel.facebookURL = getFacebookURL();
 
 		String facebookURL = placeCacheModel.facebookURL;
@@ -5071,6 +5219,8 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 	private String _siteURLCurrentLanguageId;
 	private String _siteLabel;
 	private String _siteLabelCurrentLanguageId;
+	private String _bookingURL;
+	private String _bookingURLCurrentLanguageId;
 	private String _facebookURL;
 	private String _facebookURLCurrentLanguageId;
 	private String _facebookLabel;
@@ -5180,6 +5330,7 @@ public class PlaceModelImpl extends BaseModelImpl<Place> implements PlaceModel {
 		_columnOriginalValues.put("mail", _mail);
 		_columnOriginalValues.put("siteURL", _siteURL);
 		_columnOriginalValues.put("siteLabel", _siteLabel);
+		_columnOriginalValues.put("bookingURL", _bookingURL);
 		_columnOriginalValues.put("facebookURL", _facebookURL);
 		_columnOriginalValues.put("facebookLabel", _facebookLabel);
 		_columnOriginalValues.put("instagramURL", _instagramURL);

@@ -21,7 +21,7 @@
 					${dc.getAlertError("email-error", "email-error", "emailFrom")}
 					${dc.getAlertError("invalid-mail-error", "eu.invalid-mail-error", "emailFrom")}
 					${dc.getAlertError("content-error", "content-error", "demande")}
-					${dc.getAlertError("recaptcha-error", "eu.recaptcha-error", "recaptcha-contact-form")}
+					${dc.getAlertError("friendlycaptcha-error", "eu.friendlycaptcha-error", "friendlycaptcha-contact-form")}
 					${dc.getAlertError("unknown-error", "eu.unknown-error", "")}
 			</ul>
 		</c:if>
@@ -65,7 +65,9 @@
 
 			<div class="st-group-field st-col-12@t-small">
 				<div class="recaptcha" style="margin-top: 20px;">
-					<div class="g-recaptcha" id="recaptcha-contact-form" data-sitekey="${recaptchaKey}"></div>
+					<div class="frc-captcha" id="friendlycaptcha-contact-form"
+						 data-puzzle-endpoint="${friendlycaptchaPuzzleURL}"
+						 data-sitekey="${friendlycaptcha}"></div>
 				</div>
 			</div>
 
@@ -114,3 +116,6 @@
 	</c:if>
 
 </div>
+
+<script type="module" src="/o/0-global-theme/libs/friendlycaptcha/widget.module.min.js" async defer ></script>
+<script nomodule src="/o/0-global-theme/libs/friendlycaptcha/widget.min.js" async defer></script>

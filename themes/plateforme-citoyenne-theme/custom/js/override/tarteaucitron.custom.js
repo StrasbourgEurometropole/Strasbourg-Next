@@ -18,3 +18,11 @@
 
 // Service custom : genially
 (tarteaucitron.job = tarteaucitron.job || []).push('genially');
+
+// Service Vimeo
+// <div class="vimeo_player" videoID="video_id" width="width" height="height"></div>
+(tarteaucitron.job = tarteaucitron.job || []).push('vimeo');
+
+// Service Calameo
+// <div class="calameo-canvas" data-id="bkcode" width="width" height="height"></div>
+(tarteaucitron.job = tarteaucitron.job || []).push('calameo');

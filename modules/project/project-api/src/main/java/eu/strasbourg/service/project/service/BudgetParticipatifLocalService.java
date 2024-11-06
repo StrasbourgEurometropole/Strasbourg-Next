@@ -18,7 +18,6 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
-import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -411,17 +410,6 @@ public interface BudgetParticipatifLocalService
 	public List<BudgetParticipatif> getPublishedByGroupId(long groupId);
 
 	/**
-	 * Recuperer les budgets participatifs "coup de coeur" les plus recents
-	 *
-	 * @param groupId ID du site
-	 * @param delta Nombre de resultats max voulu
-	 * @return Liste des budgets participatifs coup de coeurs recent
-	 */
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<BudgetParticipatif> getRecentIsCrushed(
-		long groupId, int delta, AssetCategory phase);
-
-	/**
 	 * Methode permettant de recuperer une liste de budgets participatifs trie par nombre de commentaires
 	 *
 	 * @param groupId ID du site
@@ -440,12 +428,6 @@ public interface BudgetParticipatifLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<BudgetParticipatif> getSortedByNbSupports(
 		long groupId, AssetCategory phase);
-
-	/**
-	 * On randomise la date de modifications des budgets participatifs
-	 * Cela permet de simuler un tri aléatoire
-	 */
-	public void randomizeModifiedDate() throws SearchException;
 
 	public void removeBudgetParticipatif(long budgetId) throws PortalException;
 

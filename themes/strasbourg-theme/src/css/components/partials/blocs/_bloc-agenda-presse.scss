@@ -10,7 +10,7 @@
 	}
 
 	.st-liste {
-		border: 1px solid rgba($c_white, 0.25);
+		border: 1px solid color-mix(in srgb, $c_white 25%, transparent);
 		border-radius: $border-radius;
 	}
 

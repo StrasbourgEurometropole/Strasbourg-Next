@@ -24,7 +24,10 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         </h1>
         <@liferay.breadcrumbs />
         <div class="st-img-wrapper st-img-fit-content st-img-center" tabindex="0">
-            <@strasbourg.addImage fileEntryId=entry.getImageId() maxWidth=1120 showCopyright=false />
+            <#if entry.publishedEditions?has_content>
+                <#assign edition=entry.publishedEditions?reverse?first />
+                <@strasbourg.addImage fileEntryId=edition.getImageId() maxWidth=1120 showCopyright=false  />
+            </#if>
         </div>
     </div>
 </header>

@@ -1,5 +1,6 @@
 package eu.strasbourg.portlet.project.action;
 
+import com.liferay.asset.kernel.exception.AssetCategoryException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -231,6 +232,24 @@ public class SaveSaisineObservatoireActionCommand implements MVCActionCommand {
 
             _saisineObservatoireLocalService.updateSaisineObservatoire(saisineObservatoire,sc);
 			response.sendRedirect(ParamUtil.getString(request, "backURL"));
+
+		} catch (AssetCategoryException e){
+			SessionErrors.add(request, AssetCategoryException.class, e);
+			// on reste sur la page d'édition
+			PortalUtil.copyRequestParameters(request, response);
+
+			ThemeDisplay themeDisplay = (ThemeDisplay) request
+					.getAttribute(WebKeys.THEME_DISPLAY);
+			String portletName = (String) request
+					.getAttribute(WebKeys.PORTLET_ID);
+			PortletURL returnURL = PortletURLFactoryUtil.create(request,
+					portletName, themeDisplay.getPlid(),
+					PortletRequest.RENDER_PHASE);
+
+			response.setRenderParameter("backURL", returnURL.toString());
+			response.setRenderParameter("cmd", "saveSaisineObservatoire");
+			response.setRenderParameter("mvcPath","/project-bo-edit-saisine-observatoire.jsp");
+			return false;
 		} catch (PortalException e) {
 			_log.error(e);
 		} catch (IOException e) {

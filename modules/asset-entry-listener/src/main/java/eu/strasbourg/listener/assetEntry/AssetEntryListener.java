@@ -46,6 +46,12 @@ public class AssetEntryListener extends BaseModelListener<AssetEntry>  {
 		else if(className.endsWith("model.EditionGallery")) {
 			_favoriteLocalService.deleteFavoriteByEntityIdAndType(model.getClassPK(), FavoriteType.GALLERY.getId());
 		}
+		else if(className.endsWith("model.Arret")) {
+			_favoriteLocalService.deleteFavoriteByEntityIdAndType(model.getClassPK(), FavoriteType.ARRET.getId());
+		}
+		else if(className.endsWith("model.Video")) {
+			_favoriteLocalService.deleteFavoriteByEntityIdAndType(model.getClassPK(), FavoriteType.VIDEO.getId());
+		}
 		 
 	}
 	

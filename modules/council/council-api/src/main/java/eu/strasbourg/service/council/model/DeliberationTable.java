@@ -49,6 +49,8 @@ public class DeliberationTable extends BaseTable<DeliberationTable> {
 			Column.FLAG_DEFAULT);
 	public final Column<DeliberationTable, Date> statusDate = createColumn(
 		"statusDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
+	public final Column<DeliberationTable, String> amendement = createColumn(
+		"amendement", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<DeliberationTable, String> title = createColumn(
 		"title", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<DeliberationTable, Integer> order = createColumn(
