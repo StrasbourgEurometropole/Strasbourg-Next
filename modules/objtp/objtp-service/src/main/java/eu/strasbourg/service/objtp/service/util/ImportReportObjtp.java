@@ -16,34 +16,121 @@ import eu.strasbourg.utils.StrasbourgPropsUtil;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 
 public class ImportReportObjtp {
 
-	private String globalErrorCauseObjectCategory;
-	private String globalErrorCauseFoundObject;
-	private int errorObjectCategoryCount;
-	private int errorFoundObjectCount;
-	private int foundObjectNoImageCount;
-	private List<ImportReportLineObjtp> reportLinesObjectCategory;
-	private List<ImportReportLineObjtp> reportLinesFoundObject;
-	private List<ImportReportLineObjtp> reportLinesNoImage;
+
 	private int objectCategoryStatus;
-	private int foundObjectStatus;
+	private String globalErrorCauseObjectCategory;
 	private int totalObjectCategoryCount;
-	private int totalFoundObjectCount;
+	private int errorObjectCategoryCount;
+	private List<ImportReportLineObjtp> reportLinesObjectCategory;
+	private int foundObjectStatus;
+	private String globalErrorCauseFoundObject;
+	private int createdFoundObjectCount;
+	private int modifiedFoundObjectCount;
+	private int unmodifiedFoundObjectCount;
+	private int errorFoundObjectCount;
+	private List<ImportReportLineObjtp> reportLinesFoundObject;
+	private Map<String, List<Integer>> reportLinesImageCount;
 	private Date endDate;
 	
 	public ImportReportObjtp() {
+		this.setObjectCategoryStatus(ImportReportStatusObjtp.SUCCESS);
+		this.setFoundObjectStatus(ImportReportStatusObjtp.SUCCESS);
+
 		this.reportLinesObjectCategory = new ArrayList<>();
 		this.reportLinesFoundObject = new ArrayList<>();
-		this.reportLinesNoImage = new ArrayList<>();
-		this.setFoundObjectStatus(ImportReportStatusObjtp.SUCCESS);
-		this.setObjectCategoryStatus(ImportReportStatusObjtp.SUCCESS);
+		this.reportLinesImageCount = new HashMap<>();
 	}
 	
+
+	public int getObjectCategoryStatus() {
+		return objectCategoryStatus;
+	}
+	public void setObjectCategoryStatus(int objectCategoryStatus) {
+		this.objectCategoryStatus = objectCategoryStatus;
+	}
+
+	public String getGlobalErrorCauseObjectCategory() {
+		return globalErrorCauseObjectCategory;
+	}
+	public void setGlobalErrorCauseObjectCategory(String globalErrorCauseObjectCategory) {
+		this.globalErrorCauseObjectCategory = globalErrorCauseObjectCategory;
+	}
+
+	public int getTotalObjectCategoryCount() {
+		return totalObjectCategoryCount;
+	}
+	public void setTotalObjectCategoryCount(int totalObjectCategoryCount) {
+		this.totalObjectCategoryCount = totalObjectCategoryCount;
+	}
+
+	public int getErrorObjectCategoryCount() {
+		return errorObjectCategoryCount;
+	}
+	public void setErrorObjectCategoryCount(int errorObjectCategoryCount) {
+		this.errorObjectCategoryCount = errorObjectCategoryCount;
+	}
+
+	public List<ImportReportLineObjtp> getReportLinesObjectCategory() {
+		return reportLinesObjectCategory;
+	}
+
+	public int getFoundObjectStatus() {
+		return foundObjectStatus;
+	}
+	public void setFoundObjectStatus(int foundObjectStatus) {
+		this.foundObjectStatus = foundObjectStatus;
+	}
+
+	public String getGlobalErrorCauseFoundObject() {
+		return globalErrorCauseFoundObject;
+	}
+	public void setGlobalErrorCauseFoundObject(String globalErrorCauseFoundObject) {
+		this.globalErrorCauseFoundObject = globalErrorCauseFoundObject;
+	}
+
+	public int getCreatedFoundObjectCount() {
+		return createdFoundObjectCount;
+	}
+	public void setCreatedFoundObjectCount(int createdFoundObjectCount) {
+		this.createdFoundObjectCount = createdFoundObjectCount;
+	}
+
+	public int getModifiedFoundObjectCount() {
+		return modifiedFoundObjectCount;
+	}
+	public void setModifiedFoundObjectCount(int modifiedFoundObjectCount) {
+		this.modifiedFoundObjectCount = modifiedFoundObjectCount;
+	}
+
+	public int getUnmodifiedFoundObjectCount() {
+		return unmodifiedFoundObjectCount;
+	}
+	public void setUnmodifiedFoundObjectCount(int unmodifiedFoundObjectCount) {
+		this.unmodifiedFoundObjectCount = unmodifiedFoundObjectCount;
+	}
+
+	public int getErrorFoundObjectCount() {
+		return errorFoundObjectCount;
+	}
+	public void setErrorFoundObjectCount(int errorFoundObjectCount) {
+		this.errorFoundObjectCount = errorFoundObjectCount;
+	}
+
+	public List<ImportReportLineObjtp> getReportLinesFoundObject() {
+		return reportLinesFoundObject;
+	}
+
+	public Map<String, List<Integer>> getReportLinesImageCount() {
+		return reportLinesImageCount;
+	}
 
 	public Date getEndDate() {
 		return endDate;
@@ -51,79 +138,6 @@ public class ImportReportObjtp {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	public int getObjectCategoryStatus() {
-		return objectCategoryStatus;
-	}
-	public void setObjectCategoryStatus(int objectCategoryStatus) {
-		this.objectCategoryStatus = objectCategoryStatus;
-	}
-	public int getFoundObjectStatus() {
-		return foundObjectStatus;
-	}
-	public void setFoundObjectStatus(int foundObjectStatus) {
-		this.foundObjectStatus = foundObjectStatus;
-	}
-	public String getGlobalErrorCauseObjectCategory() {
-		return globalErrorCauseObjectCategory;
-	}
-	public void setGlobalErrorCauseObjectCategory(String globalErrorCauseObjectCategory) {
-		this.globalErrorCauseObjectCategory = globalErrorCauseObjectCategory;
-	}
-	public String getGlobalErrorCauseFoundObject() {
-		return globalErrorCauseFoundObject;
-	}
-	public void setGlobalErrorCauseFoundObject(String globalErrorCauseFoundObject) {
-		this.globalErrorCauseFoundObject = globalErrorCauseFoundObject;
-	}
-	public int getErrorObjectCategoryCount() {
-		return errorObjectCategoryCount;
-	}
-	public void setErrorObjectCategoryCount(int errorObjectCategoryCount) {
-		this.errorObjectCategoryCount = errorObjectCategoryCount;
-	}
-	public int getErrorFoundObjectCount() {
-		return errorFoundObjectCount;
-	}
-	public void setErrorFoundObjectCount(int errorFoundObjectCount) {
-		this.errorFoundObjectCount = errorFoundObjectCount;
-	}
-	public int getFoundObjectNoImageCount() {
-		return foundObjectNoImageCount;
-	}
-	public void setFoundObjectNoImageCount(int foundObjectNoImageCount) {
-		this.foundObjectNoImageCount = foundObjectNoImageCount;
-	}		
-	public int getTotalObjectCategoryCount() {
-		return totalObjectCategoryCount;
-	}
-	public void setTotalObjectCategoryCount(int totalObjectCategoryCount) {
-		this.totalObjectCategoryCount = totalObjectCategoryCount;
-	}
-	public int getTotalFoundObjectCount() {
-		return totalFoundObjectCount;
-	}
-	public void setTotalFoundObjectCount(int totalFoundObjectCount) {
-		this.totalFoundObjectCount = totalFoundObjectCount;
-	}
-	public List<ImportReportLineObjtp> getReportLinesObjectCategory() {
-		return reportLinesObjectCategory;
-	}
-	public void setReportLinesObjectCategory(List<ImportReportLineObjtp> reportLinesObjectCategory) {
-		this.reportLinesObjectCategory = reportLinesObjectCategory;
-	}
-	public List<ImportReportLineObjtp> getReportLinesFoundObject() {
-		return reportLinesFoundObject;
-	}
-	public void setReportLinesFoundObject(List<ImportReportLineObjtp> reportLinesFoundObject) {
-		this.reportLinesFoundObject = reportLinesFoundObject;
-	}
-	public List<ImportReportLineObjtp> getReportLinesNoImage() {
-		return reportLinesNoImage;
-	}
-	public void setReportLinesNoImage(List<ImportReportLineObjtp> reportLinesNoImage) {
-		this.reportLinesNoImage = reportLinesNoImage;
-	}
-
 
 	/*
 	 * Incrémente le nombre d'erreurs liées aux catégories d'objets
@@ -142,13 +156,28 @@ public class ImportReportObjtp {
 	}
 	
 	/*
-	 * Incrémente le nombre d'objets trouvés sans image
+	 * Incrémente le nombre d'objets trouvés crées
 	 */
-	public void incrementFoundObjectNoImageCount() {
-		this.setFoundObjectNoImageCount(
-			this.getFoundObjectNoImageCount() + 1);
+	public void incrementCreatedFoundObjectCount() {
+		this.setCreatedFoundObjectCount(
+				this.getCreatedFoundObjectCount() + 1);
 	}
-	
+
+	/*
+	 * Incrémente le nombre d'objets trouvés modifiés
+	 */
+	public void incrementModifiedFoundObjectCount() {
+		this.setModifiedFoundObjectCount(
+				this.getModifiedFoundObjectCount() + 1);
+	}
+
+	/*
+	 * Incrémente le nombre d'objets trouvés non modifiés
+	 */
+	public void incrementUnmodifiedFoundObjectCount() {
+		this.setUnmodifiedFoundObjectCount(
+				this.getUnmodifiedFoundObjectCount() + 1);
+	}
 
 	/*
 	 * Action entreprise lors d'une erreur arrêtant l'import des catégories d'objet

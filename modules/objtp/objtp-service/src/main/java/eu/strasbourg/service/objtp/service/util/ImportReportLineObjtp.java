@@ -8,17 +8,14 @@ public class ImportReportLineObjtp {
 	private String number;
 	private String logs;
 	private int status;
+	private int type;
+	private String category;
 	
 	public ImportReportLineObjtp() {
 		this.setStatus(ImportReportStatusObjtp.SUCCESS);
+		this.setType(ImportReportTypeObjtp.CREATED);
 	}
 
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
-	}
 	public String getNumber() {
 		return number;
 	}
@@ -31,6 +28,27 @@ public class ImportReportLineObjtp {
 	}
 	public void setLogs(String logs) {
 		this.logs = logs;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
 	}
 	
 	/*
