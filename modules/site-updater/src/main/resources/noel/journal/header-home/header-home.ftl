@@ -13,10 +13,10 @@
         <#if fieldGroupButon.getSiblings()?has_content>
             <div class="button-flex">
                 <#list fieldGroupButon.getSiblings() as cur_fieldGroupButon>
-                    <#if fieldGroupButon.buttonLink?? && fieldGroupButon.buttonLink.data?has_content
-                    && fieldGroupButon.buttonLabel?? && fieldGroupButon.buttonLabel.data?has_content>
-                        <a href="${fieldGroupButon.buttonLink.data}" class="mns-btn-chevron">
-                            ${fieldGroupButon.buttonLabel.data}
+                    <#if cur_fieldGroupButon.buttonLink?? && cur_fieldGroupButon.buttonLink.data?has_content
+                    && cur_fieldGroupButon.buttonLabel?? && cur_fieldGroupButon.buttonLabel.data?has_content>
+                        <a href="${cur_fieldGroupButon.buttonLink.data}" class="mns-btn-chevron">
+                            ${cur_fieldGroupButon.buttonLabel.data}
                         </a>
                     </#if>
                 </#list>
