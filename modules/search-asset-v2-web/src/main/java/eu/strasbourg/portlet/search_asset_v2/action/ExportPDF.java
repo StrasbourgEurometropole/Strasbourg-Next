@@ -8,6 +8,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HtmlParserUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -33,7 +34,9 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -51,15 +54,25 @@ public class ExportPDF {
 	public static Font fontBold = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12);
 
 	public static void printPDF(ResourceRequest req, ResourceResponse res, String exportType, String officialsIds)
-			throws SystemException {
+			throws SystemException, IOException {
 
 		ThemeDisplay themeDisplay = (ThemeDisplay) req
 				.getAttribute(WebKeys.THEME_DISPLAY);
 		Locale locale = themeDisplay.getLocale();
 
+		// titre du PDF
+		String titrePortlet = null;
+		if(exportType.equals(OfficialsConstants.EUROMETROPOLE))
+			titrePortlet = LanguageUtil.get(locale,
+					"entete-annuaire-elus-municipaux-print");
+		else
+			titrePortlet = LanguageUtil.get(locale,
+					"entete-annuaire-elus-communautaires-print");
+
 		Document document = new Document(PageSize.A4);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try{
-			PdfWriter.getInstance(document, new FileOutputStream("C:/PdfBox_Examples/pdf_example.pdf"));
+			PdfWriter.getInstance(document, baos);
 			document.open();
 			document.setMargins(34f, 34f, 34f, 34f);
 
@@ -72,13 +85,6 @@ public class ExportPDF {
 			document.add(img);
 
 			// titre du PDF
-			String titrePortlet = null;
-			if(exportType.equals(OfficialsConstants.EUROMETROPOLE))
-				titrePortlet = LanguageUtil.get(locale,
-						"entete-annuaire-elus-municipaux-print");
-			else
-				titrePortlet = LanguageUtil.get(locale,
-						"entete-annuaire-elus-communautaires-print");
 			Paragraph paragraph = new Paragraph(titrePortlet.toUpperCase(), FontFactory.getFont(FontFactory.HELVETICA_BOLD, 20));
 			paragraph.setSpacingAfter(5f);
 			document.add(paragraph);
@@ -121,7 +127,19 @@ public class ExportPDF {
 		}
 		document.close();
 
-		getPDFFromHTML(officialsIds, exportType, locale);
+		byte[] pdfBytes = baos.toByteArray();
+
+		getPDFFromHTML(baos, officialsIds, exportType, locale);
+
+		// ouverture du PDF dans le navigateur
+		//pdfBytes = baos.toByteArray();
+		HttpServletResponse response = PortalUtil.getHttpServletResponse(res);
+		response.setContentType("application/pdf");
+		response.addHeader("Content-Disposition", "inline; filename=" + titrePortlet + ".pdf");
+		response.setContentLength(pdfBytes.length);
+		try (OutputStream out = res.getPortletOutputStream()) {
+			out.write(pdfBytes);
+		}
 	}
 
 	private static void printPDFPeople(Document document, String officialsIds, String exportType, Locale locale) {
@@ -289,7 +307,7 @@ public class ExportPDF {
 		}
 	}
 
-	private static void getPDFFromHTML(String officialsIds, String exportType, Locale locale){
+	private static void getPDFFromHTML(ByteArrayOutputStream baos, String officialsIds, String exportType, Locale locale){
 		String htmlContent = "<!DOCTYPE html><html><head>" +
 				"<style>" +
 				"html, body{margin: 0;font-size: 16px;font-family: Helvetica;}" +
@@ -328,14 +346,11 @@ public class ExportPDF {
 				"</div>" +
 				"</body></html>";
 
-		String outputFilePath = "C:/PdfBox_Examples/html_to_pdf_example-with-flyingsaucer.pdf";
-		try (OutputStream outputStream = new FileOutputStream(outputFilePath)) {
+		try (OutputStream outputStream = baos) {
 			ITextRenderer renderer = new ITextRenderer();
 			renderer.setDocumentFromString(htmlContent);
 			renderer.layout();
 			renderer.createPDF(outputStream);
-
-			System.out.println("PDF généré avec Flying Saucer : " + outputFilePath);
 		} catch (IOException e) {
 			_log.error(e.getMessage());
 		}
