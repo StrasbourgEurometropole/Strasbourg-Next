@@ -47,13 +47,13 @@ $c_footerSubColor: var(--footerSecondaryColor, #B1B9C3);
 // Sizes
 // ==========================================================================
 $s_h1: 45px;
-$s_h2: 30px;
-$s_h3: 18px;
-$s_small_title: 20px;
-$s_medium: 18px;
-$s_p: 16px;
-$s_link: 16px;
-$s_link_small: 12px;
+$s_h2: var(--s-h2, 30px);
+$s_h3: var(--s-h3, 18px);
+$s_small_title: var(--s-small-title, 20px);
+$s_medium: var(--s-medium, 18px);
+$s_p: var(--s-p, 16px);
+$s_link: var(--s-link, 16px);
+$s_link_small: var(--s-link-small, 12px);
 
 // Gestion des valeurs des z-index
 // ==========================================================================

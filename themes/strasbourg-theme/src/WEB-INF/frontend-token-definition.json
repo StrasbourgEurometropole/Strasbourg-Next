@@ -317,6 +317,96 @@
               ]
             }
           ]
+        },
+        {
+          "name": "fontSizes",
+          "label": "Tailles de polices",
+          "frontendTokens": [
+            {
+              "name": "s-h2",
+              "label": "Taille des H2",
+              "type": "String",
+              "defaultValue": "30px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-h2"
+                }
+              ]
+            },
+            {
+              "name": "s-h3",
+              "label": "Taille des H3",
+              "type": "String",
+              "defaultValue": "18px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-h3"
+                }
+              ]
+            },
+            {
+              "name": "s-link",
+              "label": "Taille des liens",
+              "type": "String",
+              "defaultValue": "16px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-link"
+                }
+              ]
+            },
+            {
+              "name": "s-link-small",
+              "label": "Taille des petits liens",
+              "type": "String",
+              "defaultValue": "12px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-link-small"
+                }
+              ]
+            },
+            {
+              "name": "s-medium",
+              "label": "Taille moyenne",
+              "type": "String",
+              "defaultValue": "18px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-medium"
+                }
+              ]
+            },
+            {
+              "name": "s-p",
+              "label": "Taille des paragraphes",
+              "type": "String",
+              "defaultValue": "16px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-p"
+                }
+              ]
+            },
+            {
+              "name": "s-small-title",
+              "label": "Taille des petits titre",
+              "type": "String",
+              "defaultValue": "20px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-small-title"
+                }
+              ]
+            }
+          ]
         }
       ]
     }
