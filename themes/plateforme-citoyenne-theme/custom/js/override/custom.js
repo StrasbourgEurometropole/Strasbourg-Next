@@ -1272,7 +1272,7 @@ function createBudgetParticipatif(budgetParticipatif) {
           <div class="pro-header-budget" ${budgetParticipatif.imageURL != "" ?
         `style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, transparent 45%), url('${budgetParticipatif.imageURL}${budgetParticipatif.authorImageURL.includes('?') ? '&' : '?'}imagePreview=1')"`
         :
-        ''
+        `style="background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, transparent 45%)"`
     }>
             <figure role="group">
               <img src="${budgetParticipatif.authorImageURL}${budgetParticipatif.authorImageURL.includes('?') ? '&' : '?'}imagePreview=1" loading="lazy" width="40" height="40" alt="Arrière plan page standard"/>

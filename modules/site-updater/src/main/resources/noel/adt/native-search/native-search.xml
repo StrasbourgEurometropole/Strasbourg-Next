@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.portal.search.web.internal.result.display.context.SearchResultSummaryDisplayContext</className>
+    <template>
+        <script>general-search-bar.ftl</script>
+        <name>Barre de recherche generale</name>
+        <key>general-search-bar-noel</key>
+    </template>
+    <template>
+        <script>general-search-result.ftl</script>
+        <name>Resultat de recherche generale</name>
+        <key>general-search-result-noel</key>
+    </template>
+</root>

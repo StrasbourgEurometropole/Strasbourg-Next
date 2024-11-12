@@ -571,6 +571,21 @@ public interface CampaignModel
 	public void setEndDate(Date endDate);
 
 	/**
+	 * Returns the provider of this campaign.
+	 *
+	 * @return the provider of this campaign
+	 */
+	@AutoEscape
+	public String getProvider();
+
+	/**
+	 * Sets the provider of this campaign.
+	 *
+	 * @param provider the provider of this campaign
+	 */
+	public void setProvider(String provider);
+
+	/**
 	 * Returns <code>true</code> if this campaign is approved.
 	 *
 	 * @return <code>true</code> if this campaign is approved; <code>false</code> otherwise

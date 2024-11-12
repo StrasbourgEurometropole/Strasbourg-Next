@@ -52,7 +52,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(125);
+		StringBundler sb = new StringBundler(127);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -88,6 +88,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		sb.append(description);
 		sb.append(", externalImageURL=");
 		sb.append(externalImageURL);
+		sb.append(", externalImageThumbnailURL=");
+		sb.append(externalImageThumbnailURL);
 		sb.append(", externalImageCopyright=");
 		sb.append(externalImageCopyright);
 		sb.append(", imageWidth=");
@@ -270,6 +272,13 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		}
 		else {
 			eventImpl.setExternalImageURL(externalImageURL);
+		}
+
+		if (externalImageThumbnailURL == null) {
+			eventImpl.setExternalImageThumbnailURL("");
+		}
+		else {
+			eventImpl.setExternalImageThumbnailURL(externalImageThumbnailURL);
 		}
 
 		if (externalImageCopyright == null) {
@@ -558,6 +567,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		subtitle = objectInput.readUTF();
 		description = (String)objectInput.readObject();
 		externalImageURL = objectInput.readUTF();
+		externalImageThumbnailURL = objectInput.readUTF();
 		externalImageCopyright = objectInput.readUTF();
 
 		imageWidth = objectInput.readInt();
@@ -683,6 +693,13 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		}
 		else {
 			objectOutput.writeUTF(externalImageURL);
+		}
+
+		if (externalImageThumbnailURL == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(externalImageThumbnailURL);
 		}
 
 		if (externalImageCopyright == null) {
@@ -923,6 +940,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	public String subtitle;
 	public String description;
 	public String externalImageURL;
+	public String externalImageThumbnailURL;
 	public String externalImageCopyright;
 	public int imageWidth;
 	public int imageHeight;

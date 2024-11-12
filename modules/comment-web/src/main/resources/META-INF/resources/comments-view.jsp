@@ -8,6 +8,16 @@
 	<portlet:param name="entryID" value="${entryID}"></portlet:param>
 </portlet:actionURL>
 
+<portlet:resourceURL id="addComments" var="addCommentsURL">
+	<portlet:param name="entryID" value="${entryID}"></portlet:param>
+	<portlet:param name="orderBy" value="${orderBy}"></portlet:param>
+</portlet:resourceURL>
+
+<portlet:actionURL name="hideComment" var="hideCommentURL">
+	<portlet:param name="mvcPath" value="/comments-view.jsp"></portlet:param>
+	<portlet:param name="redirectURL" value="${redirectURL}"></portlet:param>
+</portlet:actionURL>
+
 <section id="pro-link-commentaire" class="container pro-bloc-commentaires">
 
 	<div class="row">
@@ -65,10 +75,12 @@
 				</div>
 			</c:otherwise>
 		</c:choose>
-		<div class="col-lg-9">
+		<div id="resultList" class="col-lg-9" aria-busy="false">
 			<h2>
 				<liferay-ui:message key="javax.portlet.title" />
 			</h2>
+			<input type="hidden" id="nb-results" value="${comments.size()}" />
+			<input type="hidden" id="total-results" value="${total}" />
 			<c:forEach var="comment" items="${comments}">
 				
 				<portlet:actionURL name="hideComment" var="hideComment">
@@ -309,6 +321,16 @@
 				</div>
 
 			</c:forEach>
+			<c:if test="${total > comments.size()}">
+				<div id="action" class="pro-bloc-texte" style="text-align: center;">
+					<div class="loading-animation hide" aria-hidden="true">
+						<div></div>
+					</div>
+					<button type="button" id="see-more" class="st-btn pro-btn-yellow" onclick="addResult()">
+						<liferay-ui:message key="eu.see-more" />
+					</button>
+				</div>
+			</c:if>
 		</div>
 
 	</div>
@@ -403,3 +425,20 @@
     });
 
 </aui:script>
+
+<liferay-util:html-top>
+	<script>
+		var porletNamespace = '<portlet:namespace/>';
+		var isAssetCommentable = ${isAssetCommentable};
+		var isUserBanned = ${isUserBanned};
+		var hasUserSigned = ${hasUserSigned};
+		var userPublikId = '${userPublikId}';
+		var isAdmin = ${isAdmin};
+		var addCommentsURL = '${addCommentsURL}';
+		var hideCommentURL = '${hideCommentURL}';
+	</script>
+</liferay-util:html-top>
+
+<liferay-util:html-bottom>
+	<script src="/o/commentweb/js/comment.js"></script>
+</liferay-util:html-bottom>

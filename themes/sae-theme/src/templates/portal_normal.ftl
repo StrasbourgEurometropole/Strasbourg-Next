@@ -106,7 +106,9 @@
   </head>
 
   <body class="${css_class} <#if isHome> front-home </#if> <#if !isHome> class-inner </#if>">
-    
+    <div id="wrapper">
+
+
     <@liferay_ui["quick-access"] contentId="#main-content" />
 
     <@liferay_util["include"] page=body_top_include />
@@ -158,8 +160,7 @@
                     </button>
                   </div>
                   <form action="${homeURL}/recherche" method="get">
-                      <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet" />
-                      <input type="text" name="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" id="search" placeholder="Rechercher..." />
+                      <input type="text" name="keywords" id="search" placeholder="Rechercher..." />
                   </form>
               </div>
           </div>
@@ -211,6 +212,7 @@
                 <@liferay.breadcrumbs />
               </div>
             </div>
+          </div>
         </#if>
       </header>
       <!-- End header -->
@@ -295,5 +297,6 @@
     </script>
     <@liferay_util["include"] page=body_bottom_include />
     <@liferay_util["include"] page=bottom_include />
+    </div>
  </body>
 </html>

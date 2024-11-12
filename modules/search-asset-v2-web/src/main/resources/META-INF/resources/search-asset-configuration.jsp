@@ -277,9 +277,6 @@
                             <aui:option value="videos" selected="${dc.configurationData.searchForm eq 'videos'}">
                                 <liferay-ui:message key="eu.search.asset.web.configuration.template.videos" />
                             </aui:option>
-                            <aui:option value="summer-christmas-general" selected="${dc.configurationData.searchForm eq 'summer-christmas-general'}">
-                                <liferay-ui:message key="eu.search.asset.web.configuration.template.summer-christmas-general" />
-                            </aui:option>
                             <aui:option value="summer-christmas-agenda" selected="${dc.configurationData.searchForm eq 'summer-christmas-agenda'}">
                                 <liferay-ui:message key="eu.search.asset.web.configuration.template.summer-christmas-agenda" />
                             </aui:option>

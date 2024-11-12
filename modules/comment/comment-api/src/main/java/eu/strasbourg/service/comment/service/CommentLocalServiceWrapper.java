@@ -305,6 +305,19 @@ public class CommentLocalServiceWrapper
 	}
 
 	/**
+	 * Retourne tous les commentaires d'un asset entry
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.comment.model.Comment>
+		getByAssetEntryAndLevelOrderByDate(
+			long assetEntryId, int level, int status, int start, int end,
+			Boolean isSortAsc) {
+
+		return _commentLocalService.getByAssetEntryAndLevelOrderByDate(
+			assetEntryId, level, status, start, end, isSortAsc);
+	}
+
+	/**
 	 * Retourne tous les commentaires d'un groupe
 	 */
 	@Override

@@ -10,8 +10,17 @@
         <#if catchphrase?? && catchphrase.data?has_content>
             <h2>${catchphrase.data}</h2>
         </#if>
-        <#if buttonLink?? && buttonLink.data?has_content && buttonLabel?? && buttonLabel.data?has_content>
-            <a style="margin-top: 40px;" href="${buttonLink.data}" class="mns-btn-chevron">${buttonLabel.data}</a>
+        <#if fieldGroupButon.getSiblings()?has_content>
+            <div class="button-flex">
+                <#list fieldGroupButon.getSiblings() as cur_fieldGroupButon>
+                    <#if cur_fieldGroupButon.buttonLink?? && cur_fieldGroupButon.buttonLink.data?has_content
+                    && cur_fieldGroupButon.buttonLabel?? && cur_fieldGroupButon.buttonLabel.data?has_content>
+                        <a href="${cur_fieldGroupButon.buttonLink.data}" class="mns-btn-chevron">
+                            ${cur_fieldGroupButon.buttonLabel.data}
+                        </a>
+                    </#if>
+                </#list>
+            </div>
         </#if>
     </div>
 </header>

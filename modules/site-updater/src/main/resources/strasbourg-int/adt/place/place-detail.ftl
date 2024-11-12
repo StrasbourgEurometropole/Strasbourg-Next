@@ -564,6 +564,11 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <#list entry.documentsIds?split(",") as fileId>
                                 <#if fileId?has_content>
                                     <#assign url = fileEntryHelper.getFileEntryURL(fileId?number) />
+
+                                    <#if url="">
+                                        <#continue>
+                                    </#if>
+
                                     <#assign title = fileEntryHelper.getFileTitle(fileId?number, locale) />
                                     <#assign size = fileEntryHelper.getReadableFileEntrySize(fileId?number, locale) />
                                     <#assign extension = fileEntryHelper.getFileExtension(fileId?number) />

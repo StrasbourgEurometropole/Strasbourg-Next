@@ -14,7 +14,7 @@ var th_ancres = {
 
     // gestion du scroll smooth
     ancreClick: function () {
-        $(th_ancres.selectors.barreAncres + ' a').each(function () {
+        $(th_ancres.selectors.linkAncre).each(function () {
             $(this).on('click', function (e) {
                 e.preventDefault();
                 $('html, body').animate({scrollTop: $($(this).attr('href')).offset().top - th_ancres.scrollOffset}, th_ancres.scrollSpeed);

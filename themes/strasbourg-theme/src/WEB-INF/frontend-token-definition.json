@@ -126,6 +126,161 @@
               ]
             }
           ]
+        },
+        {
+          "name": "headerColors",
+          "label": "Couleurs du header",
+          "frontendTokens": [
+            {
+              "name": "headerBgColor",
+              "label": "Background menu + overlay",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#20272F",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "headerBgColor"
+                }
+              ]
+            },
+            {
+              "name": "headerBg2Color",
+              "label": "Background sous menu (desktop) + hover texte bouton + texte menu burger et fermeture (mobile)",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#171C22",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "headerBg2Color"
+                }
+              ]
+            },
+            {
+              "name": "headerBorderHoverColor",
+              "label": "Border (desktop) + hover texte + scroll bar (mobile) + hover bouton descendre (mobile) + menu burger (mobile)",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#2AD783",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "headerBorderHoverColor"
+                }
+              ]
+            },
+            {
+              "name": "headerScrollColor",
+              "label": "Arrière du scroll (mobile)",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#51555A",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "headerScrollColor"
+                }
+              ]
+            },
+            {
+              "name": "headerCloseColor",
+              "label": "Bouton fermeture (mobile)",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#FF9F9F",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "headerCloseColor"
+                }
+              ]
+            },
+            {
+              "name": "headerMainColor",
+              "label": "Texte principal + hover bouton (desktop) + hover menu burger et bouton fermeture (mobile) + bouton descendre (mobile)",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#FFFFFF",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "headerMainColor"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "footerColors",
+          "label": "Couleurs du footer",
+          "frontendTokens": [
+            {
+              "name": "footerBgColor",
+              "label": "Background footer + hover texte bouton",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#171C22",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "footerBgColor"
+                }
+              ]
+            },
+            {
+              "name": "footerBg2Color",
+              "label": "Background en bas du footer",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#20272F",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "footerBg2Color"
+                }
+              ]
+            },
+            {
+              "name": "footerMainColor",
+              "label": "Texte principal + texte bouton et réseaux sociaux + hover bouton",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#FFFFFF",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "footerMainColor"
+                }
+              ]
+            },
+            {
+              "name": "footerSecondaryColor",
+              "label": "Texte secondaire",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#B1B9C3",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "footerSecondaryColor"
+                }
+              ]
+            },
+            {
+              "name": "footerBorderHoverColor",
+              "label": "Border + icon + hover texte + hover réseaux sociaux",
+              "type": "String",
+              "editorType": "ColorPicker",
+              "defaultValue": "#2AD783",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "footerBorderHoverColor"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
