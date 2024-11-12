@@ -274,17 +274,17 @@ public class AgendaImporter {
 			// On vérifie que le provider est autorisé
 			String allowedProviders = PropsUtil
 				.get("eu.strasbourg.agenda.providers");
-			String campaignNames = "";
+			String campaignProviders = "";
 			for (Campaign campaign : CampaignLocalServiceUtil.getCampaigns(-1,
 				-1)) {
-				if (campaignNames.length() > 0) {
-					campaignNames += ",";
+				if (campaignProviders.length() > 0) {
+					campaignProviders += ",";
 				}
-				campaignNames += FriendlyURLNormalizerUtil
-					.normalize(campaign.getTitleCurrentValue());
+				campaignProviders += campaign.getProvider();
+				EventLocalServiceUtil.findBySourceAndIdSource()
 			}
 			if (!ArrayUtil.contains(allowedProviders.split(","), provider, true)
-				&& !ArrayUtil.contains(campaignNames.split(","), provider,
+				&& !ArrayUtil.contains(campaignProviders.split(","), provider,
 					true)) {
 				report.globalError(
 					"Le provider '" + provider + "' n'est pas autorisé");
