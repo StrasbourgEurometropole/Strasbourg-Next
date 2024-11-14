@@ -1,9 +1,14 @@
 <#setting locale = locale />
+<#assign imageUrl="" />
+<#if (image.getData())?? && image.getData() != "">
+    <#assign imageUrl=image.getData()/>
+</#if>
 
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
 "og:title":"${title.getData()?html}",
-"og:description":'${chapo.getData()?replace("<[^>]*>", "", "r")?html}'
+"og:description":'${chapo.getData()?replace("<[^>]*>", "", "r")?html}',
+"og:image" :"${imageUrl}"
 } />
 
 
