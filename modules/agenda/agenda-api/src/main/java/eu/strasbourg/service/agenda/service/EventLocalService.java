@@ -297,6 +297,12 @@ public interface EventLocalService
 	public long findByKeywordCount(String keyword, long groupId);
 
 	/**
+	 * Retourne les évènements approuvés d'une manifestations
+	 */
+	public List<Event> findByManifestationWithLimit(
+		long manifestationId, int start, int delta);
+
+	/**
 	 * Retourne les évènements triés par prochaine date de représentation
 	 */
 	public List<Event> findByNextHappening();

@@ -918,6 +918,40 @@ public class EventImpl extends EventBaseImpl {
 	}
 
 	/**
+	 * Retourne la version JSON de l'événenement pour les vignettes
+	 */
+	@Override
+	public JSONObject toThumbnailJSON(Locale locale) {
+		JSONObject jsonEvent = JSONFactoryUtil.createJSONObject();
+
+		jsonEvent.put("eventURL", StrasbourgPropsUtil.getAgendaDetailURL() + "/-/entity/id/" + this.getEventId() + "/" + UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE)));
+		jsonEvent.put("title", this.getTitle(locale));
+		jsonEvent.put("type", this.getTypeLabel(locale));
+		if(Validator.isNotNull(this.getFirstStartDate()) && Validator.isNotNull(this.getLastEndDate())) {
+			DateFormat sdf = DateFormatFactoryUtil.getDate(locale);
+			if (this.getFirstStartDate().compareTo(this.getLastEndDate()) == 0)
+				jsonEvent.put("date", LanguageUtil.get(locale, "eu.event.the") + " "
+						+ sdf.format(this.getFirstStartDate()));
+			else
+				jsonEvent.put("date", LanguageUtil.get(locale, "eu.event.from-date") + " "
+						+ sdf.format(this.getFirstStartDate()) + " "
+						+ LanguageUtil.get(locale, "eu.event.to") + " "
+						+ sdf.format(this.getLastEndDate()));
+		}
+		jsonEvent.put("alias", this.getPlaceAlias(locale));
+		jsonEvent.put("city", this.getPlaceCity(locale));
+		jsonEvent.put("imageURL", this.getImageThumbnailURL());
+		/*boolean isFavorite = FavoriteLocalServiceUtil.isFavorite(
+				this.getEventId(),
+				FavoriteType.EVENT.getId(),
+				publikUserId);*/
+		jsonEvent.put("isFavorite", false);
+		jsonEvent.put("id", this.getEventId());
+		return jsonEvent;
+
+	}
+
+	/**
 	 * Retourne la version JSON de l'événenement avec la participation ou non d'un
 	 * utilisateur potentiel en incluant l'escape des caractères / balises pouvant
 	 * casser l'utilisation des données et le split de l'HTML en général

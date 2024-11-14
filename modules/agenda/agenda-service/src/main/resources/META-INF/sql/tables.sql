@@ -287,12 +287,14 @@ create table agenda_Manifestation (
 	title STRING null,
 	description TEXT null,
 	externalImageURL VARCHAR(75) null,
+	externalImageThumbnailURL VARCHAR(255) null,
 	externalImageCopyright VARCHAR(75) null,
 	startDate DATE null,
 	endDate DATE null,
+	publicationDate DATE null,
 	source VARCHAR(75) null,
 	idSource VARCHAR(75) null,
-	publicationDate DATE null,
+	externalURL VARCHAR(500) null,
 	createDateSource DATE null,
 	modifiedDateSource DATE null
 );

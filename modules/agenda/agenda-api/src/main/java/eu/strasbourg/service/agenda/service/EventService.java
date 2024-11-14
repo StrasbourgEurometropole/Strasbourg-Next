@@ -72,6 +72,14 @@ public interface EventService extends BaseService {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getEventsByLanguage(String language) throws JSONException;
 
+	/**
+	 * Retourne les évènements approuvés d'une manifestations
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public JSONObject getEventsByManifestationWithLimit(
+			long manifestationId, int start, int delta, String language)
+		throws JSONException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONObject getEventsByPlace(String placeSIGId) throws JSONException;
 

@@ -526,6 +526,21 @@ public interface ManifestationModel
 	public void setExternalImageURL(String externalImageURL);
 
 	/**
+	 * Returns the external image thumbnail url of this manifestation.
+	 *
+	 * @return the external image thumbnail url of this manifestation
+	 */
+	@AutoEscape
+	public String getExternalImageThumbnailURL();
+
+	/**
+	 * Sets the external image thumbnail url of this manifestation.
+	 *
+	 * @param externalImageThumbnailURL the external image thumbnail url of this manifestation
+	 */
+	public void setExternalImageThumbnailURL(String externalImageThumbnailURL);
+
+	/**
 	 * Returns the external image copyright of this manifestation.
 	 *
 	 * @return the external image copyright of this manifestation
@@ -569,6 +584,20 @@ public interface ManifestationModel
 	public void setEndDate(Date endDate);
 
 	/**
+	 * Returns the publication date of this manifestation.
+	 *
+	 * @return the publication date of this manifestation
+	 */
+	public Date getPublicationDate();
+
+	/**
+	 * Sets the publication date of this manifestation.
+	 *
+	 * @param publicationDate the publication date of this manifestation
+	 */
+	public void setPublicationDate(Date publicationDate);
+
+	/**
 	 * Returns the source of this manifestation.
 	 *
 	 * @return the source of this manifestation
@@ -599,18 +628,19 @@ public interface ManifestationModel
 	public void setIdSource(String idSource);
 
 	/**
-	 * Returns the publication date of this manifestation.
+	 * Returns the external url of this manifestation.
 	 *
-	 * @return the publication date of this manifestation
+	 * @return the external url of this manifestation
 	 */
-	public Date getPublicationDate();
+	@AutoEscape
+	public String getExternalURL();
 
 	/**
-	 * Sets the publication date of this manifestation.
+	 * Sets the external url of this manifestation.
 	 *
-	 * @param publicationDate the publication date of this manifestation
+	 * @param externalURL the external url of this manifestation
 	 */
-	public void setPublicationDate(Date publicationDate);
+	public void setExternalURL(String externalURL);
 
 	/**
 	 * Returns the create date source of this manifestation.

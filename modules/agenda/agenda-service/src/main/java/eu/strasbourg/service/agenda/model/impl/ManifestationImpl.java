@@ -14,10 +14,14 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -25,6 +29,7 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import eu.strasbourg.service.agenda.model.Event;
 import eu.strasbourg.service.agenda.model.Manifestation;
 import eu.strasbourg.service.agenda.service.EventLocalServiceUtil;
@@ -33,7 +38,9 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.UriHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.annotation.versioning.ProviderType;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -100,6 +107,18 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 	}
 
 	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	@Override
+	public String getImageThumbnailURL() {
+		if (Validator.isNotNull(this.getExternalImageThumbnailURL())) {
+			return this.getExternalImageThumbnailURL();
+		} else {
+			return this.getImageURL();
+		}
+	}
+
+	/**
 	 * Retourne le copyright de l'image principale
 	 */
 	@Override
@@ -112,7 +131,7 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 	}
 
 	/**
-	 * Renvoie la liste des éditions de la galerie
+	 * Renvoie la liste des events de la manif
 	 */
 	@Override
 	public List<Event> getEvents() {
@@ -121,7 +140,7 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 	}
 
 	/**
-	 * Renvoie la liste des ids des éditions de la galerie sous forme de String
+	 * Renvoie la liste des ids des events de la manif sous forme de String
 	 */
 	@Override
 	public String getEventsIds() {
@@ -137,7 +156,7 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 	}
 
 	/**
-	 * Renvoie la liste des éditions publiées de la galerie
+	 * Renvoie la liste des events publiées de la manif
 	 */
 	@Override
 	public List<Event> getPublishedEvents() {
@@ -149,6 +168,14 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * Renvoie la liste des events publiées de la manif par group de 20
+	 */
+	@Override
+	public List<Event> getPublishedEventsByDelta(int start) {
+		return EventLocalServiceUtil.findByManifestationWithLimit(this.getManifestationId(), start, 20);
 	}
 
 	/**
@@ -256,6 +283,14 @@ public class ManifestationImpl extends ManifestationBaseImpl {
 	public List<AssetCategory> getServices() {
 		return AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(
 			this.getAssetEntry(), VocabularyNames.EVENT_SERVICE);
+	}
+
+	/**
+	 * Renvoie le titre de la manif pour friendlyUrl
+	 */
+	@Override
+	public String getNormalizedTitle(Locale locale) {
+		return UriHelper.normalizeToFriendlyUrl(this.getTitle(locale));
 	}
 
 	/**

@@ -397,6 +397,18 @@ public class EventLocalServiceWrapper
 	}
 
 	/**
+	 * Retourne les évènements approuvés d'une manifestations
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event>
+		findByManifestationWithLimit(
+			long manifestationId, int start, int delta) {
+
+		return _eventLocalService.findByManifestationWithLimit(
+			manifestationId, start, delta);
+	}
+
+	/**
 	 * Retourne les évènements triés par prochaine date de représentation
 	 */
 	@Override

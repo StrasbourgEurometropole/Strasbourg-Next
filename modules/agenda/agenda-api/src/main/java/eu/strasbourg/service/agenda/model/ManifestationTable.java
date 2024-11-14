@@ -65,6 +65,10 @@ public class ManifestationTable extends BaseTable<ManifestationTable> {
 		createColumn(
 			"externalImageURL", String.class, Types.VARCHAR,
 			Column.FLAG_DEFAULT);
+	public final Column<ManifestationTable, String> externalImageThumbnailURL =
+		createColumn(
+			"externalImageThumbnailURL", String.class, Types.VARCHAR,
+			Column.FLAG_DEFAULT);
 	public final Column<ManifestationTable, String> externalImageCopyright =
 		createColumn(
 			"externalImageCopyright", String.class, Types.VARCHAR,
@@ -73,14 +77,16 @@ public class ManifestationTable extends BaseTable<ManifestationTable> {
 		"startDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
 	public final Column<ManifestationTable, Date> endDate = createColumn(
 		"endDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
-	public final Column<ManifestationTable, String> source = createColumn(
-		"source", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
-	public final Column<ManifestationTable, String> idSource = createColumn(
-		"idSource", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<ManifestationTable, Date> publicationDate =
 		createColumn(
 			"publicationDate", Date.class, Types.TIMESTAMP,
 			Column.FLAG_DEFAULT);
+	public final Column<ManifestationTable, String> source = createColumn(
+		"source", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
+	public final Column<ManifestationTable, String> idSource = createColumn(
+		"idSource", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
+	public final Column<ManifestationTable, String> externalURL = createColumn(
+		"externalURL", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<ManifestationTable, Date> createDateSource =
 		createColumn(
 			"createDateSource", Date.class, Types.TIMESTAMP,

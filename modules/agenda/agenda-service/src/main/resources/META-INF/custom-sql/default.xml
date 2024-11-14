@@ -15,4 +15,15 @@
             INNER JOIN agenda_Event AS event ON event.eventId = next_representations.eventId
 		]]>
     </sql>
+    <sql id="eu.strasbourg.service.agenda.service.persistence.EventFinder.findByManifestationWithLimit">
+        <![CDATA[
+            SELECT event.*
+            FROM agenda_Event AS event
+            INNER JOIN agenda_EventToManifestation AS eventToManif ON event.eventId = eventToManif.eventId
+            WHERE event.status = 0
+            AND eventToManif.manifestationId = ?
+            ORDER BY event.title
+            LIMIT ? OFFSET ?
+		]]>
+    </sql>
 </custom-sql>

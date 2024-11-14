@@ -117,7 +117,7 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 				SessionErrors.add(request, "end-date-error");
 				isValid = false;
 			}
-			if(Validator.isNotNull(startDate) && Validator.isNull(endDate) && startDate.after(endDate)) {
+			if(Validator.isNotNull(startDate) && Validator.isNotNull(endDate) && startDate.after(endDate)) {
 				SessionErrors.add(request, "dates-error");
 				isValid = false;
 			}
@@ -135,7 +135,7 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 			else{
 				String titleFR = FriendlyURLNormalizerUtil
 						.normalize(title.get(Locale.FRANCE));
-				campaign.setProvider(titleFR.substring(0, 20));
+				campaign.setProvider(titleFR.length()>20?titleFR.substring(0, 20):titleFR);
 			}
 			campaign.setDefaultImageId(defaultImageId);
 			campaign.setDefaultImageCopyrightMap(defaultImageCopyright);

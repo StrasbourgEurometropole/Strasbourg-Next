@@ -17,4 +17,8 @@ public interface EventFinder {
 	public java.util.List<eu.strasbourg.service.agenda.model.Event>
 		findByNextHappening();
 
+	public java.util.List<eu.strasbourg.service.agenda.model.Event>
+		findByManifestationWithLimit(
+			long manifestationId, int start, int delta);
+
 }

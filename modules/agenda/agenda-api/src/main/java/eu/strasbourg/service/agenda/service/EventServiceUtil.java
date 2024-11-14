@@ -67,6 +67,18 @@ public class EventServiceUtil {
 		return getService().getEventsByLanguage(language);
 	}
 
+	/**
+	 * Retourne les évènements approuvés d'une manifestations
+	 */
+	public static com.liferay.portal.kernel.json.JSONObject
+			getEventsByManifestationWithLimit(
+				long manifestationId, int start, int delta, String language)
+		throws com.liferay.portal.kernel.json.JSONException {
+
+		return getService().getEventsByManifestationWithLimit(
+			manifestationId, start, delta, language);
+	}
+
 	public static com.liferay.portal.kernel.json.JSONObject getEventsByPlace(
 			String placeSIGId)
 		throws com.liferay.portal.kernel.json.JSONException {

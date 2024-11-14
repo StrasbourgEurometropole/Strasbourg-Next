@@ -732,14 +732,23 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 				.collect(Collectors.toList());
 	}
 
-	/**
-	 * Retourne les évènements triés par prochaine date de représentation
-	 */
-	@Override
-	public List<Event> findByNextHappening() {
+    /**
+     * Retourne les évènements triés par prochaine date de représentation
+     */
+    @Override
+    public List<Event> findByNextHappening() {
 
-		return eventFinder.findByNextHappening();
-	}
+        return eventFinder.findByNextHappening();
+    }
+
+    /**
+     * Retourne les évènements approuvés d'une manifestations
+     */
+    @Override
+    public List<Event> findByManifestationWithLimit(long manifestationId, int start, int delta) {
+
+        return eventFinder.findByManifestationWithLimit(manifestationId, start, delta);
+    }
     
     /**
 	 * Lance une recherche par placeSIGId

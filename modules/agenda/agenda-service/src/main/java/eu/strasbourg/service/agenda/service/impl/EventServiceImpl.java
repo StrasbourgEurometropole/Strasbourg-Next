@@ -280,6 +280,26 @@ public class EventServiceImpl extends EventServiceBaseImpl {
         return this.getApprovedJSONEvents(events);
     }
 
+    /**
+     * Retourne les évènements approuvés d'une manifestations
+     */
+    @Override
+    public JSONObject getEventsByManifestationWithLimit(long manifestationId, int start, int delta, String language) throws JSONException {
+        if (!isAuthorized()) {
+            return error("not authorized");
+        }
+
+        Locale locale = LocaleUtil.fromLanguageId(language);
+        JSONObject result = JSONFactoryUtil.createJSONObject();
+        JSONArray jsonEvents = JSONFactoryUtil.createJSONArray();
+        List<Event> events = eventFinder.findByManifestationWithLimit(manifestationId, start, delta);
+        for (Event event : events) {
+            jsonEvents.put(event.toThumbnailJSON(locale));
+        }
+        result.put("events", jsonEvents);
+        return result;
+    }
+
     private JSONObject getApprovedJSONEvents(List<Event> events) throws JSONException {
 
         JSONObject result = JSONFactoryUtil.createJSONObject();

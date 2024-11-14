@@ -524,13 +524,55 @@ public class EventServiceHttp {
 		}
 	}
 
+	public static com.liferay.portal.kernel.json.JSONObject
+			getEventsByManifestationWithLimit(
+				HttpPrincipal httpPrincipal, long manifestationId, int start,
+				int delta, String language)
+		throws com.liferay.portal.kernel.json.JSONException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				EventServiceUtil.class, "getEventsByManifestationWithLimit",
+				_getEventsByManifestationWithLimitParameterTypes13);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, manifestationId, start, delta, language);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.json.JSONException) {
+
+					throw (com.liferay.portal.kernel.json.JSONException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.portal.kernel.json.JSONObject)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	public static com.liferay.portal.kernel.json.JSONArray getSessions(
 		HttpPrincipal httpPrincipal, long eventID) {
 
 		try {
 			MethodKey methodKey = new MethodKey(
 				EventServiceUtil.class, "getSessions",
-				_getSessionsParameterTypes14);
+				_getSessionsParameterTypes15);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, eventID);
 
@@ -581,7 +623,11 @@ public class EventServiceHttp {
 		new Class[] {String.class};
 	private static final Class<?>[] _getEventsByLanguageParameterTypes12 =
 		new Class[] {String.class};
-	private static final Class<?>[] _getSessionsParameterTypes14 = new Class[] {
+	private static final Class<?>[]
+		_getEventsByManifestationWithLimitParameterTypes13 = new Class[] {
+			long.class, int.class, int.class, String.class
+		};
+	private static final Class<?>[] _getSessionsParameterTypes15 = new Class[] {
 		long.class
 	};
 

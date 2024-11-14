@@ -22,6 +22,8 @@
 	<liferay-ui:error key="description-error" message="description-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
 	<liferay-ui:error key="image-copyright-error" message="image-copyright-error" />
+	<liferay-ui:error key="start-date-error" message="start-date-error" />
+	<liferay-ui:error key="end-date-error" message="end-date-error" />
 
 		<aui:translation-manager availableLocales="${dc.availableLocales}"
 			changeableDefaultLanguage="false" defaultLanguageId="${locale}"
@@ -79,9 +81,21 @@
 					</aui:input>
 				</div>
 								
-				<aui:input name="startDate" />
-				
-				<aui:input name="endDate" />
+				<aui:input name="startDate" required="true" />
+				<div class="start-date-error" style="display: none">
+					<liferay-ui:message key="this-field-is-required" />
+				</div>
+
+				<div class="incorrect-date-error" style="display: none">
+					<liferay-ui:message key="dates-error" />
+				</div>
+
+				<aui:input name="endDate" required="true" />
+				<div class="end-date-error" style="display: none">
+					<liferay-ui:message key="this-field-is-required" />
+				</div>
+
+				<aui:input name="externalURL" />
 				
 				<strasbourg-picker:entity label="eu.events" name="eventsIds"
 					value="${dc.manifestation.eventsIds}"

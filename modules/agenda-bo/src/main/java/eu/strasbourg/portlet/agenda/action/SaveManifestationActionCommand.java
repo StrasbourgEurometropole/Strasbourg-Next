@@ -133,6 +133,9 @@ public class SaveManifestationActionCommand implements MVCActionCommand {
 			Date endDate = DateUtil.parseDate(endDateString,
 				request.getLocale());
 			eventManifestation.setEndDate(endDate);
+
+			String externalURL = ParamUtil.getString(request, "externalURL");
+			eventManifestation.setExternalURL(externalURL);
 			
 			String publicationDateString = ParamUtil.getString(request,
 				"publicationDate");
@@ -206,6 +209,20 @@ public class SaveManifestationActionCommand implements MVCActionCommand {
 				&& Validator.isNull(imageCopyright);
 		if (internalImageWithoutCopyright || externalImageWithoutCopyright) {
 			SessionErrors.add(request, "image-copyright-error");
+			isValid = false;
+		}
+
+		// Date de début
+		String startDateString = ParamUtil.getString(request, "startDate");
+		if (imageId == 0 && Validator.isNull(startDateString)) {
+			SessionErrors.add(request, "start-date-error");
+			isValid = false;
+		}
+
+		// Date de fin
+		String endDateString = ParamUtil.getString(request, "endDate");
+		if (imageId == 0 && Validator.isNull(startDateString)) {
+			SessionErrors.add(request, "end-date-error");
 			isValid = false;
 		}
 

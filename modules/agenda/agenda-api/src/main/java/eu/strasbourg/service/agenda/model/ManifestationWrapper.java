@@ -51,12 +51,15 @@ public class ManifestationWrapper
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
 		attributes.put("externalImageURL", getExternalImageURL());
+		attributes.put(
+			"externalImageThumbnailURL", getExternalImageThumbnailURL());
 		attributes.put("externalImageCopyright", getExternalImageCopyright());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
+		attributes.put("publicationDate", getPublicationDate());
 		attributes.put("source", getSource());
 		attributes.put("idSource", getIdSource());
-		attributes.put("publicationDate", getPublicationDate());
+		attributes.put("externalURL", getExternalURL());
 		attributes.put("createDateSource", getCreateDateSource());
 		attributes.put("modifiedDateSource", getModifiedDateSource());
 
@@ -167,6 +170,13 @@ public class ManifestationWrapper
 			setExternalImageURL(externalImageURL);
 		}
 
+		String externalImageThumbnailURL = (String)attributes.get(
+			"externalImageThumbnailURL");
+
+		if (externalImageThumbnailURL != null) {
+			setExternalImageThumbnailURL(externalImageThumbnailURL);
+		}
+
 		String externalImageCopyright = (String)attributes.get(
 			"externalImageCopyright");
 
@@ -186,6 +196,12 @@ public class ManifestationWrapper
 			setEndDate(endDate);
 		}
 
+		Date publicationDate = (Date)attributes.get("publicationDate");
+
+		if (publicationDate != null) {
+			setPublicationDate(publicationDate);
+		}
+
 		String source = (String)attributes.get("source");
 
 		if (source != null) {
@@ -198,10 +214,10 @@ public class ManifestationWrapper
 			setIdSource(idSource);
 		}
 
-		Date publicationDate = (Date)attributes.get("publicationDate");
+		String externalURL = (String)attributes.get("externalURL");
 
-		if (publicationDate != null) {
-			setPublicationDate(publicationDate);
+		if (externalURL != null) {
+			setExternalURL(externalURL);
 		}
 
 		Date createDateSource = (Date)attributes.get("createDateSource");
@@ -368,7 +384,7 @@ public class ManifestationWrapper
 	}
 
 	/**
-	 * Renvoie la liste des éditions de la galerie
+	 * Renvoie la liste des events de la manif
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.Event>
@@ -378,7 +394,7 @@ public class ManifestationWrapper
 	}
 
 	/**
-	 * Renvoie la liste des ids des éditions de la galerie sous forme de String
+	 * Renvoie la liste des ids des events de la manif sous forme de String
 	 */
 	@Override
 	public String getEventsIds() {
@@ -396,6 +412,16 @@ public class ManifestationWrapper
 	}
 
 	/**
+	 * Returns the external image thumbnail url of this manifestation.
+	 *
+	 * @return the external image thumbnail url of this manifestation
+	 */
+	@Override
+	public String getExternalImageThumbnailURL() {
+		return model.getExternalImageThumbnailURL();
+	}
+
+	/**
 	 * Returns the external image url of this manifestation.
 	 *
 	 * @return the external image url of this manifestation
@@ -403,6 +429,16 @@ public class ManifestationWrapper
 	@Override
 	public String getExternalImageURL() {
 		return model.getExternalImageURL();
+	}
+
+	/**
+	 * Returns the external url of this manifestation.
+	 *
+	 * @return the external url of this manifestation
+	 */
+	@Override
+	public String getExternalURL() {
+		return model.getExternalURL();
 	}
 
 	/**
@@ -441,6 +477,14 @@ public class ManifestationWrapper
 	@Override
 	public Long getImageId() {
 		return model.getImageId();
+	}
+
+	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	@Override
+	public String getImageThumbnailURL() {
+		return model.getImageThumbnailURL();
 	}
 
 	/**
@@ -509,6 +553,14 @@ public class ManifestationWrapper
 	}
 
 	/**
+	 * Renvoie le titre de la manif pour friendlyUrl
+	 */
+	@Override
+	public String getNormalizedTitle(java.util.Locale locale) {
+		return model.getNormalizedTitle(locale);
+	}
+
+	/**
 	 * Returns the primary key of this manifestation.
 	 *
 	 * @return the primary key of this manifestation
@@ -547,13 +599,23 @@ public class ManifestationWrapper
 	}
 
 	/**
-	 * Renvoie la liste des éditions publiées de la galerie
+	 * Renvoie la liste des events publiées de la manif
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.agenda.model.Event>
 		getPublishedEvents() {
 
 		return model.getPublishedEvents();
+	}
+
+	/**
+	 * Renvoie la liste des events publiées de la manif par group de 20
+	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.agenda.model.Event>
+		getPublishedEventsByDelta(int start) {
+
+		return model.getPublishedEventsByDelta(start);
 	}
 
 	/**
@@ -1006,6 +1068,16 @@ public class ManifestationWrapper
 	}
 
 	/**
+	 * Sets the external image thumbnail url of this manifestation.
+	 *
+	 * @param externalImageThumbnailURL the external image thumbnail url of this manifestation
+	 */
+	@Override
+	public void setExternalImageThumbnailURL(String externalImageThumbnailURL) {
+		model.setExternalImageThumbnailURL(externalImageThumbnailURL);
+	}
+
+	/**
 	 * Sets the external image url of this manifestation.
 	 *
 	 * @param externalImageURL the external image url of this manifestation
@@ -1013,6 +1085,16 @@ public class ManifestationWrapper
 	@Override
 	public void setExternalImageURL(String externalImageURL) {
 		model.setExternalImageURL(externalImageURL);
+	}
+
+	/**
+	 * Sets the external url of this manifestation.
+	 *
+	 * @param externalURL the external url of this manifestation
+	 */
+	@Override
+	public void setExternalURL(String externalURL) {
+		model.setExternalURL(externalURL);
 	}
 
 	/**

@@ -6,7 +6,7 @@ function updateDescription(clickedElement) {
 	var title = clickedElement.querySelector('.st-title-card').textContent
 	var category = clickedElement.querySelector('.st-surtitre-cat').textContent
 	var date = clickedElement.querySelector('.st-date').textContent
-	var location = clickedElement.querySelector('.st-location').textContent
+	var location = clickedElement.querySelector('.st-location')
 	var imageURL =  clickedElement.querySelector('.st-image img').src
 	var bookingURL = clickedElement.getAttribute("data-bookingurl")
 	var dateEvent = clickedElement.getAttribute("data-date")
@@ -16,7 +16,11 @@ function updateDescription(clickedElement) {
 	overlayDiv.querySelector(".st-title-overlay").textContent = title;
 	overlayDiv.querySelector(".st-surtitre-cat").textContent = category;
 	overlayDiv.querySelector(".st-date").textContent = dateEvent;
-	overlayDiv.querySelector(".st-location").innerHTML = `${location}<br> ${address}`;
+	if(location != undefined) {
+		overlayDiv.querySelector(".st-location").style.display = 'flex';
+		overlayDiv.querySelector(".st-location").innerHTML = `${location.textContent}<br> ${address}`;
+	}else
+		overlayDiv.querySelector(".st-location").style.display = 'none';
 	overlayDiv.querySelector(".st-overlay__content").innerHTML = descriptionHtml;
 	overlayDiv.querySelector(".detail-button").href = detailURL;
 	overlayDiv.querySelector(".st-img").src = imageURL;

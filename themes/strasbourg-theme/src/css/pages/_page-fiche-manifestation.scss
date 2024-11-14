@@ -1,0 +1,26 @@
+#eventList .loading-animation {
+	width: 100%;
+	height: 10em;
+	position: absolute;
+	z-index: 6;
+}
+
+#eventList .loading-animation:after, #eventList .loading-animation:before{
+	content: none;
+}
+
+#eventList .loading-animation div {
+	position: absolute;
+	width: 95px;
+	height: 95px;
+	border: 15px solid #2ad783;
+	border-top-color: transparent;
+	border-radius: 50%;
+}
+
+#eventList .loading-animation div {
+	top: 50%;
+	left: 50%;
+	-webkit-animation: chargement 1s linear infinite;
+	animation: chargement 1s linear infinite;
+}

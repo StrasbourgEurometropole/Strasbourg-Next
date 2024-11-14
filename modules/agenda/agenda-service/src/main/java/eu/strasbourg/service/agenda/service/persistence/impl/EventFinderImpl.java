@@ -49,9 +49,49 @@ public class EventFinderImpl extends EventFinderBaseImpl implements EventFinder 
         return null;
     }
 
+    public List<Event> findByManifestationWithLimit(long manifestationId, int start, int delta) {
+
+        Session session = null;
+        try {
+            session = openSession();
+
+            String sql = customSQL.get(
+                    getClass(),
+                    FIND_BY_MANIFESTATION_WITH_LIMIT);
+
+            SQLQuery q = session.createSQLQuery(sql);
+            q.setCacheable(false);
+            q.addEntity("Event_Entry", EventImpl.class);
+
+            QueryPos qPos = QueryPos.getInstance(q);
+            qPos.add(manifestationId);
+            qPos.add(delta);
+            qPos.add(start);
+
+            return (List<Event>) q.list();
+        }
+        catch (Exception e) {
+            try {
+                throw new SystemException(e);
+            }
+            catch (SystemException se) {
+                _log.error(se.getMessage(), se);
+            }
+        }
+        finally {
+            closeSession(session);
+        }
+
+        return null;
+    }
+
     public static final String FIND_BY_NEXT_HAPPENING =
             EventFinder.class.getName() +
                     ".findByNextHappening";
+
+    public static final String FIND_BY_MANIFESTATION_WITH_LIMIT =
+            EventFinder.class.getName() +
+                    ".findByManifestationWithLimit";
 
 //    @Reference
     @ServiceReference(type=CustomSQL.class)

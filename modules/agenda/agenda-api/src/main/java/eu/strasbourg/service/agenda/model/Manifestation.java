@@ -67,25 +67,36 @@ public interface Manifestation extends ManifestationModel, PersistedModel {
 	public String getImageURL();
 
 	/**
+	 * Retourne l'URL de l'image à partir de l'id du DLFileEntry
+	 */
+	public String getImageThumbnailURL();
+
+	/**
 	 * Retourne le copyright de l'image principale
 	 */
 	public String getImageCopyright(java.util.Locale locale);
 
 	/**
-	 * Renvoie la liste des éditions de la galerie
+	 * Renvoie la liste des events de la manif
 	 */
 	public java.util.List<eu.strasbourg.service.agenda.model.Event> getEvents();
 
 	/**
-	 * Renvoie la liste des ids des éditions de la galerie sous forme de String
+	 * Renvoie la liste des ids des events de la manif sous forme de String
 	 */
 	public String getEventsIds();
 
 	/**
-	 * Renvoie la liste des éditions publiées de la galerie
+	 * Renvoie la liste des events publiées de la manif
 	 */
 	public java.util.List<eu.strasbourg.service.agenda.model.Event>
 		getPublishedEvents();
+
+	/**
+	 * Renvoie la liste des events publiées de la manif par group de 20
+	 */
+	public java.util.List<eu.strasbourg.service.agenda.model.Event>
+		getPublishedEventsByDelta(int start);
 
 	/**
 	 * Retourne la période principale de la manifestation sous forme de String
@@ -136,6 +147,11 @@ public interface Manifestation extends ManifestationModel, PersistedModel {
 	 */
 	public java.util.List<com.liferay.asset.kernel.model.AssetCategory>
 		getServices();
+
+	/**
+	 * Renvoie le titre de la manif pour friendlyUrl
+	 */
+	public String getNormalizedTitle(java.util.Locale locale);
 
 	/**
 	 * Renvoie la version JSON de la manifestation

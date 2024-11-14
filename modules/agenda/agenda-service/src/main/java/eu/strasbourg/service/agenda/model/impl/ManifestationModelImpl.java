@@ -82,10 +82,11 @@ public class ManifestationModelImpl
 		{"statusDate", Types.TIMESTAMP}, {"imageId", Types.BIGINT},
 		{"title", Types.VARCHAR}, {"description", Types.CLOB},
 		{"externalImageURL", Types.VARCHAR},
+		{"externalImageThumbnailURL", Types.VARCHAR},
 		{"externalImageCopyright", Types.VARCHAR},
 		{"startDate", Types.TIMESTAMP}, {"endDate", Types.TIMESTAMP},
-		{"source", Types.VARCHAR}, {"idSource", Types.VARCHAR},
-		{"publicationDate", Types.TIMESTAMP},
+		{"publicationDate", Types.TIMESTAMP}, {"source", Types.VARCHAR},
+		{"idSource", Types.VARCHAR}, {"externalURL", Types.VARCHAR},
 		{"createDateSource", Types.TIMESTAMP},
 		{"modifiedDateSource", Types.TIMESTAMP}
 	};
@@ -111,18 +112,20 @@ public class ManifestationModelImpl
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("externalImageURL", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("externalImageThumbnailURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("externalImageCopyright", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("startDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("source", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("idSource", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("publicationDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("externalURL", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDateSource", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDateSource", Types.TIMESTAMP);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table agenda_Manifestation (uuid_ VARCHAR(75) null,manifestationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,imageId LONG,title STRING null,description TEXT null,externalImageURL VARCHAR(75) null,externalImageCopyright VARCHAR(75) null,startDate DATE null,endDate DATE null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,createDateSource DATE null,modifiedDateSource DATE null)";
+		"create table agenda_Manifestation (uuid_ VARCHAR(75) null,manifestationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,imageId LONG,title STRING null,description TEXT null,externalImageURL VARCHAR(75) null,externalImageThumbnailURL VARCHAR(255) null,externalImageCopyright VARCHAR(75) null,startDate DATE null,endDate DATE null,publicationDate DATE null,source VARCHAR(75) null,idSource VARCHAR(75) null,externalURL VARCHAR(500) null,createDateSource DATE null,modifiedDateSource DATE null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table agenda_Manifestation";
@@ -366,16 +369,21 @@ public class ManifestationModelImpl
 			attributeGetterFunctions.put(
 				"externalImageURL", Manifestation::getExternalImageURL);
 			attributeGetterFunctions.put(
+				"externalImageThumbnailURL",
+				Manifestation::getExternalImageThumbnailURL);
+			attributeGetterFunctions.put(
 				"externalImageCopyright",
 				Manifestation::getExternalImageCopyright);
 			attributeGetterFunctions.put(
 				"startDate", Manifestation::getStartDate);
 			attributeGetterFunctions.put("endDate", Manifestation::getEndDate);
+			attributeGetterFunctions.put(
+				"publicationDate", Manifestation::getPublicationDate);
 			attributeGetterFunctions.put("source", Manifestation::getSource);
 			attributeGetterFunctions.put(
 				"idSource", Manifestation::getIdSource);
 			attributeGetterFunctions.put(
-				"publicationDate", Manifestation::getPublicationDate);
+				"externalURL", Manifestation::getExternalURL);
 			attributeGetterFunctions.put(
 				"createDateSource", Manifestation::getCreateDateSource);
 			attributeGetterFunctions.put(
@@ -456,6 +464,10 @@ public class ManifestationModelImpl
 				(BiConsumer<Manifestation, String>)
 					Manifestation::setExternalImageURL);
 			attributeSetterBiConsumers.put(
+				"externalImageThumbnailURL",
+				(BiConsumer<Manifestation, String>)
+					Manifestation::setExternalImageThumbnailURL);
+			attributeSetterBiConsumers.put(
 				"externalImageCopyright",
 				(BiConsumer<Manifestation, String>)
 					Manifestation::setExternalImageCopyright);
@@ -466,15 +478,19 @@ public class ManifestationModelImpl
 				"endDate",
 				(BiConsumer<Manifestation, Date>)Manifestation::setEndDate);
 			attributeSetterBiConsumers.put(
+				"publicationDate",
+				(BiConsumer<Manifestation, Date>)
+					Manifestation::setPublicationDate);
+			attributeSetterBiConsumers.put(
 				"source",
 				(BiConsumer<Manifestation, String>)Manifestation::setSource);
 			attributeSetterBiConsumers.put(
 				"idSource",
 				(BiConsumer<Manifestation, String>)Manifestation::setIdSource);
 			attributeSetterBiConsumers.put(
-				"publicationDate",
-				(BiConsumer<Manifestation, Date>)
-					Manifestation::setPublicationDate);
+				"externalURL",
+				(BiConsumer<Manifestation, String>)
+					Manifestation::setExternalURL);
 			attributeSetterBiConsumers.put(
 				"createDateSource",
 				(BiConsumer<Manifestation, Date>)
@@ -1052,6 +1068,26 @@ public class ManifestationModelImpl
 
 	@JSON
 	@Override
+	public String getExternalImageThumbnailURL() {
+		if (_externalImageThumbnailURL == null) {
+			return "";
+		}
+		else {
+			return _externalImageThumbnailURL;
+		}
+	}
+
+	@Override
+	public void setExternalImageThumbnailURL(String externalImageThumbnailURL) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_externalImageThumbnailURL = externalImageThumbnailURL;
+	}
+
+	@JSON
+	@Override
 	public String getExternalImageCopyright() {
 		if (_externalImageCopyright == null) {
 			return "";
@@ -1107,6 +1143,30 @@ public class ManifestationModelImpl
 	@Deprecated
 	public Date getOriginalEndDate() {
 		return getColumnOriginalValue("endDate");
+	}
+
+	@JSON
+	@Override
+	public Date getPublicationDate() {
+		return _publicationDate;
+	}
+
+	@Override
+	public void setPublicationDate(Date publicationDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_publicationDate = publicationDate;
+	}
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
+	public Date getOriginalPublicationDate() {
+		return getColumnOriginalValue("publicationDate");
 	}
 
 	@JSON
@@ -1169,26 +1229,22 @@ public class ManifestationModelImpl
 
 	@JSON
 	@Override
-	public Date getPublicationDate() {
-		return _publicationDate;
+	public String getExternalURL() {
+		if (_externalURL == null) {
+			return "";
+		}
+		else {
+			return _externalURL;
+		}
 	}
 
 	@Override
-	public void setPublicationDate(Date publicationDate) {
+	public void setExternalURL(String externalURL) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
-		_publicationDate = publicationDate;
-	}
-
-	/**
-	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
-	 *             #getColumnOriginalValue(String)}
-	 */
-	@Deprecated
-	public Date getOriginalPublicationDate() {
-		return getColumnOriginalValue("publicationDate");
+		_externalURL = externalURL;
 	}
 
 	@JSON
@@ -1468,13 +1524,16 @@ public class ManifestationModelImpl
 		manifestationImpl.setTitle(getTitle());
 		manifestationImpl.setDescription(getDescription());
 		manifestationImpl.setExternalImageURL(getExternalImageURL());
+		manifestationImpl.setExternalImageThumbnailURL(
+			getExternalImageThumbnailURL());
 		manifestationImpl.setExternalImageCopyright(
 			getExternalImageCopyright());
 		manifestationImpl.setStartDate(getStartDate());
 		manifestationImpl.setEndDate(getEndDate());
+		manifestationImpl.setPublicationDate(getPublicationDate());
 		manifestationImpl.setSource(getSource());
 		manifestationImpl.setIdSource(getIdSource());
-		manifestationImpl.setPublicationDate(getPublicationDate());
+		manifestationImpl.setExternalURL(getExternalURL());
 		manifestationImpl.setCreateDateSource(getCreateDateSource());
 		manifestationImpl.setModifiedDateSource(getModifiedDateSource());
 
@@ -1520,18 +1579,22 @@ public class ManifestationModelImpl
 			this.<String>getColumnOriginalValue("description"));
 		manifestationImpl.setExternalImageURL(
 			this.<String>getColumnOriginalValue("externalImageURL"));
+		manifestationImpl.setExternalImageThumbnailURL(
+			this.<String>getColumnOriginalValue("externalImageThumbnailURL"));
 		manifestationImpl.setExternalImageCopyright(
 			this.<String>getColumnOriginalValue("externalImageCopyright"));
 		manifestationImpl.setStartDate(
 			this.<Date>getColumnOriginalValue("startDate"));
 		manifestationImpl.setEndDate(
 			this.<Date>getColumnOriginalValue("endDate"));
+		manifestationImpl.setPublicationDate(
+			this.<Date>getColumnOriginalValue("publicationDate"));
 		manifestationImpl.setSource(
 			this.<String>getColumnOriginalValue("source"));
 		manifestationImpl.setIdSource(
 			this.<String>getColumnOriginalValue("idSource"));
-		manifestationImpl.setPublicationDate(
-			this.<Date>getColumnOriginalValue("publicationDate"));
+		manifestationImpl.setExternalURL(
+			this.<String>getColumnOriginalValue("externalURL"));
 		manifestationImpl.setCreateDateSource(
 			this.<Date>getColumnOriginalValue("createDateSource"));
 		manifestationImpl.setModifiedDateSource(
@@ -1714,6 +1777,18 @@ public class ManifestationModelImpl
 			manifestationCacheModel.externalImageURL = null;
 		}
 
+		manifestationCacheModel.externalImageThumbnailURL =
+			getExternalImageThumbnailURL();
+
+		String externalImageThumbnailURL =
+			manifestationCacheModel.externalImageThumbnailURL;
+
+		if ((externalImageThumbnailURL != null) &&
+			(externalImageThumbnailURL.length() == 0)) {
+
+			manifestationCacheModel.externalImageThumbnailURL = null;
+		}
+
 		manifestationCacheModel.externalImageCopyright =
 			getExternalImageCopyright();
 
@@ -1744,6 +1819,15 @@ public class ManifestationModelImpl
 			manifestationCacheModel.endDate = Long.MIN_VALUE;
 		}
 
+		Date publicationDate = getPublicationDate();
+
+		if (publicationDate != null) {
+			manifestationCacheModel.publicationDate = publicationDate.getTime();
+		}
+		else {
+			manifestationCacheModel.publicationDate = Long.MIN_VALUE;
+		}
+
 		manifestationCacheModel.source = getSource();
 
 		String source = manifestationCacheModel.source;
@@ -1760,13 +1844,12 @@ public class ManifestationModelImpl
 			manifestationCacheModel.idSource = null;
 		}
 
-		Date publicationDate = getPublicationDate();
+		manifestationCacheModel.externalURL = getExternalURL();
 
-		if (publicationDate != null) {
-			manifestationCacheModel.publicationDate = publicationDate.getTime();
-		}
-		else {
-			manifestationCacheModel.publicationDate = Long.MIN_VALUE;
+		String externalURL = manifestationCacheModel.externalURL;
+
+		if ((externalURL != null) && (externalURL.length() == 0)) {
+			manifestationCacheModel.externalURL = null;
 		}
 
 		Date createDateSource = getCreateDateSource();
@@ -1870,12 +1953,14 @@ public class ManifestationModelImpl
 	private String _description;
 	private String _descriptionCurrentLanguageId;
 	private String _externalImageURL;
+	private String _externalImageThumbnailURL;
 	private String _externalImageCopyright;
 	private Date _startDate;
 	private Date _endDate;
+	private Date _publicationDate;
 	private String _source;
 	private String _idSource;
-	private Date _publicationDate;
+	private String _externalURL;
 	private Date _createDateSource;
 	private Date _modifiedDateSource;
 
@@ -1927,12 +2012,15 @@ public class ManifestationModelImpl
 		_columnOriginalValues.put("description", _description);
 		_columnOriginalValues.put("externalImageURL", _externalImageURL);
 		_columnOriginalValues.put(
+			"externalImageThumbnailURL", _externalImageThumbnailURL);
+		_columnOriginalValues.put(
 			"externalImageCopyright", _externalImageCopyright);
 		_columnOriginalValues.put("startDate", _startDate);
 		_columnOriginalValues.put("endDate", _endDate);
+		_columnOriginalValues.put("publicationDate", _publicationDate);
 		_columnOriginalValues.put("source", _source);
 		_columnOriginalValues.put("idSource", _idSource);
-		_columnOriginalValues.put("publicationDate", _publicationDate);
+		_columnOriginalValues.put("externalURL", _externalURL);
 		_columnOriginalValues.put("createDateSource", _createDateSource);
 		_columnOriginalValues.put("modifiedDateSource", _modifiedDateSource);
 	}
@@ -1992,21 +2080,25 @@ public class ManifestationModelImpl
 
 		columnBitmasks.put("externalImageURL", 65536L);
 
-		columnBitmasks.put("externalImageCopyright", 131072L);
+		columnBitmasks.put("externalImageThumbnailURL", 131072L);
 
-		columnBitmasks.put("startDate", 262144L);
+		columnBitmasks.put("externalImageCopyright", 262144L);
 
-		columnBitmasks.put("endDate", 524288L);
+		columnBitmasks.put("startDate", 524288L);
 
-		columnBitmasks.put("source", 1048576L);
+		columnBitmasks.put("endDate", 1048576L);
 
-		columnBitmasks.put("idSource", 2097152L);
+		columnBitmasks.put("publicationDate", 2097152L);
 
-		columnBitmasks.put("publicationDate", 4194304L);
+		columnBitmasks.put("source", 4194304L);
 
-		columnBitmasks.put("createDateSource", 8388608L);
+		columnBitmasks.put("idSource", 8388608L);
 
-		columnBitmasks.put("modifiedDateSource", 16777216L);
+		columnBitmasks.put("externalURL", 16777216L);
+
+		columnBitmasks.put("createDateSource", 33554432L);
+
+		columnBitmasks.put("modifiedDateSource", 67108864L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

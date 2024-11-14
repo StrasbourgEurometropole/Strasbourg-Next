@@ -71,6 +71,19 @@ public class EventServiceWrapper
 		return _eventService.getEventsByLanguage(language);
 	}
 
+	/**
+	 * Retourne les évènements approuvés d'une manifestations
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject
+			getEventsByManifestationWithLimit(
+				long manifestationId, int start, int delta, String language)
+		throws com.liferay.portal.kernel.json.JSONException {
+
+		return _eventService.getEventsByManifestationWithLimit(
+			manifestationId, start, delta, language);
+	}
+
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject getEventsByPlace(
 			String placeSIGId)

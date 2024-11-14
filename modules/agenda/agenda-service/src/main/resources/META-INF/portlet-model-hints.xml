@@ -344,6 +344,9 @@
 			<hint-collection name="EDITOR" />
 		</field>
 		<field name="externalImageURL" type="String" />
+		<field name="externalImageThumbnailURL" type="String">
+			<hint name="max-length">255</hint>
+		</field>
 		<field name="externalImageCopyright" type="String" />
 		<field name="startDate" type="Date">
 			<hint name="show-time">false</hint>
@@ -351,9 +354,12 @@
 		<field name="endDate" type="Date">
 			<hint name="show-time">false</hint>
 		</field>
+		<field name="publicationDate" type="Date" />
 		<field name="source" type="String" />
 		<field name="idSource" type="String" />
-		<field name="publicationDate" type="Date" />
+		<field name="externalURL" type="String">
+			<hint name="max-length">500</hint>
+		</field>
 		<field name="createDateSource" type="Date" />
 		<field name="modifiedDateSource" type="Date" />
 	</model>

@@ -54,7 +54,7 @@ public class ManifestationCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(51);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -90,18 +90,22 @@ public class ManifestationCacheModel
 		sb.append(description);
 		sb.append(", externalImageURL=");
 		sb.append(externalImageURL);
+		sb.append(", externalImageThumbnailURL=");
+		sb.append(externalImageThumbnailURL);
 		sb.append(", externalImageCopyright=");
 		sb.append(externalImageCopyright);
 		sb.append(", startDate=");
 		sb.append(startDate);
 		sb.append(", endDate=");
 		sb.append(endDate);
+		sb.append(", publicationDate=");
+		sb.append(publicationDate);
 		sb.append(", source=");
 		sb.append(source);
 		sb.append(", idSource=");
 		sb.append(idSource);
-		sb.append(", publicationDate=");
-		sb.append(publicationDate);
+		sb.append(", externalURL=");
+		sb.append(externalURL);
 		sb.append(", createDateSource=");
 		sb.append(createDateSource);
 		sb.append(", modifiedDateSource=");
@@ -195,6 +199,14 @@ public class ManifestationCacheModel
 			manifestationImpl.setExternalImageURL(externalImageURL);
 		}
 
+		if (externalImageThumbnailURL == null) {
+			manifestationImpl.setExternalImageThumbnailURL("");
+		}
+		else {
+			manifestationImpl.setExternalImageThumbnailURL(
+				externalImageThumbnailURL);
+		}
+
 		if (externalImageCopyright == null) {
 			manifestationImpl.setExternalImageCopyright("");
 		}
@@ -216,6 +228,13 @@ public class ManifestationCacheModel
 			manifestationImpl.setEndDate(new Date(endDate));
 		}
 
+		if (publicationDate == Long.MIN_VALUE) {
+			manifestationImpl.setPublicationDate(null);
+		}
+		else {
+			manifestationImpl.setPublicationDate(new Date(publicationDate));
+		}
+
 		if (source == null) {
 			manifestationImpl.setSource("");
 		}
@@ -230,11 +249,11 @@ public class ManifestationCacheModel
 			manifestationImpl.setIdSource(idSource);
 		}
 
-		if (publicationDate == Long.MIN_VALUE) {
-			manifestationImpl.setPublicationDate(null);
+		if (externalURL == null) {
+			manifestationImpl.setExternalURL("");
 		}
 		else {
-			manifestationImpl.setPublicationDate(new Date(publicationDate));
+			manifestationImpl.setExternalURL(externalURL);
 		}
 
 		if (createDateSource == Long.MIN_VALUE) {
@@ -285,12 +304,14 @@ public class ManifestationCacheModel
 		title = objectInput.readUTF();
 		description = (String)objectInput.readObject();
 		externalImageURL = objectInput.readUTF();
+		externalImageThumbnailURL = objectInput.readUTF();
 		externalImageCopyright = objectInput.readUTF();
 		startDate = objectInput.readLong();
 		endDate = objectInput.readLong();
+		publicationDate = objectInput.readLong();
 		source = objectInput.readUTF();
 		idSource = objectInput.readUTF();
-		publicationDate = objectInput.readLong();
+		externalURL = objectInput.readUTF();
 		createDateSource = objectInput.readLong();
 		modifiedDateSource = objectInput.readLong();
 	}
@@ -359,6 +380,13 @@ public class ManifestationCacheModel
 			objectOutput.writeUTF(externalImageURL);
 		}
 
+		if (externalImageThumbnailURL == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(externalImageThumbnailURL);
+		}
+
 		if (externalImageCopyright == null) {
 			objectOutput.writeUTF("");
 		}
@@ -368,6 +396,7 @@ public class ManifestationCacheModel
 
 		objectOutput.writeLong(startDate);
 		objectOutput.writeLong(endDate);
+		objectOutput.writeLong(publicationDate);
 
 		if (source == null) {
 			objectOutput.writeUTF("");
@@ -383,7 +412,13 @@ public class ManifestationCacheModel
 			objectOutput.writeUTF(idSource);
 		}
 
-		objectOutput.writeLong(publicationDate);
+		if (externalURL == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(externalURL);
+		}
+
 		objectOutput.writeLong(createDateSource);
 		objectOutput.writeLong(modifiedDateSource);
 	}
@@ -405,12 +440,14 @@ public class ManifestationCacheModel
 	public String title;
 	public String description;
 	public String externalImageURL;
+	public String externalImageThumbnailURL;
 	public String externalImageCopyright;
 	public long startDate;
 	public long endDate;
+	public long publicationDate;
 	public String source;
 	public String idSource;
-	public long publicationDate;
+	public String externalURL;
 	public long createDateSource;
 	public long modifiedDateSource;
 

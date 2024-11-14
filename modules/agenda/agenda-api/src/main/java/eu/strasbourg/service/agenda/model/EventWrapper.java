@@ -3943,6 +3943,16 @@ public class EventWrapper
 		return model.toJSON(publikUserID);
 	}
 
+	/**
+	 * Retourne la version JSON de l'événenement pour les vignettes
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toThumbnailJSON(
+		java.util.Locale locale) {
+
+		return model.toThumbnailJSON(locale);
+	}
+
 	@Override
 	public String toXmlString() {
 		return model.toXmlString();

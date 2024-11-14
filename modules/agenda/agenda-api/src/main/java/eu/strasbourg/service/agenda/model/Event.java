@@ -326,6 +326,12 @@ public interface Event extends EventModel, PersistedModel {
 	public com.liferay.portal.kernel.json.JSONObject toJSON();
 
 	/**
+	 * Retourne la version JSON de l'événenement pour les vignettes
+	 */
+	public com.liferay.portal.kernel.json.JSONObject toThumbnailJSON(
+		java.util.Locale locale);
+
+	/**
 	 * Retourne la version JSON de l'événenement avec la participation ou non d'un
 	 * utilisateur potentiel en incluant l'escape des caractères / balises pouvant
 	 * casser l'utilisation des données et le split de l'HTML en général

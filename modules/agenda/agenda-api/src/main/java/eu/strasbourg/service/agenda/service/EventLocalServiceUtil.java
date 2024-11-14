@@ -348,6 +348,16 @@ public class EventLocalServiceUtil {
 	}
 
 	/**
+	 * Retourne les évènements approuvés d'une manifestations
+	 */
+	public static List<Event> findByManifestationWithLimit(
+		long manifestationId, int start, int delta) {
+
+		return getService().findByManifestationWithLimit(
+			manifestationId, start, delta);
+	}
+
+	/**
 	 * Retourne les évènements triés par prochaine date de représentation
 	 */
 	public static List<Event> findByNextHappening() {
