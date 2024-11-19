@@ -219,6 +219,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     var manifestationId = ${entry.manifestationId};
     var homeURL = '${strasbourg.homeURL()}';
     var language = '${locale}';
+    var userFavorites = {'eventIds':[]};
+    <#if request.session.getAttribute("publik_logged_in")!false>
+        <#assign favoriteLocalService = serviceLocator.findService("eu.strasbourg.service.favorite.service.FavoriteLocalService") />
+        <#assign favorites = favoriteLocalService.getEventsFavoriteByUser(request.session.getAttribute("publik_internal_id")) />
+        userFavorites = ${favorites};
+    </#if>
+
     addEvents = function () {
         // Add the "loading" class when the request is loading
         document.querySelector('#eventList .loading-animation')?.classList.remove('st-hide');
@@ -262,6 +269,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     }
 
     function createEventThumbnail(event) {
+        var isFavorite = userFavorites.eventIds.includes(Number(event.id));
         vignette =
         "<li>" +
             "<div class='st-card-container'>" +
@@ -286,13 +294,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         "</figure>" +
                     "</div>" +
                 "</a>" +
-                "<button class='st-btn-favorite-card "+(event.isFavorite?"st-is-favorite":"")+"' " +
+                "<button class='st-btn-favorite-card "+(isFavorite?"st-is-favorite":"")+"' " +
                     "data-groupid='0' " +
                     "data-title='"+event.title + "' " +
                     "data-id='"+event.id+"' " +
                     "data-type='2' " +
                     "aria-pressed='false'>" +
-                    (event.isFavorite?Liferay.Language.get("eu.remove-from-favorite"):Liferay.Language.get("eu.add-to-favorite")) +
+                    (isFavorite?Liferay.Language.get("eu.remove-from-favorite"):Liferay.Language.get("eu.add-to-favorite")) +
                 "</button>" +
             "</div>" +
         "</li>";

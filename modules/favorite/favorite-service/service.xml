@@ -44,6 +44,10 @@
 			<finder-column name="publikUserId" />
 			<finder-column name="content" />
 		</finder>
+		<finder name="TypeIdAndPublikUserId" return-type="Collection">
+			<finder-column name="typeId" />
+			<finder-column name="publikUserId" />
+		</finder>
 	</entity>
 	
 </service-builder>

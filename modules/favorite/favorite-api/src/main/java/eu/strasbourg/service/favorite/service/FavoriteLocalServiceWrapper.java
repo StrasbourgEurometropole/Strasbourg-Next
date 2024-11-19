@@ -297,6 +297,16 @@ public class FavoriteLocalServiceWrapper
 	}
 
 	/**
+	 * Retourne les favoris de type Event d'un utilisateur
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject getEventsFavoriteByUser(
+		String publikUserId) {
+
+		return _favoriteLocalService.getEventsFavoriteByUser(publikUserId);
+	}
+
+	/**
 	 * Returns the favorite with the primary key.
 	 *
 	 * @param favoriteId the primary key of the favorite

@@ -285,10 +285,6 @@ public class EventServiceImpl extends EventServiceBaseImpl {
      */
     @Override
     public JSONObject getEventsByManifestationWithLimit(long manifestationId, int start, int delta, String language) throws JSONException {
-        if (!isAuthorized()) {
-            return error("not authorized");
-        }
-
         Locale locale = LocaleUtil.fromLanguageId(language);
         JSONObject result = JSONFactoryUtil.createJSONObject();
         JSONArray jsonEvents = JSONFactoryUtil.createJSONArray();

@@ -491,6 +491,7 @@ public class AgendaImporter {
 		if (Validator.isNull(imageURL)) {
 			reportLine.error(LanguageUtil.get(bundle, "no-image"));
 		}
+		String imageThumbnailURL = jsonManifestation.getString("imageThumbnailURL");
 		String imageCopyright = jsonManifestation.getString("imageCopyright");
 		if (Validator.isNull(imageCopyright)) {
 			reportLine.error(LanguageUtil.get(bundle, "no-copyright"));
@@ -516,7 +517,9 @@ public class AgendaImporter {
 		// Validation du format des dates
 		String startDateString = jsonManifestation.getString("startDate");
 		Date startDate = null;
-		if (startDateString != null) {
+		if (Validator.isNull(startDateString)) {
+			reportLine.error(LanguageUtil.get(bundle, "no-start-date"));
+		}else {
 			try {
 				startDate = dateFormat.parse(startDateString);
 				if (startDate == null) {
@@ -524,12 +527,14 @@ public class AgendaImporter {
 				}
 			} catch (Exception e) {
 				reportLine.error(
-					LanguageUtil.get(Locale.FRANCE, "wrong-start-date-format"));
+						LanguageUtil.get(Locale.FRANCE, "wrong-start-date-format"));
 			}
 		}
 		String endDateString = jsonManifestation.getString("endDate");
 		Date endDate = null;
-		if (endDateString != null) {
+		if (Validator.isNull(endDateString)) {
+			reportLine.error(LanguageUtil.get(bundle, "no-end-date"));
+		}else {
 			try {
 				endDate = dateFormat.parse(endDateString);
 				if (endDate == null) {
@@ -623,15 +628,14 @@ public class AgendaImporter {
 				manifestation.setIdSource(id);
 				manifestation.setSource(provider);
 				manifestation.setExternalImageURL(imageURL);
+				manifestation.setExternalImageThumbnailURL(imageThumbnailURL);
 				manifestation.setExternalImageCopyright(imageCopyright);
 				manifestation.setImageId((long) 0);
 				manifestation.setPublicationDate(new Date());
 
 				// Puis les dates
-				if (startDate != null && endDate != null) {
-					manifestation.setStartDate(startDate);
-					manifestation.setEndDate(endDate);
-				}
+				manifestation.setStartDate(startDate);
+				manifestation.setEndDate(endDate);
 
 				// Puis les dates de la source
 				manifestation.setCreateDateSource(createDateSource);

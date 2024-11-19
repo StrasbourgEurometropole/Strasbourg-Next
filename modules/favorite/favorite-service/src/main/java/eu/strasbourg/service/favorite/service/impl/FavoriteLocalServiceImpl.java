@@ -17,12 +17,18 @@ package eu.strasbourg.service.favorite.service.impl;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import eu.strasbourg.service.favorite.model.Favorite;
 import eu.strasbourg.service.favorite.model.FavoriteType;
 import eu.strasbourg.service.favorite.service.FavoriteLocalServiceUtil;
 import eu.strasbourg.service.favorite.service.base.FavoriteLocalServiceBaseImpl;
+import eu.strasbourg.utils.JSONHelper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -161,5 +167,20 @@ public class FavoriteLocalServiceImpl extends FavoriteLocalServiceBaseImpl {
 		}
 		List<Favorite> favorites = this.favoritePersistence.findByTypeIdAndEntityIdAndPublikUserIdAndContent(typeId, entityId, publikUserId, null);
 		return !favorites.isEmpty();
+	}
+
+	/**
+	 * Retourne les favoris de type Event d'un utilisateur
+	 */
+	@Override
+	public JSONObject getEventsFavoriteByUser(String publikUserId) {
+		JSONObject json = JSONFactoryUtil.createJSONObject();
+		if(publikUserId != null && !publikUserId.isEmpty()) {
+			List<Long> favorites = this.favoritePersistence.findByTypeIdAndPublikUserId(2, publikUserId)
+					.stream().map(c -> c.getEntityId()).collect(Collectors.toList());
+			JSONArray ids = JSONFactoryUtil.createJSONArray(favorites);
+			json.put("eventIds", ids);
+		}
+		return json;
 	}
 }

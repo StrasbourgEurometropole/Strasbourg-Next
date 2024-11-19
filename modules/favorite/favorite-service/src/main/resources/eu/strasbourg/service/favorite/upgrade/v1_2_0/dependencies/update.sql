@@ -1,0 +1,1 @@
+create index IX_9CC787F9 on favorite_Favorite (typeId, publikUserId[$COLUMN_LENGTH:75$]);
