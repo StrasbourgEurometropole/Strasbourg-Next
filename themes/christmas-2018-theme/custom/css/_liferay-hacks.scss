@@ -111,6 +111,10 @@ h2.portlet-title-text {
 .has-control-menu .portlet-barebone {
   min-height: 100px;
 
+  header{
+    transform: none !important;
+  }
+
   .visible-interaction{
     transform: translateY(97%);
   }
