@@ -5,7 +5,7 @@
 
 <#if portletHelper.getPortletTitle('', renderRequest)?has_content>
     <div class="st-bloc st-wrapper st--has-margin-small">
-        <h2 class="st-h2">$b {portletHelper.getPortletTitle('e', renderRequest)}</h2>
+        <h2 class="st-h2">${portletHelper.getPortletTitle('e', renderRequest)}</h2>
     </div>
 </#if>
 <#if !entries?has_content && themeDisplay.isSignedIn()>
@@ -28,7 +28,7 @@
                 <#assign AssetVocabularyLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetVocabularyLocalService")>
                 <li class="st-lien-container">
                     <a href="${fileEntryHelper.getFileEntryURL(file.getFileEntryId())}" class="st-lien" target="_blank" aria-labelledby="fileTitle-${curEntry?index}">
-                        <p class="st-title-lien" id="fileTitle-${curEntry?index}"> ${fileTitle}</p>
+                        <p class="st-title-lien" id="fileTitle-${curEntry?index}"> ${fileTitle?replace("_","_<wbr/>")}</p>
                         <div class="st-lien-content">
                             <p class="st-type">(${file.getExtension()?upper_case} - ${fileEntryHelper.getReadableFileEntrySize(file.getFileEntryId(), locale)})</p>
                             <p class="st-text"><@liferay_ui.message key="eu.download" /></p>
