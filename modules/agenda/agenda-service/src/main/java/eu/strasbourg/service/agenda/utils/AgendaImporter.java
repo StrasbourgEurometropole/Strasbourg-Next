@@ -281,7 +281,6 @@ public class AgendaImporter {
 					campaignProviders += ",";
 				}
 				campaignProviders += campaign.getProvider();
-				EventLocalServiceUtil.findBySourceAndIdSource()
 			}
 			if (!ArrayUtil.contains(allowedProviders.split(","), provider, true)
 				&& !ArrayUtil.contains(campaignProviders.split(","), provider,
