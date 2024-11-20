@@ -29,8 +29,13 @@
     </template>
     <template>
         <script>menu-generic.ftl</script>
-        <name>Menu Generique</name>
+        <name>Menu Generique Horizontal</name>
         <key>menu-mobile-menu</key>
+    </template>
+    <template>
+        <script>menu-generic-vertical.ftl</script>
+        <name>Menu Generique Vertical</name>
+        <key>menu-mobile-menu-vertical</key>
     </template>
     <template>
         <script>menu-mobile-generic.ftl</script>

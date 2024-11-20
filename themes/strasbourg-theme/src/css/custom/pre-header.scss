@@ -42,6 +42,12 @@
         left: 0;
         z-index: 1;
         padding: 25px;
+
+        &.vertical{
+          padding-left: 15px;
+          min-width: auto;
+          left: auto;
+        }
       }
 
 
@@ -73,6 +79,20 @@
 
         .st-nav-primary__item {
           padding: 15px 0;
+        }
+      }
+
+      .vertical ul.sub-menu{
+        gap: 0;
+        grid-template-columns: 1fr;
+
+        .st-nav-primary__item{
+          padding: 5px 0;
+          max-width: 300px;
+
+          .st-nav-primary__link{
+            text-transform: none;
+          }
         }
       }
 
