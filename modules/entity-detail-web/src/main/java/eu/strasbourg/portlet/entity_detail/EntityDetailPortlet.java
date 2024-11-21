@@ -108,7 +108,7 @@ public class EntityDetailPortlet extends MVCPortlet {
 				PortletHelper.addBreadcrumbEntry(request, entry.getTitle(themeDisplay.getLocale()), PortletURLFactoryUtil.create(PortalUtil.getHttpServletRequest(request), StrasbourgPortletKeys.ENTITY_DETAIL_WEB, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE));
 			}
 
-			if (entry == null) {
+			if (entry == null || !entry.isVisible()) {
 				HttpServletResponse httpServletResponse = PortalUtil.getHttpServletResponse(response);
 				httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				String journalArticleContent = "<header class=\"st-header-without-sticky st-wrapper st-wrapper-small\">\n" +
