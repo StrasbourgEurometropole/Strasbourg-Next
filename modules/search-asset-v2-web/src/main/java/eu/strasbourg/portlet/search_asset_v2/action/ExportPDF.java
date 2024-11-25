@@ -1,9 +1,12 @@
 package eu.strasbourg.portlet.search_asset_v2.action;
 
+import com.liferay.document.library.kernel.exception.NoSuchFileException;
+import com.liferay.document.library.kernel.service.DLAppServiceUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.template.Template;
 import com.liferay.portal.kernel.template.TemplateConstants;
 import com.liferay.portal.kernel.template.TemplateException;
@@ -22,16 +25,8 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
+import java.io.*;
+import java.util.*;
 
 public class ExportPDF {
 
@@ -54,7 +49,9 @@ public class ExportPDF {
 		}else
 			title = LanguageUtil.get(locale,
 					"entete-annuaire-elus-communautaires-print");
+
 		List<Official> officials = getPeopleList(officialsIds);
+
 
 		try {
 			//Chargement du template contenant le corps du mail
@@ -71,6 +68,7 @@ public class ExportPDF {
 			context.put("title", title);
 			context.put("isEMS",isEMS);
 			context.put("officials", officials);
+			context.put("officalsImages", getPeopleImages(officials));
 			context.put("commune", LanguageUtil.get(locale, "de-la-commune"));
 			context.put("charge", LanguageUtil.get(locale, "en-charge-de"));
 			context.put("adjoint", LanguageUtil.get(locale, "adjoint-de-quartier"));
@@ -102,10 +100,10 @@ public class ExportPDF {
 				_log.error(e.getMessage());
 			}
 
-        } catch (TemplateException e) {
+        } catch (Exception e) {
 			_log.error(e.getMessage(), e);
         }
-	}
+    }
 
 	private static List<Official> getPeopleList(String officialsIds)
 			throws SystemException {
@@ -119,6 +117,64 @@ public class ExportPDF {
 		}
 
 		return elus;
+	}
+
+	private static List<String> getPeopleImages(List<Official> officials)
+            throws Exception {
+		List<String> paths = new ArrayList<String>();
+		for (Official elu : officials) {
+			Long imageId = elu.getImageId();
+			FileEntry image = DLAppServiceUtil.getFileEntry(imageId);
+			String imageBase64 = convertImageToBase64(image);
+			// Determine MIME type based on extension
+			String mimeType;
+			switch (image.getExtension().toLowerCase()) {
+				case "jpg":
+				case "jpeg":
+					mimeType = "image/jpeg";
+					break;
+				case "png":
+					mimeType = "image/png";
+					break;
+				default:
+					mimeType = "image/jpeg";
+					break;
+			}
+			if(imageBase64 == "") {
+				paths.add("");
+			}
+			else {
+				paths.add("data:" + mimeType + ";base64," + imageBase64);
+			}
+		}
+
+		return paths;
+	}
+
+	public static String convertImageToBase64(FileEntry image) {
+		// Read the InputStream into a byte array
+		try {
+			InputStream inputStream = image.getContentStream();
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			byte[] buffer = new byte[8192];
+			int bytesRead;
+			while ((bytesRead = inputStream.read(buffer)) != -1) {
+				outputStream.write(buffer, 0, bytesRead);
+			}
+
+			// Encode the byte array to Base64
+			byte[] imageBytes = outputStream.toByteArray();
+			return Base64.getEncoder().encodeToString(imageBytes);
+		}
+		catch (NoSuchFileException noSuchFileException) {
+			_log.warn("File of fileEntryId " + image.getFileEntryId() + " cannot be found");
+			return "";
+		}
+		catch (Exception e) {
+			_log.warn(e);
+			return "";
+		}
+
 	}
 	
 	private static final Log _log = LogFactoryUtil.getLog(ExportPDF.class.getName());
