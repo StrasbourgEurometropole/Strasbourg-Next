@@ -89,7 +89,7 @@
 			<#list officials as official>
 				<section class='official table'>
 					<div class='col1'>
-						<img width='90px' src='${domaine}${official.getImageURL()?replace("&","&amp;")}' />
+						<img width='90px' src='${officalsImages[official?index]}' />
 					</div>
 					<div class='col2'>
 						<h2 id="${official.getFirstName()}_${official.getLastName()}">
