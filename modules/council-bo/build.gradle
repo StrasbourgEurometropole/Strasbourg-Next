@@ -3,7 +3,7 @@ dependencies {
 	compileInclude group: 'org.apache.commons', name: 'commons-csv', version: '1.10.0'
 	compileInclude group: 'org.apache.commons', name: 'commons-lang3', version: '3.14.0'
 
-	compileInclude group: 'com.itextpdf', name: 'layout', version: '8.0.3'
+	compileInclude group: 'org.xhtmlrenderer', name: 'flying-saucer-pdf', version: '9.5.0'
 
 	compileOnly group: "jstl", name: "jstl"
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
