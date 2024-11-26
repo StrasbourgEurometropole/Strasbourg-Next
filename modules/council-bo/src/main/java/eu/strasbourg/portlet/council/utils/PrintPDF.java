@@ -66,7 +66,6 @@ public class PrintPDF {
 			if(Validator.isNotNull(deliberation)) {
 				List<Vote> votes = VoteLocalServiceUtil.findByDeliberationId(deliberation.getDeliberationId());
 				if (Validator.isNotNull(votes) && !votes.isEmpty()) {
-//					PrintPDF.printPDF(folder, deliberation, votes);
 
 					String domaine = StrasbourgPropsUtil.getBaseURL();
 
@@ -129,6 +128,7 @@ public class PrintPDF {
 						hauteur_contre = hauteur_min + nbVotesContre * hauteur_restante / nbVotesTotal;
 						hauteur_pour = hauteur_totale - hauteur_contre - hauteur_abstention;
 					}
+
 					try {
 						//Chargement du template contenant le corps du mail
 						TemplateResource templateResource = new URLTemplateResource("0",
@@ -153,7 +153,6 @@ public class PrintPDF {
 						StringWriter out = new StringWriter();
 						template.putAll(context);
 						template.processTemplate(out);
-
 
 						// enregistrement du fichier
 						String fileName = "";
