@@ -53,4 +53,10 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         position: absolute;
         right: 0;
     }
+    @media (max-width: 700px) {
+        .journal-content-article .st-content .st-bloc img {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+    }
 </style>
