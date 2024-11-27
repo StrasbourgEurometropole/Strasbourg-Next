@@ -74,7 +74,7 @@
 		</liferay-ui:search-container>
 	</aui:form>
 	
-	<liferay-portlet:resourceURL var="exportXlsxURL" id="exportXlsx">
+	<liferay-portlet:resourceURL var="exportXlsxURL" id="exportXlsx" copyCurrentRenderParameters="false">
 	</liferay-portlet:resourceURL>
 	<form method="POST" action="${exportXlsxURL}">
 		<aui:input type="hidden" name="eventIds" value="${dc.allEventIds}" />
