@@ -715,6 +715,9 @@ public class SearchAssetPortlet extends MVCPortlet {
 			bpStatus = ParamUtil.getLongValues(request, "selectedBPStatus");
 			districts = ParamUtil.getLongValues(request, "selectedDistricts");
 			thematics = ParamUtil.getLongValues(request, "selectedThematics");
+			int delta = ParamUtil.getInteger(request, "delta");
+			start = ParamUtil.getInteger(request, "start");
+			end = start + delta;
 		}
 		if (resourceID.equals("entrySelectionInitiative")) {
 			keywords = ParamUtil.getString(request, "selectedKeyWords");
