@@ -13,11 +13,6 @@
       <#assign websiteUrl = "//www.de.strasbourg.eu" />
     </#if>
 </#if>
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-  <#assign homeURL = "/web${layout.group.friendlyURL}" />
-<#else>
-  <#assign homeURL = "" />
-</#if>
 
 <html class="${root_css_class}" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}" class="no-js">
 
@@ -159,7 +154,7 @@
                       </svg>
                     </button>
                   </div>
-                  <form action="${homeURL}/recherche" method="get">
+                  <form action="${strasbourg.homeURL()}recherche" method="get">
                       <input type="text" name="keywords" id="search" placeholder="Rechercher..." />
                   </form>
               </div>

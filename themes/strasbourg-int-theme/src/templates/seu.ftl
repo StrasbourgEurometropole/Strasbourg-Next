@@ -16,13 +16,8 @@
   <@liferay.control_menu />
 
   <script>
-    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-      <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-    <#else>
-      <#assign homeURL = "/" />
-    </#if>
     <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
-    window.homeURL = '${homeURL}';
+    window.homeURL = '${strasbourg.homeURL()}';
     window.loginURL = '${layoutHelper.getPublikLoginURL(currentUrl)?html}';
 
     <#if request.session.getAttribute("publik_logged_in")!false>

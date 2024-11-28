@@ -27,7 +27,7 @@
 <#-- Script de gestion -->
 <script type="text/javascript">
 	function getUrlWithRedirection() {
-		var pacteURL = "${themeDisplay.getPortalURL()}${homeURL}pacte";
+		var pacteURL = "${themeDisplay.getPortalURL()}${strasbourg.homeURL()}pacte";
 		var currentURL = window.location.href;
 		return pacteURL + "?redirectURL=" + encodeURIComponent(currentURL);
 	}

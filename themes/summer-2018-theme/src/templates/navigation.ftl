@@ -1,13 +1,8 @@
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-  <#assign homeURL = "/web${layout.group.friendlyURL}" />
-<#else>
-  <#assign homeURL = "" />
-</#if>
 <nav class="navbar mns-nav navbar-light">
     <div id="search-bar" class="mns-search-bar">
         <div class="container">
             <div class="row">
-                <form action="${homeURL}/recherche" method="get">
+                <form action="${strasbourg.homeURL()}recherche" method="get">
                     <input type="text" name="keywords" id="search" placeholder="Rechercher..." />
                 </form>
             </div>
@@ -15,15 +10,15 @@
     </div>
     <div class="container navbar-expand-md mns-navbar-wrapper">
         <div class="sully-navbar-header">
-            <a class="navbar-brand" href="${homeURL}/"><span class="subtitle">L'été</span> à Strasbourg</a>
+            <a class="navbar-brand" href="${strasbourg.homeURL()}"><span class="subtitle">L'été</span> à Strasbourg</a>
             <button type="button" class="mns-top-header-mobile" data-toggle="collapse" data-target="#langages" aria-expanded="false" aria-controls="langages">
                 ${locale.language}
                 <div id="langages" class="collapse" >            
                         <#assign entity = themeDisplay.getURLCurrent()?keep_after(layout.friendlyURL)?keep_before('\\?','r') />
-                        <#if homeURL != "">
-                            <a href="/fr${homeURL}${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>
-                            <a href="/de${homeURL}${layout.friendlyURL}${entity}" title="Deutsch" class="${(locale.language =='de')?then('active','')}" >DE</a>
-                            <a href="/en${homeURL}${layout.friendlyURL}${entity}" title="English" class="${(locale.language =='en')?then('active','')}" >EN</a>
+                        <#if strasbourg.homeURL() != "">
+                            <a href="/fr${strasbourg.homeURL()?keep_before_last("/")}${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>
+                            <a href="/de${strasbourg.homeURL()?keep_before_last("/")}${layout.friendlyURL}${entity}" title="Deutsch" class="${(locale.language =='de')?then('active','')}" >DE</a>
+                            <a href="/en${strasbourg.homeURL()?keep_before_last("/")}${layout.friendlyURL}${entity}" title="English" class="${(locale.language =='en')?then('active','')}" >EN</a>
                         <#else>
                             <a href="/fr${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>
                             <a href="/de${layout.friendlyURL}${entity}" title="Deutsch" class="${(locale.language =='de')?then('active','')}" >DE</a>
@@ -31,7 +26,7 @@
                         </#if>
                 </div>
             </button>
-            <a class="navbar-agenda" href="${homeURL}/agenda" aria-label="<@liferay.language key='eu.agenda' />"><span></span></a>
+            <a class="navbar-agenda" href="${strasbourg.homeURL()}agenda" aria-label="<@liferay.language key='eu.agenda' />"><span></span></a>
             <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" aria-label="<@liferay.language key='eu.menu' />">
                 <span></span>
                 <span></span>
@@ -42,7 +37,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="mns-search-bar mns-search-bar-mobile">
                     <div class="row">
-                        <form action="${homeURL}/recherche" method="get">
+                        <form action="${strasbourg.homeURL()}recherche" method="get">
                             <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet" />
                             <input type="text" name="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" id="searchMobile" placeholder="Rechercher..." />
                         </form>

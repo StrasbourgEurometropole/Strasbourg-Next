@@ -34,14 +34,6 @@
 
 <@liferay.control_menu />
 
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
-
-
 <div id="ops-wrapper">
 	<#include "${full_templates_path}/nav_top.ftl" />
 

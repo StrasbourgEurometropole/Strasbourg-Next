@@ -8,7 +8,7 @@
             </div>
             <div class="pro-wrapper">
                 <h4>Vous ne pouvez plus interagir sur le plateforme citoyenne.</h4> 
-                <h4>Si vous voulez en savoir plus sur les tenants et les aboutissants de cette restriction, veuillez nous contacter via le formulaire suivant : <a href="${themeDisplay.getPortalURL()}${homeURL}contact">lien</a>.</h4>
+                <h4>Si vous voulez en savoir plus sur les tenants et les aboutissants de cette restriction, veuillez nous contacter via le formulaire suivant : <a href="${themeDisplay.getPortalURL()}${strasbourg.homeURL()}contact">lien</a>.</h4>
             </div>
         </div>
     </div>

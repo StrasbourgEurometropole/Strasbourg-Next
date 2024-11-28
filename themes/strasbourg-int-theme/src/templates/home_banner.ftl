@@ -5,7 +5,7 @@
       <span class="sr-only">Eurométropole de Strasbourg</span>
     </h1> 
     <div class="seu-banner-form">
-      <form action="${homeURL}recherche" method="get" class="seu-search">
+      <form action="${strasbourg.homeURL()}recherche" method="get" class="seu-search">
         <button type="submit"></button>
         <label for="main_search_banner" class="sr-only"><@liferay.language key="research" /></label>
         <input type="text" name="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" placeholder="<@liferay.language key="research-concerns" />" id="main_search_banner">

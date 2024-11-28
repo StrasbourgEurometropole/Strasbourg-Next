@@ -1,8 +1,3 @@
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
 <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
 <#assign listTypeNoel = assetVocabularyHelper.getSortedCategories("type noel", themeDisplay.scopeGroupId) />
 
@@ -32,7 +27,7 @@
         <h2 data-type="question-label-wrapper"><@liferay_ui.message key='your-journey-more-like' /></h2>
 
         <div class="mns-question-wrapper">
-            <form action="${homeURL}recherche-experience" method="POST" id="mns-moteur_experientiel">
+            <form action="${strasbourg.homeURL()}recherche-experience" method="POST" id="mns-moteur_experientiel">
 
                 <!-- Question 1 -->
                 <div class="reponse rep_3 mns-anim" id="question_1">

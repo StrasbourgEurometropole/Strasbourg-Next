@@ -31,13 +31,8 @@
 
 
   <script>
-    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-      <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-    <#else>
-      <#assign homeURL = "/" />
-    </#if>
     <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
-    window.homeURL = '${homeURL}';
+    window.homeURL = '${strasbourg.homeURL()}';
     window.loginURL = '${layoutHelper.getPublikLoginURL(portalUtil.getCurrentCompleteURL(request))?html}';
 
     <#if request.session.getAttribute("publik_logged_in")!false>

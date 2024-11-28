@@ -64,9 +64,9 @@
                             </a>
                         </#if>
                         <ul>
-                            <li><a href="${themeDisplay.getPortalURL()}${homeURL}accessibilite" title="Lien vers la page Accessibilité">Accessibilité</a></li>
+                            <li><a href="${themeDisplay.getPortalURL()}${strasbourg.homeURL()}accessibilite" title="Lien vers la page Accessibilité">Accessibilité</a></li>
                             <li><a href="https://signaler.strasbourg.eu/" target="_blank" title="Avertir">Avertir</a></li>
-                            <li><a href="${themeDisplay.getPortalURL()}${homeURL}glossaire" title="Lien vers la page Glossaire & Règles d’utilisation">Glossaire & Règles d’utilisation</a></li>
+                            <li><a href="${themeDisplay.getPortalURL()}${strasbourg.homeURL()}glossaire" title="Lien vers la page Glossaire & Règles d’utilisation">Glossaire & Règles d’utilisation</a></li>
                         </ul>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
         </div>       
         <div class="container pro-header">
             <div>
-                <a href="${themeDisplay.getPortalURL()}${homeURL}accueil" class="pro-logo" title="Lien du Logo du site Portail du Citoyen Strasbourg" aria-label="Logo du site Portail du Citoyen Strasbourg">
+                <a href="${themeDisplay.getPortalURL()}${strasbourg.homeURL()}accueil" class="pro-logo" title="Lien du Logo du site Portail du Citoyen Strasbourg" aria-label="Logo du site Portail du Citoyen Strasbourg">
                     <figure role="group">
                         <img src="/o/plateforme-citoyenne-theme/images/logos/logo-plateforme-citoyenne-2023.svg" width="203" height="123" alt="Logo du site
                     Plateforme Citoyenne de Strasbourg"/>
@@ -84,7 +84,7 @@
                 <div class="pro-wrapper-nav">
                     <nav id="menu">
                         <ul>
-                            <li class="pro-home"><a href="${themeDisplay.getPortalURL()}${homeURL}accueil" title="Lien vers la page d'accueil du site" aria-label="Lien vers la page d'accueil du site"><span class="icon-ico-home"></span></a></li>
+                            <li class="pro-home"><a href="${themeDisplay.getPortalURL()}${strasbourg.homeURL()}accueil" title="Lien vers la page d'accueil du site" aria-label="Lien vers la page d'accueil du site"><span class="icon-ico-home"></span></a></li>
                             <#list nav_items as item>
                                 <#assign li_css_class = "" />
                                 <#if item.hasChildren()>
@@ -119,7 +119,7 @@
                     <ul>
                         <li class="pro-tooltip">
                             <#if request.session.getAttribute("publik_logged_in")!false>
-                                <a href="${themeDisplay.getPortalURL()}${homeURL}mon-activite-citoyenne" aria-label="Mon activité citoyenne" title="Lien vers mon activité citoyenne">
+                                <a href="${themeDisplay.getPortalURL()}${strasbourg.homeURL()}mon-activite-citoyenne" aria-label="Mon activité citoyenne" title="Lien vers mon activité citoyenne">
                                     <span class="icon-ico-user"></span>
                                 </a>
                                 <span class="tooltiptext">Mon activité citoyenne</span>
@@ -131,7 +131,7 @@
                             </#if>
                         </li>
                         <li class="pro-tooltip">
-                            <a href="${themeDisplay.getPortalURL()}${homeURL}carte" aria-label="Carte" title="Lien vers la carte interactive">
+                            <a href="${themeDisplay.getPortalURL()}${strasbourg.homeURL()}carte" aria-label="Carte" title="Lien vers la carte interactive">
                                 <span class="icon-ico-map"></span>
                             </a>
                             <span class="tooltiptext">Voir la carte</span>

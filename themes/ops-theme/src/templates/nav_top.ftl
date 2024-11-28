@@ -44,7 +44,7 @@
                 </svg>
             </a>
             <div class="ops-top-header-btn">
-                <a href="${themeDisplay.getPortalURL()}${homeURL}accessibilite" title="Lien vers la page Accessibilité"><span><@liferay_ui.message key="eu.ops.accessibility" /></span></a>
+                <a href="${themeDisplay.getPortalURL()}${strasbourg.homeURL()}accessibilite" title="Lien vers la page Accessibilité"><span><@liferay_ui.message key="eu.ops.accessibility" /></span></a>
                 <@liferay_portlet["runtime"]
 					portletProviderAction=portletProviderAction.VIEW
 					portletName="com_liferay_site_navigation_language_web_portlet_SiteNavigationLanguagePortlet"
@@ -71,7 +71,7 @@
 
 
             <!-- Logo du site -->
-            <a href="${themeDisplay.getPortalURL()}${homeURL}accueil" title="Lien vers Page d'accueil - Orchestre Philharmonique de Strasbourg" class="ops-logo">
+            <a href="${themeDisplay.getPortalURL()}${strasbourg.homeURL()}accueil" title="Lien vers Page d'accueil - Orchestre Philharmonique de Strasbourg" class="ops-logo">
                 <figure>
                     <img src="/o/ops-theme/images/logos/logo-ops.png" srcset="/o/ops-theme/images/logos/logo-ops-2x.png 2x" width="146" height="52" alt="Logo du site OPS"/>
                 </figure>
@@ -93,14 +93,14 @@
                             <path d="M15.841 4.8c0 0-0.156-1.103-0.637-1.587-0.609-0.637-1.291-0.641-1.603-0.678-2.237-0.163-5.597-0.163-5.597-0.163h-0.006c0 0-3.359 0-5.597 0.163-0.313 0.038-0.994 0.041-1.603 0.678-0.481 0.484-0.634 1.587-0.634 1.587s-0.159 1.294-0.159 2.591v1.213c0 1.294 0.159 2.591 0.159 2.591s0.156 1.103 0.634 1.588c0.609 0.637 1.409 0.616 1.766 0.684 1.281 0.122 5.441 0.159 5.441 0.159s3.363-0.006 5.6-0.166c0.313-0.037 0.994-0.041 1.603-0.678 0.481-0.484 0.637-1.588 0.637-1.588s0.159-1.294 0.159-2.591v-1.213c-0.003-1.294-0.162-2.591-0.162-2.591zM6.347 10.075v-4.497l4.322 2.256-4.322 2.241z"/>
                         </svg></a></li>
                 </ul>
-                <a href="${themeDisplay.getPortalURL()}${homeURL}agenda" class="link-calendar" aria-label="Agenda des concerts"><span class="icon-ico-calendar"></span></a>
+                <a href="${themeDisplay.getPortalURL()}${strasbourg.homeURL()}agenda" class="link-calendar" aria-label="Agenda des concerts"><span class="icon-ico-calendar"></span></a>
                 <a href="#SearchOnSite" class="link-search" aria-label="Ouvrir la barre de recherche"><span class="icon-ico-search"></span></a>
             </div>
 
 
             <!-- Formulaire de recherche -->
             <div class="ops-search-form">
-                <form method="get" action="${themeDisplay.getPortalURL()}${homeURL}recherche">
+                <form method="get" action="${themeDisplay.getPortalURL()}${strasbourg.homeURL()}recherche">
                     <label for="ops-search" style="display: none;"><@liferay_ui.message key="eu.ops.search" /></label>
                     <input type="text" id="_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_keywords-search" name="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" placeholder="<@liferay_ui.message key='eu.ops.search.three.dots' />"/>
                     <input type="hidden" id="p_p_id" name="p_p_id" value="eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet"/>

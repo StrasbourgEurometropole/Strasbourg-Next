@@ -2,11 +2,6 @@
 
 <#include init />
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-  <#assign homeURL = "/web${layout.group.friendlyURL}" />
-<#else>
-  <#assign homeURL = "" />
-</#if>
 <html class="${root_css_class}" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}">
 
   <head>
@@ -23,7 +18,7 @@
 
     <script>
       <#assign layoutHelper = serviceLocator.findService("eu.strasbourg.utils.api.LayoutHelperService") />
-      window.homeURL = '${homeURL}/';
+      window.homeURL = '${strasbourg.homeURL()}';
       window.loginURL = '${layoutHelper.getPublikLoginURL(currentUrl)?html}';
 
 
@@ -132,13 +127,13 @@
                 portletName="com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
                 instanceId="preheadermenu"
                 settingsScope="group" />
-                <a href="/pro-presse" class="mns-w-fixe-2"><span><@liferay_ui.message key='pro-and-press' /></span></a>
+                <a href="${strasbourg.homeURL()}pro-presse" class="mns-w-fixe-2"><span><@liferay_ui.message key='pro-and-press' /></span></a>
                 <a href="#" class="hidden-xs hidden-sm menu-search" aria-label="<@liferay_ui.message key='to-research' />"><span class="icon-search"></span></a>
                 <#assign entity = themeDisplay.getURLCurrent()?keep_after(layout.friendlyURL)?keep_before('\\?','r') />
-                <#if homeURL != "/">
-                    <a href="/fr${homeURL}${layout.friendlyURL}${entity}" title="FR- Français"  class="${(locale.language =='fr')?then('active','')}" lang="fr">FR</a>
-                    <a href="/de${homeURL}${layout.friendlyURL}${entity}" title="DE - Deutsch" class="${(locale.language =='de')?then('active','')}" lang="de">DE</a>
-                    <a href="/en${homeURL}${layout.friendlyURL}${entity}" title="EN - English" class="${(locale.language =='en')?then('active','')}" lang="en">EN</a>
+                <#if strasbourg.homeURL() != "">
+                    <a href="/fr${strasbourg.homeURL()?keep_before_last("/")}${layout.friendlyURL}${entity}" title="FR- Français"  class="${(locale.language =='fr')?then('active','')}" lang="fr">FR</a>
+                    <a href="/de${strasbourg.homeURL()?keep_before_last("/")}${layout.friendlyURL}${entity}" title="DE - Deutsch" class="${(locale.language =='de')?then('active','')}" lang="de">DE</a>
+                    <a href="/en${strasbourg.homeURL()?keep_before_last("/")}${layout.friendlyURL}${entity}" title="EN - English" class="${(locale.language =='en')?then('active','')}" lang="en">EN</a>
                 <#else>
                     <a href="/fr${layout.friendlyURL}${entity}" title="Fr - Français"  class="${(locale.language =='fr')?then('active','')}" lang="fr">FR</a>
                     <a href="/de${layout.friendlyURL}${entity}" title="DE - Deutsch" class="${(locale.language =='de')?then('active','')}" lang="de">DE</a>

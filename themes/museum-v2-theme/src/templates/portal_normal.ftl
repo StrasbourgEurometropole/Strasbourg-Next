@@ -2,11 +2,6 @@
 
 <#include init />
 
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
 <#assign isHome = layout.getFriendlyURL() == "/accueil" />
 
 <html class="${root_css_class}" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}">
@@ -79,13 +74,13 @@
                 </div>
             </#if>
             <div class="header-top-inner container">
-                <a class="title" href="${homeURL}">Musées de la ville de Strasbourg</a>
+                <a class="title" href="${strasbourg.homeURL()}">Musées de la ville de Strasbourg</a>
                 <#if themeDisplay.scopeGroup.friendlyURL == "/musees">
                     <span id="access-by-public"  class="access-by-public-menu-title show-acces">
                         <@liferay_ui.message key="eu.museum.acces" />
                     </span>
                     <div id="search-mobile" class="search"></div>
-                    <form method="get" id="main-search-form" action="${homeURL}recherche" class="hidden">
+                    <form method="get" id="main-search-form" action="${strasbourg.homeURL()}recherche" class="hidden">
                         <input type="hidden" name="p_p_id" value="eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet" />
                         <label for="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" style="display: none;"><@liferay_ui.message key="eu.museum.search" /></label>
                         <input type="search" name="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" id="_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_keywords" placeholder="<@liferay_ui.message key="eu.museum.search" />" value="" >
@@ -201,7 +196,7 @@
     <script src="${javascript_folder}/vendors/jquery-ui.min.js"></script>
     <script src="${javascript_folder}/vendors/jquery-ui-datepicker-fr.js"></script>
     <script>
-        window.homeURL = '${homeURL}';
+        window.homeURL = '${strasbourg.homeURL()}';
     </script>
 
     <@liferay_util["include"] page=body_bottom_include />

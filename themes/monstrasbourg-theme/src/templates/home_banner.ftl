@@ -1,6 +1,6 @@
 <section id="banner">
     <h1>
-        <a href="${homeURL}" title="Mon Strasbourg" class="logo_strasbourg"> 
+        <a href="${strasbourg.homeURL()}" title="Mon Strasbourg" class="logo_strasbourg">
             <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                 viewBox="0 0 918 184" style="enable-background:new 0 0 918 184;" xml:space="preserve">
             <style type="text/css">

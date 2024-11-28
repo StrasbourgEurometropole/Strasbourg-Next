@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 
 <#include init />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-  <#assign homeURL = "/web${layout.group.friendlyURL}" />
-<#else>
-  <#assign homeURL = "" />
-</#if>
 <html class="${root_css_class}" dir="<@liferay.language key="lang.dir" />" lang="${w3c_language_id}">
 
   <head>
@@ -120,17 +115,17 @@
                 <div>
                     <!-- a href="#" class="mns-w-fixe-1"><span>Carte interractive</span></a>
                     <a href="#" class="mns-w-fixe-2"><span>Pro & Presse</span></a -->
-                    <a href="${homeURL}/contact" class="mns-contact-link" title="Contact">
+                    <a href="${strasbourg.homeURL()}contact" class="mns-contact-link" title="Contact">
                       <span class="mns-contact">
                         <span class="mns-picto-contact"></span>
                         <span class="mns-text">Contact</span>
                       </span>
                     </a>
                     <#assign entity = themeDisplay.getURLCurrent()?keep_after(layout.friendlyURL)?keep_before('\\?','r') />
-                    <#if homeURL != "">
-                        <a href="/fr${homeURL}${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>
-                        <a href="/de${homeURL}${layout.friendlyURL}${entity}" title="Deutsch" class="${(locale.language =='de')?then('active','')}" >DE</a>
-                        <a href="/en${homeURL}${layout.friendlyURL}${entity}" title="English" class="${(locale.language =='en')?then('active','')}" >EN</a>
+                    <#if strasbourg.homeURL() != "">
+                        <a href="/fr${strasbourg.homeURL()?keep_before_last("/")}${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>
+                        <a href="/de${strasbourg.homeURL()?keep_before_last("/")}${layout.friendlyURL}${entity}" title="Deutsch" class="${(locale.language =='de')?then('active','')}" >DE</a>
+                        <a href="/en${strasbourg.homeURL()?keep_before_last("/")}${layout.friendlyURL}${entity}" title="English" class="${(locale.language =='en')?then('active','')}" >EN</a>
                     <#else>
                         <a href="/fr${layout.friendlyURL}${entity}" title="Français"  class="${(locale.language =='fr')?then('active','')}">FR</a>
                         <a href="/de${layout.friendlyURL}${entity}" title="Deutsch" class="${(locale.language =='de')?then('active','')}" >DE</a>
