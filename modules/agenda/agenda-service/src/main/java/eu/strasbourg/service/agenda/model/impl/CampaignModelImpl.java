@@ -83,7 +83,8 @@ public class CampaignModelImpl
 		{"defaultImageId", Types.BIGINT},
 		{"defaultImageCopyright", Types.VARCHAR},
 		{"managersIds", Types.VARCHAR}, {"exportEnabled", Types.BOOLEAN},
-		{"startDate", Types.TIMESTAMP}, {"endDate", Types.TIMESTAMP}
+		{"startDate", Types.TIMESTAMP}, {"endDate", Types.TIMESTAMP},
+		{"provider", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -110,10 +111,11 @@ public class CampaignModelImpl
 		TABLE_COLUMNS_MAP.put("exportEnabled", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("startDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("provider", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table agenda_Campaign (uuid_ VARCHAR(75) null,campaignId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,defaultImageId LONG,defaultImageCopyright STRING null,managersIds VARCHAR(75) null,exportEnabled BOOLEAN,startDate DATE null,endDate DATE null)";
+		"create table agenda_Campaign (uuid_ VARCHAR(75) null,campaignId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,defaultImageId LONG,defaultImageCopyright STRING null,managersIds VARCHAR(75) null,exportEnabled BOOLEAN,startDate DATE null,endDate DATE null,provider VARCHAR(20) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table agenda_Campaign";
 
@@ -303,6 +305,7 @@ public class CampaignModelImpl
 				"exportEnabled", Campaign::getExportEnabled);
 			attributeGetterFunctions.put("startDate", Campaign::getStartDate);
 			attributeGetterFunctions.put("endDate", Campaign::getEndDate);
+			attributeGetterFunctions.put("provider", Campaign::getProvider);
 
 			_attributeGetterFunctions = Collections.unmodifiableMap(
 				attributeGetterFunctions);
@@ -374,6 +377,9 @@ public class CampaignModelImpl
 				(BiConsumer<Campaign, Date>)Campaign::setStartDate);
 			attributeSetterBiConsumers.put(
 				"endDate", (BiConsumer<Campaign, Date>)Campaign::setEndDate);
+			attributeSetterBiConsumers.put(
+				"provider",
+				(BiConsumer<Campaign, String>)Campaign::setProvider);
 
 			_attributeSetterBiConsumers = Collections.unmodifiableMap(
 				(Map)attributeSetterBiConsumers);
@@ -959,6 +965,25 @@ public class CampaignModelImpl
 	}
 
 	@Override
+	public String getProvider() {
+		if (_provider == null) {
+			return "";
+		}
+		else {
+			return _provider;
+		}
+	}
+
+	@Override
+	public void setProvider(String provider) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_provider = provider;
+	}
+
+	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(
 			PortalUtil.getClassNameId(Campaign.class.getName()));
@@ -1213,6 +1238,7 @@ public class CampaignModelImpl
 		campaignImpl.setExportEnabled(getExportEnabled());
 		campaignImpl.setStartDate(getStartDate());
 		campaignImpl.setEndDate(getEndDate());
+		campaignImpl.setProvider(getProvider());
 
 		campaignImpl.resetOriginalValues();
 
@@ -1257,6 +1283,8 @@ public class CampaignModelImpl
 		campaignImpl.setStartDate(
 			this.<Date>getColumnOriginalValue("startDate"));
 		campaignImpl.setEndDate(this.<Date>getColumnOriginalValue("endDate"));
+		campaignImpl.setProvider(
+			this.<String>getColumnOriginalValue("provider"));
 
 		return campaignImpl;
 	}
@@ -1459,6 +1487,14 @@ public class CampaignModelImpl
 			campaignCacheModel.endDate = Long.MIN_VALUE;
 		}
 
+		campaignCacheModel.provider = getProvider();
+
+		String provider = campaignCacheModel.provider;
+
+		if ((provider != null) && (provider.length() == 0)) {
+			campaignCacheModel.provider = null;
+		}
+
 		return campaignCacheModel;
 	}
 
@@ -1543,6 +1579,7 @@ public class CampaignModelImpl
 	private Boolean _exportEnabled;
 	private Date _startDate;
 	private Date _endDate;
+	private String _provider;
 
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
@@ -1595,6 +1632,7 @@ public class CampaignModelImpl
 		_columnOriginalValues.put("exportEnabled", _exportEnabled);
 		_columnOriginalValues.put("startDate", _startDate);
 		_columnOriginalValues.put("endDate", _endDate);
+		_columnOriginalValues.put("provider", _provider);
 	}
 
 	private static final Map<String, String> _attributeNames;
@@ -1657,6 +1695,8 @@ public class CampaignModelImpl
 		columnBitmasks.put("startDate", 262144L);
 
 		columnBitmasks.put("endDate", 524288L);
+
+		columnBitmasks.put("provider", 1048576L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

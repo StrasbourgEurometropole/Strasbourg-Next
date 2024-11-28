@@ -78,6 +78,10 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// Widget mod
 			setPreference(request, "widgetMod", String.valueOf(mode.equals("widget")));
 
+			// Affichage du titre
+			String showTitle = ParamUtil.getString(request, "showTitle");
+			setPreference(request, "showTitle", showTitle);
+
 			// Choix de la hiérarchie du titre
 			String hierarchy = ParamUtil.getString(request, "hierarchy");
 			setPreference(request, "hierarchy", hierarchy);
@@ -535,6 +539,9 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			// Widget mod du portlet
 			request.setAttribute("widgetMod", configuration.widgetMod());
 
+			// Affichage du titre
+			request.setAttribute("showTitle", configuration.showTitle());
+
 			// Choix de la hiérarchie du titre
 			request.setAttribute("hierarchy", configuration.hierarchy());
 
@@ -598,7 +605,8 @@ public class MapConfigurationAction extends DefaultConfigurationAction {
 			request.setAttribute("clippingCategoryId", configuration.clippingCategoryId());
 
 			// Choix du site vers lequel les liens redirigent
-			List<Group> sites = GroupLocalServiceUtil.getGroups(themeDisplay.getCompanyId(), 0, true);
+			List<Group> sites = GroupLocalServiceUtil.getCompanyGroups(themeDisplay.getCompanyId(), -1, -1)
+					.stream().filter(s -> s.getSite()).collect(Collectors.toList());
 			request.setAttribute("sites", sites);
 			long groupId = configuration.groupId();
 			if(Validator.isNull(groupId)){

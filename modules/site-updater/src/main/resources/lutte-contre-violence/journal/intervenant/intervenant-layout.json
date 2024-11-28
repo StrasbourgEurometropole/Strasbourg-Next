@@ -1,0 +1,68 @@
+{
+  "pages": [
+    {
+      "description": {
+        "fr_FR": ""
+      },
+      "rows": [
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "image"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "lastname"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "firstname"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "function"
+              ]
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "size": 12,
+              "fieldNames": [
+                "bio"
+              ]
+            }
+          ]
+        }
+      ],
+      "title": {
+        "fr_FR": ""
+      }
+    }
+  ],
+  "definitionSchemaVersion": "2.0",
+  "paginationMode": "single-page",
+  "defaultLanguageId": "fr_FR",
+  "fields": []
+}

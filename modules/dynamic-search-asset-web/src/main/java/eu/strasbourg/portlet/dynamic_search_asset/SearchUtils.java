@@ -64,14 +64,14 @@ public class SearchUtils {
     public static void logSearch(ResourceRequest request, List<AssetEntry> assetEntries, String keywords, long totalResult, long searchTime, JSONArray jsonResponse) throws PortalException {
         // Gestion du log
         JSONObject jsonSearchLog = JSONFactoryUtil.createJSONObject();
-        // HOTFIX DEACTIVATE SEARCHLOG
-        /*ServiceContext sc = ServiceContextFactory.getInstance(request);
+
+        ServiceContext sc = ServiceContextFactory.getInstance(request);
         AssetEntry result1 = assetEntries.size() > 0 ? assetEntries.get(0) : null;
         AssetEntry result2 = assetEntries.size() > 1 ? assetEntries.get(1) : null;
         AssetEntry result3 = assetEntries.size() > 2 ? assetEntries.get(2) : null;
         SearchLog searchLog = SearchLogLocalServiceUtil.addSearchLog(sc, keywords,
                 totalResult, result1, result2, result3, null, searchTime);
-        jsonSearchLog.put("searchLogId", searchLog.getSearchLogId());*/
+        jsonSearchLog.put("searchLogId", searchLog.getSearchLogId());
         jsonSearchLog.put("searchLogId", 1);
         jsonResponse.put(jsonSearchLog);
     }

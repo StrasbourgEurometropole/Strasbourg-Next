@@ -613,6 +613,21 @@ public interface EventModel
 	public void setExternalImageURL(String externalImageURL);
 
 	/**
+	 * Returns the external image thumbnail url of this event.
+	 *
+	 * @return the external image thumbnail url of this event
+	 */
+	@AutoEscape
+	public String getExternalImageThumbnailURL();
+
+	/**
+	 * Sets the external image thumbnail url of this event.
+	 *
+	 * @param externalImageThumbnailURL the external image thumbnail url of this event
+	 */
+	public void setExternalImageThumbnailURL(String externalImageThumbnailURL);
+
+	/**
 	 * Returns the external image copyright of this event.
 	 *
 	 * @return the external image copyright of this event

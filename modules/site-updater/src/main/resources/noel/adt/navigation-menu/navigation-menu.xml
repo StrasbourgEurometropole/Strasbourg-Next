@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<root>
+    <className>com.liferay.portal.kernel.theme.NavItem</className>
+    <template>
+        <script>pre-header.ftl</script>
+        <name>Menu Pre Header</name>
+        <key>pre-header-menu</key>
+    </template>
+</root>

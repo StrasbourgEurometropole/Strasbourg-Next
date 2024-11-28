@@ -53,7 +53,7 @@ public class CampaignCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(41);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -95,6 +95,8 @@ public class CampaignCacheModel
 		sb.append(startDate);
 		sb.append(", endDate=");
 		sb.append(endDate);
+		sb.append(", provider=");
+		sb.append(provider);
 		sb.append("}");
 
 		return sb.toString();
@@ -200,6 +202,13 @@ public class CampaignCacheModel
 			campaignImpl.setEndDate(new Date(endDate));
 		}
 
+		if (provider == null) {
+			campaignImpl.setProvider("");
+		}
+		else {
+			campaignImpl.setProvider(provider);
+		}
+
 		campaignImpl.resetOriginalValues();
 
 		return campaignImpl;
@@ -235,6 +244,7 @@ public class CampaignCacheModel
 		exportEnabled = objectInput.readBoolean();
 		startDate = objectInput.readLong();
 		endDate = objectInput.readLong();
+		provider = objectInput.readUTF();
 	}
 
 	@Override
@@ -304,6 +314,13 @@ public class CampaignCacheModel
 		objectOutput.writeBoolean(exportEnabled);
 		objectOutput.writeLong(startDate);
 		objectOutput.writeLong(endDate);
+
+		if (provider == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(provider);
+		}
 	}
 
 	public String uuid;
@@ -326,5 +343,6 @@ public class CampaignCacheModel
 	public boolean exportEnabled;
 	public long startDate;
 	public long endDate;
+	public String provider;
 
 }

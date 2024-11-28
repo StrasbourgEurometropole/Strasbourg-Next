@@ -26,6 +26,8 @@
 
 <body class="${css_class}">
 
+<div id="wrapper">
+
 <@liferay_ui["quick-access"] contentId="#main-content" />
 
 <@liferay_util["include"] page=body_top_include />
@@ -71,7 +73,7 @@
 <script type="text/javascript" src="/o/ops-theme/js/ops.js"></script>
 
 <!-- endinject -->
-
+</div>
 </body>
 
 </html>

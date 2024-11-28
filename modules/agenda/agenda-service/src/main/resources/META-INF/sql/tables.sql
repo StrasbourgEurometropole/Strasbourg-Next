@@ -56,7 +56,8 @@ create table agenda_Campaign (
 	managersIds VARCHAR(75) null,
 	exportEnabled BOOLEAN,
 	startDate DATE null,
-	endDate DATE null
+	endDate DATE null,
+	provider VARCHAR(20) null
 );
 
 create table agenda_CampaignEvent (
@@ -155,6 +156,7 @@ create table agenda_Event (
 	subtitle STRING null,
 	description TEXT null,
 	externalImageURL VARCHAR(255) null,
+	externalImageThumbnailURL VARCHAR(255) null,
 	externalImageCopyright VARCHAR(400) null,
 	imageWidth INTEGER,
 	imageHeight INTEGER,
@@ -237,7 +239,7 @@ create table agenda_Historic (
 create table agenda_ImportReport (
 	uuid_ VARCHAR(75) null,
 	reportId LONG not null primary key,
-	provider VARCHAR(75) null,
+	provider VARCHAR(400) null,
 	filename VARCHAR(75) null,
 	status LONG,
 	globalErrorCause VARCHAR(75) null,

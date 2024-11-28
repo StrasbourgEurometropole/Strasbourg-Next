@@ -257,9 +257,6 @@
                         <aui:option value="videos" selected="${searchForm eq 'videos'}">
                             <liferay-ui:message key="videos" />
                         </aui:option>
-                        <aui:option value="summer-christmas-general" selected="${searchForm eq 'summer-christmas-general'}">
-                            <liferay-ui:message key="summer-christmas-general" />
-                        </aui:option>
                         <aui:option value="summer-christmas-agenda" selected="${searchForm eq 'summer-christmas-agenda'}">
                             <liferay-ui:message key="summer-christmas-agenda" />
                         </aui:option>

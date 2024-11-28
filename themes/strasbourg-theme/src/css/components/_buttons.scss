@@ -495,7 +495,8 @@
 	@include mobile {
 		width: 44px;
 		min-width: 44px;
-		height: 100%
+		height: 100%;
+		min-height: 44px;
 	}
 
 	[class^="st-icon-"], [class*=" st-icon-"] {

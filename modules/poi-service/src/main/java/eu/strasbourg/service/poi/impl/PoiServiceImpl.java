@@ -118,75 +118,80 @@ public class PoiServiceImpl implements PoiService {
 							  long eventTypeVocabularyId) {
 		JSONObject geoJson = null;
 
-		// Recherche
-		List<Place> places = new ArrayList<Place>();
-		if (classNames.equals("all") || classNames.contains(Place.class.getName())) {
-			if(!isVocabularies(Place.class.getName(),groupId,globalGroupId,vocabulariesEmptyIds))
-				_log.debug("Pas de lieu à afficher car il y a des vocabulaires les concernant qui n'ont aucune catégorie cochée ");
-			else{
-				// récupère les lieux des catégories et centres d'intérêt
-				long classNameId = ClassNameLocalServiceUtil.getClassName(Place.class.getName()).getClassNameId();
-				List<Long[]> categories = getCategories(idInterestsString, idCategoriesString, classNameId);
-				List<Long[]> prefilters = getprefilters(prefiltersString, classNameId);
-				Document [] documents = getHit(categories, prefilters, tagsString, groupId, Place.class.getName(),
-						false, fromDate, toDate, localeId, globalGroupId).getDocs();
-				if (documents != null) {
-					// récuperer les identifiants de places
-					List<Long> idsplaceEntries= getClassPkFromAssetEntryByHits(documents);
-					places=_placeLocalService.findByIds(idsplaceEntries);
-				}
-			}
-		}
-		List<Event> events = new ArrayList<Event>();
-		if (classNames.equals("all") || classNames.contains(Event.class.getName())) {
-
-			if(!isVocabularies(Event.class.getName(),groupId,globalGroupId,vocabulariesEmptyIds))
-				_log.debug("Pas d'événement à afficher car il y a des vocabulaires les concernant qui n'ont aucune catégorie cochée ");
-			else {
-				// récupère les évènements des catégories et centres d'intérêt
-				long classNameId = ClassNameLocalServiceUtil.getClassName(Event.class.getName()).getClassNameId();
-				List<Long[]> categories = getCategories(idInterestsString, idCategoriesString, classNameId);
-				List<Long[]> prefilters = getprefilters(prefiltersString, classNameId);
-				Document [] documents = getHit(categories, prefilters, tagsString, groupId, Event.class.getName(),
-						dateField, fromDate, toDate, localeId, globalGroupId).getDocs();
-
-				if (documents != null) {
-					List<Long> idsEventEntries= getClassPkFromAssetEntryByHits(documents);
-					events=_eventLocalService.findByids(idsEventEntries);
-				}
-			}
-		}
-
-		// récupère les arrêts
-		List<Arret> arrets = new ArrayList<Arret>();
-		if (classNames.equals("all") || classNames.contains(Arret.class.getName())) {
-			if(!isVocabularies(Arret.class.getName(),groupId,globalGroupId,vocabulariesEmptyIds))
-				_log.debug("Pas d'arrêt à afficher car il y a des vocabulaires les concernant qui n'ont aucune catégorie cochée ");
-			else {
-				// récupère les arrets des catégories et centres d'intérêt
-				long classNameId = ClassNameLocalServiceUtil.getClassName(Arret.class.getName()).getClassNameId();
-				List<Long[]> categories = getCategories(idInterestsString, idCategoriesString, classNameId);
-				List<Long[]> prefilters = getprefilters(prefiltersString, classNameId);
-				Document [] documents = getHit(categories, prefilters, tagsString, groupId, Arret.class.getName(),
-						false, fromDate, toDate, localeId, globalGroupId).getDocs();
-
-				if (documents != null) {
-					List<Long> idsArretEntries= getClassPkFromAssetEntryByHits(documents);
-					arrets=_arretLocalService.findByIds(idsArretEntries);
-				}
-			}
-		}
-		// récupère le fichier geoJson
 		try {
-			long startTime = System.nanoTime();
-			geoJson = getGeoJSON(places, events, arrets, groupId, LocaleUtil.fromLanguageId(localeId), alertsArret,
-					territoryVocabularyId, placeTypeVocabularyId, eventTypeVocabularyId);
-			long endTime = System.nanoTime();
-			long duration = (endTime - startTime) / 1_000_000;
-			_log.debug("getGeoJSON : " + duration + "ms (" + geoJson.getJSONArray("features").length() + " items)");
-		} catch (JSONException e) {
-			_log.error(e.getMessage() + " : places -> " + places + ", events -> " + events +
-					", arrets -> " + arrets + ", groupId " + groupId + ", localeId -> " + localeId);
+
+			// Recherche
+			List<Place> places = new ArrayList<Place>();
+			if (classNames.equals("all") || classNames.contains(Place.class.getName())) {
+				if (!isVocabularies(Place.class.getName(), groupId, globalGroupId, vocabulariesEmptyIds))
+					_log.debug("Pas de lieu à afficher car il y a des vocabulaires les concernant qui n'ont aucune catégorie cochée ");
+				else {
+					// récupère les lieux des catégories et centres d'intérêt
+					long classNameId = ClassNameLocalServiceUtil.getClassName(Place.class.getName()).getClassNameId();
+					List<Long[]> categories = getCategories(idInterestsString, idCategoriesString, classNameId);
+					List<Long[]> prefilters = getprefilters(prefiltersString, classNameId);
+					Document[] documents = getHit(categories, prefilters, tagsString, groupId, Place.class.getName(),
+							false, fromDate, toDate, localeId, globalGroupId).getDocs();
+					if (documents != null) {
+						// récuperer les identifiants de places
+						List<Long> idsplaceEntries = getClassPkFromAssetEntryByHits(documents);
+						places = _placeLocalService.findByIds(idsplaceEntries);
+					}
+				}
+			}
+			List<Event> events = new ArrayList<Event>();
+			if (classNames.equals("all") || classNames.contains(Event.class.getName())) {
+
+				if (!isVocabularies(Event.class.getName(), groupId, globalGroupId, vocabulariesEmptyIds))
+					_log.debug("Pas d'événement à afficher car il y a des vocabulaires les concernant qui n'ont aucune catégorie cochée ");
+				else {
+					// récupère les évènements des catégories et centres d'intérêt
+					long classNameId = ClassNameLocalServiceUtil.getClassName(Event.class.getName()).getClassNameId();
+					List<Long[]> categories = getCategories(idInterestsString, idCategoriesString, classNameId);
+					List<Long[]> prefilters = getprefilters(prefiltersString, classNameId);
+					Document[] documents = getHit(categories, prefilters, tagsString, groupId, Event.class.getName(),
+							dateField, fromDate, toDate, localeId, globalGroupId).getDocs();
+
+					if (documents != null) {
+						List<Long> idsEventEntries = getClassPkFromAssetEntryByHits(documents);
+						events = _eventLocalService.findByids(idsEventEntries);
+					}
+				}
+			}
+
+			// récupère les arrêts
+			List<Arret> arrets = new ArrayList<Arret>();
+			if (classNames.equals("all") || classNames.contains(Arret.class.getName())) {
+				if (!isVocabularies(Arret.class.getName(), groupId, globalGroupId, vocabulariesEmptyIds))
+					_log.debug("Pas d'arrêt à afficher car il y a des vocabulaires les concernant qui n'ont aucune catégorie cochée ");
+				else {
+					// récupère les arrets des catégories et centres d'intérêt
+					long classNameId = ClassNameLocalServiceUtil.getClassName(Arret.class.getName()).getClassNameId();
+					List<Long[]> categories = getCategories(idInterestsString, idCategoriesString, classNameId);
+					List<Long[]> prefilters = getprefilters(prefiltersString, classNameId);
+					Document[] documents = getHit(categories, prefilters, tagsString, groupId, Arret.class.getName(),
+							false, fromDate, toDate, localeId, globalGroupId).getDocs();
+
+					if (documents != null) {
+						List<Long> idsArretEntries = getClassPkFromAssetEntryByHits(documents);
+						arrets = _arretLocalService.findByIds(idsArretEntries);
+					}
+				}
+			}
+			// récupère le fichier geoJson
+			try {
+				long startTime = System.nanoTime();
+				geoJson = getGeoJSON(places, events, arrets, groupId, LocaleUtil.fromLanguageId(localeId), alertsArret,
+						territoryVocabularyId, placeTypeVocabularyId, eventTypeVocabularyId);
+				long endTime = System.nanoTime();
+				long duration = (endTime - startTime) / 1_000_000;
+				_log.debug("getGeoJSON : " + duration + "ms (" + geoJson.getJSONArray("features").length() + " items)");
+			} catch (JSONException e) {
+				_log.error(e.getMessage() + " : places -> " + places + ", events -> " + events +
+						", arrets -> " + arrets + ", groupId " + groupId + ", localeId -> " + localeId);
+			}
+		}catch (Exception e){
+			_log.error(e);
 		}
 		return geoJson;
 	}
@@ -195,55 +200,60 @@ public class PoiServiceImpl implements PoiService {
 				   List<String> alertsArret, long territoryVocabularyId, long placeTypeVocabularyId,
 				   long eventTypeVocabularyId) {
 		JSONObject geoJSON = JSONFactoryUtil.createJSONObject();
-		geoJSON.put("type", "FeatureCollection");
-		Locale locale = LocaleUtil.fromLanguageId(localeId);
 
-		// récupère les favoris de l'uilisateur
-		List<Favorite> favorites = FavoriteLocalServiceUtil.getByPublikUser(userId);
-		if (favorites != null) {
-			JSONArray features = JSONFactoryUtil.createJSONArray();
-			if (classNames.equals("all") || classNames.contains(Place.class.getName())) {
-				Stream<Favorite> placeFavorites = favorites.stream()
-						.filter(f -> f.getTypeId() == FavoriteType.PLACE.getId());
-				if (placeFavorites != null) {
-					for (Favorite favorite : placeFavorites.collect(Collectors.toList())) {
-						Place place = PlaceLocalServiceUtil.fetchPlace(favorite.getEntityId());
-						if (place != null) {
-							features.put(place.getGeoJSON(groupId,locale, territoryVocabularyId, placeTypeVocabularyId));
+		try {
+			geoJSON.put("type", "FeatureCollection");
+			Locale locale = LocaleUtil.fromLanguageId(localeId);
+
+			// récupère les favoris de l'uilisateur
+			List<Favorite> favorites = FavoriteLocalServiceUtil.getByPublikUser(userId);
+			if (favorites != null) {
+				JSONArray features = JSONFactoryUtil.createJSONArray();
+				if (classNames.equals("all") || classNames.contains(Place.class.getName())) {
+					Stream<Favorite> placeFavorites = favorites.stream()
+							.filter(f -> f.getTypeId() == FavoriteType.PLACE.getId());
+					if (placeFavorites != null) {
+						for (Favorite favorite : placeFavorites.collect(Collectors.toList())) {
+							Place place = PlaceLocalServiceUtil.fetchPlace(favorite.getEntityId());
+							if (place != null) {
+								features.put(place.getGeoJSON(groupId, locale, territoryVocabularyId, placeTypeVocabularyId));
+							}
 						}
 					}
 				}
-			}
-			if (classNames.equals("all") || classNames.contains(Arret.class.getName())) {
-				Stream<Favorite> arretFavorites = favorites.stream()
-						.filter(f -> f.getTypeId() == FavoriteType.ARRET.getId());
-				if (arretFavorites != null) {
-					for (Favorite favorite : arretFavorites.collect(Collectors.toList())) {
-						Arret arret = ArretLocalServiceUtil.fetchArret(favorite.getEntityId());
-						if (arret != null) {
-                            try {
-                                features.put(arret.getGeoJSON(groupId,locale, alertsArret));
-                            } catch (JSONException e) {
-								_log.error(e.getMessage() + ", arret -> " + arret);
-                            }
-                        }
-					}
-				}
-			}
-			if (classNames.equals("all") || classNames.contains(Event.class.getName())) {
-				Stream<Favorite> eventFavorites = favorites.stream()
-						.filter(f -> f.getTypeId() == FavoriteType.EVENT.getId());
-				if (eventFavorites != null) {
-					for (Favorite favorite : eventFavorites.collect(Collectors.toList())) {
-						Event event = EventLocalServiceUtil.fetchEvent(favorite.getEntityId());
-						if (event != null && event.getNextOpenDate().isEqual(LocalDate.now())) {
-							// on ne garde que les évènements du jour
-							features.put(event.getGeoJSON(groupId,locale, territoryVocabularyId, eventTypeVocabularyId));
+				if (classNames.equals("all") || classNames.contains(Arret.class.getName())) {
+					Stream<Favorite> arretFavorites = favorites.stream()
+							.filter(f -> f.getTypeId() == FavoriteType.ARRET.getId());
+					if (arretFavorites != null) {
+						for (Favorite favorite : arretFavorites.collect(Collectors.toList())) {
+							Arret arret = ArretLocalServiceUtil.fetchArret(favorite.getEntityId());
+							if (arret != null) {
+								try {
+									features.put(arret.getGeoJSON(groupId, locale, alertsArret));
+								} catch (JSONException e) {
+									_log.error(e.getMessage() + ", arret -> " + arret);
+								}
+							}
 						}
 					}
 				}
+				if (classNames.equals("all") || classNames.contains(Event.class.getName())) {
+					Stream<Favorite> eventFavorites = favorites.stream()
+							.filter(f -> f.getTypeId() == FavoriteType.EVENT.getId());
+					if (eventFavorites != null) {
+						for (Favorite favorite : eventFavorites.collect(Collectors.toList())) {
+							Event event = EventLocalServiceUtil.fetchEvent(favorite.getEntityId());
+							if (event != null && event.getNextOpenDate().isEqual(LocalDate.now())) {
+								// on ne garde que les évènements du jour
+								features.put(event.getGeoJSON(groupId, locale, territoryVocabularyId, eventTypeVocabularyId));
+							}
+						}
+					}
+				}
+				geoJSON.put("features", features);
 			}
-			geoJSON.put("features", features);
+		}catch (Exception e){
+			_log.error(e);
 		}
 		return geoJSON;
 	}

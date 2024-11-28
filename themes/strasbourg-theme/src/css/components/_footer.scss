@@ -1,4 +1,6 @@
 .st-footer {
+	background-color: $c_footerBgColor;
+
 	&.st--has-padding-bottom {
 		.st-container-mentions {
 			padding-bottom:  calc(var(--barre-height) + 20px);
@@ -23,7 +25,7 @@
 	}
 
 	.st-title {
-		@include ft($f_txt, 16px, 700, $c_white, 1);
+		@include ft($f_txt, 16px, 700, $c_footerMainColor, 1);
 		@include letter-spacing(25);
 
 		@include mobile {
@@ -39,7 +41,7 @@
 		}
 
 		p {
-			@include ft($f_txt, $s_p, 300, $c_txt, 1.57);
+			@include ft($f_txt, $s_p, 300, $c_footerSubColor, 1.57);
 			@include letter-spacing(25);
 
 			@include mobile {
@@ -72,7 +74,7 @@
 
 			.st-text {
 				position: relative;
-				@include ft($f_txt, $s_p, 300, $c_txt, 1.57);
+				@include ft($f_txt, $s_p, 300, $c_footerSubColor, 1.57);
 				@include letter-spacing(25);
 				@include transition(color);
 
@@ -85,7 +87,7 @@
 					display: block;
 					width: 100%;
 					height: 1px;
-					background-color: $c_txt;
+					background-color: $c_footerSubColor;
 					position: absolute;
 					left: 0;
 					bottom: 0;
@@ -93,18 +95,18 @@
 			}
 
 			[class^="st-icon-"], [class*=" st-icon-"] {
-				color: $c_sub;
+				color: $c_footerBorderHoverColor;
 				font-size: 20px;
 				margin-right: 6px;
 			}
 
 			@include can-hover {
 				.st-text {
-					color: $c_sub;
+					color: $c_footerBorderHoverColor;
 
 					&:after {
 						height: 2px;
-						background-color: $c_sub;
+						background-color: $c_footerBorderHoverColor;
 					}
 				}
 			}
@@ -115,10 +117,21 @@
 		li + li {
 			margin-top: 10px;
 		}
+
+		a.st--btn-secondary {
+			color: $c_footerMainColor;
+			background-color: $c_footerBgColor;
+			border-color: $c_footerBorderHoverColor;
+
+			@include can-hover {
+				color: $c_footerBgColor;
+				background-color: $c_footerMainColor;
+			}
+		}
 	}
 
 	.st-surtitre {
-		@include ft($f_txt, 12px, 400, $c_sub, 1);
+		@include ft($f_txt, 12px, 400, $c_footerBorderHoverColor, 1);
 		@include letter-spacing(25);
 		text-transform: uppercase;
 
@@ -128,7 +141,7 @@
 	}
 
 	.st-hashtag {
-		@include ft($f_txt, 30px, 600, $c_white, 1);
+		@include ft($f_txt, 30px, 600, $c_footerMainColor, 1);
 
 		@include mobile {
 			font-size: 20px;
@@ -141,6 +154,30 @@
 		@include mobile {
 			margin-top: 0;
 		}
+
+		a {
+			border-color: $c_footerBorderHoverColor;
+
+			[class^=st-icon-]{
+				color: $c_footerMainColor;
+				&.st-icon-twitter:before{
+					background-color: $c_footerMainColor;
+				}
+			}
+
+			@include can-hover {
+				background-color: $c_footerBorderHoverColor;
+				border-color: $c_footerBorderHoverColor;
+
+				[class^=st-icon-]{
+					color: $c_footerBgColor;
+					&.st-icon-twitter:before{
+						background-color: $c_footerBgColor;
+					}
+				}
+			}
+		}
+
 	}
 
 	.st-menu-footer {
@@ -152,7 +189,7 @@
 
 		a {
 			@include create-outline;
-			@include ft($f_txt, 16px, 700, $c_white, 1);
+			@include ft($f_txt, 16px, 700, $c_footerMainColor, 1);
 			display: inline-flex;
 			padding: 9px 0;
 
@@ -161,14 +198,14 @@
 				font-size: 14px;
 			}
 			@include can-hover {
-				color: $c_sub;
+				color: $c_footerBorderHoverColor;
 			}
 		}
 	}
 
 	.st-container-mentions {
 		padding: 14px 0 20px 0;
-		background-color: $c_greydark;
+		background-color: $c_footerBg2Color;
 
 		@include tablet-portrait {
 			padding-top: 20px;
@@ -194,10 +231,10 @@
 			align-items: center;
 			height: 100%;
 			padding: 10px;
-			@include ft($f_txt, $s_link_small, 300, $c_white, 1);
+			@include ft($f_txt, $s_link_small, 300, $c_footerMainColor, 1);
 
 			@include can-hover {
-				color: $c_sub;
+				color: $c_footerBorderHoverColor;
 			}
 			@include tablet-portrait {
 				padding: 8px 0 8px 0;

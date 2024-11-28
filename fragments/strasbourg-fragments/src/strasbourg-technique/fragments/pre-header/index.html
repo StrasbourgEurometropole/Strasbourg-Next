@@ -4,7 +4,7 @@
     <div class="pre-header">
       <div class="st-wrapper st-barre-inner-container">
         <div>
-          <a href="${strasbourg.homeURL()}" class="st-logo">
+          <a href="https://www.strasbourg.eu/" class="st-logo">
             <figure class="st-figure st-fit-cover">
               <picture>
                 <img width="154" height="30" alt="Strasbourg.eu eurométropole"
@@ -20,9 +20,9 @@
 
           <ul class="st-nav-primary__menu">
             <li class="st-has-lang-dropdown">
-              <select onchange="document.location.href = this.value;" class="select-lang" title="FR - changer la langue du site">
+              <select onchange="document.location.href = this.value;" class="select-lang" title="${themeDisplay.getLocale().getLanguage()?upper_case} - changer la langue du site">
                 [#list languageUtil.getAvailableLocales(themeDisplay.getScopeGroupId()) as lang ]
-                <option value="${themeDisplay.getLayout().getFriendlyURL(lang)}" aria-label="${lang.getLanguage()?upper_case}" selected=""> ${lang.getLanguage()?upper_case} </option>
+                <option value="/${lang.getLanguage()}${themeDisplay.getLayout().getFriendlyURL(lang)}" aria-label="${lang.getLanguage()?upper_case}" ${(themeDisplay.getLocale()=lang)?then("selected","")}> ${lang.getLanguage()?upper_case} </option>
                 [/#list]
 
               </select>
@@ -35,17 +35,18 @@
 
       </div>
     </div>
-
-    <lfr-drop-zone id="main-header" data-lfr-drop-zone-id="main" data-lfr-priority="0"></lfr-drop-zone>
+    <div class="main-header">
+      <lfr-drop-zone id="main-header" data-lfr-drop-zone-id="main" data-lfr-priority="0"></lfr-drop-zone>
+    </div>
   </div>
 </header>
 
 
-<header class="st-toolbar-navigation" role="banner">
+<header class="st-toolbar-navigation pre-header" role="banner">
   <div class="st-wrapper">
     <ul class="st-toolbar-inner">
       <li class="st-has-logo">
-        <a href="${strasbourg.homeURL()}" class="st-logo">
+        <a href="https://www.strasbourg.eu/" class="st-logo">
           <figure class="st-figure st-fit-cover" role="group">
             <picture>
               <img
@@ -57,6 +58,16 @@
 
         </a>
       </li>
+      [#if configuration.showLanguage ]
+        <li>
+          <select onchange="document.location.href = this.value;" class="select-lang" title="${themeDisplay.getLocale().getLanguage()?upper_case} - changer la langue du site">
+            [#list languageUtil.getAvailableLocales(themeDisplay.getScopeGroupId()) as lang ]
+            <option value="/${lang.getLanguage()}${themeDisplay.getLayout().getFriendlyURL(lang)}" aria-label="${lang.getLanguage()?upper_case}" ${(themeDisplay.getLocale()=lang)?then("selected","")}> ${lang.getLanguage()?upper_case} </option>
+            [/#list]
+
+          </select>
+        </li>
+      [/#if]
       <li>
         <nav class="st-btn-menu__wrapper" role="navigation" aria-label="Menu principal">
           <button class="st-btn-menu" aria-haspopup="dialog" data-overlay-open="st-overlay-menu">

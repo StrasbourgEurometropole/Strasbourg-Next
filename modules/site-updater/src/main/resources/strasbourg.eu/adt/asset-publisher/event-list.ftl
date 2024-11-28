@@ -41,7 +41,7 @@
                                 <@strasbourg.addImage fileEntryId=event.getImageId() maxWidth=100 showLegende=false showCopyright=false isFigure=true />
                             <#else>
                                 <figure class="st-figure st-fit-cover" role="group">
-                                    <img alt="" loading="lazy" src="${event.getImageURL()}" />
+                                    <img alt="" loading="lazy" src="${event.getImageThumbnailURL()}" />
                                 </figure>
                             </#if>
                         </div>
