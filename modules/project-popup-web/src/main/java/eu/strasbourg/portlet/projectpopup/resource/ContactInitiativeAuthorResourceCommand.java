@@ -108,9 +108,9 @@ public class ContactInitiativeAuthorResourceCommand implements MVCResourceComman
         } else {
         	
         	if (user.isBanned()) {
-				return "Vous ne pouvez envoyer un message à l'hautheur de l'initiative";
+				return "Vous ne pouvez envoyer un message à l'autheur de l'initiative";
         	} else if (user.getPactSignature() == null) {
-				return "Vous devez signer le Pacte pour envoyer un message à l'hautheur de l'initiative";
+				return "Vous devez signer le Pacte pour envoyer un message à l'autheur de l'initiative";
         	}
         }
 
