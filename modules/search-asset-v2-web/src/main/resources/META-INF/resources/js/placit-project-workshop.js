@@ -23,8 +23,7 @@ function getSelectedMarkerElements(entityName) {
  * Renvoi la liste des vidéos demandées
  * @return
  */
-function getSelectedEntries() {
-
+async function getSelectedEntries(start = 0, delta = 20) {
     var selectedStartDay ;
     var selectedStartMonth ;
     var selectedStartYear;
@@ -42,46 +41,36 @@ function getSelectedEntries() {
 	var selectedThematics = getSelectedMarkerElements(entityType.THEMATIC);
 	var selectedDistricts = getSelectedMarkerElements(entityType.DISTRICT);
 
-	AUI().use('aui-io-request', function(A) {
-		A.io.request(projectWorkshopSelectionURL, {
-			method : 'post',
-			dataType: 'json',
-			data : {
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedStartDay : selectedStartDay,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedStartMonth : selectedStartMonth,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedStartYear : selectedStartYear,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndDay : selectedEndDay,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndMonth : selectedEndMonth,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndYear : selectedEndYear,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedThematics : selectedThematics,
-				_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedDistricts : selectedDistricts,
-			},
-			on: {
-                success: function(e) {
-                	var data = this.get('responseData');
-                	getResult('project-workshop', data);
-                    //Force la premiere tuille à  prendre deux fois plus de place en hauteur de largeur
-                    $('.pro-wi-grid .col-md-3.col-sm-6.col-xs-12:first-child').removeClass('col-md-3').removeClass('col-sm-6').addClass('col-md-6').addClass('col-sm-12');
-                    $('.pro-wi-grid .col-md-6.col-sm-12.col-xs-12 .pro-bloc-actu').addClass('pro-bloc-actu-large');
-                    $('.pro-listing .pro-wi-grid>*').css('margin', '20px 0px');
 
-                    egalizeAll();
-			 	}
-			}
-		});
-	});
+	await fetchData('project-workshop', projectWorkshopSelectionURL,  {
+		_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedStartDay : selectedStartDay,
+		_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedStartMonth : selectedStartMonth,
+		_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedStartYear : selectedStartYear,
+		_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndDay : selectedEndDay,
+		_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndMonth : selectedEndMonth,
+		_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedEndYear : selectedEndYear,
+		_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedThematics : selectedThematics,
+		_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_selectedDistricts : selectedDistricts,
+	}, start, delta);
+
+	//Force la premiere tuille à  prendre deux fois plus de place en hauteur de largeur
+	$('.pro-wi-grid .col-md-3.col-sm-6.col-xs-12:first-child').removeClass('col-md-3').removeClass('col-sm-6').addClass('col-md-6').addClass('col-sm-12');
+	$('.pro-wi-grid .col-md-6.col-sm-12.col-xs-12 .pro-bloc-actu').addClass('pro-bloc-actu-large');
+	$('.pro-listing .pro-wi-grid>*').css('margin', '20px 0px');
+
+	egalizeAll();
 }
 
-$(document).ready(function(){
-    getSelectedEntries();
+$(document).ready(async function(){
+    await getSelectedEntries();
 });
 
 // Lors d'une selection d'une thématique
-$("fieldset[id='thematics_fieldset'] input").change(function() {
-	getSelectedEntries();
+$("fieldset[id='thematics_fieldset'] input").change(async function() {
+	await getSelectedEntries();
 });
 
 // Lors d'une selection d'un quartier
-$("fieldset[id='districts_fieldset'] input").change(function() {
-	getSelectedEntries();
+$("fieldset[id='districts_fieldset'] input").change(async function() {
+	await getSelectedEntries();
 });
