@@ -25,6 +25,25 @@ $c_black: var(--blackColor, #000000);
 $c_white: var(--whiteColor, #FFFFFF);
 $c_pink: var(--errorSecondaryColor, #FF9F9F);
 
+
+// Colors header
+// ==========================================================================
+$c_headerBgColor: var(--headerBgColor, #20272F);
+$c_headerBg2Color: var(--headerBg2Color, #171C22);
+$c_headerBorderHoverColor: var(--headerBorderHoverColor, #2AD783);
+$c_headerScrollColor: var(--headerScrollColor, #51555A);
+$c_headerCloseColor: var(--headerCloseColor, #FF9F9F);
+$c_headerMainColor: var(--headerMainColor, #FFFFFF);
+
+
+// Colors footer
+// ==========================================================================
+$c_footerBgColor: var(--footerBgColor, #171C22);
+$c_footerBg2Color: var(--footerBg2Color, #20272F);
+$c_footerBorderHoverColor: var(--footerBorderHoverColor, #2AD783);
+$c_footerMainColor: var(--footerMainColor, #FFFFFF);
+$c_footerSubColor: var(--footerSecondaryColor, #B1B9C3);
+
 // Sizes
 // ==========================================================================
 $s_h1: 45px;

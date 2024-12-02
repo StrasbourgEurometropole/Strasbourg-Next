@@ -1,0 +1,305 @@
+{
+  "definitionSchemaVersion": "2.0",
+  "availableLanguageIds": [
+    "fr_FR"
+  ],
+  "successPage": {
+    "body": {},
+    "title": {},
+    "enabled": false
+  },
+  "defaultLanguageId": "fr_FR",
+  "fields": [
+    {
+      "labelAtStructureLevel": false,
+      "ddmDataProviderInstanceId": [],
+      "tooltip": {
+        "fr_FR": ""
+      },
+      "requireConfirmation": false,
+      "type": "text",
+      "required": false,
+      "showLabel": true,
+      "displayStyle": "singleline",
+      "ddmDataProviderInstanceOutput": [],
+      "repeatable": false,
+      "options": [
+        {
+          "reference": "",
+          "label": {
+            "fr_FR": "Option"
+          },
+          "value": "Option"
+        }
+      ],
+      "nativeField": false,
+      "confirmationLabel": {},
+      "fieldReference": "title",
+      "tip": {
+        "fr_FR": ""
+      },
+      "placeholder": {
+        "fr_FR": ""
+      },
+      "direction": [],
+      "confirmationErrorMessage": {},
+      "hideField": false,
+      "autocomplete": false,
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Titre"
+      },
+      "indexType": "none",
+      "fieldNamespace": "",
+      "visibilityExpression": "",
+      "name": "title",
+      "localizable": true,
+      "dataSourceType": "manual"
+    },
+    {
+      "labelAtStructureLevel": false,
+      "ddmDataProviderInstanceId": [],
+      "tooltip": {
+        "fr_FR": ""
+      },
+      "requireConfirmation": false,
+      "type": "text",
+      "required": false,
+      "showLabel": true,
+      "displayStyle": "singleline",
+      "ddmDataProviderInstanceOutput": [],
+      "repeatable": false,
+      "options": [
+        {
+          "reference": "",
+          "label": {
+            "fr_FR": "Option"
+          },
+          "value": "Option"
+        }
+      ],
+      "nativeField": false,
+      "confirmationLabel": {},
+      "fieldReference": "subtitle",
+      "tip": {
+        "fr_FR": ""
+      },
+      "placeholder": {
+        "fr_FR": ""
+      },
+      "direction": [],
+      "confirmationErrorMessage": {},
+      "hideField": false,
+      "autocomplete": false,
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Sous-titre"
+      },
+      "indexType": "none",
+      "fieldNamespace": "",
+      "visibilityExpression": "",
+      "name": "subtitle",
+      "localizable": true,
+      "dataSourceType": "manual"
+    },
+    {
+      "labelAtStructureLevel": false,
+      "ddmDataProviderInstanceId": [],
+      "tooltip": {
+        "fr_FR": ""
+      },
+      "requireConfirmation": false,
+      "type": "text",
+      "required": false,
+      "showLabel": true,
+      "displayStyle": "singleline",
+      "ddmDataProviderInstanceOutput": [],
+      "repeatable": false,
+      "options": [
+        {
+          "reference": "",
+          "label": {
+            "fr_FR": "Option"
+          },
+          "value": "Option"
+        }
+      ],
+      "nativeField": false,
+      "confirmationLabel": {},
+      "fieldReference": "catchphrase",
+      "tip": {
+        "fr_FR": ""
+      },
+      "placeholder": {
+        "fr_FR": ""
+      },
+      "direction": [],
+      "confirmationErrorMessage": {},
+      "hideField": false,
+      "autocomplete": false,
+      "dataType": "string",
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Catchphrase"
+      },
+      "indexType": "none",
+      "fieldNamespace": "",
+      "visibilityExpression": "",
+      "name": "catchphrase",
+      "localizable": true,
+      "dataSourceType": "manual"
+    },
+    {
+      "labelAtStructureLevel": true,
+      "ddmStructureLayoutId": "",
+      "ddmStructureId": "",
+      "upgradedStructure": false,
+      "readOnly": false,
+      "label": {
+        "fr_FR": "Bouton(s)"
+      },
+      "type": "fieldset",
+      "rows": [
+        {
+          "columns": [
+            {
+              "fields": [
+                "buttonLabel"
+              ],
+              "size": 12
+            }
+          ]
+        },
+        {
+          "columns": [
+            {
+              "fields": [
+                "buttonLink"
+              ],
+              "size": 12
+            }
+          ]
+        }
+      ],
+      "collapsible": false,
+      "required": false,
+      "showLabel": true,
+      "nestedFields": [
+        {
+          "labelAtStructureLevel": false,
+          "ddmDataProviderInstanceId": [],
+          "tooltip": {
+            "fr_FR": ""
+          },
+          "requireConfirmation": false,
+          "type": "text",
+          "required": false,
+          "showLabel": true,
+          "displayStyle": "singleline",
+          "ddmDataProviderInstanceOutput": [],
+          "repeatable": false,
+          "options": [
+            {
+              "reference": "",
+              "label": {
+                "fr_FR": "Option"
+              },
+              "value": "Option"
+            }
+          ],
+          "nativeField": false,
+          "confirmationLabel": {},
+          "fieldReference": "buttonLabel",
+          "tip": {
+            "fr_FR": ""
+          },
+          "placeholder": {
+            "fr_FR": ""
+          },
+          "direction": [],
+          "confirmationErrorMessage": {},
+          "hideField": false,
+          "autocomplete": false,
+          "dataType": "string",
+          "readOnly": false,
+          "label": {
+            "fr_FR": "Label du bouton"
+          },
+          "indexType": "none",
+          "fieldNamespace": "",
+          "visibilityExpression": "",
+          "name": "buttonLabel",
+          "localizable": true,
+          "dataSourceType": "manual"
+        },
+        {
+          "labelAtStructureLevel": true,
+          "ddmDataProviderInstanceId": [],
+          "predefinedValue": {
+            "fr_FR": ""
+          },
+          "tooltip": {
+            "fr_FR": ""
+          },
+          "requireConfirmation": false,
+          "type": "text",
+          "required": false,
+          "showLabel": true,
+          "displayStyle": "singleline",
+          "requiredErrorMessage": {
+            "fr_FR": ""
+          },
+          "objectFieldName": "",
+          "ddmDataProviderInstanceOutput": [],
+          "repeatable": false,
+          "options": [
+            {
+              "reference": "Option26736871",
+              "label": {
+                "fr_FR": "Option"
+              },
+              "value": "Option26736871"
+            }
+          ],
+          "nativeField": false,
+          "confirmationLabel": {
+            "fr_FR": ""
+          },
+          "fieldReference": "buttonLink",
+          "tip": {
+            "fr_FR": ""
+          },
+          "placeholder": {
+            "fr_FR": ""
+          },
+          "direction": [
+            "vertical"
+          ],
+          "confirmationErrorMessage": {
+            "fr_FR": ""
+          },
+          "hideField": false,
+          "autocomplete": false,
+          "dataType": "string",
+          "readOnly": false,
+          "label": {
+            "fr_FR": "Lien du bouton"
+          },
+          "indexType": "keyword",
+          "fieldNamespace": "",
+          "visibilityExpression": "",
+          "name": "buttonLink",
+          "localizable": true,
+          "dataSourceType": "manual"
+        }
+      ],
+      "normalizedStructure": false,
+      "repeatable": true,
+      "name": "fieldGroupButon",
+      "localizable": false,
+      "fieldReference": "fieldGroupButon"
+    }
+  ]
+}

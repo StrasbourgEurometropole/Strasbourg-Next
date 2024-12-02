@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
@@ -127,18 +128,15 @@ public class CommentPortlet extends MVCPortlet {
 				request.setAttribute("isUserloggedIn", false);
 			}
 
-			// Ici on filtre les commentaires qui ne sont pas au status approved car
-			// un administrateur peut désapprouver un commentaire
-			List<Comment> comments = _commentLocalService.getByAssetEntryAndLevel(entryID, 1,
-					WorkflowConstants.STATUS_APPROVED);
-			long groupId = themeDisplay.getLayout().getGroupId();
-			// Tri des commentaires sur la date de création
-			if (orderBy.equals("desc"))
-				comments = comments.stream().sorted((c1, c2) -> c2.getCreateDate()
-                        .compareTo(c1.getCreateDate()))
-                        .collect(Collectors.toList());
+			// On réupère les commentaires publiés de l'entité triés par date
+			List<Comment> comments = _commentLocalService.getByAssetEntryAndLevelOrderByDate(entryID, 1,
+					WorkflowConstants.STATUS_APPROVED, 0, 30, orderBy.equals("asc"));
+
+			// On récupère le nombre total de commentaire publiés
+			int total = _commentLocalService.getByAssetEntryAndLevel(entryID, 1, WorkflowConstants.STATUS_APPROVED).size();
 
 			// Récupération des catégories
+			long groupId = themeDisplay.getLayout().getGroupId();
             List<AssetCategory> assetCategories = assetVocabularyAccessor.getCategoriesSignalement(groupId).getCategories();
 			// Donne le droit à un administrateur de cacher un commentaire
 			boolean isAdmin = themeDisplay.getPermissionChecker().isOmniadmin();
@@ -149,6 +147,8 @@ public class CommentPortlet extends MVCPortlet {
 			request.setAttribute(REDIRECT_URL_PARAM, redirectURL);
 			request.setAttribute("categories",assetCategories);
 			request.setAttribute("comments", comments);
+			request.setAttribute("total", total);
+			request.setAttribute("orderBy", orderBy);
 
 			request.setAttribute("isAdmin", isAdmin);
 			request.setAttribute("entryID", entryID);
@@ -431,7 +431,7 @@ public class CommentPortlet extends MVCPortlet {
 					request.setAttribute("isAssetCommentable", false);
 				}
 			}
-			// Verification d'une participation ou l'on peut reagir
+			// Verification d'une pétition ou l'on peut reagir
 			else if (assetType.equals(PETITION_CLASSNAME)) {
 				Petition petition = PetitionLocalServiceUtil.getPetition(assetEntry.getClassPK());
 
@@ -459,7 +459,7 @@ public class CommentPortlet extends MVCPortlet {
 	
 	/**
 	 * Validation des conditions selon le site
-	 * (ex: les participations sur placit ne peuvent etre commenteesbque si 
+	 * (ex: les participations sur placit ne peuvent etre commentees que si
 	 * l'utilisateur signe le pacte et que l'entite est en status 'en cours')
 	 * @throws PortalException 
 	 */

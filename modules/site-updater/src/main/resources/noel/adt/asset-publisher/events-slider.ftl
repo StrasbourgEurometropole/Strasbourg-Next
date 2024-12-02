@@ -25,7 +25,7 @@
                                 <a href="${homeURL}event/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}">
                                     <span class="date">${event.getEventScheduleDisplay(locale)}</span>
                                     <figure>
-                                        <img src='${event.getImageURL()}' alt="" width="270" height="400" class="fit-cover" />
+                                        <img src='${event.getImageThumbnailURL()}' alt="" width="270" height="400" class="fit-cover" />
                                     </figure>
                                     <div>
                                         <div class="mns-indic">

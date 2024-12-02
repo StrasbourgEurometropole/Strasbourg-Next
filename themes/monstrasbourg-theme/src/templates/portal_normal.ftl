@@ -55,6 +55,8 @@
 <body class="${css_class} no-js
      class_group_home <#if isHome || isDistrict>front<#else>not-front</#if> <#if isWelcome>welcome</#if> <#if isHome>home</#if>">
 
+<div id="wrapper">
+
 <@liferay_ui["quick-access"] contentId="#main-content" />
 
 <@liferay_util["include"] page=body_top_include />
@@ -160,7 +162,7 @@
 
   <@liferay_util["include"] page=bottom_include />
 <!-- endinject -->
-
+</div>
 </body>
 
 </html>

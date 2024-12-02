@@ -22,11 +22,11 @@ $( document ).ready(function() {
     });
 
     // initialise le selecteur de groupement
-//    initializeGroupBy($(namespaceAUI + "groupBy"));
+    // initializeGroupBy($(namespaceAUI + "groupBy"));
 });
 
 // Initialise le bloc de type de contenu
-function initializeBloc(index) {
+async function initializeBloc(index) {
 
     // on initialise la portée
     initializeScope($(namespaceAUI + "scopeIds_" + index));
@@ -46,7 +46,7 @@ function initializeBloc(index) {
         structureSelected = $(namespaceAUI + 'structureSelectedId' + index);
         if(structureSelected != undefined)
             structureId = $(structureSelected).val();
-        Liferay.Service('/strasbourg.strasbourg/get-structures-by-group-ids',
+        await Liferay.Service('/strasbourg.strasbourg/get-structures-by-group-ids',
             {
                 groupIds: groupIds
             },

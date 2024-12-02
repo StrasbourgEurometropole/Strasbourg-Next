@@ -4,7 +4,7 @@
     <a href="${strasbourg.homeURL()}evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}">
         <span class="date">${entry.getEventScheduleDisplay(locale)}</span>
         <figure>
-            <img src='${entry.getImageURL()}' alt="${entry.getTitle(locale)}" width="270" height="400" class="fit-cover" />
+            <img src='${entry.getImageThumbnailURL()}' alt="${entry.getTitle(locale)}" width="270" height="400" class="fit-cover" />
         </figure>
         <div>
             <div class="col-xs-12 mns-indic">

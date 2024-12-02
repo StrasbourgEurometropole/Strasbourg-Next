@@ -783,12 +783,15 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 		}
 
 		// Tags
-		JSONArray jsonTags = JSONFactoryUtil.createJSONArray();
-		for (String TagName : this.getTagsNames().split(",")) {
-			jsonTags.put(TagName);
-		}
-		if (jsonTags.length() > 0) {
-			jsonEvent.put("tags", jsonTags);
+		if(this.getTagsNames().length() > 0) {
+			JSONArray jsonTags = JSONFactoryUtil.createJSONArray();
+			for (String tagName : this.getTagsNames().split(",")) {
+				if(Validator.isNotNull(tagName))
+					jsonTags.put(tagName);
+			}
+			if (jsonTags.length() > 0) {
+				jsonEvent.put("tags", jsonTags);
+			}
 		}
 
 		return jsonEvent;

@@ -23,7 +23,7 @@ public class SitesUpdater {
         long startTime = System.nanoTime();
         // TODO add variable in portal-ext.properties to enable/disable this
         long defaultCompanyId = PortalUtil.getDefaultCompanyId();
-        List<Group> groups = groupLocalService.getGroups(defaultCompanyId,0,true);
+        List<Group> groups = groupLocalService.getGroups(defaultCompanyId,-1,true);
         for (Group group : groups) {
              siteUpdater.updateSite(group.getFriendlyURL(), this.getClass());
         }

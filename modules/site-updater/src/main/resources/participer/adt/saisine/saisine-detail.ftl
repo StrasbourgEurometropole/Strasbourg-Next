@@ -164,6 +164,11 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     <div class="row">
                                         <#list entry.filesIds?split(",") as fileId>
                                             <#assign fileURL = fileEntryHelper.getFileEntryURL(fileId?number) />
+
+                                            <#if fileURL="">
+                                                <#continue>
+                                            </#if>
+
                                             <#assign title = fileEntryHelper.getFileTitle(fileId?number, locale) />
                                             <#assign size = fileEntryHelper.getReadableFileEntrySize(fileId?number, locale) />
                                             <div class="col-sm-6">
