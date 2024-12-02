@@ -1,10 +1,5 @@
 <!-- Rubrique -->
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}" />
-<#else>
-    <#assign homeURL = "" />
-</#if>
 
 <section id="rubric" class="editions margin-bottom">
     <div  class="content container">
@@ -14,7 +9,7 @@
                 <#list entries as currentPage>
                     <#if !currentPage.hidden>
                         <div class="rubric-thumbnail">
-                            <a href="${homeURL}${currentPage.friendlyURL}" aria-label="${currentPage.getName(locale)?html}" title="${currentPage.getName(locale)?html}">
+                            <a href="${strasbourg.homeURL()}${currentPage.friendlyURL}" aria-label="${currentPage.getName(locale)?html}" title="${currentPage.getName(locale)?html}">
                                 <div style="position: relative">
                                     <#assign hasImage = currentPage.expandoBridge.getAttribute('image')?has_content />
                                     <#if hasImage>
@@ -44,7 +39,7 @@
                                     <#list currentPage.children as currentSubPage>
                                         <#if !currentSubPage.hidden>
                                             <li class="">
-                                                <a href="${homeURL}${currentSubPage.friendlyURL}" class="">
+                                                <a href="${strasbourg.homeURL()}${currentSubPage.friendlyURL}" class="">
                                                     ${currentSubPage.getName(locale)}
                                                 </a>
                                             </li>

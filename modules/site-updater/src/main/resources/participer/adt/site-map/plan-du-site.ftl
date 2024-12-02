@@ -1,9 +1,4 @@
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}" />
-<#else>
-    <#assign homeURL = "" />
-</#if>
 
 <div class="col-lg-11 col-lg-offset-3">
     <section class="container pro-bloc-text-hp plan">
@@ -13,12 +8,12 @@
             <ul>
                 <#list entries as curPage>
                     <#if !curPage.hidden>
-                        <li><a href="${homeURL}${curPage.friendlyURL}">${curPage.getName(locale)}</a>
+                        <li><a href="${strasbourg.homeURL()}${curPage.friendlyURL}">${curPage.getName(locale)}</a>
                         <#if curPage.hasChildren()>
                             <ul>
                                 <#list curPage.allChildren as childPage>
                                     <#if !childPage.hidden>
-                                        <li><a href="${homeURL}${childPage.friendlyURL}">${childPage.getName(locale)}</a></li>
+                                        <li><a href="${strasbourg.homeURL()}${childPage.friendlyURL}">${childPage.getName(locale)}</a></li>
                                     </#if>
                                 </#list>
                             </ul>

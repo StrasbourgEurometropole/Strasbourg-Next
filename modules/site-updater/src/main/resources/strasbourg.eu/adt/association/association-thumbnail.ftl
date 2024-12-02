@@ -1,10 +1,5 @@
 <!-- Vignette association -->
 <#setting locale=locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL="/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL="/" />
-</#if>
 <#assign plId=renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
 <@liferay_portlet.renderURL plid=plId var="detailURL" portletName="eu_strasbourg_portlet_entity_detail_EntityDetailPortlet" windowState="normal">
     <@liferay_portlet.param name="classPK" value="${entry.assetEntry.classPK}" />

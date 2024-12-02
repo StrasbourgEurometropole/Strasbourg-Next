@@ -1,11 +1,6 @@
 <!-- Détail cours -->
 <#setting locale=locale />
 <#assign uriHelper=serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService") />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL="/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL="/" />
-</#if>
 <#-- Liste des infos a partager -->
 <#assign openGraph={ "og:description" :'${entry.getPresentation(locale)?replace("<[^>]
 *>", "", "r")?html}'

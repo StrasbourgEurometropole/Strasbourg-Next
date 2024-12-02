@@ -3,13 +3,6 @@
 <#-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
 
-<#-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
 <div class="ops-content-wrapper ops-content-wrapper-large slick-carousel slick-cards-slider">
 
     <#-- Parcours des entites de l'asset publisher -->

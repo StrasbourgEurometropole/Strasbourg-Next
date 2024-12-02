@@ -8,13 +8,6 @@
 <#assign hasSigned = httpServletRequest.getSession().getAttribute("has_pact_signed")!false />
 <#assign isUserloggedIn = httpServletRequest.getSession().getAttribute("publik_logged_in")!false />
 
-<!-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
 <!-- Recuperation du gestionnaire de fichiers Liferay -->
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 

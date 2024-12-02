@@ -1,13 +1,6 @@
 <!-- Vignette activité -->
 <#setting locale = locale />
 
-
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
 <li>
     <div class="st-card-container">
         <a role="button" href="#st-overlay-preview-activite-${entry.getActivityId()}" aria-haspopup="dialog" aria-controls="st-overlay-preview-activite" class="st-card" id="${entry.getActivityId()}" onclick="updateModalActivity(this)" onkeydown="simulateClick(event)">

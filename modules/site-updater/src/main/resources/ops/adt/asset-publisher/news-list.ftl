@@ -9,13 +9,6 @@
     <#assign dateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.DateHelperService") />
     <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
 
-    <#-- Recuperation de l'URL de "base" du site -->
-    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-        <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-    <#else>
-        <#assign homeURL = "/" />
-    </#if>
-
     <section class="ops-bloc-listing-actus">
 
         <h2 class="ops-content-wrapper"><@liferay_ui.message key="eu.ops.general.news" /></h2>
@@ -44,7 +37,7 @@
                 <#-- Récupération de l'article -->
                 <#assign firstJournal = firstEntry.getAssetRenderer().getArticle()>
 
-                <a href="${homeURL}-/${firstJournal.urlTitle}" class="ops-actu ops-first-actu">
+                <a href="${strasbourg.homeURL()}-/${firstJournal.urlTitle}" class="ops-actu ops-first-actu">
                     <figure class="fit-cover">
                         <img src="${imageURL}&imagePreview=1" width="530" height="353" alt="Image article"/>
                     </figure>
@@ -87,7 +80,7 @@
                             <#-- Récupération de l'article -->
                             <#assign journal = curEntry.getAssetRenderer().getArticle()>
 
-                            <a href="${homeURL}-/${journal.urlTitle}" class="ops-actu">
+                            <a href="${strasbourg.homeURL()}-/${journal.urlTitle}" class="ops-actu">
                                 <figure class="fit-cover">
                                     <img src="${imageURL}&imagePreview=1" width="200" height="130" alt="Image article"/>
                                 </figure>
@@ -114,7 +107,7 @@
         </div>
 
         <div class="ops-content-wrapper ops-aligncenter">
-            <a href="${homeURL}magazine" class="ops-btn"><@liferay_ui.message key="eu.ops.see.all.news" /></a>
+            <a href="${strasbourg.homeURL()}magazine" class="ops-btn"><@liferay_ui.message key="eu.ops.see.all.news" /></a>
         </div>
 
     </section>

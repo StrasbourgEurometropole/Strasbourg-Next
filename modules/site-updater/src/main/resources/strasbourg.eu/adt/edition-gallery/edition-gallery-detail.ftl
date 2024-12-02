@@ -1,11 +1,6 @@
 <!-- Détail galerie d'éditions -->
 
 <#setting locale=locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL="/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL="/" />
-</#if>
 <#assign imageUrl="" />
 <!-- image -->
 <#if entry.imageURL?has_content>

@@ -2,11 +2,6 @@
 <#setting locale = locale />
 <#setting date_format="d MMMM yyyy">
 <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-  <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-  <#assign homeURL = "/" />
-</#if>
 <div class="container mns-section-actualites">
     <div class="col-xs-12" style="text-align: center;">
         <div  class="mns-portlet-title">
@@ -45,7 +40,7 @@
             </#list>
         </#if>
         <div class="col-xs-12 mns-center">
-            <span><a href="${homeURL}news" class="link align-center"><@liferay_ui.message key="eu.all-news" /></a></span>
+            <span><a href="${strasbourg.homeURL()}news" class="link align-center"><@liferay_ui.message key="eu.all-news" /></a></span>
         </div>
     </div>
 </div>

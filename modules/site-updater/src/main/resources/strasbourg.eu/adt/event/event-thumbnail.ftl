@@ -1,9 +1,4 @@
 <#setting locale=locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL="/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL="/" />
-</#if>
 
 <!-- Vignette événement -->
 <#if isFeatured>

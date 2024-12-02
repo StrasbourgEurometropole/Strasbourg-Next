@@ -45,23 +45,18 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <!-- Evénements de  la manifestations -->
 
 <#if entry.getPublishedEvents()?has_content>
-    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-        <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-    <#else>
-        <#assign homeURL = "/" />
-    </#if>
     <div class="mns-agenda-detail" style="margin-top: 50px">
         <div class="mns-section-agenda">
             <div class="small-container">
                 <div class="col-xs-12">
                     <h2><@liferay_ui.message key="eu.manifestation-events" /></h2>
-                    <a href="${homeURL}agenda" class="link"><@liferay_ui.message key="eu.see-all-agenda" /></a>
+                    <a href="${strasbourg.homeURL()}agenda" class="link"><@liferay_ui.message key="eu.see-all-agenda" /></a>
                 </div>
                 <div class="owl-carousel owl-opacify owl-theme col-xs-12" id="owl-agenda">
                     <#list entry.getPublishedEvents() as event>
                         <div class="item">
                             <div class="mns-bloc-agenda" itemscope itemtype="http://schema.org/Event">
-                                <a href="${homeURL}evenement/-/entity/id/${event.eventId}/${entry.getNormalizedTitle(locale)}">
+                                <a href="${strasbourg.homeURL()}evenement/-/entity/id/${event.eventId}/${entry.getNormalizedTitle(locale)}">
                                     <span class="date">${event.getEventScheduleDisplay(locale)}</span>
                                     <figure>
                                         <img src='${event.imageURL}' alt="${event.getTitle(locale)}" width="270" height="400" class="fit-cover" />

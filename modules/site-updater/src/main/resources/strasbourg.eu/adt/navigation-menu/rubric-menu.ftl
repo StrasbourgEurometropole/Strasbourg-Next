@@ -1,10 +1,5 @@
 <!-- Rubrique -->
 <#setting locale=locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL="/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL="/" />
-</#if>
 <div class="st-ancres st-wrapper st-js-ancres">
     <nav class="st-ancres__container" role="navigation" aria-label="sommaire">
 

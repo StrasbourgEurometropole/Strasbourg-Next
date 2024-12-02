@@ -1,9 +1,4 @@
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}" />
-<#else>
-    <#assign homeURL = "" />
-</#if>
 <#if entries?has_content>
     <section id="expo" class="margin-bottom">
         <div  class="content container">
@@ -101,6 +96,6 @@
 
 <script>
     $("#btn-all-expos").click(function(){
-      location.href= '${themeDisplay.getPortalURL()}${homeURL}/expositions'
+      location.href= '${themeDisplay.getPortalURL()}${strasbourg.homeURL()}/expositions'
     });
 </script>

@@ -1,10 +1,5 @@
 <!-- Fil d'ariane -->
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
 <div class="st-breadcrumbs" aria-label="<@liferay_ui.message key="you-are-here" />">
     <ul class="st-breadcrumbs__list">
         <li class="st-breadcrumbs__item">

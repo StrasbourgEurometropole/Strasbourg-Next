@@ -1,10 +1,5 @@
 <!-- Rubrique -->
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
 <main class="seu-container">
     <h1>${layout.getName(locale)}</h1>
     <div class="hat">
@@ -35,7 +30,7 @@
                         <#assign itemCssClass += ' seu-page' />
                     </#if>
                     <div class="seu-grid-item ${itemCssClass}">
-                        <a href="${homeURL}${currentPage.friendlyURL?remove_beginning('/')}" class="seu-grid-item-visu">
+                        <a href="${strasbourg.homeURL()}${currentPage.friendlyURL?remove_beginning('/')}" class="seu-grid-item-visu">
                             <#if hasImage>
                                 <#assign backgroundImage = currentPage.expandoBridge.getAttribute('image') />
                                 <div class="seu-grid-item-background" style="background-image: url(${backgroundImage});"></div>
@@ -49,7 +44,7 @@
                             <#list currentPage.children as currentSubPage>
                                 <#if !currentSubPage.hidden>
                                     <li class="seu-sublist-item">
-                                        <a href="${homeURL}${currentSubPage.friendlyURL?remove_beginning('/')}" class="seu-btn-square seu-bordered seu-core"><span class="seu-btn-text">${currentSubPage.getName(locale)}</span><span class="seu-btn-arrow"></span></a>
+                                        <a href="${strasbourg.homeURL()}${currentSubPage.friendlyURL?remove_beginning('/')}" class="seu-btn-square seu-bordered seu-core"><span class="seu-btn-text">${currentSubPage.getName(locale)}</span><span class="seu-btn-arrow"></span></a>
                                     </li>
                                 </#if>
                             </#list>

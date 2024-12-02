@@ -6,13 +6,6 @@
 	<#setting locale = locale />
 	<#assign isPlacite = false />
 
-	<#-- Recuperation de l'URL de "base" du site -->
-	<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-	    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-	<#else>
-	    <#assign homeURL = "/" />
-	</#if>
-
 	<#-- Récupération de l'ID de l'utilisateur -->
 	<#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
@@ -32,7 +25,7 @@
 
 	        <div class="col-lg-10 col-lg-offset-1">
 	            <h2 id="title-events-slider-${instanceId}">L’agenda</h2>
-	            <a href="${homeURL}agenda" class="pro-btn" title="Lien vers la page de tout l'agenda">Tout voir</a>
+	            <a href="${strasbourg.homeURL()}agenda" class="pro-btn" title="Lien vers la page de tout l'agenda">Tout voir</a>
 	        </div>
 
 	        <div class="col-lg-10 col-lg-offset-1">
@@ -63,7 +56,7 @@
 
 							<#assign resultsSize++ />
 							
-							<a href="${homeURL}detail-evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}" title="lien de la page" class="item pro-bloc-card-event">
+							<a href="${strasbourg.homeURL()}detail-evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}" title="lien de la page" class="item pro-bloc-card-event">
 								<div>
 									<div class="pro-header-event">
 										<span class="pro-ico"><span class="icon-ico-debat"></span></span>

@@ -1,11 +1,6 @@
 <!-- Actualités (accueil) -->
 <#setting locale = locale />
 <#setting date_format="d MMMM yyyy">
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-  <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-  <#assign homeURL = "/" />
-</#if>
 <div class="container mns-section-actualites">
     <div class="col-xs-12">
         <h2><@liferay_ui.message key="eu.the-news" /></h2>
@@ -42,7 +37,7 @@
                 </#list>
             </#if>
             <div class="col-xs-12 mns-right">
-                <span><a href="${homeURL}news" class="link align-right"><@liferay_ui.message key="eu.see-all-news" /></a></span>
+                <span><a href="${strasbourg.homeURL()}news" class="link align-right"><@liferay_ui.message key="eu.see-all-news" /></a></span>
             </div>
         </div>
     </div>

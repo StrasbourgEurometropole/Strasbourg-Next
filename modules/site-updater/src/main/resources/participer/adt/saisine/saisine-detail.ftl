@@ -6,13 +6,6 @@
 <#-- Recuperation du gestionnaire de fichiers Liferay -->
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
-<#-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
 <#-- Récupération de l'ID de l'utilisateur -->
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
@@ -101,8 +94,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             <div id="breadcrumb">
                         <span>
                             <span>
-                                <a href="${homeURL}">Accueil</a>
-                                <a href="${homeURL}saisines-observatoire">Listing des saisines</a>
+                                <a href="${strasbourg.homeURL()}">Accueil</a>
+                                <a href="${strasbourg.homeURL()}saisines-observatoire">Listing des saisines</a>
                                 <span class="breadcrumb_last">${entry.title}</span>
                             </span>
                         </span>
@@ -206,7 +199,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <script>
     // Récupération des entités en JSON à afficher sur la map et ajout des données dynamiques manquantes
     var saisineObservatoireJSON = ${saisineObservatoireJSON};
-    saisineObservatoireJSON.link = '${homeURL}detail-saisine-observatoire/-/entity/id/${entry.saisineObservatoireId}';
+    saisineObservatoireJSON.link = '${strasbourg.homeURL()}detail-saisine-observatoire/-/entity/id/${entry.saisineObservatoireId}';
 
     $(document).ready(function () {
         // Gestion de la carte interactive

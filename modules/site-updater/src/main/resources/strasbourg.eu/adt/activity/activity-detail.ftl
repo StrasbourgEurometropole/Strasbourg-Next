@@ -2,11 +2,6 @@
 <!-- Détail activity -->
 <#setting locale=locale />
 <#assign uriHelper=serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService") />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL="/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL="/" />
-</#if>
 <#-- Liste des infos a partager -->
 <#assign openGraph={ "og:description" :'${entry.getDescription(locale)?replace("<[^>]
 *>", "", "r")?html}'
@@ -50,7 +45,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <div class="st-container" style="padding-top: 40px;">
             <#list entry.publishedActivityCourses as course>
                 <div style="margin-bottom: 10px">
-                    <a class="st-btn st--btn-secondary-ghost" href="${homeURL}cours/-/entity/id/${course.activityCourseId}" title="${entry.getTitle(locale)}">
+                    <a class="st-btn st--btn-secondary-ghost" href="${strasbourg.homeURL()}cours/-/entity/id/${course.activityCourseId}" title="${entry.getTitle(locale)}">
                         ${course.getName(locale)}
                     </a>
                 </div>

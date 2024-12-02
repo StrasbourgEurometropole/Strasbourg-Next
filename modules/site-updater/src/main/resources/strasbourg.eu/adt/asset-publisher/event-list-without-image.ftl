@@ -1,10 +1,3 @@
-
-
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL="/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL="/" />
-</#if>
 <div class="st-wrapper st-bloc st-bloc-agenda-home ">
     <h2 class="st-h2 st-titre">L’agenda</h2>
     <ul class="st-cards-wrapper st--has-cards-horizontal st-basic-grid st-col-2@t-small">

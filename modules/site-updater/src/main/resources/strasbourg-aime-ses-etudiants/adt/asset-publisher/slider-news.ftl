@@ -1,10 +1,5 @@
 <#setting locale = locale />
 <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-  <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-  <#assign homeURL = "/" />
-</#if>
 
 <div id="news">
     <a class="btn-square" title="<@liferay_ui.message key="sae.all-news" />" href="/actus">

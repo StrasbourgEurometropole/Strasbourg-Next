@@ -3,13 +3,6 @@
 <#-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
 
-<#-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
 <div class="ops-page-detail-concert">
 
     <header class="ops-header-concert" data-vheight="100 - 100">
@@ -117,7 +110,7 @@
 
                     <#list suggestions as suggestion>
                         <div class="ops-item">
-                            <a href="${homeURL}detail-evenement/-/entity/id/${suggestion.eventId}/${suggestion.getNormalizedTitle(locale)}" class="ops-card ops-card-concert">
+                            <a href="${strasbourg.homeURL()}detail-evenement/-/entity/id/${suggestion.eventId}/${suggestion.getNormalizedTitle(locale)}" class="ops-card ops-card-concert">
                                 <div>
                                     <time><span>${suggestion.getEventScheduleDisplay(locale, false, true)}</span></time>
                                     <div class="ops-next-date"></div>
@@ -141,7 +134,7 @@
                 </div>
 
                 <div class="ops-link-bottom">
-                    <a href="${homeURL}agenda" class="ops-btn"><@liferay_ui.message key="eu.ops.consult.full.agenda" /></a>
+                    <a href="${strasbourg.homeURL()}agenda" class="ops-btn"><@liferay_ui.message key="eu.ops.consult.full.agenda" /></a>
                 </div>
             </div>
         </div>

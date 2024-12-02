@@ -1,9 +1,4 @@
 <#setting locale=locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL="/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL="/" />
-</#if>
 
 <#assign uriHelper=serviceLocator.findService("eu.strasbourg.utils.api.UriHelperService") />
 <#assign imageUrl="" />

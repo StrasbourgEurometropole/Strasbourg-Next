@@ -1,10 +1,5 @@
 <!-- Liste d'actualités -->
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 
 <div class="st-bloc st-bloc-actu st--with-anchors st-wrapper st-u-overflow-x-hidden st--has-margin st--has-margin-top" role="group">

@@ -7,13 +7,6 @@
     <#assign quartiers = [] />
     <#assign nomQuartier = "test"/>
 
-    <!-- Recuperation de l'URL de "base" du site -->
-    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-        <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-    <#else>
-        <#assign homeURL = "/" />
-    </#if>
-
     <#list entries as curEntry>
         <!-- Recuperation de l'entite -->
         <#assign entry = curEntry.getAssetRenderer().getProject() />
@@ -43,7 +36,7 @@
                         </#list>
                     </select>
                 </form>
-                <a href="${homeURL}projets" class="pro-btn" title="Lien vers la page de tous les projets">Tout voir</a>
+                <a href="${strasbourg.homeURL()}projets" class="pro-btn" title="Lien vers la page de tous les projets">Tout voir</a>
             </div>
 
             <div class="col-lg-10 col-lg-offset-1">
@@ -57,7 +50,7 @@
                         <#assign entry = curEntry.getAssetRenderer().getProject() />
 
                         <div class="item bloc-card-projet">
-                            <a href="${homeURL + entry.detailURL}" title="détail du projet">
+                            <a href="${strasbourg.homeURL() + entry.detailURL}" title="détail du projet">
                                 <div class="img">
                                     <figure role="group">
                                         <img src='${entry.imageURL}${(entry.imageURL?contains('?'))?then('&','?')}imagePreview=1' loading="lazy" alt="Image projet" width="360" height="242" class="fit-cover"/>
@@ -71,12 +64,12 @@
                             </a>
                             <ul>
                                 <li>
-                                    <a href="${homeURL + entry.detailURL}#pro-link-participation" title="Participation(s) du projet" tabindex="-1">
+                                    <a href="${strasbourg.homeURL() + entry.detailURL}#pro-link-participation" title="Participation(s) du projet" tabindex="-1">
                                         ${entry.getParticipations()?size} Participation(s) en cours
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="${homeURL + entry.detailURL}#pro-link-evenement" title="Événement(s) du projet" tabindex="-1">
+                                    <a href="${strasbourg.homeURL() + entry.detailURL}#pro-link-evenement" title="Événement(s) du projet" tabindex="-1">
                                         ${entry.getEvents()?size} Événement(s) à venir
                                     </a>
                                 </li>
@@ -100,7 +93,7 @@
                             <#list districts as district>
                                 <#if quartier==district.getTitle(locale)>
                                     <div class="item bloc-card-projet">
-                                        <a href="${homeURL + entry.detailURL}" title="détail du projet">
+                                        <a href="${strasbourg.homeURL() + entry.detailURL}" title="détail du projet">
                                             <div class="img">
                                                 <figure role="group">
                                                     <img src='${entry.imageURL}${(entry.imageURL?contains('?'))?then('&','?')}imagePreview=1' loading="lazy" alt="Image projet" width="360" height="242" class="fit-cover"/>
@@ -114,12 +107,12 @@
                                         </a>
                                         <ul>
                                             <li>
-                                                <a href="${homeURL + entry.detailURL}#pro-link-participation" title="Participation(s) du projet" tabindex="-1">
+                                                <a href="${strasbourg.homeURL() + entry.detailURL}#pro-link-participation" title="Participation(s) du projet" tabindex="-1">
                                                     ${entry.getParticipations()?size} Participation(s) en cours
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="${homeURL + entry.detailURL}#pro-link-evenement" title="Événement(s) du projet" tabindex="-1">
+                                                <a href="${strasbourg.homeURL() + entry.detailURL}#pro-link-evenement" title="Événement(s) du projet" tabindex="-1">
                                                     ${entry.getEvents()?size} Événement(s) à venir
                                                 </a>
                                             </li>

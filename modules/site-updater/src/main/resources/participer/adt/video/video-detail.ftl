@@ -1,12 +1,5 @@
 <!-- DETAIL D'UNE VIDEO -->
 
-<!-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
 <!-- Recuperation de la source URL de la vidéo -->
 <#assign videoURL = entry.getSource(locale) />
 <!-- Recuperation du site cible de la vidéo -->
@@ -55,8 +48,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <div id="breadcrumb">
             <span>
                 <span>
-                    <a href="${homeURL}">Accueil</a>
-                    <a href="${homeURL}videos">Les vidéos</a>
+                    <a href="${strasbourg.homeURL()}">Accueil</a>
+                    <a href="${strasbourg.homeURL()}videos">Les vidéos</a>
                     <span class="breadcrumb_last">${entry.getTitle(locale)}</span>
                 </span>
             </span>
@@ -144,7 +137,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <div class="container">
                 <div class="pro-intro">
                     <h2>Cela pourrait vous interesser</h2>
-                    <a href="${homeURL}videos" class="pro-btn">Voir Toutes les vidéos</a>
+                    <a href="${strasbourg.homeURL()}videos" class="pro-btn">Voir Toutes les vidéos</a>
                 </div>
 
                 <div class="row">
@@ -191,7 +184,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                         </span>
                                     </#if>
                                 </div>
-                                <a href="${homeURL}detail-video/-/entity/id/${suggestion.videoId}" title="Vers la page ${suggestion.getTitle(locale)}" class="pro-link-all"><h3>${suggestion.getTitle(locale)}</h3></a>
+                                <a href="${strasbourg.homeURL()}detail-video/-/entity/id/${suggestion.videoId}" title="Vers la page ${suggestion.getTitle(locale)}" class="pro-link-all"><h3>${suggestion.getTitle(locale)}</h3></a>
                             </div>
                         </div>
                     </#list>

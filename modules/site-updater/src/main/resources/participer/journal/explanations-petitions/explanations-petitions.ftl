@@ -1,13 +1,6 @@
 <!-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
 
-<!-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
 <!-- Recuperation du gestionnaire de fichiers Liferay -->
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 <#assign dlFileEntryLocalService = serviceLocator.findService("com.liferay.document.library.kernel.service.DLFileEntryLocalService") />
@@ -26,7 +19,7 @@
                     <div id="breadcrumb">
                         <span>
                             <span>
-                                <a href="${homeURL}">Accueil</a>
+                                <a href="${strasbourg.homeURL()}">Accueil</a>
                             </span>
                         </span>
                     </div>

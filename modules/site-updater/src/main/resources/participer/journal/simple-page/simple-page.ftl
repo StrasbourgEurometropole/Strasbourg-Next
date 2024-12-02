@@ -3,12 +3,6 @@
 <#assign themeDisplay = serviceContext.getThemeDisplay() />
 <#assign currentUrl = themeDisplay.getPortalURL() + themeDisplay.getURLCurrent() />
 
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
 <#--  récupération de l'id du webcontent -->
 <#assign journalArticleId = .vars['reserved-article-id'].data>
 <#assign journalArticleResourceLocalServiceUtil = staticUtil["com.liferay.journal.service.JournalArticleResourceLocalServiceUtil"]>

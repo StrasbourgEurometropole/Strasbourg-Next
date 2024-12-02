@@ -1,10 +1,5 @@
 <!-- Détail lieu -->
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-   <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-   <#assign homeURL = "/" />
-</#if>
 <#setting date_format="d MMMM yyyy">
 <#assign EventLocalService = serviceLocator.findService("eu.strasbourg.service.agenda.service.EventLocalService")/>
 
@@ -248,7 +243,7 @@
     	                    </#if>
                             <#assign types = entry.getTypes() />
                             <#if types?has_content>
-                                <a href="${homeURL}tous-les-horaires" class="button2" aria-label="<@liferay_ui.message key="eu.all-times" />" title="<@liferay_ui.message key="eu.all-times" />"><@liferay_ui.message key="eu.all-times" /></a>
+                                <a href="${strasbourg.homeURL()}tous-les-horaires" class="button2" aria-label="<@liferay_ui.message key="eu.all-times" />" title="<@liferay_ui.message key="eu.all-times" />"><@liferay_ui.message key="eu.all-times" /></a>
                             </#if>
                         </div>
     

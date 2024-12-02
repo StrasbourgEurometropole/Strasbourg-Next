@@ -1,10 +1,5 @@
 <#setting locale = locale />
 <#setting date_format="d MMMM yyyy">
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
     <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
 
@@ -95,13 +90,13 @@
                 
             </div>
             
-            <a href="${homeURL}actualite" class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-news" />" title="<@liferay_ui.message key="eu.museum.all-news" />"><@liferay_ui.message key="eu.museum.all-news" /></a>
+            <a href="${strasbourg.homeURL()}actualite" class="button1" aria-label="<@liferay_ui.message key="eu.museum.all-news" />" title="<@liferay_ui.message key="eu.museum.all-news" />"><@liferay_ui.message key="eu.museum.all-news" /></a>
         </div>
     </section>
 </#if>
 
 <script>
     $("#btn-all-news").click(function(){
-      location.href= '${themeDisplay.getPortalURL()}${homeURL}actualite'
+      location.href= '${themeDisplay.getPortalURL()}${strasbourg.homeURL()}actualite'
     });
 </script>

@@ -5,13 +5,6 @@
     <#-- Recuperation de la localisation de l'utilisateur -->
     <#setting locale = locale />
 
-    <#-- Recuperation de l'URL de "base" du site -->
-    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-        <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-    <#else>
-        <#assign homeURL = "/" />
-    </#if>
-
 <#assign BudgetPhaseLocalService = serviceLocator.findService("eu.strasbourg.service.project.service.BudgetPhaseLocalService")/>
 <#assign activePhase = BudgetPhaseLocalService.getActivePhase(themeDisplay.scopeGroupId) />  
 
@@ -29,7 +22,6 @@
         <#break>
     </#if>
 </#list>
-<#assign homeURL2 = "/web${layout.group.friendlyURL}" />
 
     <section id="pro-link-evenement" class="pro-bloc-slider pro-slider-event">
         <div class="container">
@@ -38,7 +30,7 @@
                 <h2><@liferay_ui.message key="eu.budgetParticipatif" /></h2>
                 <#if pageListing?? >
                     <div class="pro-wrapper">
-                        <a href="${homeURL2}${pageListing}" class="pro-btn">Voir tous les projets</a>
+                        <a href="${strasbourg.homeURL()?keep_before_last("/")}${pageListing}" class="pro-btn">Voir tous les projets</a>
                     </div>
                 </#if>
             </div>
@@ -84,7 +76,7 @@
                                 </div>
                             </div>
                             <div class="pro-content-budget">
-                                <a href="${homeURL}detail-budget-participatif/-/entity/id/${entry.budgetParticipatifId}" title="lien de la page de détail">
+                                <a href="${strasbourg.homeURL()}detail-budget-participatif/-/entity/id/${entry.budgetParticipatifId}" title="lien de la page de détail">
                                     <h3>${entry.title?html}</h3>
                                 </a>
                                 <p>Projet adressée à <u>la ville de Strasbourg</u></p>

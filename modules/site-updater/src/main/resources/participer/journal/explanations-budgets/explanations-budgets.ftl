@@ -34,14 +34,6 @@
     </#if>
 </#list>
 
-<!-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-<#assign homeURL2 = "/web${layout.group.friendlyURL}" />
-
 <!-- Recuperation du gestionnaire de fichiers Liferay -->
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
@@ -96,7 +88,7 @@
 								<a class="pro-btn-yellow deposit-button" name="#IsBanned">Soumettre un projet</a>
 							</#if>
                             <#if pageListing??>
-                                <a href="${homeURL2}${pageListing}" class="pro-btn-transparent">Voir la liste des projets</a>
+                                <a href="${strasbourg.homeURL()?keep_before_last("/")}${pageListing}" class="pro-btn-transparent">Voir la liste des projets</a>
                             </#if>
 						</div>
 
@@ -174,7 +166,7 @@
                                 <a class="pro-btn-yellow deposit-button" name="#IsBanned">Soumettre un projet</a>
                             </#if>
                             <#if pageListing??>
-                                    <a href="${homeURL2}${pageListing}" class="pro-btn-transparent">Voir la liste des projets</a>
+                                    <a href="${strasbourg.homeURL()?keep_before_last("/")}${pageListing}" class="pro-btn-transparent">Voir la liste des projets</a>
                             </#if>
 						</div>
 					</div>

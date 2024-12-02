@@ -1,10 +1,5 @@
 <!-- Détail événement -->
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
 
 <#assign imageUrl = ""/>
 <!-- image -->
@@ -57,7 +52,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <a href="#" class="add-favorites"
                 data-type="2" 
                 data-title="${entry.getTitle(locale)}" 
-                data-url="${themeDisplay.getPortalURL()}${homeURL}event/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}" 
+                data-url="${themeDisplay.getPortalURL()}${strasbourg.homeURL()}event/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}"
                 data-id="${entry.eventId}">
                 <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
             </a>

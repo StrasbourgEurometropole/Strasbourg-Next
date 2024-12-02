@@ -6,13 +6,6 @@
 <!-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
 
-<!-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
 <section class="pro-bloc-slider pro-slider-event">
 
     <div class="container">
@@ -80,7 +73,7 @@
                                                 </#if>
                                             </div>
                                         </div>
-                                        <a href="${homeURL}detail-aide/-/entity/id/${entry.helpProposalId}" title="lien de la page">
+                                        <a href="${strasbourg.homeURL()}detail-aide/-/entity/id/${entry.helpProposalId}" title="lien de la page">
                                             <h3>${entry.getTitle(locale)?html}</h3>
                                             <div class="description"><p>${entry.getDescription(locale)?replace("\n", "<br>")}</p></div>
                                         </a>

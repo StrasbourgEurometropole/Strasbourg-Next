@@ -1,12 +1,5 @@
 <!-- DETAIL D'UN PROJET -->
 
-<#-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
 <#-- Récupération de l'ID de l'utilisateur -->
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
@@ -75,8 +68,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <div id="breadcrumb">
     <span>
         <span>
-            <a href="${homeURL}">Accueil</a>
-            <a href="${homeURL}projets">Les projets</a>
+            <a href="${strasbourg.homeURL()}">Accueil</a>
+            <a href="${strasbourg.homeURL()}projets">Les projets</a>
             <span class="breadcrumb_last">${entry.title}</span>
         </span>
     </span>
@@ -175,7 +168,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <script>
     // Récupération des entités en JSON à afficher sur la map et ajout des données dynamiques manquantes
     var projectJSON = ${projectJSON};
-    projectJSON.link = '${homeURL}' + projectJSON.detailURL;
+    projectJSON.link = '${strasbourg.homeURL()}' + projectJSON.detailURL;
 
     var eventsJSON = [
         <#list eventsJSON as eventJSON>
@@ -247,7 +240,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             // des évenements, d'où le [0] pour avoir le JSON et le [1] pour la participation à l'évenements
             var eventJSON = eventsJSON[i];
             // Ajout du lien vers le détail (effectué ici pour éviter le double parcours)
-            eventJSON.link = '${homeURL}detail-evenement/-/entity/id/' +  eventJSON.id + '/' + eventJSON.normalizedTitle;
+            eventJSON.link = '${strasbourg.homeURL()}detail-evenement/-/entity/id/' +  eventJSON.id + '/' + eventJSON.normalizedTitle;
 
             markersCluster.addLayer(marker);
             eventMarkers.push(marker);
@@ -255,7 +248,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
         for(var i= 0; i < participationsJSON.length; i++) {
             var participationJSON = participationsJSON[i];
-            participationJSON.link = '${homeURL}detail-participation/-/entity/id/' + participationJSON.participationId;
+            participationJSON.link = '${strasbourg.homeURL()}detail-participation/-/entity/id/' + participationJSON.participationId;
 
             for(var j= 0; j < participationJSON.placitPlaces.length; j++) {
                 marker = getParticipationMarker(

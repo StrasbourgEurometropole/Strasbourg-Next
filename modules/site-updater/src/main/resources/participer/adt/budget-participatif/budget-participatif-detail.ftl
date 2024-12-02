@@ -6,15 +6,6 @@
 <#-- Recuperation du gestionnaire de fichiers Liferay -->
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
-<#-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
-<#assign homeURL2 = "/web${layout.group.friendlyURL}" />
-
 <#-- Récupération de l'ID de l'utilisateur -->
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
@@ -193,9 +184,9 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <div id="breadcrumb">
                             <span>
                                 <span>
-                                    <a href="${homeURL}">Accueil</a>
+                                    <a href="${strasbourg.homeURL()}">Accueil</a>
                                     <#if pageListing??>
-                                        <a href="${homeURL2}${pageListing}">Listings des projets</a>
+                                        <a href="${strasbourg.homeURL()?keep_before_last("/")}${pageListing}">Listings des projets</a>
                                     </#if>
                                     <span class="breadcrumb_last">${entry.title}</span>
                                 </span>
@@ -256,7 +247,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                             </#if>
                             <#if entry.getParent()?has_content >
                                 <div class="row pro-bloc pro-bloc-texte">
-                                    Ce projet a été fusionné dans le projet <a href="${homeURL}detail-budget-participatif/-/entity/id/${entry.getParent().budgetParticipatifId}">${entry.getParent().title}</a>
+                                    Ce projet a été fusionné dans le projet <a href="${strasbourg.homeURL()}detail-budget-participatif/-/entity/id/${entry.getParent().budgetParticipatifId}">${entry.getParent().title}</a>
                                 </div>
                             </#if>
                             <div class="row pro-bloc pro-bloc-texte">
@@ -392,7 +383,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <h2>D’autres projets citoyens</h2>
                     </#if>
                         <div class="pro-wrapper">
-                            <a href="${homeURL}projets-budget-participatif" class="pro-btn">Tout voir</a>
+                            <a href="${strasbourg.homeURL()}projets-budget-participatif" class="pro-btn">Tout voir</a>
                         </div>
                 </div>
 
@@ -433,7 +424,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     </div>
                                 </div>
                                 <div class="pro-content-budget">
-                                    <a href="${homeURL}detail-budget-participatif/-/entity/id/${suggestion.budgetParticipatifId}" title="lien de la page de détail">
+                                    <a href="${strasbourg.homeURL()}detail-budget-participatif/-/entity/id/${suggestion.budgetParticipatifId}" title="lien de la page de détail">
                                         <h3>${suggestion.title?html}</h3>
                                     </a>
                                     <p>Projet adressée à <u>la ville de Strasbourg</u></p>
@@ -462,7 +453,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <script>
     // Récupération des entités en JSON à afficher sur la map et ajout des données dynamiques manquantes
     var budgetParticipatifJSON = ${budgetParticipatifJSON};
-    budgetParticipatifJSON.link = '${homeURL}detail-budget-participatif/-/entity/id/${entry.budgetParticipatifId}';
+    budgetParticipatifJSON.link = '${strasbourg.homeURL()}detail-budget-participatif/-/entity/id/${entry.budgetParticipatifId}';
 
     // Variable pointeur
     var budgetParticipatifMarkers = []

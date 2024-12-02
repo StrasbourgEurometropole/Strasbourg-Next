@@ -1,10 +1,5 @@
 <!-- Liste d'actualités -->
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 <div class="seu-container">
     <div class="seu-wi seu-wi-agenda seu-type--actu">
@@ -93,7 +88,7 @@
                     </ul>
                 </div>
                 <div class="seu-btn-line">
-                    <a href="${homeURL}actualite" class="seu-btn-square seu-bordered seu-core" title="<@liferay_ui.message key="eu.all-news" />">
+                    <a href="${strasbourg.homeURL()}actualite" class="seu-btn-square seu-bordered seu-core" title="<@liferay_ui.message key="eu.all-news" />">
                     <span class="seu-flexbox">
                         <span class="seu-btn-text"><@liferay_ui.message key="eu.all-news" /></span>
                         <span class="seu-btn-arrow"></span>

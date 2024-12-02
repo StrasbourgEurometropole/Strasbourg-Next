@@ -1,12 +1,5 @@
 <!-- Adjoint de quartier -->
 
-<#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
 <div class="st-wrapper st-bloc st-bloc-elu st--with-image st--has-margin st-container">
     <div class="st-container">
         <#if entries?has_content>

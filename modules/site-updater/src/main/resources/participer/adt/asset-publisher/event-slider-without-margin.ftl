@@ -4,13 +4,6 @@
 	<#setting locale = locale />
 	<#assign isPlacite = false />
 
-	<#-- Recuperation de l'URL de "base" du site -->
-	<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-	    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-	<#else>
-	    <#assign homeURL = "/" />
-	</#if>
-
 	<#-- Récupération de l'ID de l'utilisateur -->
 	<#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
@@ -31,7 +24,7 @@
 	        <div>
 	            <h2 id="title-events-slider-${instanceId}">L’agenda</h2>
 	        </div>
-			<a href="${homeURL}agenda" class="pro-btn" title="Lien vers la page de tout l'agenda">Tout voir</a>
+			<a href="${strasbourg.homeURL()}agenda" class="pro-btn" title="Lien vers la page de tout l'agenda">Tout voir</a>
 
 	        <div>
 	            <div class="owl-carousel owl-opacify owl-theme owl-cards">
@@ -61,7 +54,7 @@
 							</#if>
 
 							<#assign resultsSize++ />
-							<a href="${homeURL}detail-evenement/-/entity/id/${entry.eventId}" title="lien de la page" class="item pro-bloc-card-event">
+							<a href="${strasbourg.homeURL()}detail-evenement/-/entity/id/${entry.eventId}" title="lien de la page" class="item pro-bloc-card-event">
 								<div>
 									<div class="pro-header-event">
 										<span class="pro-time"><#if period?has_content>Le ${period.startDate?string("dd MMMM yyyy")} <#if period.getTimeDetail(locale)?has_content> à ${period.getTimeDetail(locale)}</#if></#if></span>

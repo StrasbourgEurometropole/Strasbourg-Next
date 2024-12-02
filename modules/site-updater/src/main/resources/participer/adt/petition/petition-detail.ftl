@@ -6,13 +6,6 @@
 <#-- Recuperation du gestionnaire de fichiers Liferay -->
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
-<#-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
 <#-- Récupération de l'ID de l'utilisateur -->
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
@@ -99,8 +92,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <div id="breadcrumb">
                         <span>
                             <span>
-                                <a href="${homeURL}">Accueil</a>
-                                <a href="${homeURL}petitions">Listing des pétitions</a>
+                                <a href="${strasbourg.homeURL()}">Accueil</a>
+                                <a href="${strasbourg.homeURL()}petitions">Listing des pétitions</a>
                                 <span class="breadcrumb_last">${entry.title}</span>
                             </span>
                         </span>
@@ -309,7 +302,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                         <#elseif isUserBanned>
                             <a class="pro-btn-yellow" name="#IsBanned" href="#">Déposer une pétition</a>
                         </#if>
-                        <a href="${homeURL}petitions" class="pro-btn">Toutes les pétitions</a>
+                        <a href="${strasbourg.homeURL()}petitions" class="pro-btn">Toutes les pétitions</a>
                     </div>
                 </div>
                 <div>
@@ -343,7 +336,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 									<span class="prefix-location">
 											${suggestion.getDistrictLabel(locale)}
 									</span>
-									<a href="${homeURL}detail-petition/-/entity/id/${suggestion.petitionId}"
+									<a href="${strasbourg.homeURL()}detail-petition/-/entity/id/${suggestion.petitionId}"
 									   title="Lien vers ${suggestion.title}">
                                        <h3>${suggestion.title}</h3>
 									</a>
@@ -386,7 +379,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <script>
     // Récupération des entités en JSON à afficher sur la map et ajout des données dynamiques manquantes
     var petitionJSON = ${petitionJSON};
-    petitionJSON.link = '${homeURL}detail-petition/-/entity/id/${entry.petitionId}';
+    petitionJSON.link = '${strasbourg.homeURL()}detail-petition/-/entity/id/${entry.petitionId}';
 
     $(document).ready(function() {
         // Gestion de la carte interactive

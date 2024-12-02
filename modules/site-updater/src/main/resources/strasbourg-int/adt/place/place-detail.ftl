@@ -20,12 +20,6 @@
 <#-- partage de la configuration open graph dans la request -->
 ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 <#assign EventLocalService = serviceLocator.findService("eu.strasbourg.service.agenda.service.EventLocalService")/>
 
@@ -50,7 +44,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <a href="#" class="add-favorites"
            data-type="1"
            data-title="${entry.getAlias(locale)}"
-           data-url="${themeDisplay.getPortalURL()}${homeURL}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}"
+           data-url="${themeDisplay.getPortalURL()}${strasbourg.homeURL()}lieu/-/entity/sig/${entry.getSIGid()}/${entry.getNormalizedAlias(locale)}"
            data-id="${entry.placeId}">
             <span><@liferay_ui.message key="eu.add-to-favorite" /></span>
         </a>
@@ -334,7 +328,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                                 <#assign category = type />
                                             </#if>
                                         </#list>
-                                        <a href="${homeURL}horaires-lieux/-/schedules/category/${category.categoryId}" class="seu-btn-square--filled--second">
+                                        <a href="${strasbourg.homeURL()}horaires-lieux/-/schedules/category/${category.categoryId}" class="seu-btn-square--filled--second">
                                             <span class="seu-btn-text"><@liferay_ui.message key="eu.see-all-schedule-of" /> ${category.getTitle(locale)?lower_case}</span>
                                         </a>
                                     </p>
@@ -435,7 +429,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                             <#break>
                                         </#if>
                                         <div class="seu-agenda-slider-item seu-has-ville">
-                                            <a href="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" class="seu-link" title="${event.getTitle(locale)}">
+                                            <a href="${strasbourg.homeURL()}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" class="seu-link" title="${event.getTitle(locale)}">
                                                 <div class="seu-date">
                                                     <div class="seu-date-sup">
                                                         <#if event.firstStartDate?date == event.lastEndDate?date>
@@ -471,7 +465,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                     </button>
                                 </div>
                                 <div class="seu-btn-line">
-                                    <a href="${homeURL}agenda?idSIGPlace=${entry.getSIGid()}" class="seu-btn-square seu-filled seu-second" title="<@liferay_ui.message key="eu.all-events" />">
+                                    <a href="${strasbourg.homeURL()}agenda?idSIGPlace=${entry.getSIGid()}" class="seu-btn-square seu-filled seu-second" title="<@liferay_ui.message key="eu.all-events" />">
                                         <span class="seu-flexbox">
                                             <span class="seu-btn-text"><@liferay_ui.message key="eu.all-events" /></span>
                                             <span class="seu-btn-arrow"></span>
@@ -514,7 +508,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                             <div style="margin-bottom: 20px">
                                                 <div class="tab-title">${course.courseName}</div>
                                                 <div class="rte" style="margin-top: -5px; margin-bottom: 10px;">
-                                                    <a href="${homeURL}cours/-/entity/id/${course.courseId}"><@liferay_ui.message key="eu.see-detail" /></a>
+                                                    <a href="${strasbourg.homeURL()}cours/-/entity/id/${course.courseId}"><@liferay_ui.message key="eu.see-detail" /></a>
                                                 </div>
                                                 <ul class="schedule-list" style="margin-bottom: 10px;">
                                                     <#list 0..6 as day>

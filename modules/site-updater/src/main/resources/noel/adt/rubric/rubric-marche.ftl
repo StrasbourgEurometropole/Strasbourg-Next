@@ -1,11 +1,6 @@
 <#setting locale = locale />
 
 <!-- Rubrique -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
 <div class="container">
 
     <#if entries?has_content>
@@ -21,7 +16,7 @@
                 </#if>
                 <div class="col-sm-4 col-xs-12">
                     <div class="mns-bloc-actu">
-                        <a href="${homeURL}${currentPage.friendlyURL?remove_beginning('/')}">
+                        <a href="${strasbourg.homeURL()}${currentPage.friendlyURL?remove_beginning('/')}">
                             <figure class="mns-bloc-top-img">
                                 <#if currentPage.expandoBridge.getAttribute('image')?has_content>
                                     <img src="${currentPage.expandoBridge.getAttribute('image')}" alt="" width="290" height="195" />

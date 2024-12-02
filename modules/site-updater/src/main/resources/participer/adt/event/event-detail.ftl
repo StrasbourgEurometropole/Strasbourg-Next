@@ -3,13 +3,6 @@
 <#-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
 
-<#-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
 <#-- Récupération de l'ID de l'utilisateur -->
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
@@ -87,8 +80,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                     <div id="breadcrumb">
                         <span>
                             <span>
-                                <a href="${homeURL}">Accueil</a>
-                                <a href="${homeURL}agenda">Agenda</a>
+                                <a href="${strasbourg.homeURL()}">Accueil</a>
+                                <a href="${strasbourg.homeURL()}agenda">Agenda</a>
                                 <span class="breadcrumb_last">${entry.getTitle(locale)}</span>
                             </span>
                         </span>
@@ -210,7 +203,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
 				<div class="col-lg-10 col-lg-offset-1">
 					<h2>AUTRES ÉVÈNEMENTS</h2>
-					<a href="${homeURL}agenda" class="pro-btn" title="Lien vers la page de tout l'agenda">VOIR TOUT L'AGENDA</a>
+					<a href="${strasbourg.homeURL()}agenda" class="pro-btn" title="Lien vers la page de tout l'agenda">VOIR TOUT L'AGENDA</a>
 				</div>
 
 				<div class="col-lg-10 col-lg-offset-1">
@@ -226,7 +219,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 								<#assign period = "" />
 							</#if>
 							
-							<a href="${homeURL}detail-evenement/-/entity/id/${suggestion.eventId}/${suggestion.getNormalizedTitle(locale)}" title="lien de la page" class="item pro-bloc-card-event">
+							<a href="${strasbourg.homeURL()}detail-evenement/-/entity/id/${suggestion.eventId}/${suggestion.getNormalizedTitle(locale)}" title="lien de la page" class="item pro-bloc-card-event">
 								<div>
 									<div class="pro-header-event">
 										<span class="pro-ico"><span class="icon-ico-debat"></span></span>
@@ -280,7 +273,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     var eventMercatorX = ${eventPlaceMercatorX};
     var eventMercatorY = ${eventPlaceMercatorY};
     var eventJSON = ${eventJSON};
-    eventJSON.link = '${homeURL}detail-evenement/-/entity/id/${entry.eventId}/${entry.normalizedTitle}';
+    eventJSON.link = '${strasbourg.homeURL()}detail-evenement/-/entity/id/${entry.eventId}/${entry.normalizedTitle}';
 
     $(document).ready(function() {
 

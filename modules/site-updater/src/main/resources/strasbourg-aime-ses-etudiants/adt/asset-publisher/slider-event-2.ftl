@@ -1,9 +1,4 @@
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-  <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-  <#assign homeURL = "/" />
-</#if>
 
 <div id="events">
     <h3><@liferay_ui.message key="sae.events" /></h3>
@@ -21,7 +16,7 @@
                 <#assign entry = curEntry.getAssetRenderer().getEvent() />
 
                 <div class="swiper-slide">
-                    <a class="event-content" href="${homeURL}evenement/-/entity/id/${entry.eventId}/${entry.normalizedTitle}">
+                    <a class="event-content" href="${strasbourg.homeURL()}evenement/-/entity/id/${entry.eventId}/${entry.normalizedTitle}">
                         <img class="event-image" src="${entry.getImageThumbnailURL()}" loading="lazy" />
                         <div class="event-date">
                             ${entry.getEventScheduleDisplay(locale)}

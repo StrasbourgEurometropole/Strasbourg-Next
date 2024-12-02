@@ -7,13 +7,6 @@
 
     <!-- Recuperation du créateur de la participation -->
     <#assign UserLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.UserLocalService")/>
-    
-    <!-- Recuperation de l'URL de "base" du site -->
-    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-        <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-    <#else>
-        <#assign homeURL = "/" />
-    </#if>
 
     <section id="pro-link-participation-ems" class="pro-bloc-slider pro-slider-participation">
         <div class="container">
@@ -21,7 +14,7 @@
             <div>
                 <h2>Participer <span  class='pro-listing-ems'>Eurometropole</span> <span class='pro-listing-count'>(${entries?size})</span></h2>
             </div>
-            <a href="${themeDisplay.getPortalURL()}${homeURL}participations-eurometropole" class="pro-btn" title="Lien vers la page Toutes les participations">Tout voir</a>
+            <a href="${themeDisplay.getPortalURL()}${strasbourg.homeURL()}participations-eurometropole" class="pro-btn" title="Lien vers la page Toutes les participations">Tout voir</a>
 
             <div>
                 <div class="owl-carousel owl-opacify owl-theme owl-cards">
@@ -69,7 +62,7 @@
                                     </span>
                                 </div>
                                 <div class="pro-content-participation">
-                                    <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}" title="lien de la page">
+                                    <a href="${strasbourg.homeURL()}detail-participation/-/entity/id/${entry.participationId}" title="lien de la page">
                                         <h3>${entry.title}</h3>
                                     </a>
                                     <span class="pro-time">
@@ -83,13 +76,13 @@
                                             <span class="pro-like">${entry.nbLikes}</span>
                                             <span class="pro-dislike">${entry.nbDislikes}</span>
                                         </div>
-                                        <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
+                                        <a href="${strasbourg.homeURL()}detail-participation/-/entity/id/${entry.participationId}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
                                             Bientôt disponible
                                         </a>
                                     </div>
                                 <#elseif participationStatus == "new" || participationStatus == "in_progress" || participationStatus == "soon_finished" >
                                     <div class="pro-footer-participation">
-                                        <a href="${homeURL}detail-participation/-/entity/id/${entry.participationId}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
+                                        <a href="${strasbourg.homeURL()}detail-participation/-/entity/id/${entry.participationId}#pro-link-commentaire" class="pro-form-style" title="Lien vers la page détail Participation - Lien des commentaires">
                                             <span class="icon-ico-comment"></span> Réagissez...
                                         </a>
                                     </div>

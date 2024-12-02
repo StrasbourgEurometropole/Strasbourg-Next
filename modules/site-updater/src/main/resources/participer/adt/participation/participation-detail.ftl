@@ -10,13 +10,6 @@
 <#assign UserLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.UserLocalService")/>
 <#assign user = UserLocalService.getUser(entry.getStatusByUserId()) />
 
-<#-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
 <#-- Récupération de l'ID de l'utilisateur -->
 <#assign userID = request.session.getAttribute("publik_internal_id")!"" />
 
@@ -114,8 +107,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <div id="breadcrumb">
                             <span>
                                 <span>
-                                    <a href="${homeURL}">Accueil</a>
-                                    <a href="${homeURL}participations">Participations</a>
+                                    <a href="${strasbourg.homeURL()}">Accueil</a>
+                                    <a href="${strasbourg.homeURL()}participations">Participations</a>
                                     <span class="breadcrumb_last">${entry.title}</span>
                                 </span>
                             </span>
@@ -337,7 +330,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 
                 <div class="col-lg-10 col-lg-offset-1">
                     <h2>L’agenda</h2>
-                    <a href="${homeURL}agenda" class="pro-btn" title="Lien vers la page de tout l'agenda">Voir Tout l’agenda</a>
+                    <a href="${strasbourg.homeURL()}agenda" class="pro-btn" title="Lien vers la page de tout l'agenda">Voir Tout l’agenda</a>
                 </div>
 
                 <div class="col-lg-10 col-lg-offset-1">
@@ -350,7 +343,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <#assign eventsJSON = eventsJSON + [event.toJSON(userID)] />
                                 <#assign isUserPartActive = event.isUserParticipates(userID)?then("active", "") />
 
-                                <a href="${homeURL}detail-evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" title="lien de la page" class="item pro-bloc-card-event">
+                                <a href="${strasbourg.homeURL()}detail-evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" title="lien de la page" class="item pro-bloc-card-event">
                                     <div>
                                         <div class="pro-header-event">
                                             <span class="pro-ico"><span class="icon-ico-debat"></span></span>
@@ -407,7 +400,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     <script>
         // Récupération des entités en JSON à afficher sur la map et ajout des données dynamiques manquantes
         var participationJSON = ${participationJSON};
-        participationJSON.link = '${homeURL}detail-participation/-/entity/id/${entry.participationId}';
+        participationJSON.link = '${strasbourg.homeURL()}detail-participation/-/entity/id/${entry.participationId}';
 
         var eventsJSON = [
             <#list eventsJSON as eventJSON>
@@ -453,7 +446,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 // des évenements, d'où le [0] pour avoir le JSON et le [1] pour la participation à l'évenements
                 var eventJSON = eventsJSON[i];
                 // Ajout du lien vers le détail (effectué ici pour éviter le double parcours)
-                eventJSON.link = '${homeURL}detail-evenement/-/entity/id/' +  eventJSON.id + '/' + eventJSON.normalizedTitle;
+                eventJSON.link = '${strasbourg.homeURL()}detail-evenement/-/entity/id/' +  eventJSON.id + '/' + eventJSON.normalizedTitle;
 
                 marker = getEventMarker(eventJSON);
 

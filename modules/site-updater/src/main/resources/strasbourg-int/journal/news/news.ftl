@@ -2,11 +2,6 @@
 <#assign displayDate = .vars['reserved-article-display-date'].getData()?date("EEE, dd MMM yyyy hh:mm:ss Z")/>
 <#assign modifiedDate = .vars['reserved-article-display-date'].getData()?date("EEE, dd MMM yyyy hh:mm:ss Z")/>
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
 
 <#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
 <#assign request = serviceContext.getRequest()/>
@@ -57,7 +52,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <#if newsTypes?has_content>
             <p class="seu-event-categories">
                 <#list newsTypes as type>
-                    <a href="${homeURL}${(locale == 'fr_FR')?then('actualite','news')}?_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_categoriesIds=${type.getCategoryId()}&p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet">
+                    <a href="${strasbourg.homeURL()}${(locale == 'fr_FR')?then('actualite','news')}?_eu_strasbourg_portlet_search_asset_SearchAssetPortlet_categoriesIds=${type.getCategoryId()}&p_p_id=eu_strasbourg_portlet_search_asset_SearchAssetPortlet">
                         ${type.getTitle(locale)}
                     </a>
                     <#sep>,&nbsp;</#sep>

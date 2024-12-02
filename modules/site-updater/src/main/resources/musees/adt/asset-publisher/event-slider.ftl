@@ -1,10 +1,5 @@
 <#setting locale = locale />
 <#setting datetime_format="iso">
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
 <#assign portletHelper = serviceLocator.findService("eu.strasbourg.utils.api.PortletHelperService") />
 
 <#if entries?has_content>
@@ -64,6 +59,6 @@
 
 <script>
     $("#btn-all-events").click(function(){
-      location.href='${themeDisplay.getPortalURL()}${homeURL}agenda'
+      location.href='${themeDisplay.getPortalURL()}${strasbourg.homeURL()}agenda'
     });
 </script>

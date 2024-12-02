@@ -6,13 +6,6 @@
 <!-- Recuperation du gestionnaire de fichiers Liferay -->
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
-<!-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
 <!-- Recuperation des types d'aide -->
 <#if entry.getHelpProposalTypeCategories()??>
     <#assign helpTypes = entry.getHelpProposalTypeCategories() />
@@ -84,7 +77,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 					<div id="breadcrumb">
 					<span>
 						<span>
-							<a href="${homeURL}"><@liferay_ui.message key="home" /></a>
+							<a href="${strasbourg.homeURL()}"><@liferay_ui.message key="home" /></a>
 						<span class="breadcrumb_last">${entry.getTitle(locale)}</span>
 						</span>
 					</span>

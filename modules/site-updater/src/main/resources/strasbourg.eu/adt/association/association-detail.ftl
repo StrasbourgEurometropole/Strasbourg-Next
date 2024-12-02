@@ -1,11 +1,6 @@
 <!-- Détail association -->
 <#setting locale=locale />
 <#setting url_escaping_charset='ISO-8859-1'>
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL="/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL="/" />
-</#if>
 <#assign assetVocabularyHelper=serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
 <#assign utils=serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
 <#-- Liste des infos a partager -->

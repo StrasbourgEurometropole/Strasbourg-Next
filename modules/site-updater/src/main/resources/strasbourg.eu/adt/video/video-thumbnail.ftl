@@ -1,12 +1,5 @@
 <!-- Vignette video -->
-
-
 <#setting locale = locale />
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
 <#setting date_format="d/MM/yyyy">
 <#assign fromSearch = renderRequest.getAttribute("fromSearchPortlet")!false >
 <#assign plId = 0 />

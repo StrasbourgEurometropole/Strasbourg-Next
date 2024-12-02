@@ -9,12 +9,6 @@
 <#assign request = serviceContext.getRequest()/>
 <#assign themeDisplay = serviceContext.getThemeDisplay() />
 
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
 <#--  récupération de l'id du webcontent -->
 <#assign journalArticleId = .vars['reserved-article-id'].data>
 <#assign journalArticleResourceLocalServiceUtil = staticUtil["com.liferay.journal.service.JournalArticleResourceLocalServiceUtil"]>
@@ -65,8 +59,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         
         <div id="breadcrumb">
             <span>
-                <span><a href="${homeURL}accueil">Accueil</a>
-                    <a href="${homeURL}liste-ateliers-de-projet">Tous les ateliers de projet</a>
+                <span><a href="${strasbourg.homeURL()}accueil">Accueil</a>
+                    <a href="${strasbourg.homeURL()}liste-ateliers-de-projet">Tous les ateliers de projet</a>
                     <span class="breadcrumb_last">${title.getData()}</span>
                 </span>
             </span>

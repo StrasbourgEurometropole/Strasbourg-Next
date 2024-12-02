@@ -3,13 +3,6 @@
 <!-- Recuperation de la localisation de l'utilisateur -->
 <#setting locale = locale />
 
-<!-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-	<#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-	<#assign homeURL = "/" />
-</#if>
-
 <#assign assetEntryLocalService = serviceLocator.findService("com.liferay.asset.kernel.service.AssetEntryLocalService") />
 <#assign assetVocabularyHelper = serviceLocator.findService("eu.strasbourg.utils.api.AssetVocabularyHelperService") />
 <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
@@ -19,7 +12,7 @@
 		<div>
 			<h2>Actualités</h2>
 			<div class="pro-wrapper">
-				<a href="${themeDisplay.getPortalURL()}${homeURL}actualites" class="pro-btn" title="Lien vers la page de toutes les actualités">Tout voir</a>
+				<a href="${themeDisplay.getPortalURL()}${strasbourg.homeURL()}actualites" class="pro-btn" title="Lien vers la page de toutes les actualités">Tout voir</a>
 			</div>
 		</div>
 		<div>
@@ -46,7 +39,7 @@
 					<#assign chapo = docXml.valueOf("//dynamic-element[@name='chapo']/dynamic-content/text()") />
 
 					<div class="item">
-						<a href="${homeURL}-/${curEntry.getAssetRenderer().getArticle().urlTitle}" class="pro-bloc-actu" title="Lien vers la page de détail de l'article">
+						<a href="${strasbourg.homeURL()}-/${curEntry.getAssetRenderer().getArticle().urlTitle}" class="pro-bloc-actu" title="Lien vers la page de détail de l'article">
 							<div class="img">
 								<figure role="group">
 									<img src='${imageURL}${(imageURL?contains('?'))?then('&','?')}imagePreview=1' loading="lazy" alt="Image agenda" width="360" height="174" class="fit-cover"/>

@@ -5,12 +5,6 @@
     <!-- Recuperation de la localisation de l'utilisateur -->
     <#setting locale = locale />
 
-    <!-- Recuperation de l'URL de "base" du site -->
-    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-        <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-    <#else>
-        <#assign homeURL = "/" />
-    </#if>
     <#assign assetPublisherTemplateHelperService = serviceLocator.findService("eu.strasbourg.utils.api.AssetPublisherTemplateHelperService")/>
 
     <header class="ops-fullpage-header" data-vheight="100">	
@@ -46,7 +40,7 @@
                         <#if chapo?has_content>
                             <p>${chapo?replace("<[^>]*>", "", "r")[0..*100]}...</p>
                         </#if>
-                        <a href="${homeURL}-/${curEntry.getAssetRenderer().getArticle().urlTitle}" class="ops-btn">
+                        <a href="${strasbourg.homeURL()}-/${curEntry.getAssetRenderer().getArticle().urlTitle}" class="ops-btn">
                             <@liferay_ui.message key="eu.ops.discover" />
                         </a>
                     </div>

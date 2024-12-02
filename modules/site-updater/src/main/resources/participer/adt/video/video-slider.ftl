@@ -9,19 +9,12 @@
     <#assign UserLocalService = serviceLocator.findService("com.liferay.portal.kernel.service.UserLocalService")/>
     <#assign user = UserLocalService.getUser(entry.userId) />
 
-    <!-- Recuperation de l'URL de "base" du site -->
-    <#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostname?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-        <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-    <#else>
-        <#assign homeURL = "/" />
-    </#if>
-
     <section class="pro-pad-40 pro-bloc-select">
         <div class="container">
 
             <div class="pro-intro">
                 <h2>Les vidéos</h2>
-                <a href="${homeURL}videos" class="pro-btn">Tout voir</a>
+                <a href="${strasbourg.homeURL()}videos" class="pro-btn">Tout voir</a>
             </div>
 
             <div class="row">

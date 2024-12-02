@@ -2,13 +2,7 @@
 
 <#setting locale = locale />
 
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
-<a href="${homeURL}detail-evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}" class="ops-card ops-card-concert">
+<a href="${strasbourg.homeURL()}detail-evenement/-/entity/id/${entry.eventId}/${entry.getNormalizedTitle(locale)}" class="ops-card ops-card-concert">
 	<div>
 		<time>
 			${entry.getEventScheduleDisplay(locale, false, true)}

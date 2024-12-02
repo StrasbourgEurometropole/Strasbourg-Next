@@ -6,13 +6,6 @@
 <!-- Recuperation du gestionnaire de fichiers Liferay -->
 <#assign fileEntryHelper = serviceLocator.findService("eu.strasbourg.utils.api.FileEntryHelperService") />
 
-<!-- Recuperation de l'URL de "base" du site -->
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
-
 <!-- Recuperation des thématiques -->
 <#if entry.getThematicCategories()??>
     <#assign initiativeThematics = entry.getThematicCategories() />
@@ -99,8 +92,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 							<div id="breadcrumb">
 							<span>
 								<span>
-									<a href="${homeURL}">Accueil</a>
-								<a href="${homeURL}ateliers-quartier">Ateliers de quartier</a>
+									<a href="${strasbourg.homeURL()}">Accueil</a>
+								<a href="${strasbourg.homeURL()}ateliers-quartier">Ateliers de quartier</a>
 								<span class="breadcrumb_last">${entry.title}</span>
 								</span>
 							</span>
@@ -298,7 +291,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                 <div>
                     <h2>D’autres ateliers</h2>
                     <div class="pro-wrapper">
-                        <a href="${homeURL}ateliers-quartier" class="pro-btn">Tous les ateliers</a>
+                        <a href="${strasbourg.homeURL()}ateliers-quartier" class="pro-btn">Tous les ateliers</a>
                     </div>
                 </div>
 
@@ -339,7 +332,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                 <span class="prefix-location">
                                     Strasbourg
                                 </span>
-									<a href="${homeURL}detail-atelier/-/entity/id/${suggestion.initiativeId}" title="lien de la page de détail">
+									<a href="${strasbourg.homeURL()}detail-atelier/-/entity/id/${suggestion.initiativeId}" title="lien de la page de détail">
 										<h3>${suggestion.title}</h3>
 									</a>
 									<span class="pro-time">
@@ -366,7 +359,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
 <script>
     // Récupération des entités en JSON à afficher sur la map et ajout des données dynamiques manquantes
     var initiativeJSON = ${initiativeJSON};
-    initiativeJSON.link = '${homeURL}detail-atelier/-/entity/id/${entry.initiativeId}';
+    initiativeJSON.link = '${strasbourg.homeURL()}detail-atelier/-/entity/id/${entry.initiativeId}';
 
     // Variable pointeur
     var initiativeMarkers = []

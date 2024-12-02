@@ -5,13 +5,8 @@
 <#if fromSearch>
   <#assign plId = renderRequest.getAttribute("classNameLayoutId")[entry.getModelClassName()] />
 </#if>
-<#if !themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames?has_content || themeDisplay.scopeGroup.isStagingGroup()>
-    <#assign homeURL = "/web${layout.group.friendlyURL}/" />
-<#else>
-    <#assign homeURL = "/" />
-</#if>
 
-<#assign detailURL = homeURL + "evenement/-/entity/id/" + entry.getEventId() />
+<#assign detailURL = strasbourg.homeURL() + "evenement/-/entity/id/" + entry.getEventId() />
 
 <a href="${detailURL}" aria-label="${entry.getTitle(locale)?html}" title="${entry.getTitle(locale)?html}" class="event-thumbnail" style="background-image: url(${entry.getImageThumbnailURL()})">
     <#if entry.getActivityTypeLabel(locale)?has_content>
