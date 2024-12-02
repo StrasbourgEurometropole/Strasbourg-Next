@@ -1,8 +1,11 @@
 package eu.strasbourg.portlet.graveyard.portlet;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.graveyard.portlet.context.GraveyardDisplayContext;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -33,6 +36,10 @@ public class GraveyardWebPortlet extends MVCPortlet {
 			dc.recherche(request, response);
 		}
 		request.setAttribute("dc", dc);
+
+		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+		String homeUrl = PortalHelper.getHomeURL(themeDisplay) +"/";
+		request.setAttribute("homeURL", homeUrl);
 		super.render(request, response);
 	}
 

@@ -10,6 +10,7 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.SearchHelperV2;
 import org.osgi.service.component.annotations.Component;
 
@@ -59,6 +60,10 @@ public class InterestViewerWebPortlet extends MVCPortlet {
 			
 			// titre personnalisable en mode widget
 			request.setAttribute("title", PortletHelper.getPortletTitle("actu-agenda", request));
+
+			// Retourne l'URL de la page d'accueil
+			String homeURL = PortalHelper.getHomeURL(themeDisplay) +"/";
+			request.setAttribute("homeURL", homeURL);
 
 			include("/templates/" + template + ".jsp", request, response);
 		} catch (ConfigurationException e) {

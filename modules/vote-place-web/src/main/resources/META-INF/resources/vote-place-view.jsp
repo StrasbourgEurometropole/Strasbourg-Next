@@ -1,10 +1,4 @@
 <%@ include file="/vote-place-init.jsp" %>
-<c:if test="${empty virtualHostName}">
-    <c:set var="homeURL" value="/web/strasbourg.eu/"/>
-</c:if>
-<c:if test="${not empty virtualHostName}">
-    <c:set var="homeURL" value="https://${virtualHostName}/"/>
-</c:if>
 
 <section id="vote">
     <%-- Récupère le fait de plier ou déplier ce widget dans la config de la personnalisation --%>

@@ -14,6 +14,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.portlet.association.configuration.SearchAssociationConfiguration;
 import eu.strasbourg.portlet.association.display.context.SearchAssociationDisplayContext;
 import eu.strasbourg.service.activity.model.Association;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -58,6 +59,8 @@ public class SearchAssociationPortlet extends MVCPortlet {
 			SearchAssociationDisplayContext dc = new SearchAssociationDisplayContext(request, response);
 			request.setAttribute("dc", dc);
 			request.setAttribute("locale", themeDisplay.getLocale());
+			String homeUrl = PortalHelper.getHomeURL(themeDisplay) +"/";
+			request.setAttribute("homeURL", homeUrl);
 
 			// On envoie a la jsp la map className / layout qui fait
 			// correspondre à chaque type d'asset une page de détail

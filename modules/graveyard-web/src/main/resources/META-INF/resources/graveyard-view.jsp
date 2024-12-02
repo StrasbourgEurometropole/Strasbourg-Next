@@ -1,12 +1,5 @@
 <%@ include file="/graveyard-init.jsp" %>
 <fmt:setLocale value="${locale}"/>
-<c:set var="virtualHostName" value="${virtualHostName}"/>
-<c:if test="${empty virtualHostName}">
-    <c:set var="homeURL" value="/web/strasbourg.eu/"/>
-</c:if>
-<c:if test="${not empty virtualHostName}">
-    <c:set var="homeURL" value="https://${virtualHostName}/"/>
-</c:if>
 
 <liferay-portlet:renderURL varImpl="rechercheURL"/>
 

@@ -432,20 +432,6 @@ public class SearchAssociationDisplayContext extends BaseDisplayContext {
     }
 
     /**
-     * Retourne l'URL de la page d'accueil
-     */
-    public String getHomeURL() {
-        String virtualHostName= PortalHelper.getVirtualHostname(this._themeDisplay.getScopeGroup(),this._themeDisplay.getLanguageId());
-        if (Validator.isNotNull(virtualHostName)
-                || this._themeDisplay.getScopeGroup().isStagingGroup()) {
-            return "/web" + this._themeDisplay.getScopeGroup().getFriendlyURL() + "/";
-        } else {
-            return "/";
-        }
-
-    }
-
-    /**
      * Retourne le titre du portlet configuré dans la configuration Look And
      * Feel s'il existe et si "utiliser le titre personnalisé" est coché, sinon
      * à partir de la clé de traduction passée en paramètre

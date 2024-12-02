@@ -1,14 +1,6 @@
 <%@ include file="/place-schedule-init.jsp" %>
 <jsp:useBean id="now" class="java.util.Date" />
 <fmt:setLocale value="${locale}" />
-<c:choose>
-	<c:when test="${empty themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames or themeDisplay.scopeGroup.isStagingGroup()}">
-		<c:set var="homeURL" value="/web${layout.group.friendlyURL}/" />
-	</c:when>
-	<c:otherwise>
-		<c:set var="homeURL" value="/" />
-	</c:otherwise>
-</c:choose>
 
 <liferay-portlet:renderURL var="previousURL">
 	<portlet:param name="categoryId" value="${category.categoryId}" />

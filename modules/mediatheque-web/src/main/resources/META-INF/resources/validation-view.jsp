@@ -1,10 +1,4 @@
 <%@ include file="/mediatheque-init.jsp" %>
-<c:if test="${empty virtualHostName}">
-    <c:set var="homeURL" value="${themeDisplay.getURLHome()}/../mon-strasbourg"/>
-</c:if>
-<c:if test="${not empty virtualHostName}">
-    <c:set var="homeURL" value="https://${virtualHostName}"/>
-</c:if>
 
 <section id="validation">
 

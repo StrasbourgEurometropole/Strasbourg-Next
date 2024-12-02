@@ -21,6 +21,7 @@ import eu.strasbourg.service.place.model.SubPlace;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 
@@ -322,6 +323,10 @@ public class PlaceSchedulePortlet extends MVCPortlet {
 
 			// request.setAttribute("detailURL",
 			// StrasbourgPropsUtil.getPlaceDetailURL());
+
+			// Retourne l'URL de la page d'accueil
+			String homeURL = PortalHelper.getHomeURL(themeDisplay) +"/";
+			request.setAttribute("homeURL", homeURL);
 
 			
 			if (Validator.isNull(template)) {

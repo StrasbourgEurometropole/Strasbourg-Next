@@ -146,6 +146,10 @@ public class VotePlaceWebPortlet extends MVCPortlet {
 		
 		// titre personnalisable
 		request.setAttribute("title", PortletHelper.getPortletTitle("vote-place", request));
+
+		// Retourne l'URL de la page d'accueil
+		String homeURL = PortalHelper.getHomeURL(themeDisplay) +"/";
+		request.setAttribute("homeURL", homeURL);
 		
 		super.render(request, response);
 	}

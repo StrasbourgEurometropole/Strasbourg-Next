@@ -47,11 +47,7 @@ public class PublikUserPortlet extends MVCPortlet {
 			renderRequest.setAttribute("dc", dc);
 
 			// Recuperation de l'URL de "base" du site
-			String homeURL = "/";
-			String virtualHostname = PortalHelper.getVirtualHostname( themeDisplay.getLayout().getGroup(), themeDisplay.getLanguageId());
-			if ( Validator.isNull(virtualHostname) || themeDisplay.getScopeGroup().isStagingGroup()) {
-				homeURL = "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL() + "/";
-			}
+			String homeURL = PortalHelper.getHomeURL(themeDisplay) +"/";
 			renderRequest.setAttribute("homeURL", homeURL);
 
 			super.render(renderRequest, renderResponse);

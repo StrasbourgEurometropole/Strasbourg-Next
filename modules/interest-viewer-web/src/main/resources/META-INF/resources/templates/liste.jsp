@@ -1,10 +1,4 @@
 <%@ include file="/interest-viewer-init.jsp" %>
-<c:if test="${empty dc.getVirtualHostName()}">
-    <c:set var="homeURL" value="/web/strasbourg.eu/"/>
-</c:if>
-<c:if test="${not empty dc.getVirtualHostName()}">
-    <c:set var="homeURL" value="https://${dc.getVirtualHostName()}/"/>
-</c:if>
 
 <div class="seu-wi seu-wi-agenda" style="padding-bottom:0px"> 
 	<main class="seu-container"> 

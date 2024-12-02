@@ -2,12 +2,6 @@
 <jsp:useBean id="now" class="java.util.Date" />
 <fmt:setLocale value="${locale}" />
 <c:set var="virtualHostName" value="${dc.getVirtualHostName()}"/>
-<c:if test="${empty virtualHostName}">
-	<c:set var="homeURL" value="/web/mon-strasbourg/"/>
-</c:if>
-<c:if test="${not empty virtualHostName}">
-	<c:set var="homeURL" value="https://${virtualHostName}/"/>
-</c:if>
 <c:set var="virtualStrasbourgHostName" value="${dc.getVirtualStrasbourgHostName()}"/>
 <c:if test="${empty virtualStrasbourgHostName}">
 	<c:set var="homeStrasbourgURL" value="/web/strasbourg.eu/"/>

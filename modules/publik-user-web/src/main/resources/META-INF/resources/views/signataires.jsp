@@ -7,7 +7,7 @@
         <div id="breadcrumb">
             <span>
                 <span>
-                    <a href="${dc.getHomeURL()}"><liferay-ui:message key="eu.breadcrumb-home" /></a>
+                    <a href="${homeURL}"><liferay-ui:message key="eu.breadcrumb-home" /></a>
                     <span class="breadcrumb_last"><liferay-ui:message key="eu.breadcrumb-signataires" /></span>
                 </span>
             </span>

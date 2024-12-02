@@ -183,14 +183,7 @@ public class SearchAssetDisplayContext {
 	 * Retourne l'URL de la page d'accueil
 	 */
 	public String getHomeURL() {
-		String virtualHostName= PortalHelper.getVirtualHostname(this._themeDisplay.getScopeGroup(), this._themeDisplay.getLanguageId());
-		if (virtualHostName != null
-				|| this._themeDisplay.getScopeGroup().isStagingGroup()) {
-			return "/web" + this._themeDisplay.getScopeGroup().getFriendlyURL() + "/";
-		} else {
-			return "/";
-		}
-		
+		return PortalHelper.getHomeURL(this._themeDisplay) +"/";
 	}
 
 	/**

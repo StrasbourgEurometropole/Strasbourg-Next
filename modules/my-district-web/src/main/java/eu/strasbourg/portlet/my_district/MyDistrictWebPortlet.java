@@ -7,6 +7,7 @@ import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
 import eu.strasbourg.service.adict.AdictService;
 import eu.strasbourg.service.opendata.geo.district.OpenDataGeoDistrictService;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -36,6 +37,10 @@ public class MyDistrictWebPortlet extends MVCPortlet {
 		MyDistrictDisplayContext dc = new MyDistrictDisplayContext(themeDisplay, request, adictService, openDataGeoDistrictService);
 
 		request.setAttribute("dc", dc);
+
+		// Retourne l'URL de la page d'accueil
+		String homeURL = PortalHelper.getHomeURL(themeDisplay) +"/";
+		request.setAttribute("homeURL", homeURL);
 		super.render(request, response);
 	}
 

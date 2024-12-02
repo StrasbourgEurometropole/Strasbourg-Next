@@ -74,6 +74,10 @@ public class ValidationWebPortlet extends MVCPortlet {
 				break;
 			}
 		}
+
+		// Retourne l'URL de la page d'accueil
+		String homeURL = PortalHelper.getHomeURL(themeDisplay) +"/";
+		request.setAttribute("homeURL", homeURL);
 		
 		super.render(renderRequest, response);
 	}

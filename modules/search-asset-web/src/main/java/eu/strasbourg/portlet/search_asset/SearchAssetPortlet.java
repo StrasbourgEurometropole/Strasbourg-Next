@@ -149,11 +149,7 @@ public class SearchAssetPortlet extends MVCPortlet {
             renderRequest.setAttribute("classNameLayoutId", className_layoutId);
 
             // Recuperation de l'URL de "base" du site
-            String homeURL = "/";
-            String virtualHostName= PortalHelper.getVirtualHostname(themeDisplay.getScopeGroup(), themeDisplay.getLanguageId());
-            if (Validator.isNotNull(virtualHostName) || themeDisplay.getScopeGroup().isStagingGroup()) {
-                homeURL = "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL() + "/";
-            }
+            String homeURL = PortalHelper.getHomeURL(themeDisplay) +"/";
             renderRequest.setAttribute("homeURL", homeURL);
 
             if(Validator.isNotNull(classNameList) && classNameList.size() > 0) {

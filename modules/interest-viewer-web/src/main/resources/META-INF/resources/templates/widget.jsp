@@ -1,11 +1,4 @@
 <%@ include file="/interest-viewer-init.jsp" %>
-<c:if test="${empty dc.getVirtualHostName()}">
-    <c:set var="homeURL" value="/web/strasbourg.eu/"/>
-</c:if>
-<c:if test="${not empty dc.getVirtualHostName()}">
-    <c:set var="homeURL" value="https://${dc.getVirtualHostName()}/"/>
-</c:if>
-       
 
 <c:if test="${not dc.hasInterest()}">
 	<section id="actu-agenda-no-interest">

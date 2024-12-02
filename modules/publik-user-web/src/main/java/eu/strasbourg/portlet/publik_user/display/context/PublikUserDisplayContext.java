@@ -19,19 +19,6 @@ import java.util.List;
 
 public class PublikUserDisplayContext {
 
-    /**
-     * Retourne l'URL de la page d'accueil
-     */
-    public String getHomeURL() {
-        if (Validator.isNotNull(PortalHelper.getVirtualHostname(_themeDisplay.getScopeGroup(),_themeDisplay.getLanguageId()))
-                || this._themeDisplay.getScopeGroup().isStagingGroup()) {
-            return "/web" + this._themeDisplay.getScopeGroup().getFriendlyURL() + "/";
-        } else {
-            return "/";
-        }
-
-    }
-
     public PublikUserDisplayContext(RenderRequest request, RenderResponse response) throws PortalException {
 
         this._response = response;

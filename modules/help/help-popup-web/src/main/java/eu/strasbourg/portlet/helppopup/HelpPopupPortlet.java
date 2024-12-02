@@ -151,11 +151,7 @@ public class HelpPopupPortlet extends MVCPortlet {
 			request.setAttribute("isSignedIn", isSignedIn);
 
 			 // Retourne l'URL de la page d'accueil
-			String homeURL = "/";
-			String virtualHostName= PortalHelper.getVirtualHostname(themeDisplay.getScopeGroup(), themeDisplay.getLanguageId());
-			if (virtualHostName != null || themeDisplay.getScopeGroup().isStagingGroup()) {
-				homeURL =  "/web" + themeDisplay.getScopeGroup().getFriendlyURL() + "/";
-			}
+			String homeURL = PortalHelper.getHomeURL(themeDisplay) +"/";
 			request.setAttribute("homeURL", homeURL);
 
 

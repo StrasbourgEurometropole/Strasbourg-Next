@@ -172,6 +172,9 @@ public class DashboardPortlet extends MVCPortlet {
         String virtualHostName = PortalHelper.getVirtualHostname(group,themeDisplay.getLanguageId());
         request.setAttribute("virtualParticiperHostName",virtualHostName);
 
+        String homeUrl = PortalHelper.getHomeURL(themeDisplay) +"/";
+        request.setAttribute("homeURL", homeUrl);
+
         include("/" + template + ".jsp", request, response);
     }
 

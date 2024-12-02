@@ -379,13 +379,7 @@ public class MapSearchAssetWebPortlet extends MVCPortlet {
 	 */
 	private String getHomeURL(PortletRequest request) {
 		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-		String virtualHostname= PortalHelper.getVirtualHostname(themeDisplay.getScopeGroup(),themeDisplay.getLanguageId());
-		if (Validator.isNull(virtualHostname)
-				|| themeDisplay.getScopeGroup().isStagingGroup()) {
-			return "/web" + themeDisplay.getLayout().getGroup().getFriendlyURL() + "/";
-		} else {
-			return "/";
-		}
+		return PortalHelper.getHomeURL(themeDisplay) +"/";
 	}
 	
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());

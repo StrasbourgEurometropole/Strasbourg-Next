@@ -4,14 +4,6 @@
 <fmt:formatDate value="${jourChoisi}" type="date" var="jourChoisiFormat" dateStyle="FULL"/>
 <c:set var="isToday" value="${fullNow eq jourChoisiFormat}" />
 <fmt:setLocale value="${locale}" />
-<c:choose>
-    <c:when test="${empty themeDisplay.scopeGroup.publicLayoutSet.virtualHostnames or themeDisplay.scopeGroup.isStagingGroup()}">
-        <c:set var="homeURL" value="/web${layout.group.friendlyURL}/" />
-    </c:when>
-    <c:otherwise>
-        <c:set var="homeURL" value="/" />
-    </c:otherwise>
-</c:choose>
 
 <liferay-portlet:renderURL var="previousURL">
     <portlet:param name="categoryId" value="${category.categoryId}" />
