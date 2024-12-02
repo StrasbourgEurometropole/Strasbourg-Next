@@ -18,6 +18,7 @@
 
 <div class="container-fluid container-fluid-max-xl main-content-body">
 	<liferay-ui:error key="title-error" message="title-error" />
+	<liferay-ui:error key="provider-error" message="provider-error" />
 	<liferay-ui:error key="image-error" message="image-error" />
 	<liferay-ui:error key="copyright-error" message="copyright-error" />
 	<liferay-ui:error key="managers-error" message="managers-error" />
@@ -42,7 +43,10 @@
 								   errorMessage="this-field-is-required" />
 				</aui:input>
 
-				<aui:input name="provider" label="source-name"/>
+				<aui:input name="provider" label="source-name">
+					<aui:validator name="required"
+								   errorMessage="this-field-is-required" />
+				</aui:input>
 
 				<strasbourg-picker:image label="eu.default-image" name="defaultImageId"
 						required="true" value="${dc.campaign.defaultImageId}" global="true" />
