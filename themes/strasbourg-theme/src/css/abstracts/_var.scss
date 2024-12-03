@@ -46,14 +46,48 @@ $c_footerSubColor: var(--footerSecondaryColor, #B1B9C3);
 
 // Sizes
 // ==========================================================================
-$s_h1: 45px;
-$s_h2: var(--s-h2, 30px);
-$s_h3: var(--s-h3, 18px);
-$s_small_title: var(--s-small-title, 20px);
-$s_medium: var(--s-medium, 18px);
-$s_p: var(--s-p, 16px);
-$s_link: var(--s-link, 16px);
-$s_link_small: var(--s-link-small, 12px);
+$s_h1: var(--ds-h1, 45px);
+$s_h2: var(--ds-h2, 30px);
+$s_h3: var(--ds-h3, 18px);
+$s_p: var(--ds-p, 16px);
+$s_medium: var(--ds-medium, 18px);
+$s_small_title: var(--ds-small-title, 20px);
+$s_link: var(--ds-link, 16px);
+$s_link_small: var(--ds-link-small, 12px);
+
+
+
+$ds_h1: var(--ds-h1, 45px);
+$ds_h2: var(--ds-h2, 30px);
+$ds_h3: var(--ds-h3, 18px);
+/*$ds_h4: var(--ds-h4, );*/
+$ds_p: var(--ds-p, 16px);
+$ds_small: var(--ds-small, 12px);
+$ds_medium: var(--ds-medium, 14px);
+$ds_large: var(--ds-large, 18px);
+/*$ds_sup: var(--ds-sup, );*/
+$ds_small_title: var(--ds-small-title, 20px);
+
+$ts_h1: var(--ts-h1, 36px);
+$ts_h2: var(--ts-h2, 26px);
+$ts_h3: var(--ts-h3, 17px);
+/*$ts_h4: var(--ts-h4, );
+$ts_p: var(--ts-p, );*/
+$ts_small: var(--ts-small, 11px);
+/*$ts_medium: var(--ts-medium, );*/
+$ts_large: var(--ts-large, 16px);
+/*$ts_sup: var(--ts-sup, );*/
+
+$ms_h1: var(--ms-h1, 26px);
+$ms_h2: var(--ms-h2, 20px);
+$ms_h3: var(--ms-h3, 16px);
+/*$ms_h4: var(--ms-h4, );*/
+$ms_p: var(--ms-p, 14px);
+/*$ms_small: var(--ms-small, );
+$ms_medium: var(--ms-medium, 14px);
+$ms_large: var(--ms-large, );
+$ms_sup: var(--ms-sup, );*/
+$ms_small_title: var(--ms-small-title, 16px);
 
 // Gestion des valeurs des z-index
 // ==========================================================================

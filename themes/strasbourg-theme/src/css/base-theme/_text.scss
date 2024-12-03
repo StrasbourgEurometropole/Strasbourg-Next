@@ -6,40 +6,40 @@
 	h1,
 	.st-h1 {
 		display: block;
-		@include ft($f_hx, 45px, 600, $c_white, 1);
+		@include ft($f_hx, $ds_h1, 600, $c_white, 1);
 
 		@include tablet_portrait {
-			font-size: 36px;
+			font-size: $ts_h1;
 		}
 		@include mobile {
-			font-size: 26px;
+			font-size: $ms_h1;
 		}
 	}
 
 	h2,
 	.st-h2 {
 		display: block;
-		@include ft($f_hx, 30px, 600, $c_white, 1);
+		@include ft($f_hx, $ds_h2, 600, $c_white, 1);
 
 		@include tablet_portrait {
-			font-size: 26px;
+			font-size: $ts_h2;
 		}
 		@include mobile {
-			font-size: 20px;
+			font-size: $ms_h2;
 		}
 	}
 
 	h3,
 	.st-h3 {
 		display: block;
-		@include ft($f_hx, 18px, 700, $c_white, 1.33);
+		@include ft($f_hx, $ds_h3, 700, $c_white, 1.33);
 		@include letter-spacing(25);
 
 		@include tablet_portrait {
-			font-size: 17px;
+			font-size: $ts_h3;
 		}
 		@include mobile {
-			font-size: 16px;
+			font-size: $ms_h3;
 		}
 	}
 
@@ -48,27 +48,27 @@
 	// ==========================================================================
 	.st-surtitre {
 		display: block;
-		@include ft($f_txt, 18px, 700, $c_white, 1.33);
+		@include ft($f_txt, $ds_large, 700, $c_white, 1.33);
 		@include letter-spacing(25);
 
 		@include tablet-portrait {
-			font-size: 16px;
+			font-size: $ts_large;
 		}
 	}
 
 	.st-surtitre-cat {
 		display: block;
-		@include ft($f_txt, 12px, 400, $c_sub, 1.16);
+		@include ft($f_txt, $ds_small, 400, $c_sub, 1.16);
 		@include letter-spacing(25);
 		text-transform: uppercase;
 
 		@include tablet-portrait {
-			font-size: 11px;
+			font-size: $ts_small;
 		}
 	}
 
 	.st-location {
-		@include ft($f_txt, 12px, 300, $c_txt, 1.16);
+		@include ft($f_txt, $ds_small, 300, $c_txt, 1.16);
 		@include letter-spacing(25);
 		font-style: italic;
 		display: flex;
@@ -83,20 +83,20 @@
 	}
 
 	.st-text-small {
-		@include ft('', 12px, '', $c_txt, 1.16);
+		@include ft('', $ds_small, '', $c_txt, 1.16);
 		@include letter-spacing(25);
 	}
 
 	.st-title-medium {
-		@include ft('', 16px, 700, $c_white, 1);
+		@include ft('', $ds_p, 700, $c_white, 1);
 
 		@include mobile {
-			font-size: 14px;
+			font-size: $ms_p;
 		}
 	}
 
 	.st-text-bold-white {
-		@include ft('', 14px, 700, $c_white, 1.5);
+		@include ft('', $ds_medium, 700, $c_white, 1.5);
 	}
 }
 
@@ -107,13 +107,13 @@
 
 .st-text-styles, .component-paragraph, .component-html {
 
-	@include ft($f_txt, 16px, 300, $c_txt, 1.5);
+	@include ft($f_txt, $ds_p, 300, $c_txt, 1.5);
 	@include letter-spacing(25);
 	display: block;
 	margin-bottom: 15px;
 
 	@include mobile {
-		font-size: 14px;
+		font-size: $ms_p;
 		line-height: 1.43;
 	}
 
@@ -309,13 +309,13 @@
 .component-paragraph, .component-html {
 
 	p {
-		@include ft($f_txt, 16px, 300, $c_txt, 1.5);
+		@include ft($f_txt, $ds_p, 300, $c_txt, 1.5);
 		@include letter-spacing(25);
 		display: block;
 		margin-bottom: 15px;
 
 		@include mobile {
-			font-size: 14px;
+			font-size: $ms_p;
 			line-height: 1.43;
 		}
 
@@ -331,7 +331,7 @@
 
 	li {
 		position: relative;
-		@include ft($f_txt, $s_p, 300, $c_txt, 1.5);
+		@include ft($f_txt, $ds_p, 300, $c_txt, 1.5);
 
 		&[style*="text-align: center"] {
 			margin-left: auto;
@@ -431,7 +431,7 @@
 	}
 
 	blockquote {
-		@include ft($f_txt, $s_small_title, 300, $c_txt, 1.4);
+		@include ft($f_txt, $ds_small_title, 300, $c_txt, 1.4);
 		position: relative;
 		font-style: italic;
 		margin: 35px 0 35px 0;
@@ -439,7 +439,7 @@
 
 		@include mobile {
 			margin: 30px 0;
-			font-size: 16px;
+			font-size: $ms_small_title;
 			line-height: 1.37;
 		}
 
@@ -455,13 +455,13 @@
 		}
 
 		p {
-			@include ft($f_txt, 20px, 400, var(--color-text), 1.45);
+			@include ft($f_txt, $ds_small_title, 400, var(--color-text), 1.45);
 			position: relative;
 			font-style: italic;
 			padding: 0 12px 0 20px;
 
 			@include mobile {
-				font-size: 16px;
+				font-size: $ms_small_title;
 				line-height: 1.37;
 			}
 
@@ -475,13 +475,13 @@
 .st-text-styles {
 
 	p:not([class]) {
-		@include ft($f_txt, 16px, 300, $c_txt, 1.5);
+		@include ft($f_txt, $ds_p, 300, $c_txt, 1.5);
 		@include letter-spacing(25);
 		display: block;
 		margin-bottom: 15px;
 
 		@include mobile {
-			font-size: 14px;
+			font-size: $ms_p;
 			line-height: 1.43;
 		}
 
@@ -497,7 +497,7 @@
 
 	li:not([class]) {
 		position: relative;
-		@include ft($f_txt, $s_p, 300, $c_txt, 1.5);
+		@include ft($f_txt, $ds_p, 300, $c_txt, 1.5);
 
 		&[style*="text-align: center"] {
 			margin-left: auto;
@@ -597,7 +597,7 @@
 	}
 
 	blockquote:not([class]) {
-		@include ft($f_txt, $s_small_title, 300, $c_txt, 1.4);
+		@include ft($f_txt, $ds_small_title, 300, $c_txt, 1.4);
 		position: relative;
 		font-style: italic;
 		margin: 35px 0 35px 0;
@@ -605,7 +605,7 @@
 
 		@include mobile {
 			margin: 30px 0;
-			font-size: 16px;
+			font-size: $ms_small_title;
 			line-height: 1.37;
 		}
 
@@ -621,13 +621,13 @@
 		}
 
 		p {
-			@include ft($f_txt, 20px, 400, var(--color-text), 1.45);
+			@include ft($f_txt, $ds_small_title, 400, var(--color-text), 1.45);
 			position: relative;
 			font-style: italic;
 			padding: 0 12px 0 20px;
 
 			@include mobile {
-				font-size: 16px;
+				font-size: $ms_small_title;
 				line-height: 1.37;
 			}
 
@@ -639,7 +639,7 @@
 }
 
 .st-text-mentions {
-	@include ft('', 12px, '', $c_txt, 1.16);
+	@include ft('', 12px, '', $ds_small, 1.16);
 	@include letter-spacing(25);
 
 	.st-title-mentions {
