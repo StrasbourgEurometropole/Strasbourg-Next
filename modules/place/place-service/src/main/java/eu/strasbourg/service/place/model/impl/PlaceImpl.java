@@ -1167,14 +1167,14 @@ public class PlaceImpl extends PlaceBaseImpl {
             return listPlaceSchedules;
         }
 
-        // vérifie s'il y a des jours fériés
-        if (this.isSubjectToPublicHoliday()) {
-            for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
-                if (publicHoliday.getDate() != null) {
+        if (this.isSubjectToPublicHoliday()) { // Vérifie si l'objet est soumis à des jours fériés
+            for (PublicHoliday publicHoliday : this.getPublicHolidays()) { // Parcourt tous les jours fériés définis
+                if (publicHoliday.getDate() != null) { // Vérifie que la date du jour férié est définie
                     if (publicHoliday.isRecurrent()) {
+                        // Si le jour férié est récurrent, ajoute les occurrences dans la plage donnée, il sera ajouté à la liste listPlaceSchedules
                         addRecurrentHolidayInRange(publicHoliday, premierJour, dernierJour, listPlaceSchedules, locale);
-                    }
-                    else {
+                    } else {
+                        // Si le jour férié n'est pas récurrent, ajoute uniquement cette date, il sera ajouté à la liste listPlaceSchedules
                         addNonRecurrentHolidayInRange(publicHoliday, premierJour, dernierJour, listPlaceSchedules, locale);
                     }
                 }
@@ -1185,54 +1185,117 @@ public class PlaceImpl extends PlaceBaseImpl {
                 .sorted((s1, s2) -> s1.getStartDate().compareTo(s2.getStartDate())).collect(Collectors.toList());
         return listPlaceSchedules;
     }
-
+    /**
+     * Ajoute un jour férié non récurrent à la liste des jours fériés dans une plage donnée.
+     *
+     * @param holiday          Le jour férié à ajouter.
+     * @param startCal         La date de début de la plage.
+     * @param endCal           La date de fin de la plage.
+     * @param holidaysInRange  La liste des jours fériés dans la plage donnée.
+     * @param locale           La locale utilisée pour le jour férié.
+     */
     private static void addNonRecurrentHolidayInRange(PublicHoliday holiday, Calendar startCal, Calendar endCal, List<PlaceSchedule> holidaysInRange, Locale locale) {
+        // Crée une instance de calendrier pour la date du jour férié
         Calendar holidayCal = Calendar.getInstance();
         holidayCal.setTime(holiday.getDate());
 
+        // Vérifie si le jour férié se situe dans la plage de dates spécifiée
         if (isHolidayInRange(holidayCal, startCal, endCal)) {
-            PlaceSchedule schedule =  createScheduleFromHoliday(holiday.getPublicHolidayId(), holiday.getDate(), holiday.getName(),locale);
-            if (!holidaysInRange.stream()
-                    .anyMatch(s -> (s.getStartDate().compareTo(schedule.getStartDate()) <= 0 && s.getEndDate().compareTo(schedule.getEndDate()) >= 0))) {
+            // Crée un objet PlaceSchedule pour le jour férié
+            PlaceSchedule schedule = createScheduleFromHoliday(
+                    holiday.getPublicHolidayId(),
+                    holiday.getDate(),
+                    holiday.getName(),
+                    locale
+            );
+
+            // Ajoute le jour férié à la liste s'il n'y a pas de conflit avec un autre jour existant
+            if (!holidaysInRange.stream().anyMatch(s ->
+                    (s.getStartDate().compareTo(schedule.getStartDate()) <= 0 &&
+                            s.getEndDate().compareTo(schedule.getEndDate()) >= 0))) {
                 holidaysInRange.add(schedule);
             }
-
         }
     }
 
+    /**
+     * Ajoute un jour férié récurrent à la liste des jours fériés dans une plage donnée.
+     *
+     * @param holiday          Le jour férié à ajouter.
+     * @param startCal         La date de début de la plage.
+     * @param endCal           La date de fin de la plage.
+     * @param holidaysInRange  La liste des jours fériés dans la plage donnée.
+     * @param locale           La locale utilisée pour le jour férié.
+     */
     private static void addRecurrentHolidayInRange(PublicHoliday holiday, Calendar startCal, Calendar endCal, List<PlaceSchedule> holidaysInRange, Locale locale) {
+        // Crée une instance de calendrier pour la date du jour férié
         Calendar holidayCal = Calendar.getInstance();
         holidayCal.setTime(holiday.getDate());
 
+        // Détermine les années à parcourir dans la plage
         int startYear = startCal.get(Calendar.YEAR);
         int endYear = endCal.get(Calendar.YEAR);
 
+        // Parcourt chaque année dans la plage spécifiée
         for (int year = startYear; year <= endYear; year++) {
+            // Clone le calendrier du jour férié et met à jour l'année
             Calendar recurHolidayCal = (Calendar) holidayCal.clone();
             recurHolidayCal.set(Calendar.YEAR, year);
 
+            // Vérifie si le jour férié récurrent est dans la plage de dates
             if (isHolidayInRange(recurHolidayCal, startCal, endCal)) {
-                PlaceSchedule schedule =  createScheduleFromHoliday(holiday.getPublicHolidayId(), recurHolidayCal.getTime(), holiday.getName(),locale);
-                if (!holidaysInRange.stream()
-                        .anyMatch(s -> (s.getStartDate().compareTo(schedule.getStartDate()) <= 0 && s.getEndDate().compareTo(schedule.getEndDate()) >= 0))) {
+                // Crée un objet PlaceSchedule pour le jour férié récurrent
+                PlaceSchedule schedule = createScheduleFromHoliday(
+                        holiday.getPublicHolidayId(),
+                        recurHolidayCal.getTime(),
+                        holiday.getName(),
+                        locale
+                );
+
+                // Ajoute le jour férié à la liste s'il n'y a pas de conflit avec un autre jour existant
+                if (!holidaysInRange.stream().anyMatch(s ->
+                        (s.getStartDate().compareTo(schedule.getStartDate()) <= 0 &&
+                                s.getEndDate().compareTo(schedule.getEndDate()) >= 0))) {
                     holidaysInRange.add(schedule);
                 }
             }
         }
     }
 
-    private static PlaceSchedule createScheduleFromHoliday(long publicHolidayId, Date holidayDate, String holidayName,Locale locale) {
-        PlaceSchedule placeSchedule = new PlaceSchedule(publicHolidayId,
-                holidayDate, holidayDate, holidayName,
-                locale);
+    /**
+     * Crée un objet PlaceSchedule à partir des détails d'un jour férié.
+     *
+     * @param publicHolidayId  L'ID du jour férié.
+     * @param holidayDate      La date du jour férié.
+     * @param holidayName      Le nom du jour férié.
+     * @param locale           La locale utilisée pour le jour férié.
+     * @return Un objet PlaceSchedule représentant le jour férié.
+     */
+    private static PlaceSchedule createScheduleFromHoliday(long publicHolidayId, Date holidayDate, String holidayName, Locale locale) {
+        // Crée un nouvel objet PlaceSchedule et le marque comme un jour férié fermé
+        PlaceSchedule placeSchedule = new PlaceSchedule(
+                publicHolidayId,
+                holidayDate,
+                holidayDate,
+                holidayName,
+                locale
+        );
         placeSchedule.setPublicHoliday(true);
         placeSchedule.setClosed(true);
         return placeSchedule;
     }
 
+    /**
+     * Vérifie si un jour férié se situe dans une plage de dates donnée.
+     *
+     * @param holidayCal  Le calendrier représentant la date du jour férié.
+     * @param startCal    La date de début de la plage.
+     * @param endCal      La date de fin de la plage.
+     * @return {@code true} si le jour férié est dans la plage, sinon {@code false}.
+     */
     private static boolean isHolidayInRange(Calendar holidayCal, Calendar startCal, Calendar endCal) {
-        return (holidayCal.after(startCal) || holidayCal.equals(startCal)) &&
-                (holidayCal.before(endCal) || holidayCal.equals(endCal));
+        return (holidayCal.after(startCal) || holidayCal.equals(startCal)) && // Le jour férié est après ou égal à la date de début
+                (holidayCal.before(endCal) || holidayCal.equals(endCal));     // Le jour férié est avant ou égal à la date de fin
     }
 
     /**
