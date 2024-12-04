@@ -1171,26 +1171,11 @@ public class PlaceImpl extends PlaceBaseImpl {
         if (this.isSubjectToPublicHoliday()) {
             for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
                 if (publicHoliday.getDate() != null) {
-                    GregorianCalendar publicHolidayYear = new GregorianCalendar();
-                    publicHolidayYear.setTime(publicHoliday.getDate());
                     if (publicHoliday.isRecurrent()) {
-                        publicHolidayYear.set(Calendar.YEAR, premierJour.get(Calendar.YEAR));
+                        addRecurrentHolidayInRange(publicHoliday, premierJour, dernierJour, listPlaceSchedules, locale);
                     }
-                    if (publicHolidayYear.compareTo(premierJour) >= 0 && publicHolidayYear.compareTo(dernierJour) <= 0) {
-                        PlaceSchedule placeSchedule = new PlaceSchedule(publicHoliday.getPublicHolidayId(),
-                                publicHolidayYear.getTime(), publicHolidayYear.getTime(), publicHoliday.getName(locale),
-                                locale);
-                        placeSchedule.setPublicHoliday(true);
-                        placeSchedule.setClosed(true);
-                        // commenté car il supprimait tous les horaires
-                        // exceptionnels et n'enregistrait qu'un jour férié
-                        // listPlaceSchedules.clear();
-                        //On vérifie que le jour férié n'est pas déjà dans les schedules exception
-                        if (!listPlaceSchedules.stream()
-                                .anyMatch(s -> (s.getStartDate().compareTo(placeSchedule.getStartDate()) <= 0 && s.getEndDate().compareTo(placeSchedule.getEndDate()) >= 0))) {
-                            listPlaceSchedules.add(placeSchedule);
-                        }
-                        // break;
+                    else {
+                        addNonRecurrentHolidayInRange(publicHoliday, premierJour, dernierJour, listPlaceSchedules, locale);
                     }
                 }
             }
@@ -1199,6 +1184,55 @@ public class PlaceImpl extends PlaceBaseImpl {
         listPlaceSchedules = listPlaceSchedules.stream()
                 .sorted((s1, s2) -> s1.getStartDate().compareTo(s2.getStartDate())).collect(Collectors.toList());
         return listPlaceSchedules;
+    }
+
+    private static void addNonRecurrentHolidayInRange(PublicHoliday holiday, Calendar startCal, Calendar endCal, List<PlaceSchedule> holidaysInRange, Locale locale) {
+        Calendar holidayCal = Calendar.getInstance();
+        holidayCal.setTime(holiday.getDate());
+
+        if (isHolidayInRange(holidayCal, startCal, endCal)) {
+            PlaceSchedule schedule =  createScheduleFromHoliday(holiday.getPublicHolidayId(), holiday.getDate(), holiday.getName(),locale);
+            if (!holidaysInRange.stream()
+                    .anyMatch(s -> (s.getStartDate().compareTo(schedule.getStartDate()) <= 0 && s.getEndDate().compareTo(schedule.getEndDate()) >= 0))) {
+                holidaysInRange.add(schedule);
+            }
+
+        }
+    }
+
+    private static void addRecurrentHolidayInRange(PublicHoliday holiday, Calendar startCal, Calendar endCal, List<PlaceSchedule> holidaysInRange, Locale locale) {
+        Calendar holidayCal = Calendar.getInstance();
+        holidayCal.setTime(holiday.getDate());
+
+        int startYear = startCal.get(Calendar.YEAR);
+        int endYear = endCal.get(Calendar.YEAR);
+
+        for (int year = startYear; year <= endYear; year++) {
+            Calendar recurHolidayCal = (Calendar) holidayCal.clone();
+            recurHolidayCal.set(Calendar.YEAR, year);
+
+            if (isHolidayInRange(recurHolidayCal, startCal, endCal)) {
+                PlaceSchedule schedule =  createScheduleFromHoliday(holiday.getPublicHolidayId(), recurHolidayCal.getTime(), holiday.getName(),locale);
+                if (!holidaysInRange.stream()
+                        .anyMatch(s -> (s.getStartDate().compareTo(schedule.getStartDate()) <= 0 && s.getEndDate().compareTo(schedule.getEndDate()) >= 0))) {
+                    holidaysInRange.add(schedule);
+                }
+            }
+        }
+    }
+
+    private static PlaceSchedule createScheduleFromHoliday(long publicHolidayId, Date holidayDate, String holidayName,Locale locale) {
+        PlaceSchedule placeSchedule = new PlaceSchedule(publicHolidayId,
+                holidayDate, holidayDate, holidayName,
+                locale);
+        placeSchedule.setPublicHoliday(true);
+        placeSchedule.setClosed(true);
+        return placeSchedule;
+    }
+
+    private static boolean isHolidayInRange(Calendar holidayCal, Calendar startCal, Calendar endCal) {
+        return (holidayCal.after(startCal) || holidayCal.equals(startCal)) &&
+                (holidayCal.before(endCal) || holidayCal.equals(endCal));
     }
 
     /**
