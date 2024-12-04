@@ -67,13 +67,13 @@ public class ViewSignalementDisplayContext extends ViewBaseDisplayContext<Signal
         switch (getOrderByCol()) {
             case "userName":
                 return "userName_String_sortable";
-            case "reporting-date":
-                return "modified_sortable";
             case "reportType":
-                return "status_sortable";
-            case "reportType_String_sortable":
-            default:
+                return "reportType_String_sortable";
+            case "modified-date":
                 return "modified_sortable";
+            case "reporting-date":
+            default:
+                return "createDate_sortable";
         }
     }
 

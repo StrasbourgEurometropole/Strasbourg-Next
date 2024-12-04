@@ -98,8 +98,6 @@ public class ViewFormDisplayContext extends ViewBaseDisplayContext<DDMFormInstan
     @Override
     public String getOrderByColSearchField() {
         switch (getOrderByCol()) {
-            case "title":
-                return "localized_title_fr_FR_sortable";
             case "modified-date":
             default:
                 return "modified_sortable";
