@@ -1383,32 +1383,49 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("idSurfs", this.getPlaceSIGId());
 			Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
 			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
-			JSONObject placeName = JSONFactoryUtil.createJSONObject();
-			placeName.put("fr_FR", place.getAlias(Locale.FRANCE));
-			jsonPlace.put("name", placeName);
-			String street = place.getAddressStreet();
-			if(!street.isEmpty() || Validator.isNotNull(street)){
-				jsonPlace.put("street", street);
+			if(Validator.isNotNull(place) && place.isApproved()) {
+				JSONObject placeName = JSONFactoryUtil.createJSONObject();
+				placeName.put("fr_FR", place.getAlias(Locale.FRANCE));
+				jsonPlace.put("name", placeName);
+				String street = place.getAddressStreet();
+				if (!street.isEmpty() || Validator.isNotNull(street)) {
+					jsonPlace.put("street", street);
+				}
+				String zipCode = place.getAddressZipCode();
+				if (!zipCode.isEmpty() || Validator.isNotNull(zipCode)) {
+					jsonPlace.put("zipCode", zipCode);
+				}
+				String city = place.getCity(Locale.FRANCE);
+				if (!city.isEmpty() || Validator.isNotNull(city)) {
+					jsonPlace.put("city", city);
+				}
+				jsonPlace.put("accessForBlind", place.getAccessForBlind());
+				jsonPlace.put("accessForDeaf", place.getAccessForDeaf());
+				jsonPlace.put("accessForWheelchair", place.getAccessForWheelchair());
+				jsonPlace.put("accessForDeficient", place.getAccessForDeficient());
+				jsonPlace.put("accessForElder", place.getAccessForElder());
+			}else{
+				JSONObject placeName = JSONFactoryUtil.createJSONObject();
+				placeName.put("fr_FR", "");
+				jsonPlace.put("name", placeName);
+				jsonPlace.put("accessForBlind", super.getAccessForBlind());
+				jsonPlace.put("accessForDeaf", super.getAccessForDeaf());
+				jsonPlace.put("accessForWheelchair", super.getAccessForWheelchair());
+				jsonPlace.put("accessForDeficient", super.getAccessForDeficient());
+				jsonPlace.put("accessForElder", super.getAccessForElder());
 			}
-			String zipCode = place.getAddressZipCode();
-			if(!zipCode.isEmpty() || Validator.isNotNull(zipCode)){
-				jsonPlace.put("zipCode", zipCode);
-			}
-			String city = place.getCity(Locale.FRANCE);
-			if(!city.isEmpty() || Validator.isNotNull(city)){
-				jsonPlace.put("city", city);
-			}
-			jsonPlace.put("accessForBlind", place.getAccessForBlind());
-			jsonPlace.put("accessForDeaf", place.getAccessForDeaf());
-			jsonPlace.put("accessForWheelchair", place.getAccessForWheelchair());
-			jsonPlace.put("accessForDeficient", place.getAccessForDeficient());
-			jsonPlace.put("accessForElder", place.getAccessForElder());
 			jsonEvent.put("place", jsonPlace);
 		} else {
 			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
-			jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap()));
+			if(Validator.isNotNull(this.getPlaceName(Locale.FRANCE)))
+				jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap()));
+			else {
+				JSONObject placeName = JSONFactoryUtil.createJSONObject();
+				placeName.put("fr_FR", "");
+				jsonPlace.put("name", placeName);
+			}
 			String street = this.getPlaceStreetNumber() + " " + this.getPlaceStreetName();
-			if(!street.isEmpty() || Validator.isNotNull(street) || street!=" "){
+			if(Validator.isNotNull(street) && street!=" "){
 				jsonPlace.put("street", street);
 			}
 			String zipCode = this.getPlaceZipCode();
