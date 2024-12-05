@@ -15,6 +15,7 @@
                     </#if>
                     <#assign text = docXml.valueOf("//dynamic-element[@name='text']/dynamic-content/text()") />
                     <#assign publishDate = curEntry.getPublishDate() />
+                    <#assign modifiedDate = curEntry.getModifiedDate() />
                     <#assign currentURL = assetPublisherHelper.getAssetViewURL(renderRequest, renderResponse, curEntry) />
                     <#assign viewURL = curEntry.getAssetRenderer().getURLViewInContext(renderRequest, renderResponse, currentURL) />
                     <div class="col-sm-6 col-xs-12">
@@ -24,7 +25,13 @@
                                     <img src="${imageURL}" alt="" width="450" height="300" />
                                 </figure>
                                 <div class="mns-bloc-content-actu">
-                                    <span class="publication"><@liferay_ui.message key="eu.published-on" /> ${publishDate?date}</span>
+                                    <span class="publication">
+                                        <#if (publishDate?long / 86400000)?round gte (modifiedDate?long / 86400000)?round>
+                                            <@liferay_ui.message key="eu.published-on" /> ${publishDate?date}
+                                        <#else>
+                                            <@liferay_ui.message key="eu.modified-on" /> ${modifiedDate?date}
+                                        </#if>
+                                    </span>
                                     <h2>${title}</h2>
                                     <p>${text?replace("<[^>]*>", "", "r")[0..*100]}...</p>
                                     <span class="basic-link"><@liferay_ui.message key="eu.read-next" /></span>
