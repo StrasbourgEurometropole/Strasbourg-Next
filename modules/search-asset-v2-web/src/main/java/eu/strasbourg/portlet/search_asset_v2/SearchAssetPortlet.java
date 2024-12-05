@@ -208,6 +208,17 @@ public class SearchAssetPortlet extends MVCPortlet {
 					renderRequest.setAttribute("initiativesMostCommented", initiativesMostCommented);
 					renderRequest.setAttribute("initiativesMostHelped", initiativesMostHelped);
 				}
+
+				if(isStrasbourgEu(renderRequest)) {
+					// Ajouter la page courant and le nombre de filtre applique dans le titre de la page
+					String pageTitle = themeDisplay.getLayout().getTitle(themeDisplay.getLocale());
+					if(!pageTitle.isEmpty()) {
+						pageTitle = getPageTitle(pageTitle, dc);
+
+						themeDisplay.getLayout().setTitle(pageTitle);
+					}
+				}
+
 			}
 
 			renderRequest.setAttribute("isUserloggedIn", false);
@@ -234,12 +245,6 @@ public class SearchAssetPortlet extends MVCPortlet {
 				attributes.remove(td.getPpid());
 			});
 
-			// Ajouter la page courant and le nombre de filtre applique dans le titre de la page
-			String pageTitle = themeDisplay.getLayout().getTitle(themeDisplay.getLocale());
-
-			pageTitle = getPageTitle(pageTitle, dc);
-
-			themeDisplay.getLayout().setTitle(pageTitle);
 
 
 			boolean isDueEntity = false;
@@ -250,6 +255,15 @@ public class SearchAssetPortlet extends MVCPortlet {
 		} catch (Exception e) {
 			_log.error(e);
 		}
+	}
+
+
+	public boolean isStrasbourgEu(RenderRequest request) {
+		ThemeDisplay themeDisplay = ((ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY));
+		if(themeDisplay.getScopeGroup().getGroupKey().equals("Strasbourg.eu")) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -344,8 +358,6 @@ public class SearchAssetPortlet extends MVCPortlet {
 			// et réaction au type de la demande
 			if (resourceID != null) {
 				if (resourceID.startsWith("entrySelection")) {
-					// Nouvelle sélection de videos
-
 					// Recherche
 					SearchHits searchHits = searchEntries(resourceRequest, themeDisplay, configurationData);
 
@@ -602,192 +614,23 @@ public class SearchAssetPortlet extends MVCPortlet {
 	private SearchHits searchEntries(ResourceRequest request, ThemeDisplay themeDisplay,
 										   ConfigurationData configurationData) throws ConfigurationException {
 		HttpServletRequest servletRequest = PortalUtil.getHttpServletRequest(request);
-
 		SearchContext searchContext = SearchContextFactory.getInstance(servletRequest);
 
-		// Initialisation des paramètre de requête
-		String keywords = null;
-		int startDay = -1;
-		String startMonth = null;
-		int startYear = -1;
-		int endDay = -1;
-		String endMonth = null;
-		int endYear = -1;
-		long[] states = new long[]{};
-		long[] statuts = new long[]{};
-		long[] bpStatus  = new long[]{};
-		long[] initiativeStatus = new long[]{};
-		long[] helpProposalActivityStatus = new long[]{};
-		long[] helpProposalTypes = new long[]{};
-		long[] localisations = new long[]{};
-		long[] projects = new long[]{};
-		long[] districts = new long[]{};
-		long[] thematics = new long[]{};
-		long[] types = new long[]{};
-		String selectedAllCategories = null;
-		String sortFieldAndType = null;
-		int start= -1;
-		int end = -1;
-
-		String resourceID = request.getResourceID();
-		if (resourceID.equals("entrySelectionVideo")) {
-			keywords = ParamUtil.getString(request, "selectedKeyWords");
-			startDay = ParamUtil.getInteger(request, "selectedStartDay");
-			startMonth = ParamUtil.getString(request, "selectedStartMonth");
-			startYear = ParamUtil.getInteger(request, "selectedStartYear");
-			endDay = ParamUtil.getInteger(request, "selectedEndDay");
-			endMonth = ParamUtil.getString(request, "selectedEndMonth");
-			endYear = ParamUtil.getInteger(request, "selectedEndYear");
-			projects = ParamUtil.getLongValues(request, "selectedProject");
-			districts = ParamUtil.getLongValues(request, "selectedDistricts");
-			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-		}
-		if (resourceID.equals("entrySelectionProject")) {
-			keywords = ParamUtil.getString(request, "selectedKeyWords");
-			startDay = -1;
-			startMonth = null;
-			startYear = -1;
-			endDay = -1;
-			endMonth = null;
-			endYear = -1;
-			statuts = ParamUtil.getLongValues(request, "selectedStatut");
-			districts = ParamUtil.getLongValues(request, "selectedDistricts");
-			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-		}
-		if (resourceID.equals("entrySelectionParticipation")) {
-			keywords = ParamUtil.getString(request, "selectedKeyWords");
-			startDay = ParamUtil.getInteger(request, "selectedStartDay");
-			startMonth = ParamUtil.getString(request, "selectedStartMonth");
-			startYear = ParamUtil.getInteger(request, "selectedStartYear");
-			endDay = ParamUtil.getInteger(request, "selectedEndDay");
-			endMonth = ParamUtil.getString(request, "selectedEndMonth");
-			endYear = ParamUtil.getInteger(request, "selectedEndYear");
-			states = ParamUtil.getLongValues(request, "selectedStates");
-			districts = ParamUtil.getLongValues(request, "selectedDistricts");
-			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-			types = ParamUtil.getLongValues(request, "selectedTypes");
-		}
-		if (resourceID.equals("entrySelectionAgenda")) {
-			keywords = ParamUtil.getString(request, "selectedKeyWords");
-			startDay = ParamUtil.getInteger(request, "selectedStartDay");
-			startMonth = ParamUtil.getString(request, "selectedStartMonth");
-			startYear = ParamUtil.getInteger(request, "selectedStartYear");
-			endDay = ParamUtil.getInteger(request, "selectedEndDay");
-			endMonth = ParamUtil.getString(request, "selectedEndMonth");
-			endYear = ParamUtil.getInteger(request, "selectedEndYear");
-			projects = ParamUtil.getLongValues(request, "selectedProject");
-			districts = ParamUtil.getLongValues(request, "selectedDistricts");
-			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-		}
-		if (resourceID.equals("entrySelectionPetition")) {
-			keywords = ParamUtil.getString(request, "selectedKeyWords");
-			startDay = ParamUtil.getInteger(request, "selectedStartDay");
-			startMonth = ParamUtil.getString(request, "selectedStartMonth");
-			startYear = ParamUtil.getInteger(request, "selectedStartYear");
-			endDay = ParamUtil.getInteger(request, "selectedEndDay");
-			endMonth = ParamUtil.getString(request, "selectedEndMonth");
-			endYear = ParamUtil.getInteger(request, "selectedEndYear");
-			states = ParamUtil.getLongValues(request, "selectedStates");
-			districts = ParamUtil.getLongValues(request, "selectedDistricts");
-			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-		}
-		if (resourceID.equals("entrySelectionSaisineObservatoire")) {
-			keywords = ParamUtil.getString(request, "selectedKeyWords");
-			startDay = ParamUtil.getInteger(request, "selectedStartDay");
-			startMonth = ParamUtil.getString(request, "selectedStartMonth");
-			startYear = ParamUtil.getInteger(request, "selectedStartYear");
-			endDay = ParamUtil.getInteger(request, "selectedEndDay");
-			endMonth = ParamUtil.getString(request, "selectedEndMonth");
-			endYear = ParamUtil.getInteger(request, "selectedEndYear");
-			states = ParamUtil.getLongValues(request, "selectedStates");
-			projects = ParamUtil.getLongValues(request, "selectedProject");
-			districts = ParamUtil.getLongValues(request, "selectedDistricts");
-			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-		}
-		if (resourceID.equals("entrySelectionBudgetParticipatif")) {
-			keywords = ParamUtil.getString(request, "selectedKeyWords");
-			startDay = ParamUtil.getInteger(request, "selectedStartDay");
-			startMonth = ParamUtil.getString(request, "selectedStartMonth");
-			startYear = ParamUtil.getInteger(request, "selectedStartYear");
-			endDay = ParamUtil.getInteger(request, "selectedEndDay");
-			endMonth = ParamUtil.getString(request, "selectedEndMonth");
-			endYear = ParamUtil.getInteger(request, "selectedEndYear");
-			bpStatus = ParamUtil.getLongValues(request, "selectedBPStatus");
-			districts = ParamUtil.getLongValues(request, "selectedDistricts");
-			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-		}
-		if (resourceID.equals("entrySelectionInitiative")) {
-			keywords = ParamUtil.getString(request, "selectedKeyWords");
-			startDay = ParamUtil.getInteger(request, "selectedStartDay");
-			startMonth = ParamUtil.getString(request, "selectedStartMonth");
-			startYear = ParamUtil.getInteger(request, "selectedStartYear");
-			endDay = ParamUtil.getInteger(request, "selectedEndDay");
-			endMonth = ParamUtil.getString(request, "selectedEndMonth");
-			endYear = ParamUtil.getInteger(request, "selectedEndYear");
-			initiativeStatus = ParamUtil.getLongValues(request, "selectedInitiativeStatus");
-			districts = ParamUtil.getLongValues(request, "selectedDistricts");
-			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-		}
-		if (resourceID.equals("entrySelectionHelpProposal")) {
-			keywords = ParamUtil.getString(request, "selectedKeyWords");
-			startDay = ParamUtil.getInteger(request, "selectedStartDay");
-			startMonth = ParamUtil.getString(request, "selectedStartMonth");
-			startYear = ParamUtil.getInteger(request, "selectedStartYear");
-			endDay = ParamUtil.getInteger(request, "selectedEndDay");
-			endMonth = ParamUtil.getString(request, "selectedEndMonth");
-			endYear = ParamUtil.getInteger(request, "selectedEndYear");
-			helpProposalTypes = ParamUtil.getLongValues(request, "selectedHelpProposalTypes");
-			helpProposalActivityStatus = ParamUtil.getLongValues(request, "selectedHelpProposalActivityStatus");
-			localisations = ParamUtil.getLongValues(request, "selectedLocalisations");
-		}
-		if (resourceID.equals("entrySelectionNews")) {
-			startDay = ParamUtil.getInteger(request, "selectedStartDay");
-			startMonth = ParamUtil.getString(request, "selectedStartMonth");
-			startYear = ParamUtil.getInteger(request, "selectedStartYear");
-			endDay = ParamUtil.getInteger(request, "selectedEndDay");
-			endMonth = ParamUtil.getString(request, "selectedEndMonth");
-			endYear = ParamUtil.getInteger(request, "selectedEndYear");
-			states = ParamUtil.getLongValues(request, "selectedStates");
-			districts = ParamUtil.getLongValues(request, "selectedDistricts");
-			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-		}
-		if (resourceID.equals("entrySelectionProjectWorkshop")) {
-			keywords = null;
-			startDay = ParamUtil.getInteger(request, "selectedStartDay");
-			startMonth = ParamUtil.getString(request, "selectedStartMonth");
-			startYear = ParamUtil.getInteger(request, "selectedStartYear");
-			endDay = ParamUtil.getInteger(request, "selectedEndDay");
-			endMonth = ParamUtil.getString(request, "selectedEndMonth");
-			endYear = ParamUtil.getInteger(request, "selectedEndYear");
-			states = ParamUtil.getLongValues(request, "selectedStates");
-			districts = ParamUtil.getLongValues(request, "selectedDistricts");
-			thematics = ParamUtil.getLongValues(request, "selectedThematics");
-		}
-		if (resourceID.equals("entrySelectionMuseum")) {
-			startDay = ParamUtil.getInteger(request, "selectedStartDay");
-			startMonth = ParamUtil.getString(request, "selectedStartMonth");
-			startYear = ParamUtil.getInteger(request, "selectedStartYear");
-			endDay = ParamUtil.getInteger(request, "selectedEndDay");
-			endMonth = ParamUtil.getString(request, "selectedEndMonth");
-			endYear = ParamUtil.getInteger(request, "selectedEndYear");
-			selectedAllCategories = ParamUtil.getString(request, "selectedAllCategories");
-			start = ParamUtil.getInteger(request, "start");
-			end = ParamUtil.getInteger(request, "end");
-		}
+		SearchParameters param = new SearchParameters(request);
 
 		// Filtre sur les dates
-		LocalDate fromDate = LocalDate.of(getFromYear(configurationData, startYear), getFromMonthValue(configurationData, startMonth),
-				getFromDay(configurationData, startDay));
-		LocalDate toDate = LocalDate.of(getToYear(configurationData, endYear), getToMonthValue(configurationData, endMonth),
-				getToDay(configurationData, endDay));
+		LocalDate fromDate = LocalDate.of(getFromYear(configurationData, param.getStartYear()), getFromMonthValue(configurationData, param.getStartMonth()),
+				getFromDay(configurationData, param.getStartDay()));
+		LocalDate toDate = LocalDate.of(getToYear(configurationData, param.getEndYear()), getToMonthValue(configurationData,  param.getEndMonth()),
+				getToDay(configurationData,  param.getEndDay()));
 
 		// Catégories sélectionnées par l'utilisateur
 		List<Long[]> categoriesIds = new ArrayList<>();
-		if(Validator.isNull(selectedAllCategories)) {
-			categoriesIds = this.getFilterCategoriesIds(states, statuts, bpStatus, initiativeStatus, projects,
-					districts, thematics, types, helpProposalTypes, helpProposalActivityStatus, localisations);
+		if(Validator.isNull(param.getSelectedAllCategories())) {
+			categoriesIds = this.getFilterCategoriesIds(param.getStates(), param.getStatuts(), param.getBpStatus(), param.getInitiativeStatus(), param.getProjects(),
+					param.getDistricts(), param.getThematics(), param.getTypes(), param.getHelpProposalTypes(), param.getHelpProposalActivityStatus(), param.getLocalisations());
 		}else {
-			for (String selectedCategoriesByVocabulary : selectedAllCategories.split("--")) {
+			for (String selectedCategoriesByVocabulary : param.getSelectedAllCategories().split("--")) {
 				String[] categoryIdsString = selectedCategoriesByVocabulary.split(",");
 				Long[] categoryIds = new Long[categoryIdsString.length];
 				for (int i = 0; i < categoryIdsString.length; i++) {
@@ -819,10 +662,10 @@ public class SearchAssetPortlet extends MVCPortlet {
 		SearchHits searchHits = _searchHelperV2.getGlobalSearchHitsV2(searchContext,
 				configurationData.getUtilsAssetTypeList(),
 				configurationData.isDisplayDateField(), configurationData.getFilterField(),
-				getSeed(configurationData, sortFieldAndType, keywords, seed),
-				getSortFieldsAndTypes(configurationData, sortFieldAndType, keywords), /*getCategoriesIdsForGroupBy(configurationData),*/ keywords, fromDate,
+				getSeed(configurationData, param.getSortFieldAndType(), param.getKeywords(), seed),
+				getSortFieldsAndTypes(configurationData, param.getSortFieldAndType(), param.getKeywords()), /*getCategoriesIdsForGroupBy(configurationData),*/ param.getKeywords(), fromDate,
 				toDate, categoriesIds, idSIGPlace, getClassNames(configurationData), themeDisplay.getLocale(),
-				start, end);
+				param.getStart(), param.getEnd());
 
 		return searchHits;
 	}

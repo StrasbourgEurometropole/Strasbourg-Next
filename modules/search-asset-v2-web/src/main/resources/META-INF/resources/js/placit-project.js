@@ -30,36 +30,28 @@ function getSelectedMarkerElements(entityName) {
  * Renvoi la liste des vidéos demandées
  * @return
  */
-function getSelectedEntries() {
+function getSelectedEntries(start = 0, delta = 20) {
 	var selectedKeyWords = $('#name')[0].value;
 	var selectedStatut = $('#statut-projet')[0].value;
 	var selectedDistricts = getSelectedMarkerElements(entityType.DISTRICT);
 	var selectedThematics = getSelectedMarkerElements(entityType.THEMATIC);
 
-	AUI().use('aui-io-request', function(A) {
-		A.io.request(projectsSelectionURL, {
-			method : 'post',
-			dataType: 'json',
-			data : {
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedKeyWords : selectedKeyWords,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedStatut : selectedStatut,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedDistricts : selectedDistricts,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedThematics : selectedThematics,
-			},
-			on: {
-                success: function(e) {
-                	var data = this.get('responseData');
-                	getResult('project', data);
-			 	}
-			}
-		});
-	});
+
+	fetchData('project', projectsSelectionURL,  {
+		_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedKeyWords : selectedKeyWords,
+		_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedStatut : selectedStatut,
+		_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedDistricts : selectedDistricts,
+		_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedThematics : selectedThematics,
+	}, start, delta);
 }
 
-// Lors d'une recherche par mots clés
-$('#name').on('input',function() {
-	getSelectedEntries();
-});
+// Attach event listener with debounce and minimum character check
+$('#name').on('input', debounce(function () {
+	const inputValue = $(this).val().trim();
+	if (inputValue.length >= 3) {
+		getSelectedEntries();
+	}
+}, 750));
 
 // Lors d'une selection de statut
 $('#statut-projet').change(function() {

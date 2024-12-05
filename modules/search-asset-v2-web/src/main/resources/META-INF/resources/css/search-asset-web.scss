@@ -16,3 +16,55 @@
     border-style: none;
   }
 }
+
+.loader-container {
+  margin-top:20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.spinner {
+  width: 72px;
+  height: 72px;
+  display: grid;
+  border: 5.8px solid #0000;
+  border-radius: 50%;
+  border-color: #8DC63F #0000;
+  animation: spinner-e04l1k 1s infinite linear;
+}
+
+.spinner::before,
+.spinner::after {
+  content: "";
+  grid-area: 1/1;
+  margin: 2.9px;
+  border: inherit;
+  border-radius: 50%;
+}
+
+.spinner::before {
+  border-color: #00aeef #0000;
+  animation: inherit;
+  animation-duration: 0.5s;
+  animation-direction: reverse;
+}
+
+.couleur-ville .spinner::before {
+  border-color: #f37021 #0000;
+}
+
+.couleur-eurometropole .spinner::before {
+  border-color: #00aeef #0000;
+}
+
+.spinner::after {
+  margin: 11.6px;
+}
+
+@keyframes spinner-e04l1k {
+  100% {
+    transform: rotate(1turn);
+  }
+}
