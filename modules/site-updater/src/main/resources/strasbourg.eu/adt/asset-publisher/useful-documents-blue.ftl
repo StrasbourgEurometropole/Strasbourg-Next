@@ -29,7 +29,7 @@
                 </#if>
                 <li class="st-lien-container">
                     <a href="${fileInfos[1]}" class="st-lien" target="_blank" aria-labelledby="fileTitle-${fileInfos?index}">
-                        <p class="st-title-lien" id="fileTitle-${fileInfos?index}"> ${fileTitle}</p>
+                        <p class="st-title-lien" id="fileTitle-${fileInfos?index}"> ${fileTitle?replace("_","_<wbr/>")}</p>
                         <div class="st-lien-content">
                             <p class="st-type">(${fileInfos[2]?upper_case} - ${fileInfos[3]})</p>
                             <p class="st-text"><@liferay_ui.message key="eu.download" /></p>

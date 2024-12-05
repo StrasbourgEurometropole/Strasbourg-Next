@@ -28,7 +28,7 @@
                 <li class="st-lien-container">
                     <a href="${fileEntryHelper.getFileEntryURL(file.getFileEntryId())}" class="st-lien" target="_blank">
                         <p class="st-title-lien">
-                            ${description}
+                            ${description?replace("_","_<wbr/>")}
                         </p>
                         <div class="st-lien-content">
                             <p class="st-type">
