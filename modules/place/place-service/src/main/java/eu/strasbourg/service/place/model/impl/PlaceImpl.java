@@ -2,6 +2,7 @@
 package eu.strasbourg.service.place.model.impl;
 
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
+import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.utils.PortalHelper;
 import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
@@ -19,11 +20,6 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.place.model.Period;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.model.PlaceSchedule;
@@ -50,6 +46,7 @@ import eu.strasbourg.utils.models.Pair;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -243,7 +240,7 @@ public class PlaceImpl extends PlaceBaseImpl {
      */
 
     @Override
-    public List <AssetCategory>getTerritories() {
+    public List <AssetCategory> getTerritories() {
         AssetVocabulary assetVocabulary=AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(this.getGroupId(), VocabularyNames.TERRITORY);
         List<AssetCategory> assetCategories = AssetCategoryLocalServiceUtil.getCategories(Place.class.getName(), this.getPlaceId());
 
@@ -258,7 +255,7 @@ public class PlaceImpl extends PlaceBaseImpl {
      * Retourne les types du lieu
      */
     @Override
-    public List <AssetCategory>getTypes() {
+    public List <AssetCategory> getTypes() {
         AssetVocabulary assetVocabulary=AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(this.getGroupId(), VocabularyNames.PLACE_TYPE);
         List<AssetCategory> assetCategories = AssetCategoryLocalServiceUtil.getCategories(Place.class.getName(), this.getPlaceId());
 
@@ -1111,16 +1108,20 @@ public class PlaceImpl extends PlaceBaseImpl {
 
         return null;
     }
-
+    @Override
+    public List<PlaceSchedule> getPlaceScheduleException(GregorianCalendar dateChoisie, Boolean surPeriode, Locale locale) {
+        return getPlaceScheduleException(dateChoisie, surPeriode, surPeriode, locale);
+    }
     /**
      * Retourne les horaires des exceptions d'ouverture à partir du lundi de la
      * semaine en cours
      *
      * @param surPeriode (false = horaires d'une journée uniquement , true = horaires
-     *                   sur 2 mois à partir du jour + le début de la semaine)
+     *                   sur 3 mois à partir du jour )
+     * @param startOfWeek (true = début de la semaine, false = jour donné)
      */
-    @Override
-    public List<PlaceSchedule> getPlaceScheduleException(GregorianCalendar dateChoisie, Boolean surPeriode,
+
+    public List<PlaceSchedule> getPlaceScheduleException(GregorianCalendar dateChoisie, Boolean surPeriode, Boolean startOfWeek,
                                                          Locale locale) {
         List<PlaceSchedule> listPlaceSchedules = new ArrayList<PlaceSchedule>();
         GregorianCalendar premierJour = new GregorianCalendar();
@@ -1134,8 +1135,11 @@ public class PlaceImpl extends PlaceBaseImpl {
         dernierJour.add(Calendar.DAY_OF_YEAR, 1);
         dernierJour.add(Calendar.MINUTE, -1);
         if (surPeriode) {
-            premierJour.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
             dernierJour.add(Calendar.MONTH, 3);
+        }
+
+        if (startOfWeek) {
+            premierJour.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         }
 
         // vérifie s'il y a des horaires d'exception
@@ -1168,15 +1172,19 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
 
         if (this.isSubjectToPublicHoliday()) { // Vérifie si l'objet est soumis à des jours fériés
-            for (PublicHoliday publicHoliday : this.getPublicHolidays()) { // Parcourt tous les jours fériés définis
-                if (publicHoliday.getDate() != null) { // Vérifie que la date du jour férié est définie
-                    if (publicHoliday.isRecurrent()) {
-                        // Si le jour férié est récurrent, ajoute les occurrences dans la plage donnée, il sera ajouté à la liste listPlaceSchedules
-                        addRecurrentHolidayInRange(publicHoliday, premierJour, dernierJour, listPlaceSchedules, locale);
-                    } else {
-                        // Si le jour férié n'est pas récurrent, ajoute uniquement cette date, il sera ajouté à la liste listPlaceSchedules
-                        addNonRecurrentHolidayInRange(publicHoliday, premierJour, dernierJour, listPlaceSchedules, locale);
-                    }
+            HashMap<Date, PublicHoliday> listHolidaySchedules = getHolidays(premierJour, dernierJour);
+            // Filtre les jours fériés s'il n'y a pas de conflit avec un autre jour existant
+            for (Map.Entry<Date, PublicHoliday> entry : listHolidaySchedules.entrySet()) {
+                // Check the day
+                PublicHoliday publicHoliday = entry.getValue();
+                Date date = entry.getKey();
+                SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+                if(!listPlaceSchedules.stream().anyMatch(s -> fmt.format(date).equals(fmt.format(s.getStartDate())))) {
+                    PlaceSchedule placeSchedule = new PlaceSchedule(publicHoliday.getPublicHolidayId(),
+                            date, date, publicHoliday.getName(locale), locale);
+                    placeSchedule.setException(true);
+                    placeSchedule.setClosed(true);
+                    listPlaceSchedules.add(placeSchedule);
                 }
             }
         }
@@ -1185,6 +1193,23 @@ public class PlaceImpl extends PlaceBaseImpl {
                 .sorted((s1, s2) -> s1.getStartDate().compareTo(s2.getStartDate())).collect(Collectors.toList());
         return listPlaceSchedules;
     }
+
+    public HashMap<Date, PublicHoliday> getHolidays(Calendar premierJour, Calendar dernierJour) {
+        HashMap<Date, PublicHoliday> listPlaceSchedules = new HashMap<Date, PublicHoliday>();
+        for (PublicHoliday publicHoliday : this.getPublicHolidays()) { // Parcourt tous les jours fériés définis
+            if (publicHoliday.getDate() != null) { // Vérifie que la date du jour férié est définie
+                if (publicHoliday.isRecurrent()) {
+                    // Si le jour férié est récurrent, ajoute les occurrences dans la plage donnée, il sera ajouté à la liste listPlaceSchedules
+                    addRecurrentHolidayInRange(publicHoliday, premierJour, dernierJour, listPlaceSchedules);
+                } else {
+                    // Si le jour férié n'est pas récurrent, ajoute uniquement cette date, il sera ajouté à la liste listPlaceSchedules
+                    addNonRecurrentHolidayInRange(publicHoliday, premierJour, dernierJour, listPlaceSchedules);
+                }
+            }
+        }
+        return listPlaceSchedules;
+    }
+
     /**
      * Ajoute un jour férié non récurrent à la liste des jours fériés dans une plage donnée.
      *
@@ -1194,26 +1219,17 @@ public class PlaceImpl extends PlaceBaseImpl {
      * @param holidaysInRange  La liste des jours fériés dans la plage donnée.
      * @param locale           La locale utilisée pour le jour férié.
      */
-    private static void addNonRecurrentHolidayInRange(PublicHoliday holiday, Calendar startCal, Calendar endCal, List<PlaceSchedule> holidaysInRange, Locale locale) {
+    private static void addNonRecurrentHolidayInRange(PublicHoliday holiday, Calendar startCal, Calendar endCal, HashMap<Date, PublicHoliday> holidaysInRange) {
         // Crée une instance de calendrier pour la date du jour férié
         Calendar holidayCal = Calendar.getInstance();
         holidayCal.setTime(holiday.getDate());
 
         // Vérifie si le jour férié se situe dans la plage de dates spécifiée
         if (isHolidayInRange(holidayCal, startCal, endCal)) {
-            // Crée un objet PlaceSchedule pour le jour férié
-            PlaceSchedule schedule = createScheduleFromHoliday(
-                    holiday.getPublicHolidayId(),
-                    holiday.getDate(),
-                    holiday.getName(),
-                    locale
-            );
 
             // Ajoute le jour férié à la liste s'il n'y a pas de conflit avec un autre jour existant
-            if (!holidaysInRange.stream().anyMatch(s ->
-                    (s.getStartDate().compareTo(schedule.getStartDate()) <= 0 &&
-                            s.getEndDate().compareTo(schedule.getEndDate()) >= 0))) {
-                holidaysInRange.add(schedule);
+            if (!holidaysInRange.containsKey(holiday.getDate())) {
+                holidaysInRange.put(holiday.getDate(), holiday);
             }
         }
     }
@@ -1227,7 +1243,7 @@ public class PlaceImpl extends PlaceBaseImpl {
      * @param holidaysInRange  La liste des jours fériés dans la plage donnée.
      * @param locale           La locale utilisée pour le jour férié.
      */
-    private static void addRecurrentHolidayInRange(PublicHoliday holiday, Calendar startCal, Calendar endCal, List<PlaceSchedule> holidaysInRange, Locale locale) {
+    private static void addRecurrentHolidayInRange(PublicHoliday holiday, Calendar startCal, Calendar endCal, HashMap<Date, PublicHoliday> holidaysInRange) {
         // Crée une instance de calendrier pour la date du jour férié
         Calendar holidayCal = Calendar.getInstance();
         holidayCal.setTime(holiday.getDate());
@@ -1244,46 +1260,14 @@ public class PlaceImpl extends PlaceBaseImpl {
 
             // Vérifie si le jour férié récurrent est dans la plage de dates
             if (isHolidayInRange(recurHolidayCal, startCal, endCal)) {
-                // Crée un objet PlaceSchedule pour le jour férié récurrent
-                PlaceSchedule schedule = createScheduleFromHoliday(
-                        holiday.getPublicHolidayId(),
-                        recurHolidayCal.getTime(),
-                        holiday.getName(),
-                        locale
-                );
-
                 // Ajoute le jour férié à la liste s'il n'y a pas de conflit avec un autre jour existant
-                if (!holidaysInRange.stream().anyMatch(s ->
-                        (s.getStartDate().compareTo(schedule.getStartDate()) <= 0 &&
-                                s.getEndDate().compareTo(schedule.getEndDate()) >= 0))) {
-                    holidaysInRange.add(schedule);
+                if (!holidaysInRange.containsKey(recurHolidayCal.getTime())) {
+                    holidaysInRange.put(recurHolidayCal.getTime(), holiday);
                 }
             }
         }
     }
 
-    /**
-     * Crée un objet PlaceSchedule à partir des détails d'un jour férié.
-     *
-     * @param publicHolidayId  L'ID du jour férié.
-     * @param holidayDate      La date du jour férié.
-     * @param holidayName      Le nom du jour férié.
-     * @param locale           La locale utilisée pour le jour férié.
-     * @return Un objet PlaceSchedule représentant le jour férié.
-     */
-    private static PlaceSchedule createScheduleFromHoliday(long publicHolidayId, Date holidayDate, String holidayName, Locale locale) {
-        // Crée un nouvel objet PlaceSchedule et le marque comme un jour férié fermé
-        PlaceSchedule placeSchedule = new PlaceSchedule(
-                publicHolidayId,
-                holidayDate,
-                holidayDate,
-                holidayName,
-                locale
-        );
-        placeSchedule.setPublicHoliday(true);
-        placeSchedule.setClosed(true);
-        return placeSchedule;
-    }
 
     /**
      * Vérifie si un jour férié se situe dans une plage de dates donnée.
@@ -1300,7 +1284,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 
     /**
      * Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
-     * de la semaine en cours, jusqu'à dans 2 mois (pour freemarker)
+     * de la semaine en cours, jusqu'à dans 3 mois (pour freemarker)
      */
     @Override
     public List<PlaceSchedule> getPlaceScheduleExceptionFreeMarker(Date dateDeb, Boolean surPeriode, Locale locale) {
@@ -1476,38 +1460,28 @@ public class PlaceImpl extends PlaceBaseImpl {
         premierJour.set(Calendar.SECOND, 0);
         premierJour.set(Calendar.MILLISECOND, 0);
         GregorianCalendar dernierJour = new GregorianCalendar();
-        dernierJour.setTime(premierJour.getTime());
-        dernierJour.add(Calendar.DAY_OF_YEAR, 1);
-        dernierJour.add(Calendar.MINUTE, -1);
         dernierJour.add(Calendar.MONTH, 3);
         JSONArray scheduleExceptionsJSON = JSONFactoryUtil.createJSONArray();
         List<ScheduleException> scheduleExceptions = this.getScheduleExceptions();
+        HashMap<Date, PublicHoliday> listHolidaySchedules = getHolidays(premierJour, dernierJour);
         for (ScheduleException scheduleException : scheduleExceptions) {
-            if (scheduleException.getStartDate() != null && scheduleException.getEndDate() != null
-                    && scheduleException.getStartDate().compareTo(dernierJour.getTime()) <= 0
-                    && scheduleException.getEndDate().compareTo(premierJour.getTime()) >= 0) {
-                scheduleExceptionsJSON.put(scheduleException.toJSON());
-            }
+            scheduleExceptionsJSON.put(scheduleException.toJSON());
         }
-        // vérifie s'il y a des jours fériés (si le lieux est sujet aux jours fériés
-        if (this.isSubjectToPublicHoliday()) {
-            for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
-                if (publicHoliday.getDate() != null) {
-                    GregorianCalendar publicHolidayYear = new GregorianCalendar();
-                    publicHolidayYear.setTime(publicHoliday.getDate());
-                    if (publicHoliday.isRecurrent()) {
-                        publicHolidayYear.set(Calendar.YEAR, premierJour.get(Calendar.YEAR));
-                    }
-                    if (publicHolidayYear.compareTo(premierJour) >= 0 && publicHolidayYear.compareTo(dernierJour) <= 0) {
-                        //On vérifie que le jour férié n'est pas déjà dans les schedules exception
-                        if (!scheduleExceptions.stream()
-                                .anyMatch(s -> (s.getStartDate().compareTo(publicHoliday.getDate()) <= 0 && s.getEndDate().compareTo(publicHoliday.getDate()) >= 0))) {
-                            scheduleExceptionsJSON.put(publicHoliday.toJSON());
-                        }
-                    }
-                }
+        for (Map.Entry<Date, PublicHoliday> listHolidaySchedule : listHolidaySchedules.entrySet()) {
+            PublicHoliday publicHoliday = listHolidaySchedule.getValue();
+            Date date = listHolidaySchedule.getKey();
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+            if(!scheduleExceptions.stream().anyMatch(s -> fmt.format(date).equals(fmt.format(s.getStartDate())))) {
+                DateFormat dateFormat = DateFormatFactoryUtil
+                        .getSimpleDateFormat("yyyy-MM-dd");
+                JSONObject scheduleExceptionJSON = publicHoliday.toJSON();
+                scheduleExceptionJSON.put("startDate", dateFormat.format(date));
+                scheduleExceptionJSON.put("endDate", dateFormat.format(date));
+                scheduleExceptionsJSON.put(scheduleExceptionJSON);
             }
+
         }
+
         if (scheduleExceptionsJSON.length() > 0) {
             jsonPlace.put("exceptions", scheduleExceptionsJSON);
         }
@@ -1842,21 +1816,21 @@ public class PlaceImpl extends PlaceBaseImpl {
         }
         // vérifie s'il y a des jours fériés (si le lieux est sujet aux jours fériés
         if (this.isSubjectToPublicHoliday()) {
-            for (PublicHoliday publicHoliday : this.getPublicHolidays()) {
-                if (publicHoliday.getDate() != null) {
-                    GregorianCalendar publicHolidayYear = new GregorianCalendar();
-                    publicHolidayYear.setTime(publicHoliday.getDate());
-                    if (publicHoliday.isRecurrent()) {
-                        publicHolidayYear.set(Calendar.YEAR, premierJour.get(Calendar.YEAR));
-                    }
-                    if (publicHolidayYear.compareTo(premierJour) >= 0 && publicHolidayYear.compareTo(dernierJour) <= 0) {
-                        //On vérifie que le jour férié n'est pas déjà dans les schedules exception
-                        if (!scheduleExceptions.stream()
-                                .anyMatch(s -> (s.getStartDate().compareTo(publicHoliday.getDate()) <= 0 && s.getEndDate().compareTo(publicHoliday.getDate()) >= 0))) {
-                            scheduleExceptionsJSON.put(publicHoliday.toJSON());
-                        }
-                    }
+            HashMap<Date, PublicHoliday> listHolidaySchedules = getHolidays(premierJour, dernierJour);
+            for (Map.Entry<Date, PublicHoliday> listHolidaySchedule : listHolidaySchedules.entrySet()) {
+                // Check the day
+                PublicHoliday publicHoliday = listHolidaySchedule.getValue();
+                Date date = listHolidaySchedule.getKey();
+                SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+                if(!scheduleExceptions.stream().anyMatch(s -> fmt.format(date).equals(fmt.format(s.getStartDate())))) {
+                    DateFormat dateFormat = DateFormatFactoryUtil
+                            .getSimpleDateFormat("yyyy-MM-dd");
+                    JSONObject scheduleExceptionJSON = publicHoliday.toJSON();
+                    scheduleExceptionJSON.put("startDate", dateFormat.format(date));
+                    scheduleExceptionJSON.put("endDate", dateFormat.format(date));
+                    scheduleExceptionsJSON.put(scheduleExceptionJSON);
                 }
+
             }
         }
 
