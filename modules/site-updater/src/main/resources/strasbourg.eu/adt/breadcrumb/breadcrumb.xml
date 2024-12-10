@@ -7,4 +7,9 @@
         <name>Fil d'ariane</name>
         <key>1087284</key>
     </template>
+    <template>
+        <script>generic-breadcrumbs.ftl</script>
+        <name>Fil d'ariane générique</name>
+        <key>generic-breadcrumbs</key>
+    </template>
 </root>
