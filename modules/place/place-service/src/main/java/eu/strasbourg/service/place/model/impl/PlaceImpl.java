@@ -1265,7 +1265,6 @@ public class PlaceImpl extends PlaceBaseImpl {
      * @param startCal         La date de début de la plage.
      * @param endCal           La date de fin de la plage.
      * @param holidaysInRange  La liste des jours fériés dans la plage donnée.
-     * @param locale           La locale utilisée pour le jour férié.
      */
     private static void addNonRecurrentHolidayInRange(PublicHoliday holiday, Calendar startCal, Calendar endCal, HashMap<Date, PublicHoliday> holidaysInRange) {
         // Crée une instance de calendrier pour la date du jour férié
@@ -1286,7 +1285,6 @@ public class PlaceImpl extends PlaceBaseImpl {
      * @param startCal         La date de début de la plage.
      * @param endCal           La date de fin de la plage.
      * @param holidaysInRange  La liste des jours fériés dans la plage donnée.
-     * @param locale           La locale utilisée pour le jour férié.
      */
     private static void addRecurrentHolidayInRange(PublicHoliday holiday, Calendar startCal, Calendar endCal, HashMap<Date, PublicHoliday> holidaysInRange) {
         // Crée une instance de calendrier pour la date du jour férié
@@ -1352,13 +1350,55 @@ public class PlaceImpl extends PlaceBaseImpl {
      */
     @Override
     public JSONObject toJSON() {
+        // récupération des catégories de la 1ère ville, du 1er quartier, des types et équipements
+        AssetCategory cityCategory = null;
+        String city = "";
+        AssetCategory districtCategory = null;
+        List<AssetCategory> typeCategories = new ArrayList<>();
+        List<AssetCategory> equipmentCategories = new ArrayList<>();
+        AssetVocabulary territoryVocabulary = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(this.getGroupId(), VocabularyNames.TERRITORY);
+        AssetVocabulary typeVocabulary = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(this.getGroupId(), VocabularyNames.PLACE_TYPE);
+        AssetVocabulary equipmentVocabulary = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(this.getGroupId(), VocabularyNames.EQUIPMENT);
+        List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
+        for (AssetCategory assetCategory : assetCategories) {
+            try {
+                if (assetCategory != null) {
+                    // ville ou quartier
+                    if (assetCategory.getVocabularyId() == territoryVocabulary.getVocabularyId()){
+                        //ville
+                        if(assetCategory.getAncestors().size() == 1 && Validator.isNull(cityCategory)) {
+                            cityCategory = assetCategory;
+                            city = cityCategory.getTitle(Locale.getDefault());
+                        } else
+                            //quartier
+                            if (assetCategory.getAncestors().size() == 2 && Validator.isNull(districtCategory)) {
+                                districtCategory = assetCategory;
+                        }
+
+                    } else
+                        // types
+                        if (assetCategory.getVocabularyId() == typeVocabulary.getVocabularyId()){
+                            typeCategories.add(assetCategory);
+                    } else
+                        // équipements
+                        if (assetCategory.getVocabularyId() == equipmentVocabulary.getVocabularyId()) {
+                            equipmentCategories.add(assetCategory);
+                    }
+
+                }
+            } catch (PortalException e) {
+                continue;
+            }
+        }
+
+
         JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
 
         jsonPlace.put("idSurfs", this.getSIGid());
         jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(this.getAliasMap()));
         jsonPlace.put("normalizedAlias", UriHelper.normalizeToFriendlyUrl(this.getAlias(Locale.FRANCE)));
         jsonPlace.put("address", this.getAddressStreet() + " " + this.getAddressZipCode() + " "
-                + this.getCity(Locale.getDefault()) + " " + this.getAddressCountry());
+                + city + " " + this.getAddressCountry());
         if (Validator.isNotNull(this.getAddressDistribution())) {
             jsonPlace.put("distribution", this.getAddressDistribution());
         }
@@ -1371,20 +1411,18 @@ public class PlaceImpl extends PlaceBaseImpl {
         jsonPlace.put("zipCode", this.getAddressZipCode());
 
         // Quartier
-        AssetCategory districtCategory = this.getDistrictCategory();
         if (districtCategory != null) {
             String SIGId = AssetVocabularyHelper.getCategoryProperty(districtCategory.getCategoryId(), "SIG");
             jsonPlace.put("districtCode", SIGId);
         }
 
         // Ville
-        AssetCategory cityCategory = this.getCityCategory();
         if (cityCategory != null) {
             String SIGId = AssetVocabularyHelper.getCategoryProperty(cityCategory.getCategoryId(), "SIG");
             jsonPlace.put("cityCode", SIGId);
         }
 
-        jsonPlace.put("city", this.getCity(Locale.getDefault()));
+        jsonPlace.put("city", city);
 
         // Pays
         jsonPlace.put("country", this.getAddressCountry());
@@ -1397,7 +1435,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 
         // SIGId des Types
         JSONArray jsonTypes = JSONFactoryUtil.createJSONArray();
-        for (AssetCategory assetCategory : this.getTypes()) {
+        for (AssetCategory assetCategory : typeCategories) {
             jsonTypes.put(AssetVocabularyHelper.getCategoryProperty(assetCategory.getCategoryId(), "SIG"));
         }
         if (jsonTypes.length() > 0) {
@@ -1414,8 +1452,7 @@ public class PlaceImpl extends PlaceBaseImpl {
 
         // ExternalID des équipements
         JSONArray jsonEquipments = JSONFactoryUtil.createJSONArray();
-        for (AssetCategory assetCategory : AssetVocabularyHelper.getAssetEntryCategoriesByVocabulary(this.getAssetEntry(),
-                VocabularyNames.EQUIPMENT)) {
+        for (AssetCategory assetCategory : equipmentCategories) {
             jsonEquipments.put(AssetVocabularyHelper.getCategoryProperty(assetCategory.getCategoryId(), "externalId"));
         }
         if (jsonEquipments.length() > 0) {
