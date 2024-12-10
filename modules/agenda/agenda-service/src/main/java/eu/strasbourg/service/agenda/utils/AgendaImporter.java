@@ -747,7 +747,12 @@ public class AgendaImporter {
 			Place place = PlaceLocalServiceUtil.getPlaceBySIGId(placeSIGId);
 			if (place == null) {
 				reportLine.error(LanguageUtil.format(bundle,
-					"sig-place-does-not-exist", new String[] { placeSIGId }));
+						"sig-place-does-not-exist", new String[] { placeSIGId }));
+
+			}
+			if (place != null && !place.isApproved()) {
+				reportLine.error(LanguageUtil.format(bundle,
+						"place-not-approved", new String[] { placeSIGId }));
 
 			}
 		}
@@ -953,7 +958,7 @@ public class AgendaImporter {
 				event.setCreateDateSource(createDateSource);
 				event.setModifiedDateSource(modifiedDateSource);
 				event.setExternalImageURL(imageURL);
-				if(imageURL.contains("www.coze.fr") && imageCopyright.endsWith("-thumb-w")) {
+				if(imageURL.contains("www.coze.fr") && imageURL.endsWith("-thumb-w")) {
 					String externalImageThumbnail = imageURL.replace("-thumb-w", "-thumb");
 					event.setExternalImageThumbnailURL(externalImageThumbnail);
 				}
@@ -994,32 +999,30 @@ public class AgendaImporter {
 				// Lieu
 				if (Validator.isNotNull(placeSIGId)) {
 					Place place = PlaceLocalServiceUtil.getPlaceBySIGId(placeSIGId);
-					if(place.isApproved()) {
-						event.setPlaceSIGId(placeSIGId);
-						event.setAccessForBlind(false);
-						event.setAccessForDeaf(false);
-						event.setAccessForWheelchair(false);
-						event.setAccessForElder(false);
-						event.setAccessForDeficient(false);
+					event.setPlaceSIGId(placeSIGId);
+					event.setAccessForBlind(false);
+					event.setAccessForDeaf(false);
+					event.setAccessForWheelchair(false);
+					event.setAccessForElder(false);
+					event.setAccessForDeficient(false);
 
-						// Dans le cas d'un lieu SIG, on ajoute automatiquement les
-						// catégories territoires du lieu aux catégories à ajouter à
-						// l'entité
-						List<AssetCategory> territories = place.getTerritories();
-						long[] newCategories = sc.getAssetCategoryIds();
-						for (AssetCategory territory : territories) {
-							if (!ArrayUtil.contains(newCategories,
-									territory.getCategoryId())) {
-								newCategories = ArrayUtil.append(newCategories,
-										territory.getCategoryId());
-							}
+					// Dans le cas d'un lieu SIG, on ajoute automatiquement les
+					// catégories territoires du lieu aux catégories à ajouter à
+					// l'entité
+					List<AssetCategory> territories = place.getTerritories();
+					long[] newCategories = sc.getAssetCategoryIds();
+					for (AssetCategory territory : territories) {
+						if (!ArrayUtil.contains(newCategories,
+								territory.getCategoryId())) {
+							newCategories = ArrayUtil.append(newCategories,
+									territory.getCategoryId());
 						}
-						sc.setAssetCategoryIds(newCategories);
-
-						// Récupération des coordonées X et Y
-						event.setMercatorX(place.getMercatorX());
-						event.setMercatorY(place.getMercatorY());
 					}
+					sc.setAssetCategoryIds(newCategories);
+
+					// Récupération des coordonées X et Y
+					event.setMercatorX(place.getMercatorX());
+					event.setMercatorY(place.getMercatorY());
 
 				} else {
 					JSONObject jsonPlace = jsonEvent.getJSONObject("place");

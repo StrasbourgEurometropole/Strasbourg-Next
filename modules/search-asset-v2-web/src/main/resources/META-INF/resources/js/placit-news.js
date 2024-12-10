@@ -30,8 +30,7 @@ function getSelectedMarkerElements(entityName) {
  * Renvoi la liste des vidéos demandées
  * @return
  */
-function getSelectedEntries() {
-
+async function getSelectedEntries(start = 0, delta = 20) {
     var selectedStartDay ;
     var selectedStartMonth ;
     var selectedStartYear;
@@ -49,34 +48,24 @@ function getSelectedEntries() {
 	var selectedThematics = getSelectedMarkerElements(entityType.THEMATIC);
 	var selectedDistricts = getSelectedMarkerElements(entityType.DISTRICT);
 
-	AUI().use('aui-io-request', function(A) {
-		A.io.request(newsSelectionURL, {
-			method : 'post',
-			dataType: 'json',
-			data : {
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedStartDay : selectedStartDay,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedStartMonth : selectedStartMonth,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedStartYear : selectedStartYear,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedEndDay : selectedEndDay,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedEndMonth : selectedEndMonth,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedEndYear : selectedEndYear,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedThematics : selectedThematics,
-				_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedDistricts : selectedDistricts,
-			},
-			on: {
-                success: function(e) {
-                	var data = this.get('responseData');
-                	getResult('news', data);
-                    //Force la premiere tuile à prendre deux fois plus de place en hauteur de largeur
-                    $('.pro-wi-grid .col-md-4.col-sm-6.col-xs-12:first-child').removeClass('col-md-3').removeClass('col-sm-6').addClass('col-md-8').addClass('col-sm-12');
-                    $('.pro-wi-grid .col-md-6.col-sm-12.col-xs-12 .pro-bloc-actu').addClass('pro-bloc-actu-large');
-                    $('.pro-listing .pro-wi-grid>*').css('margin', '20px 0px');
 
-                    egalizeAll();
-			 	}
-			}
-		});
-	});
+	await fetchData('news', newsSelectionURL,  {
+		_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedStartDay : selectedStartDay,
+		_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedStartMonth : selectedStartMonth,
+		_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedStartYear : selectedStartYear,
+		_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedEndDay : selectedEndDay,
+		_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedEndMonth : selectedEndMonth,
+		_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedEndYear : selectedEndYear,
+		_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedThematics : selectedThematics,
+		_eu_strasbourg_portlet_search_asset_v2_SearchAssetPortlet_selectedDistricts : selectedDistricts,
+	}, start, delta);
+
+	//Force la premiere tuile à prendre deux fois plus de place en hauteur de largeur
+	$('.pro-wi-grid .col-md-4.col-sm-6.col-xs-12:first-child').removeClass('col-md-3').removeClass('col-sm-6').addClass('col-md-8').addClass('col-sm-12');
+	$('.pro-wi-grid .col-md-6.col-sm-12.col-xs-12 .pro-bloc-actu').addClass('pro-bloc-actu-large');
+	$('.pro-listing .pro-wi-grid>*').css('margin', '20px 0px');
+
+	egalizeAll();
 }
 
 // Lors d'une selection d'une thématique

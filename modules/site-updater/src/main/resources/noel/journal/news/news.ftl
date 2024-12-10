@@ -2,6 +2,8 @@
 <#setting locale = localeUtil.getDefault()>
 <#assign displaydate = .vars['reserved-article-display-date'].data>
 <#assign displaydate = displaydate?date("EEE, d MMM yyyy HH:mm:ss Z")>
+<#assign modifieddate = .vars['reserved-article-modified-date'].data>
+<#assign modifieddate = modifieddate?date("EEE, d MMM yyyy HH:mm:ss Z")>
 <#setting date_format = "d MMMM yyyy">
 <#setting locale = locale />
 <#assign serviceContext = staticUtil["com.liferay.portal.kernel.service.ServiceContextThreadLocal"].getServiceContext() />
@@ -16,7 +18,7 @@
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
 "og:title":"${title.data?html}",
-"og:description":'${text.data?replace("<[^>]*>", "", "r")?html}', 
+"og:description":'${text.data?replace("<[^>]*>", "", "r")?html}',
 "og:image":"${imageUrl}"
 } />
 <#-- partage de la configuration open graph dans la request -->
@@ -30,6 +32,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     <div class="mns-detail-actu-content col-sm-9 col-sm-offset-3 col-xs-12">
         <h1>${title.data}</h1>
         <span class="publication"><@liferay_ui.message key="eu.published-on" /> ${displaydate}</span>
+        <span class="publication"><@liferay_ui.message key="eu.modified-on" /> ${modifieddate}</span>
         <span class="mns-line"></span>
         ${text.data}
     </div>

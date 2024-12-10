@@ -1,9 +1,14 @@
 <#setting locale = locale />
+<#assign imageUrl="" />
+<#if (image.getData())?? && image.getData() != "">
+    <#assign imageUrl=image.getData()/>
+</#if>
 
 <#-- Liste des infos a partager -->
 <#assign openGraph = {
 "og:title":"${title.getData()?html}",
-"og:description":'${chapo.getData()?replace("<[^>]*>", "", "r")?html}'
+"og:description":'${chapo.getData()?replace("<[^>]*>", "", "r")?html}',
+"og:image" :"${imageUrl}"
 } />
 
 
@@ -52,5 +57,11 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
     .lfr-tooltip-scope {
         position: absolute;
         right: 0;
+    }
+    @media (max-width: 700px) {
+        .journal-content-article .st-content .st-bloc img {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
     }
 </style>

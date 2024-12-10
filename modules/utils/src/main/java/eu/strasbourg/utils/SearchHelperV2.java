@@ -120,8 +120,6 @@ public class SearchHelperV2{
 
 		searchRequestBuilder.from(start);
 		searchRequestBuilder.size(end - start);
-		// Pour debugger les scores
-		searchRequestBuilder.explain(true);
 
 		// Tri
 		// Par défaut on envoie zéro pour la recherche placit
