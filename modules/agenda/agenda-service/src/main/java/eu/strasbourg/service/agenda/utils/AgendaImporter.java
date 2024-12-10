@@ -750,7 +750,7 @@ public class AgendaImporter {
 						"sig-place-does-not-exist", new String[] { placeSIGId }));
 
 			}
-			if (!place.isApproved()) {
+			if (place != null && !place.isApproved()) {
 				reportLine.error(LanguageUtil.format(bundle,
 						"place-not-approved", new String[] { placeSIGId }));
 
