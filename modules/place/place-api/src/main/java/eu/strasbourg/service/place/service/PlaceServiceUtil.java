@@ -65,12 +65,15 @@ public class PlaceServiceUtil {
 		return getService().getPlaceByIdSIG(sigId);
 	}
 
-	public static com.liferay.portal.kernel.json.JSONArray getPlaces() {
+	public static com.liferay.portal.kernel.json.JSONArray getPlaces()
+		throws PortalException {
+
 		return getService().getPlaces();
 	}
 
 	public static com.liferay.portal.kernel.json.JSONArray
-		getPlacesByNameAndLanguage(String name, String language) {
+			getPlacesByNameAndLanguage(String name, String language)
+		throws PortalException {
 
 		return getService().getPlacesByNameAndLanguage(name, language);
 	}

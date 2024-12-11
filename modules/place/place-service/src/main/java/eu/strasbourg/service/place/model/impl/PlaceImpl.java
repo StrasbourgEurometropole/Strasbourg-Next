@@ -75,7 +75,7 @@ import java.util.stream.Collectors;
  * <p>
  * Helper methods and all application logic should be put in this class.
  * Whenever methods are added, rerun ServiceBuilder to copy their definitions
- * into the {@link eu.strasbourg.service.place.model.Place} interface.
+ * into the {@link Place} interface.
  * </p>
  *
  * @author Angelique Zunino Champougny
@@ -1350,21 +1350,41 @@ public class PlaceImpl extends PlaceBaseImpl {
      */
     @Override
     public JSONObject toJSON() {
+        long territoryVocabularyId = 0;
+        AssetVocabulary territoryVocabulary = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(this.getGroupId(), VocabularyNames.TERRITORY);
+        if(Validator.isNotNull(territoryVocabulary))
+            territoryVocabularyId = territoryVocabulary.getVocabularyId();
+
+        long typeVocabularyId = 0;
+        AssetVocabulary typeVocabulary = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(this.getGroupId(), VocabularyNames.PLACE_TYPE);
+        if(Validator.isNotNull(typeVocabulary))
+            typeVocabularyId = typeVocabulary.getVocabularyId();
+
+        long equipmentVocabularyId = 0;
+        AssetVocabulary equipmentVocabulary = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(this.getGroupId(), VocabularyNames.EQUIPMENT);
+        if(Validator.isNotNull(equipmentVocabulary))
+            equipmentVocabularyId = equipmentVocabulary.getVocabularyId();
+
+        return toJSON(territoryVocabularyId, typeVocabularyId, equipmentVocabularyId);
+    }
+
+    /**
+     * Retourne la version JSON du lieu
+     */
+    @Override
+    public JSONObject toJSON(long territoryVocabularyId, long typeVocabularyId, long equipmentVocabularyId) {
         // récupération des catégories de la 1ère ville, du 1er quartier, des types et équipements
         AssetCategory cityCategory = null;
         String city = "";
         AssetCategory districtCategory = null;
         List<AssetCategory> typeCategories = new ArrayList<>();
         List<AssetCategory> equipmentCategories = new ArrayList<>();
-        AssetVocabulary territoryVocabulary = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(this.getGroupId(), VocabularyNames.TERRITORY);
-        AssetVocabulary typeVocabulary = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(this.getGroupId(), VocabularyNames.PLACE_TYPE);
-        AssetVocabulary equipmentVocabulary = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(this.getGroupId(), VocabularyNames.EQUIPMENT);
         List<AssetCategory> assetCategories = AssetVocabularyHelper.getAssetEntryCategories(this.getAssetEntry());
         for (AssetCategory assetCategory : assetCategories) {
             try {
                 if (assetCategory != null) {
                     // ville ou quartier
-                    if (assetCategory.getVocabularyId() == territoryVocabulary.getVocabularyId()){
+                    if (assetCategory.getVocabularyId() == territoryVocabularyId){
                         //ville
                         if(assetCategory.getAncestors().size() == 1 && Validator.isNull(cityCategory)) {
                             cityCategory = assetCategory;
@@ -1377,11 +1397,11 @@ public class PlaceImpl extends PlaceBaseImpl {
 
                     } else
                         // types
-                        if (assetCategory.getVocabularyId() == typeVocabulary.getVocabularyId()){
+                        if (assetCategory.getVocabularyId() == typeVocabularyId){
                             typeCategories.add(assetCategory);
                     } else
                         // équipements
-                        if (assetCategory.getVocabularyId() == equipmentVocabulary.getVocabularyId()) {
+                        if (assetCategory.getVocabularyId() == equipmentVocabularyId) {
                             equipmentCategories.add(assetCategory);
                     }
 

@@ -65,13 +65,16 @@ public class PlaceServiceWrapper
 	}
 
 	@Override
-	public com.liferay.portal.kernel.json.JSONArray getPlaces() {
+	public com.liferay.portal.kernel.json.JSONArray getPlaces()
+		throws com.liferay.portal.kernel.exception.PortalException {
+
 		return _placeService.getPlaces();
 	}
 
 	@Override
 	public com.liferay.portal.kernel.json.JSONArray getPlacesByNameAndLanguage(
-		String name, String language) {
+			String name, String language)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _placeService.getPlacesByNameAndLanguage(name, language);
 	}
