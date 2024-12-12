@@ -6,6 +6,8 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.object.model.ObjectEntry;
+import com.liferay.object.service.ObjectEntryLocalServiceUtil;
 import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -231,12 +233,16 @@ public class MapPortlet extends MVCPortlet {
                             if(Validator.isNotNull(clippingCategoryId)) {
                                 AssetCategory clipping = AssetCategoryLocalServiceUtil.getCategory(Long.parseLong(clippingCategoryId));
                                 String sigId = AssetVocabularyHelper.getExternalId(clipping);
-                                if (sigId.startsWith("SQ_")) {
-                                    coordinatesZone = openDataGeoDistrictService.getCoordinatesForSigId(sigId);
-                                } else {
-                                    String number = sigId.split("C_")[1];
-                                    coordinatesZone = openDataGeoCityService.getCoordinatesForNumCom(number);
+                                ObjectEntry categoryObject = ObjectEntryLocalServiceUtil.getObjectEntry("detourage_"+sigId, themeDisplay.getCompanyId() , 0);
+                                if(Validator.isNotNull(categoryObject)) {
+                                    coordinatesZone = JSONFactoryUtil.createJSONObject(categoryObject.getValues().get("json").toString());
                                 }
+//                                if (sigId.startsWith("SQ_")) {
+//                                    coordinatesZone = openDataGeoDistrictService.getCoordinatesForSigId(sigId);
+//                                } else {
+//                                    String number = sigId.split("C_")[1];
+//                                    coordinatesZone = openDataGeoCityService.getCoordinatesForNumCom(number);
+//                                }
                             }
                         }
                     }
