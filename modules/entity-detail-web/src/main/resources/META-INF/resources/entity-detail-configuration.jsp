@@ -33,6 +33,9 @@
                             <%@include file="/entity-detail-configuration-selectors.jsp" %>
                         </c:if>
                     </div>
+                    <div>
+                        <aui:input type="text"  name="categoryIds" value="${categoryIds}"/>
+                    </div>
                 </div>
             </div>
         </div>

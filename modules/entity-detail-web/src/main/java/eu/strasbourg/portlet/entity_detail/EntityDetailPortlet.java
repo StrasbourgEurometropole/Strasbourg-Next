@@ -75,7 +75,7 @@ public class EntityDetailPortlet extends MVCPortlet {
 					entry = place.getAssetEntry();
 				}
 			}
-			if (entry != null && entry.getVisible()) {
+			if (entry != null && entry.getVisible() && isInCategories(entry, configuration.categoryIds())) {
 				request.setAttribute("entry", entry);
 			}
 
@@ -108,7 +108,7 @@ public class EntityDetailPortlet extends MVCPortlet {
 				PortletHelper.addBreadcrumbEntry(request, entry.getTitle(themeDisplay.getLocale()), PortletURLFactoryUtil.create(PortalUtil.getHttpServletRequest(request), StrasbourgPortletKeys.ENTITY_DETAIL_WEB, themeDisplay.getPlid(), PortletRequest.RENDER_PHASE));
 			}
 
-			if (entry == null || !entry.isVisible()) {
+			if (entry == null || !entry.isVisible() || !isInCategories(entry, configuration.categoryIds())) {
 				HttpServletResponse httpServletResponse = PortalUtil.getHttpServletResponse(response);
 				httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
 				String journalArticleContent = "<header class=\"st-header-without-sticky st-wrapper st-wrapper-small\">\n" +
@@ -124,6 +124,13 @@ public class EntityDetailPortlet extends MVCPortlet {
 		} catch (Exception e) {
 			_log.error(e);
 		}
+	}
+
+	private boolean isInCategories(AssetEntry entry, long categoryIds) {
+		if(Validator.isNull(categoryIds) || categoryIds==0) {
+			return true;
+		}
+		return entry.getCategories().stream().anyMatch(cat -> cat.getCategoryId() == categoryIds);
 	}
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());

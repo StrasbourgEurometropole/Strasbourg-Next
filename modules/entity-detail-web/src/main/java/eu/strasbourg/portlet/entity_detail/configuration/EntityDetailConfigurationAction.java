@@ -60,6 +60,9 @@ public class EntityDetailConfigurationAction
 			// Item
 			String classPK = ParamUtil.getString(request, "classPK");
 			setPreference(request, "classPK", classPK);
+			// Type d'entité
+			String categoryIds = ParamUtil.getString(request, "categoryIds");
+			setPreference(request, "categoryIds", categoryIds);
 		} else {
 			classNameChange(request, response);
 		}
@@ -120,6 +123,7 @@ public class EntityDetailConfigurationAction
 
 				// Item selectionné
 				request.setAttribute("classPK", configuration.classPK());
+				request.setAttribute("categoryIds", configuration.categoryIds());
 			}
 
 			// Tout ce qui est Application Display Template
