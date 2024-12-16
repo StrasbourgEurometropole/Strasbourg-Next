@@ -120,8 +120,8 @@
 					<c:forEach items="${dc.event.eventPeriods}" var="period" varStatus="status">
 						<div class="lfr-form-row lfr-form-row-inline">
 							<div class="row-fields">
-								<fmt:formatDate value="${period.startDate}" pattern="dd/MM/YYYY" type="date" var="formattedStartDate"/>
-								<fmt:formatDate value="${period.endDate}" pattern="dd/MM/YYYY" type="date" var="formattedEndDate"/>
+								<fmt:formatDate value="${period.startDate}" pattern="dd/MM/yyyy" type="date" var="formattedStartDate"/>
+								<fmt:formatDate value="${period.endDate}" pattern="dd/MM/yyyy" type="date" var="formattedEndDate"/>
 								<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
 									<liferay-util:param name="index" value="${status.index}" />
 									<liferay-util:param name="startDate" value="${formattedStartDate}" />
