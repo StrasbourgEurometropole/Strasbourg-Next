@@ -37,6 +37,9 @@ public class EventPeriodWrapper
 		attributes.put("eventPeriodId", getEventPeriodId());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
+		attributes.put("startTime", getStartTime());
+		attributes.put("endTime", getEndTime());
+		attributes.put("isRecurrent", isIsRecurrent());
 		attributes.put("timeDetail", getTimeDetail());
 		attributes.put("eventId", getEventId());
 		attributes.put("campaignEventId", getCampaignEventId());
@@ -68,6 +71,24 @@ public class EventPeriodWrapper
 
 		if (endDate != null) {
 			setEndDate(endDate);
+		}
+
+		String startTime = (String)attributes.get("startTime");
+
+		if (startTime != null) {
+			setStartTime(startTime);
+		}
+
+		String endTime = (String)attributes.get("endTime");
+
+		if (endTime != null) {
+			setEndTime(endTime);
+		}
+
+		Boolean isRecurrent = (Boolean)attributes.get("isRecurrent");
+
+		if (isRecurrent != null) {
+			setIsRecurrent(isRecurrent);
 		}
 
 		String timeDetail = (String)attributes.get("timeDetail");
@@ -137,6 +158,16 @@ public class EventPeriodWrapper
 	}
 
 	/**
+	 * Returns the end time of this event period.
+	 *
+	 * @return the end time of this event period
+	 */
+	@Override
+	public String getEndTime() {
+		return model.getEndTime();
+	}
+
+	/**
 	 * Returns the event ID of this event period.
 	 *
 	 * @return the event ID of this event period
@@ -157,6 +188,16 @@ public class EventPeriodWrapper
 	}
 
 	/**
+	 * Returns the is recurrent of this event period.
+	 *
+	 * @return the is recurrent of this event period
+	 */
+	@Override
+	public boolean getIsRecurrent() {
+		return model.getIsRecurrent();
+	}
+
+	/**
 	 * Returns the primary key of this event period.
 	 *
 	 * @return the primary key of this event period
@@ -174,6 +215,16 @@ public class EventPeriodWrapper
 	@Override
 	public Date getStartDate() {
 		return model.getStartDate();
+	}
+
+	/**
+	 * Returns the start time of this event period.
+	 *
+	 * @return the start time of this event period
+	 */
+	@Override
+	public String getStartTime() {
+		return model.getStartTime();
 	}
 
 	/**
@@ -262,6 +313,16 @@ public class EventPeriodWrapper
 		return model.getUuid();
 	}
 
+	/**
+	 * Returns <code>true</code> if this event period is is recurrent.
+	 *
+	 * @return <code>true</code> if this event period is is recurrent; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isIsRecurrent() {
+		return model.isIsRecurrent();
+	}
+
 	@Override
 	public void persist() {
 		model.persist();
@@ -303,6 +364,16 @@ public class EventPeriodWrapper
 	}
 
 	/**
+	 * Sets the end time of this event period.
+	 *
+	 * @param endTime the end time of this event period
+	 */
+	@Override
+	public void setEndTime(String endTime) {
+		model.setEndTime(endTime);
+	}
+
+	/**
 	 * Sets the event ID of this event period.
 	 *
 	 * @param eventId the event ID of this event period
@@ -323,6 +394,16 @@ public class EventPeriodWrapper
 	}
 
 	/**
+	 * Sets whether this event period is is recurrent.
+	 *
+	 * @param isRecurrent the is recurrent of this event period
+	 */
+	@Override
+	public void setIsRecurrent(boolean isRecurrent) {
+		model.setIsRecurrent(isRecurrent);
+	}
+
+	/**
 	 * Sets the primary key of this event period.
 	 *
 	 * @param primaryKey the primary key of this event period
@@ -340,6 +421,16 @@ public class EventPeriodWrapper
 	@Override
 	public void setStartDate(Date startDate) {
 		model.setStartDate(startDate);
+	}
+
+	/**
+	 * Sets the start time of this event period.
+	 *
+	 * @param startTime the start time of this event period
+	 */
+	@Override
+	public void setStartTime(String startTime) {
+		model.setStartTime(startTime);
 	}
 
 	/**

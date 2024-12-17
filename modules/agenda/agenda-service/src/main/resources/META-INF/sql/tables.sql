@@ -217,6 +217,9 @@ create table agenda_EventPeriod (
 	eventPeriodId LONG not null primary key,
 	startDate DATE null,
 	endDate DATE null,
+	startTime VARCHAR(75) null,
+	endTime VARCHAR(75) null,
+	isRecurrent BOOLEAN,
 	timeDetail STRING null,
 	eventId LONG,
 	campaignEventId LONG

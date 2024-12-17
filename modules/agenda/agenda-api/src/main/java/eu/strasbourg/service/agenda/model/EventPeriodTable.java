@@ -31,6 +31,12 @@ public class EventPeriodTable extends BaseTable<EventPeriodTable> {
 		"startDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
 	public final Column<EventPeriodTable, Date> endDate = createColumn(
 		"endDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
+	public final Column<EventPeriodTable, String> startTime = createColumn(
+		"startTime", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
+	public final Column<EventPeriodTable, String> endTime = createColumn(
+		"endTime", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
+	public final Column<EventPeriodTable, Boolean> isRecurrent = createColumn(
+		"isRecurrent", Boolean.class, Types.BOOLEAN, Column.FLAG_DEFAULT);
 	public final Column<EventPeriodTable, String> timeDetail = createColumn(
 		"timeDetail", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<EventPeriodTable, Long> eventId = createColumn(

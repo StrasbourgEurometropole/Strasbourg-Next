@@ -54,7 +54,7 @@ public class EventPeriodCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(21);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -64,6 +64,12 @@ public class EventPeriodCacheModel
 		sb.append(startDate);
 		sb.append(", endDate=");
 		sb.append(endDate);
+		sb.append(", startTime=");
+		sb.append(startTime);
+		sb.append(", endTime=");
+		sb.append(endTime);
+		sb.append(", isRecurrent=");
+		sb.append(isRecurrent);
 		sb.append(", timeDetail=");
 		sb.append(timeDetail);
 		sb.append(", eventId=");
@@ -102,6 +108,22 @@ public class EventPeriodCacheModel
 			eventPeriodImpl.setEndDate(new Date(endDate));
 		}
 
+		if (startTime == null) {
+			eventPeriodImpl.setStartTime("");
+		}
+		else {
+			eventPeriodImpl.setStartTime(startTime);
+		}
+
+		if (endTime == null) {
+			eventPeriodImpl.setEndTime("");
+		}
+		else {
+			eventPeriodImpl.setEndTime(endTime);
+		}
+
+		eventPeriodImpl.setIsRecurrent(isRecurrent);
+
 		if (timeDetail == null) {
 			eventPeriodImpl.setTimeDetail("");
 		}
@@ -124,6 +146,10 @@ public class EventPeriodCacheModel
 		eventPeriodId = objectInput.readLong();
 		startDate = objectInput.readLong();
 		endDate = objectInput.readLong();
+		startTime = objectInput.readUTF();
+		endTime = objectInput.readUTF();
+
+		isRecurrent = objectInput.readBoolean();
 		timeDetail = objectInput.readUTF();
 
 		eventId = objectInput.readLong();
@@ -144,6 +170,22 @@ public class EventPeriodCacheModel
 		objectOutput.writeLong(startDate);
 		objectOutput.writeLong(endDate);
 
+		if (startTime == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(startTime);
+		}
+
+		if (endTime == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(endTime);
+		}
+
+		objectOutput.writeBoolean(isRecurrent);
+
 		if (timeDetail == null) {
 			objectOutput.writeUTF("");
 		}
@@ -160,6 +202,9 @@ public class EventPeriodCacheModel
 	public long eventPeriodId;
 	public long startDate;
 	public long endDate;
+	public String startTime;
+	public String endTime;
+	public boolean isRecurrent;
 	public String timeDetail;
 	public long eventId;
 	public long campaignEventId;

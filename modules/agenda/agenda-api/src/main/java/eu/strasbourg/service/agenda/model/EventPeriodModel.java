@@ -109,6 +109,57 @@ public interface EventPeriodModel
 	public void setEndDate(Date endDate);
 
 	/**
+	 * Returns the start time of this event period.
+	 *
+	 * @return the start time of this event period
+	 */
+	@AutoEscape
+	public String getStartTime();
+
+	/**
+	 * Sets the start time of this event period.
+	 *
+	 * @param startTime the start time of this event period
+	 */
+	public void setStartTime(String startTime);
+
+	/**
+	 * Returns the end time of this event period.
+	 *
+	 * @return the end time of this event period
+	 */
+	@AutoEscape
+	public String getEndTime();
+
+	/**
+	 * Sets the end time of this event period.
+	 *
+	 * @param endTime the end time of this event period
+	 */
+	public void setEndTime(String endTime);
+
+	/**
+	 * Returns the is recurrent of this event period.
+	 *
+	 * @return the is recurrent of this event period
+	 */
+	public boolean getIsRecurrent();
+
+	/**
+	 * Returns <code>true</code> if this event period is is recurrent.
+	 *
+	 * @return <code>true</code> if this event period is is recurrent; <code>false</code> otherwise
+	 */
+	public boolean isIsRecurrent();
+
+	/**
+	 * Sets whether this event period is is recurrent.
+	 *
+	 * @param isRecurrent the is recurrent of this event period
+	 */
+	public void setIsRecurrent(boolean isRecurrent);
+
+	/**
 	 * Returns the time detail of this event period.
 	 *
 	 * @return the time detail of this event period

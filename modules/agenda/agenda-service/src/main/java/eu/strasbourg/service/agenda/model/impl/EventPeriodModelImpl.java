@@ -69,8 +69,9 @@ public class EventPeriodModelImpl
 	public static final Object[][] TABLE_COLUMNS = {
 		{"uuid_", Types.VARCHAR}, {"eventPeriodId", Types.BIGINT},
 		{"startDate", Types.TIMESTAMP}, {"endDate", Types.TIMESTAMP},
-		{"timeDetail", Types.VARCHAR}, {"eventId", Types.BIGINT},
-		{"campaignEventId", Types.BIGINT}
+		{"startTime", Types.VARCHAR}, {"endTime", Types.VARCHAR},
+		{"isRecurrent", Types.BOOLEAN}, {"timeDetail", Types.VARCHAR},
+		{"eventId", Types.BIGINT}, {"campaignEventId", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -81,13 +82,16 @@ public class EventPeriodModelImpl
 		TABLE_COLUMNS_MAP.put("eventPeriodId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("startDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("startTime", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("endTime", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("isRecurrent", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("timeDetail", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("eventId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("campaignEventId", Types.BIGINT);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table agenda_EventPeriod (uuid_ VARCHAR(75) null,eventPeriodId LONG not null primary key,startDate DATE null,endDate DATE null,timeDetail STRING null,eventId LONG,campaignEventId LONG)";
+		"create table agenda_EventPeriod (uuid_ VARCHAR(75) null,eventPeriodId LONG not null primary key,startDate DATE null,endDate DATE null,startTime VARCHAR(75) null,endTime VARCHAR(75) null,isRecurrent BOOLEAN,timeDetail STRING null,eventId LONG,campaignEventId LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table agenda_EventPeriod";
 
@@ -252,6 +256,11 @@ public class EventPeriodModelImpl
 				"startDate", EventPeriod::getStartDate);
 			attributeGetterFunctions.put("endDate", EventPeriod::getEndDate);
 			attributeGetterFunctions.put(
+				"startTime", EventPeriod::getStartTime);
+			attributeGetterFunctions.put("endTime", EventPeriod::getEndTime);
+			attributeGetterFunctions.put(
+				"isRecurrent", EventPeriod::getIsRecurrent);
+			attributeGetterFunctions.put(
 				"timeDetail", EventPeriod::getTimeDetail);
 			attributeGetterFunctions.put("eventId", EventPeriod::getEventId);
 			attributeGetterFunctions.put(
@@ -283,6 +292,15 @@ public class EventPeriodModelImpl
 			attributeSetterBiConsumers.put(
 				"endDate",
 				(BiConsumer<EventPeriod, Date>)EventPeriod::setEndDate);
+			attributeSetterBiConsumers.put(
+				"startTime",
+				(BiConsumer<EventPeriod, String>)EventPeriod::setStartTime);
+			attributeSetterBiConsumers.put(
+				"endTime",
+				(BiConsumer<EventPeriod, String>)EventPeriod::setEndTime);
+			attributeSetterBiConsumers.put(
+				"isRecurrent",
+				(BiConsumer<EventPeriod, Boolean>)EventPeriod::setIsRecurrent);
 			attributeSetterBiConsumers.put(
 				"timeDetail",
 				(BiConsumer<EventPeriod, String>)EventPeriod::setTimeDetail);
@@ -371,6 +389,67 @@ public class EventPeriodModelImpl
 		}
 
 		_endDate = endDate;
+	}
+
+	@JSON
+	@Override
+	public String getStartTime() {
+		if (_startTime == null) {
+			return "";
+		}
+		else {
+			return _startTime;
+		}
+	}
+
+	@Override
+	public void setStartTime(String startTime) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_startTime = startTime;
+	}
+
+	@JSON
+	@Override
+	public String getEndTime() {
+		if (_endTime == null) {
+			return "";
+		}
+		else {
+			return _endTime;
+		}
+	}
+
+	@Override
+	public void setEndTime(String endTime) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_endTime = endTime;
+	}
+
+	@JSON
+	@Override
+	public boolean getIsRecurrent() {
+		return _isRecurrent;
+	}
+
+	@JSON
+	@Override
+	public boolean isIsRecurrent() {
+		return _isRecurrent;
+	}
+
+	@Override
+	public void setIsRecurrent(boolean isRecurrent) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_isRecurrent = isRecurrent;
 	}
 
 	@JSON
@@ -661,6 +740,9 @@ public class EventPeriodModelImpl
 		eventPeriodImpl.setEventPeriodId(getEventPeriodId());
 		eventPeriodImpl.setStartDate(getStartDate());
 		eventPeriodImpl.setEndDate(getEndDate());
+		eventPeriodImpl.setStartTime(getStartTime());
+		eventPeriodImpl.setEndTime(getEndTime());
+		eventPeriodImpl.setIsRecurrent(isIsRecurrent());
 		eventPeriodImpl.setTimeDetail(getTimeDetail());
 		eventPeriodImpl.setEventId(getEventId());
 		eventPeriodImpl.setCampaignEventId(getCampaignEventId());
@@ -681,6 +763,12 @@ public class EventPeriodModelImpl
 			this.<Date>getColumnOriginalValue("startDate"));
 		eventPeriodImpl.setEndDate(
 			this.<Date>getColumnOriginalValue("endDate"));
+		eventPeriodImpl.setStartTime(
+			this.<String>getColumnOriginalValue("startTime"));
+		eventPeriodImpl.setEndTime(
+			this.<String>getColumnOriginalValue("endTime"));
+		eventPeriodImpl.setIsRecurrent(
+			this.<Boolean>getColumnOriginalValue("isRecurrent"));
 		eventPeriodImpl.setTimeDetail(
 			this.<String>getColumnOriginalValue("timeDetail"));
 		eventPeriodImpl.setEventId(
@@ -791,6 +879,24 @@ public class EventPeriodModelImpl
 			eventPeriodCacheModel.endDate = Long.MIN_VALUE;
 		}
 
+		eventPeriodCacheModel.startTime = getStartTime();
+
+		String startTime = eventPeriodCacheModel.startTime;
+
+		if ((startTime != null) && (startTime.length() == 0)) {
+			eventPeriodCacheModel.startTime = null;
+		}
+
+		eventPeriodCacheModel.endTime = getEndTime();
+
+		String endTime = eventPeriodCacheModel.endTime;
+
+		if ((endTime != null) && (endTime.length() == 0)) {
+			eventPeriodCacheModel.endTime = null;
+		}
+
+		eventPeriodCacheModel.isRecurrent = isIsRecurrent();
+
 		eventPeriodCacheModel.timeDetail = getTimeDetail();
 
 		String timeDetail = eventPeriodCacheModel.timeDetail;
@@ -868,6 +974,9 @@ public class EventPeriodModelImpl
 	private long _eventPeriodId;
 	private Date _startDate;
 	private Date _endDate;
+	private String _startTime;
+	private String _endTime;
+	private boolean _isRecurrent;
 	private String _timeDetail;
 	private String _timeDetailCurrentLanguageId;
 	private long _eventId;
@@ -907,6 +1016,9 @@ public class EventPeriodModelImpl
 		_columnOriginalValues.put("eventPeriodId", _eventPeriodId);
 		_columnOriginalValues.put("startDate", _startDate);
 		_columnOriginalValues.put("endDate", _endDate);
+		_columnOriginalValues.put("startTime", _startTime);
+		_columnOriginalValues.put("endTime", _endTime);
+		_columnOriginalValues.put("isRecurrent", _isRecurrent);
 		_columnOriginalValues.put("timeDetail", _timeDetail);
 		_columnOriginalValues.put("eventId", _eventId);
 		_columnOriginalValues.put("campaignEventId", _campaignEventId);
@@ -941,11 +1053,17 @@ public class EventPeriodModelImpl
 
 		columnBitmasks.put("endDate", 8L);
 
-		columnBitmasks.put("timeDetail", 16L);
+		columnBitmasks.put("startTime", 16L);
 
-		columnBitmasks.put("eventId", 32L);
+		columnBitmasks.put("endTime", 32L);
 
-		columnBitmasks.put("campaignEventId", 64L);
+		columnBitmasks.put("isRecurrent", 64L);
+
+		columnBitmasks.put("timeDetail", 128L);
+
+		columnBitmasks.put("eventId", 256L);
+
+		columnBitmasks.put("campaignEventId", 512L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

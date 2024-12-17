@@ -275,6 +275,9 @@
 		<field name="eventPeriodId" type="long" />
 		<field name="startDate" type="Date" />
 		<field name="endDate" type="Date" />
+		<field name="startTime" type="String" />
+		<field name="endTime" type="String" />
+		<field name="isRecurrent" type="boolean" />
 		<field localized="true" name="timeDetail" type="String" />
 		<field name="eventId" type="long" />
 		<field name="campaignEventId" type="long" />
