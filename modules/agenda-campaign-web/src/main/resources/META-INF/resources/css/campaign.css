@@ -19,6 +19,16 @@
    margin-bottom: -40px;
 }
 
+.time-detail-wrapper .form-group {
+    display: inline-block;
+    max-width: 65%;
+}
+
+.form-group .checkbox-inline input[type=checkbox] {
+    left: 0;
+    margin-left: 0 !important;
+}
+
 .time-detail-generator-wrapper {
 	margin-top: 10px;
 }

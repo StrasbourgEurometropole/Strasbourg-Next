@@ -15,6 +15,7 @@
 }
 
 .time-detail-wrapper .form-group {
+    display: inline-block;
 	max-width: 65%;
 }
 

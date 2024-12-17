@@ -349,6 +349,12 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 						"startDate" + periodIndex, dateFormat);
 					Date endDate = ParamUtil.getDate(request,
 						"endDate" + periodIndex, dateFormat);
+					String startTime = ParamUtil.getString(request,
+							"startTime" + periodIndex);
+					String endTime = ParamUtil.getString(request,
+							"endTime" + periodIndex);
+					Boolean isRecurrent = ParamUtil.getBoolean(request,
+							"isRecurrent" + periodIndex);
 					Map<Locale, String> timeDetail = LocalizationUtil
 						.getLocalizationMap(request,
 							"timeDetail" + periodIndex);
@@ -357,6 +363,9 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 						.createEventPeriod();
 					eventPeriod.setStartDate(startDate);
 					eventPeriod.setEndDate(endDate);
+					eventPeriod.setStartTime(startTime);
+					eventPeriod.setEndTime(endTime);
+					eventPeriod.setIsRecurrent(isRecurrent);
 					eventPeriod.setTimeDetailMap(timeDetail);
 					eventPeriod.setEventId(0);
 					eventPeriod

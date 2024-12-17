@@ -465,6 +465,9 @@
 									<liferay-util:param name="index" value="${status.index}" />
 									<liferay-util:param name="startDate" value="${formattedStartDate}" />
 									<liferay-util:param name="endDate" value="${formattedEndDate}" />
+									<liferay-util:param name="startTime" value="${period.startTime}" />
+									<liferay-util:param name="endTime" value="${period.endTime}" />
+									<liferay-util:param name="isRecurrent" value="${period.isRecurrent}" />
 									<liferay-util:param name="timeDetail" value="${period.timeDetail}" />
 								</liferay-util:include>
 							</div>
