@@ -345,14 +345,23 @@ public class SaveEventActionCommand implements MVCActionCommand {
 						"startDate" + periodIndex, dateFormat);
 					Date endDate = ParamUtil.getDate(request,
 						"endDate" + periodIndex, dateFormat);
+					String startTime = ParamUtil.getString(request,
+							"startTime" + periodIndex);
+					String endTime = ParamUtil.getString(request,
+							"endTime" + periodIndex);
+					Boolean isRecurrent = ParamUtil.getBoolean(request,
+							"isRecurrent" + periodIndex);
 					Map<Locale, String> timeDetail = LocalizationUtil
-						.getLocalizationMap(request,
-							"timeDetail" + periodIndex);
+							.getLocalizationMap(request,
+									"timeDetail" + periodIndex);
 
 					EventPeriod eventPeriod = _eventPeriodLocalService
 						.createEventPeriod();
 					eventPeriod.setStartDate(startDate);
 					eventPeriod.setEndDate(endDate);
+					eventPeriod.setStartTime(startTime);
+					eventPeriod.setEndTime(endTime);
+					eventPeriod.setIsRecurrent(isRecurrent);
 					eventPeriod.setTimeDetailMap(timeDetail);
 					eventPeriod.setEventId(event.getEventId());
 					eventPeriod.setCampaignEventId(0);

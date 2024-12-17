@@ -24,6 +24,9 @@
 </span>
 
 <div class="time-detail-wrapper">
+	<aui:input type="time" value="${param.startTime}" name="startTime${param.index}" label="start-time" inlineField="true" />
+	<aui:input type="time" value="${param.endTime}" name="endTime${param.index}" label="end-time" inlineField="true" />
+	<aui:input type="checkbox" value="${param.isRecurrent}" name="isRecurrent${param.index}" label="recurrent" inlineField="true" />
 	<aui:input type="text" value="${param.timeDetail}" name="timeDetail${param.index}" label="Horaires" localized="true" inlineField="true" />
 </div>
 
