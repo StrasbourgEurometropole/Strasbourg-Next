@@ -15,12 +15,19 @@
 }
 
 .time-detail-wrapper .form-group {
+    max-width: 65%;
+}
+
+.time-detail-wrapper div .form-group {
     display: inline-block;
-	max-width: 65%;
 }
 
 .time-detail-generator-wrapper {
 	margin-top: 10px;
+}
+
+.time-detail-generator-wrapper .form-group {
+    display: inline-block;
 }
 
 .event-periods-title {

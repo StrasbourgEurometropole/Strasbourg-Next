@@ -582,7 +582,8 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 		int periodsCount = 0;
         long campaignId = ParamUtil.getLong(request, "campaignId");
         Campaign campaign = CampaignLocalServiceUtil.fetchCampaign(campaignId);
-        boolean eventIncluded = false;
+		boolean eventIncluded = false;
+		boolean hasTime = true;
 		for (String periodIndex : periodsIndexesString.split(",")) {
             if (Validator.isNotNull(periodIndex)){
                 String startDateString = ParamUtil.getString(request, "startDate" + periodIndex);
@@ -595,6 +596,12 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
                     if(!(endDate.before(campaign.getStartDate()) || startDate.after(campaign.getEndDate()))){
                         eventIncluded = true;
                     }
+					if (Validator.isNull(ParamUtil.getString(request,
+							"startTime" + periodIndex))
+							|| Validator.isNull(ParamUtil.getString(request,
+							"startTime" + periodIndex))) {
+						hasTime = false;
+					}
                 }
             }
 		}
@@ -605,7 +612,10 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
             if (!eventIncluded) {
                 SessionErrors.add(request, "campaign-period-error");
                 isValid = false;
-            }
+            }else if(!hasTime){
+				SessionErrors.add(request, "period-time-error");
+				isValid = false;
+			}
         }
 
 		// Campagne

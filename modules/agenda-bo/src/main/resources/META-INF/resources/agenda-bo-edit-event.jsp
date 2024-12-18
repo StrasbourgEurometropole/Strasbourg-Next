@@ -29,6 +29,7 @@
 	<liferay-ui:error key="place-name-error" message="place-name-error" />
 	<liferay-ui:error key="place-city-error" message="place-city-error" />
 	<liferay-ui:error key="period-date-error" message="period-date-error" />
+	<liferay-ui:error key="period-time-error" message="period-time-error" />
 	<liferay-ui:error key="period-error" message="period-error" />
 	<liferay-ui:error exception="<%= AssetCategoryException.class %>">
 
@@ -142,7 +143,8 @@
                         <p class="control-label"><liferay-ui:message key="update-current-language-times" /></p>
                     </div>
                     <div class="time-detail-generator-wrapper">
-                        <aui:input type="text" name="timeDetailGenerator" label="event-times" inlineField="true" helpMessage="event-times-help"/>
+						<aui:input type="time" name="startTimeGenerator" label="eu.strasbourg.start-time" inlineField="true" />
+						<aui:input type="time" name="endTimeGenerator" label="eu.strasbourg.end-time" inlineField="true" />
                     </div>
                     <aui:button id="changeTimes" name="changeTimes" value="update-times" />
                 </div>

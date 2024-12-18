@@ -24,10 +24,12 @@
 </span>
 
 <div class="time-detail-wrapper">
-	<aui:input type="time" value="${param.startTime}" name="startTime${param.index}" label="start-time" inlineField="true" />
-	<aui:input type="time" value="${param.endTime}" name="endTime${param.index}" label="end-time" inlineField="true" />
-	<aui:input type="checkbox" value="${param.isRecurrent}" name="isRecurrent${param.index}" label="recurrent" inlineField="true" />
-	<aui:input type="text" value="${param.timeDetail}" name="timeDetail${param.index}" label="period-times" localized="true" inlineField="true" />
+	<div>
+		<aui:input type="time" value="${param.startTime}" name="startTime${param.index}" label="eu.strasbourg.start-time" inlineField="true" required="true" cssClass="start-time" />
+		<aui:input type="time" value="${param.endTime}" name="endTime${param.index}" label="eu.strasbourg.end-time" inlineField="true" required="true" cssClass="end-time" />
+	</div>
+	<aui:input type="checkbox" value="${param.isRecurrent}" name="isRecurrent${param.index}" label="eu.strasbourg.recurrent" />
+	<aui:input type="text" value="${param.timeDetail}" name="timeDetail${param.index}" label="eu.strasbourg.info" localized="true" inlineField="true" />
 </div>
 
 <aui:input type="hidden" value="${param.startDate}" id="startDate${param.index}" name="startDate${param.index}" cssClass="startDate" />

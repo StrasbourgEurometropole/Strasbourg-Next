@@ -20,8 +20,11 @@
 }
 
 .time-detail-wrapper .form-group {
-    display: inline-block;
     max-width: 65%;
+}
+
+.time-detail-wrapper div .form-group {
+    display: inline-block;
 }
 
 .form-group .checkbox-inline input[type=checkbox] {
@@ -31,6 +34,10 @@
 
 .time-detail-generator-wrapper {
 	margin-top: 10px;
+}
+
+.time-detail-generator-wrapper .form-group {
+    display: inline-block;
 }
 
 .event-periods-title {

@@ -522,11 +522,19 @@ public class SaveEventActionCommand implements MVCActionCommand {
 					ParamUtil.getString(request, "endDate" + periodIndex))) {
 
 				Date startDate = ParamUtil.getDate(request,
-					"startDate" + periodIndex, dateFormat);
+						"startDate" + periodIndex, dateFormat);
 				Date endDate = ParamUtil.getDate(request,
-					"endDate" + periodIndex, dateFormat);
+						"endDate" + periodIndex, dateFormat);
 				if (endDate.before(startDate)) {
 					SessionErrors.add(request, "period-date-error");
+					isValid = false;
+				}
+
+				if (Validator.isNull(ParamUtil.getString(request,
+						"startTime" + periodIndex))
+						|| Validator.isNull(ParamUtil.getString(request,
+						"startTime" + periodIndex))) {
+					SessionErrors.add(request, "period-time-error");
 					isValid = false;
 				}
 				periodCount++;

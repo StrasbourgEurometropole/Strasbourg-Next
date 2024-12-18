@@ -201,12 +201,15 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 	 * Modification globale des horaires
 	 */
 	$('#' + namespace + 'changeTimes').on('click', function() { 
-		// Au clic sur le bouton "Modifier les horaires", on set les valeurs de tous les champs localisables
-		// Et on lance une méthode du composant afin que la modification soit prise en compte
-		var newValue = $('#' + namespace + 'timeDetailGenerator').val();
-		$('#date-fields .input-localized input[type=text]').each(function() {
-			$(this).val(newValue);
-			Liferay.component($(this).attr('id')).updateInputLanguage(newValue);
+		// Au clic sur le bouton "Modifier les horaires", on set les valeurs de tous les champs horaire
+		var newStartTime = $('#' + namespace + 'startTimeGenerator').val();
+		$('#date-fields input[type=time].start-time').each(function() {
+			$(this).val(newStartTime);
+		});
+
+		var newEndTime = $('#' + namespace + 'endTimeGenerator').val();
+		$('#date-fields input[type=time].end-time').each(function() {
+			$(this).val(newEndTime);
 		});
 	});
 })(jQuery);

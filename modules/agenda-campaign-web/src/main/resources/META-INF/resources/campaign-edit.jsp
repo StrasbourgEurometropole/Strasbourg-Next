@@ -24,6 +24,7 @@
 	<liferay-ui:error key="place-name-error" message="place-name-error" />
 	<liferay-ui:error key="place-city-error" message="place-city-error" />
 	<liferay-ui:error key="periods-error" message="periods-error" />
+	<liferay-ui:error key="period-time-error" message="period-time-error" />
 	<liferay-ui:error key="campaign-period-error" message="campaign-period-error" />
 	<liferay-ui:error key="campaign-error" message="campaign-error" />
 	<liferay-ui:error key="types-error" message="types-error" />
@@ -481,7 +482,8 @@
 						<p class="control-label"><liferay-ui:message key="update-current-language-times" /></p>
 					</div>
 					<div class="time-detail-generator-wrapper">
-						<aui:input type="text" name="timeDetailGenerator" label="event-times" inlineField="true" helpMessage="event-times-help"/>
+						<aui:input type="time" name="startTimeGenerator" label="eu.strasbourg.start-time" inlineField="true" />
+						<aui:input type="time" name="endTimeGenerator" label="eu.strasbourg.end-time" inlineField="true" />
 					</div>
 					<aui:button id="changeTimes" name="changeTimes" value="update-times" />
 				</div>
