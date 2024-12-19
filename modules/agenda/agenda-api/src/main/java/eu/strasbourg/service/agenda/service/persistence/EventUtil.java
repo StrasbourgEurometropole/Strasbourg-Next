@@ -1221,171 +1221,195 @@ public class EventUtil {
 	}
 
 	/**
-	 * Returns all the events where lastEndDate &lt; &#63;.
+	 * Returns all the events where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @return the matching events
 	 */
-	public static List<Event> findByLastEndDate(Date lastEndDate) {
-		return getPersistence().findByLastEndDate(lastEndDate);
+	public static List<Event> findByLastEndDateAndNotStatus(
+		Date lastEndDate, int status) {
+
+		return getPersistence().findByLastEndDateAndNotStatus(
+			lastEndDate, status);
 	}
 
 	/**
-	 * Returns a range of all the events where lastEndDate &lt; &#63;.
+	 * Returns a range of all the events where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>EventModelImpl</code>.
 	 * </p>
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param start the lower bound of the range of events
 	 * @param end the upper bound of the range of events (not inclusive)
 	 * @return the range of matching events
 	 */
-	public static List<Event> findByLastEndDate(
-		Date lastEndDate, int start, int end) {
+	public static List<Event> findByLastEndDateAndNotStatus(
+		Date lastEndDate, int status, int start, int end) {
 
-		return getPersistence().findByLastEndDate(lastEndDate, start, end);
+		return getPersistence().findByLastEndDateAndNotStatus(
+			lastEndDate, status, start, end);
 	}
 
 	/**
-	 * Returns an ordered range of all the events where lastEndDate &lt; &#63;.
+	 * Returns an ordered range of all the events where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>EventModelImpl</code>.
 	 * </p>
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param start the lower bound of the range of events
 	 * @param end the upper bound of the range of events (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching events
 	 */
-	public static List<Event> findByLastEndDate(
-		Date lastEndDate, int start, int end,
+	public static List<Event> findByLastEndDateAndNotStatus(
+		Date lastEndDate, int status, int start, int end,
 		OrderByComparator<Event> orderByComparator) {
 
-		return getPersistence().findByLastEndDate(
-			lastEndDate, start, end, orderByComparator);
+		return getPersistence().findByLastEndDateAndNotStatus(
+			lastEndDate, status, start, end, orderByComparator);
 	}
 
 	/**
-	 * Returns an ordered range of all the events where lastEndDate &lt; &#63;.
+	 * Returns an ordered range of all the events where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>EventModelImpl</code>.
 	 * </p>
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param start the lower bound of the range of events
 	 * @param end the upper bound of the range of events (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching events
 	 */
-	public static List<Event> findByLastEndDate(
-		Date lastEndDate, int start, int end,
+	public static List<Event> findByLastEndDateAndNotStatus(
+		Date lastEndDate, int status, int start, int end,
 		OrderByComparator<Event> orderByComparator, boolean useFinderCache) {
 
-		return getPersistence().findByLastEndDate(
-			lastEndDate, start, end, orderByComparator, useFinderCache);
+		return getPersistence().findByLastEndDateAndNotStatus(
+			lastEndDate, status, start, end, orderByComparator, useFinderCache);
 	}
 
 	/**
-	 * Returns the first event in the ordered set where lastEndDate &lt; &#63;.
+	 * Returns the first event in the ordered set where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching event
 	 * @throws NoSuchEventException if a matching event could not be found
 	 */
-	public static Event findByLastEndDate_First(
-			Date lastEndDate, OrderByComparator<Event> orderByComparator)
+	public static Event findByLastEndDateAndNotStatus_First(
+			Date lastEndDate, int status,
+			OrderByComparator<Event> orderByComparator)
 		throws eu.strasbourg.service.agenda.exception.NoSuchEventException {
 
-		return getPersistence().findByLastEndDate_First(
-			lastEndDate, orderByComparator);
+		return getPersistence().findByLastEndDateAndNotStatus_First(
+			lastEndDate, status, orderByComparator);
 	}
 
 	/**
-	 * Returns the first event in the ordered set where lastEndDate &lt; &#63;.
+	 * Returns the first event in the ordered set where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching event, or <code>null</code> if a matching event could not be found
 	 */
-	public static Event fetchByLastEndDate_First(
-		Date lastEndDate, OrderByComparator<Event> orderByComparator) {
+	public static Event fetchByLastEndDateAndNotStatus_First(
+		Date lastEndDate, int status,
+		OrderByComparator<Event> orderByComparator) {
 
-		return getPersistence().fetchByLastEndDate_First(
-			lastEndDate, orderByComparator);
+		return getPersistence().fetchByLastEndDateAndNotStatus_First(
+			lastEndDate, status, orderByComparator);
 	}
 
 	/**
-	 * Returns the last event in the ordered set where lastEndDate &lt; &#63;.
+	 * Returns the last event in the ordered set where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching event
 	 * @throws NoSuchEventException if a matching event could not be found
 	 */
-	public static Event findByLastEndDate_Last(
-			Date lastEndDate, OrderByComparator<Event> orderByComparator)
+	public static Event findByLastEndDateAndNotStatus_Last(
+			Date lastEndDate, int status,
+			OrderByComparator<Event> orderByComparator)
 		throws eu.strasbourg.service.agenda.exception.NoSuchEventException {
 
-		return getPersistence().findByLastEndDate_Last(
-			lastEndDate, orderByComparator);
+		return getPersistence().findByLastEndDateAndNotStatus_Last(
+			lastEndDate, status, orderByComparator);
 	}
 
 	/**
-	 * Returns the last event in the ordered set where lastEndDate &lt; &#63;.
+	 * Returns the last event in the ordered set where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching event, or <code>null</code> if a matching event could not be found
 	 */
-	public static Event fetchByLastEndDate_Last(
-		Date lastEndDate, OrderByComparator<Event> orderByComparator) {
+	public static Event fetchByLastEndDateAndNotStatus_Last(
+		Date lastEndDate, int status,
+		OrderByComparator<Event> orderByComparator) {
 
-		return getPersistence().fetchByLastEndDate_Last(
-			lastEndDate, orderByComparator);
+		return getPersistence().fetchByLastEndDateAndNotStatus_Last(
+			lastEndDate, status, orderByComparator);
 	}
 
 	/**
-	 * Returns the events before and after the current event in the ordered set where lastEndDate &lt; &#63;.
+	 * Returns the events before and after the current event in the ordered set where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param eventId the primary key of the current event
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next event
 	 * @throws NoSuchEventException if a event with the primary key could not be found
 	 */
-	public static Event[] findByLastEndDate_PrevAndNext(
-			long eventId, Date lastEndDate,
+	public static Event[] findByLastEndDateAndNotStatus_PrevAndNext(
+			long eventId, Date lastEndDate, int status,
 			OrderByComparator<Event> orderByComparator)
 		throws eu.strasbourg.service.agenda.exception.NoSuchEventException {
 
-		return getPersistence().findByLastEndDate_PrevAndNext(
-			eventId, lastEndDate, orderByComparator);
+		return getPersistence().findByLastEndDateAndNotStatus_PrevAndNext(
+			eventId, lastEndDate, status, orderByComparator);
 	}
 
 	/**
-	 * Removes all the events where lastEndDate &lt; &#63; from the database.
+	 * Removes all the events where lastEndDate &lt; &#63; and status &ne; &#63; from the database.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 */
-	public static void removeByLastEndDate(Date lastEndDate) {
-		getPersistence().removeByLastEndDate(lastEndDate);
+	public static void removeByLastEndDateAndNotStatus(
+		Date lastEndDate, int status) {
+
+		getPersistence().removeByLastEndDateAndNotStatus(lastEndDate, status);
 	}
 
 	/**
-	 * Returns the number of events where lastEndDate &lt; &#63;.
+	 * Returns the number of events where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @return the number of matching events
 	 */
-	public static int countByLastEndDate(Date lastEndDate) {
-		return getPersistence().countByLastEndDate(lastEndDate);
+	public static int countByLastEndDateAndNotStatus(
+		Date lastEndDate, int status) {
+
+		return getPersistence().countByLastEndDateAndNotStatus(
+			lastEndDate, status);
 	}
 
 	/**

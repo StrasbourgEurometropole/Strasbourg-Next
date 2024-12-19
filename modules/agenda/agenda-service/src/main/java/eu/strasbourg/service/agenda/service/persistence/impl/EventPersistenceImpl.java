@@ -3612,68 +3612,77 @@ public class EventPersistenceImpl
 	private static final String
 		_FINDER_COLUMN_PUBLICATIONDATEANDSTATUS_STATUS_2 = "event.status = ?";
 
-	private FinderPath _finderPathWithPaginationFindByLastEndDate;
-	private FinderPath _finderPathWithPaginationCountByLastEndDate;
+	private FinderPath _finderPathWithPaginationFindByLastEndDateAndNotStatus;
+	private FinderPath _finderPathWithPaginationCountByLastEndDateAndNotStatus;
 
 	/**
-	 * Returns all the events where lastEndDate &lt; &#63;.
+	 * Returns all the events where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @return the matching events
 	 */
 	@Override
-	public List<Event> findByLastEndDate(Date lastEndDate) {
-		return findByLastEndDate(
-			lastEndDate, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public List<Event> findByLastEndDateAndNotStatus(
+		Date lastEndDate, int status) {
+
+		return findByLastEndDateAndNotStatus(
+			lastEndDate, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the events where lastEndDate &lt; &#63;.
+	 * Returns a range of all the events where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>EventModelImpl</code>.
 	 * </p>
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param start the lower bound of the range of events
 	 * @param end the upper bound of the range of events (not inclusive)
 	 * @return the range of matching events
 	 */
 	@Override
-	public List<Event> findByLastEndDate(Date lastEndDate, int start, int end) {
-		return findByLastEndDate(lastEndDate, start, end, null);
+	public List<Event> findByLastEndDateAndNotStatus(
+		Date lastEndDate, int status, int start, int end) {
+
+		return findByLastEndDateAndNotStatus(
+			lastEndDate, status, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the events where lastEndDate &lt; &#63;.
+	 * Returns an ordered range of all the events where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>EventModelImpl</code>.
 	 * </p>
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param start the lower bound of the range of events
 	 * @param end the upper bound of the range of events (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching events
 	 */
 	@Override
-	public List<Event> findByLastEndDate(
-		Date lastEndDate, int start, int end,
+	public List<Event> findByLastEndDateAndNotStatus(
+		Date lastEndDate, int status, int start, int end,
 		OrderByComparator<Event> orderByComparator) {
 
-		return findByLastEndDate(
-			lastEndDate, start, end, orderByComparator, true);
+		return findByLastEndDateAndNotStatus(
+			lastEndDate, status, start, end, orderByComparator, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the events where lastEndDate &lt; &#63;.
+	 * Returns an ordered range of all the events where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>EventModelImpl</code>.
 	 * </p>
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param start the lower bound of the range of events
 	 * @param end the upper bound of the range of events (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -3681,16 +3690,16 @@ public class EventPersistenceImpl
 	 * @return the ordered range of matching events
 	 */
 	@Override
-	public List<Event> findByLastEndDate(
-		Date lastEndDate, int start, int end,
+	public List<Event> findByLastEndDateAndNotStatus(
+		Date lastEndDate, int status, int start, int end,
 		OrderByComparator<Event> orderByComparator, boolean useFinderCache) {
 
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
-		finderPath = _finderPathWithPaginationFindByLastEndDate;
+		finderPath = _finderPathWithPaginationFindByLastEndDateAndNotStatus;
 		finderArgs = new Object[] {
-			_getTime(lastEndDate), start, end, orderByComparator
+			_getTime(lastEndDate), status, start, end, orderByComparator
 		};
 
 		List<Event> list = null;
@@ -3701,8 +3710,8 @@ public class EventPersistenceImpl
 
 			if ((list != null) && !list.isEmpty()) {
 				for (Event event : list) {
-					if (lastEndDate.getTime() <= event.getLastEndDate(
-						).getTime()) {
+					if ((lastEndDate.getTime() <= event.getLastEndDate(
+						).getTime()) || (status == event.getStatus())) {
 
 						list = null;
 
@@ -3717,10 +3726,10 @@ public class EventPersistenceImpl
 
 			if (orderByComparator != null) {
 				sb = new StringBundler(
-					3 + (orderByComparator.getOrderByFields().length * 2));
+					4 + (orderByComparator.getOrderByFields().length * 2));
 			}
 			else {
-				sb = new StringBundler(3);
+				sb = new StringBundler(4);
 			}
 
 			sb.append(_SQL_SELECT_EVENT_WHERE);
@@ -3728,13 +3737,15 @@ public class EventPersistenceImpl
 			boolean bindLastEndDate = false;
 
 			if (lastEndDate == null) {
-				sb.append(_FINDER_COLUMN_LASTENDDATE_LASTENDDATE_1);
+				sb.append(_FINDER_COLUMN_LASTENDDATEANDNOTSTATUS_LASTENDDATE_1);
 			}
 			else {
 				bindLastEndDate = true;
 
-				sb.append(_FINDER_COLUMN_LASTENDDATE_LASTENDDATE_2);
+				sb.append(_FINDER_COLUMN_LASTENDDATEANDNOTSTATUS_LASTENDDATE_2);
 			}
+
+			sb.append(_FINDER_COLUMN_LASTENDDATEANDNOTSTATUS_STATUS_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(
@@ -3759,6 +3770,8 @@ public class EventPersistenceImpl
 					queryPos.add(new Timestamp(lastEndDate.getTime()));
 				}
 
+				queryPos.add(status);
+
 				list = (List<Event>)QueryUtil.list(
 					query, getDialect(), start, end);
 
@@ -3780,30 +3793,36 @@ public class EventPersistenceImpl
 	}
 
 	/**
-	 * Returns the first event in the ordered set where lastEndDate &lt; &#63;.
+	 * Returns the first event in the ordered set where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching event
 	 * @throws NoSuchEventException if a matching event could not be found
 	 */
 	@Override
-	public Event findByLastEndDate_First(
-			Date lastEndDate, OrderByComparator<Event> orderByComparator)
+	public Event findByLastEndDateAndNotStatus_First(
+			Date lastEndDate, int status,
+			OrderByComparator<Event> orderByComparator)
 		throws NoSuchEventException {
 
-		Event event = fetchByLastEndDate_First(lastEndDate, orderByComparator);
+		Event event = fetchByLastEndDateAndNotStatus_First(
+			lastEndDate, status, orderByComparator);
 
 		if (event != null) {
 			return event;
 		}
 
-		StringBundler sb = new StringBundler(4);
+		StringBundler sb = new StringBundler(6);
 
 		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
 		sb.append("lastEndDate<");
 		sb.append(lastEndDate);
+
+		sb.append(", status!=");
+		sb.append(status);
 
 		sb.append("}");
 
@@ -3811,18 +3830,20 @@ public class EventPersistenceImpl
 	}
 
 	/**
-	 * Returns the first event in the ordered set where lastEndDate &lt; &#63;.
+	 * Returns the first event in the ordered set where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching event, or <code>null</code> if a matching event could not be found
 	 */
 	@Override
-	public Event fetchByLastEndDate_First(
-		Date lastEndDate, OrderByComparator<Event> orderByComparator) {
+	public Event fetchByLastEndDateAndNotStatus_First(
+		Date lastEndDate, int status,
+		OrderByComparator<Event> orderByComparator) {
 
-		List<Event> list = findByLastEndDate(
-			lastEndDate, 0, 1, orderByComparator);
+		List<Event> list = findByLastEndDateAndNotStatus(
+			lastEndDate, status, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -3832,30 +3853,36 @@ public class EventPersistenceImpl
 	}
 
 	/**
-	 * Returns the last event in the ordered set where lastEndDate &lt; &#63;.
+	 * Returns the last event in the ordered set where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching event
 	 * @throws NoSuchEventException if a matching event could not be found
 	 */
 	@Override
-	public Event findByLastEndDate_Last(
-			Date lastEndDate, OrderByComparator<Event> orderByComparator)
+	public Event findByLastEndDateAndNotStatus_Last(
+			Date lastEndDate, int status,
+			OrderByComparator<Event> orderByComparator)
 		throws NoSuchEventException {
 
-		Event event = fetchByLastEndDate_Last(lastEndDate, orderByComparator);
+		Event event = fetchByLastEndDateAndNotStatus_Last(
+			lastEndDate, status, orderByComparator);
 
 		if (event != null) {
 			return event;
 		}
 
-		StringBundler sb = new StringBundler(4);
+		StringBundler sb = new StringBundler(6);
 
 		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
 
 		sb.append("lastEndDate<");
 		sb.append(lastEndDate);
+
+		sb.append(", status!=");
+		sb.append(status);
 
 		sb.append("}");
 
@@ -3863,24 +3890,26 @@ public class EventPersistenceImpl
 	}
 
 	/**
-	 * Returns the last event in the ordered set where lastEndDate &lt; &#63;.
+	 * Returns the last event in the ordered set where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching event, or <code>null</code> if a matching event could not be found
 	 */
 	@Override
-	public Event fetchByLastEndDate_Last(
-		Date lastEndDate, OrderByComparator<Event> orderByComparator) {
+	public Event fetchByLastEndDateAndNotStatus_Last(
+		Date lastEndDate, int status,
+		OrderByComparator<Event> orderByComparator) {
 
-		int count = countByLastEndDate(lastEndDate);
+		int count = countByLastEndDateAndNotStatus(lastEndDate, status);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Event> list = findByLastEndDate(
-			lastEndDate, count - 1, count, orderByComparator);
+		List<Event> list = findByLastEndDateAndNotStatus(
+			lastEndDate, status, count - 1, count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -3890,17 +3919,18 @@ public class EventPersistenceImpl
 	}
 
 	/**
-	 * Returns the events before and after the current event in the ordered set where lastEndDate &lt; &#63;.
+	 * Returns the events before and after the current event in the ordered set where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param eventId the primary key of the current event
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next event
 	 * @throws NoSuchEventException if a event with the primary key could not be found
 	 */
 	@Override
-	public Event[] findByLastEndDate_PrevAndNext(
-			long eventId, Date lastEndDate,
+	public Event[] findByLastEndDateAndNotStatus_PrevAndNext(
+			long eventId, Date lastEndDate, int status,
 			OrderByComparator<Event> orderByComparator)
 		throws NoSuchEventException {
 
@@ -3913,13 +3943,13 @@ public class EventPersistenceImpl
 
 			Event[] array = new EventImpl[3];
 
-			array[0] = getByLastEndDate_PrevAndNext(
-				session, event, lastEndDate, orderByComparator, true);
+			array[0] = getByLastEndDateAndNotStatus_PrevAndNext(
+				session, event, lastEndDate, status, orderByComparator, true);
 
 			array[1] = event;
 
-			array[2] = getByLastEndDate_PrevAndNext(
-				session, event, lastEndDate, orderByComparator, false);
+			array[2] = getByLastEndDateAndNotStatus_PrevAndNext(
+				session, event, lastEndDate, status, orderByComparator, false);
 
 			return array;
 		}
@@ -3931,19 +3961,19 @@ public class EventPersistenceImpl
 		}
 	}
 
-	protected Event getByLastEndDate_PrevAndNext(
-		Session session, Event event, Date lastEndDate,
+	protected Event getByLastEndDateAndNotStatus_PrevAndNext(
+		Session session, Event event, Date lastEndDate, int status,
 		OrderByComparator<Event> orderByComparator, boolean previous) {
 
 		StringBundler sb = null;
 
 		if (orderByComparator != null) {
 			sb = new StringBundler(
-				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
 					(orderByComparator.getOrderByFields().length * 3));
 		}
 		else {
-			sb = new StringBundler(3);
+			sb = new StringBundler(4);
 		}
 
 		sb.append(_SQL_SELECT_EVENT_WHERE);
@@ -3951,13 +3981,15 @@ public class EventPersistenceImpl
 		boolean bindLastEndDate = false;
 
 		if (lastEndDate == null) {
-			sb.append(_FINDER_COLUMN_LASTENDDATE_LASTENDDATE_1);
+			sb.append(_FINDER_COLUMN_LASTENDDATEANDNOTSTATUS_LASTENDDATE_1);
 		}
 		else {
 			bindLastEndDate = true;
 
-			sb.append(_FINDER_COLUMN_LASTENDDATE_LASTENDDATE_2);
+			sb.append(_FINDER_COLUMN_LASTENDDATEANDNOTSTATUS_LASTENDDATE_2);
 		}
+
+		sb.append(_FINDER_COLUMN_LASTENDDATEANDNOTSTATUS_STATUS_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields =
@@ -4032,6 +4064,8 @@ public class EventPersistenceImpl
 			queryPos.add(new Timestamp(lastEndDate.getTime()));
 		}
 
+		queryPos.add(status);
+
 		if (orderByComparator != null) {
 			for (Object orderByConditionValue :
 					orderByComparator.getOrderByConditionValues(event)) {
@@ -4051,49 +4085,55 @@ public class EventPersistenceImpl
 	}
 
 	/**
-	 * Removes all the events where lastEndDate &lt; &#63; from the database.
+	 * Removes all the events where lastEndDate &lt; &#63; and status &ne; &#63; from the database.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 */
 	@Override
-	public void removeByLastEndDate(Date lastEndDate) {
+	public void removeByLastEndDateAndNotStatus(Date lastEndDate, int status) {
 		for (Event event :
-				findByLastEndDate(
-					lastEndDate, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+				findByLastEndDateAndNotStatus(
+					lastEndDate, status, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
 
 			remove(event);
 		}
 	}
 
 	/**
-	 * Returns the number of events where lastEndDate &lt; &#63;.
+	 * Returns the number of events where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @return the number of matching events
 	 */
 	@Override
-	public int countByLastEndDate(Date lastEndDate) {
-		FinderPath finderPath = _finderPathWithPaginationCountByLastEndDate;
+	public int countByLastEndDateAndNotStatus(Date lastEndDate, int status) {
+		FinderPath finderPath =
+			_finderPathWithPaginationCountByLastEndDateAndNotStatus;
 
-		Object[] finderArgs = new Object[] {_getTime(lastEndDate)};
+		Object[] finderArgs = new Object[] {_getTime(lastEndDate), status};
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler sb = new StringBundler(2);
+			StringBundler sb = new StringBundler(3);
 
 			sb.append(_SQL_COUNT_EVENT_WHERE);
 
 			boolean bindLastEndDate = false;
 
 			if (lastEndDate == null) {
-				sb.append(_FINDER_COLUMN_LASTENDDATE_LASTENDDATE_1);
+				sb.append(_FINDER_COLUMN_LASTENDDATEANDNOTSTATUS_LASTENDDATE_1);
 			}
 			else {
 				bindLastEndDate = true;
 
-				sb.append(_FINDER_COLUMN_LASTENDDATE_LASTENDDATE_2);
+				sb.append(_FINDER_COLUMN_LASTENDDATEANDNOTSTATUS_LASTENDDATE_2);
 			}
+
+			sb.append(_FINDER_COLUMN_LASTENDDATEANDNOTSTATUS_STATUS_2);
 
 			String sql = sb.toString();
 
@@ -4110,6 +4150,8 @@ public class EventPersistenceImpl
 					queryPos.add(new Timestamp(lastEndDate.getTime()));
 				}
 
+				queryPos.add(status);
+
 				count = (Long)query.uniqueResult();
 
 				finderCache.putResult(finderPath, finderArgs, count);
@@ -4125,11 +4167,16 @@ public class EventPersistenceImpl
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_LASTENDDATE_LASTENDDATE_1 =
-		"event.lastEndDate IS NULL";
+	private static final String
+		_FINDER_COLUMN_LASTENDDATEANDNOTSTATUS_LASTENDDATE_1 =
+			"event.lastEndDate IS NULL AND ";
 
-	private static final String _FINDER_COLUMN_LASTENDDATE_LASTENDDATE_2 =
-		"event.lastEndDate < ?";
+	private static final String
+		_FINDER_COLUMN_LASTENDDATEANDNOTSTATUS_LASTENDDATE_2 =
+			"event.lastEndDate < ? AND ";
+
+	private static final String
+		_FINDER_COLUMN_LASTENDDATEANDNOTSTATUS_STATUS_2 = "event.status != ?";
 
 	private FinderPath _finderPathWithPaginationFindByStatusDateAndStatus;
 	private FinderPath _finderPathWithPaginationCountByStatusDateAndStatus;
@@ -7293,18 +7340,22 @@ public class EventPersistenceImpl
 				new String[] {Date.class.getName(), Integer.class.getName()},
 				new String[] {"publicationDate", "status"}, false);
 
-		_finderPathWithPaginationFindByLastEndDate = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByLastEndDate",
+		_finderPathWithPaginationFindByLastEndDateAndNotStatus = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByLastEndDateAndNotStatus",
 			new String[] {
 				Date.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
 			},
-			new String[] {"lastEndDate"}, true);
+			new String[] {"lastEndDate", "status"}, true);
 
-		_finderPathWithPaginationCountByLastEndDate = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByLastEndDate",
-			new String[] {Date.class.getName()}, new String[] {"lastEndDate"},
-			false);
+		_finderPathWithPaginationCountByLastEndDateAndNotStatus =
+			new FinderPath(
+				FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+				"countByLastEndDateAndNotStatus",
+				new String[] {Date.class.getName(), Integer.class.getName()},
+				new String[] {"lastEndDate", "status"}, false);
 
 		_finderPathWithPaginationFindByStatusDateAndStatus = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByStatusDateAndStatus",

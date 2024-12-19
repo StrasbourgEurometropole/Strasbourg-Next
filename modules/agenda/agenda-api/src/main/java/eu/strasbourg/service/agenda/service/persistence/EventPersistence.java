@@ -978,147 +978,159 @@ public interface EventPersistence extends BasePersistence<Event> {
 		Date publicationDate, int status);
 
 	/**
-	 * Returns all the events where lastEndDate &lt; &#63;.
+	 * Returns all the events where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @return the matching events
 	 */
-	public java.util.List<Event> findByLastEndDate(Date lastEndDate);
+	public java.util.List<Event> findByLastEndDateAndNotStatus(
+		Date lastEndDate, int status);
 
 	/**
-	 * Returns a range of all the events where lastEndDate &lt; &#63;.
+	 * Returns a range of all the events where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>EventModelImpl</code>.
 	 * </p>
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param start the lower bound of the range of events
 	 * @param end the upper bound of the range of events (not inclusive)
 	 * @return the range of matching events
 	 */
-	public java.util.List<Event> findByLastEndDate(
-		Date lastEndDate, int start, int end);
+	public java.util.List<Event> findByLastEndDateAndNotStatus(
+		Date lastEndDate, int status, int start, int end);
 
 	/**
-	 * Returns an ordered range of all the events where lastEndDate &lt; &#63;.
+	 * Returns an ordered range of all the events where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>EventModelImpl</code>.
 	 * </p>
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param start the lower bound of the range of events
 	 * @param end the upper bound of the range of events (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @return the ordered range of matching events
 	 */
-	public java.util.List<Event> findByLastEndDate(
-		Date lastEndDate, int start, int end,
+	public java.util.List<Event> findByLastEndDateAndNotStatus(
+		Date lastEndDate, int status, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<Event>
 			orderByComparator);
 
 	/**
-	 * Returns an ordered range of all the events where lastEndDate &lt; &#63;.
+	 * Returns an ordered range of all the events where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>EventModelImpl</code>.
 	 * </p>
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param start the lower bound of the range of events
 	 * @param end the upper bound of the range of events (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the ordered range of matching events
 	 */
-	public java.util.List<Event> findByLastEndDate(
-		Date lastEndDate, int start, int end,
+	public java.util.List<Event> findByLastEndDateAndNotStatus(
+		Date lastEndDate, int status, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<Event>
 			orderByComparator,
 		boolean useFinderCache);
 
 	/**
-	 * Returns the first event in the ordered set where lastEndDate &lt; &#63;.
+	 * Returns the first event in the ordered set where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching event
 	 * @throws NoSuchEventException if a matching event could not be found
 	 */
-	public Event findByLastEndDate_First(
-			Date lastEndDate,
+	public Event findByLastEndDateAndNotStatus_First(
+			Date lastEndDate, int status,
 			com.liferay.portal.kernel.util.OrderByComparator<Event>
 				orderByComparator)
 		throws NoSuchEventException;
 
 	/**
-	 * Returns the first event in the ordered set where lastEndDate &lt; &#63;.
+	 * Returns the first event in the ordered set where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching event, or <code>null</code> if a matching event could not be found
 	 */
-	public Event fetchByLastEndDate_First(
-		Date lastEndDate,
+	public Event fetchByLastEndDateAndNotStatus_First(
+		Date lastEndDate, int status,
 		com.liferay.portal.kernel.util.OrderByComparator<Event>
 			orderByComparator);
 
 	/**
-	 * Returns the last event in the ordered set where lastEndDate &lt; &#63;.
+	 * Returns the last event in the ordered set where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching event
 	 * @throws NoSuchEventException if a matching event could not be found
 	 */
-	public Event findByLastEndDate_Last(
-			Date lastEndDate,
+	public Event findByLastEndDateAndNotStatus_Last(
+			Date lastEndDate, int status,
 			com.liferay.portal.kernel.util.OrderByComparator<Event>
 				orderByComparator)
 		throws NoSuchEventException;
 
 	/**
-	 * Returns the last event in the ordered set where lastEndDate &lt; &#63;.
+	 * Returns the last event in the ordered set where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching event, or <code>null</code> if a matching event could not be found
 	 */
-	public Event fetchByLastEndDate_Last(
-		Date lastEndDate,
+	public Event fetchByLastEndDateAndNotStatus_Last(
+		Date lastEndDate, int status,
 		com.liferay.portal.kernel.util.OrderByComparator<Event>
 			orderByComparator);
 
 	/**
-	 * Returns the events before and after the current event in the ordered set where lastEndDate &lt; &#63;.
+	 * Returns the events before and after the current event in the ordered set where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param eventId the primary key of the current event
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next event
 	 * @throws NoSuchEventException if a event with the primary key could not be found
 	 */
-	public Event[] findByLastEndDate_PrevAndNext(
-			long eventId, Date lastEndDate,
+	public Event[] findByLastEndDateAndNotStatus_PrevAndNext(
+			long eventId, Date lastEndDate, int status,
 			com.liferay.portal.kernel.util.OrderByComparator<Event>
 				orderByComparator)
 		throws NoSuchEventException;
 
 	/**
-	 * Removes all the events where lastEndDate &lt; &#63; from the database.
+	 * Removes all the events where lastEndDate &lt; &#63; and status &ne; &#63; from the database.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 */
-	public void removeByLastEndDate(Date lastEndDate);
+	public void removeByLastEndDateAndNotStatus(Date lastEndDate, int status);
 
 	/**
-	 * Returns the number of events where lastEndDate &lt; &#63;.
+	 * Returns the number of events where lastEndDate &lt; &#63; and status &ne; &#63;.
 	 *
 	 * @param lastEndDate the last end date
+	 * @param status the status
 	 * @return the number of matching events
 	 */
-	public int countByLastEndDate(Date lastEndDate);
+	public int countByLastEndDateAndNotStatus(Date lastEndDate, int status);
 
 	/**
 	 * Returns all the events where statusDate &lt; &#63; and status = &#63;.

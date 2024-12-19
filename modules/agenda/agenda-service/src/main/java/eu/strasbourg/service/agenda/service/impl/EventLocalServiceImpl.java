@@ -16,10 +16,10 @@ package eu.strasbourg.service.agenda.service.impl;
 
 import com.liferay.asset.entry.rel.service.AssetEntryAssetCategoryRelLocalServiceUtil;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
+import com.liferay.asset.link.model.AssetLink;
 import com.liferay.asset.link.service.AssetLinkLocalService;
 import com.liferay.asset.link.service.AssetLinkLocalServiceUtil;
 import com.liferay.portal.kernel.bean.BeanReference;
@@ -74,8 +74,18 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -176,10 +186,21 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 			periods.sort(
 				(p1, p2) -> p1.getStartDate().compareTo(p2.getStartDate()));
 
-			Date firstStartDate = periods.get(0).getStartDate();
-			Date lastEndDate = periods.get(periods.size() - 1).getEndDate();
-			event.setFirstStartDate(firstStartDate);
-			event.setLastEndDate(lastEndDate);
+			EventPeriod firstPeriod = periods.get(0);
+			Date firstStartDate = firstPeriod.getStartDate();
+			LocalTime firstStartLocalTime = LocalTime.parse(firstPeriod.getStartTime());
+			Calendar firstStartDateTime = getCalendar(firstStartDate, firstStartLocalTime);
+			event.setFirstStartDate(firstStartDateTime.getTime());
+
+			EventPeriod lastPeriod = periods.get(periods.size() - 1);
+			Date lastEndDate = lastPeriod.getEndDate();
+			LocalTime lastStartLocalTime = LocalTime.parse(lastPeriod.getStartTime());
+			LocalTime lastEndLocalTime = LocalTime.parse(lastPeriod.getEndTime());
+			Calendar lastEndDateTime = getCalendar(lastEndDate, lastEndLocalTime);
+			// si l'heure de fin de levent est avant l'heure de début, on ajout un jour
+			if(lastEndLocalTime.isBefore(lastStartLocalTime))
+				lastEndDateTime.add(Calendar.DATE, 1);
+			event.setLastEndDate(lastEndDateTime.getTime());
 		}
 
 		// Si on n'utilise pas le framework workflow, simple gestion
@@ -216,6 +237,16 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		createCacheJSON(event);
 
 		return event;
+	}
+
+	private static Calendar getCalendar(Date date, LocalTime time) {
+		Calendar dateTime = new GregorianCalendar();
+		dateTime.setTime(date);
+		dateTime.set(Calendar.HOUR_OF_DAY,time.getHour());
+		dateTime.set(Calendar.MINUTE,time.getMinute());
+		dateTime.set(Calendar.SECOND,0);
+		dateTime.set(Calendar.MILLISECOND,0);
+		return dateTime;
 	}
 
 	/**
@@ -440,14 +471,10 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	 */
 	@Override
 	public void unpublishPastEvents() throws PortalException {
-		Calendar yesterday = Calendar.getInstance();
-		yesterday.add(Calendar.DATE, -1);
 		List<Event> events = this.eventPersistence
-			.findByLastEndDate(yesterday.getTime());
+			.findByLastEndDateAndNotStatus(new Date(), WorkflowConstants.STATUS_DRAFT);
 		for (Event event : events) {
-			if (event.getStatus() != WorkflowConstants.STATUS_DRAFT) {
-				this.updateStatus(event, WorkflowConstants.STATUS_DRAFT);
-			}
+			this.updateStatus(event, WorkflowConstants.STATUS_DRAFT);
 		}
 	}
 
@@ -737,7 +764,6 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	 */
 	@Override
 	public List<Event> findByNextHappening() {
-
 		return eventFinder.findByNextHappening();
 	}
     
@@ -762,6 +788,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		eventDynamicQuery.add(PropertyFactoryUtil.forName("eventId").in(idsEvents));
 		return this.dynamicQuery(eventDynamicQuery);
 	}
+
 	/**
 	 * Transform le timeDetail en startTime et endTime si on peut
 	 */

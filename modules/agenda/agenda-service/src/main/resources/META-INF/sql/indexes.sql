@@ -29,7 +29,7 @@ create index IX_5440C79D on agenda_CsmapCacheJson (uuid_[$COLUMN_LENGTH:75$]);
 
 create index IX_D69467AB on agenda_Event (groupId, title[$COLUMN_LENGTH:400$]);
 create index IX_3BEFC8D7 on agenda_Event (idSource[$COLUMN_LENGTH:75$]);
-create index IX_8EE3FDB6 on agenda_Event (lastEndDate);
+create index IX_8E7C269C on agenda_Event (lastEndDate, status);
 create index IX_31077546 on agenda_Event (placeSIGId[$COLUMN_LENGTH:75$]);
 create index IX_D2CC01A3 on agenda_Event (publicationDate, status);
 create index IX_774725E6 on agenda_Event (source[$COLUMN_LENGTH:75$], idSource[$COLUMN_LENGTH:75$]);

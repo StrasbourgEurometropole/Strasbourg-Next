@@ -122,8 +122,9 @@
 			<finder-column comparator="&lt;" name="publicationDate" />
 			<finder-column name="status" />
 		</finder>
-		<finder name="LastEndDate" return-type="Collection">
+		<finder name="LastEndDateAndNotStatus" return-type="Collection">
 			<finder-column comparator="&lt;" name="lastEndDate" />
+			<finder-column comparator="!=" name="status" />
 		</finder>
 		<finder name="StatusDateAndStatus" return-type="Collection">
 			<finder-column comparator="&lt;" name="statusDate" />
