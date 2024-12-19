@@ -14,9 +14,18 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
+import com.liferay.portal.kernel.util.Validator;
+import eu.strasbourg.service.place.model.Place;
+import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import org.osgi.annotation.versioning.ProviderType;
 import eu.strasbourg.utils.DateHelper;
 
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -52,4 +61,53 @@ public class EventPeriodImpl extends EventPeriodBaseImpl {
 	public String getDisplay(Locale locale, boolean dispYear, boolean dispShortMonth) {
 		return DateHelper.displayPeriod(this.getStartDate(), this.getEndDate(), locale, dispYear, dispShortMonth);
 	}
+
+	/**
+	 * Retourne la liste des dates
+	 * 		pour une période non récurrente :
+	 * 		- firstDate + startTime
+	 * 		- toutes les autres dates à minuit
+	 *
+	 * 		pour une période récurrente :
+	 * 		- toutes les dates à startTime
+	 * 		- si endTime < startTime => faut ajouter endDate+1j à minuit
+	 */
+	@Override
+	public List<Date> getDays() {
+		List<Date> dates = new ArrayList<>();
+		Date now = new Date();
+		Date startDate = this.getStartDate().after(now) ?  this.getStartDate() : now;
+		Date endDate = this.getEndDate();
+		LocalTime startLocalTime = LocalTime.parse(this.getStartTime());
+		LocalTime endLocalTime = LocalTime.parse(this.getEndTime());
+
+		Calendar calendar = new GregorianCalendar();
+		calendar.setTime(startDate);
+		while (!calendar.getTime().after(endDate)) {
+			Calendar day = new GregorianCalendar();
+			day.setTime(calendar.getTime());
+			if(this.getIsRecurrent() || calendar.getTime().equals(startDate)) {
+				day.set(Calendar.HOUR_OF_DAY, startLocalTime.getHour());
+				day.set(Calendar.MINUTE, startLocalTime.getMinute());
+			}else{
+				day.set(Calendar.HOUR_OF_DAY, 0);
+				day.set(Calendar.MINUTE, 0);
+			}
+			day.set(Calendar.SECOND, 0);
+			day.set(Calendar.MILLISECOND, 0);
+			Date result = day.getTime();
+			dates.add(result);
+			calendar.add(Calendar.DATE, 1);
+		}
+		if(this.getIsRecurrent() && endLocalTime.isBefore(startLocalTime)){
+			calendar.set(Calendar.HOUR_OF_DAY, 0);
+			calendar.set(Calendar.MINUTE, 0);
+			calendar.set(Calendar.SECOND, 0);
+			calendar.set(Calendar.MILLISECOND, 0);
+			Date result = calendar.getTime();
+			dates.add(result);
+		}
+		return dates;
+	}
+
 }

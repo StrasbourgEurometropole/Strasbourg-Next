@@ -130,6 +130,21 @@ public class EventPeriodWrapper
 		return model.getCampaignEventId();
 	}
 
+	/**
+	 * Retourne la liste des dates
+	 * 		pour une période non récurrente :
+	 * 		- firstDate + startTime
+	 * 		- toutes les autres dates à minuit
+	 *
+	 * 		pour une période récurrente :
+	 * 		- toutes les dates à startTime
+	 * 		- si endTime < startTime => faut ajouter endDate+1j à minuit
+	 */
+	@Override
+	public java.util.List<Date> getDays() {
+		return model.getDays();
+	}
+
 	@Override
 	public String getDefaultLanguageId() {
 		return model.getDefaultLanguageId();

@@ -54,4 +54,16 @@ public interface EventPeriod extends EventPeriodModel, PersistedModel {
 	public String getDisplay(
 		java.util.Locale locale, boolean dispYear, boolean dispShortMonth);
 
+	/**
+	 * Retourne la liste des dates
+	 * 		pour une période non récurrente :
+	 * 		- firstDate + startTime
+	 * 		- toutes les autres dates à minuit
+	 *
+	 * 		pour une période récurrente :
+	 * 		- toutes les dates à startTime
+	 * 		- si endTime < startTime => faut ajouter endDate+1j à minuit
+	 */
+	public java.util.List<java.util.Date> getDays();
+
 }

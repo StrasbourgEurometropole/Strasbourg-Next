@@ -85,11 +85,8 @@ public class EventIndexer extends BaseIndexer<Event> {
 		document.addNumber(Field.STATUS, event.getStatus());
 		
 		List<Date> dates = new ArrayList<Date>();
-		Date now = new Date();
 		for (EventPeriod period : event.getEventPeriods()) {
-			Date startDate = period.getStartDate().after(now) ?  period.getStartDate() : now;
-			Date endDate = period.getEndDate();
-			dates.addAll(DateHelper.getDaysBetweenDates(startDate, endDate));
+			dates.addAll(period.getDays());
 		}
 		document.addDateSortable("dates",
 			dates.toArray(new Date[dates.size()]));
