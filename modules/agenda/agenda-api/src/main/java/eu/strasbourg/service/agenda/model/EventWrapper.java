@@ -1158,14 +1158,6 @@ public class EventWrapper
 	}
 
 	/**
-	 * Retourne l'horaire de l'événement de ce jour-là
-	 */
-	@Override
-	public String getEventTimeFromDate(Date date, java.util.Locale locale) {
-		return model.getEventTimeFromDate(date, locale);
-	}
-
-	/**
 	 * Returns the external image copyright of this event.
 	 *
 	 * @return the external image copyright of this event

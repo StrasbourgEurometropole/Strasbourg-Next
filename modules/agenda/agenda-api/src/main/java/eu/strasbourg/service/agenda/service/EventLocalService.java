@@ -36,8 +36,10 @@ import eu.strasbourg.service.agenda.model.Event;
 import java.io.IOException;
 import java.io.Serializable;
 
-import java.util.*;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -105,8 +107,8 @@ public interface EventLocalService
 	 * @param entries
 	 * @return
 	 */
-	public java.util.TreeMap<java.util.Date, List<AssetEntry>>
-		convertEventsToTreeMap(List<AssetEntry> entries);
+	public TreeMap<Date, List<AssetEntry>> convertEventsToTreeMap(
+		List<AssetEntry> entries);
 
 	/**
 	 * Généréation des caches pour API et CSMap
@@ -525,7 +527,7 @@ public interface EventLocalService
 	 */
 	public Event updateStatus(
 			long userId, long entryId, int status, ServiceContext sc,
-			java.util.Map<String, Serializable> workflowContext)
+			Map<String, Serializable> workflowContext)
 		throws PortalException;
 
 }

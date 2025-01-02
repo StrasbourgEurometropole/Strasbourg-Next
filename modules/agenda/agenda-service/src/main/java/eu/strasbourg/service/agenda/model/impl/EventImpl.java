@@ -176,20 +176,6 @@ public class EventImpl extends EventBaseImpl {
 		return ManifestationLocalServiceUtil.getEventManifestations(this.getEventId());
 	}
 
-    /**
-	 * Retourne l'horaire de l'événement de ce jour-là
-	 */
-	@Override
-	public String getEventTimeFromDate(Date date, Locale locale){
-		String eventTime = "";
-		for (EventPeriod period : this.getEventPeriods()) {
-			if (period.getStartDate().compareTo(date) <= 0 && period.getEndDate().compareTo(date) >= 0) {
-				eventTime = period.getTimeDetail(locale);
-			}
-		}
-		return eventTime;
-	}
-
 	/**
 	 * Retourne la liste des IDs des manifestations auxquelles cette édition
 	 * appartient sous forme de String

@@ -80,12 +80,6 @@ public interface Event extends EventModel, PersistedModel {
 		getManifestations();
 
 	/**
-	 * Retourne l'horaire de l'événement de ce jour-là
-	 */
-	public String getEventTimeFromDate(
-		java.util.Date date, java.util.Locale locale);
-
-	/**
 	 * Retourne la liste des IDs des manifestations auxquelles cette édition
 	 * appartient sous forme de String
 	 */

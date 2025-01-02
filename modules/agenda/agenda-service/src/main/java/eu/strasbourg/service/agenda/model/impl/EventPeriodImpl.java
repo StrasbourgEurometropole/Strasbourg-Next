@@ -75,30 +75,45 @@ public class EventPeriodImpl extends EventPeriodBaseImpl {
 	@Override
 	public List<Date> getDays() {
 		List<Date> dates = new ArrayList<>();
-		Date now = new Date();
-		Date startDate = this.getStartDate().after(now) ?  this.getStartDate() : now;
-		Date endDate = this.getEndDate();
+		Calendar now = new GregorianCalendar();
+		now.set(Calendar.HOUR_OF_DAY, 0);
+		now.set(Calendar.MINUTE, 0);
+		now.set(Calendar.SECOND, 0);
+		now.set(Calendar.MILLISECOND, 0);
+
+		Date startDate = this.getStartDate();
 		LocalTime startLocalTime = LocalTime.parse(this.getStartTime());
+
+		Date endDate = this.getEndDate();
 		LocalTime endLocalTime = LocalTime.parse(this.getEndTime());
 
 		Calendar calendar = new GregorianCalendar();
 		calendar.setTime(startDate);
+		// on ne prend que les jours avant la date de fin de la période (sans l'heure de fin)
 		while (!calendar.getTime().after(endDate)) {
-			Calendar day = new GregorianCalendar();
-			day.setTime(calendar.getTime());
-			if(this.getIsRecurrent() || calendar.getTime().equals(startDate)) {
-				day.set(Calendar.HOUR_OF_DAY, startLocalTime.getHour());
-				day.set(Calendar.MINUTE, startLocalTime.getMinute());
-			}else{
-				day.set(Calendar.HOUR_OF_DAY, 0);
-				day.set(Calendar.MINUTE, 0);
+			// si le jour (sans l'heure) est passé, on passe
+			if(!calendar.getTime().before(now.getTime())) {
+				Calendar day = new GregorianCalendar();
+				day.setTime(calendar.getTime());
+				// si la période est récurrente ou si c'est le 1er jour de la période on lui set l'horaire de début
+				if (this.getIsRecurrent() || calendar.getTime().equals(startDate)) {
+					day.set(Calendar.HOUR_OF_DAY, startLocalTime.getHour());
+					day.set(Calendar.MINUTE, startLocalTime.getMinute());
+				} else {
+					// sinon on le set à minuit (event déjà commencé à cette date)
+					day.set(Calendar.HOUR_OF_DAY, 0);
+					day.set(Calendar.MINUTE, 0);
+				}
+				day.set(Calendar.SECOND, 0);
+				day.set(Calendar.MILLISECOND, 0);
+				Date result = day.getTime();
+				dates.add(result);
 			}
-			day.set(Calendar.SECOND, 0);
-			day.set(Calendar.MILLISECOND, 0);
-			Date result = day.getTime();
-			dates.add(result);
 			calendar.add(Calendar.DATE, 1);
 		}
+
+		// si la période est récurrente et que l'heure de fin est avant l'heure de début,
+		// on ajoute 1 jour, car l'event se terminera donc le lendemain du dernier jour de la période
 		if(this.getIsRecurrent() && endLocalTime.isBefore(startLocalTime)){
 			calendar.set(Calendar.HOUR_OF_DAY, 0);
 			calendar.set(Calendar.MINUTE, 0);
