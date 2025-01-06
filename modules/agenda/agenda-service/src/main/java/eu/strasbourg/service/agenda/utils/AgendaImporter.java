@@ -76,6 +76,7 @@ public class AgendaImporter {
 
 	private DateFormat dateFormat;
 	private DateFormat dateTimeFormat;
+	private DateFormat timeFormat;
 	private long defaultUserId;
 	private long companyId;
 	private long globalGroupId;
@@ -107,6 +108,8 @@ public class AgendaImporter {
 				.getSimpleDateFormat("yyyy-MM-dd");
 		this.dateTimeFormat = DateFormatFactoryUtil
 				.getSimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		this.timeFormat = DateFormatFactoryUtil
+				.getSimpleDateFormat("HH:mm");
 
 		// On récupère les vocabulaires obligatoires et facultatifs
 		long manifestationClassNameId = ClassNameLocalServiceUtil
@@ -794,15 +797,8 @@ public class AgendaImporter {
 		for (int j = 0; j < jsonPeriods.length(); j++) {
 			JSONObject jsonPeriod = jsonPeriods.getJSONObject(j);
 			String startDateString = jsonPeriod.getString("startDate");
-			String endDateString = jsonPeriod.getString("endDate");
-			JSONObject jsonTimeDetail = jsonPeriod.getJSONObject("timeDetail");
-			if (!JSONHelper.validateI18nField(jsonTimeDetail, locales)) {
-				reportLine
-					.error(LanguageUtil.get(bundle, "period-without-schedule"));
-			}
 			Date startDate = null;
-			Date endDate = null;
-			if (startDateString != null && endDateString != null) {
+			if (Validator.isNotNull(startDateString)) {
 				try {
 					startDate = dateFormat.parse(startDateString);
 					if (startDate == null) {
@@ -810,8 +806,15 @@ public class AgendaImporter {
 					}
 				} catch (Exception e) {
 					reportLine.error(LanguageUtil.get(bundle,
-						"bad-period-start-date-format"));
+							"bad-period-start-date-format"));
 				}
+			}else{
+				reportLine.error(LanguageUtil.get(bundle, "no-start-date"));
+			}
+
+			String endDateString = jsonPeriod.getString("endDate");
+			Date endDate = null;
+			if (Validator.isNotNull(startDateString)) {
 				try {
 					endDate = dateFormat.parse(endDateString);
 					if (endDate == null) {
@@ -819,30 +822,82 @@ public class AgendaImporter {
 					}
 				} catch (Exception e) {
 					reportLine.error(
-						LanguageUtil.get(bundle, "bad-period-end-date-format"));
+							LanguageUtil.get(bundle, "bad-period-end-date-format"));
 				}
-				if (startDate != null && endDate != null) {
-					if (startDate.after(endDate)) {
-						reportLine.error(LanguageUtil.get(bundle,
+			}else{
+				reportLine.error(LanguageUtil.get(bundle, "no-end-date"));
+			}
+
+			String startTime = jsonPeriod.getString("startTime");
+			if (Validator.isNotNull(startTime)) {
+				try {
+					if (timeFormat.parse(startTime) == null) {
+						throw new Exception();
+					}
+				} catch (Exception e) {
+					reportLine.error(
+							LanguageUtil.get(bundle, "bad-period-start-time-format"));
+				}
+			}else{
+				reportLine.error(LanguageUtil.get(bundle, "no-start-time"));
+			}
+
+			String endTime = jsonPeriod.getString("endTime");
+			if (Validator.isNotNull(endTime)) {
+				try {
+					if (timeFormat.parse(endTime) == null) {
+						throw new Exception();
+					}
+				} catch (Exception e) {
+					reportLine.error(
+							LanguageUtil.get(bundle, "bad-period-end-time-format"));
+				}
+			}else{
+				reportLine.error(LanguageUtil.get(bundle, "no-end-time"));
+			}
+
+			String isRecurrentString = jsonPeriod.getString("isRecurrent");
+			Boolean isRecurrent = null;
+			if (Validator.isNotNull(isRecurrentString)) {
+				try {
+					isRecurrent = Boolean.parseBoolean(isRecurrentString);
+				} catch (NullPointerException | IllegalArgumentException e) {
+					reportLine.error(
+							LanguageUtil.get(bundle, "bad-period-recurrent-format"));
+				}
+			}else{
+				reportLine.error(LanguageUtil.get(bundle, "no-reccurent"));
+			}
+
+			JSONObject jsonTimeDetail = jsonPeriod.getJSONObject("timeDetail");
+
+			if (startDate != null && endDate != null) {
+				if (startDate.after(endDate)) {
+					reportLine.error(LanguageUtil.get(bundle,
 							"period-starts-after-end"));
-					} else if (!reportLine.hasError()) {
-						EventPeriod period;
-						try {
-							period = EventPeriodLocalServiceUtil
+				} else if (!reportLine.hasError()) {
+					EventPeriod period;
+					try {
+						period = EventPeriodLocalServiceUtil
 								.createEventPeriod();
-							period.setStartDate(startDate);
-							period.setEndDate(endDate);
-							for (Locale locale : locales) {
-								period.setTimeDetail(
-									jsonTimeDetail.getString(locale.toString()),
-									locale);
+						period.setStartDate(startDate);
+						period.setEndDate(endDate);
+						period.setStartTime(startTime);
+						period.setEndTime(endTime);
+						period.setIsRecurrent(isRecurrent);
+						for (Locale locale : locales) {
+							if (Validator.isNotNull(jsonTimeDetail)) {
+								String timeDetail = jsonTimeDetail.getString(locale.toString());
+								if (Validator.isNotNull(timeDetail)) {
+									period.setTimeDetail(timeDetail, locale);
+								}
 							}
-							periods.add(period);
-						} catch (PortalException e) {
-							reportLine.setLog(LanguageUtil.get(bundle, "error-while-creating-period"));
-							reportLine.error(e.getMessage());
-							_log.error(e.getMessage(), e);
 						}
+						periods.add(period);
+					} catch (PortalException e) {
+						reportLine.setLog(LanguageUtil.get(bundle, "error-while-creating-period"));
+						reportLine.error(e.getMessage());
+						_log.error(e.getMessage(), e);
 					}
 				}
 			}
