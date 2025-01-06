@@ -680,6 +680,9 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
 			periodJSON.put("startDate", dateFormat.format(period.getStartDate()));
 			periodJSON.put("endDate", dateFormat.format(period.getEndDate()));
+			periodJSON.put("startTime", period.getStartTime());
+			periodJSON.put("endTime", period.getEndTime());
+			periodJSON.put("isRecurrent", period.getIsRecurrent());
 
 			if (Validator.isNotNull(period.getTimeDetail())) {
 				periodJSON.put("timeDetail", JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
