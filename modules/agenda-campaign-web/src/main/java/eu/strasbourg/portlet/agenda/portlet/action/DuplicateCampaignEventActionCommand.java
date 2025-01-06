@@ -140,6 +140,9 @@ public class DuplicateCampaignEventActionCommand implements MVCActionCommand {
 			EventPeriod newPeriod = eventPeriodLocalService.createEventPeriod();
 			newPeriod.setStartDate(period.getStartDate());
 			newPeriod.setEndDate(period.getEndDate());
+			newPeriod.setStartTime(period.getStartTime());
+			newPeriod.setEndTime(period.getEndTime());
+			newPeriod.setIsRecurrent(period.getIsRecurrent());
 			newPeriod.setTimeDetail(period.getTimeDetail());
 			newPeriod.setEventId(0);
 			newPeriod.setCampaignEventId(newEvent.getCampaignEventId());
