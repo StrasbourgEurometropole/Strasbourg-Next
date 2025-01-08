@@ -15,7 +15,6 @@
  */
 package eu.strasbourg.portlet.agenda.portlet.action;
 
-import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
@@ -349,6 +348,8 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 						"startDate" + periodIndex, dateFormat);
 					Date endDate = ParamUtil.getDate(request,
 						"endDate" + periodIndex, dateFormat);
+					String times = ParamUtil.getString(request,
+							"times" + periodIndex);
 					String startTime = ParamUtil.getString(request,
 							"startTime" + periodIndex);
 					String endTime = ParamUtil.getString(request,
@@ -363,6 +364,7 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
 						.createEventPeriod();
 					eventPeriod.setStartDate(startDate);
 					eventPeriod.setEndDate(endDate);
+					eventPeriod.setTimes(times);
 					eventPeriod.setStartTime(startTime);
 					eventPeriod.setEndTime(endTime);
 					eventPeriod.setIsRecurrent(isRecurrent);
@@ -583,7 +585,6 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
         long campaignId = ParamUtil.getLong(request, "campaignId");
         Campaign campaign = CampaignLocalServiceUtil.fetchCampaign(campaignId);
 		boolean eventIncluded = false;
-		boolean hasTime = true;
 		for (String periodIndex : periodsIndexesString.split(",")) {
             if (Validator.isNotNull(periodIndex)){
                 String startDateString = ParamUtil.getString(request, "startDate" + periodIndex);
@@ -596,12 +597,6 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
                     if(!(endDate.before(campaign.getStartDate()) || startDate.after(campaign.getEndDate()))){
                         eventIncluded = true;
                     }
-					if (Validator.isNull(ParamUtil.getString(request,
-							"startTime" + periodIndex))
-							|| Validator.isNull(ParamUtil.getString(request,
-							"startTime" + periodIndex))) {
-						hasTime = false;
-					}
                 }
             }
 		}
@@ -612,9 +607,6 @@ public class SaveCampaignEventActionCommand implements MVCActionCommand {
             if (!eventIncluded) {
                 SessionErrors.add(request, "campaign-period-error");
                 isValid = false;
-            }else if(!hasTime){
-				SessionErrors.add(request, "period-time-error");
-				isValid = false;
 			}
         }
 

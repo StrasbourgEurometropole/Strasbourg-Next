@@ -24,7 +24,6 @@
 	<liferay-ui:error key="place-name-error" message="place-name-error" />
 	<liferay-ui:error key="place-city-error" message="place-city-error" />
 	<liferay-ui:error key="periods-error" message="periods-error" />
-	<liferay-ui:error key="period-time-error" message="period-time-error" />
 	<liferay-ui:error key="campaign-period-error" message="campaign-period-error" />
 	<liferay-ui:error key="campaign-error" message="campaign-error" />
 	<liferay-ui:error key="types-error" message="types-error" />
@@ -466,6 +465,7 @@
 									<liferay-util:param name="index" value="${status.index}" />
 									<liferay-util:param name="startDate" value="${formattedStartDate}" />
 									<liferay-util:param name="endDate" value="${formattedEndDate}" />
+									<liferay-util:param name="times" value="${period.times}" />
 									<liferay-util:param name="startTime" value="${period.startTime}" />
 									<liferay-util:param name="endTime" value="${period.endTime}" />
 									<liferay-util:param name="isRecurrent" value="${period.isRecurrent}" />
@@ -475,17 +475,6 @@
 						</div>
 					</c:forEach>
 					<aui:input type="hidden" name="periodIndexes" value="${dc.defaultPeriodIndexes}" />
-				</div>
-
-				<div class="change-times-section">
-					<div class="event-periods-title">
-						<p class="control-label"><liferay-ui:message key="update-current-language-times" /></p>
-					</div>
-					<div class="time-detail-generator-wrapper">
-						<aui:input type="time" name="startTimeGenerator" label="eu.strasbourg.start-time" inlineField="true" />
-						<aui:input type="time" name="endTimeGenerator" label="eu.strasbourg.end-time" inlineField="true" />
-					</div>
-					<aui:button id="changeTimes" name="changeTimes" value="update-times" />
 				</div>
 				
 			</aui:fieldset>

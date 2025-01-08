@@ -219,22 +219,7 @@ var autoFields = undefined; // Référence au champ répétable (setté plus loi
 		$('#dateRange' + index).on('applyAndNew.daterangepicker', onDateChange);
         $('#dateRange' + index).on('applyAndNew.daterangepicker', openGeneralRange);
 	});
-	
-	/**
-	 * Modification globale des horaires
-	 */
-	$('#' + namespace + 'changeTimes').on('click', function() {
-		// Au clic sur le bouton "Modifier les horaires", on set les valeurs de tous les champs horaire
-		var newStartTime = $('#' + namespace + 'startTimeGenerator').val();
-		$('#date-fields input[type=time].start-time').each(function() {
-			$(this).val(newStartTime);
-		});
 
-		var newEndTime = $('#' + namespace + 'endTimeGenerator').val();
-		$('#date-fields input[type=time].end-time').each(function() {
-			$(this).val(newEndTime);
-		});
-	});
 })(jQuery);
 
 function setConditionalValidators() {
@@ -482,3 +467,27 @@ maxGauge.on("change paste keyup", function(event) {
         $(this).val(0);
     }
 });
+
+// change l'affichage des heures d'une période
+function changeTimes(index){
+	var times = $("[name=" + namespace + "times"+index+"]")[0];
+	var startTime = $("[name=" + namespace + "startTime"+index+"]")[0];
+	var endTime = $("[name=" + namespace + "endTime"+index+"]")[0];
+	switch (times.value) {
+		case "no-time":
+		case "all-day":
+			startTime.value = "";
+			$(startTime.closest(".startTime")).hide();
+			endTime.value = "";
+			$(endTime.closest(".endTime")).hide();
+			break;
+		case "no-end":
+			$(startTime.closest(".startTime")).show();
+			endTime.value = "";
+			$(endTime.closest(".endTime")).hide();
+			break;
+		default:
+			$(startTime.closest(".startTime")).show();
+			$(endTime.closest(".endTime")).show();
+	}
+}
