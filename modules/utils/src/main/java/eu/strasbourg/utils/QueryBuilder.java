@@ -283,7 +283,7 @@ public class QueryBuilder {
                         + String.format("%02d", fromDate.getDayOfMonth()) + "000000";
                 String toDateString = String.format("%04d", toDate.getYear())
                         + String.format("%02d", toDate.getMonth().getValue())
-                        + String.format("%02d", toDate.getDayOfMonth()) + "000000";
+                        + String.format("%02d", toDate.getDayOfMonth()) + "235959";
 
                 RangeTermQuery datesQuery = queries.dateRangeTerm("dates", true, true, fromDateString, toDateString);
                 filterQuery.addMustQueryClauses(datesQuery);
