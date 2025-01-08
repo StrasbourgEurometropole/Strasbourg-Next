@@ -31,6 +31,8 @@ public class EventPeriodTable extends BaseTable<EventPeriodTable> {
 		"startDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
 	public final Column<EventPeriodTable, Date> endDate = createColumn(
 		"endDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
+	public final Column<EventPeriodTable, String> times = createColumn(
+		"times", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<EventPeriodTable, String> startTime = createColumn(
 		"startTime", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<EventPeriodTable, String> endTime = createColumn(

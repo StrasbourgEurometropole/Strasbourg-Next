@@ -109,6 +109,21 @@ public interface EventPeriodModel
 	public void setEndDate(Date endDate);
 
 	/**
+	 * Returns the times of this event period.
+	 *
+	 * @return the times of this event period
+	 */
+	@AutoEscape
+	public String getTimes();
+
+	/**
+	 * Sets the times of this event period.
+	 *
+	 * @param times the times of this event period
+	 */
+	public void setTimes(String times);
+
+	/**
 	 * Returns the start time of this event period.
 	 *
 	 * @return the start time of this event period

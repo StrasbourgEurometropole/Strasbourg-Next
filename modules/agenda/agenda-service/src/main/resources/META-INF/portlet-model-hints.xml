@@ -275,6 +275,7 @@
 		<field name="eventPeriodId" type="long" />
 		<field name="startDate" type="Date" />
 		<field name="endDate" type="Date" />
+		<field name="times" type="String" />
 		<field name="startTime" type="String" />
 		<field name="endTime" type="String" />
 		<field name="isRecurrent" type="boolean" />

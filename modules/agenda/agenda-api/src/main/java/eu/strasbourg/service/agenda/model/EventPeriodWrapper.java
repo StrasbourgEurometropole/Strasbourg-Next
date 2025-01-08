@@ -37,6 +37,7 @@ public class EventPeriodWrapper
 		attributes.put("eventPeriodId", getEventPeriodId());
 		attributes.put("startDate", getStartDate());
 		attributes.put("endDate", getEndDate());
+		attributes.put("times", getTimes());
 		attributes.put("startTime", getStartTime());
 		attributes.put("endTime", getEndTime());
 		attributes.put("isRecurrent", isIsRecurrent());
@@ -71,6 +72,12 @@ public class EventPeriodWrapper
 
 		if (endDate != null) {
 			setEndDate(endDate);
+		}
+
+		String times = (String)attributes.get("times");
+
+		if (times != null) {
+			setTimes(times);
 		}
 
 		String startTime = (String)attributes.get("startTime");
@@ -319,6 +326,16 @@ public class EventPeriodWrapper
 	}
 
 	/**
+	 * Returns the times of this event period.
+	 *
+	 * @return the times of this event period
+	 */
+	@Override
+	public String getTimes() {
+		return model.getTimes();
+	}
+
+	/**
 	 * Returns the uuid of this event period.
 	 *
 	 * @return the uuid of this event period
@@ -511,6 +528,16 @@ public class EventPeriodWrapper
 		java.util.Locale defaultLocale) {
 
 		model.setTimeDetailMap(timeDetailMap, defaultLocale);
+	}
+
+	/**
+	 * Sets the times of this event period.
+	 *
+	 * @param times the times of this event period
+	 */
+	@Override
+	public void setTimes(String times) {
+		model.setTimes(times);
 	}
 
 	/**

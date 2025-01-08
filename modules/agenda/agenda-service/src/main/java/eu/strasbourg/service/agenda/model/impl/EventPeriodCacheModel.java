@@ -54,7 +54,7 @@ public class EventPeriodCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -64,6 +64,8 @@ public class EventPeriodCacheModel
 		sb.append(startDate);
 		sb.append(", endDate=");
 		sb.append(endDate);
+		sb.append(", times=");
+		sb.append(times);
 		sb.append(", startTime=");
 		sb.append(startTime);
 		sb.append(", endTime=");
@@ -108,6 +110,13 @@ public class EventPeriodCacheModel
 			eventPeriodImpl.setEndDate(new Date(endDate));
 		}
 
+		if (times == null) {
+			eventPeriodImpl.setTimes("");
+		}
+		else {
+			eventPeriodImpl.setTimes(times);
+		}
+
 		if (startTime == null) {
 			eventPeriodImpl.setStartTime("");
 		}
@@ -146,6 +155,7 @@ public class EventPeriodCacheModel
 		eventPeriodId = objectInput.readLong();
 		startDate = objectInput.readLong();
 		endDate = objectInput.readLong();
+		times = objectInput.readUTF();
 		startTime = objectInput.readUTF();
 		endTime = objectInput.readUTF();
 
@@ -169,6 +179,13 @@ public class EventPeriodCacheModel
 		objectOutput.writeLong(eventPeriodId);
 		objectOutput.writeLong(startDate);
 		objectOutput.writeLong(endDate);
+
+		if (times == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(times);
+		}
 
 		if (startTime == null) {
 			objectOutput.writeUTF("");
@@ -202,6 +219,7 @@ public class EventPeriodCacheModel
 	public long eventPeriodId;
 	public long startDate;
 	public long endDate;
+	public String times;
 	public String startTime;
 	public String endTime;
 	public boolean isRecurrent;
