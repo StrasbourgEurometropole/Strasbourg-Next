@@ -680,8 +680,15 @@ public class CampaignEventImpl extends CampaignEventBaseImpl {
 			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
 			periodJSON.put("startDate", dateFormat.format(period.getStartDate()));
 			periodJSON.put("endDate", dateFormat.format(period.getEndDate()));
-			periodJSON.put("startTime", period.getStartTime());
-			periodJSON.put("endTime", period.getEndTime());
+			if(Validator.isNotNull(period.getStartTime())) {
+				JSONArray timesJSON = JSONFactoryUtil.createJSONArray();
+				JSONObject timeJSON = JSONFactoryUtil.createJSONObject();
+				timeJSON.put("startTime", period.getStartTime());
+				if (Validator.isNotNull(period.getEndTime()))
+					timeJSON.put("endTime", period.getEndTime());
+				timesJSON.put(timeJSON);
+				periodJSON.put("times", timesJSON);
+			}
 			periodJSON.put("isRecurrent", period.getIsRecurrent());
 
 			if (Validator.isNotNull(period.getTimeDetail())) {
