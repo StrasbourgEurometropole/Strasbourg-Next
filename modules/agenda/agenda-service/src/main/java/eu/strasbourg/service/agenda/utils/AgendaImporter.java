@@ -842,7 +842,7 @@ public class AgendaImporter {
 
 						JSONArray jsonTimes = jsonPeriod.getJSONArray("times");
 						// pour chaque times, on créé une période
-						String timeString = "no-times";
+						String timeString = "no-time";
 						EventPeriod period = null;
 						if(Validator.isNotNull(jsonTimes)) {
 							for (int k = 0; k < jsonTimes.length(); k++) {
