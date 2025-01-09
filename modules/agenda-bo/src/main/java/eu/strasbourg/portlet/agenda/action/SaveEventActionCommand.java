@@ -22,7 +22,6 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
-import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
@@ -53,7 +52,6 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -345,6 +343,8 @@ public class SaveEventActionCommand implements MVCActionCommand {
 						"startDate" + periodIndex, dateFormat);
 					Date endDate = ParamUtil.getDate(request,
 						"endDate" + periodIndex, dateFormat);
+					String times = ParamUtil.getString(request,
+							"times" + periodIndex);
 					String startTime = ParamUtil.getString(request,
 							"startTime" + periodIndex);
 					String endTime = ParamUtil.getString(request,
@@ -359,6 +359,7 @@ public class SaveEventActionCommand implements MVCActionCommand {
 						.createEventPeriod();
 					eventPeriod.setStartDate(startDate);
 					eventPeriod.setEndDate(endDate);
+					eventPeriod.setTimes(times);
 					eventPeriod.setStartTime(startTime);
 					eventPeriod.setEndTime(endTime);
 					eventPeriod.setIsRecurrent(isRecurrent);
@@ -527,14 +528,6 @@ public class SaveEventActionCommand implements MVCActionCommand {
 						"endDate" + periodIndex, dateFormat);
 				if (endDate.before(startDate)) {
 					SessionErrors.add(request, "period-date-error");
-					isValid = false;
-				}
-
-				if (Validator.isNull(ParamUtil.getString(request,
-						"startTime" + periodIndex))
-						|| Validator.isNull(ParamUtil.getString(request,
-						"startTime" + periodIndex))) {
-					SessionErrors.add(request, "period-time-error");
 					isValid = false;
 				}
 				periodCount++;

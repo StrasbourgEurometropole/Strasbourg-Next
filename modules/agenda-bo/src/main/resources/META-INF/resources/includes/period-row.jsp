@@ -24,9 +24,21 @@
 </span>
 
 <div class="time-detail-wrapper">
-	<div>
-		<aui:input type="time" value="${param.startTime}" name="startTime${param.index}" label="eu.strasbourg.start-time" inlineField="true" required="true" cssClass="start-time" />
-		<aui:input type="time" value="${param.endTime}" name="endTime${param.index}" label="eu.strasbourg.end-time" inlineField="true" required="true" cssClass="end-time" />
+	<aui:select name="times${param.index}" label="" onChange="changeTimes(${param.index})">
+		<aui:option label="eu.agendabo.classic" value="classic" selected="${param.times eq 'classic'}"/>
+		<aui:option label="eu.agendabo.no-time" value="no-time" selected="${param.times eq 'no-time'}"/>
+		<aui:option label="eu.agendabo.all-day" value="all-day" selected="${param.times eq 'all-day'}"/>
+		<aui:option label="eu.agendabo.no-end" value="no-end" selected="${param.times eq 'no-end'}"/>
+	</aui:select>
+	<div class="form-inline form-group">
+		<div class="startTime" style="${not empty param.times and param.times ne 'classic' and param.times ne 'no-end' ? 'display: none;' : ''}" >
+			<aui:input type="time" value="${param.startTime}" name="startTime${param.index}"
+					   label="eu.strasbourg.start-time"  />
+		</div>
+		<div class="endTime" style="${not empty param.times and param.times ne 'classic' ? 'display: none;' : ''}">
+			<aui:input type="time" value="${param.endTime}" name="endTime${param.index}"
+					   label="eu.strasbourg.end-time" />
+		</div>
 	</div>
 	<aui:input type="checkbox" value="${param.isRecurrent}" name="isRecurrent${param.index}" label="eu.strasbourg.recurrent" />
 	<aui:input type="text" value="${param.timeDetail}" name="timeDetail${param.index}" label="eu.strasbourg.info" localized="true" inlineField="true" />

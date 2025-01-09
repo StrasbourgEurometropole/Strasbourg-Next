@@ -14,7 +14,7 @@
    margin-bottom: -40px;
 }
 
-.time-detail-wrapper .form-group {
+.time-detail-wrapper > .form-group {
     max-width: 65%;
 }
 
