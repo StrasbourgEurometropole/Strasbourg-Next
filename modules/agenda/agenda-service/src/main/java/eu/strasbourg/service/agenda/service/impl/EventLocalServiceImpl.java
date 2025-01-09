@@ -65,6 +65,7 @@ import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
+import eu.strasbourg.utils.models.StopTime;
 import org.osgi.annotation.versioning.ProviderType;
 import org.osgi.service.component.annotations.Reference;
 
@@ -175,17 +176,15 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		}catch (Exception e){
 			_log.warn("Evenement : " + event.getTitle(Locale.FRANCE) + " image : " + event.getImageId() + "\n" + e);
 		}
-		
-		// On classe les périodes par date de début, ce qui va nous
-		// permettre
-		// de setter les champs "firstStartDate" et "lastEndDate" sur
-		// l'événement
+
 		if (event.getEventPeriods().size() > 0) {
 			List<EventPeriod> periods = new ArrayList<EventPeriod>(
 				event.getEventPeriods());
+
+			// On classe les périodes par date de début, ce qui va nous
+			// permettre de setter le champ "firstStartDate" sur l'événement
 			periods.sort(
 				(p1, p2) -> p1.getStartDate().compareTo(p2.getStartDate()));
-
 			EventPeriod firstPeriod = periods.get(0);
 			Date firstStartDate = firstPeriod.getStartDate();
 			if(Validator.isNotNull(firstPeriod.getStartTime())) {
@@ -195,20 +194,29 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 			}else
 				event.setFirstStartDate(firstStartDate);
 
+
+			// On classe les périodes par date de fin, ce qui va nous
+			// permettre de setter le champ "lastEndDate" sur l'événement
+			periods.sort(
+					(p1, p2) -> p1.getEndDate().compareTo(p2.getEndDate()));
 			EventPeriod lastPeriod = periods.get(periods.size() - 1);
 			Date lastEndDate = lastPeriod.getEndDate();
-			if(Validator.isNotNull(firstPeriod.getEndTime())) {
-				LocalTime lastEndLocalTime = LocalTime.parse(lastPeriod.getEndTime());
-				Calendar lastEndDateTime = getCalendar(lastEndDate, lastEndLocalTime);
-				// si l'heure de fin de l'event est avant l'heure de début, on ajout un jour
-				if (Validator.isNotNull(firstPeriod.getStartTime())) {
+			// s'il n'y a pas d'heure de fin, on set 23:59:59
+			LocalTime lastEndLocalTime = LocalTime.parse("23:59:59");
+			Calendar lastEndDateTime;
+			if(Validator.isNotNull(lastPeriod.getEndTime())) {
+				lastEndLocalTime = LocalTime.parse(lastPeriod.getEndTime());
+				lastEndDateTime = getCalendar(lastEndDate, lastEndLocalTime);
+				// si l'heure de fin de l'event est après minuit, mais avant l'heure de début et que c'est une période récurrente, on ajout un jour
+				if (lastPeriod.getIsRecurrent() && Validator.isNotNull(firstPeriod.getStartTime()) && lastEndLocalTime.isAfter(LocalTime.parse("00:00"))) {
 					LocalTime lastStartLocalTime = LocalTime.parse(lastPeriod.getStartTime());
 					if (lastEndLocalTime.isBefore(lastStartLocalTime))
 						lastEndDateTime.add(Calendar.DATE, 1);
 				}
-				event.setLastEndDate(lastEndDateTime.getTime());
-			}else
-				event.setLastEndDate(lastEndDate);
+			}else {
+				lastEndDateTime = getCalendar(lastEndDate, lastEndLocalTime);
+			}
+			event.setLastEndDate(lastEndDateTime.getTime());
 		}
 
 		// Si on n'utilise pas le framework workflow, simple gestion
@@ -252,7 +260,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		dateTime.setTime(date);
 		dateTime.set(Calendar.HOUR_OF_DAY,time.getHour());
 		dateTime.set(Calendar.MINUTE,time.getMinute());
-		dateTime.set(Calendar.SECOND,0);
+		dateTime.set(Calendar.SECOND,time.getSecond());
 		dateTime.set(Calendar.MILLISECOND,0);
 		return dateTime;
 	}
