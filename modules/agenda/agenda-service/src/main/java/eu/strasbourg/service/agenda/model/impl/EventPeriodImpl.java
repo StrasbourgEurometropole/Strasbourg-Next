@@ -71,6 +71,8 @@ public class EventPeriodImpl extends EventPeriodBaseImpl {
 	 * 		pour une période récurrente :
 	 * 		- toutes les dates à startTime
 	 * 		- si endTime < startTime => faut ajouter endDate+1j à minuit
+	 *
+	 * 	Si pas de startTime -> minuit
 	 */
 	@Override
 	public List<Date> getDays() {
@@ -81,11 +83,22 @@ public class EventPeriodImpl extends EventPeriodBaseImpl {
 		now.set(Calendar.SECOND, 0);
 		now.set(Calendar.MILLISECOND, 0);
 
+		LocalTime minuit = LocalTime.parse("00:00");
 		Date startDate = this.getStartDate();
-		LocalTime startLocalTime = LocalTime.parse(this.getStartTime());
+		LocalTime startLocalTime;
+		try {
+			startLocalTime = LocalTime.parse(this.getStartTime());
+		}catch (Exception e){
+			startLocalTime = minuit;
+		}
 
 		Date endDate = this.getEndDate();
-		LocalTime endLocalTime = LocalTime.parse(this.getEndTime());
+		LocalTime endLocalTime;
+		try {
+			endLocalTime = LocalTime.parse(this.getEndTime());
+		}catch (Exception e){
+			endLocalTime = minuit;
+		}
 
 		Calendar calendar = new GregorianCalendar();
 		calendar.setTime(startDate);
