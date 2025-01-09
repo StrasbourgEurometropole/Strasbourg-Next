@@ -188,19 +188,27 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 
 			EventPeriod firstPeriod = periods.get(0);
 			Date firstStartDate = firstPeriod.getStartDate();
-			LocalTime firstStartLocalTime = LocalTime.parse(firstPeriod.getStartTime());
-			Calendar firstStartDateTime = getCalendar(firstStartDate, firstStartLocalTime);
-			event.setFirstStartDate(firstStartDateTime.getTime());
+			if(Validator.isNotNull(firstPeriod.getStartTime())) {
+				LocalTime firstStartLocalTime = LocalTime.parse(firstPeriod.getStartTime());
+				Calendar firstStartDateTime = getCalendar(firstStartDate, firstStartLocalTime);
+				event.setFirstStartDate(firstStartDateTime.getTime());
+			}else
+				event.setFirstStartDate(firstStartDate);
 
 			EventPeriod lastPeriod = periods.get(periods.size() - 1);
 			Date lastEndDate = lastPeriod.getEndDate();
-			LocalTime lastStartLocalTime = LocalTime.parse(lastPeriod.getStartTime());
-			LocalTime lastEndLocalTime = LocalTime.parse(lastPeriod.getEndTime());
-			Calendar lastEndDateTime = getCalendar(lastEndDate, lastEndLocalTime);
-			// si l'heure de fin de levent est avant l'heure de début, on ajout un jour
-			if(lastEndLocalTime.isBefore(lastStartLocalTime))
-				lastEndDateTime.add(Calendar.DATE, 1);
-			event.setLastEndDate(lastEndDateTime.getTime());
+			if(Validator.isNotNull(firstPeriod.getEndTime())) {
+				LocalTime lastEndLocalTime = LocalTime.parse(lastPeriod.getEndTime());
+				Calendar lastEndDateTime = getCalendar(lastEndDate, lastEndLocalTime);
+				// si l'heure de fin de l'event est avant l'heure de début, on ajout un jour
+				if (Validator.isNotNull(firstPeriod.getStartTime())) {
+					LocalTime lastStartLocalTime = LocalTime.parse(lastPeriod.getStartTime());
+					if (lastEndLocalTime.isBefore(lastStartLocalTime))
+						lastEndDateTime.add(Calendar.DATE, 1);
+				}
+				event.setLastEndDate(lastEndDateTime.getTime());
+			}else
+				event.setLastEndDate(lastEndDate);
 		}
 
 		// Si on n'utilise pas le framework workflow, simple gestion
