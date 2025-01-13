@@ -49,7 +49,15 @@ public interface EventPeriod extends EventPeriodModel, PersistedModel {
 
 		};
 
-	public String getDisplay(java.util.Locale locale);
+	/**
+	 * Si endDate = startDate OU
+	 * Si (endDate = startDate + 1 ET endTime < startTime ET endTime ≤ 8H du matin) OU
+	 * Si (endDate > startDate + 1 ET endDate - startDate <=5)
+	 *  -> Le date/horaire (N fois)
+	 * Sinon
+	 * 	-> Du date[/heure de début] au date[/heure de début]/heure de fin
+	 */
+	public java.util.List<String> getDisplay(java.util.Locale locale);
 
 	public String getDisplay(
 		java.util.Locale locale, boolean dispYear, boolean dispShortMonth);
@@ -63,6 +71,8 @@ public interface EventPeriod extends EventPeriodModel, PersistedModel {
 	 * 		pour une période récurrente :
 	 * 		- toutes les dates à startTime
 	 * 		- si endTime < startTime => faut ajouter endDate+1j à minuit
+	 *
+	 * 	Si pas de startTime -> minuit
 	 */
 	public java.util.List<java.util.Date> getDays();
 

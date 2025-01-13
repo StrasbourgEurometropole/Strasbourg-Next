@@ -146,6 +146,8 @@ public class EventPeriodWrapper
 	 * 		pour une période récurrente :
 	 * 		- toutes les dates à startTime
 	 * 		- si endTime < startTime => faut ajouter endDate+1j à minuit
+	 *
+	 * 	Si pas de startTime -> minuit
 	 */
 	@Override
 	public java.util.List<Date> getDays() {
@@ -157,8 +159,16 @@ public class EventPeriodWrapper
 		return model.getDefaultLanguageId();
 	}
 
+	/**
+	 * Si endDate = startDate OU
+	 * Si (endDate = startDate + 1 ET endTime < startTime ET endTime ≤ 8H du matin) OU
+	 * Si (endDate > startDate + 1 ET endDate - startDate <=5)
+	 *  -> Le date/horaire (N fois)
+	 * Sinon
+	 * 	-> Du date[/heure de début] au date[/heure de début]/heure de fin
+	 */
 	@Override
-	public String getDisplay(java.util.Locale locale) {
+	public java.util.List<String> getDisplay(java.util.Locale locale) {
 		return model.getDisplay(locale);
 	}
 

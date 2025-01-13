@@ -70,9 +70,13 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
       </h3>
       <div class="ck-editor-content">
         <ul>
-          <#list entry.eventPeriods as period>
-            <li>${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if></li>
-          </#list>
+            <#list entry.eventPeriods as periods>
+                <#list periods.getDisplay(locale) as period>
+                    <li>
+                        ${period}<#if periods.getTimeDetail(locale)?has_content> : ${periods.getTimeDetail(locale)}</#if>
+                    </li>
+                </#list>
+            </#list>
         </ul>
       </div>
     </div>

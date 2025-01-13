@@ -81,10 +81,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <div class="mns-wrapper-info-more">
                 <div class="mns-info-more col-sm-6">
                     <span class="mns-title-detail-actu"><@liferay_ui.message key="eu.dates-and-times" /></span>
-                    <#list entry.eventPeriods as period>
-                        <p>
-                        ${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if>
-                        </p>
+                    <#list entry.eventPeriods as periods>
+                        <#list periods.getDisplay(locale) as period>
+                            <p>
+                                ${period}<#if periods.getTimeDetail(locale)?has_content> : ${periods.getTimeDetail(locale)}</#if>
+                            </p>
+                        </#list>
                     </#list>
                 </div>
                 <div class="mns-info-more col-sm-6">

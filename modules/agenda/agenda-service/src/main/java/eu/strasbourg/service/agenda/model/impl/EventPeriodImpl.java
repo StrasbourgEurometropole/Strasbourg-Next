@@ -15,14 +15,9 @@
 package eu.strasbourg.service.agenda.model.impl;
 
 import com.liferay.portal.kernel.util.Validator;
-import eu.strasbourg.service.place.model.Place;
-import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import org.osgi.annotation.versioning.ProviderType;
 import eu.strasbourg.utils.DateHelper;
+import org.osgi.annotation.versioning.ProviderType;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -58,14 +53,22 @@ public class EventPeriodImpl extends EventPeriodBaseImpl {
 	 */
 	public EventPeriodImpl() {
 	}
-	
+
+	/**
+	 * Si endDate = startDate OU
+	 * Si (endDate = startDate + 1 ET endTime < startTime ET endTime ≤ 8H du matin) OU
+	 * Si (endDate > startDate + 1 ET endDate - startDate <=5)
+	 *  -> Le date/horaire (N fois)
+	 * Sinon
+	 * 	-> Du date[/heure de début] au date[/heure de début]/heure de fin
+	 */
 	@Override
-	public String getDisplay(Locale locale) {
-		String result = "";
+	public List<String> getDisplay(Locale locale) {
+		List<String> result = new ArrayList<>();
 
 		// Cas où une ou les deux dates sont null
 		if (this.getStartDate() == null || this.getEndDate() == null) {
-			return "";
+			return result;
 		}
 
 		LocalDate startLocalDate = this.getStartDate().toInstant().atZone(ZoneId.systemDefault()).
@@ -82,74 +85,191 @@ public class EventPeriodImpl extends EventPeriodBaseImpl {
 			endLocalTime = LocalTime.parse(this.getEndTime());
 		LocalDateTime endLocalDateTime = LocalDateTime.of(endLocalDate,endLocalTime);
 
-		// Si endDate = startDate
-		// OU
-		// Si (endDate = startDate + 1 ET endTime < startTime ET endTime ≤ 8H du matin)
+		// Si endDate = startDate OU
+		// Si (endDate = startDate + 1 ET endTime < startTime ET endTime ≤ 8H du matin) OU
+		// Si (endDate > startDate + 1 ET endDate - startDate <=5)
 		if (endLocalDate.equals(startLocalDate) ||
 				(endLocalDate.equals(startLocalDate.plusDays(1)) &&
 						endLocalTime.isBefore(startLocalTime) &&
-						!endLocalTime.isAfter(LocalTime.parse("08:00")))) {
-
-			result = displayDateTime(locale, startLocalDateTime, endLocalTime);
+						!endLocalTime.isAfter(LocalTime.parse("08:00"))) ||
+				(endLocalDate.isAfter(startLocalDate.plusDays(1)) &&
+						endLocalDate.isBefore(startLocalDate.plusDays(5)))) {
+			result.add(displayDateTime(locale, false, startLocalDateTime, endLocalDateTime));
 
 			// Si c'est une période récurrente ET endDate != startDate
-			// on ajoute une journée
+			// on ajoute les journées concernées
 			if(this.getIsRecurrent() && !endLocalDate.equals(startLocalDate)) {
-				result += "<br/>" + displayDateTime(locale, startLocalDateTime.plusDays(1), endLocalTime);
-			}/*
+				while(endLocalDate.isAfter(startLocalDateTime.toLocalDate())) {
+					startLocalDateTime = startLocalDateTime.plusDays(1);
+					result.add(displayDateTime(locale, false, startLocalDateTime, endLocalDateTime));
+				}
+			}
 		} else {
 			// S'il dure plus longtemps
-			if (locale.equals(Locale.FRANCE)) {
-				result = "Du ";
-				if (startCal.getMonth() == endCal.getMonth()
-						&& startCal.getYear() == endCal.getYear()) {
-					DateFormat df = new SimpleDateFormat("dd", Locale.FRANCE);
-					result += df.format(this.getStartDate());
-				} else if (startCal.getYear() == endCal.getYear()) {
-					DateFormat df = new SimpleDateFormat("dd MMMM", Locale.FRANCE);
-					result += df.format(this.getStartDate());
-				} else {
-					DateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
-					result += df.format(this.getStartDate());
-				}
-				DateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
-				result += " au " + df.format(this.getEndDate());
-			} else if (locale.equals(Locale.GERMANY)) {
-				result = "Vom ";
-				if (startCal.getMonth() == endCal.getMonth()
-						&& startCal.getYear() == endCal.getYear()) {
-					DateFormat df = new SimpleDateFormat("dd.", Locale.GERMANY);
-					result += df.format(this.getStartDate());
-				} else if (startCal.getYear() == endCal.getYear()) {
-					DateFormat df = new SimpleDateFormat("dd. MMMM", Locale.GERMANY);
-					result += df.format(this.getStartDate());
-				} else {
-					DateFormat df = new SimpleDateFormat("dd. MMMM yyyy", Locale.GERMANY);
-					result += df.format(this.getStartDate());
-				}
-				DateFormat df = new SimpleDateFormat("dd. MMMM yyyy", Locale.GERMANY);
-				result += " bis zum " + df.format(this.getEndDate());
-			} else if (locale.equals(Locale.US)) {
-				result = "From ";
-				if (startCal.getMonth() == endCal.getMonth()
-						&& startCal.getYear() == endCal.getYear()) {
-					DateFormat df = new SimpleDateFormat("dd", Locale.US);
-					result += df.format(this.getStartDate());
-				} else if (startCal.getYear() == endCal.getYear()) {
-					DateFormat df = new SimpleDateFormat("dd MMMM", Locale.US);
-					result += df.format(this.getStartDate());
-				} else {
-					DateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.US);
-					result += df.format(this.getStartDate());
-				}
-				DateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.US);
-				result += " to " + df.format(this.getEndDate());
-			}*/
+			result.add(displayDateTime(locale, true, startLocalDateTime, endLocalDateTime));
 		}
 
 		return result;
 	}
-	
+
+	/**
+	* Si period == true
+	* 	 -> Du dd MMMM[Si non récurrent OU Si année de startDate > année de endDate : yyyy] [Si non récurrent : heure de début]
+	* 		au dd MMMM yyyy [Si récurrent : heure de début] heure de fin
+	* Sinon
+	* 	 -> Le dd MMMM yyyy horaire
+	*/
+	private String displayDateTime(Locale locale, Boolean period, LocalDateTime startDateTime, LocalDateTime endDateTime){
+		String result = "";
+
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMMM yyyy");
+		if (locale.equals(Locale.GERMANY)) {
+			dtf = DateTimeFormatter.ofPattern("dd. MMMM yyyy");
+		}
+		if(period){
+			// Du dd MMMM[ yyyy]
+			DateTimeFormatter dtfWithoutYear = DateTimeFormatter.ofPattern("dd MMMM");
+			if (locale.equals(Locale.GERMANY)) {
+				dtfWithoutYear = DateTimeFormatter.ofPattern("dd. MMMM");
+			}
+			if (locale.equals(Locale.FRANCE)) {
+				result = "Du ";
+			} else if (locale.equals(Locale.GERMANY)) {
+				result = "Vom ";
+			} else if (locale.equals(Locale.US)) {
+				result = "From ";
+			}
+			result += startDateTime.format(dtfWithoutYear);
+			if (startDateTime.getYear() != endDateTime.getYear() || !this.getIsRecurrent()) {
+				result += " " + startDateTime.getYear();
+			}
+			// si c'est une période non récurrente, on affiche l'heure de début ici
+			if(Validator.isNotNull(this.getStartTime()) && !this.getIsRecurrent()) {
+				// à ...
+				if (locale.equals(Locale.FRANCE)) {
+					result += " &agrave; ";
+				} else if (locale.equals(Locale.GERMANY)) {
+					result += " &agrave; en allemand ";
+				} else if (locale.equals(Locale.US)) {
+					result += " &agrave; en anglais ";
+				}
+				result += displayTime(locale, startDateTime);
+			}
+			// au dd MMMM yyyy ...
+			if (locale.equals(Locale.FRANCE)) {
+				result += " au ";
+			} else if (locale.equals(Locale.GERMANY)) {
+				result += " bis zum ";
+			} else if (locale.equals(Locale.US)) {
+				result += " to ";
+			}
+			result += endDateTime.format(dtf);
+			// si c'est une période non récurrente, on affiche l'heure de fin ici
+			if(!this.getIsRecurrent()) {
+				if(Validator.isNotNull(this.getEndTime())) {
+					// à ...
+					if (locale.equals(Locale.FRANCE)) {
+						result += " &agrave; ";
+					} else if (locale.equals(Locale.GERMANY)) {
+						result += " &agrave; en allemand ";
+					} else if (locale.equals(Locale.US)) {
+						result += " &agrave; en anglais ";
+					}
+					result += displayTime(locale, endDateTime);
+				}
+			}else {
+				// Sinon on affiche l'horaire
+				result += displayTime(locale, startDateTime, endDateTime);
+			}
+		}else{
+			// Le dd MMMM yyyy ...
+			if (locale.equals(Locale.FRANCE)) {
+				result = "Le ";
+			}
+			result += startDateTime.format(dtf);
+			result += displayTime(locale, startDateTime, endDateTime);
+		}
+
+		return result;
+	}
+
+	/**
+	 * Si startTime != null
+	 * 	 Si endTime est null
+	 * 	   ->  à partir de ...
+	 * 	 Sinon
+	 *     ->  de ... à ...
+	 */
+	private String displayTime(Locale locale, LocalDateTime startDateTime, LocalDateTime endDateTime){
+		String result = "";
+
+		if(Validator.isNotNull(this.getStartTime())){
+			if(Validator.isNull(this.getEndTime())){
+				// à partir de ...
+				if (locale.equals(Locale.FRANCE)) {
+					result += " &agrave; partir de ";
+				} else if (locale.equals(Locale.GERMANY)) {
+					result += " &agrave; partir de en allemand ";
+				} else if (locale.equals(Locale.US)) {
+					result += " &agrave; partir de en anglais ";
+				}
+				result += displayTime(locale, startDateTime);
+			} else {
+				// de ...
+				if (locale.equals(Locale.FRANCE)) {
+					result += " de ";
+				} else if (locale.equals(Locale.GERMANY)) {
+					result += " de en allemand ";
+				} else if (locale.equals(Locale.US)) {
+					result += " de en anglais ";
+				}
+				result += displayTime(locale, startDateTime);
+				// à ...
+				if (locale.equals(Locale.FRANCE)) {
+					result += " &agrave; ";
+				} else if (locale.equals(Locale.GERMANY)) {
+					result += " &agrave; en allemand ";
+				} else if (locale.equals(Locale.US)) {
+					result += " &agrave; en anglais ";
+				}
+				result += displayTime(locale, endDateTime);
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * Si time == minuit
+	 * 	 ->  minuit
+	 * Sinon
+	 * 	 ->  HHh[mm]
+	 */
+	private String displayTime(Locale locale, LocalDateTime dateTime){
+		String result = "";
+
+		if(Validator.isNotNull(dateTime)) {
+			if (dateTime.toLocalTime().equals(LocalTime.parse("00:00"))) {
+				// minuit
+				if (locale.equals(Locale.FRANCE)) {
+					result += " minuit";
+				} else if (locale.equals(Locale.GERMANY)) {
+					result += " minuit en allemand";
+				} else if (locale.equals(Locale.US)) {
+					result += " minuit en anglais";
+				}
+			} else {
+				// HHh[mm]
+				result += dateTime.getHour() + "h";
+				if (dateTime.getMinute() > 0) {
+					result += dateTime.getMinute();
+				}
+			}
+		}
+
+		return result;
+	}
+
 	@Override
 	public String getDisplay(Locale locale, boolean dispYear, boolean dispShortMonth) {
 		return DateHelper.displayPeriod(this.getStartDate(), this.getEndDate(), locale, dispYear, dispShortMonth);
@@ -230,78 +350,4 @@ public class EventPeriodImpl extends EventPeriodBaseImpl {
 		}
 		return dates;
 	}
-
-	/*
-	* Si startTime est null
-	*  -> Le dd MMMM yyyy
-	* Sinon
-	* 	Si endTime est null
-	* 	 -> Le dd MMMM yyyy à partir de HHh[mm]
-	* 	Sinon
-	* 		Si endTime == minuit
-	* 		 -> Le dd MMMM yyyy de HHh[mm] à minuit
-	* 		Sinon
-	* 		 -> Le dd MMMM yyyy de HHh[mm] à HHh[mm]
-	* */
-	private String displayDateTime(Locale locale, LocalDateTime startDateTime, LocalTime endTime){
-		String result = "";
-		// Le dd MMMM yyyy
-		if (locale.equals(Locale.FRANCE)) {
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMMM yyyy");
-			result = "Le " + startDateTime.format(dtf);
-		} else if (locale.equals(Locale.GERMANY)) {
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd. MMMM yyyy");
-			result = startDateTime.format(dtf);
-		} else if (locale.equals(Locale.US)) {
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd MMMM yyyy");
-			result = startDateTime.format(dtf);
-		}
-
-		if(Validator.isNotNull(this.getStartTime())){
-			if(Validator.isNull(this.getEndTime())){
-				// à partir de HHh[mm]
-				if (locale.equals(Locale.FRANCE)) {
-					result += " &agrave; partir de " + startDateTime.getHour() + "h";
-				} else if (locale.equals(Locale.GERMANY)) {
-					result += " à partir de en allemand " + startDateTime.getHour() + "h";
-				} else if (locale.equals(Locale.US)) {
-					result += " à partir de en anglais " + startDateTime.getHour() + "h";
-				}
-				if (startDateTime.getMinute() > 0) {
-					result += startDateTime.getMinute();
-				}
-			} else {
-				// de HHh[MM]
-				result += " de " + startDateTime.getHour() + "h";
-				if (startDateTime.getMinute() > 0) {
-					result += startDateTime.getMinute();
-				}
-				if (this.getEndTime().equals("00:00")) {
-					// à minuit
-					if (locale.equals(Locale.FRANCE)) {
-						result += " &agrave; minuit";
-					} else if (locale.equals(Locale.GERMANY)) {
-						result += " &agrave; minuit";
-					} else if (locale.equals(Locale.US)) {
-						result += " &agrave; minuit";
-					}
-				} else {
-					//  à HHh[MM]
-					if (locale.equals(Locale.FRANCE)) {
-						result += " &agrave; " + endTime.getHour() + "h";
-					} else if (locale.equals(Locale.GERMANY)) {
-						result += " &agrave; " + endTime.getHour() + "h";
-					} else if (locale.equals(Locale.US)) {
-						result += " &agrave; " + endTime.getHour() + "h";
-					}
-					if (startDateTime.getMinute() > 0) {
-						result += startDateTime.getMinute();
-					}
-				}
-			}
-		}
-
-		return result;
-	}
-
 }

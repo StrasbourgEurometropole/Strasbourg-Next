@@ -107,10 +107,12 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <div class="st-component-container st-text-styles">
             <div class="st-limit-height st--is-overflowing">
                 <ul>
-                    <#list entry.currentAndFuturePeriods as period>
-                        <li>
-                            ${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if>
-                        </li>
+                    <#list entry.currentAndFuturePeriods as periods>
+                        <#list periods.getDisplay(locale) as period>
+                            <li>
+                                ${period}<#if periods.getTimeDetail(locale)?has_content> : ${periods.getTimeDetail(locale)}</#if>
+                            </li>
+                        </#list>
                     </#list>
                 </ul>
 

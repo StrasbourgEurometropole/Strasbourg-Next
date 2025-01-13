@@ -49,8 +49,12 @@
         <div class="thumbnail event-horaire">
           <h2><@liferay_ui.message key="eu.dates-and-times" /></h2>
           <ul class="museum-dates-list">
-            <#list entry.currentAndFuturePeriods as period>
-              <li>${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if></li>
+            <#list entry.currentAndFuturePeriods as periods>
+              <#list periods.getDisplay(locale) as period>
+                <li>
+                  ${period}<#if periods.getTimeDetail(locale)?has_content> : ${periods.getTimeDetail(locale)}</#if>
+                </li>
+              </#list>
             </#list>
           </ul>
             <#if (entry.currentAndFuturePeriods?size > 5)>
