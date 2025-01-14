@@ -52,7 +52,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(127);
+		StringBundler sb = new StringBundler(129);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -166,6 +166,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		sb.append(firstStartDate);
 		sb.append(", lastEndDate=");
 		sb.append(lastEndDate);
+		sb.append(", isRecurrent=");
+		sb.append(isRecurrent);
 		sb.append(", createDateSource=");
 		sb.append(createDateSource);
 		sb.append(", modifiedDateSource=");
@@ -502,6 +504,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 			eventImpl.setLastEndDate(new Date(lastEndDate));
 		}
 
+		eventImpl.setIsRecurrent(isRecurrent);
+
 		if (createDateSource == Long.MIN_VALUE) {
 			eventImpl.setCreateDateSource(null);
 		}
@@ -614,6 +618,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 		program = (String)objectInput.readObject();
 		firstStartDate = objectInput.readLong();
 		lastEndDate = objectInput.readLong();
+
+		isRecurrent = objectInput.readBoolean();
 		createDateSource = objectInput.readLong();
 		modifiedDateSource = objectInput.readLong();
 
@@ -911,6 +917,8 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 
 		objectOutput.writeLong(firstStartDate);
 		objectOutput.writeLong(lastEndDate);
+
+		objectOutput.writeBoolean(isRecurrent);
 		objectOutput.writeLong(createDateSource);
 		objectOutput.writeLong(modifiedDateSource);
 
@@ -979,6 +987,7 @@ public class EventCacheModel implements CacheModel<Event>, Externalizable {
 	public String program;
 	public long firstStartDate;
 	public long lastEndDate;
+	public boolean isRecurrent;
 	public long createDateSource;
 	public long modifiedDateSource;
 	public long imageId;

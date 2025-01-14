@@ -14,8 +14,9 @@ import eu.strasbourg.service.agenda.model.EventTable;
 import eu.strasbourg.service.agenda.model.impl.EventImpl;
 import eu.strasbourg.service.agenda.model.impl.EventModelImpl;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * The arguments resolver class for retrieving value from Event.
@@ -49,36 +50,9 @@ public class EventModelArgumentsResolver implements ArgumentsResolver {
 
 		EventModelImpl eventModelImpl = (EventModelImpl)baseModel;
 
-		long columnBitmask = eventModelImpl.getColumnBitmask();
+		if (!checkColumn || _hasModifiedColumns(eventModelImpl, columnNames) ||
+			_hasModifiedColumns(eventModelImpl, _ORDER_BY_COLUMNS)) {
 
-		if (!checkColumn || (columnBitmask == 0)) {
-			return _getValue(eventModelImpl, columnNames, original);
-		}
-
-		Long finderPathColumnBitmask = _finderPathColumnBitmasksCache.get(
-			finderPath);
-
-		if (finderPathColumnBitmask == null) {
-			finderPathColumnBitmask = 0L;
-
-			for (String columnName : columnNames) {
-				finderPathColumnBitmask |= eventModelImpl.getColumnBitmask(
-					columnName);
-			}
-
-			if (finderPath.isBaseModelResult() &&
-				(EventPersistenceImpl.
-					FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION ==
-						finderPath.getCacheName())) {
-
-				finderPathColumnBitmask |= _ORDER_BY_COLUMNS_BITMASK;
-			}
-
-			_finderPathColumnBitmasksCache.put(
-				finderPath, finderPathColumnBitmask);
-		}
-
-		if ((columnBitmask & finderPathColumnBitmask) != 0) {
 			return _getValue(eventModelImpl, columnNames, original);
 		}
 
@@ -115,18 +89,33 @@ public class EventModelArgumentsResolver implements ArgumentsResolver {
 		return arguments;
 	}
 
-	private static final Map<FinderPath, Long> _finderPathColumnBitmasksCache =
-		new ConcurrentHashMap<>();
+	private static boolean _hasModifiedColumns(
+		EventModelImpl eventModelImpl, String[] columnNames) {
 
-	private static final long _ORDER_BY_COLUMNS_BITMASK;
+		if (columnNames.length == 0) {
+			return false;
+		}
+
+		for (String columnName : columnNames) {
+			if (!Objects.equals(
+					eventModelImpl.getColumnOriginalValue(columnName),
+					eventModelImpl.getColumnValue(columnName))) {
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private static final String[] _ORDER_BY_COLUMNS;
 
 	static {
-		long orderByColumnsBitmask = 0;
+		List<String> orderByColumns = new ArrayList<String>();
 
-		orderByColumnsBitmask |= EventModelImpl.getColumnBitmask(
-			"modifiedDate");
+		orderByColumns.add("modifiedDate");
 
-		_ORDER_BY_COLUMNS_BITMASK = orderByColumnsBitmask;
+		_ORDER_BY_COLUMNS = orderByColumns.toArray(new String[0]);
 	}
 
 }

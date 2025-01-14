@@ -45,7 +45,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
@@ -104,7 +103,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		{"distribution", Types.VARCHAR}, {"composer", Types.VARCHAR},
 		{"concertId", Types.VARCHAR}, {"program", Types.CLOB},
 		{"firstStartDate", Types.TIMESTAMP}, {"lastEndDate", Types.TIMESTAMP},
-		{"createDateSource", Types.TIMESTAMP},
+		{"isRecurrent", Types.BOOLEAN}, {"createDateSource", Types.TIMESTAMP},
 		{"modifiedDateSource", Types.TIMESTAMP}, {"imageId", Types.BIGINT},
 		{"registration", Types.BOOLEAN},
 		{"registrationStartDate", Types.TIMESTAMP},
@@ -171,6 +170,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		TABLE_COLUMNS_MAP.put("program", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("firstStartDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("lastEndDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("isRecurrent", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("createDateSource", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDateSource", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
@@ -181,7 +181,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageThumbnailURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,bookingDescription TEXT null,bookingURL VARCHAR(400) null,subscriptionURL VARCHAR(400) null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,distribution STRING null,composer VARCHAR(400) null,concertId VARCHAR(75) null,program TEXT null,firstStartDate DATE null,lastEndDate DATE null,createDateSource DATE null,modifiedDateSource DATE null,imageId LONG,registration BOOLEAN,registrationStartDate DATE null,registrationEndDate DATE null,maxGauge LONG)";
+		"create table agenda_Event (uuid_ VARCHAR(75) null,eventId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,lastPublishDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title STRING null,subtitle STRING null,description TEXT null,externalImageURL VARCHAR(255) null,externalImageThumbnailURL VARCHAR(255) null,externalImageCopyright VARCHAR(400) null,imageWidth INTEGER,imageHeight INTEGER,placeSIGId VARCHAR(75) null,placeName STRING null,placeStreetNumber VARCHAR(75) null,placeStreetName VARCHAR(75) null,placeZipCode VARCHAR(75) null,placeCity VARCHAR(75) null,placeCountry VARCHAR(75) null,mercatorX VARCHAR(75) null,mercatorY VARCHAR(75) null,access_ TEXT null,accessForDisabled TEXT null,accessForBlind BOOLEAN,accessForDeaf BOOLEAN,accessForWheelchair BOOLEAN,accessForElder BOOLEAN,accessForDeficient BOOLEAN,promoter VARCHAR(75) null,phone VARCHAR(75) null,email VARCHAR(75) null,websiteURL STRING null,websiteName STRING null,free INTEGER,price TEXT null,bookingDescription TEXT null,bookingURL VARCHAR(400) null,subscriptionURL VARCHAR(400) null,source VARCHAR(75) null,idSource VARCHAR(75) null,publicationDate DATE null,distribution STRING null,composer VARCHAR(400) null,concertId VARCHAR(75) null,program TEXT null,firstStartDate DATE null,lastEndDate DATE null,isRecurrent BOOLEAN,createDateSource DATE null,modifiedDateSource DATE null,imageId LONG,registration BOOLEAN,registrationStartDate DATE null,registrationEndDate DATE null,maxGauge LONG)";
 
 	public static final String TABLE_SQL_DROP = "drop table agenda_Event";
 
@@ -213,80 +213,10 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
 	 */
 	@Deprecated
-	public static final boolean COLUMN_BITMASK_ENABLED = true;
-
-	/**
-	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
-	 */
-	@Deprecated
-	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-
-	/**
-	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
-	 */
-	@Deprecated
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
-
-	/**
-	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
-	 */
-	@Deprecated
-	public static final long IDSOURCE_COLUMN_BITMASK = 4L;
-
-	/**
-	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
-	 */
-	@Deprecated
-	public static final long LASTENDDATE_COLUMN_BITMASK = 8L;
-
-	/**
-	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
-	 */
-	@Deprecated
-	public static final long PLACESIGID_COLUMN_BITMASK = 16L;
-
-	/**
-	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
-	 */
-	@Deprecated
-	public static final long PUBLICATIONDATE_COLUMN_BITMASK = 32L;
-
-	/**
-	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
-	 */
-	@Deprecated
-	public static final long SOURCE_COLUMN_BITMASK = 64L;
-
-	/**
-	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
-	 */
-	@Deprecated
-	public static final long STATUS_COLUMN_BITMASK = 128L;
-
-	/**
-	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
-	 */
-	@Deprecated
-	public static final long STATUSDATE_COLUMN_BITMASK = 256L;
-
-	/**
-	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
-	 */
-	@Deprecated
-	public static final long TITLE_COLUMN_BITMASK = 512L;
-
-	/**
-	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
-	 */
-	@Deprecated
-	public static final long UUID_COLUMN_BITMASK = 1024L;
-
-	/**
-	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
-	 *		#getColumnBitmask(String)}
-	 */
-	@Deprecated
-	public static final long MODIFIEDDATE_COLUMN_BITMASK = 2048L;
+	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(
+		eu.strasbourg.service.agenda.service.util.PropsUtil.get(
+			"value.object.column.bitmask.enabled.eu.strasbourg.service.agenda.model.Event"),
+		true);
 
 	public static final String MAPPING_TABLE_AGENDA_EVENTTOMANIFESTATION_NAME =
 		"agenda_EventToManifestation";
@@ -480,6 +410,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			attributeGetterFunctions.put(
 				"firstStartDate", Event::getFirstStartDate);
 			attributeGetterFunctions.put("lastEndDate", Event::getLastEndDate);
+			attributeGetterFunctions.put("isRecurrent", Event::getIsRecurrent);
 			attributeGetterFunctions.put(
 				"createDateSource", Event::getCreateDateSource);
 			attributeGetterFunctions.put(
@@ -645,6 +576,9 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 				(BiConsumer<Event, Date>)Event::setFirstStartDate);
 			attributeSetterBiConsumers.put(
 				"lastEndDate", (BiConsumer<Event, Date>)Event::setLastEndDate);
+			attributeSetterBiConsumers.put(
+				"isRecurrent",
+				(BiConsumer<Event, Boolean>)Event::setIsRecurrent);
 			attributeSetterBiConsumers.put(
 				"createDateSource",
 				(BiConsumer<Event, Date>)Event::setCreateDateSource);
@@ -2935,6 +2869,27 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 
 	@JSON
 	@Override
+	public boolean getIsRecurrent() {
+		return _isRecurrent;
+	}
+
+	@JSON
+	@Override
+	public boolean isIsRecurrent() {
+		return _isRecurrent;
+	}
+
+	@Override
+	public void setIsRecurrent(boolean isRecurrent) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_isRecurrent = isRecurrent;
+	}
+
+	@JSON
+	@Override
 	public Date getCreateDateSource() {
 		return _createDateSource;
 	}
@@ -3128,30 +3083,6 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		else {
 			return false;
 		}
-	}
-
-	public long getColumnBitmask() {
-		if (_columnBitmask > 0) {
-			return _columnBitmask;
-		}
-
-		if ((_columnOriginalValues == null) ||
-			(_columnOriginalValues == Collections.EMPTY_MAP)) {
-
-			return 0;
-		}
-
-		for (Map.Entry<String, Object> entry :
-				_columnOriginalValues.entrySet()) {
-
-			if (!Objects.equals(
-					entry.getValue(), getColumnValue(entry.getKey()))) {
-
-				_columnBitmask |= _columnBitmasks.get(entry.getKey());
-			}
-		}
-
-		return _columnBitmask;
 	}
 
 	@Override
@@ -3547,6 +3478,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		eventImpl.setProgram(getProgram());
 		eventImpl.setFirstStartDate(getFirstStartDate());
 		eventImpl.setLastEndDate(getLastEndDate());
+		eventImpl.setIsRecurrent(isIsRecurrent());
 		eventImpl.setCreateDateSource(getCreateDateSource());
 		eventImpl.setModifiedDateSource(getModifiedDateSource());
 		eventImpl.setImageId(getImageId());
@@ -3657,6 +3589,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			this.<Date>getColumnOriginalValue("firstStartDate"));
 		eventImpl.setLastEndDate(
 			this.<Date>getColumnOriginalValue("lastEndDate"));
+		eventImpl.setIsRecurrent(
+			this.<Boolean>getColumnOriginalValue("isRecurrent"));
 		eventImpl.setCreateDateSource(
 			this.<Date>getColumnOriginalValue("createDateSource"));
 		eventImpl.setModifiedDateSource(
@@ -3738,8 +3672,6 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		_columnOriginalValues = Collections.emptyMap();
 
 		_setModifiedDate = false;
-
-		_columnBitmask = 0;
 	}
 
 	@Override
@@ -4157,6 +4089,8 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 			eventCacheModel.lastEndDate = Long.MIN_VALUE;
 		}
 
+		eventCacheModel.isRecurrent = isIsRecurrent();
+
 		Date createDateSource = getCreateDateSource();
 
 		if (createDateSource != null) {
@@ -4333,6 +4267,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	private String _programCurrentLanguageId;
 	private Date _firstStartDate;
 	private Date _lastEndDate;
+	private boolean _isRecurrent;
 	private Date _createDateSource;
 	private Date _modifiedDateSource;
 	private Long _imageId;
@@ -4429,6 +4364,7 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 		_columnOriginalValues.put("program", _program);
 		_columnOriginalValues.put("firstStartDate", _firstStartDate);
 		_columnOriginalValues.put("lastEndDate", _lastEndDate);
+		_columnOriginalValues.put("isRecurrent", _isRecurrent);
 		_columnOriginalValues.put("createDateSource", _createDateSource);
 		_columnOriginalValues.put("modifiedDateSource", _modifiedDateSource);
 		_columnOriginalValues.put("imageId", _imageId);
@@ -4451,146 +4387,6 @@ public class EventModelImpl extends BaseModelImpl<Event> implements EventModel {
 	}
 
 	private transient Map<String, Object> _columnOriginalValues;
-
-	public static long getColumnBitmask(String columnName) {
-		return _columnBitmasks.get(columnName);
-	}
-
-	private static final Map<String, Long> _columnBitmasks;
-
-	static {
-		Map<String, Long> columnBitmasks = new HashMap<>();
-
-		columnBitmasks.put("uuid_", 1L);
-
-		columnBitmasks.put("eventId", 2L);
-
-		columnBitmasks.put("groupId", 4L);
-
-		columnBitmasks.put("companyId", 8L);
-
-		columnBitmasks.put("userId", 16L);
-
-		columnBitmasks.put("userName", 32L);
-
-		columnBitmasks.put("createDate", 64L);
-
-		columnBitmasks.put("modifiedDate", 128L);
-
-		columnBitmasks.put("lastPublishDate", 256L);
-
-		columnBitmasks.put("status", 512L);
-
-		columnBitmasks.put("statusByUserId", 1024L);
-
-		columnBitmasks.put("statusByUserName", 2048L);
-
-		columnBitmasks.put("statusDate", 4096L);
-
-		columnBitmasks.put("title", 8192L);
-
-		columnBitmasks.put("subtitle", 16384L);
-
-		columnBitmasks.put("description", 32768L);
-
-		columnBitmasks.put("externalImageURL", 65536L);
-
-		columnBitmasks.put("externalImageThumbnailURL", 131072L);
-
-		columnBitmasks.put("externalImageCopyright", 262144L);
-
-		columnBitmasks.put("imageWidth", 524288L);
-
-		columnBitmasks.put("imageHeight", 1048576L);
-
-		columnBitmasks.put("placeSIGId", 2097152L);
-
-		columnBitmasks.put("placeName", 4194304L);
-
-		columnBitmasks.put("placeStreetNumber", 8388608L);
-
-		columnBitmasks.put("placeStreetName", 16777216L);
-
-		columnBitmasks.put("placeZipCode", 33554432L);
-
-		columnBitmasks.put("placeCity", 67108864L);
-
-		columnBitmasks.put("placeCountry", 134217728L);
-
-		columnBitmasks.put("mercatorX", 268435456L);
-
-		columnBitmasks.put("mercatorY", 536870912L);
-
-		columnBitmasks.put("access_", 1073741824L);
-
-		columnBitmasks.put("accessForDisabled", 2147483648L);
-
-		columnBitmasks.put("accessForBlind", 4294967296L);
-
-		columnBitmasks.put("accessForDeaf", 8589934592L);
-
-		columnBitmasks.put("accessForWheelchair", 17179869184L);
-
-		columnBitmasks.put("accessForElder", 34359738368L);
-
-		columnBitmasks.put("accessForDeficient", 68719476736L);
-
-		columnBitmasks.put("promoter", 137438953472L);
-
-		columnBitmasks.put("phone", 274877906944L);
-
-		columnBitmasks.put("email", 549755813888L);
-
-		columnBitmasks.put("websiteURL", 1099511627776L);
-
-		columnBitmasks.put("websiteName", 2199023255552L);
-
-		columnBitmasks.put("free", 4398046511104L);
-
-		columnBitmasks.put("price", 8796093022208L);
-
-		columnBitmasks.put("bookingDescription", 17592186044416L);
-
-		columnBitmasks.put("bookingURL", 35184372088832L);
-
-		columnBitmasks.put("subscriptionURL", 70368744177664L);
-
-		columnBitmasks.put("source", 140737488355328L);
-
-		columnBitmasks.put("idSource", 281474976710656L);
-
-		columnBitmasks.put("publicationDate", 562949953421312L);
-
-		columnBitmasks.put("distribution", 1125899906842624L);
-
-		columnBitmasks.put("composer", 2251799813685248L);
-
-		columnBitmasks.put("concertId", 4503599627370496L);
-
-		columnBitmasks.put("program", 9007199254740992L);
-
-		columnBitmasks.put("firstStartDate", 18014398509481984L);
-
-		columnBitmasks.put("lastEndDate", 36028797018963968L);
-
-		columnBitmasks.put("createDateSource", 72057594037927936L);
-
-		columnBitmasks.put("modifiedDateSource", 144115188075855872L);
-
-		columnBitmasks.put("imageId", 288230376151711744L);
-
-		columnBitmasks.put("registration", 576460752303423488L);
-
-		columnBitmasks.put("registrationStartDate", 1152921504606846976L);
-
-		columnBitmasks.put("registrationEndDate", 2305843009213693952L);
-
-		columnBitmasks.put("maxGauge", 4611686018427387904L);
-
-		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
-	}
-
-	private long _columnBitmask;
 	private Event _escapedModel;
 
 }

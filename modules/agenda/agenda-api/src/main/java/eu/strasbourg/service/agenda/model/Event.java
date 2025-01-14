@@ -128,8 +128,33 @@ public interface Event extends EventModel, PersistedModel {
 	 * la dernière date de fin) sous forme de String dans la locale passée en
 	 * paramètre
 	 */
+	public String getEventScheduleDisplayLong(java.util.Locale locale);
+
+	/**
+	 * Retourne la période principale de l'événement (de la première date de début à
+	 * la dernière date de fin) sous forme de String dans la locale passée en
+	 * paramètre
+	 */
+	public String getEventScheduleDisplayShort(java.util.Locale locale);
+
+	/**
+	 * Retourne la période principale de l'événement (de la première date de début à
+	 * la dernière date de fin) sous forme de String dans la locale passée en
+	 * paramètre
+	 */
 	public String getEventScheduleDisplay(
 		java.util.Locale locale, boolean dispYear, boolean dispShortMonth);
+
+	/**
+	 * Retourne la plage de date
+	 *
+	 * Si endDate = startDate OU
+	 * Si (endDate = startDate + 1 ET endTime < startTime ET endTime ≤ 8H du matin)
+	 *  -> [dateDébut]
+	 * Sinon
+	 * 	-> [dateDébut, DateFin]
+	 */
+	public java.util.Date[] getDateRange();
 
 	/**
 	 * Retourne la version live de l'édition, si elle existe

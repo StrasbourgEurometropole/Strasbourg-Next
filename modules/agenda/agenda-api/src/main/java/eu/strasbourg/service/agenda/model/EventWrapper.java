@@ -90,6 +90,7 @@ public class EventWrapper
 		attributes.put("program", getProgram());
 		attributes.put("firstStartDate", getFirstStartDate());
 		attributes.put("lastEndDate", getLastEndDate());
+		attributes.put("isRecurrent", isIsRecurrent());
 		attributes.put("createDateSource", getCreateDateSource());
 		attributes.put("modifiedDateSource", getModifiedDateSource());
 		attributes.put("imageId", getImageId());
@@ -442,6 +443,12 @@ public class EventWrapper
 
 		if (lastEndDate != null) {
 			setLastEndDate(lastEndDate);
+		}
+
+		Boolean isRecurrent = (Boolean)attributes.get("isRecurrent");
+
+		if (isRecurrent != null) {
+			setIsRecurrent(isRecurrent);
 		}
 
 		Date createDateSource = (Date)attributes.get("createDateSource");
@@ -937,6 +944,20 @@ public class EventWrapper
 		return model.getCurrentOrFuturePeriodStringDate();
 	}
 
+	/**
+	 * Retourne la plage de date
+	 *
+	 * Si endDate = startDate OU
+	 * Si (endDate = startDate + 1 ET endTime < startTime ET endTime ≤ 8H du matin)
+	 *  -> [dateDébut]
+	 * Sinon
+	 * 	-> [dateDébut, DateFin]
+	 */
+	@Override
+	public Date[] getDateRange() {
+		return model.getDateRange();
+	}
+
 	@Override
 	public String getDefaultLanguageId() {
 		return model.getDefaultLanguageId();
@@ -1158,6 +1179,26 @@ public class EventWrapper
 	}
 
 	/**
+	 * Retourne la période principale de l'événement (de la première date de début à
+	 * la dernière date de fin) sous forme de String dans la locale passée en
+	 * paramètre
+	 */
+	@Override
+	public String getEventScheduleDisplayLong(java.util.Locale locale) {
+		return model.getEventScheduleDisplayLong(locale);
+	}
+
+	/**
+	 * Retourne la période principale de l'événement (de la première date de début à
+	 * la dernière date de fin) sous forme de String dans la locale passée en
+	 * paramètre
+	 */
+	@Override
+	public String getEventScheduleDisplayShort(java.util.Locale locale) {
+		return model.getEventScheduleDisplayShort(locale);
+	}
+
+	/**
 	 * Returns the external image copyright of this event.
 	 *
 	 * @return the external image copyright of this event
@@ -1291,6 +1332,16 @@ public class EventWrapper
 	@Override
 	public Integer getImageWidth() {
 		return model.getImageWidth();
+	}
+
+	/**
+	 * Returns the is recurrent of this event.
+	 *
+	 * @return the is recurrent of this event
+	 */
+	@Override
+	public boolean getIsRecurrent() {
+		return model.getIsRecurrent();
 	}
 
 	/**
@@ -2518,6 +2569,16 @@ public class EventWrapper
 	}
 
 	/**
+	 * Returns <code>true</code> if this event is is recurrent.
+	 *
+	 * @return <code>true</code> if this event is is recurrent; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isIsRecurrent() {
+		return model.isIsRecurrent();
+	}
+
+	/**
 	 * Returns <code>true</code> if this event is pending.
 	 *
 	 * @return <code>true</code> if this event is pending; <code>false</code> otherwise
@@ -3148,6 +3209,16 @@ public class EventWrapper
 	@Override
 	public void setImageWidth(Integer imageWidth) {
 		model.setImageWidth(imageWidth);
+	}
+
+	/**
+	 * Sets whether this event is is recurrent.
+	 *
+	 * @param isRecurrent the is recurrent of this event
+	 */
+	@Override
+	public void setIsRecurrent(boolean isRecurrent) {
+		model.setIsRecurrent(isRecurrent);
 	}
 
 	/**

@@ -142,6 +142,8 @@ public class EventTable extends BaseTable<EventTable> {
 		"firstStartDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
 	public final Column<EventTable, Date> lastEndDate = createColumn(
 		"lastEndDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
+	public final Column<EventTable, Boolean> isRecurrent = createColumn(
+		"isRecurrent", Boolean.class, Types.BOOLEAN, Column.FLAG_DEFAULT);
 	public final Column<EventTable, Date> createDateSource = createColumn(
 		"createDateSource", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
 	public final Column<EventTable, Date> modifiedDateSource = createColumn(

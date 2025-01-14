@@ -86,6 +86,7 @@
 		<!-- Dates -->
 		<column name="firstStartDate" type="Date" />
 		<column name="lastEndDate" type="Date" />
+		<column name="isRecurrent" type="boolean" />
 
 		<!-- Dates Provider Source -->
 		<column name="createDateSource" type="Date" />

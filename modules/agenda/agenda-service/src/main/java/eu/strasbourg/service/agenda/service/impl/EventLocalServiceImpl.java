@@ -217,6 +217,7 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 				lastEndDateTime = getCalendar(lastEndDate, lastEndLocalTime);
 			}
 			event.setLastEndDate(lastEndDateTime.getTime());
+			event.setIsRecurrent(lastPeriod.getIsRecurrent());
 		}
 
 		// Si on n'utilise pas le framework workflow, simple gestion

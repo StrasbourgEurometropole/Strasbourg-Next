@@ -15,7 +15,7 @@
     <#assign imageUrl=imageUrl + entry.imageURL?replace('@', "" )?replace('cdn_hostroot_path', "" ) />
 </#if>
 <#-- Liste des infos a partager -->
-<#assign openGraph={ "og:title" :"${entry.getEventScheduleDisplay(locale)} -
+<#assign openGraph={ "og:title" :"${entry.getEventScheduleDisplayLong(locale)} -
         ${entry.getTitle(locale)?html}", "og:description" :'${entry.getDescription(locale)?replace("<[^>]
 *>", "",
 "r")?html}', "og:image" :"${imageUrl}"
@@ -46,17 +46,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
         <div class="st-top-bar">
             <div class="st-top-bar__left">
                 <p class="st-date">
-                    <#if entry.firstStartDate?has_content && entry.lastEndDate?has_content>
-                        <#if entry.firstStartDate?date==entry.lastEndDate?date>
-                            <@liferay_ui.message key="eu.event.the" />
-                            ${entry.firstStartDate?date?string.long}
-                        <#else>
-                            <@liferay_ui.message key="eu.event.from-date" />
-                            ${entry.firstStartDate?date?string.long}
-                            <@liferay_ui.message key="eu.event.to" />
-                            ${entry.lastEndDate?date?string.long}
-                        </#if>
-                    </#if>
+                    ${entry.getEventScheduleDisplayLong(locale)}
                 </p>
                 <p class="st-location">
                     ${entry.getPlaceAlias(locale)}
@@ -332,17 +322,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
             <div class="st-container-left">
                 <div class="st-content">
                     <p class="st-date">
-                        <#if entry.firstStartDate?has_content && entry.lastEndDate?has_content>
-                            <#if entry.firstStartDate?date==entry.lastEndDate?date>
-                                <@liferay_ui.message key="eu.event.the" />
-                                ${entry.firstStartDate?date?string.short}
-                            <#else>
-                                <@liferay_ui.message key="eu.event.from-date" />
-                                ${entry.firstStartDate?date?string.short}
-                                <@liferay_ui.message key="eu.event.to" />
-                                ${entry.lastEndDate?date?string.short}
-                            </#if>
-                        </#if>
+                        ${entry.getEventScheduleDisplayShort(locale)}
                     </p>
                     <p class="st-surtitre-cat">
                         ${entry.getTypeLabel(locale)}

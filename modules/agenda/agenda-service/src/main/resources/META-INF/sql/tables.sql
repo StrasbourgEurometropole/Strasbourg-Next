@@ -195,6 +195,7 @@ create table agenda_Event (
 	program TEXT null,
 	firstStartDate DATE null,
 	lastEndDate DATE null,
+	isRecurrent BOOLEAN,
 	createDateSource DATE null,
 	modifiedDateSource DATE null,
 	imageId LONG,

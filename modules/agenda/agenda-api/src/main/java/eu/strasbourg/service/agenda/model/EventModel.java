@@ -1959,6 +1959,27 @@ public interface EventModel
 	public void setLastEndDate(Date lastEndDate);
 
 	/**
+	 * Returns the is recurrent of this event.
+	 *
+	 * @return the is recurrent of this event
+	 */
+	public boolean getIsRecurrent();
+
+	/**
+	 * Returns <code>true</code> if this event is is recurrent.
+	 *
+	 * @return <code>true</code> if this event is is recurrent; <code>false</code> otherwise
+	 */
+	public boolean isIsRecurrent();
+
+	/**
+	 * Sets whether this event is is recurrent.
+	 *
+	 * @param isRecurrent the is recurrent of this event
+	 */
+	public void setIsRecurrent(boolean isRecurrent);
+
+	/**
 	 * Returns the create date source of this event.
 	 *
 	 * @return the create date source of this event

@@ -10,4 +10,7 @@ alter table agenda_EventPeriod
 alter table agenda_EventPeriod
     add isRecurrent BOOLEAN default 0 null AFTER endTime;
 
+alter table agenda_Event
+    add isRecurrent BOOLEAN default 0 null AFTER lastEndDate;
+
 COMMIT_TRANSACTION;

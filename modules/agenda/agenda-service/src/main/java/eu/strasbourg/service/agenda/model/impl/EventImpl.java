@@ -14,8 +14,6 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
-import eu.strasbourg.utils.PortalHelper;
-import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
@@ -65,16 +63,22 @@ import eu.strasbourg.utils.AssetVocabularyHelper;
 import eu.strasbourg.utils.DateHelper;
 import eu.strasbourg.utils.FileEntryHelper;
 import eu.strasbourg.utils.JSONHelper;
+import eu.strasbourg.utils.PortalHelper;
 import eu.strasbourg.utils.StrasbourgPropsUtil;
 import eu.strasbourg.utils.UriHelper;
 import eu.strasbourg.utils.constants.VocabularyNames;
+import org.osgi.annotation.versioning.ProviderType;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -96,7 +100,7 @@ import java.util.stream.Collectors;
  * <p>
  * Helper methods and all application logic should be put in this class.
  * Whenever methods are added, rerun ServiceBuilder to copy their definitions
- * into the {@link eu.strasbourg.service.agenda.model.Event} interface.
+ * into the {@link Event} interface.
  * </p>
  *
  * @author BenjaminBini
@@ -263,7 +267,65 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getEventScheduleDisplay(Locale locale) {
-		return DateHelper.displayPeriod(this.getFirstStartDate(), this.getLastEndDate(), locale, true, false);
+		Date[] dateRange = this.getDateRange();
+		return DateHelper.displayPeriod(dateRange[0], dateRange.length > 1 ? dateRange[1] : dateRange[0], locale, true, false);
+	}
+
+	/**
+	 * Retourne la période principale de l'événement (de la première date de début à
+	 * la dernière date de fin) sous forme de String dans la locale passée en
+	 * paramètre
+	 */
+	@Override
+	public String getEventScheduleDisplayLong(Locale locale) {
+		DateFormat format = new SimpleDateFormat("dd MMMM yyyy");
+		return getEventScheduleDisplay(locale, format);
+	}
+
+	/**
+	 * Retourne la période principale de l'événement (de la première date de début à
+	 * la dernière date de fin) sous forme de String dans la locale passée en
+	 * paramètre
+	 */
+	@Override
+	public String getEventScheduleDisplayShort(Locale locale) {
+		DateFormat format = new SimpleDateFormat("dd.MM.yy");
+		return getEventScheduleDisplay(locale, format);
+	}
+
+	/**
+	 * Retourne la période principale de l'événement (de la première date de début à
+	 * la dernière date de fin) sous forme de String dans la locale passée en
+	 * paramètre
+	 */
+	private String getEventScheduleDisplay(Locale locale, DateFormat format) {
+		Date[] dateRange = this.getDateRange();
+		String result = "";
+
+		// Cas où une ou les deux dates sont null
+		if (dateRange[0] == null || dateRange[1] == null) {
+			return "";
+		}
+
+		// Si la période dure 1 jour
+		if (dateRange[0].equals(dateRange[1])) {
+			// le dd MMMM yyyy
+			if (locale.equals(Locale.FRANCE)) {
+				result = "Le ";
+			}
+			result += format.format(dateRange[0]);
+		} else { // S'il dure plus longtemps
+			// du dd.MM.yy au dd.MM.yy
+			if (locale.equals(Locale.FRANCE)) {
+				result = "Du " + format.format(dateRange[0]) + " au " + format.format(dateRange[1]);
+			} else if (locale.equals(Locale.GERMANY)) {
+				result = "Vom " + format.format(dateRange[0]) + " bis zum " + format.format(dateRange[1]);
+			} else if (locale.equals(Locale.US)) {
+				result = "From " + format.format(dateRange[0]) + " to " + format.format(dateRange[1]);
+			}
+		}
+
+		return result;
 	}
 
 	/**
@@ -274,6 +336,61 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public String getEventScheduleDisplay(Locale locale, boolean dispYear, boolean dispShortMonth) {
 		return DateHelper.displayPeriod(this.getFirstStartDate(), this.getLastEndDate(), locale, dispYear, dispShortMonth);
+	}
+
+	/**
+	 * Retourne la plage de date
+	 *
+	 * Si endDate = startDate OU
+	 * Si (endDate = startDate + 1 ET endTime < startTime ET endTime ≤ 8H du matin)
+	 *  -> [dateDébut]
+	 * Sinon
+	 * 	-> [dateDébut, DateFin]
+	 */
+	@Override
+	public Date[] getDateRange() {
+		Date[] dateRange = new Date[0];
+
+
+		LocalDateTime startLocalDateTime = this.getFirstStartDate().toInstant()
+				.atZone(ZoneId.systemDefault()).toLocalDateTime();
+		LocalDate startLocalDate = startLocalDateTime.toLocalDate();
+		LocalTime startLocalTime = startLocalDateTime.toLocalTime();
+
+		LocalDateTime endLocalDateTime = this.getLastEndDate().toInstant()
+				.atZone(ZoneId.systemDefault()).toLocalDateTime();
+		LocalDate endLocalDate = endLocalDateTime.toLocalDate();
+		LocalTime endLocalTime = endLocalDateTime.toLocalTime();
+
+		// Si lastEndDate = firstStartDate OU
+		// Si (lastEndDate = firstStartDate + 1 ET endTime < startTime ET endTime ≤ 8H du matin)
+		if (endLocalDate.equals(startLocalDate) ||
+				(endLocalDate.equals(startLocalDate.plusDays(1)) &&
+						endLocalTime.isBefore(startLocalTime) &&
+						!endLocalTime.isAfter(LocalTime.parse("08:00")))) {
+			dateRange = new Date[]{this.getFirstStartDate(), this.getFirstStartDate()};
+		} else {
+			// S'il dure plus longtemps
+			// Si récurrent ET lastEndDate > firstStartDate + 1 ET 
+			// endTime < startTime ET endTime ≤ 8H du matin -> on enlève un jour
+			if (this.getIsRecurrent() &&
+					endLocalDate.isAfter(startLocalDate.plusDays(1)) &&
+					endLocalTime.isBefore(startLocalTime) &&
+					!endLocalTime.isAfter(LocalTime.parse("08:00"))) {
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				String newEndDate = endLocalDate.minusDays(1).format(dtf);
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                try {
+					dateRange = new Date[]{this.getFirstStartDate(), sdf.parse(newEndDate)};
+                } catch (ParseException e) {
+					_log.error(e.getMessage(), e);
+                }
+			} else {
+				dateRange = new Date[]{this.getFirstStartDate(), this.getLastEndDate()};
+			}
+		}
+
+		return dateRange;
 	}
 
 	/**
@@ -750,7 +867,7 @@ public class EventImpl extends EventBaseImpl {
 
 		Map<Locale, String> descriptionMap = this.getDescriptionMap();
 		Map<Locale, String> descriptionWithNewURLsMap = new HashMap<Locale, String>();
-		for (Map.Entry<Locale, String> descriptionEntry : descriptionMap.entrySet()) {
+		for (Entry<Locale, String> descriptionEntry : descriptionMap.entrySet()) {
 			String description = descriptionEntry.getValue().replace("\"/documents/",
 					"\"" + StrasbourgPropsUtil.getURL() + "/documents/");
 			descriptionWithNewURLsMap.put(descriptionEntry.getKey(), description);
@@ -928,7 +1045,7 @@ public class EventImpl extends EventBaseImpl {
 
 		Map<Locale, String> descriptionMap = this.getDescriptionMap();
 		Map<Locale, String> descriptionWithNewURLsMap = new HashMap<Locale, String>();
-		for (Map.Entry<Locale, String> descriptionEntry : descriptionMap.entrySet()) {
+		for (Entry<Locale, String> descriptionEntry : descriptionMap.entrySet()) {
 			String description = descriptionEntry.getValue().replace("\"/documents/",
 					"\"" + StrasbourgPropsUtil.getURL() + "/documents/");
 			description = HtmlUtil.stripHtml(HtmlUtil.escape(description));

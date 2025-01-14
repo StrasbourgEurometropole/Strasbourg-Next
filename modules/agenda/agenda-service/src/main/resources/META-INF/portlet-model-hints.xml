@@ -255,6 +255,7 @@
 		</field>
 		<field name="firstStartDate" type="Date" />
 		<field name="lastEndDate" type="Date" />
+		<field name="isRecurrent" type="boolean" />
 		<field name="createDateSource" type="Date" />
 		<field name="modifiedDateSource" type="Date" />
 		<field name="imageId" type="Long" />
