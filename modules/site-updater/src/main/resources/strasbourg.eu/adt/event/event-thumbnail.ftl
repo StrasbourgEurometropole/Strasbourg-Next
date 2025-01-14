@@ -50,17 +50,7 @@
                     ${entry.getTypeLabel(locale)}
                 </p>
                 <p class="st-date">
-                    <#if entry.firstStartDate?has_content && entry.lastEndDate?has_content>
-                        <#if entry.firstStartDate?date==entry.lastEndDate?date>
-                            <@liferay_ui.message key="eu.event.the" />
-                            ${entry.firstStartDate?date?string.short?replace('/', '.')}
-                        <#else>
-                            <@liferay_ui.message key="eu.event.from-date" />
-                            ${entry.firstStartDate?date?string.short?replace('/', '.')}
-                            <@liferay_ui.message key="eu.event.to" />
-                            ${entry.lastEndDate?date?string.short?replace('/', '.')}
-                        </#if>
-                    </#if>
+                    ${entry.getEventScheduleDisplayShort(locale)}
                 </p>
                 <p class="st-location">
                     ${entry.getPlaceAlias(locale)} - ${entry.getPlaceCity(locale)}
