@@ -18,10 +18,12 @@
                 <div class="st-component-container mb-4 pb-3">
                     <h3 class="st-title-small"><@liferay_ui.message key="eu.next-dates" /></h3>
                     <ul>
-                        <#list entry.currentAndFuturePeriods as period>
-                            <li>
-                                ${period.getDisplay(locale)}<#if period.getTimeDetail(locale)?has_content> : ${period.getTimeDetail(locale)}</#if>
-                            </li>
+                        <#list entry.currentAndFuturePeriods as periods>
+                            <#list periods.getDisplay(locale) as period>
+                                <li>
+                                    ${period}<#if periods.getTimeDetail(locale)?has_content> : ${periods.getTimeDetail(locale)}</#if>
+                                </li>
+                            </#list>
                         </#list>
                     </ul>
                 </div>
