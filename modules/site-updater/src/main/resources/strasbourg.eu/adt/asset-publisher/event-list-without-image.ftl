@@ -21,15 +21,7 @@
                                 ${event.getTypeLabel(locale)}
                             </p>
                             <p class="st-date">
-                                <#if event.firstStartDate?date==event.lastEndDate?date>
-                                    <@liferay_ui.message key="eu.event.the" />
-                                    ${event.firstStartDate?date?string['dd.MM.YYYY']}
-                                <#else>
-                                    <@liferay_ui.message key="eu.event.from-date" />
-                                    ${event.firstStartDate?date?string['dd.MM.YYYY']}
-                                    <@liferay_ui.message key="eu.event.to" />
-                                    ${event.lastEndDate?date?string['dd.MM.YYYY']}
-                                </#if>
+                                ${event.getEventScheduleDisplayShort(locale)}
                             </p>
                             <p class="st-location">
                                 ${event.getPlaceAlias(locale)}
