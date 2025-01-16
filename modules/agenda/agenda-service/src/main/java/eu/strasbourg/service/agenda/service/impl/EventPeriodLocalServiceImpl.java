@@ -14,14 +14,12 @@
 
 package eu.strasbourg.service.agenda.service.impl;
 
-import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.portal.kernel.exception.PortalException;
 import eu.strasbourg.service.agenda.model.EventPeriod;
 import eu.strasbourg.service.agenda.service.base.EventPeriodLocalServiceBaseImpl;
+import org.osgi.annotation.versioning.ProviderType;
 
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * The implementation of the event period local service.
@@ -81,29 +79,5 @@ public class EventPeriodLocalServiceImpl
 	public List<EventPeriod> getByCampaignEventId(long campaignEventId) {
 		return this.eventPeriodPersistence
 			.findByCampaignEventId(campaignEventId);
-	}
-
-	/**
-	 * Vérifie qu'une liste de période ne contient pas de périodes qui se
-	 * chevauchent
-	 */
-	public boolean checkForOverlappingPeriods(List<EventPeriod> periods) {
-		List<EventPeriod> sortedPeriods = periods.stream()
-			.sorted((p1, p2) -> p1.getStartDate().compareTo(p2.getStartDate()))
-			.collect(Collectors.toList());
-		Date lastEnd = null;
-		for (int i = 0; i < sortedPeriods.size(); i++) {
-			EventPeriod period = sortedPeriods.get(i);
-			if (i == 0) {
-				lastEnd = period.getEndDate();
-			} else if (period.getStartDate().before(lastEnd)
-				|| period.getStartDate().equals(lastEnd)) {
-				return true;
-			}
-			if (lastEnd.after(periods.get(i).getEndDate())) {
-				lastEnd = sortedPeriods.get(i).getEndDate();
-			}
-		}
-		return false;
 	}
 }

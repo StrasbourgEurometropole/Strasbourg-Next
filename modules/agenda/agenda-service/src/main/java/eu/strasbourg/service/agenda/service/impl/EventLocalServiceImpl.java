@@ -317,38 +317,6 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 		this.cacheJsonLocalService.updateCacheJson(cacheJson);
 	}
 
-	/**
-	 * Convertit une liste d'événements en TreeMap, avec pour clé les dates
-	 * @param entries
-	 * @return
-	 */
-	@Override
-	public TreeMap<Date, List<AssetEntry>> convertEventsToTreeMap(List<AssetEntry> entries) {
-		TreeMap<Date, List<AssetEntry>> eventsByDate = new TreeMap<>();
-		for (AssetEntry entry : entries) {
-			long eventEntryId = entry.getClassPK();
-
-			// Fetch the Event directly by entryId, reducing database calls
-			Event event = EventLocalServiceUtil.fetchEvent(eventEntryId);
-
-			if (event != null) {
-				List<EventPeriod> eventPeriods = event.getEventPeriods();
-				for (EventPeriod eventPeriod : eventPeriods) {
-					List<LocalDate> dateRange = generateDateRange(eventPeriod.getStartDate().toInstant().atZone(ZoneId.of("UTC")).toLocalDate(), eventPeriod.getEndDate().toInstant().atZone(ZoneId.of("UTC")).toLocalDate());
-					for (LocalDate eventDate : dateRange) {
-						if(eventDate.isBefore(LocalDate.now())) {
-							continue;
-						}
-						eventsByDate.computeIfAbsent(Date.from(eventDate.atStartOfDay(ZoneId.of("UTC")).toInstant()), k -> new ArrayList<>()).add(entry);
-					}
-
-				}
-			}
-		}
-
-		return eventsByDate;
-	}
-
 	public static List<LocalDate> generateDateRange(LocalDate startDate, LocalDate endDate) {
 		List<LocalDate> dateRange = new ArrayList<>();
 

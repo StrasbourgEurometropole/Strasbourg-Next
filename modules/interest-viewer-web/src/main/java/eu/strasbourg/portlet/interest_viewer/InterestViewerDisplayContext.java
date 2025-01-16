@@ -450,19 +450,6 @@ public class InterestViewerDisplayContext {
 		return attachedVocabularies;
 	}
 
-	private boolean eventIsHappeningToday(Event event) {
-		LocalDate today = LocalDate.now(ZoneId.of("Europe/Berlin"));
-		for (EventPeriod period : event.getEventPeriods()) {
-			LocalDate startDate = period.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			LocalDate endDate = period.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			endDate = endDate.plusDays(1);
-			if (today.isAfter(startDate) && today.isBefore(endDate) || today.isEqual(startDate)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public String DeleteTag(String html) {
 
 		Pattern p = Pattern.compile("<[^>]*>");

@@ -47,18 +47,6 @@ public class EventPeriodLocalServiceWrapper
 	}
 
 	/**
-	 * Vérifie qu'une liste de période ne contient pas de périodes qui se
-	 * chevauchent
-	 */
-	@Override
-	public boolean checkForOverlappingPeriods(
-		java.util.List<eu.strasbourg.service.agenda.model.EventPeriod>
-			periods) {
-
-		return _eventPeriodLocalService.checkForOverlappingPeriods(periods);
-	}
-
-	/**
 	 * Crée une édition vide avec une PK, non ajouté à la base de donnée
 	 */
 	@Override

@@ -334,6 +334,8 @@ public interface Event extends EventModel, PersistedModel {
 
 	public java.time.LocalDate getNextOpenDate();
 
+	public boolean eventIsHappeningToday();
+
 	/**
 	 * Demande si l'utilisateur demandé participe à l'événement
 	 */

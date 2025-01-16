@@ -202,7 +202,7 @@ public class EventViewerPortlet extends MVCPortlet {
 					.filter(e -> e.getEventId() == GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))
 					.findFirst().orElse(null);
 			if (event != null) {
-				if (this.eventIsHappeningToday(allPeriods, GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))) {
+				if (event.eventIsHappeningToday()) {
 					eventsOfTheDay.add(event);
 				} else {
 					otherEvents.add(event);
@@ -230,23 +230,5 @@ public class EventViewerPortlet extends MVCPortlet {
 		}
 
 		return entries;
-	}
-
-	private boolean eventIsHappeningToday(List<EventPeriod> allPeriods, long eventId) {
-		LocalDate today = LocalDate.now(ZoneId.of("Europe/Berlin"));
-
-		for (EventPeriod period : allPeriods.stream()
-				.filter(p -> p.getEventId() == eventId).collect(Collectors.toList())) {
-			LocalDate startDate = period.getStartDate().toInstant()
-				.atZone(ZoneId.systemDefault()).toLocalDate();
-			LocalDate endDate = period.getEndDate().toInstant()
-				.atZone(ZoneId.systemDefault()).toLocalDate();
-			endDate = endDate.plusDays(1);
-			if (today.isAfter(startDate) && today.isBefore(endDate)
-				|| today.isEqual(startDate)) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

@@ -74,12 +74,6 @@ public interface EventPeriodLocalService
 	public EventPeriod addEventPeriod(EventPeriod eventPeriod);
 
 	/**
-	 * Vérifie qu'une liste de période ne contient pas de périodes qui se
-	 * chevauchent
-	 */
-	public boolean checkForOverlappingPeriods(List<EventPeriod> periods);
-
-	/**
 	 * Crée une édition vide avec une PK, non ajouté à la base de donnée
 	 */
 	public EventPeriod createEventPeriod() throws PortalException;

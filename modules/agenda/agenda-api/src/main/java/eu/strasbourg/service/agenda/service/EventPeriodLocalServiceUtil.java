@@ -52,16 +52,6 @@ public class EventPeriodLocalServiceUtil {
 	}
 
 	/**
-	 * Vérifie qu'une liste de période ne contient pas de périodes qui se
-	 * chevauchent
-	 */
-	public static boolean checkForOverlappingPeriods(
-		List<EventPeriod> periods) {
-
-		return getService().checkForOverlappingPeriods(periods);
-	}
-
-	/**
 	 * Crée une édition vide avec une PK, non ajouté à la base de donnée
 	 */
 	public static EventPeriod createEventPeriod() throws PortalException {

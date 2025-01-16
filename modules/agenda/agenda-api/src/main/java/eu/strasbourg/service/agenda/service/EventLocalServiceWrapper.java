@@ -90,23 +90,6 @@ public class EventLocalServiceWrapper
 	}
 
 	/**
-	 * Convertit une liste d'événements en TreeMap, avec pour clé les dates
-	 *
-	 * @param entries
-	 * @return
-	 */
-	@Override
-	public java.util.TreeMap
-		<java.util.Date,
-		 java.util.List<com.liferay.asset.kernel.model.AssetEntry>>
-			convertEventsToTreeMap(
-				java.util.List<com.liferay.asset.kernel.model.AssetEntry>
-					entries) {
-
-		return _eventLocalService.convertEventsToTreeMap(entries);
-	}
-
-	/**
 	 * Généréation des caches pour API et CSMap
 	 * Appelé après un UPDATE(event,sc) et lors de l'import des lieux
 	 *

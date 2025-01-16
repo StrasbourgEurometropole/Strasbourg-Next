@@ -500,6 +500,11 @@ public class EventWrapper
 		return wrap(model.cloneWithOriginalValues());
 	}
 
+	@Override
+	public boolean eventIsHappeningToday() {
+		return model.eventIsHappeningToday();
+	}
+
 	/**
 	 * Returns the access of this event.
 	 *
