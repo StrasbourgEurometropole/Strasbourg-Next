@@ -21,7 +21,7 @@
                 <div class="panel-group panel-group-flush">
 
                     <aui:fieldset>
-                        <aui:select label="asset-type" name="className">
+                        <aui:select label="asset-type" name="className" onChange="(e) => console.log(e)">
                             <c:forEach var="currentClassName" items="${classNames}" varStatus="cnStatus">
                                 <aui:option value="${currentClassName}" selected="${currentClassName eq className}">${classNamesLabels[cnStatus.index]}</aui:option>
                             </c:forEach>
@@ -34,7 +34,17 @@
                         </c:if>
                     </div>
                     <div>
-                        <aui:input type="text"  name="categoryIds" value="${categoryIds}"/>
+                        <label><liferay-ui:message key="categories" /> ${categoryIds}</label>
+                        <p>
+                            <asset-category-selector:category-selector
+                                    id="categoryIds"
+                                    groupIds="${themeDisplay.scopeGroupId},${themeDisplay.companyGroupId}"
+                                    classname="${className}"
+                                    label="categories"
+                                    values="${categoryIds}"
+                                    multiple="true"
+                            />
+                        </p>
                     </div>
                 </div>
             </div>
@@ -63,6 +73,10 @@
 					jQuery('#asset-and-adt-selection').html(result);
 				}
 			});
+
+            onChangeClassName(choicecategoriesIds, '${themeDisplay.scopeGroupId},${themeDisplay.companyGroupId}',className)
+
+
 		});
 	});
 </script>

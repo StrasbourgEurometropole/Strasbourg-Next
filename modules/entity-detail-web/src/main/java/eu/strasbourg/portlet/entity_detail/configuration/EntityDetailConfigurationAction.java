@@ -1,7 +1,9 @@
 package eu.strasbourg.portlet.entity_detail.configuration;
 
 import com.liferay.asset.kernel.AssetRendererFactoryRegistryUtil;
+import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
+import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.log.Log;
@@ -28,7 +30,9 @@ import javax.portlet.PortletPreferences;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component(
@@ -61,13 +65,31 @@ public class EntityDetailConfigurationAction
 			String classPK = ParamUtil.getString(request, "classPK");
 			setPreference(request, "classPK", classPK);
 			// Type d'entité
-			String categoryIds = ParamUtil.getString(request, "categoryIds");
-			setPreference(request, "categoryIds", categoryIds);
+			String[] categoryIds = ParamUtil.getStringValues(request, "categoryIds");
+
+
+			//string with join , for save in preferences
+			setPreference(request, "categoryIds", categoryIdsToString(categoryIds));
 		} else {
 			classNameChange(request, response);
 		}
 
 		super.processAction(portletConfig, request, response);
+	}
+
+	private String categoryIdsToString(String[] categoryIds) {
+		// Group category by its vocabulary
+		Map<Long, List<Long>> categoryIdsList = new HashMap<>();
+		for (String categoryId : categoryIds) {
+			// Fetch vocabulary
+			AssetCategory category = AssetCategoryLocalServiceUtil.fetchAssetCategory(Long.parseLong(categoryId));
+			Long vocabularyId = category.getVocabularyId();
+			categoryIdsList.computeIfAbsent(vocabularyId, k -> new ArrayList<>()).add(Long.parseLong(categoryId));
+		}
+
+		return categoryIdsList.entrySet().stream()
+				.map(entry -> entry.getValue().stream().map(Object::toString).collect(Collectors.joining(",")))
+				.collect(Collectors.joining(";"));
 	}
 
 	/**
@@ -123,7 +145,10 @@ public class EntityDetailConfigurationAction
 
 				// Item selectionné
 				request.setAttribute("classPK", configuration.classPK());
-				request.setAttribute("categoryIds", configuration.categoryIds());
+				String categoryIdsArray = configuration.categoryIds();
+				// Flat out the categoryIds by replacing ; by ,
+				String categoryIds = categoryIdsArray.replace(";", ",");
+				request.setAttribute("categoryIds", categoryIds);
 			}
 
 			// Tout ce qui est Application Display Template

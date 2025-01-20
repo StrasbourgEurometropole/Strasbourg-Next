@@ -19,5 +19,5 @@ public interface EntityDetailConfiguration {
 	public long classPK();
 
 	@Meta.AD(name="categoryIds", required = false)
-	public long categoryIds();
+	public String categoryIds();
 }

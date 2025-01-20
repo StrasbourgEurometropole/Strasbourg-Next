@@ -11,11 +11,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.util.*;
 import eu.strasbourg.portlet.entity_detail.configuration.EntityDetailConfiguration;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
@@ -26,9 +22,8 @@ import org.osgi.service.component.annotations.Component;
 import javax.portlet.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component(
 		immediate = true,
@@ -126,12 +121,40 @@ public class EntityDetailPortlet extends MVCPortlet {
 		}
 	}
 
-	private boolean isInCategories(AssetEntry entry, long categoryIds) {
-		if(Validator.isNull(categoryIds) || categoryIds==0) {
+	private boolean isInCategories(AssetEntry entry, String categoryIds) {
+		// If there's no category filter provided, decide whether that means "match everything" or "match nothing"
+		// Here, we assume null or empty string means no filter => no match required => return true
+		if (Validator.isNull(categoryIds)) {
 			return true;
 		}
-		return entry.getCategories().stream().anyMatch(cat -> cat.getCategoryId() == categoryIds);
+
+		// Convert the entry's category IDs to a Set for faster lookups
+		Set<Long> entryCategoryIds = Arrays.stream(entry.getCategoryIds())
+				.boxed()
+				.collect(Collectors.toSet());
+
+		// Split by semicolon to handle the AND logic
+		for (String andGroup : categoryIds.split(";")) {
+			// Check if at least one of the comma-separated category IDs is present in the entry
+			boolean foundInGroup = false;
+			for (String idStr : andGroup.split(",")) {
+				long parsedId = GetterUtil.getLong(idStr.trim());
+				if (entryCategoryIds.contains(parsedId)) {
+					foundInGroup = true;
+					break;
+				}
+			}
+
+			// If none of the OR IDs in this group matched, immediately return false
+			if (!foundInGroup) {
+				return false;
+			}
+		}
+
+		// If we passed every group check, then it's a match
+		return true;
 	}
+
 
 	private final Log _log = LogFactoryUtil.getLog(this.getClass().getName());
 }

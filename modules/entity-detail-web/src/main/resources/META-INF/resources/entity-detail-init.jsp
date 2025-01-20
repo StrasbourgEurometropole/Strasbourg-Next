@@ -11,6 +11,7 @@
 
 
 <%@ taglib uri="http://strasbourg.eu/tld/picker" prefix="strasbourg-picker" %>
+<%@ taglib uri="http://strasbourg.eu/tld/asset-category-selector" prefix="asset-category-selector" %>
 
 <liferay-theme:defineObjects />
 
