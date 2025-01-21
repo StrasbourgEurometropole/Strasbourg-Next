@@ -438,7 +438,8 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                             <a href="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" class="seu-link" title="${event.getTitle(locale)}">
                                                 <div class="seu-date">
                                                     <div class="seu-date-sup">
-                                                        <#if event.firstStartDate?date == event.lastEndDate?date>
+                                                        <#assign dates=event.getDateRange() />
+                                                        <#if dates[0]?string("yyyy-MM-dd") == dates[1]?string("yyyy-MM-dd")>
                                                             <span class="seu-date-prefix"><@liferay_ui.message key="eu.event.the" /></span>
                                                         <#else>
                                                             <span class="seu-date-prefix"><@liferay_ui.message key="eu.event.from-the" /></span>
@@ -446,7 +447,7 @@ ${request.setAttribute("LIFERAY_SHARED_OPENGRAPH", openGraph)}
                                                         <span class="seu-date-start"></span>
                                                         <span class="seu-date-suffix"></span>
                                                     </div>
-                                                    <div class="seu-date-end">${event.firstStartDate?date?string['dd.MM']}</div>
+                                                    <div class="seu-date-end">${dates[0]?string['dd.MM']}</div>
                                                 </div>
                                                 <div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${event.getTitle(locale)}</div>
                                                 <div class="seu-ville">

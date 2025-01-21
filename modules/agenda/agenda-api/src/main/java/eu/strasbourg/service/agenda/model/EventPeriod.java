@@ -70,10 +70,19 @@ public interface EventPeriod extends EventPeriodModel, PersistedModel {
 	 *
 	 * 		pour une période récurrente :
 	 * 		- toutes les dates à startTime
-	 * 		- si endTime < startTime => faut ajouter endDate+1j à minuit
+	 * 		- si endTime < startTime => ajouter endDate+1j à minuit
 	 *
 	 * 	Si pas de startTime -> minuit
+	 *
+	 * 	Utilisé pour l'indexer
 	 */
 	public java.util.List<java.util.Date> getDays();
+
+	/**
+	 * Retourne la vrai endDate :
+	 * Si la période est récurrente et que endTime < startTime => endDate + 1
+	 * Sinon endDate
+	 */
+	public java.util.Date getCalculateEndDate();
 
 }

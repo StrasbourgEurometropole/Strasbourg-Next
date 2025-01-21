@@ -79,32 +79,22 @@
                         <c:if test="${!curEntry.getClassName().equals('com.liferay.journal.model.JournalArticle')}">
                             <c:set var="eventCount" value="${eventCount + 1}"/>
                             <c:set var="event" value="${curEntry.getAssetRenderer().getEvent()}"/>
-                          {
-                            category: 'agenda',
-                            title: '${dc.getJSONEncodedString(dc.DeleteTag(event.getTitle(locale)))}',
-                            type: '${dc.getJSONEncodedString(dc.DeleteTag(event.getTypeLabel(locale)))}',
-                            link: '${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}',
-                            ville: '${event.getCity(locale)} <c:if test="${not empty event.getCity(locale)}">-</c:if> ${dc.getJSONEncodedString(event.getPlaceAlias(locale))}',
-                            id: '${event.eventId}',
-                            <c:if test="${event.getFirstStartDate().equals(event.getLastEndDate())}">
-                                <fmt:formatDate value="${event.getFirstStartDate()}" pattern="dd.MM" type="date" var="firstStartDate" />
-                                date_start: '',
-                                date_end: '${firstStartDate}',
-                                date_prefix: '<liferay-ui:message key="eu.event.the" />',
-                                date_suffix: ''
-                            </c:if>
-                            <c:if test="${!event.getFirstStartDate().equals(event.getLastEndDate())}">
-                                <fmt:formatDate value="${event.getFirstStartDate()}" pattern="dd.MM" type="date" var="firstStartDate" />
-                                <fmt:formatDate value="${event.getLastEndDate()}" pattern="dd.MM" type="date" var="lastEndDate" />
-                                date_start: '${firstStartDate}',
-                                date_end: '${lastEndDate}',
-                                date_prefix: '<liferay-ui:message key="eu.event.from-date" />',
-                                date_suffix: '<liferay-ui:message key="eu.event.to" />'
-                            </c:if>
-                          }
-                        </c:if>
-                        <c:if test="${!loopStatus.last}">,
-                        </c:if>
+                    {
+                        category: 'agenda',
+                        title: '${dc.getJSONEncodedString(dc.DeleteTag(event.getTitle(locale)))}',
+                        type: '${dc.getJSONEncodedString(dc.DeleteTag(event.getTypeLabel(locale)))}',
+                        link: '${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}',
+                        ville: '${event.getCity(locale)} <c:if test="${not empty event.getCity(locale)}">-</c:if> ${dc.getJSONEncodedString(event.getPlaceAlias(locale))}',
+                        id: '${event.eventId}',
+                        <c:set var="dates" value="${event.getMapDateRange(locale, 'dd.MM')}"/>
+                        date_prefix: '${dates.get("date_prefix")}',
+                        date_start: '${dates.get("date_start")}',
+                        date_suffix: '${dates.get("date_suffix")}',
+                        date_end: '${dates.get("date_end")}'
+                    }
+                    </c:if>
+                    <c:if test="${!loopStatus.last}">,
+                    </c:if>
                     </c:forEach>
                 ]);
             </script>

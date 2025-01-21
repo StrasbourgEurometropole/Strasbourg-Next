@@ -839,6 +839,24 @@ public class EventWrapper
 	}
 
 	/**
+	 * Retourne la vrai lastEndDate :
+	 * Si la période est récurrente, que lastEndDate > firstStartDate + 1,
+	 *  que endTime < startTime et endTime ≤ 8H du matin => lastEndDate - 1
+	 * Sinon endDate
+	 */
+	@Override
+	public Date getCalculateLastEndDate(
+		java.time.LocalDate firstStartLocalDate,
+		java.time.LocalTime firstStartLocalTime,
+		java.time.LocalDate lastEndLocalDate,
+		java.time.LocalTime lastEndLocalTime) {
+
+		return model.getCalculateLastEndDate(
+			firstStartLocalDate, firstStartLocalTime, lastEndLocalDate,
+			lastEndLocalTime);
+	}
+
+	/**
 	 * Renvoie la liste des AssetCategory rattachées à cet item (via l'assetEntry)
 	 */
 	@Override
@@ -1185,6 +1203,18 @@ public class EventWrapper
 
 	/**
 	 * Retourne la période principale de l'événement (de la première date de début à
+	 * la dernière date de fin) sous forme de String dans la locale et le format sont passés en
+	 * paramètre
+	 */
+	@Override
+	public String getEventScheduleDisplay(
+		java.util.Locale locale, String format) {
+
+		return model.getEventScheduleDisplay(locale, format);
+	}
+
+	/**
+	 * Retourne la période principale de l'événement (de la première date de début à
 	 * la dernière date de fin) sous forme de String dans la locale passée en
 	 * paramètre
 	 */
@@ -1402,6 +1432,16 @@ public class EventWrapper
 	@Override
 	public String getManifestationsIds() {
 		return model.getManifestationsIds();
+	}
+
+	/**
+	 * Renvoie une Map de la plage de date
+	 */
+	@Override
+	public Map<String, String> getMapDateRange(
+		java.util.Locale locale, String format) {
+
+		return model.getMapDateRange(locale, format);
 	}
 
 	/**

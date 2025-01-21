@@ -139,6 +139,20 @@ public interface Event extends EventModel, PersistedModel {
 
 	/**
 	 * Retourne la période principale de l'événement (de la première date de début à
+	 * la dernière date de fin) sous forme de String dans la locale et le format sont passés en
+	 * paramètre
+	 */
+	public String getEventScheduleDisplay(
+		java.util.Locale locale, String format);
+
+	/**
+	 * Renvoie une Map de la plage de date
+	 */
+	public java.util.Map<String, String> getMapDateRange(
+		java.util.Locale locale, String format);
+
+	/**
+	 * Retourne la période principale de l'événement (de la première date de début à
 	 * la dernière date de fin) sous forme de String dans la locale passée en
 	 * paramètre
 	 */
@@ -405,6 +419,18 @@ public interface Event extends EventModel, PersistedModel {
 	 * Renvoie le titre de l'event pour friendlyUrl
 	 */
 	public String getNormalizedTitle();
+
+	/**
+	 * Retourne la vrai lastEndDate :
+	 * Si la période est récurrente, que lastEndDate > firstStartDate + 1,
+	 *  que endTime < startTime et endTime ≤ 8H du matin => lastEndDate - 1
+	 * Sinon endDate
+	 */
+	public java.util.Date getCalculateLastEndDate(
+		java.time.LocalDate firstStartLocalDate,
+		java.time.LocalTime firstStartLocalTime,
+		java.time.LocalDate lastEndLocalDate,
+		java.time.LocalTime lastEndLocalTime);
 
 	/**
 	 * Renvoie le titre de l'event pour friendlyUrl

@@ -239,7 +239,7 @@ public class EventImpl extends EventBaseImpl {
 		todayAtMidnight.set(Calendar.MILLISECOND, 0);
 
 		List<EventPeriod> currentAndFuturePeriods = allPeriods.stream()
-				.filter(p -> p.getEndDate().compareTo(todayAtMidnight.getTime()) >= 0).collect(Collectors.toList());
+				.filter(p -> p.getCalculateEndDate().compareTo(todayAtMidnight.getTime()) >= 0).collect(Collectors.toList());
 		return currentAndFuturePeriods;
 	}
 
@@ -278,8 +278,7 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getEventScheduleDisplayLong(Locale locale) {
-		DateFormat format = new SimpleDateFormat("dd MMMM yyyy");
-		return getEventScheduleDisplay(locale, format);
+		return getEventScheduleDisplay(locale, "dd MMMM yyyy");
 	}
 
 	/**
@@ -289,43 +288,49 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public String getEventScheduleDisplayShort(Locale locale) {
-		DateFormat format = new SimpleDateFormat("dd.MM.yy");
-		return getEventScheduleDisplay(locale, format);
+		return getEventScheduleDisplay(locale, "dd.MM.yy");
 	}
 
 	/**
 	 * Retourne la période principale de l'événement (de la première date de début à
-	 * la dernière date de fin) sous forme de String dans la locale passée en
+	 * la dernière date de fin) sous forme de String dans la locale et le format sont passés en
 	 * paramètre
 	 */
-	private String getEventScheduleDisplay(Locale locale, DateFormat format) {
+	@Override
+	public String getEventScheduleDisplay(Locale locale, String format) {
+		Map<String, String> mapDateRange = getMapDateRange(locale, format);
+		return mapDateRange.getOrDefault("date_prefix", "") + mapDateRange.getOrDefault("date_start", "") +
+				mapDateRange.getOrDefault("date_suffix", "") + mapDateRange.getOrDefault("date_end", "");
+	}
+
+	/**
+	 * Renvoie une Map de la plage de date
+	 */
+	@Override
+	public Map<String, String> getMapDateRange(Locale locale, String format) {
+		DateFormat dateFormat = new SimpleDateFormat(format);
 		Date[] dateRange = this.getDateRange();
-		String result = "";
+		Map<String, String> mapDateRange = new HashMap();
 
 		// Cas où une ou les deux dates sont null
 		if (dateRange[0] == null || dateRange[1] == null) {
-			return "";
+			return mapDateRange;
 		}
 
 		// Si la période dure 1 jour
 		if (dateRange[0].equals(dateRange[1])) {
 			// le dd MMMM yyyy
-			if (locale.equals(Locale.FRANCE)) {
-				result = "Le ";
-			}
-			result += format.format(dateRange[0]);
+			mapDateRange.put("date_prefix",LanguageUtil.get(locale, "eu.event.the") + " ");
+			mapDateRange.put("date_end",dateFormat.format(dateRange[0]));
 		} else { // S'il dure plus longtemps
 			// du dd.MM.yy au dd.MM.yy
-			if (locale.equals(Locale.FRANCE)) {
-				result = "Du " + format.format(dateRange[0]) + " au " + format.format(dateRange[1]);
-			} else if (locale.equals(Locale.GERMANY)) {
-				result = "Vom " + format.format(dateRange[0]) + " bis zum " + format.format(dateRange[1]);
-			} else if (locale.equals(Locale.US)) {
-				result = "From " + format.format(dateRange[0]) + " to " + format.format(dateRange[1]);
-			}
+			mapDateRange.put("date_prefix",LanguageUtil.get(locale, "eu.event.from-date") + " ");
+			mapDateRange.put("date_start",dateFormat.format(dateRange[0]));
+			mapDateRange.put("date_suffix"," " + LanguageUtil.get(locale, "eu.event.to") + " ");
+			mapDateRange.put("date_end",dateFormat.format(dateRange[1]));
 		}
 
-		return result;
+		return mapDateRange;
 	}
 
 	/**
@@ -349,7 +354,7 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public Date[] getDateRange() {
-		Date[] dateRange = new Date[0];
+		Date[] dateRange;
 
 
 		LocalDateTime startLocalDateTime = this.getFirstStartDate().toInstant()
@@ -371,23 +376,8 @@ public class EventImpl extends EventBaseImpl {
 			dateRange = new Date[]{this.getFirstStartDate(), this.getFirstStartDate()};
 		} else {
 			// S'il dure plus longtemps
-			// Si récurrent ET lastEndDate > firstStartDate + 1 ET 
-			// endTime < startTime ET endTime ≤ 8H du matin -> on enlève un jour
-			if (this.getIsRecurrent() &&
-					endLocalDate.isAfter(startLocalDate.plusDays(1)) &&
-					endLocalTime.isBefore(startLocalTime) &&
-					!endLocalTime.isAfter(LocalTime.parse("08:00"))) {
-				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-				String newEndDate = endLocalDate.minusDays(1).format(dtf);
-				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                try {
-					dateRange = new Date[]{this.getFirstStartDate(), sdf.parse(newEndDate)};
-                } catch (ParseException e) {
-					_log.error(e.getMessage(), e);
-                }
-			} else {
-				dateRange = new Date[]{this.getFirstStartDate(), this.getLastEndDate()};
-			}
+			dateRange = new Date[]{this.getFirstStartDate(),
+					this.getCalculateLastEndDate(startLocalDate, startLocalTime, endLocalDate, endLocalTime)};
 		}
 
 		return dateRange;
@@ -814,13 +804,13 @@ public class EventImpl extends EventBaseImpl {
 		return LocalDate.MAX;
 	}
 
-	private boolean eventIsHappeningToday() {
+	@Override
+	public boolean eventIsHappeningToday() {
 		LocalDate today = LocalDate.now(ZoneId.of("Europe/Berlin"));
 		for (EventPeriod period : this.getEventPeriods()) {
 			LocalDate startDate = period.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			LocalDate endDate = period.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-			endDate = endDate.plusDays(1);
-			if (today.isAfter(startDate) && today.isBefore(endDate) || today.isEqual(startDate)) {
+			LocalDate endDate = period.getCalculateEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			if (today.isAfter(startDate) && !today.isAfter(endDate)) {
 				return true;
 			}
 		}
@@ -1407,14 +1397,18 @@ public class EventImpl extends EventBaseImpl {
 			// currentAndFuturePeriods.size() > 1) {
 			// period = currentAndFuturePeriods.get(1);
 			// }
-			if (period.getStartDate().equals(period.getEndDate())) {
+
+			// Si lastEndDate = firstStartDate OU
+			// Si (lastEndDate = firstStartDate + 1 ET endTime < startTime ET endTime ≤ 8H du matin)
+			if (period.getStartDate().equals(period.getCalculateEndDate())) {
 				schedule = LanguageUtil.get(locale, "eu.event.the") +" " + sdf.format(period.getStartDate());
 			} else {
 				// if (period.getStartDate().compareTo(new Date()) <= 0) {
 				// schedule = "Du " + sdf.format(LocalDate.now()) + " au " +
 				// sdf.format(period.getEndDate());
 				// } else {
-				schedule = LanguageUtil.get(locale, "eu.event.from-date")+ " " + sdf.format(period.getStartDate()) + " "+LanguageUtil.get(locale, "eu.event.to")+" " + sdf.format(period.getEndDate());
+				schedule = LanguageUtil.get(locale, "eu.event.from-date")+ " " + sdf.format(period.getStartDate()) + " "+
+						LanguageUtil.get(locale, "eu.event.to")+" " + sdf.format(period.getCalculateEndDate());
 				// }
 			}
 			properties.put("opened", opened);
@@ -1478,7 +1472,7 @@ public class EventImpl extends EventBaseImpl {
 
 		try {
 			jsonEvent.put("imageURL", UriHelper.appendUriImagePreview(imageURL));
-		} catch (Exception e){
+		} catch (Exception e) {
 			jsonEvent.put("imageURL", imageURL);
 		}
 
@@ -1486,7 +1480,7 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("idSurfs", this.getPlaceSIGId());
 			Place place = PlaceLocalServiceUtil.getPlaceBySIGId(this.getPlaceSIGId());
 			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
-			if(Validator.isNotNull(place) && place.isApproved()) {
+			if (Validator.isNotNull(place) && place.isApproved()) {
 				JSONObject placeName = JSONFactoryUtil.createJSONObject();
 				placeName.put("fr_FR", place.getAlias(Locale.FRANCE));
 				jsonPlace.put("name", placeName);
@@ -1507,7 +1501,7 @@ public class EventImpl extends EventBaseImpl {
 				jsonPlace.put("accessForWheelchair", place.getAccessForWheelchair());
 				jsonPlace.put("accessForDeficient", place.getAccessForDeficient());
 				jsonPlace.put("accessForElder", place.getAccessForElder());
-			}else{
+			} else {
 				JSONObject placeName = JSONFactoryUtil.createJSONObject();
 				placeName.put("fr_FR", "");
 				jsonPlace.put("name", placeName);
@@ -1520,7 +1514,7 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("place", jsonPlace);
 		} else {
 			JSONObject jsonPlace = JSONFactoryUtil.createJSONObject();
-			if(Validator.isNotNull(this.getPlaceName(Locale.FRANCE)))
+			if (Validator.isNotNull(this.getPlaceName(Locale.FRANCE)))
 				jsonPlace.put("name", JSONHelper.getJSONFromI18nMap(this.getPlaceNameMap()));
 			else {
 				JSONObject placeName = JSONFactoryUtil.createJSONObject();
@@ -1528,15 +1522,15 @@ public class EventImpl extends EventBaseImpl {
 				jsonPlace.put("name", placeName);
 			}
 			String street = this.getPlaceStreetNumber() + " " + this.getPlaceStreetName();
-			if(Validator.isNotNull(street) && street!=" "){
+			if (Validator.isNotNull(street) && street != " ") {
 				jsonPlace.put("street", street);
 			}
 			String zipCode = this.getPlaceZipCode();
-			if(!zipCode.isEmpty() || Validator.isNotNull(zipCode)){
+			if (!zipCode.isEmpty() || Validator.isNotNull(zipCode)) {
 				jsonPlace.put("zipCode", zipCode);
 			}
 			String city = this.getPlaceCity();
-			if(!city.isEmpty() || Validator.isNotNull(city)){
+			if (!city.isEmpty() || Validator.isNotNull(city)) {
 				jsonPlace.put("city", city);
 			}
 			jsonPlace.put("accessForBlind", this.getAccessForBlind());
@@ -1566,15 +1560,15 @@ public class EventImpl extends EventBaseImpl {
 			String regexInt = "([0-9]+)";
 			String regexDouble = "([0-9]+)[\\.|,]([0-9]+)";
 			String regexDoubleSimple = "([0-9]+)[\\.|,]([0-9]{1})";
-			if (Pattern.matches(regexInt, price)){
+			if (Pattern.matches(regexInt, price)) {
 				JSONObject jsonPrice = JSONFactoryUtil.createJSONObject();
 				jsonPrice.put("fr_FR", price + " \u20ac");
 				jsonEvent.put("price", jsonPrice);
-			} else if (Pattern.matches(regexDoubleSimple, price)){
+			} else if (Pattern.matches(regexDoubleSimple, price)) {
 				JSONObject jsonPrice = JSONFactoryUtil.createJSONObject();
 				jsonPrice.put("fr_FR", price + "0 \u20ac");
 				jsonEvent.put("price", jsonPrice);
-			} else if (Pattern.matches(regexDouble, price)){
+			} else if (Pattern.matches(regexDouble, price)) {
 				JSONObject jsonPrice = JSONFactoryUtil.createJSONObject();
 				jsonPrice.put("fr_FR", price + " \u20ac");
 				jsonEvent.put("price", jsonPrice);
@@ -1592,16 +1586,16 @@ public class EventImpl extends EventBaseImpl {
 			if (Validator.isNotNull(period.getTimeDetail())) {
 				timeDetail = period.getTimeDetailMap();
 			}
-			Date startDate = period.getStartDate().after(now) ?  period.getStartDate() : now;
-			Date endDate = period.getEndDate().after(datePlusDays) ?  datePlusDays : period.getEndDate();
+			Date startDate = period.getStartDate().after(now) ? period.getStartDate() : now;
+			Date endDate = period.getEndDate().after(datePlusDays) ? datePlusDays : period.getEndDate();
 			periods.put(DateHelper.getDaysBetweenDates(startDate, endDate), timeDetail);
 		}
 		JSONArray schedulesJSON = JSONFactoryUtil.createJSONArray();
-		SimpleDateFormat  dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		for (Entry<List<Date>, Map<Locale, String>> period : periods.entrySet()) {
 			String timeDetail = period.getValue().get(Locale.FRANCE);
 			List<String[]> timesDetailSchedule = new ArrayList<>();
-			if(Validator.isNotNull(timeDetail))
+			if (Validator.isNotNull(timeDetail))
 				timesDetailSchedule = EventLocalServiceUtil.getTimeDetailFormated(timeDetail);
 
 			List<Date> dates = period.getKey();
@@ -1611,7 +1605,7 @@ public class EventImpl extends EventBaseImpl {
 					scheduleJSON.put("startDate", dateFormat.format(date) + " " + timeDetailSchedule[0]);
 					// si l'heure de fin est < à l'heure de début, on ajoute 1j à la date de fin
 					LocalTime startTime = LocalTime.parse(timeDetailSchedule[0]);
-					if(Validator.isNotNull(timeDetailSchedule[1])) {
+					if (Validator.isNotNull(timeDetailSchedule[1])) {
 						LocalTime endTime = LocalTime.parse(timeDetailSchedule[1]);
 						if (startTime.isAfter(endTime)) {
 							LocalDate tomorrow = date.toInstant().atZone(ZoneId.systemDefault())
@@ -1636,13 +1630,13 @@ public class EventImpl extends EventBaseImpl {
 		JSONArray jsonTerritories = AssetVocabularyHelper.getExternalIdsJSONArray(this.getTerritories());
 		jsonEvent.put("territoires", jsonTerritories);
 
-		if(Validator.isNotNull(this.getMercatorX()) && Validator.isNotNull(this.getMercatorY())) {
-			jsonEvent.put("mercatorX",this.getMercatorX());
+		if (Validator.isNotNull(this.getMercatorX()) && Validator.isNotNull(this.getMercatorY())) {
+			jsonEvent.put("mercatorX", this.getMercatorX());
 			jsonEvent.put("mercatorY", this.getMercatorY());
 		}
 
 		// Inscription
-		if(this.getRegistration()){
+		if (this.getRegistration()) {
 			JSONObject jsonRegistration = JSONFactoryUtil.createJSONObject();
 			jsonRegistration.put("maxGauge", this.getMaxGauge());
 			LocalDate startDate = this.getRegistrationStartDate().toInstant()
@@ -1678,6 +1672,23 @@ public class EventImpl extends EventBaseImpl {
 	@Override
 	public String getNormalizedTitle() {
 		return UriHelper.normalizeToFriendlyUrl(this.getTitle(Locale.FRANCE));
+	}
+
+	/**
+	 * Retourne la vrai lastEndDate :
+	 * Si la période est récurrente, que lastEndDate > firstStartDate + 1,
+	 *  que endTime < startTime et endTime ≤ 8H du matin => lastEndDate - 1
+	 * Sinon endDate
+	 */
+	@Override
+	public Date getCalculateLastEndDate(LocalDate firstStartLocalDate, LocalTime firstStartLocalTime, LocalDate lastEndLocalDate, LocalTime lastEndLocalTime) {
+		if (this.getIsRecurrent() &&
+				lastEndLocalDate.isAfter(firstStartLocalDate.plusDays(1)) &&
+				lastEndLocalTime.isBefore(firstStartLocalTime) &&
+				!lastEndLocalTime.isAfter(LocalTime.parse("08:00")))
+			lastEndLocalDate = lastEndLocalDate.minusDays(1);
+
+		return Date.from(lastEndLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	}
 
 	/**

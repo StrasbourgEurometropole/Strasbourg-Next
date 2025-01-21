@@ -200,22 +200,13 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 			periods.sort(
 					(p1, p2) -> p1.getEndDate().compareTo(p2.getEndDate()));
 			EventPeriod lastPeriod = periods.get(periods.size() - 1);
-			Date lastEndDate = lastPeriod.getEndDate();
+			Date lastEndDate = lastPeriod.getCalculateEndDate();
 			// s'il n'y a pas d'heure de fin, on set 23:59:59
 			LocalTime lastEndLocalTime = LocalTime.parse("23:59:59");
 			Calendar lastEndDateTime;
-			if(Validator.isNotNull(lastPeriod.getEndTime())) {
+			if(Validator.isNotNull(lastPeriod.getEndTime()))
 				lastEndLocalTime = LocalTime.parse(lastPeriod.getEndTime());
-				lastEndDateTime = getCalendar(lastEndDate, lastEndLocalTime);
-				// si l'heure de fin de l'event est après minuit, mais avant l'heure de début et que c'est une période récurrente, on ajout un jour
-				if (lastPeriod.getIsRecurrent() && Validator.isNotNull(firstPeriod.getStartTime()) && lastEndLocalTime.isAfter(LocalTime.parse("00:00"))) {
-					LocalTime lastStartLocalTime = LocalTime.parse(lastPeriod.getStartTime());
-					if (lastEndLocalTime.isBefore(lastStartLocalTime))
-						lastEndDateTime.add(Calendar.DATE, 1);
-				}
-			}else {
-				lastEndDateTime = getCalendar(lastEndDate, lastEndLocalTime);
-			}
+			lastEndDateTime = getCalendar(lastEndDate, lastEndLocalTime);
 			event.setLastEndDate(lastEndDateTime.getTime());
 			event.setIsRecurrent(lastPeriod.getIsRecurrent());
 		}

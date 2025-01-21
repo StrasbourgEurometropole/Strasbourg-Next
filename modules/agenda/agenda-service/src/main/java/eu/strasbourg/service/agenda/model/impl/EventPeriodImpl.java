@@ -14,6 +14,7 @@
 
 package eu.strasbourg.service.agenda.model.impl;
 
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.utils.DateHelper;
 import org.osgi.annotation.versioning.ProviderType;
@@ -78,7 +79,7 @@ public class EventPeriodImpl extends EventPeriodBaseImpl {
 			startLocalTime = LocalTime.parse(this.getStartTime());
 		LocalDateTime startLocalDateTime = LocalDateTime.of(startLocalDate,startLocalTime);
 
-		LocalDate endLocalDate = this.getEndDate().toInstant().atZone(ZoneId.systemDefault()).
+		LocalDate endLocalDate = this.getCalculateEndDate().toInstant().atZone(ZoneId.systemDefault()).
 				toLocalDate();
 		LocalTime endLocalTime = LocalTime.parse("00:00");
 		if(Validator.isNotNull(this.getEndTime()))
@@ -96,12 +97,13 @@ public class EventPeriodImpl extends EventPeriodBaseImpl {
 						endLocalDate.isBefore(startLocalDate.plusDays(5)))) {
 			result.add(displayDateTime(locale, false, startLocalDateTime, endLocalDateTime));
 
-			// Si c'est une période récurrente ET endDate != startDate
-			// on ajoute les journées concernées
-			if(this.getIsRecurrent() && !endLocalDate.equals(startLocalDate)) {
+			// Si c'est une période récurrente ET endDate >= startDate + 1
+			startLocalDateTime = startLocalDateTime.plusDays(1);
+			if(this.getIsRecurrent() && !endLocalDate.isBefore(startLocalDate)) {
+				// on ajoute les journées concernées
 				while(endLocalDate.isAfter(startLocalDateTime.toLocalDate())) {
-					startLocalDateTime = startLocalDateTime.plusDays(1);
 					result.add(displayDateTime(locale, false, startLocalDateTime, endLocalDateTime));
+					startLocalDateTime = startLocalDateTime.plusDays(1);
 				}
 			}
 		} else {
@@ -132,49 +134,21 @@ public class EventPeriodImpl extends EventPeriodBaseImpl {
 			if (locale.equals(Locale.GERMANY)) {
 				dtfWithoutYear = DateTimeFormatter.ofPattern("dd. MMMM");
 			}
-			if (locale.equals(Locale.FRANCE)) {
-				result = "Du ";
-			} else if (locale.equals(Locale.GERMANY)) {
-				result = "Vom ";
-			} else if (locale.equals(Locale.US)) {
-				result = "From ";
-			}
+			result = LanguageUtil.get(locale, "eu.event.from-date") + " ";
 			result += startDateTime.format(dtfWithoutYear);
 			if (startDateTime.getYear() != endDateTime.getYear() || !this.getIsRecurrent()) {
 				result += " " + startDateTime.getYear();
 			}
 			// si c'est une période non récurrente, on affiche l'heure de début ici
 			if(Validator.isNotNull(this.getStartTime()) && !this.getIsRecurrent()) {
-				// à ...
-				if (locale.equals(Locale.FRANCE)) {
-					result += " &agrave; ";
-				} else if (locale.equals(Locale.GERMANY)) {
-					result += " &agrave; en allemand ";
-				} else if (locale.equals(Locale.US)) {
-					result += " &agrave; en anglais ";
-				}
 				result += displayTime(locale, startDateTime);
 			}
 			// au dd MMMM yyyy ...
-			if (locale.equals(Locale.FRANCE)) {
-				result += " au ";
-			} else if (locale.equals(Locale.GERMANY)) {
-				result += " bis zum ";
-			} else if (locale.equals(Locale.US)) {
-				result += " to ";
-			}
+			result += " " + LanguageUtil.get(locale, "eu.event.to") + " ";
 			result += endDateTime.format(dtf);
 			// si c'est une période non récurrente, on affiche l'heure de fin ici
 			if(!this.getIsRecurrent()) {
 				if(Validator.isNotNull(this.getEndTime())) {
-					// à ...
-					if (locale.equals(Locale.FRANCE)) {
-						result += " &agrave; ";
-					} else if (locale.equals(Locale.GERMANY)) {
-						result += " &agrave; en allemand ";
-					} else if (locale.equals(Locale.US)) {
-						result += " &agrave; en anglais ";
-					}
 					result += displayTime(locale, endDateTime);
 				}
 			}else {
@@ -183,9 +157,7 @@ public class EventPeriodImpl extends EventPeriodBaseImpl {
 			}
 		}else{
 			// Le dd MMMM yyyy ...
-			if (locale.equals(Locale.FRANCE)) {
-				result = "Le ";
-			}
+			result = LanguageUtil.get(locale, "eu.event.the") + " ";
 			result += startDateTime.format(dtf);
 			result += displayTime(locale, startDateTime, endDateTime);
 		}
@@ -241,12 +213,19 @@ public class EventPeriodImpl extends EventPeriodBaseImpl {
 
 	/**
 	 * Si time == minuit
-	 * 	 ->  minuit
+	 * 	 ->   à minuit
 	 * Sinon
-	 * 	 ->  HHh[mm]
+	 * 	 ->   à HHh[mm]
 	 */
 	private String displayTime(Locale locale, LocalDateTime dateTime){
-		String result = "";
+		String result = " ";
+		if (locale.equals(Locale.FRANCE)) {
+			result += "&agrave; ";
+		} else if (locale.equals(Locale.GERMANY)) {
+			result += "&agrave; en allemand ";
+		} else if (locale.equals(Locale.US)) {
+			result += "&agrave; en anglais ";
+		}
 
 		if(Validator.isNotNull(dateTime)) {
 			if (dateTime.toLocalTime().equals(LocalTime.parse("00:00"))) {
@@ -283,9 +262,11 @@ public class EventPeriodImpl extends EventPeriodBaseImpl {
 	 *
 	 * 		pour une période récurrente :
 	 * 		- toutes les dates à startTime
-	 * 		- si endTime < startTime => faut ajouter endDate+1j à minuit
+	 * 		- si endTime < startTime => ajouter endDate+1j à minuit
 	 *
 	 * 	Si pas de startTime -> minuit
+	 *
+	 * 	Utilisé pour l'indexer
 	 */
 	@Override
 	public List<Date> getDays() {
@@ -315,7 +296,7 @@ public class EventPeriodImpl extends EventPeriodBaseImpl {
 
 		Calendar calendar = new GregorianCalendar();
 		calendar.setTime(startDate);
-		// on ne prend que les jours avant la date de fin de la période (sans l'heure de fin)
+		// on prend tous les jours de la période (sans l'heure de fin)
 		while (!calendar.getTime().after(endDate)) {
 			// si le jour (sans l'heure) est passé, on passe
 			if(!calendar.getTime().before(now.getTime())) {
@@ -349,5 +330,29 @@ public class EventPeriodImpl extends EventPeriodBaseImpl {
 			dates.add(result);
 		}
 		return dates;
+	}
+
+	/**
+	 * Retourne la vrai endDate :
+	 * Si la période est récurrente et que endTime < startTime => endDate + 1
+	 * Sinon endDate
+	 */
+	@Override
+	public Date getCalculateEndDate() {
+
+		LocalTime startLocalTime = LocalTime.parse("00:00");
+		if(Validator.isNotNull(this.getStartTime()))
+			startLocalTime = LocalTime.parse(this.getStartTime());
+
+		LocalDate endLocalDate = this.getEndDate().toInstant().atZone(ZoneId.systemDefault()).
+				toLocalDate();
+		LocalTime endLocalTime = LocalTime.parse("00:00");
+		if(Validator.isNotNull(this.getEndTime()))
+			endLocalTime = LocalTime.parse(this.getEndTime());
+
+		if(this.getIsRecurrent() && endLocalTime.isBefore(startLocalTime))
+			endLocalDate = endLocalDate.plusDays(1);
+
+		return Date.from(endLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	}
 }

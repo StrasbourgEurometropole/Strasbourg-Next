@@ -128,6 +128,16 @@ public class EventPeriodWrapper
 	}
 
 	/**
+	 * Retourne la vrai endDate :
+	 * Si la période est récurrente et que endTime < startTime => endDate + 1
+	 * Sinon endDate
+	 */
+	@Override
+	public Date getCalculateEndDate() {
+		return model.getCalculateEndDate();
+	}
+
+	/**
 	 * Returns the campaign event ID of this event period.
 	 *
 	 * @return the campaign event ID of this event period
@@ -145,9 +155,11 @@ public class EventPeriodWrapper
 	 *
 	 * 		pour une période récurrente :
 	 * 		- toutes les dates à startTime
-	 * 		- si endTime < startTime => faut ajouter endDate+1j à minuit
+	 * 		- si endTime < startTime => ajouter endDate+1j à minuit
 	 *
 	 * 	Si pas de startTime -> minuit
+	 *
+	 * 	Utilisé pour l'indexer
 	 */
 	@Override
 	public java.util.List<Date> getDays() {

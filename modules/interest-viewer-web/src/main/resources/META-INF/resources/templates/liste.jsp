@@ -81,21 +81,22 @@
 						<div class="seu-wi-item seu-has-ville"> 
 							<a href="${homeURL}evenement/-/entity/id/${event.eventId}/${event.getNormalizedTitle(locale)}" class="seu-link" title="${dc.DeleteTag(event.getTitle(locale))}">
                             	<c:if test="${event.getFirstStartDate() != null}">
-									<div class="seu-date"> 
-										<div class="seu-date-sup"> 
-	                                        <c:if test="${event.getFirstStartDate().equals(event.getLastEndDate())}">
-	                                        	<fmt:formatDate value="${event.getFirstStartDate()}" pattern="dd.MM" type="date" var="firstStartDate" />
+									<div class="seu-date">
+										<c:set var="dates" value="${event.getDateRange()}"/>
+										<fmt:formatDate value="${dates[0]}" pattern="dd.MM.yyyy" type="date" var="startDate" />
+										<fmt:formatDate value="${dates[1]}" pattern="dd.MM.yyyy" type="date" var="endDate" />
+										<div class="seu-date-sup">
+											<c:if test="${startDate == endDate}">
 	                                            <span class="seu-date-prefix"><liferay-ui:message key="eu.event.the" /></span>
 	                                        </c:if>
-	                                        <c:if test="${!event.getFirstStartDate().equals(event.getLastEndDate())}">
-	                                        	<fmt:formatDate value="${event.getFirstStartDate()}" pattern="dd.MM" type="date" var="firstStartDate" />
-												<fmt:formatDate value="${event.getLastEndDate()}" pattern="dd.MM" type="date" var="lastEndDate" />
+	                                        <c:if test="${startDate != endDate}">
 	                                            <span class="seu-date-prefix"><liferay-ui:message key="eu.event.from-the" /></span>
 	                                        </c:if>
 											<span class="seu-date-start"></span> 
 											<span class="seu-date-suffix"></span> 
-										</div> 
-										<div class="seu-date-end">${firstStartDate}</div> 
+										</div>
+										<fmt:formatDate value="${dates[0]}" pattern="dd.MM" type="date" var="firstStartDate" />
+										<div class="seu-date-end">${firstStartDate}</div>
 									</div> 
 	                            </c:if>
 	                            <div class="seu-title dotme" data-dot="3" style="word-wrap: break-word;">${dc.DeleteTag(event.getTitle(locale))}</div> 

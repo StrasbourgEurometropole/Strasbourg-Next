@@ -668,15 +668,7 @@ EventLocalService=serviceLocator.findService("eu.strasbourg.service.agenda.servi
                                     <h3 class="st-title-card">${event.getTitle(locale)}</h3>
                                     <p class="st-surtitre-cat">${entry.getTypeLabel(locale)}</p>
                                     <p class="st-date">
-                                        <#if event.firstStartDate?date==event.lastEndDate?date>
-                                            <@liferay_ui.message key="eu.event.the" />
-                                            ${event.firstStartDate?date?string['dd.MM.yy']}
-                                        <#else>
-                                            <@liferay_ui.message key="eu.event.from-date" />
-                                            ${event.firstStartDate?date?string['dd.MM.yy']}
-                                            <@liferay_ui.message key="eu.event.to" />
-                                            ${event.lastEndDate?date?string['dd.MM.yy']}
-                                        </#if>
+                                        ${event.getEventScheduleDisplayShort(locale)}
                                     </p>
                                     <p class="st-location">
                                         ${event.getPlaceAlias(locale)}
