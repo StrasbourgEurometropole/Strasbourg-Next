@@ -34,7 +34,7 @@
                         </c:if>
                     </div>
                     <div>
-                        <label><liferay-ui:message key="categories" /> ${categoryIds}</label>
+                        <label><liferay-ui:message key="categories" /></label>
                         <p>
                             <asset-category-selector:category-selector
                                     id="categoryIds"
@@ -45,6 +45,7 @@
                                     multiple="true"
                             />
                         </p>
+                        <liferay-ui:message key="prefilter-explanations" />
                     </div>
                 </div>
             </div>
@@ -74,7 +75,7 @@
 				}
 			});
 
-            onChangeClassName(choicecategoriesIds, '${themeDisplay.scopeGroupId},${themeDisplay.companyGroupId}',className)
+            onChangeClassName(choicecategoryIds, '${themeDisplay.scopeGroupId},${themeDisplay.companyGroupId}',className)
 
 
 		});
