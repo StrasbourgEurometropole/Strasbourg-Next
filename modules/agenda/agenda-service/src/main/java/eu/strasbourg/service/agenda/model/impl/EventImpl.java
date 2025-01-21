@@ -1105,22 +1105,6 @@ public class EventImpl extends EventBaseImpl {
 					.collect(Collectors.toMap(Entry::getKey, e -> HtmlUtil.stripHtml(HtmlUtil.escape(e.getValue()))))));
 		}
 
-		JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
-		for (EventPeriod period : this.getEventPeriods()) {
-			JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
-
-			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
-			periodJSON.put("startDate", dateFormat.format(period.getStartDate()));
-			periodJSON.put("endDate", dateFormat.format(period.getEndDate()));
-
-			if (Validator.isNotNull(period.getTimeDetail())) {
-				periodJSON.put("timeDetail", JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
-			}
-			periodsJSON.put(periodJSON);
-		}
-
-		jsonEvent.put("periods", periodsJSON);
-
 		JSONArray jsonManifestations = JSONFactoryUtil.createJSONArray();
 		for (Manifestation manifestation : this.getPublishedManifestations()) {
 			jsonManifestations.put(manifestation.getManifestationId());
