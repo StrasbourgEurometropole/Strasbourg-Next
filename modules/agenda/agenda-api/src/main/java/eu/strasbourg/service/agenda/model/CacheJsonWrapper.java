@@ -35,6 +35,7 @@ public class CacheJsonWrapper
 
 		attributes.put("eventId", getEventId());
 		attributes.put("jsonEvent", getJsonEvent());
+		attributes.put("jsonEventLegacy", getJsonEventLegacy());
 		attributes.put("createEvent", getCreateEvent());
 		attributes.put("modifiedEvent", getModifiedEvent());
 		attributes.put("isApproved", isIsApproved());
@@ -54,6 +55,12 @@ public class CacheJsonWrapper
 
 		if (jsonEvent != null) {
 			setJsonEvent(jsonEvent);
+		}
+
+		String jsonEventLegacy = (String)attributes.get("jsonEventLegacy");
+
+		if (jsonEventLegacy != null) {
+			setJsonEventLegacy(jsonEventLegacy);
 		}
 
 		Date createEvent = (Date)attributes.get("createEvent");
@@ -118,6 +125,16 @@ public class CacheJsonWrapper
 	@Override
 	public String getJsonEvent() {
 		return model.getJsonEvent();
+	}
+
+	/**
+	 * Returns the json event legacy of this cache json.
+	 *
+	 * @return the json event legacy of this cache json
+	 */
+	@Override
+	public String getJsonEventLegacy() {
+		return model.getJsonEventLegacy();
 	}
 
 	/**
@@ -193,6 +210,16 @@ public class CacheJsonWrapper
 	@Override
 	public void setJsonEvent(String jsonEvent) {
 		model.setJsonEvent(jsonEvent);
+	}
+
+	/**
+	 * Sets the json event legacy of this cache json.
+	 *
+	 * @param jsonEventLegacy the json event legacy of this cache json
+	 */
+	@Override
+	public void setJsonEventLegacy(String jsonEventLegacy) {
+		model.setJsonEventLegacy(jsonEventLegacy);
 	}
 
 	/**

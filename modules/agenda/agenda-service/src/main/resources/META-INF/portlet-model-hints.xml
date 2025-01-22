@@ -40,6 +40,9 @@
 		<field name="jsonEvent" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="jsonEventLegacy" type="String">
+			<hint-collection name="EDITOR" />
+		</field>
 		<field name="createEvent" type="Date" />
 		<field name="modifiedEvent" type="Date" />
 		<field name="isApproved" type="boolean" />

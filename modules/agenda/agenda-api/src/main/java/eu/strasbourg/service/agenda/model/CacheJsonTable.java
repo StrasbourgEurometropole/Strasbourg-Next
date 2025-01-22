@@ -28,6 +28,8 @@ public class CacheJsonTable extends BaseTable<CacheJsonTable> {
 		"eventId", Long.class, Types.BIGINT, Column.FLAG_PRIMARY);
 	public final Column<CacheJsonTable, Clob> jsonEvent = createColumn(
 		"jsonEvent", Clob.class, Types.CLOB, Column.FLAG_DEFAULT);
+	public final Column<CacheJsonTable, Clob> jsonEventLegacy = createColumn(
+		"jsonEventLegacy", Clob.class, Types.CLOB, Column.FLAG_DEFAULT);
 	public final Column<CacheJsonTable, Date> createEvent = createColumn(
 		"createEvent", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
 	public final Column<CacheJsonTable, Date> modifiedEvent = createColumn(

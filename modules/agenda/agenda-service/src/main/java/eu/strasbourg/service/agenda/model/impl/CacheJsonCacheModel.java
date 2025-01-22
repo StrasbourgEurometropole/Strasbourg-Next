@@ -53,12 +53,14 @@ public class CacheJsonCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{eventId=");
 		sb.append(eventId);
 		sb.append(", jsonEvent=");
 		sb.append(jsonEvent);
+		sb.append(", jsonEventLegacy=");
+		sb.append(jsonEventLegacy);
 		sb.append(", createEvent=");
 		sb.append(createEvent);
 		sb.append(", modifiedEvent=");
@@ -81,6 +83,13 @@ public class CacheJsonCacheModel
 		}
 		else {
 			cacheJsonImpl.setJsonEvent(jsonEvent);
+		}
+
+		if (jsonEventLegacy == null) {
+			cacheJsonImpl.setJsonEventLegacy("");
+		}
+		else {
+			cacheJsonImpl.setJsonEventLegacy(jsonEventLegacy);
 		}
 
 		if (createEvent == Long.MIN_VALUE) {
@@ -110,6 +119,7 @@ public class CacheJsonCacheModel
 
 		eventId = objectInput.readLong();
 		jsonEvent = (String)objectInput.readObject();
+		jsonEventLegacy = (String)objectInput.readObject();
 		createEvent = objectInput.readLong();
 		modifiedEvent = objectInput.readLong();
 
@@ -127,6 +137,13 @@ public class CacheJsonCacheModel
 			objectOutput.writeObject(jsonEvent);
 		}
 
+		if (jsonEventLegacy == null) {
+			objectOutput.writeObject("");
+		}
+		else {
+			objectOutput.writeObject(jsonEventLegacy);
+		}
+
 		objectOutput.writeLong(createEvent);
 		objectOutput.writeLong(modifiedEvent);
 
@@ -135,6 +152,7 @@ public class CacheJsonCacheModel
 
 	public long eventId;
 	public String jsonEvent;
+	public String jsonEventLegacy;
 	public long createEvent;
 	public long modifiedEvent;
 	public boolean isApproved;

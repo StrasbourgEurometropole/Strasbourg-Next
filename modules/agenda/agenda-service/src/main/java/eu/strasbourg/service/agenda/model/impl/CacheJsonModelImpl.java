@@ -59,8 +59,8 @@ public class CacheJsonModelImpl
 
 	public static final Object[][] TABLE_COLUMNS = {
 		{"eventId", Types.BIGINT}, {"jsonEvent", Types.CLOB},
-		{"createEvent", Types.TIMESTAMP}, {"modifiedEvent", Types.TIMESTAMP},
-		{"isApproved", Types.BOOLEAN}
+		{"jsonEventLegacy", Types.CLOB}, {"createEvent", Types.TIMESTAMP},
+		{"modifiedEvent", Types.TIMESTAMP}, {"isApproved", Types.BOOLEAN}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -69,13 +69,14 @@ public class CacheJsonModelImpl
 	static {
 		TABLE_COLUMNS_MAP.put("eventId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("jsonEvent", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("jsonEventLegacy", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("createEvent", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedEvent", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("isApproved", Types.BOOLEAN);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table agenda_CacheJson (eventId LONG not null primary key,jsonEvent TEXT null,createEvent DATE null,modifiedEvent DATE null,isApproved BOOLEAN)";
+		"create table agenda_CacheJson (eventId LONG not null primary key,jsonEvent TEXT null,jsonEventLegacy TEXT null,createEvent DATE null,modifiedEvent DATE null,isApproved BOOLEAN)";
 
 	public static final String TABLE_SQL_DROP = "drop table agenda_CacheJson";
 
@@ -221,6 +222,8 @@ public class CacheJsonModelImpl
 			attributeGetterFunctions.put("eventId", CacheJson::getEventId);
 			attributeGetterFunctions.put("jsonEvent", CacheJson::getJsonEvent);
 			attributeGetterFunctions.put(
+				"jsonEventLegacy", CacheJson::getJsonEventLegacy);
+			attributeGetterFunctions.put(
 				"createEvent", CacheJson::getCreateEvent);
 			attributeGetterFunctions.put(
 				"modifiedEvent", CacheJson::getModifiedEvent);
@@ -247,6 +250,9 @@ public class CacheJsonModelImpl
 			attributeSetterBiConsumers.put(
 				"jsonEvent",
 				(BiConsumer<CacheJson, String>)CacheJson::setJsonEvent);
+			attributeSetterBiConsumers.put(
+				"jsonEventLegacy",
+				(BiConsumer<CacheJson, String>)CacheJson::setJsonEventLegacy);
 			attributeSetterBiConsumers.put(
 				"createEvent",
 				(BiConsumer<CacheJson, Date>)CacheJson::setCreateEvent);
@@ -303,6 +309,25 @@ public class CacheJsonModelImpl
 		}
 
 		_jsonEvent = jsonEvent;
+	}
+
+	@Override
+	public String getJsonEventLegacy() {
+		if (_jsonEventLegacy == null) {
+			return "";
+		}
+		else {
+			return _jsonEventLegacy;
+		}
+	}
+
+	@Override
+	public void setJsonEventLegacy(String jsonEventLegacy) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_jsonEventLegacy = jsonEventLegacy;
 	}
 
 	@Override
@@ -420,6 +445,7 @@ public class CacheJsonModelImpl
 
 		cacheJsonImpl.setEventId(getEventId());
 		cacheJsonImpl.setJsonEvent(getJsonEvent());
+		cacheJsonImpl.setJsonEventLegacy(getJsonEventLegacy());
 		cacheJsonImpl.setCreateEvent(getCreateEvent());
 		cacheJsonImpl.setModifiedEvent(getModifiedEvent());
 		cacheJsonImpl.setIsApproved(isIsApproved());
@@ -436,6 +462,8 @@ public class CacheJsonModelImpl
 		cacheJsonImpl.setEventId(this.<Long>getColumnOriginalValue("eventId"));
 		cacheJsonImpl.setJsonEvent(
 			this.<String>getColumnOriginalValue("jsonEvent"));
+		cacheJsonImpl.setJsonEventLegacy(
+			this.<String>getColumnOriginalValue("jsonEventLegacy"));
 		cacheJsonImpl.setCreateEvent(
 			this.<Date>getColumnOriginalValue("createEvent"));
 		cacheJsonImpl.setModifiedEvent(
@@ -527,6 +555,14 @@ public class CacheJsonModelImpl
 			cacheJsonCacheModel.jsonEvent = null;
 		}
 
+		cacheJsonCacheModel.jsonEventLegacy = getJsonEventLegacy();
+
+		String jsonEventLegacy = cacheJsonCacheModel.jsonEventLegacy;
+
+		if ((jsonEventLegacy != null) && (jsonEventLegacy.length() == 0)) {
+			cacheJsonCacheModel.jsonEventLegacy = null;
+		}
+
 		Date createEvent = getCreateEvent();
 
 		if (createEvent != null) {
@@ -610,6 +646,7 @@ public class CacheJsonModelImpl
 
 	private long _eventId;
 	private String _jsonEvent;
+	private String _jsonEventLegacy;
 	private Date _createEvent;
 	private Date _modifiedEvent;
 	private boolean _isApproved;
@@ -644,6 +681,7 @@ public class CacheJsonModelImpl
 
 		_columnOriginalValues.put("eventId", _eventId);
 		_columnOriginalValues.put("jsonEvent", _jsonEvent);
+		_columnOriginalValues.put("jsonEventLegacy", _jsonEventLegacy);
 		_columnOriginalValues.put("createEvent", _createEvent);
 		_columnOriginalValues.put("modifiedEvent", _modifiedEvent);
 		_columnOriginalValues.put("isApproved", _isApproved);
@@ -664,11 +702,13 @@ public class CacheJsonModelImpl
 
 		columnBitmasks.put("jsonEvent", 2L);
 
-		columnBitmasks.put("createEvent", 4L);
+		columnBitmasks.put("jsonEventLegacy", 4L);
 
-		columnBitmasks.put("modifiedEvent", 8L);
+		columnBitmasks.put("createEvent", 8L);
 
-		columnBitmasks.put("isApproved", 16L);
+		columnBitmasks.put("modifiedEvent", 16L);
+
+		columnBitmasks.put("isApproved", 32L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

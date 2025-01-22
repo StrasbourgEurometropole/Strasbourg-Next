@@ -13,4 +13,10 @@ alter table agenda_EventPeriod
 alter table agenda_Event
     add isRecurrent BOOLEAN default 0 null AFTER lastEndDate;
 
+alter table agenda_CacheJson
+    change jsonEvent jsonEventLegacy longtext null;
+
+alter table agenda_CacheJson
+    add jsonEvent longtext null after eventId;
+
 COMMIT_TRANSACTION;

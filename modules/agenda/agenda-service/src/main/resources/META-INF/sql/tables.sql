@@ -31,6 +31,7 @@ create table agenda_AgendaExportPeriod (
 create table agenda_CacheJson (
 	eventId LONG not null primary key,
 	jsonEvent TEXT null,
+	jsonEventLegacy TEXT null,
 	createEvent DATE null,
 	modifiedEvent DATE null,
 	isApproved BOOLEAN

@@ -297,13 +297,17 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 				this.historicLocalService.deleteHistoric(event.getEventId());
 		}
 		cacheJson.setModifiedEvent(event.getModifiedDate());
-		JSONObject eventJson = event.toJSON();
+		JSONObject eventJson = event.toJSON(false);
+		JSONObject eventJsonLegacy = event.toJSON();
 		if (Validator.isNotNull(event.getPlaceSIGId())) {
 			Place place = PlaceLocalServiceUtil.getPlaceBySIGId(event.getPlaceSIGId());
-			if(place != null)
+			if(place != null) {
 				eventJson.put("place", place.toJSON());
+				eventJsonLegacy.put("place", place.toJSON());
+			}
 		}
 		cacheJson.setJsonEvent(eventJson.toString());
+		cacheJson.setJsonEventLegacy(eventJsonLegacy.toString());
 		cacheJson.setIsApproved(event.getStatus() == WorkflowConstants.STATUS_APPROVED);
 		this.cacheJsonLocalService.updateCacheJson(cacheJson);
 	}

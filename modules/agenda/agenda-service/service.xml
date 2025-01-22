@@ -629,6 +629,7 @@
 
 		<!-- Informations générales -->
 		<column name="jsonEvent" type="String" />
+		<column name="jsonEventLegacy" type="String" />
 		<column name="createEvent" type="Date" />
 		<column name="modifiedEvent" type="Date" />
 		<column name="isApproved" type="boolean" />

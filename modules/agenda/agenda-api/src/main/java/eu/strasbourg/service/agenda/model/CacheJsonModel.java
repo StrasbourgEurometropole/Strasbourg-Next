@@ -76,6 +76,21 @@ public interface CacheJsonModel extends BaseModel<CacheJson> {
 	public void setJsonEvent(String jsonEvent);
 
 	/**
+	 * Returns the json event legacy of this cache json.
+	 *
+	 * @return the json event legacy of this cache json
+	 */
+	@AutoEscape
+	public String getJsonEventLegacy();
+
+	/**
+	 * Sets the json event legacy of this cache json.
+	 *
+	 * @param jsonEventLegacy the json event legacy of this cache json
+	 */
+	public void setJsonEventLegacy(String jsonEventLegacy);
+
+	/**
 	 * Returns the create event of this cache json.
 	 *
 	 * @return the create event of this cache json

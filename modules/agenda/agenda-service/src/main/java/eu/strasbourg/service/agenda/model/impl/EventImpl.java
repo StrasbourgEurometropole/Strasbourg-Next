@@ -834,6 +834,14 @@ public class EventImpl extends EventBaseImpl {
 	 */
 	@Override
 	public JSONObject toJSON() {
+		return toJSON(true);
+	}
+
+	/**
+	 * Retourne la version JSON de l'événenement
+	 */
+	@Override
+	public JSONObject toJSON(boolean isLegacy) {
 		JSONObject jsonEvent = JSONFactoryUtil.createJSONObject();
 
 		jsonEvent.put("id", this.getEventId());
@@ -917,21 +925,11 @@ public class EventImpl extends EventBaseImpl {
 			jsonEvent.put("price", JSONHelper.getJSONFromI18nMap(this.getPriceMap()));
 		}
 
-		JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
-		for (EventPeriod period : this.getEventPeriods()) {
-			JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
-
-			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
-			periodJSON.put("startDate", dateFormat.format(period.getStartDate()));
-			periodJSON.put("endDate", dateFormat.format(period.getEndDate()));
-
-			if (Validator.isNotNull(period.getTimeDetail())) {
-				periodJSON.put("timeDetail", JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
-			}
-			periodsJSON.put(periodJSON);
+		if(isLegacy) {
+			jsonEvent.put("periods", this.getLegacyPeriodsJson());
+		}else{
+			jsonEvent.put("periods", this.getPeriodsJson());
 		}
-
-		jsonEvent.put("periods", periodsJSON);
 
 		// Inscription
 		if(this.getRegistration()) {
@@ -1008,6 +1006,51 @@ public class EventImpl extends EventBaseImpl {
 		}
 		return jsonEvent;
 
+	}
+
+	private JSONArray getLegacyPeriodsJson() {
+		JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
+		for (EventPeriod period : this.getEventPeriods()) {
+			JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
+
+			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
+			periodJSON.put("startDate", dateFormat.format(period.getStartDate()));
+			periodJSON.put("endDate", dateFormat.format(period.getEndDate()));
+
+			if (Validator.isNotNull(period.getTimeDetail())) {
+				periodJSON.put("timeDetail", JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
+			}
+			periodsJSON.put(periodJSON);
+		}
+		return periodsJSON;
+	}
+
+	private JSONArray getPeriodsJson() {
+		JSONArray periodsJSON = JSONFactoryUtil.createJSONArray();
+		for (EventPeriod period : this.getEventPeriods()) {
+			JSONObject periodJSON = JSONFactoryUtil.createJSONObject();
+
+			DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("yyyy-MM-dd");
+			periodJSON.put("startDate", dateFormat.format(period.getStartDate()));
+			periodJSON.put("endDate", dateFormat.format(period.getEndDate()));
+
+			if(Validator.isNotNull(period.getStartTime())) {
+				JSONArray timesJSON = JSONFactoryUtil.createJSONArray();
+				JSONObject timeJSON = JSONFactoryUtil.createJSONObject();
+				timeJSON.put("startTime", period.getStartTime());
+				if (Validator.isNotNull(period.getEndTime()))
+					timeJSON.put("endTime", period.getEndTime());
+				timesJSON.put(timeJSON);
+				periodJSON.put("times", timesJSON);
+			}
+			periodJSON.put("isRecurrent", period.getIsRecurrent());
+
+			if (Validator.isNotNull(period.getTimeDetail())) {
+				periodJSON.put("timeDetail", JSONHelper.getJSONFromI18nMap(period.getTimeDetailMap()));
+			}
+			periodsJSON.put(periodJSON);
+		}
+		return periodsJSON;
 	}
 
 	/**
