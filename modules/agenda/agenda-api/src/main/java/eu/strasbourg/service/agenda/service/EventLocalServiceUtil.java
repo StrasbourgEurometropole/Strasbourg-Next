@@ -547,13 +547,6 @@ public class EventLocalServiceUtil {
 		return getService().getPublished();
 	}
 
-	/**
-	 * Transform le timeDetail en startTime et endTime si on peut
-	 */
-	public static List<String[]> getTimeDetailFormated(String timeDetail) {
-		return getService().getTimeDetailFormated(timeDetail);
-	}
-
 	public static boolean hasManifestationEvent(
 		long manifestationId, long eventId) {
 

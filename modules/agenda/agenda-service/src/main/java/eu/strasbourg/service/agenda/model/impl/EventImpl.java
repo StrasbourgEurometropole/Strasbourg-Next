@@ -42,6 +42,7 @@ import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.Localization;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -1604,48 +1605,8 @@ public class EventImpl extends EventBaseImpl {
 			}
 		}
 
-		Date now = new Date();
-		Date datePlusDays = Date.from(LocalDate.now().plusDays(120).atStartOfDay()
-				.atZone(ZoneId.systemDefault()).toInstant());
-		Map<List<Date>, Map<Locale, String>> periods = new HashMap<>();
-		for (EventPeriod period : this.getEventPeriods()) {
-			Map<Locale, String> timeDetail = new HashMap<>();
-			if (Validator.isNotNull(period.getTimeDetail())) {
-				timeDetail = period.getTimeDetailMap();
-			}
-			Date startDate = period.getStartDate().after(now) ? period.getStartDate() : now;
-			Date endDate = period.getEndDate().after(datePlusDays) ? datePlusDays : period.getEndDate();
-			periods.put(DateHelper.getDaysBetweenDates(startDate, endDate), timeDetail);
-		}
-		JSONArray schedulesJSON = JSONFactoryUtil.createJSONArray();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		for (Entry<List<Date>, Map<Locale, String>> period : periods.entrySet()) {
-			String timeDetail = period.getValue().get(Locale.FRANCE);
-			List<String[]> timesDetailSchedule = new ArrayList<>();
-			if (Validator.isNotNull(timeDetail))
-				timesDetailSchedule = EventLocalServiceUtil.getTimeDetailFormated(timeDetail);
-
-			List<Date> dates = period.getKey();
-			for (Date date : dates) {
-				for (String[] timeDetailSchedule : timesDetailSchedule) {
-					JSONObject scheduleJSON = JSONFactoryUtil.createJSONObject();
-					scheduleJSON.put("startDate", dateFormat.format(date) + " " + timeDetailSchedule[0]);
-					// si l'heure de fin est < à l'heure de début, on ajoute 1j à la date de fin
-					LocalTime startTime = LocalTime.parse(timeDetailSchedule[0]);
-					if (Validator.isNotNull(timeDetailSchedule[1])) {
-						LocalTime endTime = LocalTime.parse(timeDetailSchedule[1]);
-						if (startTime.isAfter(endTime)) {
-							LocalDate tomorrow = date.toInstant().atZone(ZoneId.systemDefault())
-									.toLocalDate().plusDays(1);
-							scheduleJSON.put("endDate", dateFormat.format(Date.from(tomorrow.atStartOfDay().atZone(ZoneId.systemDefault())
-									.toInstant())) + " " + timeDetailSchedule[1]);
-						} else
-							scheduleJSON.put("endDate", dateFormat.format(date) + " " + timeDetailSchedule[1]);
-					}
-					schedulesJSON.put(scheduleJSON);
-				}
-			}
-		}
+		// récupère les horaires
+		JSONArray schedulesJSON = this.getSchedule();
 		jsonEvent.put("schedules", schedulesJSON);
 
 		JSONArray jsonThemes = AssetVocabularyHelper.getExternalIdsJSONArray(this.getThemes());
@@ -1691,6 +1652,66 @@ public class EventImpl extends EventBaseImpl {
 		}
 
 		return jsonEvent;
+	}
+
+	/**
+	 * Retourne les prochaines dates de l'event
+	 */
+	private JSONArray getSchedule() {
+		JSONArray schedulesJSON = JSONFactoryUtil.createJSONArray();
+
+		LocalDate today = LocalDate.now();
+		LocalDate localeDatePlusDays = today.plusDays(120);
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+		// on récupère toutes les période en cours ou futures
+		for (EventPeriod period : this.getCurrentAndFuturePeriods()) {
+			LocalDate localStartDate = period.getStartDate().toInstant()
+					.atZone(ZoneId.systemDefault())
+					.toLocalDate();
+			localStartDate = localStartDate.isAfter(today) ? localStartDate : today;
+
+ 			// si récurrent
+			if(this.getIsRecurrent()) {
+				// on veut un horaire pour chaque date (jusqu'à 120 jour après ajourd'hui)
+				LocalDate localEndDatePeriod = period.getEndDate().toInstant()
+						.atZone(ZoneId.systemDefault())
+						.toLocalDate();
+				localEndDatePeriod = localEndDatePeriod.isAfter(localeDatePlusDays) ? localeDatePlusDays : localEndDatePeriod;
+				while(!localStartDate.isAfter(localEndDatePeriod)){
+					JSONObject scheduleJSON = JSONFactoryUtil.createJSONObject();
+					scheduleJSON.put("startDate", localStartDate.format(formatter) + " " + period.getStartTime());
+					// si il y a une heure de fin
+					if (Validator.isNotNull(period.getEndTime())) {
+						LocalDate localEndDate = localStartDate;
+						LocalTime localSartTime = LocalTime.parse(period.getStartTime());
+						LocalTime localEndTime = LocalTime.parse(period.getEndTime());
+						// si l'endTime < startTime on ajout un jour à endDate
+						if(localEndTime.isBefore(localSartTime))
+							localEndDate = localEndDate.plusDays(1);
+						scheduleJSON.put("endDate", localEndDate.format(formatter) + " " + period.getEndTime());
+					}
+					schedulesJSON.put(scheduleJSON);
+					localStartDate = localStartDate.plusDays(1);
+				}
+			}else{
+				// on ne retourne qu'un horaire (startDate ou today / endDate)
+				// si la startDate <= today +120
+				if(!localStartDate.isAfter(localeDatePlusDays)){
+					JSONObject scheduleJSON = JSONFactoryUtil.createJSONObject();
+					scheduleJSON.put("startDate", localStartDate.format(formatter) + " " + period.getStartTime());
+					// si il y a une heure de fin
+					if (Validator.isNotNull(period.getEndTime())) {
+						scheduleJSON.put("endDate", dateFormat.format(period.getEndDate()) + " " + period.getEndTime());
+					}
+					schedulesJSON.put(scheduleJSON);
+				}
+			}
+		}
+
+		return schedulesJSON;
 	}
 
 	/**

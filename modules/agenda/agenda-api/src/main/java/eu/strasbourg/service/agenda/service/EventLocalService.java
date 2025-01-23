@@ -449,12 +449,6 @@ public interface EventLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Event> getPublished();
 
-	/**
-	 * Transform le timeDetail en startTime et endTime si on peut
-	 */
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<String[]> getTimeDetailFormated(String timeDetail);
-
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean hasManifestationEvent(long manifestationId, long eventId);
 
