@@ -128,6 +128,14 @@ public class CampaignDocxExporterImpl implements CampaignDocxExporter {
 						String periodString = dateFormat.format(period.getStartDate()) + " - "
 								+ dateFormat.format(period.getEndDate());
 						addFieldParagraph("opening", periodString, document);
+						if(period.getIsRecurrent())
+							addFieldParagraph(null, "Tous les jours", document);
+						if(Validator.isNotNull(period.getStartTime())) {
+							String timeString = period.getStartTime();
+							if(Validator.isNotNull(period.getEndTime()))
+								timeString += " - " + period.getEndTime();
+							addFieldParagraph(null, timeString, document);
+						}
 						addI18nFieldParagaph(null, period.getTimeDetailMap(), document);
 					}
 					
