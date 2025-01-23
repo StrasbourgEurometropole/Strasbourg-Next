@@ -96,7 +96,16 @@ public class EventsXlsxExporterImpl implements EventsXlsxExporter {
 				}
 				DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat("dd/MM/yyyy");
 				schedule += dateFormat.format(period.getStartDate()) + " - " + dateFormat.format(period.getEndDate());
-				schedule += " (" + period.getTimeDetail(Locale.FRANCE) + ")";
+				if(period.getIsRecurrent())
+					schedule += " - " + LanguageUtil.get(bundle, "recurrent");
+				String times = "";
+				if(Validator.isNotNull(period.getStartTime())) {
+					times = period.getStartTime();
+					if(Validator.isNotNull(period.getEndTime())) {
+						times += "-" + period.getEndTime();
+					}
+				}
+				schedule += " (" + times + (Validator.isNotNull(times)?" - ":"") + period.getTimeDetail(Locale.FRANCE) + ")";
 			}
 
 			Object[] eventRow = { event.getTitle(Locale.FRANCE), event.getSubtitle(Locale.FRANCE), description,
