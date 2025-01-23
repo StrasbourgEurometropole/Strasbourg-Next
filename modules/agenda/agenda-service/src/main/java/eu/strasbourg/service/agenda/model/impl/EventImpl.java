@@ -1208,8 +1208,8 @@ public class EventImpl extends EventBaseImpl {
 			SimpleDateFormat df = new SimpleDateFormat("dd MMMM yyyy", Locale.FRANCE);
 			date = "Le " + df.format(this.getCurrentOrFuturePeriod().getStartDate());
 
-			if(this.getCurrentOrFuturePeriod().getTimeDetail() != "")
-				date = date + " &agrave; " + this.getCurrentOrFuturePeriod().getTimeDetail(Locale.FRANCE);
+			if(Validator.isNotNull(this.getCurrentOrFuturePeriod().getStartTime()))
+				date = date + " &agrave; " + this.getCurrentOrFuturePeriod().getStartTime();
 		}
 		return date;
 	}
