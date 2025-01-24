@@ -279,7 +279,7 @@
     <script type="text/javascript" src="${javascript_folder}/jquery.mmenu.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="${javascript_folder}/device.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="${javascript_folder}/custom-select.js" charset="utf-8"></script>
-    <script type="text/javascript" src="${javascript_folder}/environment.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/o/0-global-theme/js/environment.js" charset="utf-8"></script>
     <script type="text/javascript" src="${javascript_folder}/social-share.js" charset="utf-8"></script>
     <script type="text/javascript" src="${javascript_folder}/based.js" charset="utf-8"></script>
   	<script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>

@@ -96,6 +96,7 @@
 		<script type="text/javascript" src="${javascript_folder}/vendor/lightbox.js" charset="utf-8"></script> 
   	<script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
     <script type="text/javascript" src="/o/0-global-theme/js/tarteaucitron.init.js"></script>
+      <script type="text/javascript" src="/o/0-global-theme/js/environment.js"></script>
 
   </head>
 
