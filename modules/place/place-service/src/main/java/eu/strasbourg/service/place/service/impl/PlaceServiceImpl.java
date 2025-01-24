@@ -14,9 +14,14 @@
 
 package eu.strasbourg.service.place.service.impl;
 
+import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import eu.strasbourg.service.place.model.CsmapCacheJson;
+import eu.strasbourg.service.place.service.PlaceService;
+import eu.strasbourg.service.place.service.PlaceServiceUtil;
 import org.osgi.annotation.versioning.ProviderType;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.model.AssetVocabulary;
@@ -56,7 +61,7 @@ import java.util.stream.Collectors;
  * <p>
  * All custom service methods should be put in this class. Whenever methods are
  * added, rerun ServiceBuilder to copy their definitions into the
- * {@link eu.strasbourg.service.place.service.PlaceService} interface.
+ * {@link PlaceService} interface.
  *
  * <p>
  * This is a remote service. Methods of this service are expected to have
@@ -66,7 +71,7 @@ import java.util.stream.Collectors;
  *
  * @author Angelique Zunino Champougny
  * @see PlaceServiceBaseImpl
- * @see eu.strasbourg.service.place.service.PlaceServiceUtil
+ * @see PlaceServiceUtil
  */
 @ProviderType
 public class PlaceServiceImpl extends PlaceServiceBaseImpl {
@@ -79,7 +84,7 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 	 */
 
 	@Override
-	public JSONArray getPlaces() {
+	public JSONArray getPlaces() throws PortalException {
 		List<Place> places = this.placeLocalService.getPlaces(-1, -1);
 		return this.getApprovedJSONPlaces(places);
 	}
@@ -177,7 +182,7 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 	}
 
 	@Override
-	public JSONArray getPlacesByNameAndLanguage(String name, String language) {
+	public JSONArray getPlacesByNameAndLanguage(String name, String language) throws PortalException {
 		Locale locale = LocaleUtil.fromLanguageId(language);
 		Hits hits = SearchHelper.getPlaceWebServiceSearchHits(
 				Place.class.getName(), null, name, locale);
@@ -352,12 +357,31 @@ public class PlaceServiceImpl extends PlaceServiceBaseImpl {
 		return this.getApprovedGeoJSONPlaces(places);
 	}
 
-	private JSONArray getApprovedJSONPlaces(List<Place> places) {
+	private JSONArray getApprovedJSONPlaces(List<Place> places) throws PortalException {
 		JSONArray jsonPlaces = JSONFactoryUtil.createJSONArray();
+		long companyId = PortalUtil.getDefaultCompanyId();
+		long companyGroupId = CompanyLocalServiceUtil.getCompany(companyId)
+				.getGroup().getGroupId();
+
+		long territoryVocabularyId = 0;
+		AssetVocabulary territoryVocabulary = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(companyGroupId, VocabularyNames.TERRITORY);
+		if(Validator.isNotNull(territoryVocabulary))
+			territoryVocabularyId = territoryVocabulary.getVocabularyId();
+
+		long typeVocabularyId = 0;
+		AssetVocabulary typeVocabulary = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(companyGroupId, VocabularyNames.PLACE_TYPE);
+		if(Validator.isNotNull(typeVocabulary))
+			typeVocabularyId = typeVocabulary.getVocabularyId();
+
+		long equipmentVocabularyId = 0;
+		AssetVocabulary equipmentVocabulary = AssetVocabularyLocalServiceUtil.fetchGroupVocabulary(companyGroupId, VocabularyNames.EQUIPMENT);
+		if(Validator.isNotNull(equipmentVocabulary))
+			equipmentVocabularyId = equipmentVocabulary.getVocabularyId();
+
 		for (Place place : places) {
 			try {
 				if (place.isApproved()) {
-					jsonPlaces.put(place.toJSON());
+					jsonPlaces.put(place.toJSON(territoryVocabularyId, typeVocabularyId, equipmentVocabularyId));
 				}
 			} catch (Exception e) {
 				_log.error(e.getMessage(), e);

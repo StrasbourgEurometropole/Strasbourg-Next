@@ -1477,6 +1477,11 @@ public class PlaceWrapper
 		return model.getExceptionalScheduleMap();
 	}
 
+	@Override
+	public com.liferay.portal.kernel.json.JSONArray getExceptionJSON() {
+		return model.getExceptionJSON();
+	}
+
 	/**
 	 * Returns the facebook label of this place.
 	 *
@@ -1674,6 +1679,22 @@ public class PlaceWrapper
 	@Override
 	public boolean getHasURLSchedule() {
 		return model.getHasURLSchedule();
+	}
+
+	/**
+	 * Retourne les jours fériés dans une plage de dates donnée.
+	 * Les jours fériés récurrents sont inclus dans la plage donnée.
+	 *
+	 * @param premierJour  La date de début de la plage.
+	 * @param dernierJour  La date de fin de la plage.
+	 * @return La liste des jours fériés dans la plage donnée.
+	 */
+	@Override
+	public HashMap<Date, eu.strasbourg.service.place.model.PublicHoliday>
+		getHolidays(
+			java.util.Calendar premierJour, java.util.Calendar dernierJour) {
+
+		return model.getHolidays(premierJour, dernierJour);
 	}
 
 	/**
@@ -2118,8 +2139,19 @@ public class PlaceWrapper
 	 * semaine en cours
 	 *
 	 * @param surPeriode (false = horaires d'une journée uniquement , true = horaires
-	 sur 2 mois à partir du jour + le début de la semaine)
+	 sur 3 mois à partir du jour )
+	 * @param startOfWeek (true = début de la semaine, false = jour donné)
 	 */
+	@Override
+	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>
+		getPlaceScheduleException(
+			java.util.GregorianCalendar dateChoisie, Boolean surPeriode,
+			Boolean startOfWeek, java.util.Locale locale) {
+
+		return model.getPlaceScheduleException(
+			dateChoisie, surPeriode, startOfWeek, locale);
+	}
+
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>
 		getPlaceScheduleException(
@@ -2131,7 +2163,7 @@ public class PlaceWrapper
 
 	/**
 	 * Retourne les PlaceSchedule des exceptions d'ouverture à partir du lundi
-	 * de la semaine en cours, jusqu'à dans 2 mois (pour freemarker)
+	 * de la semaine en cours, jusqu'à dans 3 mois (pour freemarker)
 	 */
 	@Override
 	public java.util.List<eu.strasbourg.service.place.model.PlaceSchedule>
@@ -5081,6 +5113,18 @@ public class PlaceWrapper
 	@Override
 	public com.liferay.portal.kernel.json.JSONObject toJSON() {
 		return model.toJSON();
+	}
+
+	/**
+	 * Retourne la version JSON du lieu
+	 */
+	@Override
+	public com.liferay.portal.kernel.json.JSONObject toJSON(
+		long territoryVocabularyId, long typeVocabularyId,
+		long equipmentVocabularyId) {
+
+		return model.toJSON(
+			territoryVocabularyId, typeVocabularyId, equipmentVocabularyId);
 	}
 
 	@Override
