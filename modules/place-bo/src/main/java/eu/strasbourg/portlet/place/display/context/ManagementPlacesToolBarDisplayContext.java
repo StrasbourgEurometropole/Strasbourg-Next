@@ -42,6 +42,15 @@ public class ManagementPlacesToolBarDisplayContext extends ManagementBaseToolBar
     }
 
     /**
+     * Fields that can be sorted
+     * cntent : "modified-date","title", "status"
+     */
+    @Override
+    protected String[] getOrderByKeys() {
+        return new String[] {  "modified-date","title", "status" };
+    }
+
+    /**
      * Dans la liste de vocabulaire, on regarde si le User a un type de lieu en category (pour limiter l'accès aux fiches lieu)
      * Si c'est le cas on l'empêche d'avoir des filtres
      * Si pas de catégorie sur le User, on a accès aux vocabulaires à filtrer

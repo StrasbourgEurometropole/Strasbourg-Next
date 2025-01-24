@@ -60,6 +60,13 @@ public class ManagementActivitiesToolBarDisplayContext
     }
 
 
+    /**
+     * Fields that can be sorted
+     */
+    @Override
+    protected String[] getOrderByKeys() {
+        return new String[] { "modified-date","title" };
+    }
 
     /**
      * creates an add menu button

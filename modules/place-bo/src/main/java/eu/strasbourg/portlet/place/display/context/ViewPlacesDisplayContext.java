@@ -161,6 +161,8 @@ public class ViewPlacesDisplayContext extends ViewBaseDisplayContext<Place> {
 		switch (getOrderByCol()) {
 			case "title":
 				return "localized_title_fr_FR_sortable";
+			case "status":
+				return "status_sortable";
 			case "modified-date":
 			default:
 				return "modified_sortable";
