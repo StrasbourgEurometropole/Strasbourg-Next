@@ -9,6 +9,9 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.SessionParamUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.Http;
 import eu.strasbourg.service.oidc.model.PublikUser;
 import eu.strasbourg.service.oidc.service.PublikUserLocalServiceUtil;
 import eu.strasbourg.utils.JSONHelper;
@@ -365,6 +368,9 @@ public class OIDCFilter extends BaseFilter {
         String url = request.getRequestURL().toString();
         String domain = getMainDomain(url);
         cookie.setDomain(domain);
+        if(Http.HTTPS.equals(PropsUtil.get(PropsKeys.WEB_SERVER_PROTOCOL))) {
+            cookie.setSecure(true);
+        }
         cookie.setPath("/");
         response.addCookie(cookie);
     }
@@ -393,7 +399,7 @@ public class OIDCFilter extends BaseFilter {
             String[] domainNameParts = url.getHost().split("\\.");
             domainString = domainNameParts[domainNameParts.length - 1];
             if (domainNameParts.length > 1) {
-                domainString = "." + domainNameParts[domainNameParts.length - 2] + "." + domainString;
+                domainString = domainNameParts[domainNameParts.length - 2] + "." + domainString;
             }
 
         } catch (MalformedURLException ignored) {
