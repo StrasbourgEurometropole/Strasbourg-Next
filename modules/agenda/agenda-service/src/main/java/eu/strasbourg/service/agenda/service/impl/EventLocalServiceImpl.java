@@ -684,15 +684,20 @@ public class EventLocalServiceImpl extends EventLocalServiceBaseImpl {
 	}
 
 	/**
-	 * Retourne une list d'évènements lié à un lieu
+	 * Retourne une liste d'évènements liés à un lieu
 	 */
 	@Override
 	public List<Event> getCurrentAndFuturePublishedEventsFromPlace(String SIGId) {
-		final Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.DATE, -1);
-		Date yesterday = cal.getTime();
-		List<Event> events = this.findByPlaceSIGId(SIGId);
-		return events.stream().filter(e -> e.isApproved() && e.getStartDateFirstCurrentAndFuturePeriod().compareTo(yesterday) > 0).collect(Collectors.toList());
+		try {
+			final Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DATE, -1);
+			Date yesterday = cal.getTime();
+			List<Event> events = this.findByPlaceSIGId(SIGId);
+			return events.stream().filter(e -> e.isApproved() && e.getStartDateFirstCurrentAndFuturePeriod().compareTo(yesterday) > 0).collect(Collectors.toList());
+		}catch (Exception e){
+			_log.error(e);
+			return new ArrayList<>();
+		}
 	}
 
 	/**
