@@ -17,5 +17,7 @@ public interface EntityDetailConfiguration {
 	
 	@Meta.AD(name="classPK", required = false)
 	public long classPK();
-	
+
+	@Meta.AD(name="categoryIds", required = false)
+	public String categoryIds();
 }
