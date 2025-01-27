@@ -317,6 +317,480 @@
               ]
             }
           ]
+        },
+        {
+          "name": "fontSizes",
+          "label": "Tailles de polices",
+          "frontendTokens": [
+            {
+              "name": "s-h2",
+              "label": "Taille des H2",
+              "type": "String",
+              "defaultValue": "30px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-h2"
+                }
+              ]
+            },
+            {
+              "name": "s-h3",
+              "label": "Taille des H3",
+              "type": "String",
+              "defaultValue": "18px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-h3"
+                }
+              ]
+            },
+            {
+              "name": "s-link",
+              "label": "Taille des liens",
+              "type": "String",
+              "defaultValue": "16px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-link"
+                }
+              ]
+            },
+            {
+              "name": "s-link-small",
+              "label": "Taille des petits liens",
+              "type": "String",
+              "defaultValue": "12px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-link-small"
+                }
+              ]
+            },
+            {
+              "name": "s-medium",
+              "label": "Taille moyenne",
+              "type": "String",
+              "defaultValue": "18px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-medium"
+                }
+              ]
+            },
+            {
+              "name": "s-p",
+              "label": "Taille des paragraphes",
+              "type": "String",
+              "defaultValue": "16px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-p"
+                }
+              ]
+            },
+            {
+              "name": "s-small-title",
+              "label": "Taille des petits titre",
+              "type": "String",
+              "defaultValue": "20px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-small-title"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "FontSizes",
+      "name": "fontSizes",
+      "frontendTokenSets": [
+        {
+          "name": "desktop",
+          "label": "Desktop",
+          "frontendTokens": [
+            {
+              "name": "ds-h1",
+              "label": "H1",
+              "type": "String",
+              "defaultValue": "45px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ds-h1"
+                }
+              ]
+            },
+            {
+              "name": "ds-h2",
+              "label": "H2",
+              "type": "String",
+              "defaultValue": "30px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ds-h2"
+                }
+              ]
+            },
+            {
+              "name": "ds-h3",
+              "label": "H3",
+              "type": "String",
+              "defaultValue": "18px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ds-h3"
+                }
+              ]
+            },
+            /*{
+              "name": "ds-h4",
+              "label": "H4",
+              "type": "String",
+              "defaultValue": "18px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ds-h4"
+                }
+              ]
+            },*/
+            {
+              "name": "ds-p",
+              "label": "Paragraphes",
+              "type": "String",
+              "defaultValue": "16px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ds-p"
+                }
+              ]
+            },
+            {
+              "name": "ds-small",
+              "label": "Petite taille",
+              "type": "String",
+              "defaultValue": "12px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ds-small"
+                }
+              ]
+            },
+            {
+              "name": "ds-medium",
+              "label": "Taille moyenne",
+              "type": "String",
+              "defaultValue": "14px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ds-medium"
+                }
+              ]
+            },
+            {
+              "name": "ds-large",
+              "label": "Grande taille",
+              "type": "String",
+              "defaultValue": "18px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ds-large"
+                }
+              ]
+            },
+            /*{
+              "name": "ds-sup",
+              "label": "Exposant",
+              "type": "String",
+              "defaultValue": "18px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ds-sup"
+                }
+              ]
+            },
+            {
+              "name": "ds-link",
+              "label": "Liens",
+              "type": "String",
+              "defaultValue": "16px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ds-link"
+                }
+              ]
+            },
+            {
+              "name": "ds-link-small",
+              "label": "Petits liens",
+              "type": "String",
+              "defaultValue": "12px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ds-link-small"
+                }
+              ]
+            },*/
+            {
+              "name": "ds-small-title",
+              "label": "Petit titre",
+              "type": "String",
+              "defaultValue": "20px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ds-small-title"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "tablet",
+          "label": "Tablette",
+          "frontendTokens": [
+            {
+              "name": "ts-h1",
+              "label": "H1",
+              "type": "String",
+              "defaultValue": "36px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ts-h1"
+                }
+              ]
+            },
+            {
+              "name": "ts-h2",
+              "label": "H2",
+              "type": "String",
+              "defaultValue": "26px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ts-h2"
+                }
+              ]
+            },
+            {
+              "name": "ts-h3",
+              "label": "H3",
+              "type": "String",
+              "defaultValue": "17px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ts-h3"
+                }
+              ]
+            },
+            /*{
+              "name": "s-link",
+              "label": "Taille des liens",
+              "type": "String",
+              "defaultValue": "16px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-link"
+                }
+              ]
+            },
+            {
+              "name": "s-link-small",
+              "label": "Taille des petits liens",
+              "type": "String",
+              "defaultValue": "12px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-link-small"
+                }
+              ]
+            },*/
+            {
+              "name": "ts-small",
+              "label": "Petite taille",
+              "type": "String",
+              "defaultValue": "17px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ts-h3"
+                }
+              ]
+            },
+            /*{
+              "name": "s-medium",
+              "label": "Taille moyenne",
+              "type": "String",
+              "defaultValue": "18px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-medium"
+                }
+              ]
+            },*/
+            {
+              "name": "ts-large",
+              "label": "Grande taille",
+              "type": "String",
+              "defaultValue": "16px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ts-large"
+                }
+              ]
+            }/*,
+            {
+              "name": "s-p",
+              "label": "Paragraphes",
+              "type": "String",
+              "defaultValue": "16px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-p"
+                }
+              ]
+            },
+            {
+              "name": "s-small-title",
+              "label": "Petit titre",
+              "type": "String",
+              "defaultValue": "20px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-small-title"
+                }
+              ]
+            }*/
+          ]
+        },
+        {
+          "name": "mobile",
+          "label": "Mobile",
+          "frontendTokens": [
+            {
+              "name": "ms-h1",
+              "label": "H1",
+              "type": "String",
+              "defaultValue": "26px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ms-h1"
+                }
+              ]
+            },
+            {
+              "name": "ms-h2",
+              "label": "H2",
+              "type": "String",
+              "defaultValue": "20px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ms-h2"
+                }
+              ]
+            },
+            {
+              "name": "ms-h3",
+              "label": "H3",
+              "type": "String",
+              "defaultValue": "16px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ms-h3"
+                }
+              ]
+            },
+            /*{
+              "name": "s-link",
+              "label": "Taille des liens",
+              "type": "String",
+              "defaultValue": "16px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-link"
+                }
+              ]
+            },
+            {
+              "name": "s-link-small",
+              "label": "Taille des petits liens",
+              "type": "String",
+              "defaultValue": "12px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-link-small"
+                }
+              ]
+            },
+            {
+              "name": "s-medium",
+              "label": "Taille moyenne",
+              "type": "String",
+              "defaultValue": "18px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "s-medium"
+                }
+              ]
+            },*/
+            {
+              "name": "ms-p",
+              "label": "Paragraphes",
+              "type": "String",
+              "defaultValue": "14px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ms-p"
+                }
+              ]
+            },
+            {
+              "name": "ms-small-title",
+              "label": "Petit titre",
+              "type": "String",
+              "defaultValue": "16px",
+              "mappings": [
+                {
+                  "type": "cssVariable",
+                  "value": "ms-small-title"
+                }
+              ]
+            }
+          ]
         }
       ]
     }
