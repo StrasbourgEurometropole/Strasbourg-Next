@@ -1,4 +1,35 @@
 {
 	"fieldSets": [
+    {
+      "fields": [
+        {
+          "name": "level",
+          "label": "Niveau de titrage",
+          "type": "select",
+          "dataType": "string",
+          "typeOptions": {
+            "validValues": [
+              {
+                "value": "h1",
+                "label": "H1"
+              },
+              {
+                "value": "h2",
+                "label": "H2"
+              },
+              {
+                "value": "h3",
+                "label": "H3"
+              },
+              {
+                "value": "h4",
+                "label": "H4"
+              }
+            ]
+          },
+          "defaultValue": "h3"
+        }
+      ]
+    }
 	]
 }
