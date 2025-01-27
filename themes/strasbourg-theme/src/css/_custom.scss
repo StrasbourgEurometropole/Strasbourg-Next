@@ -640,6 +640,33 @@ body:not(.no-hover) .st-page-wrapper .login-container button{
 
 .st-text-styles, .component-paragraph, .component-html {
   overflow-x: auto;
+  --scrollbar-width: 10px;
+  --track-color: var(--border, #51555A);
+  --thumb-color: var(--secondary, #2AD783);
+  --thumb-hover-color: var(--whiteColor, #FFFFFF);
+  /* Firefox */
+  scrollbar-width: auto; /* can also be normal, or none, to not render scrollbar */
+  scrollbar-height: auto; /* can also be normal, or none, to not render scrollbar */
+  scrollbar-color: var(--thumb-color) var(--track-color); /* foreground background */
+  /* Webkit / Blink */
+  @media screen and (max-width: 599px) {
+    --custom-scrollbar-width: 8px;
+  }
+  &::-webkit-scrollbar {
+    width: var(--scrollbar-width);
+    height: var(--scrollbar-width);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--thumb-color);
+    border-radius: 5px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: var(--thumb-hover-color);
+  }
+  &::-webkit-scrollbar-track {
+    background-color: var(--track-color);
+    border-radius: 5px;
+  }
 
   table {
     @include clay-table-variant($c-table);
