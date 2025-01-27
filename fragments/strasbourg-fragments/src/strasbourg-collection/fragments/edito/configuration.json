@@ -14,6 +14,30 @@
           "label": "Afficher l'image",
           "type": "checkbox",
           "defaultValue": true
+        },
+        {
+          "name": "email",
+          "label": "Permettre le partage par Email",
+          "type": "checkbox",
+          "defaultValue": true
+        },
+        {
+          "name": "linkedin",
+          "label": "Permettre le partage par Linkedin",
+          "type": "checkbox",
+          "defaultValue": true
+        },
+        {
+          "name": "x",
+          "label": "Permettre le partage par X",
+          "type": "checkbox",
+          "defaultValue": true
+        },
+        {
+          "name": "facebook",
+          "label": "Permettre le partage par Facebook",
+          "type": "checkbox",
+          "defaultValue": true
         }
       ]
     }
