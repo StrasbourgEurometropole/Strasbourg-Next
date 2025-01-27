@@ -32,7 +32,7 @@
 			}
 		}
 
-		&[aria-expanded="true"] {
+		&[aria-expanded="false"] {
 			.st-accordion__icon {
 				&:before {
 					transform: scaleY(-1) translateY(-1px);
