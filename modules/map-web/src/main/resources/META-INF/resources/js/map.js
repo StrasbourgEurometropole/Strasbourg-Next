@@ -6,6 +6,7 @@
             ame.$ame = $('#aroundme'),
             ame.$trigger_side = ame.$ame.find('.side__trigger'),
             ame.$panel_side = ame.$ame.find('#aroundme__side'),
+            ame.$status_map = ame.$panel_side.find('.status-map'),
             ame.$trigger_top = ame.$ame.find('.top__trigger'),
             ame.$panel_top = ame.$ame.find('#aroundme__top'),
             ame.$filters = ame.$ame.find("#aroundme__top input[type='checkbox'], #aroundme__top select, #aroundme__top input[data-type='date']"),
@@ -108,6 +109,16 @@
             // Contrôle correspondant à la liste des markers
             var listControl = new L.Control.ListMarkers({ layer: markers, itemIcon: null, minZoom: 17 });
             mymap.addControl(listControl);
+
+            listControl.onClickItem(function(e) {
+                if( ame.$status_map && ame.$status_map.length > 0){
+                    ame.$status_map.text("La carte et la liste des lieux ont été mis à jour.");
+                    // On cache le message après 2 secondes
+                    setTimeout(function() {
+                    ame.$status_map.text("");
+                    }, 500);
+                }
+            })
 
             // Copie de ce contrôle dans la div prévue à cet effet
             $('.filtres--poi').append($('.list-markers .filtres__list'));

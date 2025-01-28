@@ -229,7 +229,9 @@
 					<c:if test="${!showList}">
 						<div id="aroundme__side" style="z-index: 406" class="${showList} opened hidden">
 					</c:if>
-		                <button class="side__trigger side__trigger--pull opened" aria-expanded="true" aria-label="<liferay-ui:message key='eu.aroundme.close-list' />"></button>
+                        <div class="status-map sr-only" role="status"></div>
+
+                        <button class="side__trigger side__trigger--pull opened" aria-expanded="true" aria-label="<liferay-ui:message key='eu.aroundme.close-list' />"></button>
                         <c:if test="${showFiltersReminder}">
                             <div id="filters__reminder">+-
                             </div>

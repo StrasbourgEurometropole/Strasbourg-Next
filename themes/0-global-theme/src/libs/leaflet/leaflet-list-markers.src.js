@@ -64,6 +64,11 @@ L.Control.ListMarkers = L.Control.extend({
 		this._list = null;		
 	},
 
+	// Add callback on item in list
+	onClickItem : function(callback) {
+		this._onItemClick = callback;
+	},
+
 	_createItem: function(layer) {
 		var self = this;
 		var div = L.DomUtil.create('li', 'filtres__item form-group grid-item filtres__item--favorite'),
@@ -84,6 +89,9 @@ L.Control.ListMarkers = L.Control.extend({
 			}, this)
 			.on(a, 'click', function(e) {
 				this._moveTo( layer.getLatLng() );
+				if(this._onItemClick) {
+					this._onItemClick(e);
+				}
 				this._map.once("moveend zoomend", function() {
 					var cluster = self._layer.getVisibleParent(layer);
 					if (cluster.spiderfy) {
@@ -141,6 +149,7 @@ L.Control.ListMarkers = L.Control.extend({
 			}, this)
 			.on(divAddress, 'click', function(e) {
 				this._moveTo( layer.getLatLng() );
+
 				this._map.once("moveend zoomend", function() {
 					var cluster = self._layer.getVisibleParent(layer);
 					if (cluster.spiderfy) {
