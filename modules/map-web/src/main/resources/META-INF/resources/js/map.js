@@ -106,22 +106,39 @@
                 layers: window.backgroundId
             }).addTo(mymap);
 
-            // Contrôle correspondant à la liste des markers
-            var listControl = new L.Control.ListMarkers({ layer: markers, itemIcon: null, minZoom: 17 });
-            mymap.addControl(listControl);
-
-            listControl.onClickItem(function(e) {
+            var notifyStatus = function() {
                 if( ame.$status_map && ame.$status_map.length > 0){
                     ame.$status_map.text("La carte et la liste des lieux ont été mis à jour.");
                     // On cache le message après 2 secondes
                     setTimeout(function() {
-                    ame.$status_map.text("");
+                        ame.$status_map.text("");
                     }, 500);
                 }
-            })
+            }
+
+            // Contrôle correspondant à la liste des markers
+            var listControl = new L.Control.ListMarkers({ layer: markers, itemIcon: null, minZoom: 17 });
+            mymap.addControl(listControl);
+
+            listControl.onClickItem(notifyStatus)
 
             // Copie de ce contrôle dans la div prévue à cet effet
             $('.filtres--poi').append($('.list-markers .filtres__list'));
+
+            if(!!window.cadrageX && !!window.cadrageY && !!window.zoom){
+                // Ajout des boutons de reinisialisation des filtres
+                var buttonReset = $('<button class="aroundme__reset-filters" aria-label="' + Liferay.Language.get('eu.aroundme.reset-filters') + '">' + Liferay.Language.get('eu.aroundme.reset') + '</button>');
+                // Ajout de l'événement de click sur le bouton de réinitialisation des filtres
+                buttonReset.on('click', function(e) {
+                    e.preventDefault();
+                    mymap.setView([window.cadrageX, window.cadrageY], window.zoom);
+                    notifyStatus();
+                });
+                $('.filtres--poi').append(buttonReset);
+            }
+
+
+
 
             // Création de la popup pour chaque type de POI
             var onEachFeature = function(feature, layer) {

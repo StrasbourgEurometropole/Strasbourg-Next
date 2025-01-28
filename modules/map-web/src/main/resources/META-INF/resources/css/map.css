@@ -190,6 +190,18 @@
     display: block;
   }
 }
+
+#aroundme .aroundme__reset-filters {
+     width: 100%;
+    text-align: end;
+    font-size: 0.8rem;
+}
+
+
+#aroundme .aroundme__reset-filters:hover {
+    color: #fff;
+}
+
 #aroundme .top__trigger {
   display: none;
 }
