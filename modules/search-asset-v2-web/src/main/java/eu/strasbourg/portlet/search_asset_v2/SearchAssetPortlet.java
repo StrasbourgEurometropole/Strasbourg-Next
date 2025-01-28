@@ -278,7 +278,7 @@ public class SearchAssetPortlet extends MVCPortlet {
 		String title = originalTitle;
 
 		// Ajouter les informations de pagination au titre
-		title += " | Page " + dc.getPager().getCurrentPage() + " sur " + dc.getPager().getPages().size();
+		title += " | Page " + dc.getPager().getCurrentPage() + " sur " + dc.getPager().getLastPage();
 
 		// Compter le nombre de filtres appliqués
 		int filterCount = getAppliedFilterCount(dc);
