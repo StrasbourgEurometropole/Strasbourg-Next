@@ -39,6 +39,11 @@
             // handle DOM updates
             this.btnTrigger.setAttribute('aria-expanded', `${open}`);
             if (open) {
+                // ferme tous les accordéons
+                accordionsList.forEach(container => {
+                    container.close();
+                });
+
                 this.measureContentHeight();
                 this.contentEl.removeAttribute('aria-hidden');
                 this.contentEl.removeAttribute('inert');
@@ -60,9 +65,11 @@
         }
     }
 
+    var accordionsList = [];
+
     // Initialisation de la classe
     const accordions = document.querySelectorAll(".st-js-accordion");
     accordions.forEach(container => {
-        new Accordion(container);
+        accordionsList.push(new Accordion(container));
     });
 })();
