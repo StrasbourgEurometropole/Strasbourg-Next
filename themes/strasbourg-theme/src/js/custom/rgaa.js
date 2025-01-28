@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const mainElement = document.querySelector('main');
   if(mainElement) {
     mainElement.id = 'main-zone';
+    mainElement.setAttribute('role', 'main');
   }
 
 
