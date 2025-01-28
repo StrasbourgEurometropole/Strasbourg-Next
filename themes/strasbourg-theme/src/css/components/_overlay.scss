@@ -187,6 +187,9 @@
 
 	.select-lang {
 		flex-shrink: 0;
+		@include bp-down(380px) {
+		    display: none;
+		}
 	}
 }
 
