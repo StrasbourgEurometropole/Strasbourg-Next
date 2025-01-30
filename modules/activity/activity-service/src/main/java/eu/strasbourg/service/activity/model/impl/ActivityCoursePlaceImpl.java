@@ -119,7 +119,7 @@ public class ActivityCoursePlaceImpl extends ActivityCoursePlaceBaseImpl {
 	 */
 	@Override
 	public AssetEntry getAssetEntry() {
-		return AssetEntryLocalServiceUtil.fetchEntry(Activity.class.getName(),
+		return AssetEntryLocalServiceUtil.fetchEntry(ActivityCoursePlace.class.getName(),
 			this.getPrimaryKey());
 	}
 

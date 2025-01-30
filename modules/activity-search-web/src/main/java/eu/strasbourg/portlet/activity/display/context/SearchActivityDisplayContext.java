@@ -438,9 +438,9 @@ public class SearchActivityDisplayContext {
 				} else {
 					// Lieu SIG
 					Place sigPlace = PlaceLocalServiceUtil.getPlaceBySIGId(place.getPlaceSIGId());
-					List<AssetCategory> territories = sigPlace.getTerritories();
+					List<AssetCategory> placeCategories = sigPlace.getAssetEntry().getCategories();
 					if (!territoryIds.stream()
-							.anyMatch(c -> territories.stream().anyMatch(t -> c == t.getCategoryId()))) {
+							.anyMatch(c -> placeCategories.stream().anyMatch(t -> c == t.getCategoryId()))) {
 						okToAddPlace = false;
 					}
 				}
