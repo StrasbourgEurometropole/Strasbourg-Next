@@ -19,7 +19,10 @@
     initCategorySelector(
         document.querySelector("#<portlet:namespace />${id}"),
         [${groupIds}], [${values}]
-        <c:if test="${classname.length() > 0}">, ${classname}</c:if>
-        <c:if test="${classtype.length() > 0}">, ${classtype}</c:if>
-    );
+        <c:if test="${classname.length() > 0}">, '${classname}'</c:if>
+        <c:if test="${classtype.length() > 0}">, '${classtype}'</c:if>
+    ).then(function (choice) {
+        // set to global
+        window.choice${id} = choice;
+    } );
 </script>

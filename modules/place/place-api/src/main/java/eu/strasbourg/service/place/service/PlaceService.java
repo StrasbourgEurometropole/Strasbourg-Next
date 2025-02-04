@@ -75,10 +75,11 @@ public interface PlaceService extends BaseService {
 	public JSONObject getPlaceByIdSIG(String sigId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getPlaces();
+	public JSONArray getPlaces() throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public JSONArray getPlacesByNameAndLanguage(String name, String language);
+	public JSONArray getPlacesByNameAndLanguage(String name, String language)
+		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public JSONArray getPlacesByTerritory(String territoryId)

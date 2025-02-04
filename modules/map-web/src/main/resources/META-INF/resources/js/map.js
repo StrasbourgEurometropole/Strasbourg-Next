@@ -176,14 +176,14 @@
                                     '<div class="aroundme__infowindow infowindow">' +
                                     '     <button class="infowindow__close"></button>' +
                                     '     <div class="infowindow__content">' +
-                                    '         <div class="infowindow__visual">' +
-                                                  ((!feature.properties["amount"])?
-                                                  '<div class="infowindow__visualImage" style="background-image: url(' +
-                                                    feature.properties['visual'] +
-                                                  ');"></div>'
-                                                  :
-                                                  '') +
-                                    '         </div>'+
+                                            ((feature.properties["visual"] && !feature.properties["amount"])?
+                                                '<div class="infowindow__visual">' +
+                                                    '<div class="infowindow__visualImage" style="background-image: url(' +
+                                                        feature.properties['visual'] +
+                                                    ');"></div>' +
+                                                '</div>'
+                                            :
+                                                '') +
                                     '         <div class="infowindow__top">' +
                                     '             <div class="infowindow__title-block">' +
                                     '                 <div class="infowindow__name" role="heading" aria-level="3">' +

@@ -58,7 +58,7 @@ public class PageHeaderPortlet extends MVCPortlet {
 		renderRequest.setAttribute("page", layout);
 
 		String title = layout.getTitle(themeDisplay.getLocale());
-		String subTitle = layout.getDescription(themeDisplay.getLocale());
+		String subTitle = "";
 		String imageUrl = layout.getExpandoBridge().getAttribute("image").toString();
 		String imageCredit = "";
 

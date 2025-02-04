@@ -6,10 +6,10 @@
 	<portlet:param name="sortFieldAndType" value="${dc.sortFieldAndTypeFromParam}" />
 	<portlet:param name="keywords" value="${dc.keywords}" />
 	<portlet:param name="startDay" value="${dc.fromDay}" />
-	<portlet:param name="startMonth" value="${dc.fromMonthIndex}" />
+	<portlet:param name="startMonth" value="${dc.fromMonthValue}" />
 	<portlet:param name="startYear" value="${dc.fromYear}" />
 	<portlet:param name="endDay" value="${dc.toDay}" />
-	<portlet:param name="endMonth" value="${dc.toMonthIndex}" />
+	<portlet:param name="endMonth" value="${dc.toMonthValue}" />
 	<portlet:param name="endYear" value="${dc.toYear}" />
 	<portlet:param name="categoriesIds" value="${dc.filterCategoriesIdsString}" />
 </portlet:resourceURL>

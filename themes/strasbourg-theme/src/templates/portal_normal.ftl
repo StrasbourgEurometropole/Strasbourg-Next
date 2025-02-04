@@ -16,6 +16,7 @@
     <meta content="initial-scale=1.0, width=device-width" name="viewport"/>
     <script type="text/javascript" src="/o/0-global-theme/libs/tarteaucitron/tarteaucitron.js"></script>
     <script type="text/javascript" src="/o/0-global-theme/js/tarteaucitron.init.js"></script>
+    <script type="text/javascript" src="/o/0-global-theme/js/environment.js"></script>
     <@liferay_util["include"] page=top_head_include />
     <#include "${full_templates_path}/seo.ftl" />
 </head>
@@ -51,7 +52,6 @@
                 document.getElementById("ShareLinkedIn")?.setAttribute("href", "https://www.linkedin.com/shareArticle?mini=true&url=" + url);
                 document.getElementById("ShareMail")?.setAttribute("href", "mailto:?body=" + url);
             }
-            environment = 'desktop';
         </script>
         <@liferay_util["include"] page=body_bottom_include />
         <#include "${full_templates_path}/alert.ftl" />

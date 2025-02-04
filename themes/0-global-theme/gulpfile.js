@@ -38,6 +38,7 @@ liferayThemeTasks.registerTasks({
 
 			gulp.src([
 					'build/js/tarteaucitron.init.js',
+					'build/js/environment.js',
 					'build/libs/tarteaucitron/*.js'
 				], { base: "." }
 			)

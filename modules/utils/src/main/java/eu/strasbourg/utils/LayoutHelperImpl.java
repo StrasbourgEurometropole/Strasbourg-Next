@@ -39,7 +39,12 @@ public class LayoutHelperImpl implements LayoutHelperService {
 	@Override
 	public String getPublikLoginURL(String currentURL) throws MalformedURLException, UnsupportedEncodingException {
 		URL url = new URL(currentURL);
-		Map<String, List<String>> params = getQueryParams(url);
+		Map<String, List<String>> params;
+		try {
+			params = getQueryParams(url);
+		} catch (UnsupportedEncodingException e) {
+			throw new UnsupportedEncodingException(e.getMessage() + "url = " + currentURL);
+		}
 		String loginURL = url.toString().split("\\?")[0].split("\\#")[0];
 		loginURL += "?";
 		for (Map.Entry<String, List<String>> param : params.entrySet()) {
@@ -74,7 +79,7 @@ public class LayoutHelperImpl implements LayoutHelperService {
 	 * TODO : appeler les méthodes statiques du Helper associé
 	 */
 	public static Map<String, List<String>> getQueryParams(URL url)
-			throws UnsupportedEncodingException, MalformedURLException {
+			throws UnsupportedEncodingException {
 		final Map<String, List<String>> query_pairs = new LinkedHashMap<String, List<String>>();
 		final String[] pairs = url.getQuery() != null ? url.getQuery().split("&") : new String[0];
 		for (String pair : pairs) {

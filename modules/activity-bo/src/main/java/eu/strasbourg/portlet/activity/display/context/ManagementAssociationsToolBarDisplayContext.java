@@ -62,7 +62,7 @@ public class ManagementAssociationsToolBarDisplayContext extends ManagementBaseT
      */
     @Override
     protected String[] getOrderByKeys() {
-        return new String[] { "modified-date" };
+        return new String[] { "modified-date","title" };
     }
 
 

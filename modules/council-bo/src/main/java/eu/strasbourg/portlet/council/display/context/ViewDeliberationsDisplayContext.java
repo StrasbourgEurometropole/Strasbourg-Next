@@ -137,14 +137,7 @@ public class ViewDeliberationsDisplayContext extends ViewBaseDisplayContext<Deli
     public String getOrderByColSearchField() {
         switch (this.getOrderByCol()) {
             case "title":
-            case "alias":
                 return "localized_title_fr_FR_sortable";
-            case "modified-date":
-                return "modified_sortable";
-            case "publication-date":
-                return "publishDate_sortable";
-            case "status":
-                return "status_sortable";
             case "order":
                 return "orderAmendement_String_sortable";
             default:

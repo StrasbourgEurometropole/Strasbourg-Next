@@ -58,6 +58,13 @@ public class ManagementActivityCoursesToolBarDisplayContext extends ManagementBa
     }
 
 
+    /**
+     * Fields that can be sorted
+     */
+    @Override
+    protected String[] getOrderByKeys() {
+        return new String[] { "modified-date","title" };
+    }
 
     /**
      * creates an add menu button

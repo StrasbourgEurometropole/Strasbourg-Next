@@ -91,14 +91,14 @@
 						<aui:select name="campaignId" required="true" label="campaign" helpMessage="campagne-help">
 							<option value="" label="select-campaign" />
 							<c:forEach var="campaign" items="${dc.campaigns}">
-								<fmt:formatDate value="${campaign.getStartDate()}" pattern="dd/MM/YYYY" type="date" var="formattedStartCampaign"/>
-								<fmt:formatDate value="${campaign.getEndDate()}" pattern="dd/MM/YYYY" type="date" var="formattedEndCampaign"/>
+								<fmt:formatDate value="${campaign.getStartDate()}" pattern="dd/MM/yyyy" type="date" var="formattedStartCampaign"/>
+								<fmt:formatDate value="${campaign.getEndDate()}" pattern="dd/MM/yyyy" type="date" var="formattedEndCampaign"/>
 								<option value="${campaign.campaignId}" localizeLabel="false"
 									<c:if test="${campaign.campaignId eq dc.campaignEvent.campaignId}">
 										selected
 									</c:if>
 									>
-									${campaign.getTitle(locale)} (du ${formattedStartCampaign} au ${formattedEndCampaign})
+										${campaign.getTitle(locale)} (du ${formattedStartCampaign} au ${formattedEndCampaign})
 								</option>
 							</c:forEach>
 						</aui:select>
@@ -459,8 +459,8 @@
 					<c:forEach items="${dc.campaignEvent.periods}" var="period" varStatus="status">
 						<div class="lfr-form-row lfr-form-row-inline">
 							<div class="row-fields">
-								<fmt:formatDate value="${period.startDate}" pattern="dd/MM/YYYY" type="date" var="formattedStartDate"/>
-								<fmt:formatDate value="${period.endDate}" pattern="dd/MM/YYYY" type="date" var="formattedEndDate"/>
+								<fmt:formatDate value="${period.startDate}" pattern="dd/MM/yyyy" type="date" var="formattedStartDate"/>
+								<fmt:formatDate value="${period.endDate}" pattern="dd/MM/yyyy" type="date" var="formattedEndDate"/>
 								<liferay-util:include page="/includes/period-row.jsp" servletContext="<%=application %>">
 									<liferay-util:param name="index" value="${status.index}" />
 									<liferay-util:param name="startDate" value="${formattedStartDate}" />
