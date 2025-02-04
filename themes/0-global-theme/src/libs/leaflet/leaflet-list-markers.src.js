@@ -85,9 +85,8 @@ L.Control.ListMarkers = L.Control.extend({
 			.disableClickPropagation(a)
 			.on(a, 'click', L.DomEvent.stop, this)
 			.on(a, 'click', function(e) {
-				this._moveTo( layer.getLatLng() );
-			}, this)
-			.on(a, 'click', function(e) {
+				window.lastClickedMarker = layer.getLatLng();
+
 				this._moveTo( layer.getLatLng() );
 				if(this._onItemClick) {
 					this._onItemClick(e);
@@ -98,10 +97,12 @@ L.Control.ListMarkers = L.Control.extend({
 						setTimeout(function() {
 							cluster.spiderfy();
 							layer.openPopup();
+							a.focus();
 						}, 500);
 					} else {
 						setTimeout(function() {
 							layer.openPopup();
+							a.focus();
 						}, 250);
 					}
 				});
@@ -299,8 +300,18 @@ L.Control.ListMarkers = L.Control.extend({
 		this._layer.eachLayer(function(layer) {
 			if(layer instanceof L.Marker)
 				if( that._map.getBounds().contains(layer.getLatLng()) )
-					if(++n < that.options.maxItems)
-						that._list.appendChild( that._createItem(layer) );
+					if(++n < that.options.maxItems) {
+						let selection = that._createItem(layer)
+						that._list.appendChild( selection );
+						if (window.lastClickedMarker && window.lastClickedMarker.lat == layer.getLatLng().lat && window.lastClickedMarker.lng == layer.getLatLng().lng) {
+							let link = $(selection).find('a.infowindow__name');
+							if(link.length > 0) {
+								link.focus();
+							}
+							window.lastClickedMarker = null;
+						}
+					}
+
 		});
         if(this._list.innerHTML == ''){
             this._list.innerHTML = '<h2>'+Liferay.Language.get("select-an-interest")+'</h2>';
