@@ -47,7 +47,7 @@ liferayThemeTasks.registerTasks({
                     'build/js/libs/splide.min.js',
                     'build/js/libs/*.js',
                     'build/js/libs/**/*.js',
-                    'build/js/*.js',
+                    'build/js/config-splide.js',
                     'build/js/**/*.js'
                 ]
             )
