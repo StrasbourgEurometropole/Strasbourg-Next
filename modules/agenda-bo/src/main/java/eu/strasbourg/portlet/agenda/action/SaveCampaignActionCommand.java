@@ -93,6 +93,10 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 				SessionErrors.add(request, "title-error");
 				isValid = false;
 			}
+			if (Validator.isNull(ParamUtil.getString(request, "provider"))) {
+				SessionErrors.add(request, "provider-error");
+				isValid = false;
+			}
 			if (defaultImageId == 0) {
 				SessionErrors.add(request, "image-error");
 				isValid = false;
@@ -130,13 +134,8 @@ public class SaveCampaignActionCommand implements MVCActionCommand {
 			}
 
 			campaign.setTitleMap(title);
-			if(Validator.isNotNull(provider))
+			if (campaignId == 0)
 				campaign.setProvider(provider);
-			else{
-				String titleFR = FriendlyURLNormalizerUtil
-						.normalize(title.get(Locale.FRANCE));
-				campaign.setProvider(titleFR.substring(0, 20));
-			}
 			campaign.setDefaultImageId(defaultImageId);
 			campaign.setDefaultImageCopyrightMap(defaultImageCopyright);
 			campaign.setExportEnabled(exportEnabled);
