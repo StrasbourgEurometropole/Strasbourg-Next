@@ -21,7 +21,7 @@
                 <div class="panel-group panel-group-flush">
 
                     <aui:fieldset>
-                        <aui:select label="asset-type" name="className">
+                        <aui:select label="asset-type" name="className" onChange="(e) => console.log(e)">
                             <c:forEach var="currentClassName" items="${classNames}" varStatus="cnStatus">
                                 <aui:option value="${currentClassName}" selected="${currentClassName eq className}">${classNamesLabels[cnStatus.index]}</aui:option>
                             </c:forEach>
@@ -32,6 +32,20 @@
                         <c:if test="${not empty className}">
                             <%@include file="/entity-detail-configuration-selectors.jsp" %>
                         </c:if>
+                    </div>
+                    <div>
+                        <label><liferay-ui:message key="categories" /></label>
+                        <p>
+                            <asset-category-selector:category-selector
+                                    id="categoryIds"
+                                    groupIds="${themeDisplay.scopeGroupId},${themeDisplay.companyGroupId}"
+                                    classname="${className}"
+                                    label="categories"
+                                    values="${categoryIds}"
+                                    multiple="true"
+                            />
+                        </p>
+                        <liferay-ui:message key="prefilter-explanations" />
                     </div>
                 </div>
             </div>
@@ -60,6 +74,10 @@
 					jQuery('#asset-and-adt-selection').html(result);
 				}
 			});
+
+            onChangeClassName(choicecategoryIds, '${themeDisplay.scopeGroupId},${themeDisplay.companyGroupId}',className)
+
+
 		});
 	});
 </script>
