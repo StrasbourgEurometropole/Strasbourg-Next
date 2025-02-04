@@ -233,11 +233,9 @@ public class ViewFormSendDisplayContext extends ViewBaseDisplayContext<DDMFormIn
     @Override
     public String getOrderByColSearchField() {
         switch (getOrderByCol()) {
-            case "title":
-                return "localized_title_fr_FR_sortable";
-            case "modified-date":
+            case "create-date":
             default:
-                return "modified_sortable";
+                return "createDate_sortable";
         }
     }
 

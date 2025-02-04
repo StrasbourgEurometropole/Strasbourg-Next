@@ -96,8 +96,8 @@ public class ViewCommentDisplayContext extends ViewBaseDisplayContext<Comment> {
             case "reportings":
                 return "reportings";
             case "status":
-                return "entityType";
-            case "entityType_String_sortable":
+                return "status_sortable";
+            case "entityType":
                 return "entityType_String_sortable";
             case "entityName":
                 return "entityName_String_sortable";
