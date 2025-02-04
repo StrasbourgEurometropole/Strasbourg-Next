@@ -2182,7 +2182,7 @@ tarteaucitron.services.dailymotion = {
             if (embed_type === undefined || !['video', 'playlist'].includes(embed_type)) {
                 embed_type = "video";
             }
-            let url = '//www.dailymotion.com/embed/' + embed_type + '/' + video_id + '?' + params;
+            let url = '//geo.dailymotion.com/player/x13l4i.html?video=' + video_id + '&' + params;
             video_frame = tarteaucitron.addFrame(frame_title, url, allowfullscreen);
             return video_frame;
         });
