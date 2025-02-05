@@ -3,8 +3,11 @@ package eu.strasbourg.utils;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -15,7 +18,6 @@ public class FriendlycaptchaHelper {
 
 	public static final String url = StrasbourgPropsUtil.getFriendlycaptchaURL();
 	public static final String secret = StrasbourgPropsUtil.getFriendlycaptchaSecretKey();
-	private final static String USER_AGENT = "Mozilla/5.0";
 
 	public static boolean verify(String friendlycaptchaResponse) {
 		if (friendlycaptchaResponse == null || "".equals(friendlycaptchaResponse)) {
@@ -26,17 +28,20 @@ public class FriendlycaptchaHelper {
 			URL obj = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
+			// Configuration de la connexion
 			con.setRequestMethod("POST");
-			con.setRequestProperty("User-Agent", USER_AGENT);
-			con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-			String postParams = "secret=" + secret + "&solution="
-				+ friendlycaptchaResponse;
-
+			con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			con.setDoOutput(true);
-			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-			wr.writeBytes(postParams);
-			wr.flush();
-			wr.close();
+
+			// Données à envoyer
+			String params = "secret=" + URLEncoder.encode(secret, StandardCharsets.UTF_8) +
+					"&solution=" + URLEncoder.encode(friendlycaptchaResponse, StandardCharsets.UTF_8);
+
+			// Écriture des données dans la requête
+			try (OutputStream os = con.getOutputStream()) {
+				byte[] input = params.getBytes(StandardCharsets.UTF_8);
+				os.write(input, 0, input.length);
+			}
 
 			BufferedReader in = new BufferedReader(
 				new InputStreamReader(con.getInputStream()));
