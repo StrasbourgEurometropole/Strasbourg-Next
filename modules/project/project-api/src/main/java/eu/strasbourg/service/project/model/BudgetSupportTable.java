@@ -74,6 +74,8 @@ public class BudgetSupportTable extends BaseTable<BudgetSupportTable> {
 		"citoyenPhone", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<BudgetSupportTable, String> citoyenCity = createColumn(
 		"citoyenCity", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
+	public final Column<BudgetSupportTable, Boolean> isNegatif = createColumn(
+		"isNegatif", Boolean.class, Types.BOOLEAN, Column.FLAG_DEFAULT);
 	public final Column<BudgetSupportTable, String> publikUserId = createColumn(
 		"publikUserId", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<BudgetSupportTable, Long> budgetParticipatifId =

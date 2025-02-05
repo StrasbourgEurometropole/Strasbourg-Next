@@ -59,6 +59,9 @@ create table project_BudgetPhase (
 	title VARCHAR(75) null,
 	description VARCHAR(75) null,
 	numberOfVote LONG,
+	maxVoteBudget LONG,
+	thresholdNegative LONG,
+	numberOfNegativeVote LONG,
 	isActive BOOLEAN,
 	beginDate DATE null,
 	endDate DATE null,
@@ -88,6 +91,7 @@ create table project_BudgetSupport (
 	citoyenMobilePhone VARCHAR(75) null,
 	citoyenPhone VARCHAR(75) null,
 	citoyenCity VARCHAR(75) null,
+	isNegatif BOOLEAN,
 	publikUserId VARCHAR(75) null,
 	budgetParticipatifId LONG
 );

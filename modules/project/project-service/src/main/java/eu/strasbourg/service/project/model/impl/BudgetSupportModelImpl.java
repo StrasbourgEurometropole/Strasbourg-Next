@@ -76,8 +76,8 @@ public class BudgetSupportModelImpl
 		{"citoyenBirthday", Types.TIMESTAMP}, {"citoyenAddress", Types.VARCHAR},
 		{"citoyenMail", Types.VARCHAR}, {"citoyenPostalCode", Types.BIGINT},
 		{"citoyenMobilePhone", Types.VARCHAR}, {"citoyenPhone", Types.VARCHAR},
-		{"citoyenCity", Types.VARCHAR}, {"publikUserId", Types.VARCHAR},
-		{"budgetParticipatifId", Types.BIGINT}
+		{"citoyenCity", Types.VARCHAR}, {"isNegatif", Types.BOOLEAN},
+		{"publikUserId", Types.VARCHAR}, {"budgetParticipatifId", Types.BIGINT}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -103,12 +103,13 @@ public class BudgetSupportModelImpl
 		TABLE_COLUMNS_MAP.put("citoyenMobilePhone", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("citoyenPhone", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("citoyenCity", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("isNegatif", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("publikUserId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("budgetParticipatifId", Types.BIGINT);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table project_BudgetSupport (uuid_ VARCHAR(75) null,budgetSupportId LONG not null primary key,groupId LONG,companyId LONG,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,citoyenLastName VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenBirthday DATE null,citoyenAddress VARCHAR(75) null,citoyenMail VARCHAR(75) null,citoyenPostalCode LONG,citoyenMobilePhone VARCHAR(75) null,citoyenPhone VARCHAR(75) null,citoyenCity VARCHAR(75) null,publikUserId VARCHAR(75) null,budgetParticipatifId LONG)";
+		"create table project_BudgetSupport (uuid_ VARCHAR(75) null,budgetSupportId LONG not null primary key,groupId LONG,companyId LONG,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,citoyenLastName VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenBirthday DATE null,citoyenAddress VARCHAR(75) null,citoyenMail VARCHAR(75) null,citoyenPostalCode LONG,citoyenMobilePhone VARCHAR(75) null,citoyenPhone VARCHAR(75) null,citoyenCity VARCHAR(75) null,isNegatif BOOLEAN,publikUserId VARCHAR(75) null,budgetParticipatifId LONG)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table project_BudgetSupport";
@@ -316,6 +317,8 @@ public class BudgetSupportModelImpl
 			attributeGetterFunctions.put(
 				"citoyenCity", BudgetSupport::getCitoyenCity);
 			attributeGetterFunctions.put(
+				"isNegatif", BudgetSupport::getIsNegatif);
+			attributeGetterFunctions.put(
 				"publikUserId", BudgetSupport::getPublikUserId);
 			attributeGetterFunctions.put(
 				"budgetParticipatifId", BudgetSupport::getBudgetParticipatifId);
@@ -406,6 +409,10 @@ public class BudgetSupportModelImpl
 				"citoyenCity",
 				(BiConsumer<BudgetSupport, String>)
 					BudgetSupport::setCitoyenCity);
+			attributeSetterBiConsumers.put(
+				"isNegatif",
+				(BiConsumer<BudgetSupport, Boolean>)
+					BudgetSupport::setIsNegatif);
 			attributeSetterBiConsumers.put(
 				"publikUserId",
 				(BiConsumer<BudgetSupport, String>)
@@ -803,6 +810,21 @@ public class BudgetSupportModelImpl
 
 	@JSON
 	@Override
+	public Boolean getIsNegatif() {
+		return _isNegatif;
+	}
+
+	@Override
+	public void setIsNegatif(Boolean isNegatif) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_isNegatif = isNegatif;
+	}
+
+	@JSON
+	@Override
 	public String getPublikUserId() {
 		if (_publikUserId == null) {
 			return "";
@@ -1016,6 +1038,7 @@ public class BudgetSupportModelImpl
 		budgetSupportImpl.setCitoyenMobilePhone(getCitoyenMobilePhone());
 		budgetSupportImpl.setCitoyenPhone(getCitoyenPhone());
 		budgetSupportImpl.setCitoyenCity(getCitoyenCity());
+		budgetSupportImpl.setIsNegatif(getIsNegatif());
 		budgetSupportImpl.setPublikUserId(getPublikUserId());
 		budgetSupportImpl.setBudgetParticipatifId(getBudgetParticipatifId());
 
@@ -1065,6 +1088,8 @@ public class BudgetSupportModelImpl
 			this.<String>getColumnOriginalValue("citoyenPhone"));
 		budgetSupportImpl.setCitoyenCity(
 			this.<String>getColumnOriginalValue("citoyenCity"));
+		budgetSupportImpl.setIsNegatif(
+			this.<Boolean>getColumnOriginalValue("isNegatif"));
 		budgetSupportImpl.setPublikUserId(
 			this.<String>getColumnOriginalValue("publikUserId"));
 		budgetSupportImpl.setBudgetParticipatifId(
@@ -1270,6 +1295,12 @@ public class BudgetSupportModelImpl
 			budgetSupportCacheModel.citoyenCity = null;
 		}
 
+		Boolean isNegatif = getIsNegatif();
+
+		if (isNegatif != null) {
+			budgetSupportCacheModel.isNegatif = isNegatif;
+		}
+
 		budgetSupportCacheModel.publikUserId = getPublikUserId();
 
 		String publikUserId = budgetSupportCacheModel.publikUserId;
@@ -1362,6 +1393,7 @@ public class BudgetSupportModelImpl
 	private String _citoyenMobilePhone;
 	private String _citoyenPhone;
 	private String _citoyenCity;
+	private Boolean _isNegatif;
 	private String _publikUserId;
 	private long _budgetParticipatifId;
 
@@ -1414,6 +1446,7 @@ public class BudgetSupportModelImpl
 		_columnOriginalValues.put("citoyenMobilePhone", _citoyenMobilePhone);
 		_columnOriginalValues.put("citoyenPhone", _citoyenPhone);
 		_columnOriginalValues.put("citoyenCity", _citoyenCity);
+		_columnOriginalValues.put("isNegatif", _isNegatif);
 		_columnOriginalValues.put("publikUserId", _publikUserId);
 		_columnOriginalValues.put(
 			"budgetParticipatifId", _budgetParticipatifId);
@@ -1478,9 +1511,11 @@ public class BudgetSupportModelImpl
 
 		columnBitmasks.put("citoyenCity", 262144L);
 
-		columnBitmasks.put("publikUserId", 524288L);
+		columnBitmasks.put("isNegatif", 524288L);
 
-		columnBitmasks.put("budgetParticipatifId", 1048576L);
+		columnBitmasks.put("publikUserId", 1048576L);
+
+		columnBitmasks.put("budgetParticipatifId", 2097152L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

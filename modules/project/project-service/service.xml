@@ -709,6 +709,9 @@
 		<column name="title" type="String" />
 		<column name="description" type="String" />
 		<column name="numberOfVote" type="long" />
+		<column name="maxVoteBudget" type="long" />
+		<column name="thresholdNegative" type="long" />
+		<column name="numberOfNegativeVote" type="long" />
 		<column name="isActive" type="boolean" />
 		
 		<!-- Phase de dépot -->
@@ -771,6 +774,7 @@
 		<column name="citoyenMobilePhone" type="String" />
 		<column name="citoyenPhone" type="String" />
 		<column name="citoyenCity" type="String" />
+		<column name="isNegatif" type="Boolean" />
 		
 		<!-- Links with other entities -->
 		<column name="publikUserId" type="String" />

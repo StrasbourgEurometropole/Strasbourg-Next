@@ -55,6 +55,15 @@ public class BudgetPhaseTable extends BaseTable<BudgetPhaseTable> {
 		"description", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<BudgetPhaseTable, Long> numberOfVote = createColumn(
 		"numberOfVote", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
+	public final Column<BudgetPhaseTable, Long> maxVoteBudget = createColumn(
+		"maxVoteBudget", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
+	public final Column<BudgetPhaseTable, Long> thresholdNegative =
+		createColumn(
+			"thresholdNegative", Long.class, Types.BIGINT, Column.FLAG_DEFAULT);
+	public final Column<BudgetPhaseTable, Long> numberOfNegativeVote =
+		createColumn(
+			"numberOfNegativeVote", Long.class, Types.BIGINT,
+			Column.FLAG_DEFAULT);
 	public final Column<BudgetPhaseTable, Boolean> isActive = createColumn(
 		"isActive", Boolean.class, Types.BOOLEAN, Column.FLAG_DEFAULT);
 	public final Column<BudgetPhaseTable, Date> beginDate = createColumn(

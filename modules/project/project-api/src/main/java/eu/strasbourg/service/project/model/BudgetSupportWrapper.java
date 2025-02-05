@@ -53,6 +53,7 @@ public class BudgetSupportWrapper
 		attributes.put("citoyenMobilePhone", getCitoyenMobilePhone());
 		attributes.put("citoyenPhone", getCitoyenPhone());
 		attributes.put("citoyenCity", getCitoyenCity());
+		attributes.put("isNegatif", getIsNegatif());
 		attributes.put("publikUserId", getPublikUserId());
 		attributes.put("budgetParticipatifId", getBudgetParticipatifId());
 
@@ -174,6 +175,12 @@ public class BudgetSupportWrapper
 
 		if (citoyenCity != null) {
 			setCitoyenCity(citoyenCity);
+		}
+
+		Boolean isNegatif = (Boolean)attributes.get("isNegatif");
+
+		if (isNegatif != null) {
+			setIsNegatif(isNegatif);
 		}
 
 		String publikUserId = (String)attributes.get("publikUserId");
@@ -333,6 +340,16 @@ public class BudgetSupportWrapper
 	@Override
 	public long getGroupId() {
 		return model.getGroupId();
+	}
+
+	/**
+	 * Returns the is negatif of this budget support.
+	 *
+	 * @return the is negatif of this budget support
+	 */
+	@Override
+	public Boolean getIsNegatif() {
+		return model.getIsNegatif();
 	}
 
 	/**
@@ -648,6 +665,16 @@ public class BudgetSupportWrapper
 	@Override
 	public void setGroupId(long groupId) {
 		model.setGroupId(groupId);
+	}
+
+	/**
+	 * Sets the is negatif of this budget support.
+	 *
+	 * @param isNegatif the is negatif of this budget support
+	 */
+	@Override
+	public void setIsNegatif(Boolean isNegatif) {
+		model.setIsNegatif(isNegatif);
 	}
 
 	/**

@@ -8,4 +8,16 @@ ALTER TABLE project_BudgetParticipatif
 ALTER TABLE project_BudgetParticipatif
     ADD negativePaperVotes LONG not null default 0 AFTER positivePaperVotes;
 
+ALTER TABLE project_BudgetSupport
+    ADD isNegatif BOOLEAN not null default false AFTER citoyenCity;
+ALTER TABLE project_BudgetPhase
+    ADD maxVoteBudget LONG not null default 3 AFTER numberOfVote;
+ALTER TABLE project_BudgetPhase
+    ADD thresholdNegative LONG not null default 5 AFTER maxVoteBudget;
+ALTER TABLE project_BudgetPhase
+    ADD numberOfNegativeVote LONG not null default 1 AFTER thresholdNegative;
+
+UPDATE project_BudgetSupport
+    SET isNegatif = false;
+
 COMMIT_TRANSACTION;

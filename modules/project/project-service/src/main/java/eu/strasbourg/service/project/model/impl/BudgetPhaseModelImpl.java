@@ -74,7 +74,9 @@ public class BudgetPhaseModelImpl
 		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
 		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
 		{"title", Types.VARCHAR}, {"description", Types.VARCHAR},
-		{"numberOfVote", Types.BIGINT}, {"isActive", Types.BOOLEAN},
+		{"numberOfVote", Types.BIGINT}, {"maxVoteBudget", Types.BIGINT},
+		{"thresholdNegative", Types.BIGINT},
+		{"numberOfNegativeVote", Types.BIGINT}, {"isActive", Types.BOOLEAN},
 		{"beginDate", Types.TIMESTAMP}, {"endDate", Types.TIMESTAMP},
 		{"depositUrl", Types.VARCHAR}, {"beginVoteDate", Types.TIMESTAMP},
 		{"endVoteDate", Types.TIMESTAMP}, {"voteUrl", Types.VARCHAR}
@@ -99,6 +101,9 @@ public class BudgetPhaseModelImpl
 		TABLE_COLUMNS_MAP.put("title", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("numberOfVote", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("maxVoteBudget", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("thresholdNegative", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("numberOfNegativeVote", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("isActive", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("beginDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
@@ -109,7 +114,7 @@ public class BudgetPhaseModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table project_BudgetPhase (uuid_ VARCHAR(75) null,budgetPhaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description VARCHAR(75) null,numberOfVote LONG,isActive BOOLEAN,beginDate DATE null,endDate DATE null,depositUrl VARCHAR(200) null,beginVoteDate DATE null,endVoteDate DATE null,voteUrl VARCHAR(200) null)";
+		"create table project_BudgetPhase (uuid_ VARCHAR(75) null,budgetPhaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description VARCHAR(75) null,numberOfVote LONG,maxVoteBudget LONG,thresholdNegative LONG,numberOfNegativeVote LONG,isActive BOOLEAN,beginDate DATE null,endDate DATE null,depositUrl VARCHAR(200) null,beginVoteDate DATE null,endVoteDate DATE null,voteUrl VARCHAR(200) null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table project_BudgetPhase";
@@ -298,6 +303,12 @@ public class BudgetPhaseModelImpl
 				"description", BudgetPhase::getDescription);
 			attributeGetterFunctions.put(
 				"numberOfVote", BudgetPhase::getNumberOfVote);
+			attributeGetterFunctions.put(
+				"maxVoteBudget", BudgetPhase::getMaxVoteBudget);
+			attributeGetterFunctions.put(
+				"thresholdNegative", BudgetPhase::getThresholdNegative);
+			attributeGetterFunctions.put(
+				"numberOfNegativeVote", BudgetPhase::getNumberOfNegativeVote);
 			attributeGetterFunctions.put("isActive", BudgetPhase::getIsActive);
 			attributeGetterFunctions.put(
 				"beginDate", BudgetPhase::getBeginDate);
@@ -370,6 +381,17 @@ public class BudgetPhaseModelImpl
 			attributeSetterBiConsumers.put(
 				"numberOfVote",
 				(BiConsumer<BudgetPhase, Long>)BudgetPhase::setNumberOfVote);
+			attributeSetterBiConsumers.put(
+				"maxVoteBudget",
+				(BiConsumer<BudgetPhase, Long>)BudgetPhase::setMaxVoteBudget);
+			attributeSetterBiConsumers.put(
+				"thresholdNegative",
+				(BiConsumer<BudgetPhase, Long>)
+					BudgetPhase::setThresholdNegative);
+			attributeSetterBiConsumers.put(
+				"numberOfNegativeVote",
+				(BiConsumer<BudgetPhase, Long>)
+					BudgetPhase::setNumberOfNegativeVote);
 			attributeSetterBiConsumers.put(
 				"isActive",
 				(BiConsumer<BudgetPhase, Boolean>)BudgetPhase::setIsActive);
@@ -716,6 +738,51 @@ public class BudgetPhaseModelImpl
 
 	@JSON
 	@Override
+	public long getMaxVoteBudget() {
+		return _maxVoteBudget;
+	}
+
+	@Override
+	public void setMaxVoteBudget(long maxVoteBudget) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_maxVoteBudget = maxVoteBudget;
+	}
+
+	@JSON
+	@Override
+	public long getThresholdNegative() {
+		return _thresholdNegative;
+	}
+
+	@Override
+	public void setThresholdNegative(long thresholdNegative) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_thresholdNegative = thresholdNegative;
+	}
+
+	@JSON
+	@Override
+	public long getNumberOfNegativeVote() {
+		return _numberOfNegativeVote;
+	}
+
+	@Override
+	public void setNumberOfNegativeVote(long numberOfNegativeVote) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_numberOfNegativeVote = numberOfNegativeVote;
+	}
+
+	@JSON
+	@Override
 	public boolean getIsActive() {
 		return _isActive;
 	}
@@ -1002,6 +1069,9 @@ public class BudgetPhaseModelImpl
 		budgetPhaseImpl.setTitle(getTitle());
 		budgetPhaseImpl.setDescription(getDescription());
 		budgetPhaseImpl.setNumberOfVote(getNumberOfVote());
+		budgetPhaseImpl.setMaxVoteBudget(getMaxVoteBudget());
+		budgetPhaseImpl.setThresholdNegative(getThresholdNegative());
+		budgetPhaseImpl.setNumberOfNegativeVote(getNumberOfNegativeVote());
 		budgetPhaseImpl.setIsActive(isIsActive());
 		budgetPhaseImpl.setBeginDate(getBeginDate());
 		budgetPhaseImpl.setEndDate(getEndDate());
@@ -1046,6 +1116,12 @@ public class BudgetPhaseModelImpl
 			this.<String>getColumnOriginalValue("description"));
 		budgetPhaseImpl.setNumberOfVote(
 			this.<Long>getColumnOriginalValue("numberOfVote"));
+		budgetPhaseImpl.setMaxVoteBudget(
+			this.<Long>getColumnOriginalValue("maxVoteBudget"));
+		budgetPhaseImpl.setThresholdNegative(
+			this.<Long>getColumnOriginalValue("thresholdNegative"));
+		budgetPhaseImpl.setNumberOfNegativeVote(
+			this.<Long>getColumnOriginalValue("numberOfNegativeVote"));
 		budgetPhaseImpl.setIsActive(
 			this.<Boolean>getColumnOriginalValue("isActive"));
 		budgetPhaseImpl.setBeginDate(
@@ -1219,6 +1295,12 @@ public class BudgetPhaseModelImpl
 
 		budgetPhaseCacheModel.numberOfVote = getNumberOfVote();
 
+		budgetPhaseCacheModel.maxVoteBudget = getMaxVoteBudget();
+
+		budgetPhaseCacheModel.thresholdNegative = getThresholdNegative();
+
+		budgetPhaseCacheModel.numberOfNegativeVote = getNumberOfNegativeVote();
+
 		budgetPhaseCacheModel.isActive = isIsActive();
 
 		Date beginDate = getBeginDate();
@@ -1350,6 +1432,9 @@ public class BudgetPhaseModelImpl
 	private String _title;
 	private String _description;
 	private long _numberOfVote;
+	private long _maxVoteBudget;
+	private long _thresholdNegative;
+	private long _numberOfNegativeVote;
 	private boolean _isActive;
 	private Date _beginDate;
 	private Date _endDate;
@@ -1403,6 +1488,10 @@ public class BudgetPhaseModelImpl
 		_columnOriginalValues.put("title", _title);
 		_columnOriginalValues.put("description", _description);
 		_columnOriginalValues.put("numberOfVote", _numberOfVote);
+		_columnOriginalValues.put("maxVoteBudget", _maxVoteBudget);
+		_columnOriginalValues.put("thresholdNegative", _thresholdNegative);
+		_columnOriginalValues.put(
+			"numberOfNegativeVote", _numberOfNegativeVote);
 		_columnOriginalValues.put("isActive", _isActive);
 		_columnOriginalValues.put("beginDate", _beginDate);
 		_columnOriginalValues.put("endDate", _endDate);
@@ -1463,19 +1552,25 @@ public class BudgetPhaseModelImpl
 
 		columnBitmasks.put("numberOfVote", 16384L);
 
-		columnBitmasks.put("isActive", 32768L);
+		columnBitmasks.put("maxVoteBudget", 32768L);
 
-		columnBitmasks.put("beginDate", 65536L);
+		columnBitmasks.put("thresholdNegative", 65536L);
 
-		columnBitmasks.put("endDate", 131072L);
+		columnBitmasks.put("numberOfNegativeVote", 131072L);
 
-		columnBitmasks.put("depositUrl", 262144L);
+		columnBitmasks.put("isActive", 262144L);
 
-		columnBitmasks.put("beginVoteDate", 524288L);
+		columnBitmasks.put("beginDate", 524288L);
 
-		columnBitmasks.put("endVoteDate", 1048576L);
+		columnBitmasks.put("endDate", 1048576L);
 
-		columnBitmasks.put("voteUrl", 2097152L);
+		columnBitmasks.put("depositUrl", 2097152L);
+
+		columnBitmasks.put("beginVoteDate", 4194304L);
+
+		columnBitmasks.put("endVoteDate", 8388608L);
+
+		columnBitmasks.put("voteUrl", 16777216L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

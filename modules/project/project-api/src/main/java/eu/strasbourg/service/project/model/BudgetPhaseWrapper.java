@@ -49,6 +49,9 @@ public class BudgetPhaseWrapper
 		attributes.put("title", getTitle());
 		attributes.put("description", getDescription());
 		attributes.put("numberOfVote", getNumberOfVote());
+		attributes.put("maxVoteBudget", getMaxVoteBudget());
+		attributes.put("thresholdNegative", getThresholdNegative());
+		attributes.put("numberOfNegativeVote", getNumberOfNegativeVote());
 		attributes.put("isActive", isIsActive());
 		attributes.put("beginDate", getBeginDate());
 		attributes.put("endDate", getEndDate());
@@ -150,6 +153,25 @@ public class BudgetPhaseWrapper
 
 		if (numberOfVote != null) {
 			setNumberOfVote(numberOfVote);
+		}
+
+		Long maxVoteBudget = (Long)attributes.get("maxVoteBudget");
+
+		if (maxVoteBudget != null) {
+			setMaxVoteBudget(maxVoteBudget);
+		}
+
+		Long thresholdNegative = (Long)attributes.get("thresholdNegative");
+
+		if (thresholdNegative != null) {
+			setThresholdNegative(thresholdNegative);
+		}
+
+		Long numberOfNegativeVote = (Long)attributes.get(
+			"numberOfNegativeVote");
+
+		if (numberOfNegativeVote != null) {
+			setNumberOfNegativeVote(numberOfNegativeVote);
 		}
 
 		Boolean isActive = (Boolean)attributes.get("isActive");
@@ -339,6 +361,16 @@ public class BudgetPhaseWrapper
 	}
 
 	/**
+	 * Returns the max vote budget of this budget phase.
+	 *
+	 * @return the max vote budget of this budget phase
+	 */
+	@Override
+	public long getMaxVoteBudget() {
+		return model.getMaxVoteBudget();
+	}
+
+	/**
 	 * Returns the modified date of this budget phase.
 	 *
 	 * @return the modified date of this budget phase
@@ -346,6 +378,16 @@ public class BudgetPhaseWrapper
 	@Override
 	public Date getModifiedDate() {
 		return model.getModifiedDate();
+	}
+
+	/**
+	 * Returns the number of negative vote of this budget phase.
+	 *
+	 * @return the number of negative vote of this budget phase
+	 */
+	@Override
+	public long getNumberOfNegativeVote() {
+		return model.getNumberOfNegativeVote();
 	}
 
 	/**
@@ -434,6 +476,16 @@ public class BudgetPhaseWrapper
 	@Override
 	public Date getStatusDate() {
 		return model.getStatusDate();
+	}
+
+	/**
+	 * Returns the threshold negative of this budget phase.
+	 *
+	 * @return the threshold negative of this budget phase
+	 */
+	@Override
+	public long getThresholdNegative() {
+		return model.getThresholdNegative();
 	}
 
 	/**
@@ -718,6 +770,16 @@ public class BudgetPhaseWrapper
 	}
 
 	/**
+	 * Sets the max vote budget of this budget phase.
+	 *
+	 * @param maxVoteBudget the max vote budget of this budget phase
+	 */
+	@Override
+	public void setMaxVoteBudget(long maxVoteBudget) {
+		model.setMaxVoteBudget(maxVoteBudget);
+	}
+
+	/**
 	 * Sets the modified date of this budget phase.
 	 *
 	 * @param modifiedDate the modified date of this budget phase
@@ -725,6 +787,16 @@ public class BudgetPhaseWrapper
 	@Override
 	public void setModifiedDate(Date modifiedDate) {
 		model.setModifiedDate(modifiedDate);
+	}
+
+	/**
+	 * Sets the number of negative vote of this budget phase.
+	 *
+	 * @param numberOfNegativeVote the number of negative vote of this budget phase
+	 */
+	@Override
+	public void setNumberOfNegativeVote(long numberOfNegativeVote) {
+		model.setNumberOfNegativeVote(numberOfNegativeVote);
 	}
 
 	/**
@@ -795,6 +867,16 @@ public class BudgetPhaseWrapper
 	@Override
 	public void setStatusDate(Date statusDate) {
 		model.setStatusDate(statusDate);
+	}
+
+	/**
+	 * Sets the threshold negative of this budget phase.
+	 *
+	 * @param thresholdNegative the threshold negative of this budget phase
+	 */
+	@Override
+	public void setThresholdNegative(long thresholdNegative) {
+		model.setThresholdNegative(thresholdNegative);
 	}
 
 	/**

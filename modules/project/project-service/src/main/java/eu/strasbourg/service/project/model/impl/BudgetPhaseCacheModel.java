@@ -54,7 +54,7 @@ public class BudgetPhaseCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(45);
+		StringBundler sb = new StringBundler(51);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -86,6 +86,12 @@ public class BudgetPhaseCacheModel
 		sb.append(description);
 		sb.append(", numberOfVote=");
 		sb.append(numberOfVote);
+		sb.append(", maxVoteBudget=");
+		sb.append(maxVoteBudget);
+		sb.append(", thresholdNegative=");
+		sb.append(thresholdNegative);
+		sb.append(", numberOfNegativeVote=");
+		sb.append(numberOfNegativeVote);
 		sb.append(", isActive=");
 		sb.append(isActive);
 		sb.append(", beginDate=");
@@ -174,6 +180,9 @@ public class BudgetPhaseCacheModel
 		}
 
 		budgetPhaseImpl.setNumberOfVote(numberOfVote);
+		budgetPhaseImpl.setMaxVoteBudget(maxVoteBudget);
+		budgetPhaseImpl.setThresholdNegative(thresholdNegative);
+		budgetPhaseImpl.setNumberOfNegativeVote(numberOfNegativeVote);
 		budgetPhaseImpl.setIsActive(isActive);
 
 		if (beginDate == Long.MIN_VALUE) {
@@ -248,6 +257,12 @@ public class BudgetPhaseCacheModel
 
 		numberOfVote = objectInput.readLong();
 
+		maxVoteBudget = objectInput.readLong();
+
+		thresholdNegative = objectInput.readLong();
+
+		numberOfNegativeVote = objectInput.readLong();
+
 		isActive = objectInput.readBoolean();
 		beginDate = objectInput.readLong();
 		endDate = objectInput.readLong();
@@ -313,6 +328,12 @@ public class BudgetPhaseCacheModel
 
 		objectOutput.writeLong(numberOfVote);
 
+		objectOutput.writeLong(maxVoteBudget);
+
+		objectOutput.writeLong(thresholdNegative);
+
+		objectOutput.writeLong(numberOfNegativeVote);
+
 		objectOutput.writeBoolean(isActive);
 		objectOutput.writeLong(beginDate);
 		objectOutput.writeLong(endDate);
@@ -350,6 +371,9 @@ public class BudgetPhaseCacheModel
 	public String title;
 	public String description;
 	public long numberOfVote;
+	public long maxVoteBudget;
+	public long thresholdNegative;
+	public long numberOfNegativeVote;
 	public boolean isActive;
 	public long beginDate;
 	public long endDate;

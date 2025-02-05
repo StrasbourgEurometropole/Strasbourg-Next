@@ -87,6 +87,9 @@
 		<field name="title" type="String" />
 		<field name="description" type="String" />
 		<field name="numberOfVote" type="long" />
+		<field name="maxVoteBudget" type="long" />
+		<field name="thresholdNegative" type="long" />
+		<field name="numberOfNegativeVote" type="long" />
 		<field name="isActive" type="boolean" />
 		<field name="beginDate" type="Date" />
 		<field name="endDate" type="Date" />
@@ -119,6 +122,7 @@
 		<field name="citoyenMobilePhone" type="String" />
 		<field name="citoyenPhone" type="String" />
 		<field name="citoyenCity" type="String" />
+		<field name="isNegatif" type="Boolean" />
 		<field name="publikUserId" type="String" />
 		<field name="budgetParticipatifId" type="long" />
 	</model>

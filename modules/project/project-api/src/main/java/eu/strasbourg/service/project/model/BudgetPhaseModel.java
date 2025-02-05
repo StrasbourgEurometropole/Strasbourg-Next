@@ -322,6 +322,48 @@ public interface BudgetPhaseModel
 	public void setNumberOfVote(long numberOfVote);
 
 	/**
+	 * Returns the max vote budget of this budget phase.
+	 *
+	 * @return the max vote budget of this budget phase
+	 */
+	public long getMaxVoteBudget();
+
+	/**
+	 * Sets the max vote budget of this budget phase.
+	 *
+	 * @param maxVoteBudget the max vote budget of this budget phase
+	 */
+	public void setMaxVoteBudget(long maxVoteBudget);
+
+	/**
+	 * Returns the threshold negative of this budget phase.
+	 *
+	 * @return the threshold negative of this budget phase
+	 */
+	public long getThresholdNegative();
+
+	/**
+	 * Sets the threshold negative of this budget phase.
+	 *
+	 * @param thresholdNegative the threshold negative of this budget phase
+	 */
+	public void setThresholdNegative(long thresholdNegative);
+
+	/**
+	 * Returns the number of negative vote of this budget phase.
+	 *
+	 * @return the number of negative vote of this budget phase
+	 */
+	public long getNumberOfNegativeVote();
+
+	/**
+	 * Sets the number of negative vote of this budget phase.
+	 *
+	 * @param numberOfNegativeVote the number of negative vote of this budget phase
+	 */
+	public void setNumberOfNegativeVote(long numberOfNegativeVote);
+
+	/**
 	 * Returns the is active of this budget phase.
 	 *
 	 * @return the is active of this budget phase

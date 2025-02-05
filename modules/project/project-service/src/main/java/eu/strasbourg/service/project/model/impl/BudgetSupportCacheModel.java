@@ -54,7 +54,7 @@ public class BudgetSupportCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(45);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -94,6 +94,8 @@ public class BudgetSupportCacheModel
 		sb.append(citoyenPhone);
 		sb.append(", citoyenCity=");
 		sb.append(citoyenCity);
+		sb.append(", isNegatif=");
+		sb.append(isNegatif);
 		sb.append(", publikUserId=");
 		sb.append(publikUserId);
 		sb.append(", budgetParticipatifId=");
@@ -207,6 +209,8 @@ public class BudgetSupportCacheModel
 			budgetSupportImpl.setCitoyenCity(citoyenCity);
 		}
 
+		budgetSupportImpl.setIsNegatif(isNegatif);
+
 		if (publikUserId == null) {
 			budgetSupportImpl.setPublikUserId("");
 		}
@@ -248,6 +252,8 @@ public class BudgetSupportCacheModel
 		citoyenMobilePhone = objectInput.readUTF();
 		citoyenPhone = objectInput.readUTF();
 		citoyenCity = objectInput.readUTF();
+
+		isNegatif = objectInput.readBoolean();
 		publikUserId = objectInput.readUTF();
 
 		budgetParticipatifId = objectInput.readLong();
@@ -336,6 +342,8 @@ public class BudgetSupportCacheModel
 			objectOutput.writeUTF(citoyenCity);
 		}
 
+		objectOutput.writeBoolean(isNegatif);
+
 		if (publikUserId == null) {
 			objectOutput.writeUTF("");
 		}
@@ -365,6 +373,7 @@ public class BudgetSupportCacheModel
 	public String citoyenMobilePhone;
 	public String citoyenPhone;
 	public String citoyenCity;
+	public boolean isNegatif;
 	public String publikUserId;
 	public long budgetParticipatifId;
 

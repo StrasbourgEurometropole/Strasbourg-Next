@@ -359,6 +359,20 @@ public interface BudgetSupportModel
 	public void setCitoyenCity(String citoyenCity);
 
 	/**
+	 * Returns the is negatif of this budget support.
+	 *
+	 * @return the is negatif of this budget support
+	 */
+	public Boolean getIsNegatif();
+
+	/**
+	 * Sets the is negatif of this budget support.
+	 *
+	 * @param isNegatif the is negatif of this budget support
+	 */
+	public void setIsNegatif(Boolean isNegatif);
+
+	/**
 	 * Returns the publik user ID of this budget support.
 	 *
 	 * @return the publik user ID of this budget support
