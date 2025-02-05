@@ -891,6 +891,34 @@ public interface BudgetParticipatifModel
 		Map<Locale, String> crushCommentMap, Locale defaultLocale);
 
 	/**
+	 * Returns the positive paper votes of this budget participatif.
+	 *
+	 * @return the positive paper votes of this budget participatif
+	 */
+	public long getPositivePaperVotes();
+
+	/**
+	 * Sets the positive paper votes of this budget participatif.
+	 *
+	 * @param positivePaperVotes the positive paper votes of this budget participatif
+	 */
+	public void setPositivePaperVotes(long positivePaperVotes);
+
+	/**
+	 * Returns the negative paper votes of this budget participatif.
+	 *
+	 * @return the negative paper votes of this budget participatif
+	 */
+	public long getNegativePaperVotes();
+
+	/**
+	 * Sets the negative paper votes of this budget participatif.
+	 *
+	 * @param negativePaperVotes the negative paper votes of this budget participatif
+	 */
+	public void setNegativePaperVotes(long negativePaperVotes);
+
+	/**
 	 * Returns the publik ID of this budget participatif.
 	 *
 	 * @return the publik ID of this budget participatif

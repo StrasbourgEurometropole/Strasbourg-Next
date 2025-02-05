@@ -262,14 +262,26 @@ public class SaveBudgetParticipatifActionCommand implements MVCActionCommand {
 			Map<Locale, String> crushComment = LocalizationUtil
 					.getLocalizationMap(request, "crushComment");
             budgetParticipatif.setCrushCommentMap(crushComment);
-            
-            // ---------------------------------------------------------------
- 			// ----------------------- SELECTION DE LA PHASE -----------------
- 			// ---------------------------------------------------------------
-            
-            // Phase
-            Long budgetPhaseId = ParamUtil.getLong(request, "budgetPhaseId");
-            budgetParticipatif.setBudgetPhaseId(budgetPhaseId);
+
+			// ---------------------------------------------------------------
+			// ----------------------- SELECTION DE LA PHASE -----------------
+			// ---------------------------------------------------------------
+
+			// Phase
+			long budgetPhaseId = ParamUtil.getLong(request, "budgetPhaseId");
+			budgetParticipatif.setBudgetPhaseId(budgetPhaseId);
+
+			// ---------------------------------------------------------------
+			// -------------------------- VOTES PAPIER -----------------------
+			// ---------------------------------------------------------------
+
+			// Votes papier positifs
+			long positivePaperVotes = ParamUtil.getLong(request, "positivePaperVotes");
+			budgetParticipatif.setPositivePaperVotes(positivePaperVotes);
+
+			// Votes papier négatifs
+			long negativePaperVotes = ParamUtil.getLong(request, "negativePaperVotes");
+			budgetParticipatif.setNegativePaperVotes(negativePaperVotes);
 
 			// ---------------------------------------------------------------
 			// -------------------------- DOCUMENTS --------------------------

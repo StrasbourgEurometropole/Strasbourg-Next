@@ -497,14 +497,35 @@ public class BudgetParticipatifImpl extends BudgetParticipatifBaseImpl {
 	public List<BudgetSupport> getSupports() {
         return BudgetSupportLocalServiceUtil.getBudgetSupportsByBudgetParticipatifId(this.getBudgetParticipatifId());
     }
-	
+
 	/**
-	 * Retourne le nombre de soutien
+	 * Retourne le nombre de soutiens positifs
+	 */
+	@Override
+	public long getNbSupportsPositifs() {
+		long nbPositivesSupports = BudgetSupportLocalServiceUtil
+				.countBudgetSupportByBudgetParticipatifId(this.getBudgetParticipatifId());
+		nbPositivesSupports += this.getPositivePaperVotes();
+		return nbPositivesSupports;
+	}
+
+	/**
+	 * Retourne le nombre de soutiens négatifs
+	 */
+	@Override
+	public long getNbSupportsNegatifs() {
+		long nbNegativesSupports = 0;
+		nbNegativesSupports += this.getNegativePaperVotes();
+		return nbNegativesSupports;
+	}
+
+	/**
+	 * Retourne le nombre de soutien positifs et négatifs
 	 */
 	@Override
 	public long getNbSupports() {
-		return (long) BudgetSupportLocalServiceUtil.countBudgetSupportByBudgetParticipatifId(this.getBudgetParticipatifId());
-    }
+		return getNbSupportsPositifs() - getNbSupportsNegatifs();
+	}
 	
 	/**
 	 * Retourne le nombre de soutiens d'un utilisateur pour ce projet

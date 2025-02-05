@@ -127,6 +127,14 @@ public class BudgetParticipatifTable
 	public final Column<BudgetParticipatifTable, Clob> crushComment =
 		createColumn(
 			"crushComment", Clob.class, Types.CLOB, Column.FLAG_DEFAULT);
+	public final Column<BudgetParticipatifTable, Long> positivePaperVotes =
+		createColumn(
+			"positivePaperVotes", Long.class, Types.BIGINT,
+			Column.FLAG_DEFAULT);
+	public final Column<BudgetParticipatifTable, Long> negativePaperVotes =
+		createColumn(
+			"negativePaperVotes", Long.class, Types.BIGINT,
+			Column.FLAG_DEFAULT);
 	public final Column<BudgetParticipatifTable, String> publikId =
 		createColumn(
 			"publikId", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);

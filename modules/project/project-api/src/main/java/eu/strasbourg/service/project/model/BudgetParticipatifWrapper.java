@@ -69,6 +69,8 @@ public class BudgetParticipatifWrapper
 		attributes.put("opacityImage", getOpacityImage());
 		attributes.put("isCrush", isIsCrush());
 		attributes.put("crushComment", getCrushComment());
+		attributes.put("positivePaperVotes", getPositivePaperVotes());
+		attributes.put("negativePaperVotes", getNegativePaperVotes());
 		attributes.put("publikId", getPublikId());
 		attributes.put("imageId", getImageId());
 		attributes.put("filesIds", getFilesIds());
@@ -289,6 +291,18 @@ public class BudgetParticipatifWrapper
 
 		if (crushComment != null) {
 			setCrushComment(crushComment);
+		}
+
+		Long positivePaperVotes = (Long)attributes.get("positivePaperVotes");
+
+		if (positivePaperVotes != null) {
+			setPositivePaperVotes(positivePaperVotes);
+		}
+
+		Long negativePaperVotes = (Long)attributes.get("negativePaperVotes");
+
+		if (negativePaperVotes != null) {
+			setNegativePaperVotes(negativePaperVotes);
 		}
 
 		String publikId = (String)attributes.get("publikId");
@@ -1005,7 +1019,7 @@ public class BudgetParticipatifWrapper
 	}
 
 	/**
-	 * Retourne le nombre de soutien
+	 * Retourne le nombre de soutien positifs et négatifs
 	 */
 	@Override
 	public long getNbSupports() {
@@ -1020,6 +1034,32 @@ public class BudgetParticipatifWrapper
 	@Override
 	public String getNbSupportsBoard() {
 		return model.getNbSupportsBoard();
+	}
+
+	/**
+	 * Retourne le nombre de soutiens négatifs
+	 */
+	@Override
+	public long getNbSupportsNegatifs() {
+		return model.getNbSupportsNegatifs();
+	}
+
+	/**
+	 * Retourne le nombre de soutiens positifs
+	 */
+	@Override
+	public long getNbSupportsPositifs() {
+		return model.getNbSupportsPositifs();
+	}
+
+	/**
+	 * Returns the negative paper votes of this budget participatif.
+	 *
+	 * @return the negative paper votes of this budget participatif
+	 */
+	@Override
+	public long getNegativePaperVotes() {
+		return model.getNegativePaperVotes();
 	}
 
 	/**
@@ -1088,6 +1128,16 @@ public class BudgetParticipatifWrapper
 		getPlacitPlaces() {
 
 		return model.getPlacitPlaces();
+	}
+
+	/**
+	 * Returns the positive paper votes of this budget participatif.
+	 *
+	 * @return the positive paper votes of this budget participatif
+	 */
+	@Override
+	public long getPositivePaperVotes() {
+		return model.getPositivePaperVotes();
 	}
 
 	/**
@@ -1929,6 +1979,16 @@ public class BudgetParticipatifWrapper
 	}
 
 	/**
+	 * Sets the negative paper votes of this budget participatif.
+	 *
+	 * @param negativePaperVotes the negative paper votes of this budget participatif
+	 */
+	@Override
+	public void setNegativePaperVotes(long negativePaperVotes) {
+		model.setNegativePaperVotes(negativePaperVotes);
+	}
+
+	/**
 	 * Sets the opacity image of this budget participatif.
 	 *
 	 * @param opacityImage the opacity image of this budget participatif
@@ -1956,6 +2016,16 @@ public class BudgetParticipatifWrapper
 	@Override
 	public void setPlaceTextArea(String placeTextArea) {
 		model.setPlaceTextArea(placeTextArea);
+	}
+
+	/**
+	 * Sets the positive paper votes of this budget participatif.
+	 *
+	 * @param positivePaperVotes the positive paper votes of this budget participatif
+	 */
+	@Override
+	public void setPositivePaperVotes(long positivePaperVotes) {
+		model.setPositivePaperVotes(positivePaperVotes);
 	}
 
 	/**

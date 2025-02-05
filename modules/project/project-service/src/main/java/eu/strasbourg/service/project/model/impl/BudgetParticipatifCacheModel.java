@@ -56,7 +56,7 @@ public class BudgetParticipatifCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(81);
+		StringBundler sb = new StringBundler(85);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -128,6 +128,10 @@ public class BudgetParticipatifCacheModel
 		sb.append(isCrush);
 		sb.append(", crushComment=");
 		sb.append(crushComment);
+		sb.append(", positivePaperVotes=");
+		sb.append(positivePaperVotes);
+		sb.append(", negativePaperVotes=");
+		sb.append(negativePaperVotes);
 		sb.append(", publikId=");
 		sb.append(publikId);
 		sb.append(", imageId=");
@@ -333,6 +337,9 @@ public class BudgetParticipatifCacheModel
 			budgetParticipatifImpl.setCrushComment(crushComment);
 		}
 
+		budgetParticipatifImpl.setPositivePaperVotes(positivePaperVotes);
+		budgetParticipatifImpl.setNegativePaperVotes(negativePaperVotes);
+
 		if (publikId == null) {
 			budgetParticipatifImpl.setPublikId("");
 		}
@@ -407,6 +414,10 @@ public class BudgetParticipatifCacheModel
 
 		isCrush = objectInput.readBoolean();
 		crushComment = (String)objectInput.readObject();
+
+		positivePaperVotes = objectInput.readLong();
+
+		negativePaperVotes = objectInput.readLong();
 		publikId = objectInput.readUTF();
 
 		imageId = objectInput.readLong();
@@ -588,6 +599,10 @@ public class BudgetParticipatifCacheModel
 			objectOutput.writeObject(crushComment);
 		}
 
+		objectOutput.writeLong(positivePaperVotes);
+
+		objectOutput.writeLong(negativePaperVotes);
+
 		if (publikId == null) {
 			objectOutput.writeUTF("");
 		}
@@ -644,6 +659,8 @@ public class BudgetParticipatifCacheModel
 	public double opacityImage;
 	public boolean isCrush;
 	public String crushComment;
+	public long positivePaperVotes;
+	public long negativePaperVotes;
 	public String publikId;
 	public long imageId;
 	public String filesIds;

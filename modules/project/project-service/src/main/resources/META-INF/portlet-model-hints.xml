@@ -61,6 +61,8 @@
 		<field localized="true" name="crushComment" type="String">
 			<hint-collection name="EDITOR" />
 		</field>
+		<field name="positivePaperVotes" type="long" />
+		<field name="negativePaperVotes" type="long" />
 		<field name="publikId" type="String" />
 		<field name="imageId" type="long" />
 		<field name="filesIds" type="String">

@@ -221,7 +221,17 @@ public interface BudgetParticipatif
 		getSupports();
 
 	/**
-	 * Retourne le nombre de soutien
+	 * Retourne le nombre de soutiens positifs
+	 */
+	public long getNbSupportsPositifs();
+
+	/**
+	 * Retourne le nombre de soutiens négatifs
+	 */
+	public long getNbSupportsNegatifs();
+
+	/**
+	 * Retourne le nombre de soutien positifs et négatifs
 	 */
 	public long getNbSupports();
 

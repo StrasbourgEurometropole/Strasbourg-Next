@@ -207,6 +207,17 @@
 					multiple="false" />	
 			</aui:fieldset>
 
+			<%-- Groupe de champs : Votes papier --%>
+			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="paperVote">
+
+				<%-- Champ : Votes papier positifs --%>
+				<aui:input name="positivePaperVotes" required="false" min="0" type="number" />
+
+				<%-- Champ : Votes papier négatifs --%>
+				<aui:input name="negativePaperVotes" required="false" min="0" type="number" />
+
+			</aui:fieldset>
+
 			<%-- Groupe de champs : Documents --%>
 			<aui:fieldset collapsed="<%=false%>" collapsible="<%=true%>" label="user-files">
 

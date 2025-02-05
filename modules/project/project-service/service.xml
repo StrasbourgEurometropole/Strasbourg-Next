@@ -628,15 +628,19 @@
 		<column name="citoyenEmail" type="String" />
 		<column name="citoyenBirthday" type="Date" />
 		<column name="hasCopyright" type="boolean" />
-		
+
 		<!-- Medias -->
 		<column name="videoUrl" type="String" />
 		<column name="imageTimeline" type="long" />
 		<column name="opacityImage" type="double" />
-		
+
 		<!-- coup de coeur -->
 		<column name="isCrush" type="boolean" />
 		<column name="crushComment" type="String" localized="true" />
+
+		<!-- votes papier -->
+		<column name="positivePaperVotes" type="long" />
+		<column name="negativePaperVotes" type="long" />
 
 		<!-- Links with other entities -->
 		<column name="publikId" type="String" />

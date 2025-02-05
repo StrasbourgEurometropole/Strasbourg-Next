@@ -92,7 +92,8 @@ public class BudgetParticipatifModelImpl
 		{"citoyenBirthday", Types.TIMESTAMP}, {"hasCopyright", Types.BOOLEAN},
 		{"videoUrl", Types.VARCHAR}, {"imageTimeline", Types.BIGINT},
 		{"opacityImage", Types.DOUBLE}, {"isCrush", Types.BOOLEAN},
-		{"crushComment", Types.CLOB}, {"publikId", Types.VARCHAR},
+		{"crushComment", Types.CLOB}, {"positivePaperVotes", Types.BIGINT},
+		{"negativePaperVotes", Types.BIGINT}, {"publikId", Types.VARCHAR},
 		{"imageId", Types.BIGINT}, {"filesIds", Types.VARCHAR},
 		{"budgetPhaseId", Types.BIGINT}, {"parentId", Types.BIGINT}
 	};
@@ -136,6 +137,8 @@ public class BudgetParticipatifModelImpl
 		TABLE_COLUMNS_MAP.put("opacityImage", Types.DOUBLE);
 		TABLE_COLUMNS_MAP.put("isCrush", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("crushComment", Types.CLOB);
+		TABLE_COLUMNS_MAP.put("positivePaperVotes", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("negativePaperVotes", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("publikId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("imageId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("filesIds", Types.VARCHAR);
@@ -144,7 +147,7 @@ public class BudgetParticipatifModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,summary VARCHAR(600) null,budget VARCHAR(75) null,motif TEXT null,placeTextArea VARCHAR(400) null,inTheNameOf VARCHAR(400) null,commitment VARCHAR(75) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(400) null,citoyenPostalCode LONG,citoyenCity VARCHAR(400) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(400) null,citoyenBirthday DATE null,hasCopyright BOOLEAN,videoUrl VARCHAR(400) null,imageTimeline LONG,opacityImage DOUBLE,isCrush BOOLEAN,crushComment TEXT null,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(400) null,budgetPhaseId LONG,parentId LONG)";
+		"create table project_BudgetParticipatif (uuid_ VARCHAR(75) null,budgetParticipatifId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(400) null,description TEXT null,summary VARCHAR(600) null,budget VARCHAR(75) null,motif TEXT null,placeTextArea VARCHAR(400) null,inTheNameOf VARCHAR(400) null,commitment VARCHAR(75) null,citoyenLastname VARCHAR(75) null,citoyenFirstname VARCHAR(75) null,citoyenAdresse VARCHAR(400) null,citoyenPostalCode LONG,citoyenCity VARCHAR(400) null,citoyenPhone VARCHAR(75) null,citoyenMobile VARCHAR(75) null,citoyenEmail VARCHAR(400) null,citoyenBirthday DATE null,hasCopyright BOOLEAN,videoUrl VARCHAR(400) null,imageTimeline LONG,opacityImage DOUBLE,isCrush BOOLEAN,crushComment TEXT null,positivePaperVotes LONG,negativePaperVotes LONG,publikId VARCHAR(75) null,imageId LONG,filesIds VARCHAR(400) null,budgetPhaseId LONG,parentId LONG)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table project_BudgetParticipatif";
@@ -403,6 +406,12 @@ public class BudgetParticipatifModelImpl
 			attributeGetterFunctions.put(
 				"crushComment", BudgetParticipatif::getCrushComment);
 			attributeGetterFunctions.put(
+				"positivePaperVotes",
+				BudgetParticipatif::getPositivePaperVotes);
+			attributeGetterFunctions.put(
+				"negativePaperVotes",
+				BudgetParticipatif::getNegativePaperVotes);
+			attributeGetterFunctions.put(
 				"publikId", BudgetParticipatif::getPublikId);
 			attributeGetterFunctions.put(
 				"imageId", BudgetParticipatif::getImageId);
@@ -570,6 +579,14 @@ public class BudgetParticipatifModelImpl
 				"crushComment",
 				(BiConsumer<BudgetParticipatif, String>)
 					BudgetParticipatif::setCrushComment);
+			attributeSetterBiConsumers.put(
+				"positivePaperVotes",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setPositivePaperVotes);
+			attributeSetterBiConsumers.put(
+				"negativePaperVotes",
+				(BiConsumer<BudgetParticipatif, Long>)
+					BudgetParticipatif::setNegativePaperVotes);
 			attributeSetterBiConsumers.put(
 				"publikId",
 				(BiConsumer<BudgetParticipatif, String>)
@@ -1595,6 +1612,36 @@ public class BudgetParticipatifModelImpl
 
 	@JSON
 	@Override
+	public long getPositivePaperVotes() {
+		return _positivePaperVotes;
+	}
+
+	@Override
+	public void setPositivePaperVotes(long positivePaperVotes) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_positivePaperVotes = positivePaperVotes;
+	}
+
+	@JSON
+	@Override
+	public long getNegativePaperVotes() {
+		return _negativePaperVotes;
+	}
+
+	@Override
+	public void setNegativePaperVotes(long negativePaperVotes) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_negativePaperVotes = negativePaperVotes;
+	}
+
+	@JSON
+	@Override
 	public String getPublikId() {
 		if (_publikId == null) {
 			return "";
@@ -1997,6 +2044,8 @@ public class BudgetParticipatifModelImpl
 		budgetParticipatifImpl.setOpacityImage(getOpacityImage());
 		budgetParticipatifImpl.setIsCrush(isIsCrush());
 		budgetParticipatifImpl.setCrushComment(getCrushComment());
+		budgetParticipatifImpl.setPositivePaperVotes(getPositivePaperVotes());
+		budgetParticipatifImpl.setNegativePaperVotes(getNegativePaperVotes());
 		budgetParticipatifImpl.setPublikId(getPublikId());
 		budgetParticipatifImpl.setImageId(getImageId());
 		budgetParticipatifImpl.setFilesIds(getFilesIds());
@@ -2083,6 +2132,10 @@ public class BudgetParticipatifModelImpl
 			this.<Boolean>getColumnOriginalValue("isCrush"));
 		budgetParticipatifImpl.setCrushComment(
 			this.<String>getColumnOriginalValue("crushComment"));
+		budgetParticipatifImpl.setPositivePaperVotes(
+			this.<Long>getColumnOriginalValue("positivePaperVotes"));
+		budgetParticipatifImpl.setNegativePaperVotes(
+			this.<Long>getColumnOriginalValue("negativePaperVotes"));
 		budgetParticipatifImpl.setPublikId(
 			this.<String>getColumnOriginalValue("publikId"));
 		budgetParticipatifImpl.setImageId(
@@ -2392,6 +2445,12 @@ public class BudgetParticipatifModelImpl
 			budgetParticipatifCacheModel.crushComment = null;
 		}
 
+		budgetParticipatifCacheModel.positivePaperVotes =
+			getPositivePaperVotes();
+
+		budgetParticipatifCacheModel.negativePaperVotes =
+			getNegativePaperVotes();
+
 		budgetParticipatifCacheModel.publikId = getPublikId();
 
 		String publikId = budgetParticipatifCacheModel.publikId;
@@ -2515,6 +2574,8 @@ public class BudgetParticipatifModelImpl
 	private boolean _isCrush;
 	private String _crushComment;
 	private String _crushCommentCurrentLanguageId;
+	private long _positivePaperVotes;
+	private long _negativePaperVotes;
 	private String _publikId;
 	private long _imageId;
 	private String _filesIds;
@@ -2587,6 +2648,8 @@ public class BudgetParticipatifModelImpl
 		_columnOriginalValues.put("opacityImage", _opacityImage);
 		_columnOriginalValues.put("isCrush", _isCrush);
 		_columnOriginalValues.put("crushComment", _crushComment);
+		_columnOriginalValues.put("positivePaperVotes", _positivePaperVotes);
+		_columnOriginalValues.put("negativePaperVotes", _negativePaperVotes);
 		_columnOriginalValues.put("publikId", _publikId);
 		_columnOriginalValues.put("imageId", _imageId);
 		_columnOriginalValues.put("filesIds", _filesIds);
@@ -2685,15 +2748,19 @@ public class BudgetParticipatifModelImpl
 
 		columnBitmasks.put("crushComment", 17179869184L);
 
-		columnBitmasks.put("publikId", 34359738368L);
+		columnBitmasks.put("positivePaperVotes", 34359738368L);
 
-		columnBitmasks.put("imageId", 68719476736L);
+		columnBitmasks.put("negativePaperVotes", 68719476736L);
 
-		columnBitmasks.put("filesIds", 137438953472L);
+		columnBitmasks.put("publikId", 137438953472L);
 
-		columnBitmasks.put("budgetPhaseId", 274877906944L);
+		columnBitmasks.put("imageId", 274877906944L);
 
-		columnBitmasks.put("parentId", 549755813888L);
+		columnBitmasks.put("filesIds", 549755813888L);
+
+		columnBitmasks.put("budgetPhaseId", 1099511627776L);
+
+		columnBitmasks.put("parentId", 2199023255552L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

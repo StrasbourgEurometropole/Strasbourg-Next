@@ -34,6 +34,8 @@ create table project_BudgetParticipatif (
 	opacityImage DOUBLE,
 	isCrush BOOLEAN,
 	crushComment TEXT null,
+	positivePaperVotes LONG,
+	negativePaperVotes LONG,
 	publikId VARCHAR(75) null,
 	imageId LONG,
 	filesIds VARCHAR(400) null,
