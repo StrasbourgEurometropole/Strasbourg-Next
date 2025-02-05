@@ -163,7 +163,8 @@ public class EventServiceImpl extends EventServiceBaseImpl {
 
         JSONObject eventJSON;
         try {
-            eventJSON = JSONFactoryUtil.createJSONObject(CacheJsonLocalServiceUtil.getByEventIdAndIsApproved(id).getJsonEvent());
+            eventJSON = JSONFactoryUtil.createJSONObject(
+                    CacheJsonLocalServiceUtil.getByEventIdAndIsApproved(id).getJsonEventLegacy());
         } catch (Exception e) {
             return JSONFactoryUtil.createJSONObject();
         }
@@ -182,7 +183,7 @@ public class EventServiceImpl extends EventServiceBaseImpl {
             JSONArray jsonEvents = JSONFactoryUtil.createJSONArray();
             for (CacheJson cache : caches) {
                 try {
-                    jsonEvents.put(JSONFactoryUtil.createJSONObject(cache.getJsonEvent()));
+                    jsonEvents.put(JSONFactoryUtil.createJSONObject(cache.getJsonEventLegacy()));
                 } catch (JSONException e) {
                     log.error(e);
                 }
@@ -294,7 +295,7 @@ public class EventServiceImpl extends EventServiceBaseImpl {
             List<CacheJson> cachesJson = CacheJsonLocalServiceUtil.dynamicQuery(dq);
 
             for (CacheJson cache : cachesJson) {
-                jsonEvents.put(JSONFactoryUtil.createJSONObject(cache.getJsonEvent()));
+                jsonEvents.put(JSONFactoryUtil.createJSONObject(cache.getJsonEventLegacy()));
             }
         }
         result.put("events", jsonEvents);
