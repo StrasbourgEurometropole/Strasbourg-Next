@@ -6,6 +6,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
+import com.liferay.portal.kernel.util.Validator;
 import eu.strasbourg.service.office.exporter.api.BudgetSupportsXlsxExporter;
 import eu.strasbourg.service.project.model.BudgetParticipatif;
 import eu.strasbourg.service.project.model.BudgetSupport;
@@ -73,7 +74,7 @@ public class BudgetSupportsXlsxExporterImpl implements BudgetSupportsXlsxExporte
 			Object[] budgetSupportRow = { 
 				budgetSupport.getCitoyenLastName(),
 				budgetSupport.getCitoyenFirstname(),
-				dateFormat.format(budgetSupport.getCitoyenBirthday()),
+					Validator.isNotNull(budgetSupport.getCitoyenBirthday())?dateFormat.format(budgetSupport.getCitoyenBirthday()):"",
 				budgetSupport.getCitoyenAddress(),
 				budgetSupport.getCitoyenPostalCode(),
 				budgetSupport.getCitoyenCity(),
@@ -98,8 +99,8 @@ public class BudgetSupportsXlsxExporterImpl implements BudgetSupportsXlsxExporte
 				Cell cell = row.createCell(columnIndex);
 				if (field instanceof String) {
 					cell.setCellValue((String) field);
-				} else if (field instanceof Integer) {
-					cell.setCellValue((Integer) field);
+				} else if (field instanceof Long) {
+					cell.setCellValue((Long) field);
 				}
 				columnIndex++;
 			}
