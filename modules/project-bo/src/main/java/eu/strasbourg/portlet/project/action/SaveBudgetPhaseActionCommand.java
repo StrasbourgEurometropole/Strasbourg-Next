@@ -118,12 +118,17 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 			String beginDateTimeStr = ParamUtil.getString(request, "beginDateTime");
 			Date beginDate = GetterUtil.getDate(beginDateStr + " " + beginDateTimeStr, dateFormat);
 			budgetPhase.setBeginDate(beginDate);
-			
+
 			// Date de fin
 			String endDateStr = ParamUtil.getString(request, "endDate");
 			String endDateTimeStr = ParamUtil.getString(request, "endDateTime");
 			Date endDate = GetterUtil.getDate(endDateStr + " " + endDateTimeStr, dateFormat);
 			budgetPhase.setEndDate(endDate);
+			budgetPhase.setBeginDate(beginDate);
+
+			// URL de la page de dépôt
+			String depositUrl = ParamUtil.getString(request, "depositUrl");
+			budgetPhase.setDepositUrl(depositUrl);
 			
 			// ---------------------------------------------------------------
 			// -------------------------- Période de vote --------------------
@@ -140,6 +145,10 @@ public class SaveBudgetPhaseActionCommand implements MVCActionCommand {
 			String endVoteDateTimeStr = ParamUtil.getString(request, "endVoteDateTime");
 			Date endVoteDate = GetterUtil.getDate(endVoteDateStr + " " + endVoteDateTimeStr, dateFormat);
 			budgetPhase.setEndVoteDate(endVoteDate);
+
+			// URL de la page de Vote
+			String voteUrl = ParamUtil.getString(request, "voteUrl");
+			budgetPhase.setVoteUrl(voteUrl);
 
 			_budgetPhaseLocalService.updateBudgetPhase(budgetPhase, sc);
 			response.sendRedirect(ParamUtil.getString(request, "backURL"));

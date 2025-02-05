@@ -52,8 +52,10 @@ public class BudgetPhaseWrapper
 		attributes.put("isActive", isIsActive());
 		attributes.put("beginDate", getBeginDate());
 		attributes.put("endDate", getEndDate());
+		attributes.put("depositUrl", getDepositUrl());
 		attributes.put("beginVoteDate", getBeginVoteDate());
 		attributes.put("endVoteDate", getEndVoteDate());
+		attributes.put("voteUrl", getVoteUrl());
 
 		return attributes;
 	}
@@ -168,6 +170,12 @@ public class BudgetPhaseWrapper
 			setEndDate(endDate);
 		}
 
+		String depositUrl = (String)attributes.get("depositUrl");
+
+		if (depositUrl != null) {
+			setDepositUrl(depositUrl);
+		}
+
 		Date beginVoteDate = (Date)attributes.get("beginVoteDate");
 
 		if (beginVoteDate != null) {
@@ -178,6 +186,12 @@ public class BudgetPhaseWrapper
 
 		if (endVoteDate != null) {
 			setEndVoteDate(endVoteDate);
+		}
+
+		String voteUrl = (String)attributes.get("voteUrl");
+
+		if (voteUrl != null) {
+			setVoteUrl(voteUrl);
 		}
 	}
 
@@ -253,6 +267,16 @@ public class BudgetPhaseWrapper
 	@Override
 	public Date getCreateDate() {
 		return model.getCreateDate();
+	}
+
+	/**
+	 * Returns the deposit url of this budget phase.
+	 *
+	 * @return the deposit url of this budget phase
+	 */
+	@Override
+	public String getDepositUrl() {
+		return model.getDepositUrl();
 	}
 
 	/**
@@ -463,6 +487,16 @@ public class BudgetPhaseWrapper
 	}
 
 	/**
+	 * Returns the vote url of this budget phase.
+	 *
+	 * @return the vote url of this budget phase
+	 */
+	@Override
+	public String getVoteUrl() {
+		return model.getVoteUrl();
+	}
+
+	/**
 	 * Returns <code>true</code> if this budget phase is approved.
 	 *
 	 * @return <code>true</code> if this budget phase is approved; <code>false</code> otherwise
@@ -621,6 +655,16 @@ public class BudgetPhaseWrapper
 	@Override
 	public void setCreateDate(Date createDate) {
 		model.setCreateDate(createDate);
+	}
+
+	/**
+	 * Sets the deposit url of this budget phase.
+	 *
+	 * @param depositUrl the deposit url of this budget phase
+	 */
+	@Override
+	public void setDepositUrl(String depositUrl) {
+		model.setDepositUrl(depositUrl);
 	}
 
 	/**
@@ -801,6 +845,16 @@ public class BudgetPhaseWrapper
 	@Override
 	public void setUuid(String uuid) {
 		model.setUuid(uuid);
+	}
+
+	/**
+	 * Sets the vote url of this budget phase.
+	 *
+	 * @param voteUrl the vote url of this budget phase
+	 */
+	@Override
+	public void setVoteUrl(String voteUrl) {
+		model.setVoteUrl(voteUrl);
 	}
 
 	@Override

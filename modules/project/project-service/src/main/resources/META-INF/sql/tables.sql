@@ -60,8 +60,10 @@ create table project_BudgetPhase (
 	isActive BOOLEAN,
 	beginDate DATE null,
 	endDate DATE null,
+	depositUrl VARCHAR(200) null,
 	beginVoteDate DATE null,
-	endVoteDate DATE null
+	endVoteDate DATE null,
+	voteUrl VARCHAR(200) null
 );
 
 create table project_BudgetSupport (

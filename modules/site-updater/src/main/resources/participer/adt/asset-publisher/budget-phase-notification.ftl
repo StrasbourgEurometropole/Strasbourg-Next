@@ -18,6 +18,13 @@
 
 				<div class="pro-page-budget-participatif">
 					<div class="pro-timer">
+						<#-- Si on est en période de vote ou de dépôt, c'est un lien -->
+						<#if livePeriodLabel == "before-end-deposit" >
+							<a href="${phase.getDepositUrl()}">
+						</#if>
+						<#if livePeriodLabel == "before-end-vote" >
+							<a href="${phase.getVoteUrl()}">
+						</#if>
 
 						<p id="phaseText">Il reste 
 						<span id="phaseDays"></span> jours, 
@@ -47,6 +54,11 @@
 						</#switch>
 
 						</p>
+
+						<#-- Si on est en période de vote ou de dépôt, c'est un lien -->
+						<#if livePeriodLabel == "before-end-deposit" || livePeriodLabel == "before-end-vote" >
+							</a>
+						</#if>
 						
 					</div>
 				</div>

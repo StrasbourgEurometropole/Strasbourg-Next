@@ -70,9 +70,12 @@
 				
 				<%-- Champ : Budget --%>
 				<aui:input name="beginDate" required="true" />
-				
+
 				<%-- Champ : Label --%>
 				<aui:input name="endDate" required="true" />
+
+				<%-- Champ : URL de la page de dépôt --%>
+				<aui:input name="depositUrl" helpMessage="depositUrlHelp"/>
 				
 			</aui:fieldset>
 			
@@ -81,9 +84,12 @@
 				
 				<%-- Champ : Budget --%>
 				<aui:input name="beginVoteDate" required="true" />
-				
+
 				<%-- Champ : Label --%>
 				<aui:input name="endVoteDate" required="true" />
+
+				<%-- Champ : URL de la page de Vote --%>
+				<aui:input name="voteUrl" helpMessage="voteUrlHelp"/>
 				
 			</aui:fieldset>
 			

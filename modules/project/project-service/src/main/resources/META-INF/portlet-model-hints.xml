@@ -88,8 +88,14 @@
 		<field name="isActive" type="boolean" />
 		<field name="beginDate" type="Date" />
 		<field name="endDate" type="Date" />
+		<field name="depositUrl" type="String">
+			<hint name="max-length">200</hint>
+		</field>
 		<field name="beginVoteDate" type="Date" />
 		<field name="endVoteDate" type="Date" />
+		<field name="voteUrl" type="String">
+			<hint name="max-length">200</hint>
+		</field>
 	</model>
 	<model name="eu.strasbourg.service.project.model.BudgetSupport">
 		<field name="uuid" type="String" />

@@ -61,10 +61,14 @@ public class BudgetPhaseTable extends BaseTable<BudgetPhaseTable> {
 		"beginDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
 	public final Column<BudgetPhaseTable, Date> endDate = createColumn(
 		"endDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
+	public final Column<BudgetPhaseTable, String> depositUrl = createColumn(
+		"depositUrl", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 	public final Column<BudgetPhaseTable, Date> beginVoteDate = createColumn(
 		"beginVoteDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
 	public final Column<BudgetPhaseTable, Date> endVoteDate = createColumn(
 		"endVoteDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
+	public final Column<BudgetPhaseTable, String> voteUrl = createColumn(
+		"voteUrl", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 
 	private BudgetPhaseTable() {
 		super("project_BudgetPhase", BudgetPhaseTable::new);

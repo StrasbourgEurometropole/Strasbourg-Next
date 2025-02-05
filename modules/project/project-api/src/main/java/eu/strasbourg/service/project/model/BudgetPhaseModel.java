@@ -371,6 +371,21 @@ public interface BudgetPhaseModel
 	public void setEndDate(Date endDate);
 
 	/**
+	 * Returns the deposit url of this budget phase.
+	 *
+	 * @return the deposit url of this budget phase
+	 */
+	@AutoEscape
+	public String getDepositUrl();
+
+	/**
+	 * Sets the deposit url of this budget phase.
+	 *
+	 * @param depositUrl the deposit url of this budget phase
+	 */
+	public void setDepositUrl(String depositUrl);
+
+	/**
 	 * Returns the begin vote date of this budget phase.
 	 *
 	 * @return the begin vote date of this budget phase
@@ -397,6 +412,21 @@ public interface BudgetPhaseModel
 	 * @param endVoteDate the end vote date of this budget phase
 	 */
 	public void setEndVoteDate(Date endVoteDate);
+
+	/**
+	 * Returns the vote url of this budget phase.
+	 *
+	 * @return the vote url of this budget phase
+	 */
+	@AutoEscape
+	public String getVoteUrl();
+
+	/**
+	 * Sets the vote url of this budget phase.
+	 *
+	 * @param voteUrl the vote url of this budget phase
+	 */
+	public void setVoteUrl(String voteUrl);
 
 	/**
 	 * Returns <code>true</code> if this budget phase is approved.

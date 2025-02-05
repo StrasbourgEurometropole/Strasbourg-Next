@@ -76,7 +76,8 @@ public class BudgetPhaseModelImpl
 		{"title", Types.VARCHAR}, {"description", Types.VARCHAR},
 		{"numberOfVote", Types.BIGINT}, {"isActive", Types.BOOLEAN},
 		{"beginDate", Types.TIMESTAMP}, {"endDate", Types.TIMESTAMP},
-		{"beginVoteDate", Types.TIMESTAMP}, {"endVoteDate", Types.TIMESTAMP}
+		{"depositUrl", Types.VARCHAR}, {"beginVoteDate", Types.TIMESTAMP},
+		{"endVoteDate", Types.TIMESTAMP}, {"voteUrl", Types.VARCHAR}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -101,12 +102,14 @@ public class BudgetPhaseModelImpl
 		TABLE_COLUMNS_MAP.put("isActive", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("beginDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("endDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("depositUrl", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("beginVoteDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("endVoteDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("voteUrl", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table project_BudgetPhase (uuid_ VARCHAR(75) null,budgetPhaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description VARCHAR(75) null,numberOfVote LONG,isActive BOOLEAN,beginDate DATE null,endDate DATE null,beginVoteDate DATE null,endVoteDate DATE null)";
+		"create table project_BudgetPhase (uuid_ VARCHAR(75) null,budgetPhaseId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,title VARCHAR(75) null,description VARCHAR(75) null,numberOfVote LONG,isActive BOOLEAN,beginDate DATE null,endDate DATE null,depositUrl VARCHAR(200) null,beginVoteDate DATE null,endVoteDate DATE null,voteUrl VARCHAR(200) null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table project_BudgetPhase";
@@ -300,9 +303,12 @@ public class BudgetPhaseModelImpl
 				"beginDate", BudgetPhase::getBeginDate);
 			attributeGetterFunctions.put("endDate", BudgetPhase::getEndDate);
 			attributeGetterFunctions.put(
+				"depositUrl", BudgetPhase::getDepositUrl);
+			attributeGetterFunctions.put(
 				"beginVoteDate", BudgetPhase::getBeginVoteDate);
 			attributeGetterFunctions.put(
 				"endVoteDate", BudgetPhase::getEndVoteDate);
+			attributeGetterFunctions.put("voteUrl", BudgetPhase::getVoteUrl);
 
 			_attributeGetterFunctions = Collections.unmodifiableMap(
 				attributeGetterFunctions);
@@ -374,11 +380,17 @@ public class BudgetPhaseModelImpl
 				"endDate",
 				(BiConsumer<BudgetPhase, Date>)BudgetPhase::setEndDate);
 			attributeSetterBiConsumers.put(
+				"depositUrl",
+				(BiConsumer<BudgetPhase, String>)BudgetPhase::setDepositUrl);
+			attributeSetterBiConsumers.put(
 				"beginVoteDate",
 				(BiConsumer<BudgetPhase, Date>)BudgetPhase::setBeginVoteDate);
 			attributeSetterBiConsumers.put(
 				"endVoteDate",
 				(BiConsumer<BudgetPhase, Date>)BudgetPhase::setEndVoteDate);
+			attributeSetterBiConsumers.put(
+				"voteUrl",
+				(BiConsumer<BudgetPhase, String>)BudgetPhase::setVoteUrl);
 
 			_attributeSetterBiConsumers = Collections.unmodifiableMap(
 				(Map)attributeSetterBiConsumers);
@@ -765,6 +777,26 @@ public class BudgetPhaseModelImpl
 
 	@JSON
 	@Override
+	public String getDepositUrl() {
+		if (_depositUrl == null) {
+			return "";
+		}
+		else {
+			return _depositUrl;
+		}
+	}
+
+	@Override
+	public void setDepositUrl(String depositUrl) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_depositUrl = depositUrl;
+	}
+
+	@JSON
+	@Override
 	public Date getBeginVoteDate() {
 		return _beginVoteDate;
 	}
@@ -791,6 +823,26 @@ public class BudgetPhaseModelImpl
 		}
 
 		_endVoteDate = endVoteDate;
+	}
+
+	@JSON
+	@Override
+	public String getVoteUrl() {
+		if (_voteUrl == null) {
+			return "";
+		}
+		else {
+			return _voteUrl;
+		}
+	}
+
+	@Override
+	public void setVoteUrl(String voteUrl) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_voteUrl = voteUrl;
 	}
 
 	@Override
@@ -953,8 +1005,10 @@ public class BudgetPhaseModelImpl
 		budgetPhaseImpl.setIsActive(isIsActive());
 		budgetPhaseImpl.setBeginDate(getBeginDate());
 		budgetPhaseImpl.setEndDate(getEndDate());
+		budgetPhaseImpl.setDepositUrl(getDepositUrl());
 		budgetPhaseImpl.setBeginVoteDate(getBeginVoteDate());
 		budgetPhaseImpl.setEndVoteDate(getEndVoteDate());
+		budgetPhaseImpl.setVoteUrl(getVoteUrl());
 
 		budgetPhaseImpl.resetOriginalValues();
 
@@ -998,10 +1052,14 @@ public class BudgetPhaseModelImpl
 			this.<Date>getColumnOriginalValue("beginDate"));
 		budgetPhaseImpl.setEndDate(
 			this.<Date>getColumnOriginalValue("endDate"));
+		budgetPhaseImpl.setDepositUrl(
+			this.<String>getColumnOriginalValue("depositUrl"));
 		budgetPhaseImpl.setBeginVoteDate(
 			this.<Date>getColumnOriginalValue("beginVoteDate"));
 		budgetPhaseImpl.setEndVoteDate(
 			this.<Date>getColumnOriginalValue("endVoteDate"));
+		budgetPhaseImpl.setVoteUrl(
+			this.<String>getColumnOriginalValue("voteUrl"));
 
 		return budgetPhaseImpl;
 	}
@@ -1181,6 +1239,14 @@ public class BudgetPhaseModelImpl
 			budgetPhaseCacheModel.endDate = Long.MIN_VALUE;
 		}
 
+		budgetPhaseCacheModel.depositUrl = getDepositUrl();
+
+		String depositUrl = budgetPhaseCacheModel.depositUrl;
+
+		if ((depositUrl != null) && (depositUrl.length() == 0)) {
+			budgetPhaseCacheModel.depositUrl = null;
+		}
+
 		Date beginVoteDate = getBeginVoteDate();
 
 		if (beginVoteDate != null) {
@@ -1197,6 +1263,14 @@ public class BudgetPhaseModelImpl
 		}
 		else {
 			budgetPhaseCacheModel.endVoteDate = Long.MIN_VALUE;
+		}
+
+		budgetPhaseCacheModel.voteUrl = getVoteUrl();
+
+		String voteUrl = budgetPhaseCacheModel.voteUrl;
+
+		if ((voteUrl != null) && (voteUrl.length() == 0)) {
+			budgetPhaseCacheModel.voteUrl = null;
 		}
 
 		return budgetPhaseCacheModel;
@@ -1279,8 +1353,10 @@ public class BudgetPhaseModelImpl
 	private boolean _isActive;
 	private Date _beginDate;
 	private Date _endDate;
+	private String _depositUrl;
 	private Date _beginVoteDate;
 	private Date _endVoteDate;
+	private String _voteUrl;
 
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
@@ -1330,8 +1406,10 @@ public class BudgetPhaseModelImpl
 		_columnOriginalValues.put("isActive", _isActive);
 		_columnOriginalValues.put("beginDate", _beginDate);
 		_columnOriginalValues.put("endDate", _endDate);
+		_columnOriginalValues.put("depositUrl", _depositUrl);
 		_columnOriginalValues.put("beginVoteDate", _beginVoteDate);
 		_columnOriginalValues.put("endVoteDate", _endVoteDate);
+		_columnOriginalValues.put("voteUrl", _voteUrl);
 	}
 
 	private static final Map<String, String> _attributeNames;
@@ -1391,9 +1469,13 @@ public class BudgetPhaseModelImpl
 
 		columnBitmasks.put("endDate", 131072L);
 
-		columnBitmasks.put("beginVoteDate", 262144L);
+		columnBitmasks.put("depositUrl", 262144L);
 
-		columnBitmasks.put("endVoteDate", 524288L);
+		columnBitmasks.put("beginVoteDate", 524288L);
+
+		columnBitmasks.put("endVoteDate", 1048576L);
+
+		columnBitmasks.put("voteUrl", 2097152L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

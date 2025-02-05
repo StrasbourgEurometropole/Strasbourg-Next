@@ -54,7 +54,7 @@ public class BudgetPhaseCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(41);
+		StringBundler sb = new StringBundler(45);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -92,10 +92,14 @@ public class BudgetPhaseCacheModel
 		sb.append(beginDate);
 		sb.append(", endDate=");
 		sb.append(endDate);
+		sb.append(", depositUrl=");
+		sb.append(depositUrl);
 		sb.append(", beginVoteDate=");
 		sb.append(beginVoteDate);
 		sb.append(", endVoteDate=");
 		sb.append(endVoteDate);
+		sb.append(", voteUrl=");
+		sb.append(voteUrl);
 		sb.append("}");
 
 		return sb.toString();
@@ -186,6 +190,13 @@ public class BudgetPhaseCacheModel
 			budgetPhaseImpl.setEndDate(new Date(endDate));
 		}
 
+		if (depositUrl == null) {
+			budgetPhaseImpl.setDepositUrl("");
+		}
+		else {
+			budgetPhaseImpl.setDepositUrl(depositUrl);
+		}
+
 		if (beginVoteDate == Long.MIN_VALUE) {
 			budgetPhaseImpl.setBeginVoteDate(null);
 		}
@@ -198,6 +209,13 @@ public class BudgetPhaseCacheModel
 		}
 		else {
 			budgetPhaseImpl.setEndVoteDate(new Date(endVoteDate));
+		}
+
+		if (voteUrl == null) {
+			budgetPhaseImpl.setVoteUrl("");
+		}
+		else {
+			budgetPhaseImpl.setVoteUrl(voteUrl);
 		}
 
 		budgetPhaseImpl.resetOriginalValues();
@@ -233,8 +251,10 @@ public class BudgetPhaseCacheModel
 		isActive = objectInput.readBoolean();
 		beginDate = objectInput.readLong();
 		endDate = objectInput.readLong();
+		depositUrl = objectInput.readUTF();
 		beginVoteDate = objectInput.readLong();
 		endVoteDate = objectInput.readLong();
+		voteUrl = objectInput.readUTF();
 	}
 
 	@Override
@@ -296,8 +316,23 @@ public class BudgetPhaseCacheModel
 		objectOutput.writeBoolean(isActive);
 		objectOutput.writeLong(beginDate);
 		objectOutput.writeLong(endDate);
+
+		if (depositUrl == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(depositUrl);
+		}
+
 		objectOutput.writeLong(beginVoteDate);
 		objectOutput.writeLong(endVoteDate);
+
+		if (voteUrl == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(voteUrl);
+		}
 	}
 
 	public String uuid;
@@ -318,7 +353,9 @@ public class BudgetPhaseCacheModel
 	public boolean isActive;
 	public long beginDate;
 	public long endDate;
+	public String depositUrl;
 	public long beginVoteDate;
 	public long endVoteDate;
+	public String voteUrl;
 
 }
