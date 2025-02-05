@@ -22,8 +22,8 @@ import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.contact.HotfixFriendlyCaptchaHelper;
 import eu.strasbourg.portlet.contact.configuration.ContactFormConfiguration;
-import eu.strasbourg.utils.FriendlycaptchaHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -91,7 +91,7 @@ public class ContactFormContactAction implements MVCActionCommand {
         boolean hasError = false;
         String friendlycaptchaResponse = ParamUtil.getString(request, "frc-captcha-solution");
         String placit= ParamUtil.getString(request, "placit");
-        if (!FriendlycaptchaHelper.verify(friendlycaptchaResponse)) {
+        if (!HotfixFriendlyCaptchaHelper.verify(friendlycaptchaResponse)) {
             // Friendlycaptcha
             SessionErrors.add(request, "friendlycaptcha-error");
             hasError = true;

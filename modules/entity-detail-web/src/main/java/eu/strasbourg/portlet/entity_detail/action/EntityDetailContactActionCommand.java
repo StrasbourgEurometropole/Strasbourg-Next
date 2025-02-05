@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import eu.strasbourg.portlet.entity_detail.HotfixFriendlyCaptchaHelper;
 import eu.strasbourg.service.activity.model.ActivityOrganizer;
 import eu.strasbourg.service.activity.service.ActivityOrganizerLocalServiceUtil;
 import eu.strasbourg.service.agenda.model.Event;
@@ -39,7 +40,6 @@ import eu.strasbourg.service.official.model.Official;
 import eu.strasbourg.service.official.service.OfficialLocalServiceUtil;
 import eu.strasbourg.service.place.model.Place;
 import eu.strasbourg.service.place.service.PlaceLocalServiceUtil;
-import eu.strasbourg.utils.FriendlycaptchaHelper;
 import eu.strasbourg.utils.MailHelper;
 import eu.strasbourg.utils.constants.StrasbourgPortletKeys;
 import org.osgi.service.component.annotations.Component;
@@ -142,7 +142,7 @@ public class EntityDetailContactActionCommand implements MVCActionCommand {
 			// Validation
 			String friendlycaptchaResponse = ParamUtil.getString(request, "frc-captcha-solution");
 			boolean hasError = false;
-			if (!FriendlycaptchaHelper.verify(friendlycaptchaResponse)) { // Friendlycaptcha
+			if (!HotfixFriendlyCaptchaHelper.verify(friendlycaptchaResponse)) { // Friendlycaptcha
 				SessionErrors.add(request, "friendlycaptcha-error");
 				hasError = true;
 			}
